@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	
+	<!-- 
+	<bean id="squarePushDao" class="com.hts.web.operations.dao.impl.SquarePushDaoImpl" parent="baseDao" />
+	<bean id="userRecommendDao" class="com.hts.web.operations.dao.impl.UserRecommendDaoImpl" parent="baseDao"
+		p:userVerifyDao-ref="userVerifyDao" />
+	<bean id="userZombieDao" class="com.hts.web.operations.dao.impl.UserZombieDaoImpl" parent="baseDao" />
+	<bean id="squarePushTopicDao" class="com.hts.web.operations.dao.impl.SquarePushTopicDaoImpl" parent="baseDao" />
+	<bean id="activityDao" class="com.hts.web.operations.dao.impl.ActivityDaoImpl" parent="baseDao"
+		p:worldLabelWorldDao-ref="worldLabelWorldDao" />
+	<bean id="appLinkDao" class="com.hts.web.operations.dao.impl.AppLinkDaoImpl" parent="baseDao"
+		p:urlPrefix="${appUrlPrefix}" />
+	<bean id="appLinkRecordDao" class="com.hts.web.operations.dao.impl.AppLinkRecordDaoImpl" parent="baseDao" />
+	<bean id="sysMsgDao" class="com.hts.web.operations.dao.impl.SysMsgDaoImpl" parent="baseDao" />
+	<bean id="activitySponsorDao" class="com.hts.web.operations.dao.impl.ActivitySponsorDaoImpl" parent="baseDao" />
+	<bean id="activityAwardDao" class="com.hts.web.operations.dao.impl.ActivityAwardDaoImpl" parent="baseDao" />
+	<bean id="activityWinnerDao" class="com.hts.web.operations.dao.impl.ActivityWinnerDaoImpl" parent="baseDao" 
+		p:worldDao-ref="worldDao"/>
+	<bean id="activityLikeRankDao" class="com.hts.web.operations.dao.impl.ActivityLikeRankDaoImpl" parent="baseDao" />
+	
+	<bean id="activityCacheDao" class="com.hts.web.operations.dao.impl.ActivityCacheDaoImpl" parent="baseCacheDao" />
+	<bean id="activityLogoCacheDao" class="com.hts.web.operations.dao.impl.ActivityLogoCacheDaoImpl" parent="baseCacheDao" />
+	<bean id="opWorldTypeCacheDao" class="com.hts.web.operations.dao.impl.OpWorldTypeCacheDaoImpl" parent="baseCacheDao" />
+	<bean id="opWorldTypeDto2CacheDao" class="com.hts.web.operations.dao.impl.OpWorldTypeDto2CacheDaoImpl" parent="baseCacheDao" />
+	
+	<bean id="opUserVerifyDtoCacheDao" class="com.hts.web.operations.dao.impl.OpUserVerifyDtoCacheDaoImpl" parent="baseCacheDao" />
+	
+	<bean id="xiaoMiShuWorldDao" class="com.hts.web.operations.dao.impl.XiaoMiShuWorldDaoImpl" parent="baseDao"
+		p:squarePushDao-ref="squarePushDao"/>
+	
+	<bean id="noticeCacheDao" class="com.hts.web.operations.dao.impl.NoticeCacheDaoImpl" parent="baseCacheDao" />
+	
+		
+	
+	<bean id="worldOperationsService" class="com.hts.web.operations.service.impl.ZTWorldOperationsServiceImpl" parent="baseService" 
+		p:squarePushDao-ref="squarePushDao"
+		p:squarePushTopicDao-ref="squarePushTopicDao"
+		p:activityDao-ref="activityDao" 
+		p:userConcernTypeDao-ref="userConcernTypeDao"
+		p:worldService-ref="worldService"
+		p:activitySponsorDao-ref="activitySponsorDao"
+		p:activityCacheDao-ref="activityCacheDao"
+		p:opWorldTypeCacheDao-ref="opWorldTypeCacheDao"
+		p:activityLogoCacheDao-ref="activityLogoCacheDao"
+		p:opWorldTypeDto2CacheDao-ref="opWorldTypeDto2CacheDao"
+		p:activityWinnerDao-ref="activityWinnerDao" 
+		p:worldLabelDao-ref="worldLabelDao"
+		p:worldLabelWorldDao-ref="worldLabelWorldDao"
+		p:userConcernDao-ref="userConcernDao"
+		p:xiaoMiShuWorldDao-ref="xiaoMiShuWorldDao"
+		p:activityAwardDao-ref="activityAwardDao"
+		p:activityLikeRankDao-ref="activityLikeRankDao"
+		p:userInfoService-ref="userInfoService">
+		
+		<property name="customerServiceId" value="${push.customerServiceId}"/>
+		<property name="superbTotal" value="162" />
+		
+	</bean>
+		
+	<bean id="userOperationsService" class="com.hts.web.operations.service.impl.UserOperationsServiceImpl" parent="baseService" 
+		p:socialAccountDao-ref="socialAccountDao"
+		p:userRecommendDao-ref="userRecommendDao"
+		p:worldDao-ref="worldDao"
+		p:keyGenService-ref="keyGenService"
+		p:userInfoDao-ref="userInfoDao"
+		p:sysMsgDao-ref="sysMsgDao"
+		p:opUserVerifyDtoCacheDao-ref="opUserVerifyDtoCacheDao"
+		p:userInfoService-ref="userInfoService">
+		<property name="squareRecommendUserLimit" value="12" />
+	</bean>
+		
+	<bean id="adOperationsService" class="com.hts.web.operations.service.impl.AdOperationsServiceImpl" parent="baseService" 
+		p:appLinkDao-ref="appLinkDao"
+		p:appLinkRecordDao-ref="appLinkRecordDao" />
+	
+	<bean id="msgOperationsService" class="com.hts.web.operations.service.impl.MsgOperationsServiceImpl" parent="baseService" 
+		p:noticeCacheDao-ref="noticeCacheDao" />
+		
+	 -->
+	
+</beans>

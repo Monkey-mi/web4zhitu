@@ -1,0 +1,344 @@
+@CHARSET "UTF-8";
+@IMPORT url("../../../base/css/reset.css");
+
+body {
+	font-family: "微软雅黑", Arial, Helvetica, sans-serif;
+	margin: 0px auto 0 auto;
+	background: #ededed;
+}
+.h_width {width: 576px;}
+.h_height {height: 593px;}
+
+#h_wrapper {
+	width: 576px;
+	height:auto;
+	text-align:left;
+	margin: 0 auto 0 auto;
+}
+#h_banner {
+	width: 576px;
+	margin: 0 auto 0 auto;
+	padding:20px 0 20px 0;
+	text-align: left;
+}
+
+
+#h_comment_loading {
+	text-align: center;
+	color: #AAA7A7;
+	font-size: 14px;
+	display: none;
+}
+
+
+#h_world_main {
+	padding: 0;
+	border:1px solid #dcdbd9;
+	text-align:center;
+	-moz-box-shadow:1px 1px 5px #ddd;
+	-webkit-box-shadow:1px 1px 5px #ddd;
+	box-shadow:1px 1px 5px #ddd;
+	
+	background: url("../images/comment_bg.png") repeat;
+	
+	border-radius:5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+}
+
+#h_footer {
+	height: 150px;
+	padding-top:20px;
+	text-align: center;
+	color: #CCC7C7;
+	font-size: 16px;
+}
+
+#h_share_div {
+	width: 100%;
+	text-align: left;
+	_margin-bottom: 2px;	
+}
+
+#h_world_link_div {
+	width: 100%;
+	font-size: 12px;	
+	color: #AAA7A7;
+	text-align: center;
+}
+
+#h_world_link_tab_div {
+	width: 95%;
+	text-align: left;	
+	margin-left: 2%;
+}
+
+.h_world_link_value {
+	margin-top: 10px;
+	display: none;
+}
+.h_world_link_value input{
+	height: 20px;
+	color: #AAA7A7;
+	width: 95%;
+	font-size: 12px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+}
+#h_world_link_tab_div .h_world_link_tab{
+	border: 2px solid #D3CFCC;
+	cursor: pointer;
+	margin: 0;
+}
+
+.h_world_link_tab_highlight {
+	background-color:#000;
+}
+
+.h_world_link_value_highlight {
+	
+}
+
+#h_comment_main {
+	display: inline-block;
+	width:95%;
+	min-height: 170px;
+	background-color: #e5e0dc;
+	border: 2px solid #d3cfcc;
+	border-top-color: #c2bebb;
+	padding: 20px 10px 20px 10px;
+	text-align: center;
+}
+
+#h_comment_main #comment_text {
+	width: 80%;
+	height: 40px;
+	resize: none;
+	font-family: "微软雅黑", Arial, Helvetica, sans-serif;
+	color: #aaa7a7;
+	font-size: 16px;
+	padding: 5px;
+	float: left;
+}
+
+#h_fetch_more_div,#h_fetch_loading_div,#h_no_comment_tip {
+	color:#bfa994;
+	font-size: 20px;
+}
+
+#h_fetch_more_div,#h_no_comment_tip {
+	display: none;
+}
+#h_fetch_more_div {
+	cursor:pointer;	
+}
+
+#h_banner div {
+	display: inline-block;
+	text-align:center;
+}
+#h_comment_shadow {
+	display: inline-block;
+	width: 527px;
+	height: 21px;
+	background: url("../images/comment_banner_shadow.png") no-repeat;
+}
+
+#h_comment_form_div {
+	width:100%;
+	height:35px;
+}
+#h_icon_submit {
+	cursor:pointer;
+	background: url("../images/icons2.png");
+	width: 85px;
+	height: 53px;
+	float:right;
+	background-position: 0px -265px;
+	display: inline-block;
+}
+
+#h_icon_submit:hover {
+	background-position: -96px -265px;
+}
+
+#h_logo_big {
+	width: 192px;
+	height: 219px;
+	background: url("../images/phone_logo.png");
+	margin-top: 10px;
+}
+
+#h_logo_normal {
+	width: 192px;
+	height: 119px;
+	background: url("../images/logo_normal.png");
+	cursor: pointer;
+}
+
+#h_desc_p {
+	color: #AAA7A7;
+	font-size: 12px;
+	text-align: left;
+	padding-left: 15px;	
+}
+
+#h_zhitu_logo {
+	width: 131px;
+	height: 59px;
+	margin-left:20px;
+	display: inline-block;
+	background: url("../images/zhitu.png");
+}
+#h_android_down_btn {
+	width: 175px;
+	height: 57px;
+	margin-top:5px;
+	background: url("../images/icons2.png");
+	background-position: 0px 0px;
+	cursor: pointer;
+	display: inline-block;
+	float: right;
+	margin-right: 20px;
+}
+#h_android_down_btn:hover {
+	background-position: 0px -60px;
+}
+
+#h_ios_down_btn {
+	width: 175px;
+	height: 57px;
+	margin-top:5px;
+	background: url("../images/icons2.png");
+	background-position: -183px 0px;
+	cursor: pointer;
+	display: inline-block;
+	float: right;
+}
+
+#h_ios_down_btn:hover{
+	background-position: -183px -60px;
+}
+
+#h_world_comment {
+	padding:0 7px 0 7px;
+	text-align: center;
+	padding-bottom:10px;
+}
+
+#h_comment_header {
+	margin-bottom: 5px;
+	margin-top:-10px;
+	color: #949494;
+	text-align: left;
+	font-size: 20px;
+	width: 100%;
+}
+
+#h_comment_header table {
+	width: 100%;
+}
+
+#sina_sync {
+	vertical-align: text-top;
+	margin-top: 1px;
+}
+
+
+#comment_count_icon_td,#like_count_icon_td {
+	padding-left:10px;
+	width:55px;	
+}
+#comment_count_label_td,#comment_count_label_td {
+	padding-left:5px;
+	width:55px;	
+}
+
+
+#h_icon_comment_count {
+	width: 55px;
+	height: 45px;
+	background: url("../images/icons2.png");
+	background-position: -302px -122px;
+}
+
+#h_icon_like_count {
+	width: 55px;
+	height: 45px;
+	cursor:pointer;
+	
+}
+.like_count_enable {
+	background: url("../images/icons2.png");
+	background-position: -302px -209px;
+}
+.like_count_disable {
+	background: url("../images/icons2.png");
+	background-position: -302px -167px;
+}
+
+#zt-comment-count,#zt-like-count {
+	width: 130px;	
+}
+
+#h_comment_table {
+	width: 100%;	
+	text-align: left;
+	margin-bottom: 10px;
+}
+#h_comment_table a:link {
+	text-decoration: none;	
+}
+#h_comment_table td{
+	vertical-align: top;
+	padding-top: 10px;
+}
+
+#sina_login_td {
+	vertical-align: middle;	
+	padding-bottom: 15px;
+	height: 12px;
+	line-height: 12px;
+	padding-left: 5px;
+}
+
+#sina_login {
+	float: left;
+}
+
+#sina_sync_check_div {
+	font-size: 12px;
+	color:#bfa994;
+	float:right;
+	height: 12px;
+	line-height: 12px;
+	display: none;
+	
+}
+
+.h_comment_author_img_td {
+	width:60px;
+}
+.h_comment_author_img_td img {
+	width:60px;
+	height:60px;	
+	-moz-border-radius:2px;
+	-webkit-border-radius:2px;
+	border-radius:2px;
+}
+
+.h_comment_author_name,.h_comment_author_name a, .h_comment_colon {
+	color: #bfa994;
+	font-size: 20px;
+}
+.h_comment_content_td {
+	color: #aaa7a7;
+	font-size: 20px;	
+	padding-left: 10px;
+}
+.h_comment_time_p {
+	color: #ccc7c7;
+	font-size: 16px;
+	text-align: right;	
+}
+

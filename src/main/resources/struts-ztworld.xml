@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" 
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<package name="ztworld" namespace="/ztworld" extends="hts-package">
+
+		<action name="ztworld_htszoomtour">
+			<result type="dispatcher">/htworld/web/htszoomtour.jsp</result>
+		</action>
+
+		<action name="ztworld_phonezoomtour">
+			<result type="dispatcher">/htworld/phone/htszoomtour.jsp</result>
+		</action>
+
+		<action name="ztworld_*" class="com.hts.web.ztworld.ZTWorldAction"
+			method="{1}">
+			<result name="json" type="json">
+				<param name="root">jsonMap</param>
+			</result>
+		</action>
+		
+		<action name="interact_*" class="com.hts.web.ztworld.ZTWorldInteractAction"
+			method="{1}">
+			<result name="json" type="json">
+				<param name="root">jsonMap</param>
+			</result>
+		</action>
+		
+		<action name="label_*" class="com.hts.web.ztworld.ZTWorldLabelAction"
+			method="{1}">
+			<result name="json" type="json">
+				<param name="root">jsonMap</param>
+			</result>
+		</action>
+		
+		<action name="sticker_*" class="com.hts.web.ztworld.ZTWorldStickerAction"
+			method="{1}">
+			<result name="json" type="json">
+				<param name="root">jsonMap</param>
+			</result>
+		</action>
+		
+	</package>
+</struts>

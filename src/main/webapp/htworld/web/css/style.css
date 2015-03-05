@@ -1,0 +1,504 @@
+@CHARSET "UTF-8";
+@IMPORT url("../../../base/css/reset.css");
+
+body {
+	font-family: "微软雅黑", Arial, Helvetica, sans-serif;
+	margin: 0px auto 0 auto;
+	background: #ededed;
+}
+.h_width {width: 398px;}
+.h_height {height: 593px;}
+
+#h_wrapper {
+	width: 678px;
+	height: auto;
+	text-align:left;
+	margin: 20px auto 0 auto;
+}
+#h_banner {
+	margin-left: 498px;
+	display: inline-block;
+	position: fixed;
+	_position:absolute;
+	float: left;
+	width: 192px;
+	height: 800px;
+	text-align: center;
+	top: 10px;
+}
+
+
+#h_comment_loading {
+	text-align: center;
+	color: #AAA7A7;
+	font-size: 14px;
+	display: none;
+}
+
+
+#h_world_main {
+	padding: 0;
+	border:1px solid #dcdbd9;
+	text-align:center;
+	-moz-box-shadow:1px 1px 5px #ddd;
+	-webkit-box-shadow:1px 1px 5px #ddd;
+	box-shadow:1px 1px 5px #ddd;
+	
+	background: url("../images/comment_bg.png") repeat;
+	
+	border-radius:5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+}
+
+#h_footer {
+	height: 150px;
+	padding-top:20px;
+	text-align: center;
+	color: #CCC7C7;
+	font-size: 12px;
+}
+
+#h_share_div {
+	width: 100%;
+	text-align: left;
+	_margin-bottom: 2px;	
+}
+
+#h_world_link_div {
+	width: 100%;
+	font-size: 12px;	
+	color: #AAA7A7;
+	text-align: center;
+}
+
+#h_world_link_tab_div {
+	width: 95%;
+	text-align: left;	
+	margin-left: 2%;
+}
+
+.h_world_link_value {
+	margin-top: 10px;
+	display: none;
+}
+.h_world_link_value input{
+	height: 20px;
+	color: #AAA7A7;
+	width: 95%;
+	font-size: 12px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+}
+#h_world_link_tab_div .h_world_link_tab{
+	border: 2px solid #D3CFCC;
+	cursor: pointer;
+	margin: 0;
+}
+
+.h_world_link_tab_highlight {
+	background-color:#000;
+}
+
+.h_world_link_value_highlight {
+	
+}
+
+#h_comment_main {
+	display: inline-block;
+	width:95%;
+	min-height: 130px;
+	background-color: #e5e0dc;
+	border: 2px solid #d3cfcc;
+	border-top-color: #c2bebb;
+	padding: 10px 7px 10px 7px;
+	text-align: center;
+}
+
+#h_comment_main #comment_text {
+	width: 80%;
+	height: 20px;
+	resize: none;
+	font-family: "微软雅黑", Arial, Helvetica, sans-serif;
+	color: #aaa7a7;
+	font-size: 12px;
+	padding: 5px;
+	float: left;
+}
+
+#h_fetch_more_div,#h_fetch_loading_div,#h_no_comment_tip {
+	color:#bfa994;
+	font-size: 14px;
+}
+
+#h_fetch_more_div,#h_no_comment_tip {
+	display: none;
+}
+#h_fetch_more_div {
+	cursor:pointer;	
+}
+
+#h_banner div {
+	display: inline-block;
+	text-align:center;
+}
+#h_comment_shadow {
+	display: inline-block;
+	width: 382px;
+	height: 17px;
+	background: url("../images/comment_banner_shadow.png") no-repeat;
+	_background: none;
+	_filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=noscale,src='htworld/web/images/comment_banner_shadow.png' );
+}
+
+#h_comment_form_div {
+	width:100%;
+	height:35px;
+}
+#h_icon_submit {
+	cursor:pointer;
+	background: url("../images/icons.png");
+	width: 45px;
+	height: 25px;
+	background-position: -131px -124px;
+	display: inline-block;
+	_background:none;
+	_filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=noscale,src='htworld/web/images/ie6/comment_btn.png' );
+}
+
+#h_icon_submit:hover {
+	background-position: -180px -124px;
+}
+
+#h_logo_big {
+	width: 192px;
+	height: 360px;
+	display:inline-block;
+	background: url("../images/pic_zoomtour_logo.png");
+	_background:none;
+	_filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=noscale,src='htworld/web/images/phone_logo.png' );
+	margin-top: 10px;
+}
+
+#h_logo_normal {
+	width: 192px;
+	height: 119px;
+	background: url("../images/logo_normal.png");
+	cursor: pointer;
+	
+	_background:none;
+	_filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=noscale,src='htworld/web/images/logo_normal.png' );
+}
+
+#h_desc_p {
+	color: #AAA7A7;
+	font-size: 12px;
+	text-align: left;
+	padding-left: 15px;	
+}
+.btn_download {
+	width: 200px;
+	height: 68px;
+	display:inline-block;
+	color:#fff;
+	vertical-align:middle;
+	line-height:68px;
+	text-decoration:none;
+	font-size:18px;
+	background: url("../images/btn_download_normal.png");
+	margin-top: 20px;
+	cursor: pointer;
+	_background:none;
+	_filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=noscale,src='htworld/web/images/btn_download_normal.png' );
+}
+
+.btn_download:hover{
+	background: url("../images/btn_download_press.png");
+}
+
+.icon_download {
+	width:20px;
+	height:24px;
+	display:inline-block;
+	float:left;
+	margin-left:24px;
+	margin-top:20px;
+	_background: none;
+	background: url("../images/icon_ios.png");
+	_filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=noscale,src='./index/images/icon_ios.png' );
+}
+
+.text_download {
+	font-size: 16px;
+	color: #f2f2f2;
+	float: left;
+	margin-left: 16px;
+}
+.text_phone {
+	color: #58c7e0;
+	font-size: 18px;
+	margin-top: 10px;
+}
+
+#icon_android_download {
+	margin-top:20px;
+	background: url("../images/icon_android.png");
+	_filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=noscale,src='./index/images/icon_android.png' );
+}
+
+#h_world_comment {
+	padding:0 7px 0 7px;
+	text-align: center;
+	padding-bottom:10px;
+}
+
+#h_comment_header {
+	margin-bottom: 5px;
+	margin-top:-10px;
+	color: #949494;
+	text-align: left;
+	font-size: 14px;
+	width: 100%;
+}
+
+#h_comment_header table {
+	width: 100%;
+}
+
+#sina_sync {
+	vertical-align: text-bottom; margin-bottom:2px; *margin-bottom:-2px;
+}
+
+
+#comment_count_icon_td,#like_count_icon_td {
+	padding-left:10px;
+	width:30px;	
+}
+#comment_count_label_td,#comment_count_label_td {
+	padding-left:5px;
+	width:45px;	
+}
+
+#qr_link_btn_td {
+	padding-right:10px;
+	text-align: right;	
+}
+
+#h_icon_comment_count {
+	width: 30px;
+	height: 22px;
+	background: url("../images/icons.png");
+	background-position: -227px -125px;
+	_background:none;
+	_filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=noscale,src='htworld/web/images/ie6/comment.png' );
+}
+
+#h_icon_like_count {
+	width: 30px;
+	height: 22px;
+	cursor:pointer;
+	
+}
+.like_count_enable {
+	background: url("../images/icons.png");
+	background-position: -259px -125px;
+	_background:none;
+	_filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=noscale,src='htworld/web/images/ie6/like.png' );
+}
+.like_count_disable {
+	background: url("../images/icons.png");
+	background-position: -246px -163px;
+	_background:none;
+	_filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=noscale,src='htworld/web/images/ie6/like.png' );
+}
+
+#zt-comment-count,#zt-like-count {
+	width: 50px;	
+}
+
+#h_comment_table {
+	width: 100%;	
+	text-align: left;
+	margin-bottom: 10px;
+}
+#h_comment_table a:link {
+	text-decoration: none;	
+}
+#h_comment_table td{
+	vertical-align: top;
+	padding-top: 10px;
+}
+
+#sina_login_td {
+	vertical-align: middle;	
+	padding-bottom: 15px;
+	height: 12px;
+	line-height: 12px;
+	padding-left: 5px;
+}
+
+#sina_login {
+	float: left;
+}
+
+#sina_sync_check_div {
+	font-size: 12px;
+	color:#bfa994;
+	float:right;
+	height: 12px;
+	line-height: 12px;
+	display: none;
+	
+}
+
+.h_comment_author_img_td {
+	width:40px;
+}
+.h_comment_author_img_td img {
+	width:40px;
+	height:40px;	
+	-moz-border-radius:2px;
+	-webkit-border-radius:2px;
+	border-radius:2px;
+}
+
+.h_comment_author_name,.h_comment_author_name a, .h_comment_colon {
+	color: #bfa994;
+	font-size: 14px;
+}
+.h_comment_content_td {
+	color: #aaa7a7;
+	font-size: 14px;	
+	padding-left: 10px;
+}
+.h_comment_time_p {
+	color: #ccc7c7;
+	font-size: 12px;
+	text-align: right;	
+}
+
+#h_world_qrcode_div {
+	z-index: 99999;	
+	height: 280px;
+	height: 280px;
+	display: none;
+	position: absolute;
+	text-align: right;
+	color: #AAA7A7;
+	font-size: 14px;
+}
+
+#h_world_qrcode_div .h_qr_arrow_left {
+	width: 14px;
+	height:26px;
+	display:inline-block;
+	position:absolute;
+	left:0;
+	background: #000;
+	margin-top: 220px;
+	background: url("../images/icons.png");
+	background-position: -230px -148px;
+	z-index:9;
+	
+	_background:none;
+	_filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=noscale,src='htworld/web3/images/ie6/arrow_left.png' );
+}
+#h_world_qrcode_div .h_qr_container {
+	background: #fff;
+	margin-left:13px;
+	width: 250px;
+	height: 270px;
+	text-align: center;
+	display:inline-block;
+	border: 1px solid #D3CFCC;
+	border-radius:5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	
+	-moz-box-shadow:1px 1px 5px #ddd;
+	-webkit-box-shadow:1px 1px 5px #ddd;
+	box-shadow:1px 1px 5px #ddd;
+	
+}
+
+.h_qr_close_btn_div {
+	text-align: right;	
+	position: absolute;
+	margin-left: 14px;
+	left: 0;
+	width: 250px;
+}
+
+.h_qr_show_tag{}
+.h_qr_close_btn {
+	width:20px;
+	height:20px;
+	margin:10px 10px 0 0;
+	display: inline-block;
+	cursor: pointer;
+	background: url("../images/icons.png");
+	background-position: -324px -155px;
+	
+	_background:none;
+	_filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=noscale,src='htworld/web/images/ie6/btn_qr_close.png' );
+}
+.h_qr_close_btn:hover {
+	background-position: -300px -155px;
+}
+#h_world_qrcode_div .h_qr_main {
+	display:inline-block;
+	width:200px;
+	height:200px;
+	padding-top: 20px;
+}
+	
+#h_qr_link_btn {
+	width: 30px;
+	height: 22px;
+	display:inline-block;
+	cursor: pointer;
+	background: url("../images/icons.png");
+	background-position: -291px -125px;
+	
+	_background:none;
+	_filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=noscale,src='htworld/web/images/ie6/btn_qrlink.png' );
+}
+#h_map_btn {
+	width: 20px;
+	height: 20px;
+	display:inline-block;
+	cursor: pointer;
+}
+.h_map_locatin_btn{
+	background: url("../images/location_btn.png");
+    background-position: 100% 100%;   
+    background-repeat: no-repeat;   
+
+	
+	_background:none;
+	_filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=noscale,src='htworld/web/images/ie6/location_btn.png' );
+}
+.h_map_no_location_btn{
+	background: url("../images/location_none_btn.png");
+    background-position: 100% 100%;   
+    background-repeat: no-repeat;   
+
+	
+	_background:none;
+	_filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=noscale,src='htworld/web/images/ie6/location_none_btn.png' );
+}
+
+.h_map_show_tag{}
+.h_map_init_tag{
+	border: 1px solid #777; 
+}
+#map{
+	width: 398px; 
+	height: 320px;
+	overflow: hidden;
+	text-align: left;
+	color: #AAA7A7;
+	font-size: 14px;
+	position:absolute;
+	display:inline-block;
+}

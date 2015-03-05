@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<!-- 
+	<bean id="userInfoDao" class="com.hts.web.userinfo.dao.impl.UserInfoDaoImpl" parent="baseDao" />
+	<bean id="userConcernDao" class="com.hts.web.userinfo.dao.impl.UserConcernDaoImpl" parent="baseDao" />
+	<bean id="socialAccountDao" class="com.hts.web.userinfo.dao.impl.SocialAccountDaoImpl" parent="baseDao" />
+	<bean id="userMsgDao" class="com.hts.web.userinfo.dao.impl.UserMsgDaoImpl" parent="baseDao" />
+	<bean id="userMsgSendBoxDao" class="com.hts.web.userinfo.dao.impl.UserMsgSendBoxDaoImpl" parent="baseDao" />
+	<bean id="userMsgRecipientBoxDao" class="com.hts.web.userinfo.dao.impl.UserMsgRecipientBoxDaoImpl" parent="baseDao" />
+	<bean id="userMsgShieldDao" class="com.hts.web.userinfo.dao.impl.UserMsgShieldDaoImpl" parent="baseDao" />
+	<bean id="userLabelDao" class="com.hts.web.userinfo.dao.impl.UserLabelDaoImpl" parent="baseDao" />
+	<bean id="userConcernTypeDao" class="com.hts.web.userinfo.dao.impl.UserConcernTypeDaoImpl" parent="baseDao" />
+	<bean id="retrievePWDDao" class="com.hts.web.userinfo.dao.impl.UserRetrievePWDDaoImpl" parent="baseDao" />
+	<bean id="userActivityDao" class="com.hts.web.userinfo.dao.impl.UserActivityDaoImpl" parent="baseDao" />
+	<bean id="userVerifyDao" class="com.hts.web.userinfo.dao.impl.UserVerifyDaoImpl" parent="baseDao" />
+	<bean id="userVerifyCacheDao" class="com.hts.web.userinfo.dao.impl.UserVerifyCacheDaoImpl" parent="baseCacheDao" />
+	<bean id="userShieldDao" class="com.hts.web.userinfo.dao.impl.UserShieldDaoImpl" parent="baseDao" />
+	
+	
+	<bean id="userRetrievePWDService" class="com.hts.web.userinfo.service.impl.UserRetrievePWDServiceImpl"
+		p:retrievePWDDao-ref="retrievePWDDao">
+		<property name="resetPwdURLHead" value="${resetPwdURLHead}"/>
+		</bean>
+	
+	
+	<bean id="userInfoService" class="com.hts.web.userinfo.service.impl.UserInfoServiceImpl" parent="baseService"
+		p:keyGenService-ref="keyGenService"
+		p:userLoginPersistentService-ref="userLoginPersistentService"
+		p:tokenRepository-ref="userLoginPersistentDao"
+		p:userInfoDao-ref="userInfoDao"
+		p:socialAccountDao-ref="socialAccountDao"
+		p:userLabelDao-ref="userLabelDao" 
+		p:userVerifyCacheDao-ref="userVerifyCacheDao" 
+		p:sinaWeiboService-ref="sinaWeiboService"
+		p:pushService-ref="pushService"
+		p:taskExecutor-ref="pushExecutor"/>
+	
+	<bean id="userInteractService" class="com.hts.web.userinfo.service.impl.UserInteractServiceImpl" parent="baseService"
+		p:keyGenService-ref="keyGenService"
+		p:pushService-ref="pushService"
+		p:userInfoDao-ref="userInfoDao"
+		p:userConcernDao-ref="userConcernDao" 
+		p:userConcernTypeDao-ref="userConcernTypeDao"
+		p:userInfoService-ref="userInfoService"
+		p:userShieldDao-ref="userShieldDao"/>
+
+	<bean id="userMsgService" class="com.hts.web.userinfo.service.impl.UserMsgServiceImpl" parent="baseService" 
+		p:keyGenService-ref="keyGenService"
+		p:worldCommentDao-ref="worldCommentDao"
+		p:worldLikedDao-ref="worldLikedDao"
+		p:userConcernDao-ref="userConcernDao"
+		p:userInfoDao-ref="userInfoDao"
+		p:pushService-ref="pushService"
+		p:userMsgDao-ref="userMsgDao"
+		p:userMsgSendBoxDao-ref="userMsgSendBoxDao"
+		p:userMsgRecipientBoxDao-ref="userMsgRecipientBoxDao" 
+		p:userMsgShieldDao-ref="userMsgShieldDao"
+		p:sysMsgDao-ref="sysMsgDao"
+		p:worldInteractDao-ref="worldInteractDao"
+		p:userInfoService-ref="userInfoService">
+		
+		<property name="customerServiceId" value="${push.customerServiceId}"/>
+		<property name="feedbackListeners" value="${push.feedbackListeners}" />
+		<property name="squareRuleMsg" value="${msg.squareRuleMsg}" />
+	</bean>
+	
+	<bean id="userActivityService" class="com.hts.web.userinfo.service.impl.UserActivityServiceImpl" parent="baseService" 
+		p:userActivityDao-ref="userActivityDao" 
+		p:userInfoDao-ref="userInfoDao" />
+
+	<bean id="userService" class="com.hts.web.security.service.impl.UserDetailsServiceImpl" />
+	
+	<bean id="sinaWeiboService" class="com.hts.web.weibo.service.impl.SinaWeiboServiceImpl" parent="baseService"/>
+	
+	
+	<bean id="userLoginPersistentDao" class="com.hts.web.security.dao.impl.UserLoginPersistentDaoImpl" parent="baseDao" />
+	<bean id="userLoginPersistentService" class="com.hts.web.security.service.impl.UserLoginPersistentServiceImpl" />
+	
+	-->
+</beans>

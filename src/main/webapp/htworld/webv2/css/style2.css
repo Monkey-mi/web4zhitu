@@ -1,0 +1,8 @@
+body{
+	margin: 0 auto;
+}
+.zt-wraper {
+	border: 1px solid black;
+	width:384px;
+	height:576px;
+}

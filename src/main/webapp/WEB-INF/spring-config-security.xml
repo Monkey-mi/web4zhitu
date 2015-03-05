@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans 
+	xmlns="http://www.springframework.org/schema/security"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                        http://www.springframework.org/schema/security 
+                        http://www.springframework.org/schema/security/spring-security.xsd">
+
+	<!-- 不过滤资源文件以及登陆页面 -->
+	<http pattern="/**/css/**" security="none"></http>
+	<http pattern="/**/js/**" security="none"></http>
+	<http pattern="/**/images/**" security="none"></http>
+	
+	<http auto-config="true" use-expressions="true" authentication-manager-ref="authenticationManager">
+		<!-- Session并发控制，防止窃取Session -->
+		<!-- 
+		<session-management>
+			<concurrency-control max-sessions="1" expired-url="/security/accessDeny"/>
+		</session-management>
+		 -->
+		<intercept-url pattern="/operations/**" access="permitAll" />
+		
+		<intercept-url pattern="/user/user_login" access="permitAll" />
+		<intercept-url pattern="/user/user_loginBySocialAccount" access="permitAll" />
+		<intercept-url pattern="/user/user_register" access="permitAll" />
+		<intercept-url pattern="/user/user_checkLoginCodeExists" access="permitAll" />
+		<intercept-url pattern="/user/user_checkUserNameExists" access="permitAll" />
+		<intercept-url pattern="/user/interact_search" access="permitAll" />
+		<intercept-url pattern="/user/rpwd_resetPWD" access="permitAll" />
+		<intercept-url pattern="/user/rpwd_requestRPWD" access="permitAll" />
+		<intercept-url pattern="/user/msg_sendMsg" access="permitAll"/>
+		<intercept-url pattern="/user/rpwd_resetPWDWEB" access="permitAll" />
+		<intercept-url pattern="/user/rpwd_success" access="permitAll" />
+		<intercept-url pattern="/user/rpwd_error" access="permitAll" />
+		<intercept-url pattern="/user/**" access="hasRole('ROLE_USER')" />
+		
+		<intercept-url pattern="/ztworld/ztworld_queryWorld" access="permitAll" />
+		<intercept-url pattern="/ztworld/ztworld_htszoomtour" access="permitAll" />
+		<intercept-url pattern="/ztworld/ztworld_phonezoomtour" access="permitAll" />
+		<intercept-url pattern="/ztworld/ztworld_queryWorldAndTitle" access="permitAll" />
+		<intercept-url pattern="/ztworld/ztworld_queryTitleChildWorldPage" access="permitAll" />
+		<intercept-url pattern="/ztworld/ztworld_queryChildWorldPage" access="permitAll" />
+		<intercept-url pattern="/ztworld/ztworld_queryUserRandomWorld" access="permitAll" />
+		<intercept-url pattern="/ztworld/ztworld_searchWorld" access="permitAll" />
+		<intercept-url pattern="/ztworld/interact_queryComments" access="permitAll" />
+		<intercept-url pattern="/ztworld/interact_likeDirect" access="permitAll" />
+		<intercept-url pattern="/ztworld/interact_likeDirect4Phone" access="permitAll" />
+		<intercept-url pattern="/ztworld/interact_addClickCount" access="permitAll" />
+		<intercept-url pattern="/ztworld/ztworld_shareWorldDirect" access="permitAll" />
+		<intercept-url pattern="/ztworld/sticker_queryRecommendSticker" access="permitAll" />
+		<intercept-url pattern="/ztworld/sticker_queryStickerById" access="permitAll" />
+		<intercept-url pattern="/ztworld/label_queryHotLabel" access="permitAll" />
+		<intercept-url pattern="/ztworld/**" access="hasRole('ROLE_USER')" />
+		
+		<intercept-url pattern="/qiniu/**" access="permitAll" />
+		
+		<remember-me key="imzhituStore" services-ref="loginService" />
+		<logout logout-url="/user/user_logout" logout-success-url="/security/logoutSuccess" delete-cookies="JSESSIONID"/>
+		<intercept-url pattern="/security/accessDeny" access="permitAll" />
+		<form-login login-page="/security/accessDeny" />
+	</http>
+	
+	<authentication-manager id="authenticationManager">
+		<authentication-provider user-service-ref="userService">
+		</authentication-provider>
+	</authentication-manager>
+	
+	<beans:bean id="userService" class="com.hts.web.security.service.impl.UserDetailsServiceImpl" />
+	
+	<beans:bean id="loginService" class="com.hts.web.security.service.impl.CookiesRememberMeServicesImpl">
+		<beans:constructor-arg name="key" value="imzhituStore"/>
+		<beans:constructor-arg name="userDetailsService" ref="userService"/>
+		<beans:property name="tokenValiditySeconds" value="315360000"/><!-- token-validity-seconds=10*365*24*60*60 -->
+		<beans:property name="cookieName" value="IMZHITU_REMEMBER_ME_COOKIE" />
+	</beans:bean>
+	
+</beans:beans>

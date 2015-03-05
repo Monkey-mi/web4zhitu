@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<!-- 
+	<bean id="worldDao" class="com.hts.web.ztworld.dao.impl.HTWorldDaoImpl" parent="baseDao" />
+	<bean id="worldChildWorldDao" class="com.hts.web.ztworld.dao.impl.HTWorldChildWorldDaoImpl" parent="baseDao" />
+	<bean id="worldCommentDao" class="com.hts.web.ztworld.dao.impl.HTWorldCommentDaoImpl" parent="baseDao" 
+		p:worldDao-ref="worldDao" />
+	<bean id="worldKeepDao" class="com.hts.web.ztworld.dao.impl.HTWorldKeepDaoImpl" parent="baseDao" />
+	<bean id="worldLikedDao" class="com.hts.web.ztworld.dao.impl.HTWorldLikedDaoImpl" parent="baseDao" 
+		p:worldDao-ref="worldDao" />
+	<bean id="worldReportDao" class="com.hts.web.ztworld.dao.impl.HTWorldReportDaoImpl" parent="baseDao" />
+	<bean id="worldInteractDao" class="com.hts.web.ztworld.dao.impl.HTWorldInteractDaoImpl" parent="baseDao"
+		p:worldDao-ref="worldDao" />
+	<bean id="worldTypeDao" class="com.hts.web.ztworld.dao.impl.HTWorldTypeDaoImpl" parent="baseDao" />
+	<bean id="worldLabelDao" class="com.hts.web.ztworld.dao.impl.HTWorldLabelDaoImpl" parent="baseDao" />
+	<bean id="worldLabelCacheDao"  class="com.hts.web.ztworld.dao.impl.HTWorldLabelCacheDaoImpl" parent="baseCacheDao" />
+	<bean id="worldLabelWorldDao" class="com.hts.web.ztworld.dao.impl.HTWorldLabelWorldDaoImpl" parent="baseDao" 
+		p:worldDao-ref="worldDao" />
+	<bean id="worldCacheDao"  class="com.hts.web.ztworld.dao.impl.HTWorldCacheDaoImpl" parent="baseCacheDao" />
+	
+	<bean id="worldChildWorldTypeDao" class="com.hts.web.ztworld.dao.impl.HTWorldChildWorldTypeDaoImpl" parent="baseDao" />
+	<bean id="worldChildWorldTypeCacheDao" class="com.hts.web.ztworld.dao.impl.HTWorldChildWorldTypeCacheDaoImpl" parent="baseCacheDao"/>
+	
+	<bean id="worldFilterLogoCacheDao" class="com.hts.web.ztworld.dao.impl.HTWorldFilterLogoCacheDaoImpl" parent="baseCacheDao" />
+	
+	
+	<bean id="worldInteractService" class="com.hts.web.ztworld.service.impl.ZTWorldInteractServiceImpl" parent="baseService" 
+		p:keyGenService-ref="keyGenService" 
+		p:userInteractService-ref="userInteractService"
+		p:pushService-ref="pushService"
+		p:worldCommentDao-ref="worldCommentDao"
+		p:worldDao-ref="worldDao"
+		p:worldLikedDao-ref="worldLikedDao" 
+		p:worldKeepDao-ref="worldKeepDao"
+		p:worldReportDao-ref="worldReportDao" 
+		p:userInfoDao-ref="userInfoDao"
+		p:worldService-ref="worldService"
+		p:userConcernDao-ref="userConcernDao"
+		p:userInfoService-ref="userInfoService" 
+		p:userShieldDao-ref="userShieldDao" />
+		
+	<bean id="worldService" class="com.hts.web.ztworld.service.impl.ZTWorldServiceImpl" parent="baseService" 
+		p:keyGenService-ref="keyGenService" 
+		p:worldDao-ref="worldDao"
+		p:userInfoDao-ref="userInfoDao"
+		p:worldChildWorldDao-ref="worldChildWorldDao"
+		p:activityDao-ref="activityDao"
+		p:worldCommentDao-ref="worldCommentDao"
+		p:worldLikedDao-ref="worldLikedDao"
+		p:worldTypeDao-ref="worldTypeDao"
+		p:worldLabelDao-ref="worldLabelDao"
+		p:worldLabelWorldDao-ref="worldLabelWorldDao"
+		p:worldCacheDao-ref="worldCacheDao"
+		p:userActivityService-ref="userActivityService"
+		p:worldChildWorldTypeDao-ref="worldChildWorldTypeDao"
+		p:worldChildWorldTypeCacheDao-ref="worldChildWorldTypeCacheDao" 
+		p:userInfoService-ref="userInfoService"
+		p:worldFilterLogoCacheDao-ref="worldFilterLogoCacheDao"/>
+		
+		
+	<bean id="worldLabelService" class="com.hts.web.ztworld.service.impl.ZTWorldLabelServiceImpl" parent="baseService" 
+		p:keyGenService-ref="keyGenService" 
+		p:worldLabelDao-ref="worldLabelDao"
+		p:worldLabelCacheDao-ref="worldLabelCacheDao"
+		p:worldLabelWorldDao-ref="worldLabelWorldDao"
+		p:worldService-ref="worldService"
+		p:activityDao-ref="activityDao" 
+		p:activityCacheDao-ref="activityCacheDao"
+		p:activitySponsorDao-ref="activitySponsorDao"
+		p:activityAwardDao-ref="activityAwardDao" 
+		p:activityWinnerDao-ref="activityWinnerDao"
+		p:worldOperationsService-ref="worldOperationsService"
+		p:userInfoService-ref="userInfoService" />
+	
+	 -->
+
+</beans>
