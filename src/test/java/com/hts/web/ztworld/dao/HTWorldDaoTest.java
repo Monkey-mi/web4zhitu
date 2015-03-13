@@ -72,4 +72,10 @@ public class HTWorldDaoTest extends BaseTest {
 		long startTime = new Date().getTime();
 		dao.queryLatest(1000, 485, startTime, startTime - 900000, 10);
 	}
+	
+	@Test
+	public void updateChildSumTest() {
+		Integer i = dao.queryChildCount(-100);
+		logger.debug(i);
+	}
 }

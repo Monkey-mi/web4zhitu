@@ -162,8 +162,8 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 	/**
 	 * 更新织图总数
 	 */
-	private static final String UPDATE_WORLD_COUNT = "update " + table
-			+ " set world_count=? where id=?";
+	private static final String UPDATE_WORLD_AND_CHILD_COUNT = "update " + table
+			+ " set world_count=?, child_count=? where id=?";
 	
 	/**
 	 * 查询喜欢总数
@@ -786,8 +786,10 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 	}
 
 	@Override
-	public void updateWorldCount(Integer userId, Integer count) {
-		getJdbcTemplate().update(UPDATE_WORLD_COUNT, new Object[]{count, userId});
+	public void updateWorldAndChildCount(Integer userId, 
+			Integer worldCount, Integer childCount) {
+		getJdbcTemplate().update(UPDATE_WORLD_AND_CHILD_COUNT, 
+				new Object[]{worldCount, childCount, userId});
 	}
 
 	@Override
@@ -1029,6 +1031,7 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 				rs.getInt("concern_count"),
 				rs.getInt("follow_count"),
 				rs.getInt("world_count"),
+				rs.getInt("child_count"),
 				rs.getInt("liked_count"),
 				rs.getInt("like_me_count"),
 				rs.getInt("keep_count"),

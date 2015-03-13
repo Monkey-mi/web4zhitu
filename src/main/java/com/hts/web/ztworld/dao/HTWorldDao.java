@@ -602,6 +602,14 @@ public interface HTWorldDao extends BaseDao {
 	 */
 	public void queryCount(Integer[] ids, RowCallback<HTWorldCount> callback);
 	
+	/**
+	 * 查询图片总数
+	 * 
+	 * @param authorId
+	 * @return
+	 */
+	public Integer queryChildCount(Integer authorId);
+	
 }
 
 

@@ -352,7 +352,8 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 		
 		// 更新织图总数
 		Long count = worldDao.queryWorldCountByAuthorId(authorId);
-		userInfoDao.updateWorldCount(authorId, count.intValue());
+		Integer childCount = worldDao.queryChildCount(authorId);
+		userInfoDao.updateWorldAndChildCount(authorId, count.intValue(), childCount);
 		
 		// 添加活跃积分
 		int mutiple = 1;
@@ -601,7 +602,8 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 				&& world.getShield() == Tag.FALSE) {
 			worldDao.validRecord(HTS.HTWORLD_HTWORLD, Tag.FALSE, worldId);
 			Long count = worldDao.queryWorldCountByAuthorId(userId);
-			userInfoDao.updateWorldCount(userId, count.intValue());
+			Integer childCount = worldDao.queryChildCount(userId);
+			userInfoDao.updateWorldAndChildCount(userId, count.intValue(), childCount);
 		} else {
 			throw new HTSException("织图不存在或已经被删除", ERROR_CODE_REPEAT_OPT);
 		}

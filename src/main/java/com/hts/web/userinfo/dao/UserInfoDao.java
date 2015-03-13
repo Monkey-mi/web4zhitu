@@ -181,9 +181,10 @@ public interface UserInfoDao extends BaseDao {
 	 * 更新织图总数
 	 * 
 	 * @param userId
-	 * @param count
+	 * @param worldCount
+	 * @param childCount
 	 */
-	public void updateWorldCount(Integer userId, Integer count);
+	public void updateWorldAndChildCount(Integer userId, Integer worldCount, Integer childCount);
 	
 	/**
 	 * 查询喜欢总数

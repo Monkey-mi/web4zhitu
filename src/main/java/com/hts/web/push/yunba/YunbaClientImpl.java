@@ -250,7 +250,7 @@ public class YunbaClientImpl implements YunbaClient {
 						}
 						throw new YunbaException(errmsg + ", status=" + pubStatus);
 					} else {
-						log.info(reqStr); // 打印消息日志信息
+//						log.info(reqStr); // 打印消息日志信息
 					}
 				}
 			} else {

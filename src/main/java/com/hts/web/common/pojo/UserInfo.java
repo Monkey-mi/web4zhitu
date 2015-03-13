@@ -69,6 +69,7 @@ public class UserInfo implements Serializable, ObjectWithUserVerifyDesc,
 	private Integer concernCount; // 关注总数
 	private Integer followCount; // 粉丝总数
 	private Integer worldCount; // 织图总数
+	private Integer childCount; // 图片总数
 	private Integer likedCount; // 喜欢总数
 	private Integer likeMeCount; // 被喜欢数
 	private Integer keepCount; // 收藏总数
@@ -102,7 +103,7 @@ public class UserInfo implements Serializable, ObjectWithUserVerifyDesc,
 			Integer acceptReplyPush, Integer acceptLikedPush,
 			Integer acceptKeepPush, Integer acceptConcernPush,
 			Integer acceptMsgPush, Integer acceptUmsgPush, Float ver,
-			Integer concernCount, Integer followCount, Integer worldCount,
+			Integer concernCount, Integer followCount, Integer worldCount, Integer childCount,
 			Integer likedCount, Integer likeMeCount, Integer keepCount, Integer star) {
 		super();
 		this.id = id;
@@ -146,6 +147,7 @@ public class UserInfo implements Serializable, ObjectWithUserVerifyDesc,
 		this.concernCount = concernCount;
 		this.followCount = followCount;
 		this.worldCount = worldCount;
+		this.childCount = childCount;
 		this.likedCount = likedCount;
 		this.likeMeCount = likeMeCount;
 		this.keepCount = keepCount;
@@ -228,6 +230,14 @@ public class UserInfo implements Serializable, ObjectWithUserVerifyDesc,
 
 	public void setWorldCount(Integer worldCount) {
 		this.worldCount = worldCount;
+	}
+	
+	public Integer getChildCount() {
+		return childCount;
+	}
+
+	public void setChildCount(Integer childCount) {
+		this.childCount = childCount;
 	}
 
 	public Integer getId() {

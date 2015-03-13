@@ -327,6 +327,11 @@ public class Tag {
 	 */
 	public static final float VERSION_2_9_84 = 2.0984f;
 	
+	/**
+	 * 2.9.88
+	 */
+	public static final float VERSION_2_9_88 = 2.0988f;
+	
 	
 	
 }

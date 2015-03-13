@@ -237,6 +237,9 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 			Integer platformVerify, String platformReason, String loginCode, String userName,
 			String userAvatar, String userAvatarL, Integer sex, String pushToken, 
 			Integer phoneCode, String phoneSys, String phoneVer, Float ver) throws Exception {
+		if(platformCode.equals(PlatFormCode.QQ) && ver >= Tag.VERSION_2_9_88) { //　不允许新qq用户注册
+			throw new HTSException("该QQ帐号未注册织图，请更换其他登录方式", PLATFORM_OFF_ERROR);
+		}
 		UserInfo userInfo = null;
 		String platformUserName = userName;
 		Integer id = keyGenService.generateId(KeyGenServiceImpl.USER_ID);

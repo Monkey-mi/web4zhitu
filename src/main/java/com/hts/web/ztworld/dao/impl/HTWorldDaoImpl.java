@@ -572,6 +572,12 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 	private static final String QUERY_COUNT = "select id,like_count from " + table 
 			+ " where id in ";
 	
+	/**
+	 * 查询图片总数
+	 */
+	private static final String QUERY_CHILD_SUM = "select sum(child_count) from " + table
+			+ " where author_id=? and valid=1";
+	
 	
 	@Override
 	public void updateWorldShield(Integer worldId, Integer shield) {
@@ -1693,4 +1699,10 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 		});
 	}
 
+	@Override
+	public Integer queryChildCount(Integer authorId) {
+		return getJdbcTemplate().queryForInt(QUERY_CHILD_SUM, authorId);
+	}
+
+	
 }
