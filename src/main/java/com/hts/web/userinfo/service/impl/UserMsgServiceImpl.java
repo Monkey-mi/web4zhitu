@@ -347,19 +347,10 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 			msgBox.setCk(Tag.FALSE);
 			if(recipientId.equals(customerServiceId)) { // 表明这是通过反馈页面发送的
 				userMsgRecipientBoxDao.saveRecipientBox(msgBox);
-				Integer[] listeners = StringUtil.convertStringToIds(feedbackListeners);
-				List<UserPushInfo> listenerPushs = userInfoDao.queryUserPushInfoByIds(listeners);
-				pushService.pushListMessage(PushUtil.getLongTip(content),
-						Tag.PUSH_ACTION_XIAOMI_MSG, null, listenerPushs, new PushFailedCallback(){
-
-					@Override
-					public void onPushFailed(Exception e) {}
-					
-				});
 				
 			} else {
 				UserPushInfo pusnInfo = userInfoDao.queryUserPushInfoById(recipientId);
-				// 系统发出或者2.9.5版本之前的用户才会收到私信
+				// 系统发出或者2.9.5版本（用户间的私信不通过我们的服务器）之前的用户才会收到私信
 				if(senderId.equals(customerServiceId) || pusnInfo.getVer() < Tag.VERSION_2_9_5) {
 					if(senderId.equals(customerServiceId)) {
 						userMsgRecipientBoxDao.updateRecipientCK(id, recipientId, senderId); // 更新指定用户发给系统私信未读标记
