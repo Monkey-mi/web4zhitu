@@ -20,8 +20,6 @@ import com.hts.web.userinfo.dao.UserLabelDao;
 @Repository("HTSUserLabelDao")
 public class UserLabelDaoImpl extends BaseDaoImpl implements UserLabelDao {
 
-	private static String table = HTS.USER_LABEL;
-	
 	/** 保存用户-标签关联 */
 	private static final String SAVE_USER_LABEL = "insert into " + HTS.USER_INFO_LABEL
 			+ " (user_id, label_id) values (?,?)";

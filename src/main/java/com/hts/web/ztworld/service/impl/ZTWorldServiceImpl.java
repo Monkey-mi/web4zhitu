@@ -44,6 +44,7 @@ import com.hts.web.common.pojo.HTWorldLatestId;
 import com.hts.web.common.pojo.HTWorldLatestIndex;
 import com.hts.web.common.pojo.HTWorldLikedUser;
 import com.hts.web.common.pojo.HTWorldWithExtra;
+import com.hts.web.common.pojo.UserDynamicRec;
 import com.hts.web.common.pojo.UserVerify;
 import com.hts.web.common.service.KeyGenService;
 import com.hts.web.common.service.impl.BaseServiceImpl;
@@ -56,6 +57,7 @@ import com.hts.web.common.util.StringUtil;
 import com.hts.web.operations.dao.ActivityDao;
 import com.hts.web.userinfo.dao.UserConcernDao;
 import com.hts.web.userinfo.dao.UserInfoDao;
+import com.hts.web.userinfo.dao.UserRecDao;
 import com.hts.web.userinfo.service.UserActivityService;
 import com.hts.web.userinfo.service.UserInfoService;
 import com.hts.web.userinfo.service.UserInteractService;
@@ -139,9 +141,24 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 	};
 	
 	/**
+	 * 推荐用户信息，系统推荐
+	 */
+	private static final String USER_REC_MSG_SYS_REC = "推荐用户";
+	
+	/**
 	 * 最新索引size
 	 */
 	private static final int LATEST_INDEX_SIZE = 4;
+	
+	/**
+	 * 系统推荐用户限制
+	 */
+	private Integer sysRecLimit = 3;
+	
+	/**
+	 * 系统推荐起始位置
+	 */
+	private Integer sysRecStart = 200;
 	
 	@Autowired
 	private KeyGenService keyGenService;
@@ -199,6 +216,9 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 	
 	@Autowired
 	private UserInteractService userInteractService;
+	
+	@Autowired
+	private UserRecDao userRecDao;
 	
 	private String baseThumbPathAixin = "http://imzhitu.qiniudn.com/world/thumbs/1403056393000.png";
 	private String baseThumbPathXing = "http://imzhitu.qiniudn.com/world/thumbs/1403057093000.png";
@@ -652,19 +672,19 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 				});
 			}
 			
-			// 设置收藏标记
-			if(extractKeep && userId != null) {
-				worldKeepDao.queryKeep(userId, worldIds, new RowCallback<Integer>() {
-
-					@Override
-					public void callback(Integer t) {
-						Integer index = indexMap.get(t);
-						if(index != null) {
-							worldList.get(index).setLiked(Tag.TRUE);
-						}
-					}
-				});
-			}
+//			// 设置收藏标记
+//			if(extractKeep && userId != null) {
+//				worldKeepDao.queryKeep(userId, worldIds, new RowCallback<Integer>() {
+//
+//					@Override
+//					public void callback(Integer t) {
+//						Integer index = indexMap.get(t);
+//						if(index != null) {
+//							worldList.get(index).setLiked(Tag.TRUE);
+//						}
+//					}
+//				});
+//			}
 			
 			if (commentLimit > 0) {
 				worldCommentDao.queryCommentUserByLimit(worldIds, commentLimit,
@@ -739,7 +759,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 
 	@Override
 	public void buildConcernWorld(final Integer userId, int maxId,
-			int start, int limit, Map<String, Object> jsonMap,
+			int start, int limit, final Map<String, Object> jsonMap,
 			boolean trimTotal, final boolean trimExtras,
 			final int commentLimit, final int likedLimit) throws Exception {
 		buildSerializables(maxId, start, limit, jsonMap,
@@ -752,6 +772,8 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 						extractExtraInfo(true, true, userId, trimExtras, commentLimit, likedLimit, worldList.size(), worldList);
 						userInfoService.extractVerify(worldList);
 						userInteractService.extractRemark(userId, worldList);
+						recommendUser(userId, jsonMap);
+						
 						return worldList;
 					}
 
@@ -773,7 +795,26 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 
 				}, OptResult.JSON_KEY_HTWORLD, null);
 	}
-
+	
+	/**
+	 * 从信息流推荐用户
+	 * 
+	 * @param userId
+	 * @param jsonMap
+	 * @return
+	 */
+	private List<UserDynamicRec> recommendUser(Integer userId, Map<String, Object> jsonMap)	 {
+		List<UserDynamicRec> recList = null;
+		int start = NumberUtil.getRandomNum(0, sysRecStart);
+		recList = userRecDao.queryOpRecList(userId, start, sysRecLimit);
+		if(recList != null && recList.size() > 0) {
+			userInfoService.extractVerify(recList);
+			jsonMap.put(OptResult.JSON_KEY_USER_REC_MSG, USER_REC_MSG_SYS_REC);
+			jsonMap.put(OptResult.JSON_KEY_USER_REC, recList);
+		}
+		return recList;
+	}
+	
 	@Override
 	public void buildKeepWorld(final Integer userId, int maxId,
 			int start, int limit, Map<String, Object> jsonMap,

@@ -41,5 +41,12 @@
 			</result>
 		</action>
 		
+		<action name="subtitle_*" class="com.hts.web.ztworld.SubtitleAction"
+			method="{1}">
+			<result name="json" type="json">
+				<param name="root">jsonMap</param>
+			</result>
+		</action>
+		
 	</package>
 </struts>

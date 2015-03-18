@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.hts.web.aliyun.service.OpenSearchService;
 import com.hts.web.base.HTSException;
 import com.hts.web.base.constant.OptResult;
 import com.hts.web.base.constant.Tag;
@@ -129,6 +130,9 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 	
 	@Autowired
 	private UserInteractService userInteractService;
+	
+	@Autowired
+	private OpenSearchService openSearchService;
 	
 	@Value("${msg.squareRuleMsg}")
 	private String squareRuleMsg ;

@@ -108,6 +108,11 @@ public class HTS {
 	public static final String USER_REMARK = DB + "user_remark";
 	
 	/**
+	 * 社交平台关注的用户表
+	 */
+	public static final String USER_PLAT_CONCERN = DB + "user_plat_concern";
+	
+	/**
 	 * 织图世界表
 	 */
 	public static final String HTWORLD_HTWORLD = DB + "htworld_htworld";
@@ -176,6 +181,11 @@ public class HTS {
 	 * 织图贴纸解锁表
 	 */
 	public static final String HTWORLD_STICKER_UNLOCK = DB + "htworld_sticker_unlock";
+	
+	/**
+	 * 字幕表
+	 */
+	public static final String HTWORLD_SUBTITLE = DB + "htworld_subtitle";
 	
 	/*
 	 * 运营子模块

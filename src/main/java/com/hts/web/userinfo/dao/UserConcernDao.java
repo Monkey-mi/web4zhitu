@@ -7,9 +7,9 @@ import java.util.Set;
 import com.hts.web.base.database.RowCallback;
 import com.hts.web.base.database.RowSelection;
 import com.hts.web.common.dao.BaseDao;
-import com.hts.web.common.pojo.OpUserConcernDto;
 import com.hts.web.common.pojo.UserConcern;
 import com.hts.web.common.pojo.UserConcernDto;
+import com.hts.web.common.pojo.UserConcernName;
 import com.hts.web.common.pojo.UserFollowDto;
 import com.hts.web.common.pojo.UserInfoDto;
 import com.hts.web.common.pojo.UserIsMututal;
@@ -373,6 +373,13 @@ public interface UserConcernDao extends BaseDao {
 	 * @param concernId
 	 */
 	public void updateISNew(Integer concernId);
-	
-	
+
+	/**
+	 * 查询关注人名字
+	 * 
+	 * @param userId
+	 * @param start
+	 * @return
+	 */
+	public UserConcernName queryConcernName(Integer userId, Integer start);
 }

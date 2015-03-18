@@ -20,6 +20,7 @@ import com.hts.web.base.database.SQLUtil;
 import com.hts.web.common.dao.impl.BaseDaoImpl;
 import com.hts.web.common.pojo.UserConcern;
 import com.hts.web.common.pojo.UserConcernDto;
+import com.hts.web.common.pojo.UserConcernName;
 import com.hts.web.common.pojo.UserFollowDto;
 import com.hts.web.common.pojo.UserInfoDto;
 import com.hts.web.common.pojo.UserIsMututal;
@@ -46,7 +47,11 @@ public class UserConcernDaoImpl extends BaseDaoImpl implements UserConcernDao{
 	public static final String CONCERN_USER_INFO = "u.user_name,u.user_avatar,"
 			+ "u.user_avatar_l,u.sex,u.user_label,u.address,u.province,u.city,"
 			+ "u.signature,u.platform_sign,u.star,u.online,u.platform_verify";
-			
+	
+	/**
+	 * 关注人用户名信息
+	 */
+	private static final String CONCERN_NAME_INFO = "u0.id,u0.user_name";
 	
 	/**
 	 * 表：用户关注表
@@ -303,6 +308,12 @@ public class UserConcernDaoImpl extends BaseDaoImpl implements UserConcernDao{
 	private static final String UPDATE_IS_NEW = "update " + table
 			+ " set is_new=0 where concern_id=? and is_new=1";
 	
+	/**
+	 * 查询关注用户名
+	 */
+	private static final String QUERY_CONCERN_NAME = "select " + CONCERN_NAME_INFO
+			+ " from " + table + " ur0, " + HTS.USER_INFO + " as u0"
+			+ " where u0.id=ur0.concern_id and ur0.user_id=? and valid=1 limit ?,1";
 	
 	@Override
 	public UserConcern queryConcern(Integer userId, Integer concernId){
@@ -338,7 +349,8 @@ public class UserConcernDaoImpl extends BaseDaoImpl implements UserConcernDao{
 
 	@Override
 	public long queryConcernCount(Integer userId){
-		return getJdbcTemplate().queryForLong(QUERY_CONCERN_COUNT_HEADER, new Object[]{userId, Tag.TRUE});
+		return getJdbcTemplate().queryForLong(QUERY_CONCERN_COUNT_HEADER,
+				new Object[]{userId, Tag.TRUE});
 	}
 	
 	@Override
@@ -808,6 +820,27 @@ public class UserConcernDaoImpl extends BaseDaoImpl implements UserConcernDao{
 		}
 		
 		return isMututal;
+	}
+
+	@Override
+	public UserConcernName queryConcernName(Integer userId, Integer start) {
+		try {
+			return getJdbcTemplate().queryForObject(QUERY_CONCERN_NAME,
+					new Object[]{userId, start}, 
+					new RowMapper<UserConcernName>() {
+	
+						@Override
+						public UserConcernName mapRow(ResultSet rs, int rowNum)
+								throws SQLException {
+							return new UserConcernName(
+									rs.getInt("id"), 
+									rs.getString("user_name"));
+						}
+				
+			});
+		} catch(EmptyResultDataAccessException e) {
+			return null;
+		}
 	}
 
 

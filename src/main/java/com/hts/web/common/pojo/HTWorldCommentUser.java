@@ -5,8 +5,6 @@ import java.util.Date;
 
 import org.apache.struts2.json.annotations.JSON;
 
-import com.hts.web.base.constant.Tag;
-
 /**
  * <p>
  * 织图评论用户对象
@@ -29,13 +27,8 @@ public class HTWorldCommentUser implements Serializable, ObjectWithUserVerify, O
 	private Date commentDate; // 评论时间
 	private Integer worldId; // 世界ID
 	private Integer userId; // 作者id
-	private String userName; // 作者名字
-	private String userAvatar; // 作者头像
-	private String userAvatarL; // 作者大头像
-	private Integer star = 0; // 明星标记
-	private String verifyName;
-	private String verifyIcon;
-	private Integer platformVerify = Tag.VERIFY_NONE;
+	
+	private UserInfoDto userInfo = new UserInfoDto();
 	
 	private String remark;
 	
@@ -53,11 +46,11 @@ public class HTWorldCommentUser implements Serializable, ObjectWithUserVerify, O
 		this.commentDate = commentDate;
 		this.worldId = worldId;
 		this.userId = userId;
-		this.userName = userName;
-		this.userAvatar = userAvatar;
-		this.userAvatarL = userAvatarL;
-		this.star = star;
-		this.platformVerify = platformVerify;
+		userInfo.setUserName(userName);
+		userInfo.setUserAvatar(userAvatar);
+		userInfo.setUserAvatarL(userAvatarL);
+		userInfo.setStar(star);
+		userInfo.setPlatformVerify(platformVerify);
 	}
 
 	public Integer getId() {
@@ -109,61 +102,6 @@ public class HTWorldCommentUser implements Serializable, ObjectWithUserVerify, O
 		this.userId = userId;
 	}
 
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-	public String getUserAvatar() {
-		return userAvatar;
-	}
-
-	public void setUserAvatar(String userAvatar) {
-		this.userAvatar = userAvatar;
-	}
-
-	public String getUserAvatarL() {
-		return userAvatarL;
-	}
-
-	public void setUserAvatarL(String userAvatarL) {
-		this.userAvatarL = userAvatarL;
-	}
-
-	public Integer getStar() {
-		return star;
-	}
-
-	public void setStar(Integer star) {
-		this.star = star;
-	}
-
-	public String getVerifyName() {
-		return verifyName;
-	}
-
-	@Override
-	public void setVerifyName(String verifyName) {
-		this.verifyName = verifyName;
-	}
-
-	public String getVerifyIcon() {
-		return verifyIcon;
-	}
-
-	@Override
-	public void setVerifyIcon(String verifyIcon) {
-		this.verifyIcon = verifyIcon;
-	}
-
-	@Override
-	public Integer getVerifyId() {
-		return star;
-	}
-	
 	public String getRemark() {
 		return remark;
 	}
@@ -178,12 +116,27 @@ public class HTWorldCommentUser implements Serializable, ObjectWithUserVerify, O
 		this.remark = remark;
 	}
 
-	public Integer getPlatformVerify() {
-		return platformVerify;
+	public UserInfoDto getUserInfo() {
+		return userInfo;
 	}
 
-	public void setPlatformVerify(Integer platformVerify) {
-		this.platformVerify = platformVerify;
+	public void setUserInfo(UserInfoDto userInfo) {
+		this.userInfo = userInfo;
+	}
+
+	@Override
+	public Integer getVerifyId() {
+		return userInfo.getStar();
+	}
+
+	@Override
+	public void setVerifyName(String verifyName) {
+		userInfo.setVerifyName(verifyName);
+	}
+
+	@Override
+	public void setVerifyIcon(String verifyIcon) {
+		userInfo.setVerifyIcon(verifyIcon);
 	}
 	
 }

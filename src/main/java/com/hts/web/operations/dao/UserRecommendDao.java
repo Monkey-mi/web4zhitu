@@ -1,5 +1,7 @@
 package com.hts.web.operations.dao;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
@@ -9,6 +11,7 @@ import com.hts.web.common.dao.BaseDao;
 import com.hts.web.common.pojo.OpUser;
 import com.hts.web.common.pojo.OpUserLabelRecommend;
 import com.hts.web.common.pojo.OpUserRecommend;
+import com.hts.web.common.pojo.UserDynamicRec;
 import com.hts.web.common.pojo.UserVerifyDto;
 
 /**
@@ -95,7 +98,7 @@ public interface UserRecommendDao extends BaseDao {
 	
 	/**
 	 * 根据用户id查询推荐信息
-	 * 
+	 * UserRecommendDao
 	 * @param userId
 	 * @return
 	 */

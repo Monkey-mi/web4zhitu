@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
@@ -15,12 +17,14 @@ import com.hts.web.base.database.RowSelection;
 import com.hts.web.base.database.SQLUtil;
 import com.hts.web.common.dao.impl.BaseDaoImpl;
 import com.hts.web.common.pojo.UserInfo;
-import com.hts.web.common.pojo.UserInfoDto;
 import com.hts.web.common.pojo.UserInfoAvatar;
+import com.hts.web.common.pojo.UserInfoDto;
 import com.hts.web.common.pojo.UserMsgStatus;
 import com.hts.web.common.pojo.UserPushInfo;
+import com.hts.web.common.pojo.UserRecInfo;
 import com.hts.web.common.pojo.UserSearchInfo;
 import com.hts.web.common.pojo.UserWorldBase;
+import com.hts.web.operations.dao.UserRecommendDao;
 import com.hts.web.userinfo.dao.UserInfoDao;
 
 /**
@@ -60,6 +64,11 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 	 */
 	private static final String THUMBNAIL_INFO = "id,user_name,user_avatar,user_avatar_l,"
 			+ "province,city,star,platform_verify";
+	
+	/**
+	 * 推荐信息
+	 */
+	private static final String REC_INFO = "id,platform_code,province,city,user_label,concern_count";
 	
 	/**
 	 * 保存用户信息
@@ -382,6 +391,22 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 	 */
 	private static final String UPDATE_LIKE_ME_COUNT = "update " + table
 			+ " set like_me_count=? where id=?";
+	
+	/**
+	 * 根据登录账号查询id
+	 */
+	private static final String QUERY_UID_BY_LOGIN_CODE = "select id from " + table
+			+ " where login_code=? and platform_code=?";
+	
+	/**
+	 * 查询位置信息
+	 */
+	private static final String QUERY_REC_INFO = "select " + REC_INFO 
+			+ " from " + table + " where id=?";
+	
+	
+	@Autowired
+	private UserRecommendDao userRecommendDao;
 	
 	@Override
 	public void saveUserInfo(UserInfo userInfo, byte[] passwordEncrypt) {
@@ -954,6 +979,16 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 	}
 	
 	@Override
+	public Integer queryUIDByLoginCode(String loginCode, Integer platformCode) {
+		try {
+			return getJdbcTemplate().queryForInt(QUERY_UID_BY_LOGIN_CODE,
+					new Object[]{loginCode, platformCode});
+		} catch(EmptyResultDataAccessException e) {
+			return 0;
+		}
+	}
+	
+	@Override
 	public UserMsgStatus queryUserMsgStatus(Integer id) {
 		return queryForObjectWithNULL(QUERY_USER_MSG_STATUS, new Object[]{id}, 
 				new RowMapper<UserMsgStatus>() {
@@ -975,7 +1010,6 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 					}
 		});
 	}
-
 	
 	/**
 	 * 根据游标构建用户信息POJO
@@ -1170,6 +1204,30 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 		user.setOnline(rs.getInt("online"));
 		user.setPlatformVerify(rs.getInt("platform_verify"));
 	}
+
+	@Override
+	public UserRecInfo queryRecInfo(Integer uid) {
+		try {
+			return getJdbcTemplate().queryForObject(QUERY_REC_INFO, 
+					new Object[]{uid}, new RowMapper<UserRecInfo>() {
+	
+						@Override
+						public UserRecInfo mapRow(ResultSet rs, int rowNum)
+								throws SQLException {
+							return new UserRecInfo(
+									rs.getInt("id"),
+									rs.getInt("platform_code"),
+									rs.getString("province"),
+									rs.getString("city"),
+									rs.getString("user_label"),
+									rs.getInt("concern_count"));
+						}
+			});
+		} catch(EmptyResultDataAccessException e) {
+			return null;
+		}
+	}
+
 
 
 }

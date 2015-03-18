@@ -13,6 +13,7 @@ import com.hts.web.common.pojo.UserInfoAvatar;
 import com.hts.web.common.pojo.UserInfoDto;
 import com.hts.web.common.pojo.UserMsgStatus;
 import com.hts.web.common.pojo.UserPushInfo;
+import com.hts.web.common.pojo.UserRecInfo;
 import com.hts.web.common.pojo.UserSearchInfo;
 import com.hts.web.common.pojo.UserWorldBase;
 
@@ -59,6 +60,15 @@ public interface UserInfoDao extends BaseDao {
 	 * @return 查询结果为空则返回NULL
 	 */
 	public UserInfo queryUserInfoByLoginCode(String loginCode, Integer platformCode);
+
+	/**
+	 * 根据登录账号查询用户id
+	 * 
+	 * @param loginCode
+	 * @param platformCode
+	 * @return
+	 */
+	public Integer queryUIDByLoginCode(String loginCode, Integer platformCode);
 	
 	/**
 	 * 根据id查询用户名
@@ -577,5 +587,14 @@ public interface UserInfoDao extends BaseDao {
 	 * @param uid
 	 */
 	public void updateLikeMeCount(Integer uid, Integer count);
+	
+	/**
+	 * 查询省市信息
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	public UserRecInfo queryRecInfo(Integer uid);
+
 	
 }

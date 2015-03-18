@@ -38,5 +38,12 @@
 			<result name="phonesuccess" type="redirect">/resetPwd/resetpwdSuccessMP.jsp</result>
 			<result name="phoneerror" type="dispatcher">/resetPwd/resetpwdFailedMP.jsp</result>
 		</action>
+		
+		<action name="rec_*" class="com.hts.web.userinfo.UserRecAction"
+			method="{1}">
+			<result name="json" type="json">
+				<param name="root">jsonMap</param>
+			</result>
+		</action>
 	</package>
 </struts>

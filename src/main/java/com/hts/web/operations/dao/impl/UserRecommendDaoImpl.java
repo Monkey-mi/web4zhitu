@@ -19,6 +19,7 @@ import com.hts.web.common.dao.impl.BaseDaoImpl;
 import com.hts.web.common.pojo.OpUser;
 import com.hts.web.common.pojo.OpUserLabelRecommend;
 import com.hts.web.common.pojo.OpUserRecommend;
+import com.hts.web.common.pojo.UserDynamicRec;
 import com.hts.web.common.pojo.UserVerifyDto;
 import com.hts.web.operations.dao.UserRecommendDao;
 import com.hts.web.userinfo.dao.UserVerifyDao;
@@ -39,13 +40,19 @@ public class UserRecommendDaoImpl extends BaseDaoImpl implements
 			+ "u.address,u.province,u.city,u.birthday,u.signature,u.user_label,"
 			+ "u.register_date,u.online,u.concern_count,u.follow_count," 
 			+ "u.world_count,u.liked_count,u.keep_count,u.shield,u.star,u.trust,u.activity";
-	
+
 	/**
 	 * 标签推荐用户信息 
 	 */
 	private static final String U_LABEL_INFO = "u.id as user_id,u.platform_sign,u.platform_verify,"
 			+ "u.platform_reason,u.user_name,u.user_avatar,u.user_avatar_l,"
 			+ "u.address,u.province,u.city, u.signature,u.user_label,u.star,u.trust,u.activity";
+	
+	/**
+	 * 信息流推荐的用户信息格式
+	 */
+	public static final String WORLD_RECOMMEND_INFO = "u0.id,u0.user_name,u0.user_avatar,"
+			+ "u0.user_avatar,u0.user_avatar_l,u0.star";
 	
 	/**
 	 * 保存推荐用户
@@ -227,6 +234,16 @@ public class UserRecommendDaoImpl extends BaseDaoImpl implements
 	 */
 	private static final String QUERY_WEIGHT_LABEL_RECOMMEND = "select ur.id, ur.recommend_desc," + U_LABEL_INFO + " from " 
 			+ table + " ur, " + HTS.USER_INFO + " u where u.id=ur.user_id and ur.weight>0 order by ur.weight desc";
+	
+	
+//	/**
+//	 * 查询信息流推荐的用户信息
+//	 */
+//	private static final String QUERY_WORLD_RECOMMEND = "select " + WORLD_RECOMMEND_INFO + " from " 
+//			+ HTS.OPERATIONS_USER_RECOMMEND + " as ur0, " + HTS.USER_INFO + " as u0"
+//			+ " where ur0.user_id=u0.id and ur0.user_accept=1 and ur0.sys_accept=1 and ur0.user_id!=? and NOT EXISTS"
+//			+ " (select concern_id from " + HTS.USER_CONCERN + " where u0.id=concern_id and valid=1 and user_id=?) "
+//					+ "ORDER BY u0.activity desc, ur0.id desc limit ?,?";
 	
 	@Autowired
 	private UserVerifyDao userVerifyDao;
@@ -510,7 +527,6 @@ public class UserRecommendDaoImpl extends BaseDaoImpl implements
 			}
 		});
 	}
-
 	
 	/**
 	 * 构建推荐信息

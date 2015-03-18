@@ -53,6 +53,11 @@ public class CacheKeies {
 	public static final String ZTWORLD_STICKER_RECOMMEND_TYPE = MODULE_ZTWORLD + "sticker:recommendType";
 	
 	/**
+	 * 推荐字幕
+	 */
+	public static final String ZTWORLD_SUBTITLE = MODULE_ZTWORLD + "subtitle";
+	
+	/**
 	 * 运营模块
 	 */
 	private static final String MODULE_OP = "op:";

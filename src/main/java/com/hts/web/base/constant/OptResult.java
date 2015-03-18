@@ -308,6 +308,12 @@ public class OptResult {
 	public static final String JSON_KEY_USER_REC_MSG = "userRecMsg";
 	
 	/**
+	 * userRecMsg
+	 */
+	public static final String JSON_KEY_USER_REC = "userRec";
+	
+	
+	/**
 	 * 返回结果KEY:award
 	 */
 	public static final String JSON_KEY_AWARD = "award";
