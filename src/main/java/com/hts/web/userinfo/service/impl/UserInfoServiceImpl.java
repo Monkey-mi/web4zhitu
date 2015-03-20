@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.task.TaskExecutor;
@@ -52,6 +53,7 @@ import com.hts.web.weibo.service.SinaWeiboService;
 @Service("HTSUserInfoService")
 public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoService{
 	
+	private static Logger logger = Logger.getLogger(UserInfoServiceImpl.class);
 	/**
 	 * 账号错误
 	 */
@@ -138,9 +140,11 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 	
 	private static final int PHONE_VER_MAX_LENGTH = 9;
 	
-	private static final float VER_MAX = 999.999999f;
+	private static final float VER_MAX = 999.99f;
 	
 	private static final String DEFAULT_NAME = "改用户未设置名字";
+	
+	private Integer officialId = 2063;
 	
 	@Autowired
 	private KeyGenService keyGenService;
@@ -179,6 +183,14 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 	@Autowired
 	private UserInteractService userInteractService;
 	
+	public Integer getOfficialId() {
+		return officialId;
+	}
+
+	public void setOfficialId(Integer officialId) {
+		this.officialId = officialId;
+	}
+
 	@Override
 	public boolean checkLoginCodeExists(String loginCode) throws Exception {
 		return userInfoDao.checkLoginCodeExists(loginCode, PlatFormCode.ZHITU);
@@ -228,6 +240,13 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 		
 		extractVerify(userInfo);
 		
+		// 默认关注织图官方账号
+		try {
+			userInteractService.saveConcern(true, id, officialId);
+		} catch(Exception e) {
+			logger.warn("concern offical error:" + e.getMessage());
+		}
+		
 		return userInfo;
 	}
 
@@ -250,6 +269,12 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 		userInfoDao.saveUserInfo(userInfo, null);
 		userInfo.setIsNewAdded(Tag.TRUE);
 		
+		// 默认关注织图官方账号
+		try {
+			userInteractService.saveConcern(true, id, officialId);
+		} catch(Exception e) {
+			logger.warn("concern offical error:" + e.getMessage());
+		}
 		pushRecommandUser(loginCode, platformToken, userInfo.getId(), platformUserName);
 		
 		return userInfo;

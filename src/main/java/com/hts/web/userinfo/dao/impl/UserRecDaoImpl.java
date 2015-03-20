@@ -23,7 +23,7 @@ public class UserRecDaoImpl extends BaseDaoImpl implements UserRecDao {
 	 *　根据城市查询未关注的推荐用户总数
 	 */
 	private static final String QUERY_CITY_REC_COUNT = "select count(*) from " + HTS.USER_INFO + " u0"
-			+ " where u0.id!=? and u0.city=? and NOT EXISTS "
+			+ " where u0.id!=? and u0.city=? and u0.world_count>4 and NOT EXISTS "
 			+ " (select concern_id from " + HTS.USER_CONCERN 
 			+ " where u0.id=concern_id and valid=1 and user_id=?)";
 	
@@ -31,7 +31,7 @@ public class UserRecDaoImpl extends BaseDaoImpl implements UserRecDao {
 	 * 根据城市查询未关注的推荐用户
 	 */
 	private static final String QUERY_CITY_REC = "select " + REC_INFO + " from " 
-			+ HTS.USER_INFO + " u0" + " where u0.id!=? and u0.city=? and NOT EXISTS "
+			+ HTS.USER_INFO + " u0" + " where u0.id!=? and u0.city=? and u0.world_count>4 and NOT EXISTS "
 			+ " (select concern_id from " + HTS.USER_CONCERN 
 			+ " where u0.id=concern_id and valid=1 and user_id=?)"
 			+ " limit ?,1";
@@ -63,8 +63,6 @@ public class UserRecDaoImpl extends BaseDaoImpl implements UserRecDao {
 			+ " where ur0.user_id=u0.id and ur0.user_accept=1 and ur0.sys_accept=1 and ur0.user_id!=? and NOT EXISTS"
 			+ " (select concern_id from " + HTS.USER_CONCERN + " where u0.id=concern_id and valid=1 and user_id=?) "
 					+ "ORDER BY u0.activity desc limit ?,?";
-	
-	
 	
 	/**
 	 *　根据城市查询未关注的推荐用户总数
