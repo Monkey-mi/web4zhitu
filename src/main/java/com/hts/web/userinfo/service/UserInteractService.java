@@ -43,14 +43,6 @@ public interface UserInteractService extends BaseService {
 			Integer concernCount) throws Exception;
 	
 	/**
-	 * 
-	 * @param im
-	 * @param userId
-	 * @param concernId
-	 * @return
-	 */
-	
-	/**
 	 * 批量保存用户关注
 	 * 
 	 * @param userId

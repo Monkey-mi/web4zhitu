@@ -1,10 +1,21 @@
 package com.hts.web.userinfo.service;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.List;
-import java.util.ArrayList;
+import java.util.Map;
 import java.util.Random;
 
 import net.sf.json.JSONObject;
@@ -175,6 +186,26 @@ public class UserInfoServiceTest extends BaseTest {
 		service.pushRecommandUser("2097226533", "2.0067kvRCFZjt7D65af25eb320HQTHF",
 				1278, "天杰天杰天杰天杰天杰天杰");
 //		Thread.sleep(10000);
+	}
+	
+	public static void main(String[] args) throws SQLException, IOException {
+		File file = new File("/home/lynch/ids");
+		Connection conn = DriverManager.getConnection( "jdbc:mysql://192.168.1.151:3306/hts?useUnicode=true",
+				"root", "sa");
+		Statement statement = conn.createStatement();
+		String sql = "insert into tmp_uid (id) values (";
+		
+		BufferedReader reader = null;
+		try {
+			reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8"));
+			String line = null;
+			while((line = reader.readLine()) != null) {
+				Integer id = Integer.parseInt(line);
+				statement.execute(sql + id + ")");
+			}
+		} finally {
+			reader.close();
+		}
 	}
 }
 

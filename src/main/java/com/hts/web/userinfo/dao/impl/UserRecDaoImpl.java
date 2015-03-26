@@ -17,21 +17,25 @@ import com.hts.web.userinfo.dao.UserRecDao;
 public class UserRecDaoImpl extends BaseDaoImpl implements UserRecDao {
 
 	private static final String REC_INFO = "u0.id,u0.user_name,u0.user_avatar,"
-			+ "u0.user_avatar,u0.user_avatar_l,u0.star";
+			+ "u0.user_avatar_l,u0.star";
+	
+	private static final String OP_REC_INFO = "u0.user_id as id,u0.user_name,u0.user_avatar,"
+			+ "u0.user_avatar_l,u0.star,u0.signature";
 	
 	/**
 	 *　根据城市查询未关注的推荐用户总数
 	 */
-	private static final String QUERY_CITY_REC_COUNT = "select count(*) from " + HTS.USER_INFO + " u0"
-			+ " where u0.id!=? and u0.city=? and u0.world_count>4 and NOT EXISTS "
+	private static final String QUERY_CITY_REC_COUNT = "select count(*) from " + HTS.USER_REC + " u0"
+			+ " where u0.id!=? and u0.city=? and NOT EXISTS "
 			+ " (select concern_id from " + HTS.USER_CONCERN 
 			+ " where u0.id=concern_id and valid=1 and user_id=?)";
+	
 	
 	/**
 	 * 根据城市查询未关注的推荐用户
 	 */
 	private static final String QUERY_CITY_REC = "select " + REC_INFO + " from " 
-			+ HTS.USER_INFO + " u0" + " where u0.id!=? and u0.city=? and u0.world_count>4 and NOT EXISTS "
+			+ HTS.USER_REC + " u0" + " where u0.id!=? and u0.city=? and NOT EXISTS "
 			+ " (select concern_id from " + HTS.USER_CONCERN 
 			+ " where u0.id=concern_id and valid=1 and user_id=?)"
 			+ " limit ?,1";
@@ -58,12 +62,20 @@ public class UserRecDaoImpl extends BaseDaoImpl implements UserRecDao {
 	/**
 	 * 查询运营推荐的用户
 	 */
-	private static final String QUERY_OP_REC = "select " + REC_INFO + ",u0.signature" + " from " 
-			+ HTS.OPERATIONS_USER_RECOMMEND + " as ur0, " + HTS.USER_INFO + " as u0"
-			+ " where ur0.user_id=u0.id and ur0.user_accept=1 and ur0.sys_accept=1 and ur0.user_id!=? and NOT EXISTS"
+	private static final String QUERY_OP_REC = "select " + OP_REC_INFO + " from " 
+			+ HTS.OPERATIONS_USER_REC + " as u0"
+			+ " where u0.user_id!=? and NOT EXISTS"
 			+ " (select concern_id from " + HTS.USER_CONCERN + " where u0.id=concern_id and valid=1 and user_id=?) "
-					+ "ORDER BY u0.activity desc limit ?,?";
+					+ "limit ?,?";
 	
+	/**
+	 * 查询运营推荐用户
+	 */
+	private static final String QUERY_OP_REC_COUNT = "select count(*) from "
+			+ HTS.OPERATIONS_USER_REC + " as u0"
+			+ " where u0.user_id!=? and NOT EXISTS"
+			+ " (select concern_id from " + HTS.USER_CONCERN + " where u0.id=concern_id and valid=1 and user_id=?)"; 
+
 	/**
 	 *　根据城市查询未关注的推荐用户总数
 	 */
@@ -180,6 +192,12 @@ public class UserRecDaoImpl extends BaseDaoImpl implements UserRecDao {
 	}
 	
 	@Override
+	public long queryOpRecCount(Integer userId) {
+		return getJdbcTemplate().queryForLong(QUERY_OP_REC_COUNT, new Object[]{userId, userId});
+	}
+
+	
+	@Override
 	public UserDynamicRec queryOpRec(Integer userId, int start) {
 		try {
 			return getJdbcTemplate().queryForObject(QUERY_OP_REC, new RowMapper<UserDynamicRec>() {
@@ -213,7 +231,7 @@ public class UserRecDaoImpl extends BaseDaoImpl implements UserRecDao {
 				rs.getString("user_avatar_l"),
 				rs.getInt("star"));
 	}
-
+	
 	@Override
 	public long queryLabelRecCount(Integer userId, Integer labelId) {
 		return 0;
@@ -224,5 +242,4 @@ public class UserRecDaoImpl extends BaseDaoImpl implements UserRecDao {
 		return null;
 	}
 
-	
 }

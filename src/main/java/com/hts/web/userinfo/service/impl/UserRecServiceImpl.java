@@ -123,9 +123,12 @@ public class UserRecServiceImpl extends BaseServiceImpl implements
 			break;
 			
 		case REC_TYPE_OP:
-			int opstart = NumberUtil.getRandomNum(0, REC_OP_RANGE);
-			rec = userRecDao.queryOpRec(userId, opstart);
-			recMsg = "小编推荐";
+			Long opcount = userRecDao.queryOpRecCount(userId);
+			if(opcount > 0) {
+				int start = NumberUtil.getRandomNum(0, opcount.intValue() - 1);
+				rec = userRecDao.queryOpRec(userId, start);
+				recMsg = "小编推荐";
+			}
 			break;
 			
 		case REC_TYPE_NONE:
@@ -149,9 +152,12 @@ public class UserRecServiceImpl extends BaseServiceImpl implements
 		}
 		
 		if(rec == null) {
-			int opstart = NumberUtil.getRandomNum(0, REC_OP_RANGE);
-			rec = userRecDao.queryOpRec(userId, opstart);
-			recMsg = "小编推荐";
+			Long opcount = userRecDao.queryOpRecCount(userId);
+			if(opcount > 0) {
+				int start = NumberUtil.getRandomNum(0, opcount.intValue() - 1);
+				rec = userRecDao.queryOpRec(userId, start);
+				recMsg = "小编推荐";
+			}
 		}
 		jsonMap.put(OptResult.JSON_KEY_USER_REC, rec);
 		jsonMap.put(OptResult.JSON_KEY_USER_REC_MSG, recMsg);

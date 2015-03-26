@@ -73,6 +73,14 @@ public interface UserRecDao extends BaseDao {
 			int start, int limit);
 	
 	/**
+	 * 查询运营推荐用户总数
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	public long queryOpRecCount(Integer userId);
+	
+	/**
 	 * 查询运营推荐用户
 	 * 
 	 * @param userId

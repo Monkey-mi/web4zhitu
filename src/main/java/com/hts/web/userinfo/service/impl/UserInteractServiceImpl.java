@@ -280,10 +280,6 @@ public class UserInteractServiceImpl extends BaseServiceImpl implements UserInte
 		return count;
 	}
 	
-	public static void main(String[] args) {
-		System.out.println(3 % 10);
-	}
-	
 	@Override
 	public void buildConcerns(final Integer userId, final Integer joinId, int sinceId, int maxId, 
 			int start, final int limit, final int total, Map<String, Object> jsonMap) throws Exception {

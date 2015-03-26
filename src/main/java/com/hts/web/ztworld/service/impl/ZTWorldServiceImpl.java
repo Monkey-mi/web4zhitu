@@ -153,7 +153,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 	/**
 	 * 系统推荐用户限制
 	 */
-	private Integer sysRecLimit = 3;
+	private Integer sysRecLimit = 6;
 	
 	/**
 	 * 系统推荐起始位置
@@ -772,7 +772,9 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 						extractExtraInfo(true, true, userId, trimExtras, commentLimit, likedLimit, worldList.size(), worldList);
 						userInfoService.extractVerify(worldList);
 						userInteractService.extractRemark(userId, worldList);
-						recommendUser(userId, jsonMap);
+						if(worldList.size() > sysRecLimit) {
+							recommendUser(userId, jsonMap);
+						}
 						
 						return worldList;
 					}
@@ -785,6 +787,9 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 						extractExtraInfo(true, true, userId, trimExtras, commentLimit, likedLimit, worldList.size(), worldList);
 						userInfoService.extractVerify(worldList);
 						userInteractService.extractRemark(userId, worldList);
+						if(worldList.size() > sysRecLimit) {
+							recommendUser(userId, jsonMap);
+						}
 						return worldList;
 					}
 

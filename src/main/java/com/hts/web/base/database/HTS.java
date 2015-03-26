@@ -111,6 +111,11 @@ public class HTS {
 	 * 社交平台关注的用户表
 	 */
 	public static final String USER_PLAT_CONCERN = DB + "user_plat_concern";
+
+	/**
+	 * 用户推荐表
+	 */
+	public static final String USER_REC = DB + "user_rec";
 	
 	/**
 	 * 织图世界表
@@ -288,4 +293,10 @@ public class HTS {
 	 * 找回密码表
 	 */
 	public static final String RETRIEVE_PASSWORD = DB + "user_retrieve_password";
+	
+	/**
+	 * 明星用户推荐表
+	 */
+	public static final String OPERATIONS_USER_REC = DB + "operations_user_rec";
+	
 }
