@@ -24,7 +24,7 @@ public class HTWorldStickerDaoImpl extends BaseDaoImpl implements
 	
 	private static final String STICKER_INFO = "id,type_id,sticker_path,"
 			+ "sticker_thumb_path,sticker_demo_path,sticker_name,sticker_desc,"
-			+ "serial,has_lock,label_id";
+			+ "serial,has_lock,label_id,fill";
 
 	/**
 	 * 查询贴纸
@@ -129,7 +129,8 @@ public class HTWorldStickerDaoImpl extends BaseDaoImpl implements
 				rs.getString("sticker_name"),
 				rs.getString("sticker_desc"),
 				rs.getInt("has_lock"),
-				rs.getInt("label_id"));
+				rs.getInt("label_id"),
+				rs.getInt("fill"));
 	}
 
 

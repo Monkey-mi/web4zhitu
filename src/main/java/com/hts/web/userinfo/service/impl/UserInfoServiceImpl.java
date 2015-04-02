@@ -142,7 +142,11 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 	
 	private static final float VER_MAX = 999.99f;
 	
-	private static final String DEFAULT_NAME = "改用户未设置名字";
+	private static final String DEFAULT_NAME = "该用户未设置名字";
+	
+	private static final String DEFAULT_AVATAR_L = "http://imzhitu.qiniudn.com/avatar/m/no-avatar-l.png";
+	
+	private static final String DEFAULT_AVATAR_S = DEFAULT_AVATAR_L + ".thumbnail";
 	
 	private Integer officialId = 2063;
 	
@@ -256,9 +260,11 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 			Integer platformVerify, String platformReason, String loginCode, String userName,
 			String userAvatar, String userAvatarL, Integer sex, String pushToken, 
 			Integer phoneCode, String phoneSys, String phoneVer, Float ver) throws Exception {
-		if(platformCode.equals(PlatFormCode.QQ) && ver >= Tag.VERSION_2_9_88) { //　不允许新qq用户注册
-			throw new HTSException("该QQ帐号未注册织图，请更换其他登录方式", PLATFORM_OFF_ERROR);
-		}
+//		if(platformCode.equals(PlatFormCode.QQ) && ver >= Tag.VERSION_2_9_88) { //　不允许新qq用户注册
+//			throw new HTSException("该QQ帐号未注册织图，请更换其他登录方式", PLATFORM_OFF_ERROR);
+//		}
+		userAvatar = StringUtil.checkIsNULL(userAvatar) ? DEFAULT_AVATAR_S : userAvatar;
+		userAvatarL = StringUtil.checkIsNULL(userAvatarL) ? DEFAULT_AVATAR_L : userAvatarL;
 		UserInfo userInfo = null;
 		String platformUserName = userName;
 		Integer id = keyGenService.generateId(KeyGenServiceImpl.USER_ID);
@@ -286,6 +292,9 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 			Integer phoneCode, String phoneSys, String phoneVer, Float ver) throws Exception {
 		UserInfo userInfo = userInfoDao.queryUserInfoByLoginCode(loginCode, PlatFormCode.ZHITU);
 		if(userInfo == null) {
+			logger.warn("login logincode error,loginCode=" + loginCode + ", pwd=" + password
+					+ ",phoneCode=" + phoneCode + ",phoneSys=" + phoneSys + "," + ",phoneVer=" + phoneVer
+					+ ",ver=" + ver);
 			//账号错误
 			throw new HTSException(TIP_LOGIN_CODE_ERROR, LOGIN_CODE_ERROR);
 		} else {
@@ -337,7 +346,9 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 			Integer platformVerify, String platformReason, String loginCode, String userName,
 			String userAvatar, String userAvatarL,Integer sex, String pushToken, 
 			Integer phoneCode, String phoneSys, String phoneVer, Float ver) throws Exception {
-		userName = StringUtil.checkIsNULL(DEFAULT_NAME) ? DEFAULT_NAME : StringUtil.filterXSS(userName);
+		userAvatar = StringUtil.checkIsNULL(userAvatar) ? DEFAULT_AVATAR_S : userAvatar;
+		userAvatarL = StringUtil.checkIsNULL(userAvatarL) ? DEFAULT_AVATAR_L : userAvatarL;
+		userName = StringUtil.checkIsNULL(userName) ? DEFAULT_NAME : StringUtil.filterXSS(userName);
 		pushToken = StringUtil.checkIsNULL(pushToken) ? null : pushToken;
 		platformReason = platformReason != null && platformReason.length() > PLATFORM_REASON_MAX_LENGTH 
 				? platformReason.substring(0, PLATFORM_REASON_MAX_LENGTH) : platformReason;
@@ -347,6 +358,9 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 				? phoneVer.substring(0, PHONE_VER_MAX_LENGTH) : phoneVer;
 		ver = ver > VER_MAX ? VER_MAX : ver;
 		if(StringUtil.checkIsNULL(loginCode)) {
+			logger.warn("loginBySocialAccount logincode error,loginCode=" + loginCode
+					+ ",phoneCode=" + phoneCode + ",phoneSys=" + phoneSys 
+					+ ",phoneVer=" + phoneVer + ",ver=" + ver);
 			throw new HTSException(TIP_LOGIN_CODE_ERROR, LOGIN_CODE_ERROR);
 		}
 		UserInfo userInfo = null;
@@ -784,6 +798,12 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 	@Override
 	public void updateVerAndPushToken(Integer userId, Float ver, String pushToken,
 			String phoneSys, String phoneVer) throws Exception {
+		pushToken = StringUtil.checkIsNULL(pushToken) ? null : pushToken;
+		phoneSys = phoneSys != null && phoneSys.length() > PHONE_SYS_MAX_LENGTH 
+				? phoneSys.substring(0, PHONE_SYS_MAX_LENGTH) : phoneSys;
+		phoneVer = phoneVer != null && phoneVer.length() > PHONE_VER_MAX_LENGTH 
+				? phoneVer.substring(0, PHONE_VER_MAX_LENGTH) : phoneVer;
+		ver = ver > VER_MAX ? VER_MAX : ver;
 		userInfoDao.updateVerAndPushToken(userId, ver, pushToken, phoneSys, phoneVer);
 //		updateOnlineByPushToken(pushToken, userId, Tag.FALSE);// 更新其他账号的登录状态
 	}

@@ -38,13 +38,12 @@ public interface UserConcernDao extends BaseDao {
 	/**
 	 * 保存关注
 	 * 
-	 * @param conn
 	 * @param userId
 	 * @param concernId
 	 * @param isMututal
 	 * @param concernDate
 	 */
-	public Integer saveConcern(Integer id, Integer userId, Integer concernId, Integer isMututal, Integer ck, Date concernDate);
+	public void saveConcern(Integer id, Integer userId, Integer concernId, Integer isMututal, Integer ck, Date concernDate);
 
 	/**
 	 * 更新关注

@@ -158,7 +158,6 @@ public class ZTWorldAction extends BaseAction {
 					city, size, activityIds, ver);
 			JSONUtil.optResult(OptResult.OPT_SUCCESS, world, OptResult.JSON_KEY_HTWORLD, jsonMap);
 		} catch (Exception e) {
-			e.printStackTrace();
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
 		}
 		return StrutsKey.JSON;
@@ -192,7 +191,7 @@ public class ZTWorldAction extends BaseAction {
 			worldService.deleteWorld(worldId, getCurrentLoginUserId());
 			JSONUtil.optSuccess(OptResult.DELETE_SUCCESS, jsonMap);
 		} catch(HTSException e) {
-			JSONUtil.optFailed(getCurrentLoginUserId(), e.getErrorCode(), e.getMessage(), e, jsonMap);
+			JSONUtil.optFailed(e.getErrorCode(), e.getMessage(), jsonMap);
 		} catch(Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
 		}

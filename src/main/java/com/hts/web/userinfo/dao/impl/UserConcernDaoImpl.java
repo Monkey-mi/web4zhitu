@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
@@ -329,9 +330,12 @@ public class UserConcernDaoImpl extends BaseDaoImpl implements UserConcernDao{
 	}
 	
 	@Override
-	public Integer saveConcern(Integer id, Integer userId, Integer concernId, Integer isMututal, Integer ck, Date concernDate){
-		return save(SAVE_CONCERN, new Object[]{
-			id, userId, concernId, isMututal, concernDate, ck, Tag.TRUE});
+	public void saveConcern(Integer id, Integer userId, Integer concernId, Integer isMututal, Integer ck, Date concernDate){
+		try {
+			getJdbcTemplate().update(SAVE_CONCERN, new Object[]{
+				id, userId, concernId, isMututal, concernDate, ck, Tag.TRUE});
+		} catch(DuplicateKeyException e) {
+		}
 	}
 
 	@Override

@@ -145,6 +145,8 @@ public class UserRecServiceImpl extends BaseServiceImpl implements
 						int start = NumberUtil.getRandomNum(0, crcount.intValue() - 1);
 						rec = userRecDao.queryConcernRec(userId, name.getId(), start);
 						recMsg = "你的好友" + name.getUserName() + "也关注了Ta";
+						if(rec.getWorldCount() == 0) //　过滤没有织图的推荐
+							rec = null;
 					}
 				}
 			}

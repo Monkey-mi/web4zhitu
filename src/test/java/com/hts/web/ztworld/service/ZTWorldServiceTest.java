@@ -148,6 +148,13 @@ public class ZTWorldServiceTest extends BaseTest {
 	}
 	
 	@Test
+	public void getTitleChildPageInfoTest() throws Exception {
+		JSONObject jsonObj = service.getTitleChildPageInfo(1479237, 10, true, true);
+		Log.debug(jsonObj.toString());
+		
+	}
+	
+	@Test
 	public void buildWorldWithTitleChild() throws Exception {
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
 		service.buildWorldWithTitleChild(1596, 10, true, jsonMap);

@@ -30,7 +30,6 @@ public class UserRecDaoImpl extends BaseDaoImpl implements UserRecDao {
 			+ " (select concern_id from " + HTS.USER_CONCERN 
 			+ " where u0.id=concern_id and valid=1 and user_id=?)";
 	
-	
 	/**
 	 * 根据城市查询未关注的推荐用户
 	 */
@@ -65,7 +64,7 @@ public class UserRecDaoImpl extends BaseDaoImpl implements UserRecDao {
 	private static final String QUERY_OP_REC = "select " + OP_REC_INFO + " from " 
 			+ HTS.OPERATIONS_USER_REC + " as u0"
 			+ " where u0.user_id!=? and NOT EXISTS"
-			+ " (select concern_id from " + HTS.USER_CONCERN + " where u0.id=concern_id and valid=1 and user_id=?) "
+			+ " (select concern_id from " + HTS.USER_CONCERN + " where u0.user_id=concern_id and valid=1 and user_id=?) "
 					+ "limit ?,?";
 	
 	/**
@@ -74,10 +73,10 @@ public class UserRecDaoImpl extends BaseDaoImpl implements UserRecDao {
 	private static final String QUERY_OP_REC_COUNT = "select count(*) from "
 			+ HTS.OPERATIONS_USER_REC + " as u0"
 			+ " where u0.user_id!=? and NOT EXISTS"
-			+ " (select concern_id from " + HTS.USER_CONCERN + " where u0.id=concern_id and valid=1 and user_id=?)"; 
-
+			+ " (select concern_id from " + HTS.USER_CONCERN + " where u0.user_id=concern_id and valid=1 and user_id=?)"; 
+	
 	/**
-	 *　根据城市查询未关注的推荐用户总数
+	 *　查询好友关注推荐用户总数
 	 */
 	private static final String QUERY_CONCERN_REC_COUNT = "select count(*) from " 
 			+ HTS.USER_CONCERN + " ur0"
@@ -86,10 +85,10 @@ public class UserRecDaoImpl extends BaseDaoImpl implements UserRecDao {
 			+ " where ur0.concern_id=concern_id and valid=1 and user_id=?)";
 	
 	/**
-	 * 根据城市查询未关注的推荐用户
+	 * 查询好友关注推荐用户
 	 */
-	private static final String QUERY_CONCERN_REC = "select " + REC_INFO + " from " 
-			+ HTS.USER_CONCERN + " ur0," + HTS.USER_INFO + " u0"
+	private static final String QUERY_CONCERN_REC = "select " + REC_INFO 
+			+ ",u0.world_count from " + HTS.USER_CONCERN + " ur0," + HTS.USER_INFO + " u0"
 			+ " where u0.id=ur0.concern_id and ur0.user_id=? and ur0.concern_id!=?"
 			+ " and ur0.valid=1 and NOT EXISTS "
 			+ " (select concern_id from " + HTS.USER_CONCERN 
@@ -172,7 +171,9 @@ public class UserRecDaoImpl extends BaseDaoImpl implements UserRecDao {
 					@Override
 					public UserDynamicRec mapRow(ResultSet rs, int rowNum)
 							throws SQLException {
-						return buildUserDynamicRec(rs);
+						UserDynamicRec rec = buildUserDynamicRec(rs);
+						rec.setWorldCount(rs.getInt("world_count"));
+						return rec;
 					}
 		});
 	}

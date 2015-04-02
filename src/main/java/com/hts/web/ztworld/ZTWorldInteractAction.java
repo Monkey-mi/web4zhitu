@@ -96,7 +96,7 @@ public class ZTWorldInteractAction extends BaseAction {
 			jsonMap.put(OptResult.JSON_KEY_REMARK_ME, status.getRemarkMe());
 			JSONUtil.optSuccess(jsonMap);
 		} catch(HTSException e) {
-			JSONUtil.optFailed(getCurrentLoginUserId(), e.getErrorCode(), e.getMessage(), e, jsonMap);
+			JSONUtil.optFailed(e.getErrorCode(), e.getMessage(), jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
 		}
@@ -122,7 +122,7 @@ public class ZTWorldInteractAction extends BaseAction {
 			jsonMap.put(OptResult.JSON_KEY_REMARK_ME, status.getRemarkMe());
 			JSONUtil.optSuccess(jsonMap);
 		} catch(HTSException e) {
-			JSONUtil.optFailed(getCurrentLoginUserId(), e.getErrorCode(), e.getMessage(), e, jsonMap);
+			JSONUtil.optFailed(e.getErrorCode(), e.getMessage(), jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
 		}
@@ -138,7 +138,7 @@ public class ZTWorldInteractAction extends BaseAction {
 			worldInteractService.deleteComment(commentId, getCurrentLoginUserId());
 			JSONUtil.optSuccess(OptResult.DELETE_SUCCESS, jsonMap);
 		} catch(HTSException e) {
-			JSONUtil.optFailed(getCurrentLoginUserId(), e.getErrorCode(), e.getMessage(), e, jsonMap);
+			JSONUtil.optFailed(e.getErrorCode(), e.getMessage(), jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
 		}
@@ -182,7 +182,7 @@ public class ZTWorldInteractAction extends BaseAction {
 				jsonMap.put(OptResult.JSON_KEY_REMARK_ME, status.getRemarkMe());
 				JSONUtil.optSuccess(jsonMap);
 		} catch (HTSException e) {
-			JSONUtil.optFailed(getCurrentLoginUserId(), e.getErrorCode(), e.getMessage(), e, jsonMap);
+			JSONUtil.optFailed(e.getErrorCode(), e.getMessage(), jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
 		}
@@ -211,7 +211,7 @@ public class ZTWorldInteractAction extends BaseAction {
 			worldInteractService.saveLikedWithoutLogin(worldId);
 			JSONUtil.optSuccess(OptResult.ADD_SUCCESS, jsonMap);
 		} catch (HTSException e) {
-			JSONUtil.optFailed(getCurrentLoginUserId(), e.getErrorCode(), e.getMessage(), e, jsonMap);
+			JSONUtil.optFailed(e.getErrorCode(), e.getMessage(), jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
 		}
@@ -228,7 +228,7 @@ public class ZTWorldInteractAction extends BaseAction {
 			worldInteractService.saveLikedWithoutLogin(worldId);
 			JSONUtil.optSuccess(OptResult.ADD_SUCCESS, jsonMap);
 		} catch (HTSException e) {
-			JSONUtil.optFailed(getCurrentLoginUserId(), e.getErrorCode(), e.getMessage(), e, jsonMap);
+			JSONUtil.optFailed(e.getErrorCode(), e.getMessage(), jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
 		}
@@ -244,7 +244,7 @@ public class ZTWorldInteractAction extends BaseAction {
 			worldInteractService.cancelLiked(getCurrentLoginUserId(), worldId);
 			JSONUtil.optSuccess(OptResult.DELETE_SUCCESS, jsonMap);
 		} catch(HTSException e) {
-			JSONUtil.optFailed(getCurrentLoginUserId(), e.getErrorCode(), e.getMessage(), e, jsonMap);
+			JSONUtil.optFailed(e.getErrorCode(), e.getMessage(), jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
 		}
@@ -279,7 +279,7 @@ public class ZTWorldInteractAction extends BaseAction {
 			worldInteractService.saveKeep(getCurrentLoginUserId(), worldId);
 			JSONUtil.optSuccess(OptResult.ADD_SUCCESS, jsonMap);
 		} catch (HTSException e) {
-			JSONUtil.optFailed(getCurrentLoginUserId(), e.getErrorCode(), e.getMessage(), e, jsonMap);
+			JSONUtil.optFailed(e.getErrorCode(), e.getMessage(), jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
 		}
@@ -295,7 +295,7 @@ public class ZTWorldInteractAction extends BaseAction {
 			worldInteractService.cancelKeep(getCurrentLoginUserId(), worldId);
 			JSONUtil.optSuccess(OptResult.DELETE_SUCCESS, jsonMap);
 		} catch(HTSException e) {
-			JSONUtil.optFailed(getCurrentLoginUserId(), e.getErrorCode(), e.getMessage(), e, jsonMap);
+			JSONUtil.optFailed(e.getErrorCode(), e.getMessage(), jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
 		}
@@ -312,7 +312,7 @@ public class ZTWorldInteractAction extends BaseAction {
 			worldInteractService.saveReport(getCurrentLoginUserId(), worldId, reportContent);
 			JSONUtil.optSuccess(OptResult.ADD_SUCCESS, jsonMap);
 		} catch (HTSException e) {
-			JSONUtil.optFailed(getCurrentLoginUserId(), e.getErrorCode(), e.getMessage(), e, jsonMap);
+			JSONUtil.optFailed(e.getErrorCode(), e.getMessage(), jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
 		}
@@ -328,7 +328,7 @@ public class ZTWorldInteractAction extends BaseAction {
 			worldInteractService.cancelReport(getCurrentLoginUserId(), worldId);
 			JSONUtil.optSuccess(OptResult.DELETE_SUCCESS, jsonMap);
 		} catch (HTSException e) {
-			JSONUtil.optFailed(getCurrentLoginUserId(), e.getErrorCode(), e.getMessage(), e, jsonMap);
+			JSONUtil.optFailed(e.getErrorCode(), e.getMessage(), jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
 		}

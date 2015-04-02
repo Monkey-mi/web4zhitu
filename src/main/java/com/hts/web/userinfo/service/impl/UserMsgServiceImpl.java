@@ -646,6 +646,7 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 				
 				@Override
 				public void callback(UserMsgLiked t) {
+					t.setUserId(t.getWorldAuthorId());
 					t.setUserName(avatar.getUserName());
 					t.setUserAvatar(avatar.getUserAvatar());
 					t.setUserAvatarL(avatar.getUserAvatarL());

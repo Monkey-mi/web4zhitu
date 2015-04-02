@@ -85,7 +85,7 @@ public class SocialAccountDaoImpl extends BaseDaoImpl implements SocialAccountDa
 			+ " where user_id=? and platform_code in ";
 	
 	private static final String QUERY_USER_ID = "select * from " + table
-			+ " where platform_id=? and platform_code=?";
+			+ " where platform_id=? and platform_code=? limit 1";
 
 
 	@Override

@@ -104,7 +104,7 @@ public class ZTWorldLabelAction extends BaseAction {
 			worldLabelService.buildLabel(labelName, jsonMap);
 			JSONUtil.optSuccess(jsonMap);
 		} catch (HTSException e){
-			JSONUtil.optFailed(getCurrentLoginUserId(), e.getErrorCode(), e.getMessage(), e, jsonMap);
+			JSONUtil.optFailed(e.getErrorCode(), e.getMessage(), jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
 		}
@@ -123,7 +123,7 @@ public class ZTWorldLabelAction extends BaseAction {
 					trimTotal, trimExtras, commentLimit, likedLimit);
 			JSONUtil.optSuccess(jsonMap);
 		} catch (HTSException e){
-			JSONUtil.optFailed(getCurrentLoginUserId(), e.getErrorCode(), e.getMessage(), e, jsonMap);
+			JSONUtil.optFailed(e.getErrorCode(), e.getMessage(), jsonMap);
 		} catch(Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
 		}
@@ -142,7 +142,7 @@ public class ZTWorldLabelAction extends BaseAction {
 					trimTotal, trimExtras, commentLimit, likedLimit);
 			JSONUtil.optSuccess(jsonMap);
 		} catch (HTSException e){
-			JSONUtil.optFailed(getCurrentLoginUserId(), e.getErrorCode(), e.getMessage(), e, jsonMap);
+			JSONUtil.optFailed(e.getErrorCode(), e.getMessage(), jsonMap);
 		} catch(Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
 		}

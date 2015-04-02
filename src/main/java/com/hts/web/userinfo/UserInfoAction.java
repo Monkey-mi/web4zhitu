@@ -254,7 +254,7 @@ public class UserInfoAction extends BaseAction {
 			.append("phoneSys=").append(phoneSys).append(",")
 			.append("phoneVer=").append(phoneVer).append(",")
 			.append("ver=").append(ver);
-			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+			JSONUtil.optFailed(getCurrentLoginUserId(), build.toString(), e, jsonMap);
 		}
 		return StrutsKey.JSON;
 	}

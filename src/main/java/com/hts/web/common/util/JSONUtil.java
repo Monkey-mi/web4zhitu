@@ -72,7 +72,8 @@ public class JSONUtil {
 	 */
 	public static void optFailed(Integer uid, String msg, Exception e, Map<String, Object> jsonMap) {
 		optFailed(msg, jsonMap);
-		Log.warn("[uid:" + uid + "]," + msg);
+//		Log.warn("[uid:" + uid + "]," + msg);
+		Log.warn(msg, e);
 	}
 	
 	
@@ -99,7 +100,8 @@ public class JSONUtil {
 	public static void optFailed(Integer uid, Integer resultCode, String msg,
 			Exception e, Map<String, Object> jsonMap) {
 		optFailed(resultCode, msg, jsonMap);
-		Log.warn("[uid:" + uid + "]," + msg);
+//		Log.warn("[uid:" + uid + "]," + msg);
+		Log.warn(msg, e);
 	}
 	
 	

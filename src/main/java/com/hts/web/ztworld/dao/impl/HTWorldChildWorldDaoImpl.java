@@ -51,7 +51,7 @@ public class HTWorldChildWorldDaoImpl extends BaseDaoImpl implements HTWorldChil
 	/**
 	 * 根据所在世界ID查询子世界信息
 	 */
-	private static final String QUERY_CHILD_WORLD_BY_WORLD_ID = "SELECT *from " + table + " where world_id=?";
+	private static final String QUERY_CHILD_WORLD_BY_WORLD_ID = "SELECT * from " + table + " where world_id=? order by id asc";
 	
 	/**
 	 * 查询缩略图信息

@@ -33,6 +33,7 @@ public class HTWorldStickerDto implements Serializable {
 	private Integer hasLock;
 	private Integer unlock = Tag.FALSE;
 	private Integer labelId;
+	private Integer fill = 0;
 
 	public HTWorldStickerDto() {
 		super();
@@ -40,7 +41,8 @@ public class HTWorldStickerDto implements Serializable {
 
 	public HTWorldStickerDto(Integer recommendId, Integer id, Integer typeId,
 			String stickerPath, String stickerThumbPath, String stickerDemoPath,
-			String stickerName, String stickerDesc, Integer hasLock, Integer labelId) {
+			String stickerName, String stickerDesc, Integer hasLock, Integer labelId,
+			Integer fill) {
 		super();
 		this.recommendId = recommendId;
 		this.id = id;
@@ -52,6 +54,7 @@ public class HTWorldStickerDto implements Serializable {
 		this.stickerDesc = stickerDesc;
 		this.hasLock = hasLock;
 		this.labelId = labelId;
+		this.fill = fill;
 	}
 
 	public Integer getTypeId() {
@@ -148,6 +151,14 @@ public class HTWorldStickerDto implements Serializable {
 
 	public void setLabelId(Integer labelId) {
 		this.labelId = labelId;
+	}
+
+	public Integer getFill() {
+		return fill;
+	}
+
+	public void setFill(Integer fill) {
+		this.fill = fill;
 	}
 	
 }

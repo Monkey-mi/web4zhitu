@@ -110,7 +110,7 @@ public class UserInteractAction extends BaseAction {
 				JSONUtil.optSuccess(jsonMap);
 			}
 		} catch (HTSException e) {
-			JSONUtil.optFailed(getCurrentLoginUserId(), e.getErrorCode(), e.getMessage(), e, jsonMap);
+			JSONUtil.optFailed(e.getErrorCode(), e.getMessage(), jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
 		}
@@ -125,6 +125,8 @@ public class UserInteractAction extends BaseAction {
 		try {
 			userInteractService.cancelConcern(getCurrentLoginUserId(), concernId);
 			JSONUtil.optSuccess(OptResult.DELETE_SUCCESS, jsonMap);
+		} catch(HTSException e) { 
+			JSONUtil.optFailed(e.getErrorCode(), e.getMessage(), jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
 		}
@@ -144,6 +146,8 @@ public class UserInteractAction extends BaseAction {
 			else 
 				JSONUtil.optResult(OptResult.OPT_SUCCESS, results, 
 						OptResult.JSON_KEY_CONCERNS, jsonMap);
+		} catch(HTSException e) {
+			JSONUtil.optFailed(e.getErrorCode(), e.getMessage(), jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
 		}
@@ -158,6 +162,8 @@ public class UserInteractAction extends BaseAction {
 		try {
 			int count = userInteractService.batchCancelConcern(getCurrentLoginUserId(), concernIds);
 			JSONUtil.optSuccess(String.valueOf(count), jsonMap);
+		} catch(HTSException e) {
+			JSONUtil.optFailed(e.getErrorCode(), e.getMessage(), jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
 		}
@@ -284,7 +290,7 @@ public class UserInteractAction extends BaseAction {
 			userInteractService.saveShield(getCurrentLoginUserId(), userId);
 			JSONUtil.optSuccess(jsonMap);
 		} catch(HTSException e) {
-			JSONUtil.optFailed(getCurrentLoginUserId(), e.getErrorCode(), e.getMessage(), e, jsonMap);
+			JSONUtil.optFailed(e.getErrorCode(), e.getMessage(), jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
 		}
@@ -301,7 +307,7 @@ public class UserInteractAction extends BaseAction {
 			userInteractService.deleteShield(getCurrentLoginUserId(), userId);
 			JSONUtil.optSuccess(jsonMap);
 		} catch(HTSException e) {
-			JSONUtil.optFailed(getCurrentLoginUserId(), e.getErrorCode(), e.getMessage(), e, jsonMap);
+			JSONUtil.optFailed(e.getErrorCode(), e.getMessage(), jsonMap);
 		} catch(Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
 		}

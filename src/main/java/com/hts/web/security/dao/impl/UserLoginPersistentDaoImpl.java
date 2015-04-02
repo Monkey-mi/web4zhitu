@@ -4,7 +4,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.apache.log4j.Logger;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.security.web.authentication.rememberme.PersistentRememberMeToken;
 import org.springframework.stereotype.Repository;
@@ -26,6 +27,8 @@ import com.hts.web.security.dao.UserLoginPersistentDao;
 public class UserLoginPersistentDaoImpl extends BaseDaoImpl implements
 		UserLoginPersistentDao {
 
+	private static Logger logger = Logger.getLogger(UserLoginPersistentDaoImpl.class);
+	
 	private static String table = HTS.USER_LOGIN_PERSISTENT;
 	
 	/**
@@ -55,8 +58,12 @@ public class UserLoginPersistentDaoImpl extends BaseDaoImpl implements
 	
 	@Override
 	public void createNewToken(PersistentRememberMeToken token) {
+		try {
 		getJdbcTemplate().update(SAVE_TOKEN, new Object[]{token.getUsername(),
 				token.getSeries(), token.getTokenValue(), token.getDate()});
+		} catch (DuplicateKeyException e) {
+			logger.warn("remember me error (uid=" + token.getUsername() + "): " + e.getMessage());
+		}
 	}
 
 	@Override

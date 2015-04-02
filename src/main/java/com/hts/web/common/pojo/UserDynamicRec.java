@@ -24,6 +24,7 @@ public class UserDynamicRec implements Serializable, ObjectWithUserVerify {
 	private String userName;
 	private String userAvatar;
 	private String userAvatarL;
+	private Integer worldCount;
 	private Integer star = Tag.FALSE;
 	private String verifyName;
 	private String verifyIcon;
@@ -72,6 +73,14 @@ public class UserDynamicRec implements Serializable, ObjectWithUserVerify {
 
 	public void setUserAvatarL(String userAvatarL) {
 		this.userAvatarL = userAvatarL;
+	}
+	
+	public Integer getWorldCount() {
+		return worldCount;
+	}
+
+	public void setWorldCount(Integer worldCount) {
+		this.worldCount = worldCount;
 	}
 
 	public Integer getStar() {
