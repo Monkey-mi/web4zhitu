@@ -71,12 +71,12 @@ public class UserShieldDaoImpl extends BaseDaoImpl implements UserShieldDao {
 
 	@Override
 	public void saveShield(Integer userId, Integer shieldId, Date date) {
-		getJdbcTemplate().update(SAVE_SHIELD, new Object[]{userId, shieldId, date});
+		getMasterJdbcTemplate().update(SAVE_SHIELD, new Object[]{userId, shieldId, date});
 	}
 
 	@Override
 	public void deleteShield(Integer userId, Integer shieldId) {
-		getJdbcTemplate().update(DELETE_SHIELD, new Object[]{userId, shieldId});
+		getMasterJdbcTemplate().update(DELETE_SHIELD, new Object[]{userId, shieldId});
 	}
 
 	@Override

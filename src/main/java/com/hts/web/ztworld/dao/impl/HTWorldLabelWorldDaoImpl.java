@@ -157,7 +157,7 @@ public class HTWorldLabelWorldDaoImpl extends BaseDaoImpl implements
 	
 	@Override
 	public void saveLabelWorld(HTWorldLabelWorld labelWorld) {
-		getJdbcTemplate().update(SAVE_LABEL_WORLD, new Object[]{
+		getMasterJdbcTemplate().update(SAVE_LABEL_WORLD, new Object[]{
 			labelWorld.getId(),
 			labelWorld.getWorldId(),
 			labelWorld.getUserId(),

@@ -37,6 +37,10 @@ import com.hts.web.common.util.StringUtil;
  */
 public class BaseDaoImpl implements BaseDao{
 	
+	
+	@Autowired
+	private JdbcTemplate masterJdbcTemplate;
+	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
@@ -47,6 +51,16 @@ public class BaseDaoImpl implements BaseDao{
 	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
+	
+	public JdbcTemplate getMasterJdbcTemplate() {
+		return masterJdbcTemplate;
+	}
+
+	public void setMasterJdbcTemplate(JdbcTemplate masterJdbcTemplate) {
+		this.masterJdbcTemplate = masterJdbcTemplate;
+	}
+
+
 
 	/**
 	 * 查询织图同时查询的用户信息字段
@@ -179,7 +193,7 @@ public class BaseDaoImpl implements BaseDao{
 		attrMap.put(DEFAULT_ID_KEY, id);
 		String selection = SQLUtil.buildUpdateSelection(attrMap);
 		String sql = UPDATE_SINGLE_TAGLE + tableName + selection;
-		getJdbcTemplate().update(sql, attrMap.values().toArray());
+		getMasterJdbcTemplate().update(sql, attrMap.values().toArray());
 	}
 	
 	@Override
@@ -227,7 +241,7 @@ public class BaseDaoImpl implements BaseDao{
 		for(int i = 0; i < ids.length; i++) {
 			args[i] = ids[i];
 		}
-		getJdbcTemplate().update(sql, args);
+		getMasterJdbcTemplate().update(sql, args);
 		
 	}
 	
@@ -239,7 +253,7 @@ public class BaseDaoImpl implements BaseDao{
 		for(int i = 0; i < ids.length; i++) {
 			args[i] = ids[i];
 		}
-		getJdbcTemplate().update(sql, args);
+		getMasterJdbcTemplate().update(sql, args);
 	}
 	
 	
@@ -247,7 +261,7 @@ public class BaseDaoImpl implements BaseDao{
 	public void deleteByObjs(String tableName, Object[] objs,String name) {
 		String selection = SQLUtil.buildDeleteInSelection(objs, name);
 		String sql = DELETE_SINGLE_TABLE + tableName + selection;
-		getJdbcTemplate().update(sql, objs);
+		getMasterJdbcTemplate().update(sql, objs);
 	}
 	
 	@Override
@@ -268,7 +282,7 @@ public class BaseDaoImpl implements BaseDao{
 	@Override
 	public void validRecord(String tableName, int valid, int id) {
 		String sql = UPDATE_SINGLE_TAGLE + tableName + " set valid=? where id=?";
-		getJdbcTemplate().update(sql, new Object[]{ valid, id });
+		getMasterJdbcTemplate().update(sql, new Object[]{ valid, id });
 	}
 	
 	
@@ -396,7 +410,7 @@ public class BaseDaoImpl implements BaseDao{
 	@Override
 	public int save(final String sql, final Object... args) {
 		KeyHolder generatedKeyHolder = new GeneratedKeyHolder();
-		getJdbcTemplate().update(new PreparedStatementCreator() {
+		getMasterJdbcTemplate().update(new PreparedStatementCreator() {
 			
 			@Override
 			public PreparedStatement createPreparedStatement(Connection con)

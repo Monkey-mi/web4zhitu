@@ -33,7 +33,7 @@ public class UserPlatConcernDaoImpl extends BaseDaoImpl implements
 	
 	@Override
 	public void savePlatConcern(Integer userId, Integer platConcernId) {
-		getJdbcTemplate().update(SAVE_PLAT_CONCERN, new Object[]{
+		getMasterJdbcTemplate().update(SAVE_PLAT_CONCERN, new Object[]{
 			userId,
 			platConcernId
 		});

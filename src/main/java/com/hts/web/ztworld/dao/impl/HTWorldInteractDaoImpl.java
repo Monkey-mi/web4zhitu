@@ -130,9 +130,9 @@ public class HTWorldInteractDaoImpl extends BaseDaoImpl implements
 
 	@Override
 	public void updateUnReadInteract(Date maxDate, Integer userId) {
-		getJdbcTemplate().update(UPDATE_COMMENT_CK_BY_RE_AUTHOR, new Object[]{Tag.TRUE, userId, Tag.FALSE, maxDate});
-		getJdbcTemplate().update(UPDATE_COMMENT_CK_BY_AUTHOR, new Object[]{Tag.TRUE, userId, Tag.FALSE, maxDate});
-		getJdbcTemplate().update(UPDATE_LIKED_CK, new Object[]{Tag.TRUE, userId, Tag.FALSE, maxDate});
+		getMasterJdbcTemplate().update(UPDATE_COMMENT_CK_BY_RE_AUTHOR, new Object[]{Tag.TRUE, userId, Tag.FALSE, maxDate});
+		getMasterJdbcTemplate().update(UPDATE_COMMENT_CK_BY_AUTHOR, new Object[]{Tag.TRUE, userId, Tag.FALSE, maxDate});
+		getMasterJdbcTemplate().update(UPDATE_LIKED_CK, new Object[]{Tag.TRUE, userId, Tag.FALSE, maxDate});
 	}
 	
 	public HTWorldInteract buildInteractByRs(ResultSet rs) throws SQLException {

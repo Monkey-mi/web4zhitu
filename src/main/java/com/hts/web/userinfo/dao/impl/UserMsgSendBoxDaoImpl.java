@@ -28,7 +28,7 @@ public class UserMsgSendBoxDaoImpl extends BaseDaoImpl implements
 	
 	@Override
 	public void saveSendMsg(UserMsgBox box) {
-		getJdbcTemplate().update(SAVE_SEND_MSG, new Object[]{
+		getMasterJdbcTemplate().update(SAVE_SEND_MSG, new Object[]{
 			box.getId(),
 			box.getSenderId(),
 			box.getRecipientId(),
@@ -38,13 +38,13 @@ public class UserMsgSendBoxDaoImpl extends BaseDaoImpl implements
 
 	@Override
 	public void updateChatUnValid(Integer maxContentId, Integer senderId, Integer recipientId) {
-		getJdbcTemplate().update(UPDATE_CHAT_UNVALID_BY_MAX_CONTENT_ID, 
+		getMasterJdbcTemplate().update(UPDATE_CHAT_UNVALID_BY_MAX_CONTENT_ID, 
 				new Object[]{Tag.FALSE, senderId, recipientId, Tag.TRUE, maxContentId });
 	}
 
 	@Override
 	public void updateUnValid(Integer contentId) {
-		getJdbcTemplate().update(UPDATE_UNVALID_BY_CONTENT_ID,
+		getMasterJdbcTemplate().update(UPDATE_UNVALID_BY_CONTENT_ID,
 				new Object[]{Tag.FALSE, Tag.FALSE, contentId, Tag.TRUE});
 	}
 	

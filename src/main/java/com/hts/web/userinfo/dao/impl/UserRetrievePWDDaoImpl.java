@@ -42,12 +42,12 @@ public class UserRetrievePWDDaoImpl extends BaseDaoImpl implements UserRetrieveP
 	
 	@Override
 	public void resetPWD(Integer userId,byte[] pwd){
-		getJdbcTemplate().update(REST_PASSWORD_BY_ID, new Object[]{pwd, userId});
+		getMasterJdbcTemplate().update(REST_PASSWORD_BY_ID, new Object[]{pwd, userId});
 	}
 	
 	@Override
 	public void resetPWD(String loginCode,byte[] pwd){
-		getJdbcTemplate().update(REST_PASSWORD_BY_LOGIN_CODE, new Object[]{pwd, loginCode});
+		getMasterJdbcTemplate().update(REST_PASSWORD_BY_LOGIN_CODE, new Object[]{pwd, loginCode});
 	}
 	
 	
@@ -66,12 +66,12 @@ public class UserRetrievePWDDaoImpl extends BaseDaoImpl implements UserRetrieveP
 	
 	@Override
 	public void deleteRPWDByTime(Date endTime){
-		getJdbcTemplate().update(DELETE_RPWD_BY_TIME, endTime);
+		getMasterJdbcTemplate().update(DELETE_RPWD_BY_TIME, endTime);
 	}
 	
 	@Override
 	public void saveRPWD(RetrievePasswordDto retrievePasswordDto){
-		getJdbcTemplate().update(SAVE_RPWD, retrievePasswordDto.getLogin_code(),
+		getMasterJdbcTemplate().update(SAVE_RPWD, retrievePasswordDto.getLogin_code(),
 				retrievePasswordDto.getSid(),
 				retrievePasswordDto.getEnd_time());
 	}
@@ -83,7 +83,7 @@ public class UserRetrievePWDDaoImpl extends BaseDaoImpl implements UserRetrieveP
 	
 	@Override 
 	public void deleteRPWDByLoginCode(String loginCode){
-		getJdbcTemplate().update(DELETE_RPWD_BY_LOGIN_CODE, loginCode);
+		getMasterJdbcTemplate().update(DELETE_RPWD_BY_LOGIN_CODE, loginCode);
 	}
 	
 	@Override

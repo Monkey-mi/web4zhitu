@@ -644,9 +644,10 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 	
 	@Override
 	public void updateAcceptPushDisable(Integer userId, String actionStrs) {
-		Integer[] actions = StringUtil.convertStringToIds(actionStrs);
-		userInfoDao.updateAcceptPush(userId, actions, Tag.FALSE);
-		
+		if(!StringUtil.checkIsNULL(actionStrs)) {
+			Integer[] actions = StringUtil.convertStringToIds(actionStrs);
+			userInfoDao.updateAcceptPush(userId, actions, Tag.FALSE);
+		}
 	}
 
 	@Override

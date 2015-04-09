@@ -21,7 +21,7 @@ public class HTWorldCommentReportDaoImpl extends BaseDaoImpl implements
 
 	@Override
 	public void saveReport(HTWorldCommentReport report) {
-		getJdbcTemplate().update(SAVE_REPORT, new Object[]{
+		getMasterJdbcTemplate().update(SAVE_REPORT, new Object[]{
 			report.getUserId(),
 			report.getCommentId(),
 			report.getReportContent(),

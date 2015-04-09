@@ -11,8 +11,6 @@ import net.sf.json.JSONObject;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.hts.web.base.BaseTest;
 import com.hts.web.common.pojo.HTWorldGeo;
@@ -105,7 +103,6 @@ public class ZTWorldInteractServiceTest extends BaseTest {
 	}
 	
 	@Test
-	@Transactional(propagation=Propagation.NEVER)
 	public void testGetWorldInteract() throws Exception {
 		HTWorldInteractDto dto = service.getWorldInteract(10962, 527, true, false, 3, 12);
 		Log.debug(dto.toString());

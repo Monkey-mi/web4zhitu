@@ -33,7 +33,7 @@ public class HTWorldStickerUnlockDaoImpl extends BaseDaoImpl implements
 	
 	@Override
 	public void saveUnlock(Integer stickerId, Integer userId, Date date) {
-		getJdbcTemplate().update(SAVE_UNLOCK, new Object[]{stickerId, userId, date});
+		getMasterJdbcTemplate().update(SAVE_UNLOCK, new Object[]{stickerId, userId, date});
 	}
 
 	@Override

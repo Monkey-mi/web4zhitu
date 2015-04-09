@@ -61,7 +61,7 @@ public class UserConcernTypeDaoImpl extends BaseDaoImpl implements
 
 	@Override
 	public void saveConcernType(UserConcernType type) {
-		getJdbcTemplate().update(SAVE_CONCERN_TYPE, new Object[]{
+		getMasterJdbcTemplate().update(SAVE_CONCERN_TYPE, new Object[]{
 			type.getUserId(),
 			type.getTypeId(),
 			type.getValid()
@@ -83,7 +83,7 @@ public class UserConcernTypeDaoImpl extends BaseDaoImpl implements
 	@Override
 	public void updateConcernTypeValid(Integer userId, Integer typeId,
 			Integer valid) {
-		getJdbcTemplate().update(UPDATE_CONCERN_VALID, new Object[]{valid, userId, typeId});
+		getMasterJdbcTemplate().update(UPDATE_CONCERN_VALID, new Object[]{valid, userId, typeId});
 	}
 	
 	/**

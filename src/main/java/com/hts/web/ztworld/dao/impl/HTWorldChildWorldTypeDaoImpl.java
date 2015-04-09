@@ -51,7 +51,7 @@ public class HTWorldChildWorldTypeDaoImpl extends BaseDaoImpl implements
 
 	@Override
 	public void addUseCount(Integer id) {
-		getJdbcTemplate().update(ADD_USE_COUNT, id);
+		getMasterJdbcTemplate().update(ADD_USE_COUNT, id);
 	}
 
 }

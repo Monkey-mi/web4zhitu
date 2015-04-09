@@ -60,7 +60,7 @@ public class UserMsgRecipientBoxDaoImpl extends BaseDaoImpl implements
 	
 	@Override
 	public void saveRecipientBox(UserMsgBox box) {
-		getJdbcTemplate().update(SAVE_RECIPIENT_MSG, new Object[]{
+		getMasterJdbcTemplate().update(SAVE_RECIPIENT_MSG, new Object[]{
 			box.getId(),
 			box.getSenderId(),
 			box.getRecipientId(),
@@ -71,20 +71,20 @@ public class UserMsgRecipientBoxDaoImpl extends BaseDaoImpl implements
 
 	@Override
 	public void updateRecipientCK(Integer maxId, Integer userId, Integer otherId) {
-		getJdbcTemplate().update(UPDATE_RECIPIENT_CK, 
+		getMasterJdbcTemplate().update(UPDATE_RECIPIENT_CK, 
 				new Object[]{Tag.TRUE, userId, otherId, Tag.TRUE, Tag.TRUE, Tag.FALSE, maxId});
 	}
 
 	@Override
 	public void updateChatUnValid(Integer maxContentId, Integer senderId,
 			Integer recipientId) {
-		getJdbcTemplate().update(UPDATE_CHAT_UNVALID_BY_MAX_CONTENT_ID, 
+		getMasterJdbcTemplate().update(UPDATE_CHAT_UNVALID_BY_MAX_CONTENT_ID, 
 				new Object[]{Tag.FALSE, senderId, recipientId, Tag.TRUE, maxContentId});
 	}
 
 	@Override
 	public void updateUnValid(Integer contentId) {
-		getJdbcTemplate().update(UPDATE_UNVALID_BY_CONTENT_ID,
+		getMasterJdbcTemplate().update(UPDATE_UNVALID_BY_CONTENT_ID,
 				new Object[]{Tag.FALSE, Tag.FALSE, contentId, Tag.TRUE});
 	}
 
@@ -120,7 +120,7 @@ public class UserMsgRecipientBoxDaoImpl extends BaseDaoImpl implements
 		String selection = SQLUtil.buildInSelection(senderIds);
 		String sql = UPDATE_RECIPIENT_UN_VALID_BY_SIDS + selection;
 		Object[] args = SQLUtil.getArgsByInCondition(senderIds, new Object[]{recipientId}, true);
-		getJdbcTemplate().update(sql, args);
+		getMasterJdbcTemplate().update(sql, args);
 	}
 	
 	

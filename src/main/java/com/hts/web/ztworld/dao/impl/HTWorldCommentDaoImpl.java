@@ -247,18 +247,18 @@ public class HTWorldCommentDaoImpl extends BaseDaoImpl implements
 
 	@Override
 	public void updateCkById(Integer ck,Integer id){
-		getJdbcTemplate().update(UPDATE_CK_BY_ID, ck,id);
+		getMasterJdbcTemplate().update(UPDATE_CK_BY_ID, ck,id);
 	}
 	
 	@Override
 	public void updateValidByIds(Integer[] ids){
 		String sql = UPDATE_VALID_BY_IDS + SQLUtil.buildInSelection(ids);
-		getJdbcTemplate().update(sql,(Object[])ids);
+		getMasterJdbcTemplate().update(sql,(Object[])ids);
 	}
 	
 	@Override
 	public void updateCommentDateById(Integer id,Date commentDate){
-		getJdbcTemplate().update(UPDATE_COMMENT_DATE_BY_ID, new Object[]{commentDate,id});
+		getMasterJdbcTemplate().update(UPDATE_COMMENT_DATE_BY_ID, new Object[]{commentDate,id});
 	}
 	
 	@Override
@@ -385,7 +385,7 @@ public class HTWorldCommentDaoImpl extends BaseDaoImpl implements
 
 	@Override
 	public void saveWorldComment(HTWorldComment worldComment) {
-		getJdbcTemplate().update(SAVE_COMMENT, new Object[]{
+		getMasterJdbcTemplate().update(SAVE_COMMENT, new Object[]{
 				worldComment.getId(),
 				worldComment.getAuthorId(),
 				worldComment.getContent(),
@@ -458,12 +458,12 @@ public class HTWorldCommentDaoImpl extends BaseDaoImpl implements
 	
 	@Override
 	public void updateCommentShield(Integer id, Integer shield) {
-		getJdbcTemplate().update(UPDATE_COMMENT_SHIELD, new Object[]{shield, id});
+		getMasterJdbcTemplate().update(UPDATE_COMMENT_SHIELD, new Object[]{shield, id});
 	}
 	
 	@Override
 	public void updatePushed(Integer commentId, Integer valid) {
-		getJdbcTemplate().update(UPDATE_PUSHED, new Object[]{valid, commentId});
+		getMasterJdbcTemplate().update(UPDATE_PUSHED, new Object[]{valid, commentId});
 	}
 	
 	@Override
@@ -530,7 +530,7 @@ public class HTWorldCommentDaoImpl extends BaseDaoImpl implements
 	
 	@Override
 	public void updateUnreadComment(Integer userId) {
-		getJdbcTemplate().update(UPDATE_UNREAD_USER_COMMENT,
+		getMasterJdbcTemplate().update(UPDATE_UNREAD_USER_COMMENT,
 				new Object[]{Tag.TRUE, Tag.FALSE, Tag.TRUE, Tag.FALSE, userId, userId});
 	}
 	
@@ -579,7 +579,7 @@ public class HTWorldCommentDaoImpl extends BaseDaoImpl implements
 	
 	@Override
 	public void updateContentById(Integer id , String content){
-		getJdbcTemplate().update(UPDATE_CONTENT_BY_ID, content,id);
+		getMasterJdbcTemplate().update(UPDATE_CONTENT_BY_ID, content,id);
 	}
 	
 	

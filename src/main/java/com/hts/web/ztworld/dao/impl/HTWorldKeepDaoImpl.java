@@ -111,7 +111,7 @@ public class HTWorldKeepDaoImpl extends BaseDaoImpl implements HTWorldKeepDao{
 	
 	@Override
 	public void updateKeep(Integer userId, Integer worldId, Integer valid, Date date) {
-		getJdbcTemplate().update(UPDATE_KEEP_VALID, new Object[]{valid, date, userId, worldId});
+		getMasterJdbcTemplate().update(UPDATE_KEEP_VALID, new Object[]{valid, date, userId, worldId});
 	}
 	
 	@Override
@@ -121,7 +121,7 @@ public class HTWorldKeepDaoImpl extends BaseDaoImpl implements HTWorldKeepDao{
 	
 	@Override
 	public void updatePushed(Integer id, Integer valid) {
-		getJdbcTemplate().update(UPDATE_PUSHED, new Object[]{valid,id});
+		getMasterJdbcTemplate().update(UPDATE_PUSHED, new Object[]{valid,id});
 	}
 
 

@@ -39,17 +39,17 @@ public class UserLabelDaoImpl extends BaseDaoImpl implements UserLabelDao {
 		String inSelection = SQLUtil.buildInSelection(labelIds);
 		String sql = DELETE_USER_LABEL_BY_LABELIDS + inSelection;
 		Object[] args = SQLUtil.getArgsByInCondition(labelIds, new Object[]{userId}, true);
-		getJdbcTemplate().update(sql, args);
+		getMasterJdbcTemplate().update(sql, args);
 	}
 
 	@Override
 	public void deleteUserLabel(Integer userId) {
-		getJdbcTemplate().update(DELETE_USER_LABEL, userId);
+		getMasterJdbcTemplate().update(DELETE_USER_LABEL, userId);
 	}
 
 	@Override
 	public void saveUserLabel(Integer userId, Integer labelId) {
-		getJdbcTemplate().update(SAVE_USER_LABEL, new Object[]{userId, labelId});
+		getMasterJdbcTemplate().update(SAVE_USER_LABEL, new Object[]{userId, labelId});
 	}
 
 }

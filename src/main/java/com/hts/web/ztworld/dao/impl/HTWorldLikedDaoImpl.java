@@ -241,7 +241,7 @@ public class HTWorldLikedDaoImpl extends BaseDaoImpl implements HTWorldLikedDao{
 	
 	@Override
 	public void updateLiked(Integer userId, Integer worldId, Integer valid, Date date) {
-		getJdbcTemplate().update(UPDATE_LIKED_VALID, new Object[]{valid, date, userId, worldId});
+		getMasterJdbcTemplate().update(UPDATE_LIKED_VALID, new Object[]{valid, date, userId, worldId});
 	}
 	
 	
@@ -252,7 +252,7 @@ public class HTWorldLikedDaoImpl extends BaseDaoImpl implements HTWorldLikedDao{
 
 	@Override
 	public void updatePushed(Integer id, Integer valid) {
-		getJdbcTemplate().update(UPDATE_PUSHED, new Object[]{valid, id});
+		getMasterJdbcTemplate().update(UPDATE_PUSHED, new Object[]{valid, id});
 	}
 
 	@Override
@@ -308,7 +308,7 @@ public class HTWorldLikedDaoImpl extends BaseDaoImpl implements HTWorldLikedDao{
 	
 	@Override
 	public void updateUnreadUserLiked(Integer userId) {
-		getJdbcTemplate().update(UPDATE_UNREAD_USER_LIKED, new Object[]{Tag.TRUE, Tag.FALSE, Tag.TRUE, userId});
+		getMasterJdbcTemplate().update(UPDATE_UNREAD_USER_LIKED, new Object[]{Tag.TRUE, Tag.FALSE, Tag.TRUE, userId});
 	}
 
 	@Override

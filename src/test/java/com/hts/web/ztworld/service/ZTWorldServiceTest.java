@@ -182,7 +182,6 @@ public class ZTWorldServiceTest extends BaseTest {
 	}
 	
 	@Test
-	@Transactional(propagation=Propagation.NEVER)
 	public void testUpdateClickCount() throws Exception {
 		service.addClickCount(10962, 50);
 	}

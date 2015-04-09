@@ -75,7 +75,7 @@ public class UserRemarkDaoImpl extends BaseDaoImpl implements UserRemarkDao {
 
 	@Override
 	public void saveRemark(UserRemark remark) {
-		getJdbcTemplate().update(SAVE_REMARK, new Object[]{
+		getMasterJdbcTemplate().update(SAVE_REMARK, new Object[]{
 			remark.getUserId(),
 			remark.getRemarkId(),
 			remark.getRemark()
@@ -84,7 +84,7 @@ public class UserRemarkDaoImpl extends BaseDaoImpl implements UserRemarkDao {
 
 	@Override
 	public void updateRemark(UserRemark remark) {
-		getJdbcTemplate().update(UPDATE_REMARK, new Object[]{
+		getMasterJdbcTemplate().update(UPDATE_REMARK, new Object[]{
 			remark.getRemark(),
 			remark.getUserId(),
 			remark.getRemarkId()
@@ -93,7 +93,7 @@ public class UserRemarkDaoImpl extends BaseDaoImpl implements UserRemarkDao {
 
 	@Override
 	public void deleteRemark(Integer userId, Integer remarkId) {
-		getJdbcTemplate().update(DELETE_REMARK, new Object[]{
+		getMasterJdbcTemplate().update(DELETE_REMARK, new Object[]{
 			userId, remarkId
 		});
 	}

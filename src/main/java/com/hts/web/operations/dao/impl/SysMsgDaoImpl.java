@@ -123,7 +123,7 @@ public class SysMsgDaoImpl extends BaseDaoImpl implements SysMsgDao {
 	
 	@Override
 	public void saveMsg(OpSysMsg msg) {
-		getJdbcTemplate().update(SAVE_MSG, new Object[]{
+		getMasterJdbcTemplate().update(SAVE_MSG, new Object[]{
 //				msg.getId(),
 				msg.getSenderId(),
 				msg.getRecipientId(),
@@ -205,7 +205,7 @@ public class SysMsgDaoImpl extends BaseDaoImpl implements SysMsgDao {
 	
 	@Override
 	public void updateUnreadSysMsg(Integer userId) {
-		getJdbcTemplate().update(UPDATE_UNREAD_SYS_MSG, 
+		getMasterJdbcTemplate().update(UPDATE_UNREAD_SYS_MSG, 
 				new Object[]{Tag.TRUE, userId, Tag.FALSE, Tag.TRUE});
 	}
 
@@ -223,7 +223,7 @@ public class SysMsgDaoImpl extends BaseDaoImpl implements SysMsgDao {
 	
 	@Override
 	public void deleteMsgById(Integer id) {
-		getJdbcTemplate().update(DELETE_BY_ID, new Object[]{id});
+		getMasterJdbcTemplate().update(DELETE_BY_ID, new Object[]{id});
 	}
 
 	@Override
@@ -250,7 +250,7 @@ public class SysMsgDaoImpl extends BaseDaoImpl implements SysMsgDao {
 	
 	@Override
 	public void updateRecipientValid(Integer recipientId, Integer objType, Integer valid) {
-		getJdbcTemplate().update(UPDATE_RECIPIENT_VALID_BY_OBJ_TYPE, 
+		getMasterJdbcTemplate().update(UPDATE_RECIPIENT_VALID_BY_OBJ_TYPE, 
 				new Object[]{valid, recipientId, objType});
 	}
 	
@@ -276,7 +276,7 @@ public class SysMsgDaoImpl extends BaseDaoImpl implements SysMsgDao {
 	
 	@Override
 	public void updateIsNew(Integer recipientId, Integer minId, Integer maxId) {
-		getJdbcTemplate().update(UPDATE_IS_NEW, new Object[]{recipientId, minId, maxId});
+		getMasterJdbcTemplate().update(UPDATE_IS_NEW, new Object[]{recipientId, minId, maxId});
 	}
 	
 	/**

@@ -117,7 +117,7 @@ public class HTWorldChildWorldDaoImpl extends BaseDaoImpl implements HTWorldChil
 	
 	@Override
 	public void saveChildWorld(HTWorldChildWorld childWorld) {
-		getJdbcTemplate().update(SAVE_CHILD_WORLD, new Object[] { 
+		getMasterJdbcTemplate().update(SAVE_CHILD_WORLD, new Object[] { 
 				childWorld.getId(),
 				childWorld.getChildWorldDesc(),
 				childWorld.getWorldId(), 
@@ -251,7 +251,7 @@ public class HTWorldChildWorldDaoImpl extends BaseDaoImpl implements HTWorldChil
 	public void deleteByWorldIds(Integer[] worldIds) {
 		String inSelection = SQLUtil.buildInSelection(worldIds);
 		String sql = DELETE_BY_WORLD_IDS + inSelection;
-		getJdbcTemplate().update(sql, (Object[])worldIds);
+		getMasterJdbcTemplate().update(sql, (Object[])worldIds);
 	}
 	
 	@Override

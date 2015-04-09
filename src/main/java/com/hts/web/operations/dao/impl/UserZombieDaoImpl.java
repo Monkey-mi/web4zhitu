@@ -72,7 +72,7 @@ public class UserZombieDaoImpl extends BaseDaoImpl implements UserZombieDao {
 
 	@Override
 	public void saveZombieUser(OpSquare recommend) {
-		getJdbcTemplate().update(SAVE_ZOMBIE_USER, new Object[]{
+		getMasterJdbcTemplate().update(SAVE_ZOMBIE_USER, new Object[]{
 			recommend.getTargetId(),
 			recommend.getRecommender(),
 			recommend.getRecommendDate()
@@ -81,12 +81,12 @@ public class UserZombieDaoImpl extends BaseDaoImpl implements UserZombieDao {
 
 	@Override
 	public void deleteZombieUserByUserId(Integer userId) {
-		getJdbcTemplate().update(DELETE_BY_USER_ID, userId);
+		getMasterJdbcTemplate().update(DELETE_BY_USER_ID, userId);
 	}
 
 	@Override
 	public void deleteZombieUserById(Integer id) {
-		getJdbcTemplate().update(DELETE_BY_ID, id);
+		getMasterJdbcTemplate().update(DELETE_BY_ID, id);
 	}
 
 	@Override
@@ -96,7 +96,7 @@ public class UserZombieDaoImpl extends BaseDaoImpl implements UserZombieDao {
 
 	@Override
 	public void updateShield(Integer userId, Integer shield) {
-		getJdbcTemplate().update(UPDATE_SHIELD, new Object[]{shield, userId});
+		getMasterJdbcTemplate().update(UPDATE_SHIELD, new Object[]{shield, userId});
 	}
 
 	@Override

@@ -83,12 +83,12 @@ public class HTWorldReportDaoImpl extends BaseDaoImpl implements HTWorldReportDa
 
 	@Override
 	public void updateReport(Integer userId, Integer worldId, String reportContent, Integer valid, Date date) {
-		getJdbcTemplate().update(UPDATE_REPORT, new Object[]{reportContent, valid, date, userId, worldId});
+		getMasterJdbcTemplate().update(UPDATE_REPORT, new Object[]{reportContent, valid, date, userId, worldId});
 	}
 	
 	@Override
 	public void updateReportValid(Integer userId, Integer worldId, Integer valid, Date date) {
-		getJdbcTemplate().update(UPDATE_REPORT_VALID, new Object[]{valid, date, userId, worldId});
+		getMasterJdbcTemplate().update(UPDATE_REPORT_VALID, new Object[]{valid, date, userId, worldId});
 	}
 
 }

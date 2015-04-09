@@ -59,7 +59,7 @@ public class UserLoginPersistentDaoImpl extends BaseDaoImpl implements
 	@Override
 	public void createNewToken(PersistentRememberMeToken token) {
 		try {
-		getJdbcTemplate().update(SAVE_TOKEN, new Object[]{token.getUsername(),
+		getMasterJdbcTemplate().update(SAVE_TOKEN, new Object[]{token.getUsername(),
 				token.getSeries(), token.getTokenValue(), token.getDate()});
 		} catch (DuplicateKeyException e) {
 			logger.warn("remember me error (uid=" + token.getUsername() + "): " + e.getMessage());
@@ -68,7 +68,7 @@ public class UserLoginPersistentDaoImpl extends BaseDaoImpl implements
 
 	@Override
 	public void updateToken(String series, String tokenValue, Date lastUsed) {
-		getJdbcTemplate().update(UPDATE_TOKEN, new Object[]{tokenValue, lastUsed, series});
+		getMasterJdbcTemplate().update(UPDATE_TOKEN, new Object[]{tokenValue, lastUsed, series});
 	}
 
 	@Override
@@ -90,7 +90,7 @@ public class UserLoginPersistentDaoImpl extends BaseDaoImpl implements
 
 	@Override
 	public void removeUserTokens(String username) {
-		getJdbcTemplate().update(DELETE_TOKEN_BY_USER_ID, username);
+		getMasterJdbcTemplate().update(DELETE_TOKEN_BY_USER_ID, username);
 	}
 
 	@Override

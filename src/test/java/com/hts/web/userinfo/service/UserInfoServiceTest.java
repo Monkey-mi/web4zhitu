@@ -188,24 +188,4 @@ public class UserInfoServiceTest extends BaseTest {
 //		Thread.sleep(10000);
 	}
 	
-	public static void main(String[] args) throws SQLException, IOException {
-		File file = new File("/home/lynch/ids");
-		Connection conn = DriverManager.getConnection( "jdbc:mysql://192.168.1.151:3306/hts?useUnicode=true",
-				"root", "sa");
-		Statement statement = conn.createStatement();
-		String sql = "insert into tmp_uid (id) values (";
-		
-		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8"));
-			String line = null;
-			while((line = reader.readLine()) != null) {
-				Integer id = Integer.parseInt(line);
-				statement.execute(sql + id + ")");
-			}
-		} finally {
-			reader.close();
-		}
-	}
 }
-

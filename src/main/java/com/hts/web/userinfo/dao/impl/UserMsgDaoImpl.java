@@ -157,7 +157,7 @@ public class UserMsgDaoImpl extends BaseDaoImpl implements UserMsgDao {
 	
 	@Override
 	public void saveMsg(UserMsg msg) {
-		getJdbcTemplate().update(SAVE_MSG, new Object[]{
+		getMasterJdbcTemplate().update(SAVE_MSG, new Object[]{
 				msg.getId(),
 				msg.getMsgDate(),
 				msg.getContent(),

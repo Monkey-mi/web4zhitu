@@ -36,7 +36,7 @@ public class UserReportDaoImpl extends BaseDaoImpl implements UserReportDao {
 
 	@Override
 	public void saveReport(UserReport report) {
-		getJdbcTemplate().update(SAVE_REPORT, new Object[]{
+		getMasterJdbcTemplate().update(SAVE_REPORT, new Object[]{
 				report.getId(),
 				report.getUserId(),
 				report.getReportId(), 
@@ -62,7 +62,7 @@ public class UserReportDaoImpl extends BaseDaoImpl implements UserReportDao {
 
 	@Override
 	public void updateReport(UserReport report) {
-		getJdbcTemplate().update(UPDATE_REPORT, new Object[]{
+		getMasterJdbcTemplate().update(UPDATE_REPORT, new Object[]{
 			report.getId(),
 			report.getReportDate(),
 			report.getValid(),

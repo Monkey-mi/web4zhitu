@@ -80,7 +80,7 @@ public class HTWorldLabelDaoImpl extends BaseDaoImpl implements HTWorldLabelDao 
 	
 	@Override
 	public void saveLabel(HTWorldLabel label) {
-		getJdbcTemplate().update(SAVE_LABEL, new Object[]{
+		getMasterJdbcTemplate().update(SAVE_LABEL, new Object[]{
 			label.getId(),
 			label.getLabelName(),
 			label.getLabelPinyin(),
@@ -100,7 +100,7 @@ public class HTWorldLabelDaoImpl extends BaseDaoImpl implements HTWorldLabelDao 
 	
 	@Override
 	public void updateWorldCount(Integer labelId, int count) {
-		getJdbcTemplate().update(UPDATE_WORLD_COUNT, new Object[]{count, labelId});
+		getMasterJdbcTemplate().update(UPDATE_WORLD_COUNT, new Object[]{count, labelId});
 	}
 
 	@Override

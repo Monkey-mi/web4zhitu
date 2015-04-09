@@ -364,7 +364,7 @@ public class UserRecommendDaoImpl extends BaseDaoImpl implements
 
 	@Override
 	public void saveRecommendUser(OpUserRecommend recommend) {
-		getJdbcTemplate().update(SAVE_RECOMMEND_USER, new Object[]{
+		getMasterJdbcTemplate().update(SAVE_RECOMMEND_USER, new Object[]{
 			recommend.getId(),
 			recommend.getUserId(),
 			recommend.getVerifyId(),
@@ -404,21 +404,21 @@ public class UserRecommendDaoImpl extends BaseDaoImpl implements
 	
 	@Override
 	public void updateUserAcceptByUID(Integer userId, Integer state, Date dateModified) {
-		getJdbcTemplate().update(UPDATE_USER_ACCEPT_BY_UID, 
+		getMasterJdbcTemplate().update(UPDATE_USER_ACCEPT_BY_UID, 
 				new Object[]{state, dateModified, userId});
 	}
 	
 	@Override
 	public void updateSysAcceptByUID(Integer userId, Integer state,
 			Date dateModified) {
-		getJdbcTemplate().update(UPDATE_SYS_ACCEPT_BY_UID, 
+		getMasterJdbcTemplate().update(UPDATE_SYS_ACCEPT_BY_UID, 
 				new Object[]{state, dateModified, userId});
 	}
 
 	@Override
 	public void updateAcceptByUID(Integer userId, Integer userState,
 			Integer sysState, Date dateModified) {
-		getJdbcTemplate().update(UPDATE_ACCEPT_BY_UID, 
+		getMasterJdbcTemplate().update(UPDATE_ACCEPT_BY_UID, 
 				new Object[]{userState, sysState, dateModified, userId});
 	}
 	

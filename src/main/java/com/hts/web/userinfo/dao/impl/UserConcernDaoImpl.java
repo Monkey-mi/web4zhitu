@@ -332,7 +332,7 @@ public class UserConcernDaoImpl extends BaseDaoImpl implements UserConcernDao{
 	@Override
 	public void saveConcern(Integer id, Integer userId, Integer concernId, Integer isMututal, Integer ck, Date concernDate){
 		try {
-			getJdbcTemplate().update(SAVE_CONCERN, new Object[]{
+			getMasterJdbcTemplate().update(SAVE_CONCERN, new Object[]{
 				id, userId, concernId, isMututal, concernDate, ck, Tag.TRUE});
 		} catch(DuplicateKeyException e) {
 		}
@@ -340,13 +340,13 @@ public class UserConcernDaoImpl extends BaseDaoImpl implements UserConcernDao{
 
 	@Override
 	public Integer updateConcern(Integer userId, Integer concernId, Integer isMututal, Date concernDate, Integer valid){
-		return getJdbcTemplate().update(UPDATE_CONCERN, new Object[]{
+		return getMasterJdbcTemplate().update(UPDATE_CONCERN, new Object[]{
 				isMututal, concernDate, valid, userId, concernId,1-valid });
 	}
 	
 	@Override
 	public void updateIsMututal(Integer userId, Integer concernId, Integer isMututal, Date concernDate){
-		getJdbcTemplate().update(UPDATE_IS_MUTUTAL, new Object[]{
+		getMasterJdbcTemplate().update(UPDATE_IS_MUTUTAL, new Object[]{
 				isMututal, concernDate, userId, concernId});
 	}
 
@@ -554,21 +554,21 @@ public class UserConcernDaoImpl extends BaseDaoImpl implements UserConcernDao{
 	
 	@Override
 	public void updateConcernCK(Integer concernId, Integer minId, Integer maxId){
-		getJdbcTemplate().update(UPDATE_CONCERN_CK, new Object[]{
+		getMasterJdbcTemplate().update(UPDATE_CONCERN_CK, new Object[]{
 			Tag.TRUE, concernId, Tag.TRUE, Tag.FALSE, minId, maxId
 		});
 	}
 	
 //	@Override
 //	public void updateConcernCK(Integer userId, Integer concernId){
-//		getJdbcTemplate().update(UPDATE_CONCERN_CK_BY_UID, new Object[]{
+//		getMasterJdbcTemplate().update(UPDATE_CONCERN_CK_BY_UID, new Object[]{
 //			Tag.TRUE, userId, concernId, Tag.FALSE
 //		});
 //	}
 	
 	@Override
 	public void updatePushed(Integer id, Integer valid) {
-		getJdbcTemplate().update(UPDATE_PUSHED, new Object[]{valid,id});
+		getMasterJdbcTemplate().update(UPDATE_PUSHED, new Object[]{valid,id});
 	}
 	
 	@Override
@@ -735,7 +735,7 @@ public class UserConcernDaoImpl extends BaseDaoImpl implements UserConcernDao{
 	
 	@Override
 	public void updateISNew(Integer concernId) {
-		getJdbcTemplate().update(UPDATE_IS_NEW, concernId);
+		getMasterJdbcTemplate().update(UPDATE_IS_NEW, concernId);
 	}
 	
 	/**

@@ -20,7 +20,7 @@ public class HTWorldTypeDaoImpl extends BaseDaoImpl implements HTWorldTypeDao {
 
 	@Override
 	public void saveTypeWorld(HTWorldTypeWorld typeWorld) {
-		getJdbcTemplate().update(SAVE_TYPE_WORLD, new Object[]{
+		getMasterJdbcTemplate().update(SAVE_TYPE_WORLD, new Object[]{
 				typeWorld.getId(),
 				typeWorld.getWorldId(),
 				typeWorld.getTypeId(),

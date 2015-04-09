@@ -26,7 +26,7 @@ public class UserMsgShieldDaoImpl extends BaseDaoImpl implements
 
 	@Override
 	public void saveShield(Integer userId, Integer shieldId) {
-		getJdbcTemplate().update(SAVE_SHIELD, new Object[]{userId, shieldId});
+		getMasterJdbcTemplate().update(SAVE_SHIELD, new Object[]{userId, shieldId});
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public class UserMsgShieldDaoImpl extends BaseDaoImpl implements
 
 	@Override
 	public void deleteShield(Integer userId, Integer shieldId) {
-		getJdbcTemplate().update(DELETE_SHIELD, new Object[]{userId, shieldId});
+		getMasterJdbcTemplate().update(DELETE_SHIELD, new Object[]{userId, shieldId});
 	}
 	
 	

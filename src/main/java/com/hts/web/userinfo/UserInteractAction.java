@@ -39,6 +39,7 @@ public class UserInteractAction extends BaseAction {
 	private Integer remarkId;
 	private String remark;
 	private Boolean clearUnCheck = true;
+	private Integer followId;
 	
 	@Autowired
 	private UserInteractService userInteractService;
@@ -389,6 +390,21 @@ public class UserInteractAction extends BaseAction {
 		return StrutsKey.JSON;
 	}
 	
+	/**
+	 * 删除用户粉丝
+	 * 
+	 * @return
+	 */
+	public String deleteFollow() {
+		try {
+			userInteractService.deleteFollow(getCurrentLoginUserId(), followId);
+			JSONUtil.optSuccess(OptResult.DELETE_SUCCESS, jsonMap);
+		} catch(Exception e) {
+			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+		}
+		return StrutsKey.JSON;
+	}
+	
 	public UserInteractService getUserInteractService() {
 		return userInteractService;
 	}
@@ -479,6 +495,14 @@ public class UserInteractAction extends BaseAction {
 
 	public void setClearUnCheck(Boolean clearUnCheck) {
 		this.clearUnCheck = clearUnCheck;
+	}
+
+	public Integer getFollowId() {
+		return followId;
+	}
+
+	public void setFollowId(Integer followId) {
+		this.followId = followId;
 	}
 	
 }

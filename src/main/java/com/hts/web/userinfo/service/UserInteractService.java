@@ -164,6 +164,15 @@ public interface UserInteractService extends BaseService {
 	public void updateNewFollow(Integer concernId) throws Exception;
 	
 	/**
+	 * 删除粉丝
+	 * 
+	 * @param userId
+	 * @param followId
+	 * @throws Exception
+	 */
+	public void deleteFollow(Integer userId, Integer followId) throws Exception;
+	
+	/**
 	 * 构建用户搜索列表
 	 * 
 	 * @param userName

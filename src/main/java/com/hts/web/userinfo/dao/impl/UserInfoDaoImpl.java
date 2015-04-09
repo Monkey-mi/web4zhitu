@@ -410,7 +410,7 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 	
 	@Override
 	public void saveUserInfo(UserInfo userInfo, byte[] passwordEncrypt) {
-		getJdbcTemplate().update(SAVE_USER_INFO, new Object[]{
+		getMasterJdbcTemplate().update(SAVE_USER_INFO, new Object[]{
 				userInfo.getId(),
 				userInfo.getPlatformCode(),
 				userInfo.getPlatformToken(),
@@ -483,7 +483,7 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 			Long platformTokenExpires, String platformSign, Integer platformVerify, 
 			String platformReason,String pushToken, Integer phoneCode, String phoneSys, String phoneVer, 
 			Integer online, Float ver){
-		getJdbcTemplate().update(UPDATE_LOGIN_STATUS, new Object[]{
+		getMasterJdbcTemplate().update(UPDATE_LOGIN_STATUS, new Object[]{
 				platformToken,platformTokenExpires,platformSign, platformVerify, platformReason,
 				pushToken, phoneCode, phoneSys, phoneVer, online, ver, loginCode, platformCode
 		});
@@ -491,7 +491,7 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 	
 	@Override
 	public void updateLogoutStatus(Integer userId) {
-		getJdbcTemplate().update(UPDATE_LOGOUT_STATUS, new Object[]{Tag.OFFLINE, userId});
+		getMasterJdbcTemplate().update(UPDATE_LOGOUT_STATUS, new Object[]{Tag.OFFLINE, userId});
 	}
 	
 	@Override
@@ -501,7 +501,7 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 	
 	@Override
 	public void updatePushTokenByUserId(Integer userId, String pushToken, Integer phoneCode){
-		getJdbcTemplate().update(UPDATE_PUSH_TOKEN_BY_USER_ID, new Object[]{pushToken, phoneCode, userId});
+		getMasterJdbcTemplate().update(UPDATE_PUSH_TOKEN_BY_USER_ID, new Object[]{pushToken, phoneCode, userId});
 	}
 	
 	@Override
@@ -546,7 +546,7 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 	
 	@Override
 	public void updateProfile(UserInfo userInfo) {
-		getJdbcTemplate().update(UPDATE_PROFILE, new Object[]{
+		getMasterJdbcTemplate().update(UPDATE_PROFILE, new Object[]{
 				userInfo.getUserName(),
 				userInfo.getUserAvatar(),
 				userInfo.getUserAvatarL(),
@@ -564,7 +564,7 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 	
 	@Override
 	public void updateProfileAndPass(UserInfo userInfo, byte[] passEncrypt) {
-		getJdbcTemplate().update(UPDATE_PROFILE_AND_PASS, new Object[]{
+		getMasterJdbcTemplate().update(UPDATE_PROFILE_AND_PASS, new Object[]{
 				userInfo.getUserName(),
 				userInfo.getUserAvatar(),
 				userInfo.getUserAvatarL(),
@@ -695,7 +695,7 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 		args[args.length - 1] = userId;
 		builder.append("where id=?");
 		String sql = builder.toString();
-		getJdbcTemplate().update(sql, args);
+		getMasterJdbcTemplate().update(sql, args);
 		
 	}
 	
@@ -772,7 +772,7 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 	
 	@Override
 	public void updateShield(Integer userId, Integer valid) {
-		getJdbcTemplate().update(UPDATE_SHIELD, new Object[]{valid, userId});
+		getMasterJdbcTemplate().update(UPDATE_SHIELD, new Object[]{valid, userId});
 	}
 	
 	@Override
@@ -782,7 +782,7 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 	
 	@Override
 	public void updateUserLabel(Integer userId, String userLabel) {
-		getJdbcTemplate().update(UPDATE_USER_LABEL, new Object[]{userLabel, userId});
+		getMasterJdbcTemplate().update(UPDATE_USER_LABEL, new Object[]{userLabel, userId});
 	}
 
 	@Override
@@ -792,7 +792,7 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 
 	@Override
 	public void updateConcernCount(Integer userId, Integer count) {
-		getJdbcTemplate().update(UPDATE_CONCERN_COUNT, new Object[]{count, userId});
+		getMasterJdbcTemplate().update(UPDATE_CONCERN_COUNT, new Object[]{count, userId});
 	}
 
 	@Override
@@ -802,7 +802,7 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 	
 	@Override
 	public void updateFollowCount(Integer userId, Integer count) {
-		getJdbcTemplate().update(UPDATE_FOLLOW_COUNT, new Object[]{count, userId});
+		getMasterJdbcTemplate().update(UPDATE_FOLLOW_COUNT, new Object[]{count, userId});
 	}
 
 	@Override
@@ -813,7 +813,7 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 	@Override
 	public void updateWorldAndChildCount(Integer userId, 
 			Integer worldCount, Integer childCount) {
-		getJdbcTemplate().update(UPDATE_WORLD_AND_CHILD_COUNT, 
+		getMasterJdbcTemplate().update(UPDATE_WORLD_AND_CHILD_COUNT, 
 				new Object[]{worldCount, childCount, userId});
 	}
 
@@ -824,7 +824,7 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 
 	@Override
 	public void updateLikedCount(Integer userId, Integer count) {
-		getJdbcTemplate().update(UPDATE_LIKED_COUNT, new Object[]{count, userId});
+		getMasterJdbcTemplate().update(UPDATE_LIKED_COUNT, new Object[]{count, userId});
 	}
 
 	@Override
@@ -834,71 +834,71 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 
 	@Override
 	public void updateKeepCount(Integer userId, Integer count) {
-		getJdbcTemplate().update(UPDATE_KEEP_COUNT, new Object[]{count, userId});
+		getMasterJdbcTemplate().update(UPDATE_KEEP_COUNT, new Object[]{count, userId});
 	}
 	
 	@Override
 	public void updateStartById(Integer userId, Integer start) {
-		getJdbcTemplate().update(UPDATE_STAR_BY_ID, new Object[]{start, userId});
+		getMasterJdbcTemplate().update(UPDATE_STAR_BY_ID, new Object[]{start, userId});
 	}
 	
 	@Override
 	public void updateSocialBindInfo(Integer userId, Integer platformVerify, 
 			String platformReason, String platformSign) {
-		getJdbcTemplate().update(UPDATE_SOCIAL_BING_INFO, 
+		getMasterJdbcTemplate().update(UPDATE_SOCIAL_BING_INFO, 
 				new Object[]{platformSign, platformVerify, platformReason, userId});
 	}
 	
 	@Override
 	public void updateUserName(Integer userId, String userName) {
-		getJdbcTemplate().update(UPDATE_USER_NAME, 
+		getMasterJdbcTemplate().update(UPDATE_USER_NAME, 
 				new Object[]{userName,userId});
 	}
 
 	@Override
 	public void updateAvatar(Integer userId, String userAvatar,
 			String userAvatarL) {
-		getJdbcTemplate().update(UPDATE_AVATAR, 
+		getMasterJdbcTemplate().update(UPDATE_AVATAR, 
 				new Object[]{userAvatar, userAvatarL, userId});
 	}
 
 	@Override
 	public void updateEmail(Integer userId, String email) {
-		getJdbcTemplate().update(UPDATE_EMAIL, 
+		getMasterJdbcTemplate().update(UPDATE_EMAIL, 
 				new Object[]{email, userId});
 	}
 	
 	@Override
 	public void updateBirthday(Integer userId, Date birthday) {
-		getJdbcTemplate().update(UPDATE_BIRTHDAY, new Object[]{birthday, userId});
+		getMasterJdbcTemplate().update(UPDATE_BIRTHDAY, new Object[]{birthday, userId});
 	}
 
 	@Override
 	public void updateAddress(Integer userId, String province, String city,
 			Double longitude, Double latitude, String address) {
-		getJdbcTemplate().update(UPDATE_ADDRESS, 
+		getMasterJdbcTemplate().update(UPDATE_ADDRESS, 
 				new Object[]{province,city, longitude, latitude, address, userId});
 	}
 
 	@Override
 	public void updateSex(Integer userId, Integer sex) {
-		getJdbcTemplate().update(UPDATE_SEX, 
+		getMasterJdbcTemplate().update(UPDATE_SEX, 
 				new Object[]{sex, userId});
 	}
 	
 	@Override
 	public void updatePassword(Integer userId, byte[] password) {
-		getJdbcTemplate().update(UPDATE_PASSWORD, new Object[]{password, userId});
+		getMasterJdbcTemplate().update(UPDATE_PASSWORD, new Object[]{password, userId});
 	}
 	
 	@Override
 	public void updateSignature(Integer userId, String signature) {
-		getJdbcTemplate().update(UPDATE_SIGNATURE, new Object[]{signature, userId});
+		getMasterJdbcTemplate().update(UPDATE_SIGNATURE, new Object[]{signature, userId});
 	}
 	
 	@Override
 	public void updateJob(Integer userId, Integer tradeId, String job) {
-		getJdbcTemplate().update(UPDATE_JOB, new Object[]{tradeId, job, userId});
+		getMasterJdbcTemplate().update(UPDATE_JOB, new Object[]{tradeId, job, userId});
 	}
 	
 	@Override
@@ -910,13 +910,13 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 	@Override
 	public void updateVerAndPushToken(Integer userId, Float ver, String pushToken, 
 			String phoneSys, String phoneVer) {
-		getJdbcTemplate().update(UPDATE_VER_AND_PUSH_TOKEN, new Object[]{ver, pushToken,
+		getMasterJdbcTemplate().update(UPDATE_VER_AND_PUSH_TOKEN, new Object[]{ver, pushToken,
 				phoneSys, phoneVer, userId});
 	}
 
 	@Override
 	public void updateActivity(Integer userId, Integer activity) {
-		getJdbcTemplate().update(UPDATE_ACTIVITY, new Object[]{activity,userId});
+		getMasterJdbcTemplate().update(UPDATE_ACTIVITY, new Object[]{activity,userId});
 	}
 
 	@Override
@@ -938,7 +938,7 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 
 	@Override
 	public void updateOnlineByPushToken(String pushToken, Integer exceptId, Integer online) {
-		getJdbcTemplate().update(UPDATE_ONLINE_BY_TOKEN, new Object[]{online, pushToken, exceptId});
+		getMasterJdbcTemplate().update(UPDATE_ONLINE_BY_TOKEN, new Object[]{online, pushToken, exceptId});
 	}
 	
 	@Override
@@ -975,7 +975,7 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 	
 	@Override
 	public void updateLikeMeCount(Integer uid, Integer count) {
-		getJdbcTemplate().update(UPDATE_LIKE_ME_COUNT, new Object[]{count, uid});
+		getMasterJdbcTemplate().update(UPDATE_LIKE_ME_COUNT, new Object[]{count, uid});
 	}
 	
 	@Override

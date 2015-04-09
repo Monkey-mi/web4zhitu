@@ -26,7 +26,7 @@ public class UserActivityDaoImpl extends BaseDaoImpl implements UserActivityDao 
 	
 	@Override
 	public void saveActivity(UserActivity act) {
-		getJdbcTemplate().update(SAVE_ACTIVITY, new Object[]{
+		getMasterJdbcTemplate().update(SAVE_ACTIVITY, new Object[]{
 			act.getUserId(),
 			act.getTypeId(),
 			act.getDateAdded(),

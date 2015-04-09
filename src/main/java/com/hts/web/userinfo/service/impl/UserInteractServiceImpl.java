@@ -670,4 +670,9 @@ public class UserInteractServiceImpl extends BaseServiceImpl implements UserInte
 	public void updateNewFollow(Integer concernId) throws Exception {
 		userConcernDao.updateISNew(concernId);
 	}
+
+	@Override
+	public void deleteFollow(Integer userId, Integer followId) throws Exception {
+		cancelConcern(followId, userId);
+	}
 }

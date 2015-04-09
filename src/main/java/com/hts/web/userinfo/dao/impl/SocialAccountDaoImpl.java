@@ -151,7 +151,7 @@ public class SocialAccountDaoImpl extends BaseDaoImpl implements SocialAccountDa
 	
 	@Override
 	public void udpateSocialAccount(UserSocialAccount socialAccount) {
-		getJdbcTemplate().update(UPDATE_SOCIAL_ACCOUNT, new Object[]{
+		getMasterJdbcTemplate().update(UPDATE_SOCIAL_ACCOUNT, new Object[]{
 				socialAccount.getUserId(),
 				socialAccount.getPlatformName(),
 				socialAccount.getPlatformAvatar(),
@@ -168,7 +168,7 @@ public class SocialAccountDaoImpl extends BaseDaoImpl implements SocialAccountDa
 //	@Override
 //	public void updateSocialAccountValid(Integer userId, Integer platformCode,
 //			Integer valid) {
-//		getJdbcTemplate().update(UPDATE_ACCOUNT_VALID, new Object[]{valid,userId,platformCode});
+//		getMasterJdbcTemplate().update(UPDATE_ACCOUNT_VALID, new Object[]{valid,userId,platformCode});
 //		
 //	}
 	
@@ -211,7 +211,7 @@ public class SocialAccountDaoImpl extends BaseDaoImpl implements SocialAccountDa
 	
 	@Override
 	public void deleteByPlatformCode(Integer platformCode, Integer userId) {
-		getJdbcTemplate().update(DELETE_BY_PLATFORM_CODE, new Object[]{userId, platformCode});
+		getMasterJdbcTemplate().update(DELETE_BY_PLATFORM_CODE, new Object[]{userId, platformCode});
 	}
 	
 	/**
