@@ -452,7 +452,6 @@
 					 'worldId':$ztcontainer.data('id')
 					 },function(ds){
 						 if(ds['result'] == 0) {
-							 	console.log(ds['htworld']['childs']);
 								hts.parse($ztcontainer,ds['htworld'], ds['htworld']['childs'],function (ds) {
 									settings.init(ds);
 									hts.showTitle($ztcontainer, $loading);
