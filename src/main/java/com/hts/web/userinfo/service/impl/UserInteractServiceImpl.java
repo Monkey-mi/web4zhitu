@@ -28,6 +28,7 @@ import com.hts.web.common.pojo.UserRemark;
 import com.hts.web.common.pojo.UserReport;
 import com.hts.web.common.pojo.UserSearchInfo;
 import com.hts.web.common.pojo.UserShieldInfo;
+import com.hts.web.common.pojo.UserWithIsMututal;
 import com.hts.web.common.service.KeyGenService;
 import com.hts.web.common.service.impl.BaseServiceImpl;
 import com.hts.web.common.service.impl.KeyGenServiceImpl;
@@ -41,6 +42,7 @@ import com.hts.web.userinfo.dao.UserInfoDao;
 import com.hts.web.userinfo.dao.UserRemarkDao;
 import com.hts.web.userinfo.dao.UserReportDao;
 import com.hts.web.userinfo.dao.UserShieldDao;
+import com.hts.web.userinfo.service.UserConcernService;
 import com.hts.web.userinfo.service.UserInfoService;
 import com.hts.web.userinfo.service.UserInteractService;
 
@@ -102,6 +104,9 @@ public class UserInteractServiceImpl extends BaseServiceImpl implements UserInte
 	
 	@Autowired
 	private UserRemarkDao userRemarkDao;
+	
+	@Autowired
+	private UserConcernService userConcernService;
 	
 	@Override
 	public List<PushStatus> batchSaveConcern(Boolean im, Integer userId, String concernIdsStr) throws Exception {
@@ -397,9 +402,11 @@ public class UserInteractServiceImpl extends BaseServiceImpl implements UserInte
 				List<UserFollowDto> dtoList = null;
 				if(joinId == 0 || userId.equals(joinId)) {
 					dtoList = userConcernDao.queryFollows(userId, rowSelection);
-					if(clearUnCheck && dtoList.size() > 0)
-						userConcernDao.updateConcernCK(userId, 
-								dtoList.get(dtoList.size() - 1).getId(), dtoList.get(0).getId()); // 更新未读关注消息
+//					if(clearUnCheck && dtoList.size() > 0)
+//						userConcernDao.updateConcernCK(userId, 
+//								dtoList.get(dtoList.size() - 1).getId(), dtoList.get(0).getId()); // 更新未读关注消息
+					userConcernDao.updateConcernCK(userId);
+					userConcernDao.updateISNew(userId);
 				} else {
 					dtoList = userConcernDao.queryFollowsWithJoin(userId, joinId, rowSelection);
 				}
@@ -414,10 +421,10 @@ public class UserInteractServiceImpl extends BaseServiceImpl implements UserInte
 				List<UserFollowDto> list = null;
 				if(joinId == 0 || userId.equals(joinId)) {
 					list = userConcernDao.queryFollowsByMaxId(userId, maxId, rowSelection);
-					if(clearUnCheck && list.size() > 0) {
-						userConcernDao.updateConcernCK(userId, 
-								list.get(list.size() - 1).getId(), list.get(0).getId()); // 更新未读关注消息
-					}
+//					if(clearUnCheck && list.size() > 0) {
+//						userConcernDao.updateConcernCK(userId, 
+//								list.get(list.size() - 1).getId(), list.get(0).getId()); // 更新未读关注消息
+//					}
 				} else {
 					list = userConcernDao.queryFollowsWithJoinByMaxId(userId, joinId, maxId, rowSelection);
 				}
@@ -635,10 +642,12 @@ public class UserInteractServiceImpl extends BaseServiceImpl implements UserInte
 					RowSelection rowSelection) {
 				List<UserFollowDto> dtoList = null;
 				dtoList = userConcernDao.queryNewFollow(userId, rowSelection);
-				if(clearUnCheck && dtoList.size() > 0) {
-					userConcernDao.updateConcernCK(userId, 
-							dtoList.get(dtoList.size() - 1).getId(), dtoList.get(0).getId()); // 更新未读关注消息
-				}
+//				if(clearUnCheck && dtoList.size() > 0) {
+//					userConcernDao.updateConcernCK(userId, 
+//							dtoList.get(dtoList.size() - 1).getId(), dtoList.get(0).getId()); // 更新未读关注消息
+//				}
+				userConcernDao.updateConcernCK(userId);
+				userConcernDao.updateISNew(userId);
 				userInfoService.extractVerify(dtoList);
 //				extractRemark(userId, dtoList);
 				return dtoList;
@@ -649,10 +658,10 @@ public class UserInteractServiceImpl extends BaseServiceImpl implements UserInte
 					RowSelection rowSelection) {
 				List<UserFollowDto> dtoList = null;
 				dtoList = userConcernDao.queryNewFollow(maxId, userId, rowSelection);
-				if(clearUnCheck && dtoList.size() > 0) {
-					userConcernDao.updateConcernCK(userId, 
-							dtoList.get(dtoList.size() - 1).getId(), dtoList.get(0).getId()); // 更新未读关注消息
-				}
+//				if(clearUnCheck && dtoList.size() > 0) {
+//					userConcernDao.updateConcernCK(userId, 
+//							dtoList.get(dtoList.size() - 1).getId(), dtoList.get(0).getId()); // 更新未读关注消息
+//				}
 				userInfoService.extractVerify(dtoList);
 //				extractRemark(userId, list);
 				return dtoList;
@@ -674,5 +683,31 @@ public class UserInteractServiceImpl extends BaseServiceImpl implements UserInte
 	@Override
 	public void deleteFollow(Integer userId, Integer followId) throws Exception {
 		cancelConcern(followId, userId);
+	}
+
+	@Override
+	public void updateUnCheckFollow(Integer userId) throws Exception {
+		userConcernDao.updateConcernCK(userId);
+	}
+
+	@Override
+	public void buildIsMututal(Integer userId, String cidsStr,
+			Map<String, Object> jsonMap) throws Exception {
+		if(StringUtil.checkIsNULL(cidsStr)) {
+			throw new HTSException("concernIds can not be null");
+		}
+		
+		List<UserWithIsMututal> list = new ArrayList<UserWithIsMututal>();
+		String[] cidStrs = StringUtil.convertStringToStrs(cidsStr);
+		for(String cidStr : cidStrs) {
+			if(!StringUtil.checkIsNULL(cidStr)) {
+				Integer cid = Integer.parseInt(cidStr);
+				UserWithIsMututal u = new UserWithIsMututal();
+				u.setUserId(cid);
+				list.add(u);
+			}
+		}
+		userConcernService.extractIsMututal(userId, list);
+		jsonMap.put(OptResult.JSON_KEY_IS_MUTUTAL, list);
 	}
 }

@@ -298,5 +298,24 @@ public interface UserInteractService extends BaseService {
 	 */
 	public void deleteRemark(Integer userId, Integer remarkId) throws Exception;
 	
+	/**
+	 * 清空未读粉丝数量
+	 * 
+	 * @param userId
+	 * @throws Exception
+	 */
+	public void updateUnCheckFollow(Integer userId) throws Exception;
+	
+	/**
+	 * 构建是否互相关注列表
+	 * 
+	 * @param userId
+	 * @param cidstr
+	 * @param jsonMap
+	 * @throws Exception
+	 */
+	public void buildIsMututal(Integer userId, String cidstr, 
+			Map<String, Object> jsonMap) throws Exception;
+	
 
 }

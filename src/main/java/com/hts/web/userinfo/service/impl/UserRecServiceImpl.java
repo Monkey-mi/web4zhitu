@@ -50,9 +50,7 @@ public class UserRecServiceImpl extends BaseServiceImpl implements
 	private static final int REC_TYPE_CITY = 2;
 	private static final int REC_TYPE_LABEL = 3;
 	private static final int REC_TYPE_OP = 4;
-	
 	private static final int REC_OP_RANGE = 100;
-	
 	private static final int OP_SUGGEST_LIMIT = 6;
 	
 	
@@ -71,7 +69,6 @@ public class UserRecServiceImpl extends BaseServiceImpl implements
 							}
 						}
 					} catch(Exception e) {
-						e.printStackTrace();
 						log.warn("save platform concern error:" 
 								+ "uid=" + userId + ",logincode=" + c + "plat=" + PlatFormCode.SINA);
 					}
@@ -81,13 +78,13 @@ public class UserRecServiceImpl extends BaseServiceImpl implements
 	}
 
 	@Override
-	public void buildRecUser(Integer userId, Map<String, Object> jsonMap)
-			throws Exception {
+	public void buildRecUser(Integer userId, String currProvince, 
+			String currCity, Map<String, Object> jsonMap) throws Exception {
 		UserDynamicRec rec = null;
 		String recMsg = null;
 		
 		UserRecInfo recInfo = userInfoDao.queryRecInfo(userId);
-		int recType = getRecType(recInfo);
+		int recType = getRecType(recInfo, currProvince, currCity);
 		
 		switch(recType) {
 		case REC_TYPE_PLAT:
@@ -104,7 +101,11 @@ public class UserRecServiceImpl extends BaseServiceImpl implements
 			if(ctcount > 0) {
 				int start = NumberUtil.getRandomNum(0, ctcount.intValue() - 1);
 				rec = userRecDao.queryCityRecUser(userId, recInfo.getCity(), start);
-				recMsg = "同在" + recInfo.getProvince() +  " " + recInfo.getCity();
+				if(recInfo.getCity().equals(recInfo.getProvince())) {
+					recMsg = "同在" + recInfo.getCity();
+				} else {
+					recMsg = "同在" + recInfo.getProvince() +  " " + recInfo.getCity();
+				}
 			}
 			break;
 
@@ -173,7 +174,7 @@ public class UserRecServiceImpl extends BaseServiceImpl implements
 	 * @param userId
 	 * @return
 	 */
-	private Integer getRecType(UserRecInfo recInfo) {
+	private Integer getRecType(UserRecInfo recInfo, String currProvince, String currCity) {
 		Integer recType = REC_TYPE_NONE;
 		List<Integer> reclist = new ArrayList<Integer>();
 		if(recInfo != null) {
@@ -185,7 +186,11 @@ public class UserRecServiceImpl extends BaseServiceImpl implements
 //				reclist.add(REC_TYPE_LABEL);
 //			}
 			
-			if(!StringUtil.checkIsNULL(recInfo.getCity())) {
+			if(!StringUtil.checkIsNULL(currCity) && !currCity.trim().equals("")) {
+				recInfo.setProvince(currProvince);
+				recInfo.setCity(currCity);
+				reclist.add(REC_TYPE_CITY);
+			} else if(!StringUtil.checkIsNULL(recInfo.getCity())) {
 				reclist.add(REC_TYPE_CITY);
 			}
 			

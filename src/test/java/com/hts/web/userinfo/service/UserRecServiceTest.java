@@ -24,7 +24,7 @@ public class UserRecServiceTest extends BaseTest {
 	@Test
 	public void buildRecUserTest() throws Exception {
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
-		service.buildRecUser(1551, jsonMap);
+		service.buildRecUser(1551, null, null, jsonMap);
 		log.debug(jsonMap);
 	}
 }

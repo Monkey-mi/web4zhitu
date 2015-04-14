@@ -165,7 +165,7 @@ public class UserConcernDaoImpl extends BaseDaoImpl implements UserConcernDao{
 	 * 更新所有未查阅过的粉丝
 	 */
 	private static final String UPDATE_CONCERN_CK = "update " + table 
-			+ " set ck=? where concern_id=? and valid=? and ck=? and id>=? and id<=?";
+			+ " set ck=1 where concern_id=? and valid=1 and ck=0";
 	
 	/**
 	 * 查询关注用户并查询与指定用户的关系
@@ -307,7 +307,7 @@ public class UserConcernDaoImpl extends BaseDaoImpl implements UserConcernDao{
 	 * 更新新粉丝标记字段为０
 	 */
 	private static final String UPDATE_IS_NEW = "update " + table
-			+ " set is_new=0 where concern_id=? and is_new=1";
+			+ " set is_new=0 where concern_id=? and valid=1 and is_new=1";
 	
 	/**
 	 * 查询关注用户名
@@ -553,10 +553,9 @@ public class UserConcernDaoImpl extends BaseDaoImpl implements UserConcernDao{
 	}
 	
 	@Override
-	public void updateConcernCK(Integer concernId, Integer minId, Integer maxId){
-		getMasterJdbcTemplate().update(UPDATE_CONCERN_CK, new Object[]{
-			Tag.TRUE, concernId, Tag.TRUE, Tag.FALSE, minId, maxId
-		});
+	public void updateConcernCK(Integer concernId){
+		getMasterJdbcTemplate().update(UPDATE_CONCERN_CK, 
+				new Object[]{concernId});
 	}
 	
 //	@Override

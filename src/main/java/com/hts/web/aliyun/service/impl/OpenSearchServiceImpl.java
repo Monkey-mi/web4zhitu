@@ -15,6 +15,7 @@ import com.opensearch.javasdk.object.KeyTypeEnum;
 
 @Service("OpenSearchService")
 public class OpenSearchServiceImpl implements OpenSearchService{
+	
 	@Value("${aliyun.accessKeyId}")
 	private String aliyunAccessKeyId;
 	

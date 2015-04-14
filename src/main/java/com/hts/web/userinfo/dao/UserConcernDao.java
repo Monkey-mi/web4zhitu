@@ -245,7 +245,7 @@ public interface UserConcernDao extends BaseDao {
 	 * @param conn
 	 * @param userId
 	 */
-	public void updateConcernCK(Integer concernId, Integer maxId, Integer minId);
+	public void updateConcernCK(Integer concernId);
 	
 	/**
 	 * 更新未阅读的粉丝标记

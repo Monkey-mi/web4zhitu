@@ -1,11 +1,12 @@
 package com.hts.web.common.pojo;
 
+import com.hts.web.base.constant.Tag;
+
 public class UserIsMututal {
 
 	private Integer userId;
 	private Integer concernId;
-	private Integer isMututal;
-
+	private Integer isMututal = Tag.UN_CONCERN;
 
 	public UserIsMututal() {
 		super();

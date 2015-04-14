@@ -368,6 +368,22 @@ public class UserMsgAction extends BaseAction {
 	}
 	
 	/**
+	 * 查询喜欢我的消息列表
+	 * 
+	 * @return
+	 */
+	public String queryLikeMeMsg() {
+		try {
+			userMsgService.buildLikeMeMsg(maxId, getCurrentLoginUserId(), 
+					start, limit, jsonMap);
+			JSONUtil.optSuccess(jsonMap);
+		} catch(Exception e) {
+			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+		}
+		return StrutsKey.JSON;
+	}
+	
+	/**
 	 * 查询用户和织图缩略图信息
 	 * 
 	 * @return

@@ -35,11 +35,13 @@ public class UserVerifyCacheDaoImpl extends BaseCacheDaoImpl<UserVerify> impleme
 	public void setUpVerify(ObjectWithUserVerify obj) {
 		BoundHashOperations<String, Integer, UserVerify> ops = getRedisTemplate()
 				.boundHashOps(CacheKeies.USER_VERIFY);
-		Integer vid = obj.getVerifyId();
-		if(ops.hasKey(vid)) {
-			UserVerify uv = ops.get(vid);
-			obj.setVerifyName(uv.getVerifyName());
-			obj.setVerifyIcon(uv.getVerifyIcon());
+		if(obj != null) {
+			Integer vid = obj.getVerifyId();
+			if(ops.hasKey(vid)) {
+				UserVerify uv = ops.get(vid);
+				obj.setVerifyName(uv.getVerifyName());
+				obj.setVerifyIcon(uv.getVerifyIcon());
+			}
 		}
 	}
 

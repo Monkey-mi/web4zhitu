@@ -23,7 +23,16 @@ public interface UserRecService extends BaseService {
 	public void savePlatConcerns(Integer userId, String loginCodes) throws Exception;
 	
 	
-	public void buildRecUser(Integer userId,
+	/**
+	 * 构建推荐用户
+	 * 
+	 * @param userId
+	 * @param currCity
+	 * @param currProvince
+	 * @param jsonMap
+	 * @throws Exception
+	 */
+	public void buildRecUser(Integer userId, String currCity, String currProvince,
 			Map<String, Object> jsonMap) throws Exception;
 	
 	

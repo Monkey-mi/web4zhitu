@@ -26,6 +26,7 @@ import com.hts.web.common.SerializableListAdapter;
 import com.hts.web.common.SerializableSinceIdListAdapter;
 import com.hts.web.common.pojo.HTWorldCommentDto;
 import com.hts.web.common.pojo.HTWorldInteract;
+import com.hts.web.common.pojo.HTWorldLikeMe;
 import com.hts.web.common.pojo.HTWorldLiked;
 import com.hts.web.common.pojo.OpSysMsg;
 import com.hts.web.common.pojo.OpSysMsgDto;
@@ -806,6 +807,37 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 		if(mrid != null && mrid.equals(recipientId)) {
 			sysMsgDao.deleteMsgById(msgId);
 		}
+	}
+
+	@Override
+	public void buildLikeMeMsg(Integer maxId, final Integer userId, Integer start,
+			Integer limit, Map<String, Object> jsonMap) throws Exception {
+		buildSerializables(maxId, start, limit, jsonMap, new SerializableListAdapter<HTWorldLikeMe>() {
+
+			@Override
+			public List<HTWorldLikeMe> getSerializables(
+					RowSelection rowSelection) {
+				List<HTWorldLikeMe> list = worldLikedDao.queryLikeMe(userId, rowSelection);
+				userInfoService.extractVerify(list);
+				userInteractService.extractRemark(userId, list);
+				return list;
+			}
+
+			@Override
+			public List<HTWorldLikeMe> getSerializableByMaxId(int maxId,
+					RowSelection rowSelection) {
+				List<HTWorldLikeMe> list = worldLikedDao.queryLikeMe(maxId, userId, rowSelection);
+				userInfoService.extractVerify(list);
+				userInteractService.extractRemark(userId, list);
+				return list;
+			}
+
+			@Override
+			public long getTotalByMaxId(int maxId) {
+				return 0;
+			}
+			
+		}, OptResult.JSON_KEY_MSG, null);
 	}
 
 }

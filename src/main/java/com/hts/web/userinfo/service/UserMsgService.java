@@ -289,7 +289,7 @@ public interface UserMsgService extends BaseService {
 	 * @param jsonMap
 	 * @throws Exception
 	 */
-	public void buildILikeOtherMsg(Integer maxId, final Integer userId, final Integer authorId, 
+	public void buildILikeOtherMsg(Integer maxId, Integer userId, Integer authorId, 
 			Integer start, Integer limit, Map<String, Object> jsonMap) throws Exception;
 	
 	/**
@@ -303,9 +303,19 @@ public interface UserMsgService extends BaseService {
 	 * @param jsonMap
 	 * @throws Exception
 	 */
-	public void buildOtherLikeMeMsg(Integer maxId, final Integer userId, final Integer authorId, 
+	public void buildOtherLikeMeMsg(Integer maxId, Integer userId, Integer authorId, 
 			Integer start, Integer limit, Map<String, Object> jsonMap) throws Exception;
-	
+
+	/**
+	 * @param maxId
+	 * @param userId
+	 * @param start
+	 * @param limit
+	 * @param jsonMap
+	 * @throws Exception
+	 */
+	public void buildLikeMeMsg(Integer maxId, Integer userId, Integer start, Integer limit,
+			Map<String, Object> jsonMap) throws Exception;
 	
 	/**
 	 * 构建用户和织图缩略图

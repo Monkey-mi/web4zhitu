@@ -266,7 +266,7 @@ ul{
 
 
 #intro-box .intro{
-	height:650px;
+	height:680px;
 	text-align:center;
 }
 
@@ -291,21 +291,21 @@ ul{
 }
 
 #intro-box .intro-title {
-	font-size:64px;
+	font-size:62px;
 	color:#3a98d0;
 	margin-top:140px;
 	margin-bottom:40px;
 }
 
 #intro-box .intro-sub-title {
-	font-size:46px;
+	font-size:44px;
 	color:#c4c8cc;
 	margin-bottom:10px;
 	font-family:SimSun, Arial, Helvetica, sans-serif;
 }
 
 #intro-box .intro-text-content {
-	font-size:20px;
+	font-size:18px;
 	line-height:32px;
 	color:#62707d;
 }
@@ -376,7 +376,7 @@ ul{
 	height:560px;
 	background:url("../images/filter-demo.png");
 	float:right;
-	margin-top:40px;
+	margin-top:50px;
 }
 
 #intro2 .intro-text {
@@ -417,8 +417,8 @@ ul{
 }
 
 #copyright-box {
-	height:50px;
-	padding-top: 10px;
+	height:60px;
+	padding-top: 20px;
 	
 }
 #copyright-box a {

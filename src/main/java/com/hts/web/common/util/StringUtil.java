@@ -44,7 +44,7 @@ public class StringUtil {
 		}
 		return ids;
 	}
-	
+
 	/**
 	 * 将字符串转换为字符数组，并过滤空格
 	 * 
@@ -54,12 +54,12 @@ public class StringUtil {
 	public static String[] convertStringToStrs(String strs) {
 		String[] strs1 = strs.split(",");
 		String[] strs2 = new String[strs1.length];
-		for(int i = 0; i < strs1.length; i++) {
+		for (int i = 0; i < strs1.length; i++) {
 			strs2[i] = strs1[i].trim();
 		}
 		return strs2;
 	}
-	
+
 	/**
 	 * 解决中文乱码，转码为“UTF-8"
 	 * 
@@ -77,18 +77,18 @@ public class StringUtil {
 
 	/**
 	 * 获取字符串缩略图,例如：由testttt转成test...
+	 * 
 	 * @param src
 	 * @param length
 	 * @return
 	 */
 	public static String getShortCut(String src, int length) {
-		if(src.length() > length) {
+		if (src.length() > length) {
 			return src.substring(0, length) + "...";
 		}
 		return src;
 	}
 
-	
 	/**
 	 * 获取标志
 	 * 
@@ -150,132 +150,136 @@ public class StringUtil {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * 将空字符串""转换成NULL
+	 * 
 	 * @param src
 	 * @return
 	 */
 	public static String convertEmpty2NULL(String src) {
-		if(checkIsNULL(src)) {
+		if (checkIsNULL(src)) {
 			return null;
 		} else {
 			return src;
 		}
 	}
-	
-    /** 
-     * 获取拼音 
-     *  
-     * @param zhongwen 
-     * @return 
-     * @throws BadHanyuPinyinOutputFormatCombination 
-     */  
-    public static String getPinYin(String zhongwen)  
-            throws BadHanyuPinyinOutputFormatCombination {  
-  
-        String zhongWenPinYin = "";  
-        char[] chars = zhongwen.toCharArray();  
-  
-        for (int i = 0; i < chars.length; i++) {  
-            String[] pinYin = PinyinHelper.toHanyuPinyinStringArray(chars[i],  
-                    getDefaultOutputFormat());  
-            // 当转换不是中文字符时,返回null  
-            if (pinYin != null) {  
-                zhongWenPinYin += pinYin[0];  
-            } else {  
-                zhongWenPinYin += chars[i];  
-            }  
-        }  
-  
-        return zhongWenPinYin;  
-    }  
-  
-    /** 
-     * Default Format 默认输出格式 
-     *  
-     * @return 
-     */  
-    public static HanyuPinyinOutputFormat getDefaultOutputFormat() {  
-        HanyuPinyinOutputFormat format = new HanyuPinyinOutputFormat();  
-        format.setCaseType(HanyuPinyinCaseType.LOWERCASE);// 小写  
-        format.setToneType(HanyuPinyinToneType.WITHOUT_TONE);// 没有音调数字  
-        format.setVCharType(HanyuPinyinVCharType.WITH_U_AND_COLON);// u显示  
-  
-        return format;  
-    }  
-  
-    /** 
-     * Capitalize 首字母大写 
-     *  
-     * @param s 
-     * @return 
-     */  
-    public static String capitalize(String s) {  
-        char ch[];  
-        ch = s.toCharArray();  
-        if (ch[0] >= 'a' && ch[0] <= 'z') {  
-            ch[0] = (char) (ch[0] - 32);  
-        }  
-        String newString = new String(ch);  
-        return newString;  
-    }  
-    
-    /**
-     * 获取文件字符编码
-     * 
-     * @param fileName
-     * @return
-     * @throws IOException
-     */
-    public static  String getCharset(File file) throws IOException{    
-        BufferedInputStream bin = new BufferedInputStream(new FileInputStream(file));      
-        int p = (bin.read() << 8) +bin.read();      
-        String code = null;      
-        switch (p) {      
-            case 0xefbb:      
-                code = "UTF-8";      
-                break;      
-            case 0xfffe:      
-                code = "Unicode";      
-                break;      
-            case 0xfeff:      
-                code = "UTF-16BE";      
-                break;      
-            default:      
-                code = "GBK";      
-        }      
-        bin.close();
-        return code;    
-    }    
-    
-    public static String convertArrayToString(Object[] a) {
-    	if (a == null)
-    		return "";
-    	int iMax = a.length - 1;
-        if(iMax == -1)
-        	return "";
-        StringBuilder b = new StringBuilder();
-        for (int i = 0; ; i++) {
-            b.append(String.valueOf(a[i]));
-            if (i == iMax)
-    		return b.toString();
-    	    b.append(",");
-        }
-    }
-    
-    /**
-     * 过滤XSS注入
-     * 
-     * @param input
-     * @return
-     */
-    public static String filterXSS(String input) {
-    	if(!StringUtil.checkIsNULL(input)) {
-    		return new HTMLFilter().filter(input);
-    	}
-    	return input;
-    }
-    
-    
+
+	/**
+	 * 获取拼音
+	 * 
+	 * @param zhongwen
+	 * @return
+	 * @throws BadHanyuPinyinOutputFormatCombination
+	 */
+	public static String getPinYin(String zhongwen) {
+
+		String zhongWenPinYin = "";
+		try {
+			char[] chars = zhongwen.toCharArray();
+
+			for (int i = 0; i < chars.length; i++) {
+				String[] pinYin = PinyinHelper.toHanyuPinyinStringArray(
+						chars[i], getDefaultOutputFormat());
+				// 当转换不是中文字符时,返回null
+				if (pinYin != null) {
+					zhongWenPinYin += pinYin[0];
+				} else {
+					zhongWenPinYin += chars[i];
+				}
+			}
+		} catch (BadHanyuPinyinOutputFormatCombination e) {
+
+		}
+
+		return zhongWenPinYin;
+	}
+
+	/**
+	 * Default Format 默认输出格式
+	 * 
+	 * @return
+	 */
+	public static HanyuPinyinOutputFormat getDefaultOutputFormat() {
+		HanyuPinyinOutputFormat format = new HanyuPinyinOutputFormat();
+		format.setCaseType(HanyuPinyinCaseType.LOWERCASE);// 小写
+		format.setToneType(HanyuPinyinToneType.WITHOUT_TONE);// 没有音调数字
+		format.setVCharType(HanyuPinyinVCharType.WITH_U_AND_COLON);// u显示
+
+		return format;
+	}
+
+	/**
+	 * Capitalize 首字母大写
+	 * 
+	 * @param s
+	 * @return
+	 */
+	public static String capitalize(String s) {
+		char ch[];
+		ch = s.toCharArray();
+		if (ch[0] >= 'a' && ch[0] <= 'z') {
+			ch[0] = (char) (ch[0] - 32);
+		}
+		String newString = new String(ch);
+		return newString;
+	}
+
+	/**
+	 * 获取文件字符编码
+	 * 
+	 * @param fileName
+	 * @return
+	 * @throws IOException
+	 */
+	public static String getCharset(File file) throws IOException {
+		BufferedInputStream bin = new BufferedInputStream(new FileInputStream(
+				file));
+		int p = (bin.read() << 8) + bin.read();
+		String code = null;
+		switch (p) {
+		case 0xefbb:
+			code = "UTF-8";
+			break;
+		case 0xfffe:
+			code = "Unicode";
+			break;
+		case 0xfeff:
+			code = "UTF-16BE";
+			break;
+		default:
+			code = "GBK";
+		}
+		bin.close();
+		return code;
+	}
+
+	public static String convertArrayToString(Object[] a) {
+		if (a == null)
+			return "";
+		int iMax = a.length - 1;
+		if (iMax == -1)
+			return "";
+		StringBuilder b = new StringBuilder();
+		for (int i = 0;; i++) {
+			b.append(String.valueOf(a[i]));
+			if (i == iMax)
+				return b.toString();
+			b.append(",");
+		}
+	}
+
+	/**
+	 * 过滤XSS注入
+	 * 
+	 * @param input
+	 * @return
+	 */
+	public static String filterXSS(String input) {
+		if (!StringUtil.checkIsNULL(input)) {
+			return new HTMLFilter().filter(input);
+		}
+		return input;
+	}
+
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import com.hts.web.base.database.RowCallback;
 import com.hts.web.base.database.RowSelection;
 import com.hts.web.common.dao.BaseDao;
+import com.hts.web.common.pojo.HTWorldLikeMe;
 import com.hts.web.common.pojo.HTWorldLiked;
 import com.hts.web.common.pojo.HTWorldLikedUser;
 import com.hts.web.common.pojo.HTWorldThumbnail;
@@ -66,6 +67,7 @@ public interface HTWorldLikedDao extends BaseDao {
 	
 	/**
 	 * 查询指定用户喜欢消息
+	 * 
 	 * @param userId
 	 * @param rowSelection
 	 */
@@ -73,11 +75,13 @@ public interface HTWorldLikedDao extends BaseDao {
 	
 	/**
 	 * 根据最大id查询指定用户喜欢消息
+	 * 
 	 * @param userId
 	 * @param maxId
 	 * @param rowSelection
 	 */
-	public List<HTWorldLiked> queryUserLikedByMaxId(Integer userId, Integer maxId, RowSelection rowSelection);
+	public List<HTWorldLiked> queryUserLikedByMaxId(Integer userId, Integer maxId, 
+			RowSelection rowSelection);
 	
 	/**
 	 * 根据最小id查询指定用户喜欢消息
@@ -85,7 +89,8 @@ public interface HTWorldLikedDao extends BaseDao {
 	 * @param minId
 	 * @param rowSelection
 	 */
-	public List<HTWorldLiked> queryUserLikedByMinId(Integer userId, Integer minId, RowSelection rowSelection);
+	public List<HTWorldLiked> queryUserLikedByMinId(Integer userId, Integer minId, 
+			RowSelection rowSelection);
 	
 	/**
 	 * 查询指定用户喜欢总数
@@ -160,7 +165,8 @@ public interface HTWorldLikedDao extends BaseDao {
 	 * @param rowSelection
 	 * @return
 	 */
-	public List<UserConcernDto> queryLikedUser(Integer worldId, Integer userId, RowSelection rowSelection);
+	public List<UserConcernDto> queryLikedUser(Integer worldId, Integer userId, 
+			RowSelection rowSelection);
 	
 	/**
 	 * 查询喜欢指定织图用户信息
@@ -171,7 +177,8 @@ public interface HTWorldLikedDao extends BaseDao {
 	 * @param rowSelection
 	 * @return
 	 */
-	public List<UserConcernDto> queryLikedUser(Integer maxId, Integer worldId, Integer userId, RowSelection rowSelection);
+	public List<UserConcernDto> queryLikedUser(Integer maxId, Integer worldId, Integer userId, 
+			RowSelection rowSelection);
 	
 	/**
 	 * 查询用户喜欢总数
@@ -189,8 +196,8 @@ public interface HTWorldLikedDao extends BaseDao {
 	 * @param authorId
 	 * @return
 	 */
-	public List<HTWorldThumbnail> queryLikeOthersWorldThumbnail(Integer limit, Integer userId,
-			Integer authorId);
+	public List<HTWorldThumbnail> queryLikeOthersWorldThumbnail(Integer limit, 
+			Integer userId, Integer authorId);
 	
 	/**
 	 * 查询某用户喜欢指定用户的织图总数
@@ -217,6 +224,25 @@ public interface HTWorldLikedDao extends BaseDao {
 	 * @return
 	 */
 	public long queryLikeMeCount(Integer worldAuthorId);
+
+	/**
+	 * 查询喜欢我的用户信息
+	 * 
+	 * @param userId
+	 * @param rowSelection
+	 * @return
+	 */
+	public List<HTWorldLikeMe> queryLikeMe(Integer userId,
+			RowSelection rowSelection);
 	
-	
+	/**
+	 * 查询喜欢我的用户信息
+	 * 
+	 * @param maxId
+	 * @param userId
+	 * @param rowSelection
+	 * @return
+	 */
+	public List<HTWorldLikeMe> queryLikeMe(Integer maxId, Integer userId,
+			RowSelection rowSelection);
 }

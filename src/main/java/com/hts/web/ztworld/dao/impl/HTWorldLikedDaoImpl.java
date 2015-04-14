@@ -16,6 +16,7 @@ import com.hts.web.base.database.RowCallback;
 import com.hts.web.base.database.RowSelection;
 import com.hts.web.base.database.SQLUtil;
 import com.hts.web.common.dao.impl.BaseDaoImpl;
+import com.hts.web.common.pojo.HTWorldLikeMe;
 import com.hts.web.common.pojo.HTWorldLiked;
 import com.hts.web.common.pojo.HTWorldLikedUser;
 import com.hts.web.common.pojo.HTWorldThumbDto;
@@ -46,6 +47,12 @@ public class HTWorldLikedDaoImpl extends BaseDaoImpl implements HTWorldLikedDao{
 	 */
 	private static final String LIKED_USER_INFO = "u0.id,u0.user_name,u0.user_avatar,"
 			+ "u0.user_avatar_l,u0.star,u0.platform_verify";
+	
+	/**
+	 *　喜欢我的用户信息
+	 */
+	private static final String LIKE_ME_INFO = "l0.id,l0.liked_date,l0.user_id,l0.world_id,u0.user_name,u0.user_avatar,"
+			+ "u0.user_avatar_l,u0.star,u0.platform_verify,w0.title_thumb_path";
 	
 	/**
 	 * 织图喜欢表
@@ -210,6 +217,22 @@ public class HTWorldLikedDaoImpl extends BaseDaoImpl implements HTWorldLikedDao{
 	 */
 	private static final String QUERY_LIKE_ME_COUNT_BY_WUID = "select count(*) from " + table 
 			+ " where world_author_id=? and valid=1";
+
+	/**
+	 * 查询喜欢我的用户信息
+	 */
+	private static final String QUERY_LIKE_ME = "select " + LIKE_ME_INFO + " from "
+			+ table + " as l0," + HTS.USER_INFO + " u0, " + HTS.HTWORLD_HTWORLD + " as w0"
+			+ " where l0.user_id=u0.id and l0.world_id=w0.id and l0.valid=1 and l0.world_author_id=?"
+			+ " order by l0.id desc limit ?,?";
+	
+	/**
+	 * 查询喜欢我的用户信息
+	 */
+	private static final String QUERY_LIKE_ME_BY_MAXID = "select " + LIKE_ME_INFO + " from "
+			+ table + " as l0," + HTS.USER_INFO + " u0, " + HTS.HTWORLD_HTWORLD + " as w0"
+			+ " where l0.user_id=u0.id and l0.world_id=w0.id and l0.valid=1 and l0.world_author_id=?"
+			+ " and l0.id<=? order by l0.id desc limit ?,?";
 	
 	@Autowired
 	private HTWorldDao worldDao;
@@ -492,6 +515,50 @@ public class HTWorldLikedDaoImpl extends BaseDaoImpl implements HTWorldLikedDao{
 	@Override
 	public long queryLikeMeCount(Integer worldAuthorId) {
 		return getJdbcTemplate().queryForLong(QUERY_LIKE_ME_COUNT_BY_WUID, worldAuthorId);
+	}
+
+	@Override
+	public List<HTWorldLikeMe> queryLikeMe(Integer userId,
+			RowSelection rowSelection) {
+		return getJdbcTemplate().query(QUERY_LIKE_ME, 
+				new Object[]{userId, rowSelection.getFirstRow(), rowSelection.getLimit()}, 
+				new RowMapper<HTWorldLikeMe>(){
+
+					@Override
+					public HTWorldLikeMe mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						return buildLikeMe(rs);
+					}
+		});
+	}
+
+	@Override
+	public List<HTWorldLikeMe> queryLikeMe(Integer maxId, Integer userId,
+			RowSelection rowSelection) {
+		return getJdbcTemplate().query(QUERY_LIKE_ME_BY_MAXID, 
+				new Object[]{userId, maxId, rowSelection.getFirstRow(), rowSelection.getLimit()}, 
+				new RowMapper<HTWorldLikeMe>(){
+
+					@Override
+					public HTWorldLikeMe mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						return buildLikeMe(rs);
+					}
+		});
+	}
+	
+	public HTWorldLikeMe buildLikeMe(ResultSet rs) throws SQLException {
+		return new HTWorldLikeMe(
+				rs.getInt("id"),
+				(Date)rs.getObject("liked_date"),
+				rs.getInt("user_id"),
+				rs.getString("user_name"),
+				rs.getString("user_avatar"),
+				rs.getString("user_avatar_l"),
+				rs.getInt("star"),
+				rs.getInt("platform_verify"),
+				rs.getInt("world_id"),
+				rs.getString("title_thumb_path"));
 	}
 
 }

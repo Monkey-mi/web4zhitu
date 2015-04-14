@@ -167,4 +167,17 @@ public class UserMsgServiceTest extends BaseTest {
 		service.buildThumbnail("1595,1591,1549 ", "", 1611, null, null, jsonMap);
 		logObj(jsonMap);
 	}
+	
+	@Test
+	public void buildLikeMe() throws Exception {
+		logNumberList(log, new NumberListAdapter() {
+
+			@Override
+			public void buildNumberList(Map<String, Object> jsonMap)
+					throws Exception {
+				service.buildLikeMeMsg(1000, 485, 1, 10, jsonMap);
+				service.buildLikeMeMsg(0, 485, 1, 10, jsonMap);
+			}
+		});
+	}
 }

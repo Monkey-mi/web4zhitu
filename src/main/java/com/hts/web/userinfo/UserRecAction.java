@@ -19,6 +19,8 @@ public class UserRecAction extends BaseAction {
 	private UserRecService recService;
 	
 	private String platConcerns;
+	private String province;
+	private String city;
 	
 	/**
 	 * 保存社交平台关注的用户账号
@@ -42,7 +44,7 @@ public class UserRecAction extends BaseAction {
 	 */
 	public String queryDynamicRec() {
 		try {
-			recService.buildRecUser(getCurrentLoginUserId(), jsonMap);	
+			recService.buildRecUser(getCurrentLoginUserId(), province, city, jsonMap);	
 			JSONUtil.optSuccess(jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
@@ -71,6 +73,22 @@ public class UserRecAction extends BaseAction {
 
 	public void setPlatConcerns(String platConcerns) {
 		this.platConcerns = platConcerns;
+	}
+
+	public String getProvince() {
+		return province;
+	}
+
+	public void setProvince(String province) {
+		this.province = province;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
 	}
 	
 }
