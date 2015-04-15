@@ -8,9 +8,8 @@ function download(){
 };
 
 function setCookie(name,value){
-	var days = 30;
 	var exp  = new Date();
-	exp.setTime(exp.getTime()+days*24*60*60*1000);
+	exp.setTime(exp.getTime()+24*60*60*1000);
 	document.cookie = name + "=" + escape(value) + ";expires="+exp.toUTCString();
 }
 
