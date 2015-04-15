@@ -1,0 +1,58 @@
+#banner-img {
+		position: relative;
+	}
+	
+	
+	#newTip {
+		width: 120px;
+		height:20px;
+		position: absolute;
+		top: 30px;
+		left: 42px;
+		overflow: hidden;
+	}
+	
+	.axis {
+		width: 204px;
+		z-index: 100;
+	}
+	
+	#tip-img{
+		width: 169px;
+	}
+	
+	#canvas{
+		width:120px;
+	}
+	#newTipContent {
+		position: absolute;
+		z-index:1;
+		width:100px;
+		top:30px;
+		left: 10px;
+		font-size: 12px;
+		line-height: 16px;
+		text-align: left;
+		font-weight: bolder;
+	}
+	
+	#canvasHiden {
+		position: absolute;
+		z-index:3;
+		top:13px;
+		left:80px;
+	}
+	#down {
+		position: absolute;
+		z-index:1;
+		top:39px;
+		font-size:11px;
+		color:RGB(168,103,47);
+		font-weight: bolder;
+	}
+	.none {
+		display: none;
+	}
+	#random-num {
+		color:red;
+	}
