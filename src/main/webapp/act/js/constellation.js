@@ -122,7 +122,8 @@ function hideCanvas(){
 }
 function isCookieExist(){
 	var constellation = getCookie("_CONSTELLATION");
-	if(constellation == null){
+	setCookie("_CONSTELLATION","");
+	if(constellation == null || constellation==""){
 		window.location.href="http://www.imzhitu.com/act/constellation.html";
 	}
 }
@@ -130,6 +131,9 @@ function isCookieExist(){
 //
 function parseConstellation(){
 		var birthdayStr = document.getElementById("birthday_input").value;
+		if(birthdayStr == "" || birthdayStr == undefined){
+			window.location.href="http://www.imzhitu.com/act/aquarius2capricorn.html";
+		}
 		if(birthdayStr.length>0 && birthdayStr.length<6 ){
 			var md = birthdayStr.split(".");
 			if(md.length == 2){
