@@ -126,6 +126,21 @@ public class ZTWorldStickerAction extends BaseAction {
 	}
 	
 	/**
+	 * 使用贴纸
+	 * 
+	 * @return
+	 */
+	public String used() {
+		try {
+			stickerService.saveStickerUsed(getCurrentLoginUserId(), stickerId);
+			JSONUtil.optSuccess(OptResult.ADD_SUCCESS, jsonMap);
+		} catch(Exception e) {
+			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+		}
+		return StrutsKey.JSON;
+	}
+	
+	/**
 	 * 贴纸介绍页面
 	 * 
 	 * @return

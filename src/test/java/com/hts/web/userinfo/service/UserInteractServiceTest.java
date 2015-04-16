@@ -208,7 +208,7 @@ public class UserInteractServiceTest extends BaseTest {
 			@Override
 			public void buildNumberList(Map<String, Object> jsonMap)
 					throws Exception {
-				service.buildIsMututal(485, "123,234", jsonMap);
+				service.buildIsMututal(2035, "1240", jsonMap);
 			}
 		});
 	}

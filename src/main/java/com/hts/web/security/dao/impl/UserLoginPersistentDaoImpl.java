@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.hts.web.base.database.HTS;
 import com.hts.web.common.dao.impl.BaseDaoImpl;
+import com.hts.web.common.util.TimeUtil;
 import com.hts.web.security.dao.UserLoginPersistentDao;
 
 /**
@@ -34,33 +35,38 @@ public class UserLoginPersistentDaoImpl extends BaseDaoImpl implements
 	/**
 	 * 保存Token
 	 */
-	private static final String SAVE_TOKEN = "insert into " + table + " (user_id, series, token, last_used) values (?,?,?,?)";
+	private static final String SAVE_TOKEN = "insert into " + table 
+			+ " (user_id, series, token, last_login) values (?,?,?,?)";
 	
 	/**
 	 * 更新Token
 	 */
-	private static final String UPDATE_TOKEN = "update " + table + " set token=?,last_used=? where series=?";
+	private static final String UPDATE_TOKEN = "update " + table 
+			+ " set token=?,last_login=? where series=?";
 	
 	/**
 	 * 根据series查询Token
 	 */
-	private static final String QUERY_TOKEN_BY_SERIES = "select * from " + table + " where series=?";
+	private static final String QUERY_TOKEN_BY_SERIES = "select * from " + table 
+			+ " where series=?";
 	
 	/**
 	 * 根据用户id删除Token
 	 */
-	private static final String DELETE_TOKEN_BY_USER_ID = "delete from " + table + " where user_id=?";
+	private static final String DELETE_TOKEN_BY_USER_ID = "delete from " + table 
+			+ " where user_id=?";
 	
 	/**
 	 * 根据用户id查询Token
 	 */
-	private static final String QUERY_TOKEN_BY_USER_ID = "select * from " + table + " where user_id=?";
+	private static final String QUERY_TOKEN_BY_USER_ID = "select * from " + table 
+			+ " where user_id=?";
 	
 	@Override
 	public void createNewToken(PersistentRememberMeToken token) {
 		try {
-		getMasterJdbcTemplate().update(SAVE_TOKEN, new Object[]{token.getUsername(),
-				token.getSeries(), token.getTokenValue(), token.getDate()});
+			getMasterJdbcTemplate().update(SAVE_TOKEN, new Object[]{token.getUsername(),
+					token.getSeries(), token.getTokenValue(), TimeUtil.getTimeINT(token.getDate())});
 		} catch (DuplicateKeyException e) {
 			logger.warn("remember me error (uid=" + token.getUsername() + "): " + e.getMessage());
 		}
@@ -68,7 +74,8 @@ public class UserLoginPersistentDaoImpl extends BaseDaoImpl implements
 
 	@Override
 	public void updateToken(String series, String tokenValue, Date lastUsed) {
-		getMasterJdbcTemplate().update(UPDATE_TOKEN, new Object[]{tokenValue, lastUsed, series});
+		getMasterJdbcTemplate().update(UPDATE_TOKEN, 
+				new Object[]{tokenValue, TimeUtil.getTimeINT(lastUsed), series});
 	}
 
 	@Override
@@ -78,11 +85,13 @@ public class UserLoginPersistentDaoImpl extends BaseDaoImpl implements
 			@Override
 			public PersistentRememberMeToken mapRow(ResultSet rs, int rowNum)
 					throws SQLException {
+				Date date = new Date();
+				date.setTime(rs.getLong("last_login"));
 				return new PersistentRememberMeToken(
 						String.valueOf(rs.getInt("user_id")),
 						rs.getString("series"), 
 						rs.getString("token"),
-						(Date)rs.getObject("last_used"));
+						date);
 			}
 			
 		}, seriesId);
@@ -99,11 +108,13 @@ public class UserLoginPersistentDaoImpl extends BaseDaoImpl implements
 			@Override
 			public PersistentRememberMeToken mapRow(ResultSet rs, int rowNum)
 					throws SQLException {
+				Date date = new Date();
+				date.setTime(rs.getLong("last_login"));
 				return new PersistentRememberMeToken(
 						String.valueOf(rs.getInt("user_id")),
 						rs.getString("series"), 
 						rs.getString("token"),
-						(Date)rs.getObject("last_used"));
+						date);
 			}
 		}, userId);
 	}

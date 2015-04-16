@@ -33,6 +33,11 @@ public class KeyGenDaoImpl extends BaseDaoImpl implements KeyGenDao{
 	@Autowired
 	private RedisTemplate<String, String> redisKeyTemplate;
 	
+	
+	public RedisTemplate<String, String> getRedisKeyTemplate() {
+		return redisKeyTemplate;
+	}
+
 	public static String table = HTS.KEYGEN;
 	
 	/**
@@ -72,7 +77,7 @@ public class KeyGenDaoImpl extends BaseDaoImpl implements KeyGenDao{
 
 	@Override
 	public Integer nextId(final String keyId, final long step) {
-		return redisKeyTemplate.execute(new SessionCallback<Integer>() {
+		return getRedisKeyTemplate().execute(new SessionCallback<Integer>() {
 
 			@SuppressWarnings({ "rawtypes", "unchecked" })
 			@Override

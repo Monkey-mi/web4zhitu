@@ -78,5 +78,15 @@ public interface ZTWorldStickerService extends BaseService {
 	public void extractUnlock(Integer userId, 
 			List<HTWorldStickerDto> list) throws Exception;
 	
+	/**
+	 * 保存贴纸使用记录
+	 * 
+	 * @param userId
+	 * @param stickerId
+	 * @throws Exception
+	 */
+	public void saveStickerUsed(Integer userId, 
+			Integer stickerId) throws Exception;
+	
 	
 }

@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import uk.ltd.getahead.dwr.util.Logger;
+
 import com.hts.web.base.HTSException;
 import com.hts.web.base.constant.OptResult;
 import com.hts.web.base.constant.Tag;
@@ -18,16 +20,21 @@ import com.hts.web.base.database.RowSelection;
 import com.hts.web.common.SerializableListAdapter;
 import com.hts.web.common.pojo.HTWorldStickerDto;
 import com.hts.web.common.pojo.HTWorldStickerTypeDto;
+import com.hts.web.common.pojo.HTWorldStickerUsed;
 import com.hts.web.common.service.impl.BaseServiceImpl;
+import com.hts.web.common.util.TimeUtil;
 import com.hts.web.ztworld.dao.HTWorldStickerCacheDao;
 import com.hts.web.ztworld.dao.HTWorldStickerDao;
 import com.hts.web.ztworld.dao.HTWorldStickerTypeCacheDao;
 import com.hts.web.ztworld.dao.HTWorldStickerUnlockDao;
+import com.hts.web.ztworld.dao.HTWorldStickerUsedDao;
 import com.hts.web.ztworld.service.ZTWorldStickerService;
 
 @Service("HTSZTWorldStickerService")
 public class ZTWorldStickerServiceImpl extends BaseServiceImpl implements
 		ZTWorldStickerService {
+	
+	private static Logger log = Logger.getLogger(ZTWorldStickerServiceImpl.class);
 	
 	@Autowired
 	private HTWorldStickerCacheDao stickerCacheDao;
@@ -40,6 +47,9 @@ public class ZTWorldStickerServiceImpl extends BaseServiceImpl implements
 	
 	@Autowired
 	private HTWorldStickerUnlockDao unlockDao;
+
+	@Autowired
+	private HTWorldStickerUsedDao usedDao;
 	
 	@Value("${op.stickerIntro}")
 	private String sharePath;
@@ -149,6 +159,16 @@ public class ZTWorldStickerServiceImpl extends BaseServiceImpl implements
 			throw new HTSException("sticker not found");
 		}
 		return dto;
+	}
+
+	@Override
+	public void saveStickerUsed(Integer userId, Integer stickerId)
+			throws Exception {
+		try {
+			usedDao.saveUsed(new HTWorldStickerUsed(userId, stickerId, TimeUtil.getTimeINT()));
+		} catch(Exception e) {
+			log.warn("save sticker used error", e);
+		}
 	}
 
 }

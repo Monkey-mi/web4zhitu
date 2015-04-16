@@ -12,6 +12,7 @@ import org.springframework.core.task.TaskExecutor;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.stereotype.Service;
 
+import com.hts.web.aliyun.service.OsUserInfoService;
 import com.hts.web.base.HTSException;
 import com.hts.web.base.constant.OptResult;
 import com.hts.web.base.constant.PlatFormCode;
@@ -187,6 +188,9 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 	@Autowired
 	private UserInteractService userInteractService;
 	
+	@Autowired
+	private OsUserInfoService osUserService;
+	
 	public Integer getOfficialId() {
 		return officialId;
 	}
@@ -239,6 +243,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 		initNewUserInfo(userInfo);
 		byte[] passwordEncrypt = null;
 		passwordEncrypt = MD5Encrypt.encryptByMD5(password);
+		osUserService.saveUser(id, userName, userAvatar, signature, null, 0, 0); // 保存用户索引
 		userInfoDao.saveUserInfo(userInfo, passwordEncrypt);
 		userInfo.setIsNewAdded(Tag.TRUE);
 		
@@ -272,6 +277,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 				platformSign, platformVerify, platformReason, loginCode, userName,userAvatar, userAvatarL, 
 				sex, null, null, null, null, null, null, new Date(),0,null, pushToken, phoneCode, phoneSys, 
 				phoneVer, Tag.ONLINE, ver);
+		osUserService.saveUser(id, userName, userAvatar, null, platformSign, 0, 0);
 		userInfoDao.saveUserInfo(userInfo, null);
 		userInfo.setIsNewAdded(Tag.TRUE);
 		
@@ -382,6 +388,8 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 			initNewUserInfo(userInfo);
 			
 		} else { // 登陆成功，更新登陆状态
+			osUserService.updateUserWithoutNULL(userInfo.getId(), null, null, 
+					null, platformSign, null, null);
 			Integer onlineStatus = Tag.ONLINE;
 			userInfoDao.updateLoginStatus(loginCode, platformCode, platformToken,
 					platformTokenExpires, platformSign, platformVerify, platformReason, pushToken, phoneCode, 
@@ -558,8 +566,10 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 		if(StringUtil.checkIsNULL(password)) {
 			// 不设置密码
 			
-			setUpProfile(userInfo, userName, userAvatar, userAvatarL, sex, email, address, birthday, province, 
-					city, longitude, latitude);
+			setUpProfile(userInfo, userName, userAvatar, userAvatarL, 
+					sex, email, address, birthday, province, city, longitude, latitude);
+			osUserService.updateUserWithoutNULL(userInfo.getId(), userName,
+					userAvatar, null, null, null, null);
 			userInfoDao.updateProfile(userInfo);
 			userInfo.setPasswordEncrypt(null);
 		} else {
@@ -569,6 +579,8 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 			byte[] currentPass = userInfo.getPasswordEncrypt();
 			if(currentPass != null && MD5Encrypt.validatePassword(oriPassword, currentPass)) {
 				byte[] passEncrypt = MD5Encrypt.encryptByMD5(password);
+				osUserService.updateUserWithoutNULL(userInfo.getId(), userName,
+						userAvatar, null, null, null, null);
 				userInfoDao.updateProfileAndPass(userInfo, passEncrypt);
 				userInfo.setPasswordEncrypt(null);
 			} else {
@@ -686,13 +698,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 	public void updateUserName(Integer userId, String userName)
 			throws Exception {
 		userName = StringUtil.filterXSS(userName);
-//		if(!userInfoDao.checkUserNameExists(userName))
-//			userInfoDao.updateUserName(userId, userName);
-//		else {
-//			HTSException e = new HTSException(TIP_USER_NAME_EXIST);
-//			e.setErrorCode(USER_NAME_EXIST);
-//			throw e;
-//		}
+		osUserService.updateUserWithoutNULL(userId, userName, null, null, null, null, null);
 		userInfoDao.updateUserName(userId, userName);
 	}
 
@@ -702,6 +708,8 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 		if(StringUtil.checkIsNULL(userAvatar) || StringUtil.checkIsNULL(userAvatarL)) {
 			throw new HTSException("头像不能为空", AVATAR_ERROR);
 		}
+		osUserService.updateUserWithoutNULL(userId, null,
+				userAvatar, null, null, null, null);
 		userInfoDao.updateAvatar(userId, userAvatar, userAvatarL);
 	}
 
@@ -754,6 +762,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 	@Override
 	public void updateSignature(Integer userId, String signature) throws Exception{
 		signature = StringUtil.filterXSS(signature);
+		osUserService.updateUserWithoutNULL(userId, null, null, signature, null, null, null);
 		userInfoDao.updateSignature(userId, signature);
 	}
 	

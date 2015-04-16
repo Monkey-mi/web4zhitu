@@ -25,4 +25,32 @@ public class TimeUtil {
 	public static Date getGMTTime() {
 		return new Date(getGMTTimestamp());
 	}
+	
+	/**
+	 * 获取日期整形数
+	 * 
+	 * @return
+	 */
+	public static int getTimeINT() {
+		return (int)(new Date().getTime() / 1000);
+	}
+	
+	/**
+	 * 获取时间整形数
+	 * 
+	 * @param date
+	 * @return
+	 */
+	public static int getTimeINT(Date date) {
+		return (int)(date.getTime() / 1000);
+	}
+	
+	/**
+	 * 获取日期长整形数
+	 * 
+	 * @return
+	 */
+	public static long getTimeLONG() {
+		return new Date().getTime();
+	}
 }

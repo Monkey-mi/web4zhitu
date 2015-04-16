@@ -7,6 +7,6 @@ package com.hts.web.aliyun.dao;
  * @author lynch
  *
  */
-public interface BaseSearchDao {
+public interface BaseOsDao {
 
 }

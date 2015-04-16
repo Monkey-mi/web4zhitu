@@ -12,10 +12,10 @@ import com.hts.web.base.BaseTest;
 public class UserInfoDaoTest extends BaseTest {
 
 	@Autowired
-	private UserInfoDao dao;
+	private OsUserInfoDao dao;
 	
 	@Test
 	public void updateUserNameTest() throws ClientProtocolException, JSONException, IOException {
-		dao.updateUserName(25, "琳琳我嗷嗷嗷");
+//		dao.updateUserName(25, "琳琳我嗷嗷嗷");
 	}
 }

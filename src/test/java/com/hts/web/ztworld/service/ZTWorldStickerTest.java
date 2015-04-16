@@ -7,7 +7,6 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.hts.web.base.BaseTest;
-import com.hts.web.common.util.Log;
 
 public class ZTWorldStickerTest extends BaseTest {
 	
@@ -74,6 +73,11 @@ public class ZTWorldStickerTest extends BaseTest {
 	@Test
 	public void unlockTest() throws Exception {
 		service.unlock((int)(Math.random() * 1000000), (int)(Math.random() * 1000000));
+	}
+	
+	@Test
+	public void usedTest() throws Exception {
+		service.saveStickerUsed(485, 11);
 	}
 	
 }

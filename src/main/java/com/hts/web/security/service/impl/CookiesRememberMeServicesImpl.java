@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -24,6 +24,8 @@ import org.springframework.security.web.authentication.rememberme.RememberMeAuth
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
 
+import com.hts.web.aliyun.service.OsUserInfoService;
+import com.hts.web.common.util.TimeUtil;
 import com.hts.web.security.service.LoginService;
 import com.hts.web.security.service.UserLoginPersistentService;
 import com.hts.web.userinfo.dao.UserInfoDao;
@@ -40,15 +42,21 @@ import com.hts.web.userinfo.dao.UserInfoDao;
 public class CookiesRememberMeServicesImpl extends AbstractRememberMeServices
 		implements LoginService {
 
+	private static Logger log = Logger.getLogger(CookiesRememberMeServicesImpl.class);
 	
 	public static final String REMEMBER_ME_VER = "REMEMBER_ME_VER";
 	
 	@Autowired
 	private UserLoginPersistentService userLoginPersistentService;
+	
 	@Autowired
 	private PersistentTokenRepository tokenRepository;
+	
 	@Autowired
 	private UserInfoDao userInfoDao;
+
+	@Autowired
+	private OsUserInfoService osUserInfoService;
 	
 	private SecurityContextRepository securityContextRepository = new HttpSessionSecurityContextRepository();
 
@@ -120,23 +128,28 @@ public class CookiesRememberMeServicesImpl extends AbstractRememberMeServices
 //							"Invalid remember-me token (Series/token) mismatch. Implies previous cookie theft attack."));
 //			logger.warn(message)
 //		}
-
-		if (token.getDate().getTime() + getTokenValiditySeconds() * 1000L < System.currentTimeMillis()) {
-			throw new RememberMeAuthenticationException("Remember-me login has expired");
-		}
+//
+//		if (token.getDate().getTime() + getTokenValiditySeconds() * 1000L < System.currentTimeMillis()) {
+//			throw new RememberMeAuthenticationException("Remember-me login has expired");
+//		}
 
 		// Token also matches, so login is valid. Update the token value,
 		// keeping the *same* series number.
-		if (logger.isDebugEnabled()) {
-			logger.debug("Refreshing persistent login token for user '" + token.getUsername() + "', series '" + token.getSeries() + "'");
-		}
+//		if (logger.isDebugEnabled()) {
+//			logger.debug("Refreshing persistent login token for user '" + token.getUsername() + "', series '" + token.getSeries() + "'");
+//		}
 
-		
 		PersistentRememberMeToken newToken = new PersistentRememberMeToken(token.getUsername(), token.getSeries(),
 				userLoginPersistentService.generateTokenData(), new Date());
 
 		try {
 			tokenRepository.updateToken(newToken.getSeries(), newToken.getTokenValue(), newToken.getDate());
+			try {
+				osUserInfoService.updateLastLogin(Integer.parseInt(newToken.getUsername()),
+						TimeUtil.getTimeINT(newToken.getDate()));
+			} catch(Exception e) {
+				log.warn("update opensearch userinfo last login error", e);
+			}
 			addCookie(newToken, request, response);
 		} catch (DataAccessException e) {
 			logger.error("Failed to update token: ", e);
@@ -192,6 +205,11 @@ public class CookiesRememberMeServicesImpl extends AbstractRememberMeServices
 				username,userLoginPersistentService.generateSeriesData(),
 				userLoginPersistentService.generateTokenData(), new Date());
 		tokenRepository.createNewToken(newToken);
+		try {
+			osUserInfoService.updateLastLogin(userId, TimeUtil.getTimeINT(newToken.getDate()));
+		} catch(Exception e) {
+			log.warn("update opensearch userinfo last login error", e);
+		}
 		addCookie(newToken, request, response);
 		
 		UserDetails userDetails = getUserDetailsService().loadUserByUsername(username);  

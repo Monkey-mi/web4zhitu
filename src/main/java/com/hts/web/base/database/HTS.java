@@ -188,9 +188,15 @@ public class HTS {
 	public static final String HTWORLD_STICKER_UNLOCK = DB + "htworld_sticker_unlock";
 	
 	/**
+	 * 贴纸使用记录表
+	 */
+	public static final String HTWORLD_STICKER_USED = DB + "htworld_sticker_used";
+	
+	/**
 	 * 字幕表
 	 */
 	public static final String HTWORLD_SUBTITLE = DB + "htworld_subtitle";
+	
 	
 	/*
 	 * 运营子模块

@@ -11,7 +11,6 @@ import com.hts.web.base.constant.OptResult;
 import com.hts.web.common.BaseAction;
 import com.hts.web.common.pojo.PushStatus;
 import com.hts.web.common.util.JSONUtil;
-import com.hts.web.common.util.Log;
 import com.hts.web.userinfo.service.UserInteractService;
 
 /**
@@ -421,6 +420,21 @@ public class UserInteractAction extends BaseAction {
 		return StrutsKey.JSON;
 	}
 	
+	/**
+	 * 查询关注状态
+	 * 
+	 * @return
+	 */
+	public String queryIsMututal() {
+		try {
+			userInteractService.buildIsMututal(getCurrentLoginUserId(), concernIds, jsonMap);
+			JSONUtil.optSuccess(jsonMap);
+		} catch(Exception e) {
+			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+		}
+		return StrutsKey.JSON;
+	}
+	
 	public UserInteractService getUserInteractService() {
 		return userInteractService;
 	}
@@ -520,5 +534,6 @@ public class UserInteractAction extends BaseAction {
 	public void setFollowId(Integer followId) {
 		this.followId = followId;
 	}
+	
 	
 }

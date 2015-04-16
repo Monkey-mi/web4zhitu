@@ -136,6 +136,21 @@ public class CacheKeies {
 	 * 用户权限
 	 */
 	public static final String USER_VERIFY = MODULE_USER + "verify";
+	
+	/**
+	 * 开放搜索模块
+	 */
+	private static final String MODULE_OS = "os:";
+	
+	/**
+	 * 开放搜索用户信息
+	 */
+	public static final String OS_USER_INFO = MODULE_OS + "userInfo";
+	
+	/**
+	 * 开放搜索用户登录信息
+	 */
+	public static final String OS_USER_LOGIN = MODULE_OS + "userLogin";
 
 	
 	
