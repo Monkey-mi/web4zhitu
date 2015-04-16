@@ -363,12 +363,13 @@
 			<version>2.3-jdk15</version>
 		</dependency>
 
-
+		<!-- 
 		<dependency>
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>juli</artifactId>
 			<version>6.0.18</version>
 		</dependency>
+		 -->
 
 		<dependency>
 			<groupId>log4j</groupId>
@@ -800,4 +801,5 @@
         
 	</dependencies>
 
+	<packaging>war</packaging>
 </project>
