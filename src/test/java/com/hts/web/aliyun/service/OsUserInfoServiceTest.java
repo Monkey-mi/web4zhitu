@@ -1,5 +1,7 @@
 package com.hts.web.aliyun.service;
 
+import java.util.Date;
+
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -12,16 +14,12 @@ public class OsUserInfoServiceTest extends BaseTest {
 	
 	@Test
 	public void updateUserWithoutNULLTest() throws Exception {
-//		service.updateUserWithoutNULL(25, null, null, null, null, null, 100);
+		service.updateUserWithoutNULL(692314, "海贼王", null, null, null, null, 100);
 	}
 	
 	@Test
 	public void updateLastLoginTest() throws Exception {
-//		service.updateLastLogin(25, 1000);
+		service.updateLastLogin(692314, new Date().getTime());
 	}
 	
-	@Test
-	public void commitOptTest() throws Exception {
-//		service.commitOpt();
-	}
 }

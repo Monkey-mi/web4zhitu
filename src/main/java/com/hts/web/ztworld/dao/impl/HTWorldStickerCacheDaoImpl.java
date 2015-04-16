@@ -28,4 +28,9 @@ public class HTWorldStickerCacheDaoImpl extends BaseCacheDaoImpl<HTWorldStickerD
 		return getRedisTemplate().opsForList().index(CacheKeies.ZTWORLD_STICKER_RECOMMEND, 0);
 	}
 
+//	@Override
+//	public List<HTWorldStickerDto> queryHotSticker() {
+//		return getRedisTemplate().opsForList().range(CacheKeies.ZTWORLD_STICKER_HOT, 0, -1);
+//	}
+
 }

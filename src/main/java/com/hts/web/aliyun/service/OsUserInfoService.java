@@ -55,13 +55,6 @@ public interface OsUserInfoService {
 	 * @param lastLogin
 	 * @throws Exception
 	 */
-	public void updateLastLogin(Integer id, Integer lastLogin) throws Exception;
-	
-	/**
-	 * 提交更新操作
-	 * 
-	 * @throws Exception
-	 */
-	public void commitOpt() throws Exception;
+	public void updateLastLogin(Integer id, Long lastLogin) throws Exception;
 	
 }

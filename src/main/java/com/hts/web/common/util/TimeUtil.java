@@ -46,6 +46,16 @@ public class TimeUtil {
 	}
 	
 	/**
+	 * 获取时间长整形数
+	 * 
+	 * @param date
+	 * @return
+	 */
+	public static long getTimeLONG(Date date) {
+		return date.getTime();
+	}
+	
+	/**
 	 * 获取日期长整形数
 	 * 
 	 * @return

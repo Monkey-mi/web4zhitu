@@ -15,6 +15,7 @@ import uk.ltd.getahead.dwr.util.Logger;
 import com.hts.web.aliyun.dao.OsUserLoginCacheDao;
 import com.hts.web.aliyun.dao.OsUserLoginDao;
 import com.hts.web.base.constant.CacheKeies;
+import com.hts.web.common.util.Log;
 
 @Repository("HTSOsUserLoginCacheDao")
 public class OsUserLoginCacheDaoImpl extends BaseOsCacheDaoImpl implements
@@ -26,7 +27,7 @@ public class OsUserLoginCacheDaoImpl extends BaseOsCacheDaoImpl implements
 	private OsUserLoginDao userLoginDao;
 	
 	@Override
-	public void saveLogin(Integer id, Integer lastLogin) {
+	public void saveLogin(Integer id, Long lastLogin) {
 		Map<String, Object> fields = new HashMap<String, Object>();
 		fields.put("user_id", id);
 		fields.put("last_login", lastLogin);
@@ -34,7 +35,7 @@ public class OsUserLoginCacheDaoImpl extends BaseOsCacheDaoImpl implements
 	}
 
 	@Override
-	public void updateLogin(Integer id, Integer lastLogin) {
+	public void updateLogin(Integer id, Long lastLogin) {
 		Map<String, Object> fields = new HashMap<String, Object>();
 		fields.put("user_id", id);
 		fields.put("last_login", lastLogin);
@@ -52,6 +53,7 @@ public class OsUserLoginCacheDaoImpl extends BaseOsCacheDaoImpl implements
 		
 		JSONArray jsarray = JSONArray.fromObject(list);
 		try {
+			Log.debug("--->" + jsarray);
 			userLoginDao.pushUpdate(jsarray.toString());
 		} catch (Exception e) {
 			log.warn("pop opensearch userlogin operations error", e);

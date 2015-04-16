@@ -36,4 +36,11 @@ public interface HTWorldStickerCacheDao extends BaseCacheDao {
 	 * @return
 	 */
 	public HTWorldStickerDto queryFirstRecommendSticker();
+	
+//	/**
+//	 * 查询热门贴纸
+//	 * 
+//	 * @return
+//	 */
+//	public List<HTWorldStickerDto> queryHotSticker();
 }

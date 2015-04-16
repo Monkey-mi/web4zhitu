@@ -57,6 +57,9 @@ public class UserRecDaoImpl extends BaseDaoImpl implements UserRecDao {
 			+ " where pc.plat_concern_id=concern_id and valid=1 and user_id=?)"
 			+ " limit ?,1";
 	
+	public static void main(String[] args) {
+		System.out.println(QUERY_PLAT_REC);
+	}
 	
 	/**
 	 * 查询运营推荐的用户
