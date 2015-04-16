@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="description" content="你的星座可能错啦">
+<title>星座查询</title>
+<link href="./css/constellation.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="./js/constellation.js"></script>
+<script type="text/javascript">
+	setCookie("_CONSTELLATION","true");
+</script>
+</head>
+<body>
+	<div class="main-box">
+		<div id="banner-div">
+			<img id="img_title" src="http://imzhitu.qiniudn.com/act/constellation/constellation_title.jpg"/>
+		</div>
+		
+		<div id="constellation_content">
+			<div id="constellation_input" >
+				<div id="input_tip" class="font-24">
+					输入生日
+				</div>
+				<div id="input_control">
+					<input id="birthday_input" placeholder="如:12.23"/>
+				</div>
+				<div id="input_submit" >
+					<div id="constellation_submit" onclick="javascript:parseConstellation();">确认</div>
+				</div>
+				
+			</div>
+			
+			<div id="constellation_discription">
+				<p class="green bold font-14 line-span">
+					据美国明尼阿波利斯《明显论坛报》报道：
+				</p>
+				<p class="green bold font-14 line-span">
+					地球轴心经过3000年的变动，
+				</p>
+				<p class="green bold font-14 line-span">
+					12星座已经被改变了，
+				</p>
+				<p class="green bold font-14 line-span">
+					国际天文学联合会或在年内正式调整星座表。
+				</p>
+				
+				<p class="black bold font-14 line-span">
+					举例来说，如果你认为自己是双鱼座，
+				</p>
+				<p class="black bold font-14 line-span">
+					搞不好其实你是水瓶座。
+				</p>
+				<p class="black bold font-14 line-span">
+					原来是射手座的，现在可能是天蝎座
+				</p>
+				
+				<p class="black bold font-18 line-span">
+					有没感觉自己最近怪怪的？？
+				</p>
+				
+				<p class="black  font-24 line-span" style="font-weight: bolder;" >
+					快来看看你的星座变了没！
+				</p>
+			</div>
+		</div>
+		
+		<div id="constellation_foot" class="white bold" style="font-family1:宋体;font-size:0.8em;">
+			<span>Power by Zhitu</span>
+		</div>
+		
+	</div>
+</body>
+</html>

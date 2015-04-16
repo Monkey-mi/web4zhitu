@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="description" content="你的星座可能错啦">
+<title>【你的星座是错的】震惊！星座竟有13个！快看看你变了没？据说天蝎哭着变成了处女！</title>
+<script type="text/javascript" src="./js/constellation.js"></script>
+<link href="./css/constellation.css" rel="stylesheet" type="text/css" /> 
+<link href="./css/xinzuoanswer.css" rel="stylesheet" type="text/css" /> 
+<style type="text/css">
+	#click-area {
+		position:absolute;
+		top: 140px;
+		right: 25px;
+		z-index: 1;
+	}
+	
+	#canvas-area {
+		position: absolute;
+		z-index: 1;
+		top: 160px;
+		left: 0;
+		width: 204px;
+		text-align: center;
+	}
+</style>
+<script type="text/javascript">
+var _hmt = _hmt || [];
+
+
+isCookieExist();
+
+window.onload = function(){
+	
+	var precent = Math.random();
+	precent = Math.round(precent*100);
+	var randomNumSpan = document.getElementById("random-num");
+	randomNumSpan.innerHTML = precent;
+	
+	tipInterval = setInterval(showTip,2000);
+	
+}
+
+</script>
+</head>
+<body>
+		<!-- 头部图片 -->
+		<div id="banner-img">
+			<a href="javascript:void(0)" onclick="javascript:showFortune();"><img class="full-width" src="http://imzhitu.qiniudn.com/act/constellation/a_Cancer2Gemini1.jpg"/></a>
+			<div id="click-area">
+				<a href="javascript:void(0)" onclick="javascript:showFortune();"><img id="tip-img" src="http://imzhitu.qiniudn.com/act/constellation/newTip.png"></a>
+			</div>
+			<div id="canvas-area" class="none">
+				<div id="up">
+					<img id="upAxis" class="axis" src="http://imzhitu.qiniudn.com/act/constellation/axis.png">
+				</div>
+				
+				<div id="newTip">
+					<img id="canvas" src="http://imzhitu.qiniudn.com/act/constellation/canvas.png">
+					<div id="newTipContent">
+						由于地球轴心的变动，从巨蟹座穿越到双子座，你的新运势也得到了天翻地覆的扭转！！
+						竟然把全球<span id="random-num"></span>%的人远远甩在身后！快去得瑟吧~
+					</div>
+				</div>
+				
+				<div id="down">
+					<a onclick="javascript:hideCanvas();" href="javascript:void(0);">
+						<img id="downAxis" class="axis" src="http://imzhitu.qiniudn.com/act/constellation/axis.png" >
+					</a>
+					<div id="canvasHiden" onclick="javascript:hideCanvas();">点击收起</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- 星座介绍 -->
+		
+		<div class="constellation_discription">
+			<img class="img_text1 full-width" src="http://imzhitu.qiniudn.com/act/constellation/a_Cancer2GeminiText1.png"/>
+			<img class="img_text2 full-width" src="http://imzhitu.qiniudn.com/act/constellation/a_Cancer2GeminiText2.png"/>
+		</div>
+		 
+		
+		<div class="foot-blank"></div>
+		<!-- 底部 下载按钮 -->
+		<div class="foot">
+			<a href="javascript:void(0);" onclick="download()">
+				<img class="foot_btn" src="http://imzhitu.qiniudn.com/act/constellation/downloadbtn.png" >
+			</a>
+		</div>
+</body>
+</html>

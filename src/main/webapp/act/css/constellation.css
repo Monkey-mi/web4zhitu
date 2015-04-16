@@ -1,0 +1,162 @@
+body {
+		padding: 0;
+		margin: 0;
+	}
+	.main-box {
+		width:100%;
+	}
+	
+	.banner-img {
+		width:100%;
+	}
+	
+	.constellation_discription {
+		width:100%;
+	}
+	
+	.foot-blank {
+		text-align:center;
+		width:100%;
+		height: 56px;
+		background-color: black;
+	}
+	
+	.foot {
+		width:100%;
+		height:56px;
+		background-color: black;
+		text-align:center;
+		position: fixed;
+		z-index: 999;
+		bottom: 0;
+		left: 0;
+	}
+	
+	.full-width {
+		width:100%;
+	}
+	
+	.foot_btn {
+		height: 44px;
+		padding-top:8px;
+		vertical-align:middle;
+	}
+	
+	p {
+	margin:0 0;
+	padding:0 0;
+}
+
+#banner-div {
+	width:100%;
+
+	margin:auto;
+}
+
+#img_title {
+	width:100%;
+
+}
+
+
+.main-box {
+	width:100%;
+}
+
+#constellation_content {
+	width:95%;
+	margin:7px auto;
+}
+
+#constellation_input {
+	width:100%;
+	height:44px;
+	background-color:black;
+}
+
+.green {
+	color:#39b7b7;
+}
+
+.black {
+	color:#0f1414;
+}
+
+.white {
+	color:#fff;
+}
+
+.line-span {
+	margin-top:8px;
+}
+
+.font-14 {
+	font-size:1em;
+}
+
+.font-18 {
+	font-size:1.2em;
+}
+
+.font-24 {
+	font-size:1.5em;
+}
+
+.bold {
+	font-weight:bold;
+}
+
+#constellation_foot {
+	width:100%;
+	height:40px;
+	background-color:black;
+	text-align:center;
+	line-height:40px;
+}
+
+#input_tip {
+	height:100%;
+	width:37%;
+	text-align:center;
+	color:#fff;
+	float:left;
+	line-height:44px;
+}
+
+#input_control {
+	height:100%;
+	width:46%;
+	float:left;
+}
+
+#birthday_input {
+	height:38px;
+	width:96%;
+	margin-top:3px;
+	font-size:1em;
+	padding:0 0 0 4px;
+	border:0;
+}
+
+#input_submit {
+	height:100%;
+	width:17%;
+	float:left;
+}
+
+#constellation_submit {
+	height:38px;
+	width:96%;
+	margin-top:3px;
+	font-size:16px;
+	border:0;
+	text-align:center;
+	line-height:38px;
+	background-color:#5dd3d3;
+	font-size:1.2em;
+	font-weight:bolder;
+}
+
+#constellation_submit hover {
+ 	cursor:pointer;
+} 
