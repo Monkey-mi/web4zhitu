@@ -133,125 +133,141 @@ function parseConstellation(){
 		var birthdayStr = document.getElementById("birthday_input").value;
 		if(birthdayStr == "" || birthdayStr == undefined){
 			window.location.href="http://www.imzhitu.com/act/aquarius2capricorn.html";
+			return;
 		}
+		var month=0;
+		var day=0;
 		if(birthdayStr.length>0 && birthdayStr.length<6 ){
-			var md = birthdayStr.split(".");
-			if(md.length == 2){
-				var month = parseInt(md[0], 10);
-				var day = parseInt(md[1], 10);
-				switch(month){
-				case 1:
-					if(day>0 && day<=18){
-						window.location.href="http://www.imzhitu.com/act/capricorn2sagittarius.html";
-					}else if(day == 19){
-						window.location.href="http://www.imzhitu.com/act/capricorn.html";
-					}else if(day >=20 && day <=31){
-						window.location.href="http://www.imzhitu.com/act/aquarius2capricorn.html";
-					}
-					break;
-				case 2:
-					if(day>0 && day<=15){
-						window.location.href="http://www.imzhitu.com/act/aquarius2capricorn.html";
-					}else if(day >= 16 && day <=18){
-						window.location.href="http://www.imzhitu.com/act/aquarius.html";
-					}else if(day >=19 && day <=29){
-						window.location.href="http://www.imzhitu.com/act/fish2aquarius.html";
-					}
-					break;
-				case 3:
-					if(day >0 && day <= 10){
-						window.location.href="http://www.imzhitu.com/act/fish2aquarius.html";
-					}else if(day >= 11 && day <=20){
-						window.location.href="http://www.imzhitu.com/act/fish.html";
-					}else if(day >= 21 && day <=31){
-						window.location.href="http://www.imzhitu.com/act/aries2fish.html";
-					}
-					break;
-				case 4:
-					if(day > 0 && day <= 18){
-						window.location.href="http://www.imzhitu.com/act/aries2fish.html";
-					}else if(day == 19){
-						window.location.href="http://www.imzhitu.com/act/aries.html";
-					}else if(day >= 20 && day <= 30){
-						window.location.href="http://www.imzhitu.com/act/taurus2aries.html";
-					}
-					break;
-				case 5:
-					if(day > 0 && day <= 13){
-						window.location.href="http://www.imzhitu.com/act/taurus2aries.html";
-					}else if(day >= 14 && day <= 20){
-						window.location.href="http://www.imzhitu.com/act/taurus.html";
-					}else if(day >= 21 && day <= 31){
-						window.location.href="http://www.imzhitu.com/act/gemini2taurus.html";
-					}
-					break;
-				case 6:
-					if(day > 0 && day <= 20){
-						window.location.href="http://www.imzhitu.com/act/gemini2taurus.html";
-					}else if(day == 21){
-						window.location.href="http://www.imzhitu.com/act/gemini.html";
-					}else if(day >= 22 && day <= 30){
-						window.location.href="http://www.imzhitu.com/act/cancer2gemini.html";
-					}
-					break;
-				case 7:
-					if(day > 0 && day <= 19){
-						window.location.href="http://www.imzhitu.com/act/cancer2gemini.html";
-					}else if(day >= 20 && day <= 22){
-						window.location.href="http://www.imzhitu.com/act/cancer.html";
-					}else if(day >= 23 && day <= 31){
-						window.location.href="http://www.imzhitu.com/act/lion2cancer.html";
-					}
-					break;
-				case 8:
-					if(day > 0 && day <= 10){
-						window.location.href="http://www.imzhitu.com/act/lion2cancer.html";
-					}else if(day >= 11 && day <= 22){
-						window.location.href="http://www.imzhitu.com/act/lion.html";
-					}else if(day >= 23 && day <= 31){
-						window.location.href="http://www.imzhitu.com/act/virgo2lion.html";
-					}
-					break;
-				case 9:
-					if(day > 0 && day <= 15){
-						window.location.href="http://www.imzhitu.com/act/virgo2lion.html";
-					}else if(day >= 16 && day <= 22){
-						window.location.href="http://www.imzhitu.com/act/virgo.html";
-					}else if(day >= 23 && day <= 30){
-						window.location.href="http://www.imzhitu.com/act/libra2virgo.html";
-					} 
-					break;
-				case 10:
-					if(day > 0 && day <= 23){
-						window.location.href="http://www.imzhitu.com/act/libra2virgo.html";
-					}else if(day >= 24 && day <= 29){
-						window.location.href="http://www.imzhitu.com/act/scorpio2virgo.html";
-					}else if(day >= 30 && day <= 31){
-						window.location.href="http://www.imzhitu.com/act/scorpio2libra.html";
-					}
-					break;
-				case 11:
-					if(day > 0 && day <= 22){
-						window.location.href="http://www.imzhitu.com/act/scorpio2libra.html";
-					}else if(day >= 23 && day <= 29){
-						window.location.href="http://www.imzhitu.com/act/sagittarius2scorpio.html";
-					}else if(day == 30){
-						window.location.href="http://www.imzhitu.com/act/sagittarius2ophiuchus.html";
-					}
-					break;
-				case 12:
-					if(day > 0 && day <= 17){
-						window.location.href="http://www.imzhitu.com/act/sagittarius2ophiuchus.html";
-					}else if(day >= 18 && day <= 22){
-						window.location.href="http://www.imzhitu.com/act/sagittarius.html";
-					}else if(day >= 23 && day <= 31){
-						window.location.href="http://www.imzhitu.com/act/capricorn2sagittarius.html";
-					}
-					break;
-					
+			var indexofdot = birthdayStr.indexOf(".");
+			if(indexofdot == -1){
+				if(birthdayStr.length >= 4 ){
+					month = parseInt(birthdayStr.substr(0,2), 10);
+					day = parseInt(birthdayStr.substr(2,2), 10);
+				}else if (birthdayStr.length == 3){
+					month = parseInt(birthdayStr.substr(0,1), 10);
+					day = parseInt(birthdayStr.substr(1,2), 10);
+				}else if (birthdayStr.length == 2){
+					month = parseInt(birthdayStr.substr(0,1), 10);
+					day = parseInt(birthdayStr.substr(1,1), 10);
 				}
-				
+			}else {
+				var md = birthdayStr.split(".");
+				if(md.length >= 2){
+					month = parseInt(md[0], 10);
+					day = parseInt(md[1], 10);
+				}
 			}
+		}
+		switch(month){
+		case 1:
+			if(day>0 && day<=18){
+				window.location.href="http://www.imzhitu.com/act/capricorn2sagittarius.html";
+			}else if(day == 19){
+				window.location.href="http://www.imzhitu.com/act/capricorn.html";
+			}else if(day >=20 && day <=31){
+				window.location.href="http://www.imzhitu.com/act/aquarius2capricorn.html";
+			}
+			break;
+		case 2:
+			if(day>0 && day<=15){
+				window.location.href="http://www.imzhitu.com/act/aquarius2capricorn.html";
+			}else if(day >= 16 && day <=18){
+				window.location.href="http://www.imzhitu.com/act/aquarius.html";
+			}else if(day >=19 && day <=29){
+				window.location.href="http://www.imzhitu.com/act/fish2aquarius.html";
+			}
+			break;
+		case 3:
+			if(day >0 && day <= 10){
+				window.location.href="http://www.imzhitu.com/act/fish2aquarius.html";
+			}else if(day >= 11 && day <=20){
+				window.location.href="http://www.imzhitu.com/act/fish.html";
+			}else if(day >= 21 && day <=31){
+				window.location.href="http://www.imzhitu.com/act/aries2fish.html";
+			}
+			break;
+		case 4:
+			if(day > 0 && day <= 18){
+				window.location.href="http://www.imzhitu.com/act/aries2fish.html";
+			}else if(day == 19){
+				window.location.href="http://www.imzhitu.com/act/aries.html";
+			}else if(day >= 20 && day <= 30){
+				window.location.href="http://www.imzhitu.com/act/taurus2aries.html";
+			}
+			break;
+		case 5:
+			if(day > 0 && day <= 13){
+				window.location.href="http://www.imzhitu.com/act/taurus2aries.html";
+			}else if(day >= 14 && day <= 20){
+				window.location.href="http://www.imzhitu.com/act/taurus.html";
+			}else if(day >= 21 && day <= 31){
+				window.location.href="http://www.imzhitu.com/act/gemini2taurus.html";
+			}
+			break;
+		case 6:
+			if(day > 0 && day <= 20){
+				window.location.href="http://www.imzhitu.com/act/gemini2taurus.html";
+			}else if(day == 21){
+				window.location.href="http://www.imzhitu.com/act/gemini.html";
+			}else if(day >= 22 && day <= 30){
+				window.location.href="http://www.imzhitu.com/act/cancer2gemini.html";
+			}
+			break;
+		case 7:
+			if(day > 0 && day <= 19){
+				window.location.href="http://www.imzhitu.com/act/cancer2gemini.html";
+			}else if(day >= 20 && day <= 22){
+				window.location.href="http://www.imzhitu.com/act/cancer.html";
+			}else if(day >= 23 && day <= 31){
+				window.location.href="http://www.imzhitu.com/act/lion2cancer.html";
+			}
+			break;
+		case 8:
+			if(day > 0 && day <= 10){
+				window.location.href="http://www.imzhitu.com/act/lion2cancer.html";
+			}else if(day >= 11 && day <= 22){
+				window.location.href="http://www.imzhitu.com/act/lion.html";
+			}else if(day >= 23 && day <= 31){
+				window.location.href="http://www.imzhitu.com/act/virgo2lion.html";
+			}
+			break;
+		case 9:
+			if(day > 0 && day <= 15){
+				window.location.href="http://www.imzhitu.com/act/virgo2lion.html";
+			}else if(day >= 16 && day <= 22){
+				window.location.href="http://www.imzhitu.com/act/virgo.html";
+			}else if(day >= 23 && day <= 30){
+				window.location.href="http://www.imzhitu.com/act/libra2virgo.html";
+			} 
+			break;
+		case 10:
+			if(day > 0 && day <= 23){
+				window.location.href="http://www.imzhitu.com/act/libra2virgo.html";
+			}else if(day >= 24 && day <= 29){
+				window.location.href="http://www.imzhitu.com/act/scorpio2virgo.html";
+			}else if(day >= 30 && day <= 31){
+				window.location.href="http://www.imzhitu.com/act/scorpio2libra.html";
+			}
+			break;
+		case 11:
+			if(day > 0 && day <= 22){
+				window.location.href="http://www.imzhitu.com/act/scorpio2libra.html";
+			}else if(day >= 23 && day <= 29){
+				window.location.href="http://www.imzhitu.com/act/sagittarius2scorpio.html";
+			}else if(day == 30){
+				window.location.href="http://www.imzhitu.com/act/sagittarius2ophiuchus.html";
+			}
+			break;
+		case 12:
+			if(day > 0 && day <= 17){
+				window.location.href="http://www.imzhitu.com/act/sagittarius2ophiuchus.html";
+			}else if(day >= 18 && day <= 22){
+				window.location.href="http://www.imzhitu.com/act/sagittarius.html";
+			}else if(day >= 23 && day <= 31){
+				window.location.href="http://www.imzhitu.com/act/capricorn2sagittarius.html";
+			}
+			break;
+		default:break;	
 		}
 		document.getElementById("birthday_input").value="";
 	}
