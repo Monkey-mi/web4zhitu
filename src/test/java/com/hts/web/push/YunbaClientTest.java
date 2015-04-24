@@ -21,31 +21,21 @@ public class YunbaClientTest extends BaseTest {
 
 	@Test
 	public void testPublishToAlias() throws YunbaException, JSONException, InterruptedException {
-//		for(int i = 0; i < 100; i++) {
-//			final int k = i % 2;
-//			log.debug("current push : " + k);
-//			new Thread(new Runnable() {
-//
-//				@Override
-//				public void run() {
-//					
-//				}
-//				
-//			}).start();
+//		JSONObject apnJSON = new JSONObject();
+//		JSONObject aps = new JSONObject();
+//		try {
+//			aps.put("sound", "default");
+//			aps.put("badge", 1);
+//			aps.put("alert", "伟大的安妮加入织图啦！赶快来参观吧!" + new Date());
+//			apnJSON.put("aps", aps);
+//			apnJSON.put("a", "14");
+//			apnJSON.put("oid", "4");
+//			System.out.println(apnJSON);
+//			client.publishToTopic("t2", "伟大的安妮加入织图啦！赶快来参观吧", apnJSON);
+//		} catch (JSONException e) {
+//			e.printStackTrace();
+//		} catch (YunbaException e) {
+//			e.printStackTrace();
 //		}
-//		Thread.sleep(20000);
-		JSONObject apnJSON = new JSONObject();
-		JSONObject aps = new JSONObject();
-		try {
-			aps.put("sound", "default");
-			aps.put("badge", 1);
-			aps.put("alert", "apns alert title," + new Date());
-			apnJSON.put("aps", aps);
-			client.publishToAlias("1", "publish_alias from resful api:" + 1, apnJSON);
-		} catch (JSONException e) {
-			e.printStackTrace();
-		} catch (YunbaException e) {
-			e.printStackTrace();
-		}
 	}
 }

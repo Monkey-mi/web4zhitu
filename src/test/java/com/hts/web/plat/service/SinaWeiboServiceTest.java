@@ -1,9 +1,10 @@
-package com.hts.web.weibo.service;
+package com.hts.web.plat.service;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.hts.web.base.BaseTest;
+import com.hts.web.plat.service.SinaWeiboService;
 
 public class SinaWeiboServiceTest extends BaseTest{
 	

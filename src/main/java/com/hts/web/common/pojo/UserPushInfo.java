@@ -33,7 +33,7 @@ public class UserPushInfo implements Serializable {
 	private Integer acceptConcernPush; // 是否接收关注消息推送
 	private Integer acceptMsgPush; // 是否接收系统私信消息推送
 	private Integer acceptUmsgPush; // 是否接收用户私信推送
-
+	
 	public UserPushInfo() {
 		super();
 	}
@@ -171,5 +171,5 @@ public class UserPushInfo implements Serializable {
 	public void setVer(Float ver) {
 		this.ver = ver;
 	}
-	
+
 }

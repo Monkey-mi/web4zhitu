@@ -155,6 +155,11 @@ public class Tag {
 	public static final int PUSH_ACTION_SHIELD_MSG = 13;
 	
 	/**
+	 * 用户推荐推送
+	 */
+	public static final int PUSH_ACTION_USER_REC_MSG = 14;
+	
+	/**
 	 * 旅行广场分类标签
 	 */
 	public static final int SQUARE_LABEL_TRAVEL = 1;

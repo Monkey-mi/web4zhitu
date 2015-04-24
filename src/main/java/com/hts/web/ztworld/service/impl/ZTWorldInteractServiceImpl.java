@@ -1,6 +1,7 @@
 package com.hts.web.ztworld.service.impl;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +20,7 @@ import com.hts.web.common.SerializableListAdapter;
 import com.hts.web.common.SerializableSinceIdListAdapter;
 import com.hts.web.common.pojo.HTWorldComment;
 import com.hts.web.common.pojo.HTWorldCommentDto;
+import com.hts.web.common.pojo.HTWorldCommentReId;
 import com.hts.web.common.pojo.HTWorldCommentReport;
 import com.hts.web.common.pojo.HTWorldGeo;
 import com.hts.web.common.pojo.HTWorldInteractDto;
@@ -29,6 +31,7 @@ import com.hts.web.common.pojo.HTWorldThumbnail;
 import com.hts.web.common.pojo.ObjectWithLiked;
 import com.hts.web.common.pojo.PushStatus;
 import com.hts.web.common.pojo.UserConcernDto;
+import com.hts.web.common.pojo.UserInfoDto;
 import com.hts.web.common.pojo.UserPushInfo;
 import com.hts.web.common.service.KeyGenService;
 import com.hts.web.common.service.impl.BaseServiceImpl;
@@ -204,8 +207,9 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 		}
 		
 		Integer id = keyGenService.generateId(KeyGenServiceImpl.HTWORLD_COMMENT_ID);
-		worldCommentDao.saveWorldComment(new HTWorldComment(id, authorId, content, new Date(), worldId, wauthorId, 0,0, 
-				ck, Tag.TRUE, shield));
+		HTWorldComment comment = new HTWorldComment(id, authorId, content, new Date(), worldId, wauthorId, 0,0, 
+				ck, Tag.TRUE, shield);
+		worldCommentDao.saveWorldComment(comment);
 		
 		if(shield.equals(Tag.FALSE)) {
 			// 更新评论总数
@@ -228,16 +232,22 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 						pushStatus.setUserId(wauthorId);
 						pushStatus.setIsMututal(isMutual);
 					} else {
-						pushService.pushComment(id, authorId, worldId, content, userPushInfo, shieldUser); // 推送评论
+						pushService.pushComment(id, authorId, worldId, wauthorId,
+								content, userPushInfo, shieldUser); // 推送评论
 					}
 				} else {
-					pushService.pushComment(id, authorId, worldId, content, userPushInfo, shieldUser); // 推送评论
+					pushService.pushComment(id, authorId, worldId, wauthorId,
+							content, userPushInfo, shieldUser); // 推送评论
 				}
 			}
 		}
-		HTWorldCommentDto comment = worldCommentDao.queryCommentDtoById(id);
-		userInfoService.extractVerify(comment);
-		pushStatus.setInteractRes(comment);
+		HTWorldCommentDto dto = new HTWorldCommentDto(id, authorId, 0, content, 
+				comment.getCommentDate(), worldId, wauthorId);
+		UserInfoDto udto = userInfoDao.queryUserInfoDtoById(authorId);
+		dto.setUserInfo(udto);
+		
+		userInfoService.extractVerify(dto);
+		pushStatus.setInteractRes(dto);
 		return pushStatus;
 	}
 	
@@ -261,6 +271,7 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 		if(userPushInfo == null)
 			throw new HTSException("用户不存在", ERROR_CODE_INVALID);
 		
+		Integer wauthor = worldDao.queryAuthorId(worldId);
 		rAuthorId = userPushInfo.getId();
 		
 		String remark = userRemarkDao.queryRemark(rAuthorId, authorId);
@@ -277,8 +288,9 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 		}
 		
 		Integer id = keyGenService.generateId(KeyGenServiceImpl.HTWORLD_COMMENT_ID);
-		worldCommentDao.saveWorldComment(new HTWorldComment(id, authorId, content, new Date(), worldId, 0, 
-				reId,userPushInfo.getId(), ck, Tag.TRUE, shield));
+		HTWorldComment comment = new HTWorldComment(id, authorId, content, new Date(), worldId,
+				wauthor, reId, userPushInfo.getId(), ck, Tag.TRUE, shield);
+		worldCommentDao.saveWorldComment(comment);
 		
 		if(shield.equals(Tag.FALSE)) {
 			// 更新评论总数
@@ -291,6 +303,7 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 
 				boolean otherIm = UserInfoUtil.checkIsImVersion(userPushInfo.getVer());
 				Integer shieldUser = userShieldDao.queryShieldId(rAuthorId, authorId) == null ? Tag.FALSE : Tag.TRUE;
+				
 				if(im) { // 我已经开通IM
 					if(otherIm) { // 对方已开通IM
 						Integer mut = userConcernDao.queryIsMututal(rAuthorId, authorId);
@@ -301,16 +314,19 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 						pushStatus.setUserId(rAuthorId);
 						pushStatus.setIsMututal(isMutual);
 					} else {
-						pushService.pushReply(id, authorId, worldId, content, userPushInfo, shieldUser);
+						pushService.pushReply(id, authorId, worldId, comment.getWorldAuthorId(), reId, content, userPushInfo, shieldUser);
 					}
 				} else {
-					pushService.pushReply(id, authorId, worldId, content, userPushInfo, shieldUser);
+					pushService.pushReply(id, authorId, worldId,comment.getWorldAuthorId(),reId, content, userPushInfo, shieldUser);
 				}
 			}
 		}
-		HTWorldCommentDto comment = worldCommentDao.queryCommentDtoById(id);
-		userInfoService.extractVerify(comment);
-		pushStatus.setInteractRes(comment);
+		HTWorldCommentDto dto = new HTWorldCommentDto(id, authorId, reId, content, 
+				comment.getCommentDate(), worldId, 0);
+		UserInfoDto udto = userInfoDao.queryUserInfoDtoById(authorId);
+		dto.setUserInfo(udto);
+		userInfoService.extractVerify(dto);
+		pushStatus.setInteractRes(dto);
 		return pushStatus;
 	}
 	
@@ -445,10 +461,10 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 					pushStatus.setUserId(wauthorId);
 					pushStatus.setIsMututal(isMutual);
 				} else {
-					pushService.pushLiked(id, userId, worldId, userPushInfo, shieldUser); //推送消息
+					pushService.pushLiked(id, userId, worldId, wauthorId, userPushInfo, shieldUser); //推送消息
 				}
 			} else {
-				pushService.pushLiked(id, userId, worldId, userPushInfo, shieldUser); //推送消息
+				pushService.pushLiked(id, userId, worldId, wauthorId, userPushInfo, shieldUser); //推送消息
 			}
 		}
 		return pushStatus;
@@ -761,5 +777,30 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 		}
 		
 	}
-	
+
+	@Override
+	public void buildLikeMeCount(Integer minId, Integer userId,
+			Map<String, Object> jsonMap) {
+		long count = 0l;
+		if(minId == null || minId == 0)
+			count = worldLikedDao.queryLikeMeCount(userId);
+		else 
+			count = worldLikedDao.queryLikeMeCount(minId, userId);
+		Integer maxId = worldLikedDao.queryMaxLikeMeId(userId);
+		jsonMap.put(OptResult.JSON_KEY_TOTAL_COUNT, count);
+		jsonMap.put(OptResult.JSON_KEY_MAX_ID, maxId);
+	}
+
+	@Override
+	public void buildCommentReId(String idsStr, Map<String, Object> jsonMap) {
+		if(!StringUtil.checkIsNULL(idsStr)) {
+			Integer[] ids = StringUtil.convertStringToIds(idsStr);
+			if(ids != null && ids.length > 0) {
+				List<HTWorldCommentReId> list = worldCommentDao.queryReId(ids);
+				jsonMap.put(OptResult.JSON_KEY_COMMENTS, list);
+				return;
+			}
+		}
+		jsonMap.put(OptResult.JSON_KEY_COMMENTS, new ArrayList<HTWorldCommentReId>());
+	}
 }

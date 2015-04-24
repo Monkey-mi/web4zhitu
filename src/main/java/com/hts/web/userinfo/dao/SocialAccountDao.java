@@ -78,5 +78,13 @@ public interface SocialAccountDao extends BaseDao {
 	 * @return
 	 */
 	public UserSocialAccount queryUserId(String platformId, Integer platformCode);
+
+	/**
+	 * 更新platformId
+	 * 
+	 * @param userId
+	 * @param platformCode
+	 */
+	public void updatePlatformId(Integer userId, Integer platformCode, String platformId);
 	
 }

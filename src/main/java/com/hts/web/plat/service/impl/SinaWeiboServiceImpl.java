@@ -1,4 +1,4 @@
-package com.hts.web.weibo.service.impl;
+package com.hts.web.plat.service.impl;
 
 import org.springframework.stereotype.Service;
 
@@ -6,7 +6,7 @@ import weibo4j.Friendships;
 import weibo4j.model.WeiboException;
 
 import com.hts.web.common.service.impl.BaseServiceImpl;
-import com.hts.web.weibo.service.SinaWeiboService;
+import com.hts.web.plat.service.SinaWeiboService;
 
 @Service("HTSSinaWeiboService")
 public class SinaWeiboServiceImpl extends BaseServiceImpl implements SinaWeiboService{
@@ -28,5 +28,4 @@ public class SinaWeiboServiceImpl extends BaseServiceImpl implements SinaWeiboSe
 			throw new Exception(e.getMessage());
 		}
 	}
-
 }

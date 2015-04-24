@@ -7,6 +7,7 @@ import com.hts.web.base.database.RowCallback;
 import com.hts.web.base.database.RowSelection;
 import com.hts.web.common.dao.BaseDao;
 import com.hts.web.common.pojo.HTWorldLikeMe;
+import com.hts.web.common.pojo.HTWorldLikeMeThumb;
 import com.hts.web.common.pojo.HTWorldLiked;
 import com.hts.web.common.pojo.HTWorldLikedUser;
 import com.hts.web.common.pojo.HTWorldThumbnail;
@@ -224,25 +225,69 @@ public interface HTWorldLikedDao extends BaseDao {
 	 * @return
 	 */
 	public long queryLikeMeCount(Integer worldAuthorId);
-
+	
 	/**
 	 * 查询喜欢我的用户信息
-	 * 
+	 *  
 	 * @param userId
-	 * @param rowSelection
+	 * @param limit
 	 * @return
 	 */
-	public List<HTWorldLikeMe> queryLikeMe(Integer userId,
-			RowSelection rowSelection);
+	public List<HTWorldLikeMe> queryLikeMe(Integer userId, Integer limit);
 	
 	/**
 	 * 查询喜欢我的用户信息
 	 * 
 	 * @param maxId
 	 * @param userId
-	 * @param rowSelection
+	 * @param limit
 	 * @return
 	 */
 	public List<HTWorldLikeMe> queryLikeMe(Integer maxId, Integer userId,
-			RowSelection rowSelection);
+			Integer limit);
+	
+	
+	/**
+	 * 查询喜欢我的用户分组信息
+	 * 
+	 * @param minId
+	 * @param userId
+	 * @return
+	 */
+	public List<HTWorldLikeMe> queryLikeMeByGroup(Integer minId, Integer userId);
+	
+	/**
+	 * 根据用户ids查询我被喜欢的织图信息,不分页
+	 * 
+	 * @param minId
+	 * @param authorId
+	 * @param callback
+	 */
+	public void queryLikeMeWorld(Integer minId, Integer authorId,
+			RowCallback<HTWorldLikeMeThumb> callback);
+
+	/**
+	 * 根据最小日期查询最小id
+	 * 
+	 * @param minDate
+	 * @return
+	 */
+	public Integer queryMinIdByMinDate(Integer authorId, Date minDate);
+	
+	/**
+	 * 根据最大id查询被赞总数
+	 * 
+	 * @param minId
+	 * @param authorId
+	 * @return
+	 */
+	public long queryLikeMeCount(Integer minId, Integer authorId);
+	
+	/**
+	 * 查询被赞最大记录id
+	 * 
+	 * @param authorId
+	 * @return
+	 */
+	public Integer queryMaxLikeMeId(Integer authorId);
 }

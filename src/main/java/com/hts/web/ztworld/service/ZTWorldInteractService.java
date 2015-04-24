@@ -209,4 +209,22 @@ public interface ZTWorldInteractService extends BaseService {
 	 * @param list
 	 */
 	public void extractLiked(Integer userId, List<? extends ObjectWithLiked> list);
+	
+	/**
+	 * 构建被赞总数
+	 * 
+	 * @param maxId
+	 * @param userId
+	 * @param jsonMap
+	 */
+	public void buildLikeMeCount(Integer maxId, Integer userId,
+			Map<String, Object> jsonMap);
+	
+	/**
+	 * 构建评论reid列表
+	 * 
+	 * @param idsStr
+	 * @param jsonMap
+	 */
+	public void buildCommentReId(String idsStr, Map<String, Object> jsonMap);
 }

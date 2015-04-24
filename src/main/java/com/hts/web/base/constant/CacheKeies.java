@@ -156,6 +156,24 @@ public class CacheKeies {
 	 * 开放搜索用户登录信息
 	 */
 	public static final String OS_USER_LOGIN = MODULE_OS + "userLogin";
+	
+	
+	/**
+	 * 第三方社交模块
+	 * 
+	 */
+	private static final String MODULE_PLAT = "plat:";
+	
+	/**
+	 * 第三方社交关注
+	 */
+	public static final String PLAT_CONCERN = MODULE_PLAT + "conceron";
+	
+	/**
+	 * 第三方社交被关注
+	 */
+	public static final String PLAT_BE_CONCERN = MODULE_PLAT + "beConceron";
+	
 
 	
 	

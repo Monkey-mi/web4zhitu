@@ -165,7 +165,7 @@ public class ZTWorldStickerServiceImpl extends BaseServiceImpl implements
 	public void saveStickerUsed(Integer userId, Integer stickerId)
 			throws Exception {
 		try {
-			usedDao.saveUsed(new HTWorldStickerUsed(userId, stickerId, TimeUtil.getTimeINT()));
+			usedDao.saveUsed(new HTWorldStickerUsed(userId, stickerId, TimeUtil.getTimeLONG()));
 		} catch(Exception e) {
 			log.warn("save sticker used error", e);
 		}

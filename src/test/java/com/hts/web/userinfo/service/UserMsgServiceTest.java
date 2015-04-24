@@ -175,8 +175,10 @@ public class UserMsgServiceTest extends BaseTest {
 			@Override
 			public void buildNumberList(Map<String, Object> jsonMap)
 					throws Exception {
-				service.buildLikeMeMsg(1000, 485, 1, 10, jsonMap);
-				service.buildLikeMeMsg(0, 485, 1, 10, jsonMap);
+//				service.buildLikeMeMsg(1000, 485, 1, 10, jsonMap);
+//				service.buildLikeMeMsg(0, 485, 1, 10, jsonMap);
+				service.buildLikeMeMsg(0, 485, 10, jsonMap);
+//				service.buildLikeMeMsg(1000, 485, 10, jsonMap);
 			}
 		});
 	}

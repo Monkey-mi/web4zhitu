@@ -595,6 +595,23 @@ public interface UserInfoDao extends BaseDao {
 	 * @return
 	 */
 	public UserRecInfo queryRecInfo(Integer uid);
+	
+	
+	/**
+	 * 更新loginCode
+	 * 
+	 * @param id
+	 * @param loginCode
+	 */
+	public void updateLoginCodeByUID(Integer id, String loginCode);
+	
+	/**
+	 * 查询UserInfoDto
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public UserInfoDto queryUserInfoDtoById(Integer id);
 
 	
 }

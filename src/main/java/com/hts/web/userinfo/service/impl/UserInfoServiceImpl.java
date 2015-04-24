@@ -30,6 +30,8 @@ import com.hts.web.common.service.impl.KeyGenServiceImpl;
 import com.hts.web.common.util.MD5Encrypt;
 import com.hts.web.common.util.PushUtil;
 import com.hts.web.common.util.StringUtil;
+import com.hts.web.plat.service.PlatService;
+import com.hts.web.plat.service.SinaWeiboService;
 import com.hts.web.push.service.PushService;
 import com.hts.web.push.service.impl.PushServiceImpl.PushFailedCallback;
 import com.hts.web.security.service.UserLoginPersistentService;
@@ -40,7 +42,6 @@ import com.hts.web.userinfo.dao.UserRemarkDao;
 import com.hts.web.userinfo.dao.UserVerifyCacheDao;
 import com.hts.web.userinfo.service.UserInfoService;
 import com.hts.web.userinfo.service.UserInteractService;
-import com.hts.web.weibo.service.SinaWeiboService;
 
 /**
  * <p>
@@ -191,6 +192,9 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 	@Autowired
 	private OsUserInfoService osUserService;
 	
+	@Autowired
+	private PlatService platService;
+	
 	public Integer getOfficialId() {
 		return officialId;
 	}
@@ -221,10 +225,8 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 			throw new HTSException(TIP_LOGIN_CODE_EXIST, LOGIN_CODE_EXIST);
 		}
 		
-		/*
-		 * 保存用户信息
-		 */
-		Integer id = keyGenService.generateId(KeyGenServiceImpl.USER_ID);
+		userAvatar = StringUtil.checkIsNULL(userAvatar) ? DEFAULT_AVATAR_S : userAvatar;
+		userAvatarL = filterUserAvatarL(userAvatarL, userAvatar);
 		// 过滤空字符串
 		address = StringUtil.checkIsNULL(address) ? null : address;
 		pushToken = StringUtil.checkIsNULL(pushToken) ? null : pushToken;
@@ -237,6 +239,8 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 		phoneVer = phoneVer != null && phoneVer.length() > PHONE_VER_MAX_LENGTH 
 				? phoneVer.substring(0, PHONE_VER_MAX_LENGTH) : phoneVer;
 		ver = ver > VER_MAX ? VER_MAX : ver;
+		
+		Integer id = keyGenService.generateId(KeyGenServiceImpl.USER_ID);
 		userInfo = new UserInfo(id, PlatFormCode.ZHITU, null, null, null, Tag.VERIFY_NONE, null, loginCode,
 				userName, userAvatar, userAvatarL, sex, signature, address, province, city, longitude, latitude,
 				new Date(), tradeId, job, pushToken, phoneCode, phoneSys, phoneVer, Tag.ONLINE, ver);
@@ -269,9 +273,9 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 //			throw new HTSException("该QQ帐号未注册织图，请更换其他登录方式", PLATFORM_OFF_ERROR);
 //		}
 		userAvatar = StringUtil.checkIsNULL(userAvatar) ? DEFAULT_AVATAR_S : userAvatar;
-		userAvatarL = StringUtil.checkIsNULL(userAvatarL) ? DEFAULT_AVATAR_L : userAvatarL;
+		userAvatarL = filterUserAvatarL(userAvatarL, userAvatar);
 		UserInfo userInfo = null;
-		String platformUserName = userName;
+
 		Integer id = keyGenService.generateId(KeyGenServiceImpl.USER_ID);
 		userInfo = new UserInfo(id, platformCode, platformToken, platformTokenExpires, 
 				platformSign, platformVerify, platformReason, loginCode, userName,userAvatar, userAvatarL, 
@@ -287,7 +291,13 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 		} catch(Exception e) {
 			logger.warn("concern offical error:" + e.getMessage());
 		}
-		pushRecommandUser(loginCode, platformToken, userInfo.getId(), platformUserName);
+		
+		// 关注指定的微博账号
+		if(platformCode.equals(PlatFormCode.SINA)) {
+			platService.savePlatConcern(platformToken, PlatFormCode.SINA);
+		}
+		
+//		pushRecommandUser(loginCode, platformToken, userInfo.getId(), userName);
 		
 		return userInfo;
 	}
@@ -351,9 +361,9 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 			String platformToken, Long platformTokenExpires, String platformSign,
 			Integer platformVerify, String platformReason, String loginCode, String userName,
 			String userAvatar, String userAvatarL,Integer sex, String pushToken, 
-			Integer phoneCode, String phoneSys, String phoneVer, Float ver) throws Exception {
+			Integer phoneCode, String phoneSys, String phoneVer, Float ver, String platformUnionId) throws Exception {
 		userAvatar = StringUtil.checkIsNULL(userAvatar) ? DEFAULT_AVATAR_S : userAvatar;
-		userAvatarL = StringUtil.checkIsNULL(userAvatarL) ? DEFAULT_AVATAR_L : userAvatarL;
+		userAvatarL = filterUserAvatarL(userAvatarL, userAvatar);
 		userName = StringUtil.checkIsNULL(userName) ? DEFAULT_NAME : StringUtil.filterXSS(userName);
 		pushToken = StringUtil.checkIsNULL(pushToken) ? null : pushToken;
 		platformReason = platformReason != null && platformReason.length() > PLATFORM_REASON_MAX_LENGTH 
@@ -375,13 +385,15 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 			userInfo = userInfoDao.queryUserInfoById(account.getUserId());
 		else
 			userInfo = userInfoDao.queryUserInfoByLoginCode(loginCode, platformCode);
-		
+
+		// 兼容2.9.89之前微信登录ios和android使用了不同的loginCode字段
+		if(userInfo == null && platformCode.equals(PlatFormCode.WEI_SIN)) 
+			userInfo = patch4Weixin2988(platformCode, phoneCode, ver, loginCode, platformUnionId);
 		
 		if(userInfo == null) { //还没有账号时新建账号
-			if(platformCode.equals(PlatFormCode.REN_REN)) {
-				throw new HTSException("不好意思，由于人人网的权限问题，用人人帐号登录暂时关闭，请选择新浪微博登录或者是QQ登录", PLATFORM_OFF_ERROR);
-				
-			}
+			
+			checkPlatformAvaliable(platformCode, phoneCode, ver);
+			
 			userInfo = registerBySocialAccount(platformCode, platformToken, platformTokenExpires, 
 					platformSign, platformVerify, platformReason, loginCode, userName, userAvatar, 
 					userAvatarL, sex, pushToken, phoneCode, phoneSys, phoneVer, ver);
@@ -426,6 +438,72 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 		
 		extractVerify(userInfo);
 		return userInfo;
+	}
+	
+	/**
+	 * 过滤用户大头像
+	 * 
+	 * @param userAvatarL
+	 * @param userAvatar
+	 * @return
+	 */
+	private String filterUserAvatarL(String userAvatarL, String userAvatar) {
+		if(StringUtil.checkIsNULL(userAvatarL)) {
+			if(!StringUtil.checkIsNULL(userAvatar))
+				userAvatarL = userAvatar;
+			else
+				userAvatarL = DEFAULT_AVATAR_L;
+		}
+		return userAvatarL;
+	}
+	
+	/**
+	 * 检测社交平台是否注册
+	 * 
+	 * @param platformCode
+	 * @param ver
+	 * @throws HTSException
+	 */
+	private void checkPlatformAvaliable(Integer platformCode, Integer phoneCode, Float ver) throws HTSException {
+		if(platformCode.equals(PlatFormCode.REN_REN)) {
+			throw new HTSException("不好意思，由于人人网的权限问题，用人人帐号登录暂时关闭，请选择新浪微博登录或者是QQ登录", PLATFORM_OFF_ERROR);
+		}	
+//		} else if(platformCode.equals(PlatFormCode.WEI_SIN) && ver.equals(Tag.VERSION_2_9_88)) {
+//			throw new HTSException("不好意思，此版本暂停使用微信注册，请使用其他平台注册或升级版本", PLATFORM_OFF_ERROR);
+//		}
+	}
+	
+	/**
+	 * 因为2.9.88之前的微信账号登录ios和安卓使用了不同的loginCode，
+	 * 所以用户登录之后需要将账号更新为微信提供的openid
+	 * 
+	 * @param platformCode
+	 * @param phoneCode
+	 * @param ver
+	 * @param platformId
+	 * @param platformUnionId
+	 * @return
+	 */
+	private UserInfo patch4Weixin2988(Integer platformCode, Integer phoneCode, 
+			Float ver, String platformId, String platformUnionId) { 
+		if(StringUtil.checkIsNULL(platformUnionId) || ver <= Tag.VERSION_2_9_88) {
+			return null; 
+		}
+		
+		UserInfo userInfo = null;
+		UserSocialAccount account = socialAccountDao.queryUserId(platformUnionId, platformCode);
+		if(account != null) // 绑定的账号直接登陆到主账号
+			userInfo = userInfoDao.queryUserInfoById(account.getUserId());
+		else
+			userInfo = userInfoDao.queryUserInfoByLoginCode(platformUnionId, platformCode);
+		
+		// 说明之前用了错误的账号登录
+		if(userInfo != null) {
+			userInfoDao.updateLoginCodeByUID(userInfo.getId(), platformId);
+			socialAccountDao.updatePlatformId(userInfo.getId(), platformCode, platformId);
+		}
+		return userInfo;
+		
 	}
 	
 	/**
@@ -474,6 +552,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 					platformAvatarL, platformToken, platformTokenExpires, platformSign, platformVerify,
 					platformReason, userId, Tag.TRUE);
 			socialAccountDao.saveSocialAccount(account);
+			
 		} else {
 			// 如果绑定了其他账号，则提示出其他账号的绑定
 			if(!account.getUserId().equals(userId)) {
@@ -497,6 +576,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 		// 更新新浪平台绑定信息
 		if(platformCode.equals(PlatFormCode.SINA)) {
 			userInfoDao.updateSocialBindInfo(userId, platformVerify, platformReason, platformSign);
+			platService.savePlatConcern(platformToken, PlatFormCode.SINA);
 		}
 	}
 	

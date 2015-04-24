@@ -20,6 +20,7 @@ public class HTWorldThumbnail implements Serializable {
 	private static final long serialVersionUID = 2153919059498251725L;
 
 	private Integer id;
+	private Integer authorId;
 	private String thumbnail;
 	private String worldDesc;
 
@@ -33,9 +34,11 @@ public class HTWorldThumbnail implements Serializable {
 		this.thumbnail = thumbnail;
 	}
 
-	public HTWorldThumbnail(Integer id, String thumbnail, String worldDesc) {
+	public HTWorldThumbnail(Integer id, Integer authorId, 
+			String thumbnail, String worldDesc) {
 		super();
 		this.id = id;
+		this.authorId = authorId;
 		this.thumbnail = thumbnail;
 		this.worldDesc = worldDesc;
 	}
@@ -46,6 +49,15 @@ public class HTWorldThumbnail implements Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	
+	public Integer getAuthorId() {
+		return authorId;
+	}
+
+	public void setAuthorId(Integer authorId) {
+		this.authorId = authorId;
 	}
 
 	public String getThumbnail() {

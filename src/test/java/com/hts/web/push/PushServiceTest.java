@@ -57,35 +57,35 @@ public class PushServiceTest extends BaseTest {
 //		Thread.sleep(10000);
 	}
 	
-	@Test
-	public void testPushLiked() throws Exception {
-		UserPushInfo info2 = new UserPushInfo(
-				485, "", 1, 0,
-				"c66202b9e888a76b66fe63573a396121",
-				2.0981f, 1, 1, 1, 1, 1, 1, 1, 1);
-		service.pushLiked(1, 486, 1111, info2, Tag.FALSE);
-//		Thread.sleep(5000);
-	}
-
-	@Test
-	public void testPushComment() throws Exception {
-		UserPushInfo info2 = new UserPushInfo(
-				485, "", 1, 0,
-				"c66202b9e888a76b66fe63573a396121",
-				2.0971f, 1, 1, 1, 1, 1, 1, 1, 1);
-		service.pushComment(1, 486, 1999, "评论呵呵呵", info2, Tag.FALSE);
-//		Thread.sleep(5000);
-	}
-	
-	@Test
-	public void testPushReply() throws Exception {
-		UserPushInfo info2 = new UserPushInfo(
-				485, "", 1, 0,
-				"c66202b9e888a76b66fe63573a396121",
-				2.0981f, 1, 1, 1, 1, 1, 1, 1, 1);
-		service.pushReply(111, 486, 1999, "回复呵呵呵", info2, Tag.FALSE);
-//		Thread.sleep(5000);
-	}
+//	@Test
+//	public void testPushLiked() throws Exception {
+//		UserPushInfo info2 = new UserPushInfo(
+//				485, "", 1, 0,
+//				"c66202b9e888a76b66fe63573a396121",
+//				2.0981f, 1, 1, 1, 1, 1, 1, 1, 1);
+//		service.pushLiked(1, 486, 1111, info2, Tag.FALSE);
+////		Thread.sleep(5000);
+//	}
+//
+//	@Test
+//	public void testPushComment() throws Exception {
+//		UserPushInfo info2 = new UserPushInfo(
+//				485, "", 1, 0,
+//				"c66202b9e888a76b66fe63573a396121",
+//				2.0971f, 1, 1, 1, 1, 1, 1, 1, 1);
+//		service.pushComment(1, 486, 1999, "评论呵呵呵", info2, Tag.FALSE);
+////		Thread.sleep(5000);
+//	}
+//	
+//	@Test
+//	public void testPushReply() throws Exception {
+//		UserPushInfo info2 = new UserPushInfo(
+//				485, "", 1, 0,
+//				"c66202b9e888a76b66fe63573a396121",
+//				2.0981f, 1, 1, 1, 1, 1, 1, 1, 1);
+//		service.pushReply(111, 486, 1999, "回复呵呵呵", info2, Tag.FALSE);
+////		Thread.sleep(5000);
+//	}
 	
 	@Test
 	public void testPushConcern() throws Exception {
@@ -149,4 +149,9 @@ public class PushServiceTest extends BaseTest {
 ////			service.threadLog(i, i, i, i);
 ////		}
 //	}
+	
+	@Test
+	public void testPushUserRecSysMsg() throws Exception {
+//		service.pushUserRecSysMsg(4, "伟大的安妮加入织图啦，赶快来围观吧！");
+	}
 }

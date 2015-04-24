@@ -2,7 +2,9 @@ package com.hts.web.push.service.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import net.sf.json.JSONObject;
 
@@ -206,25 +208,9 @@ public class PushServiceImpl implements PushService {
 		        .build();
 	}
 	
-	public static void main(String[] args) {
-		ApnsService apnsPoolService = APNS.newService()
-				.withCert("d:/ProductionPush.p12", "huanghuang8888")
-		        .withAppleDestination(true)
-		        .build();
-		
-		String payload = APNS.newPayload()
-                .badge(1)
-                .sound("")
-//                .localizedKey("哈哈哈")
-                .alertBody("哈哈")
-                .build();
-//		apnsPoolService.push("3cac85e7 0350d770 7e6841a2 7e25e630 c8b046db ea12cbc9 9ac80df9 706f830d", payload);
-		apnsPoolService.push("6490143f b8aa92a6 cc4e53c0 1d02b1f5 f6f034b0 c65fdec8 25675e84 fe51310f", payload);
-		
-	}
-	
 	@Override
-	public void pushComment(final Integer id, final Integer authorId, final Integer worldId, final String content, 
+	public void pushComment(final Integer id, final Integer authorId, 
+			final Integer worldId, final Integer wauthorId, final String content, 
 			final UserPushInfo userPushInfo, final Integer shield) throws Exception{
 		if(userPushInfo != null && authorId != userPushInfo.getId() && shield.equals(Tag.FALSE)) {
 			pushExecutor.execute(new Runnable() {
@@ -256,7 +242,7 @@ public class PushServiceImpl implements PushService {
 								comment = comment.substring(1).trim();
 							}
 							pushIMMessage(userPushInfo.getId(), new PushWorldIM(Tag.PUSH_ACTION_COMMENT, fullName, 
-									comment, authorId, userPushInfo.getId(), worldId, id), 
+									comment, authorId, userPushInfo.getId(), worldId, wauthorId, 0, id), 
 									fullName + ": " + comment, userPushInfo.getPhoneCode(), userPushInfo.getAcceptCommentPush(), shield, callback);
 						
 						// 对方未开通IM使用个推
@@ -278,7 +264,8 @@ public class PushServiceImpl implements PushService {
 	}
 	
 	@Override
-	public void pushReply(final Integer id, final Integer authorId, final Integer worldId, final String content, 
+	public void pushReply(final Integer id, final Integer authorId, final Integer worldId,
+			final Integer wauthorId, final Integer reId, final String content, 
 			final UserPushInfo userPushInfo, final Integer shield) throws Exception{
 		if(userPushInfo != null && authorId != userPushInfo.getId() && shield.equals(Tag.FALSE)) {
 			pushExecutor.execute(new Runnable() {
@@ -309,8 +296,8 @@ public class PushServiceImpl implements PushService {
 								int colonIndex = reply.indexOf(":") + 1;
 								reply = reply.substring(colonIndex).trim();
 							}
-							pushIMMessage(userPushInfo.getId(), new PushWorldIM(Tag.PUSH_ACTION_REPLY, fullName, reply,
-									authorId, userPushInfo.getId(), worldId, id), 
+							pushIMMessage(userPushInfo.getId(), new PushWorldIM(Tag.PUSH_ACTION_REPLY, 
+									fullName, reply, authorId, userPushInfo.getId(), worldId, wauthorId, reId, id), 
 									fullName + ": " + reply, userPushInfo.getPhoneCode(), userPushInfo.getAcceptReplyPush(), shield, callback);
 							
 						// 对方未开通IM使用个推
@@ -332,7 +319,7 @@ public class PushServiceImpl implements PushService {
 	
 	@Override
 	public void pushLiked(final Integer id, final Integer userId, final Integer worldId,
-			final UserPushInfo userPushInfo, final Integer shield) throws Exception {
+			final Integer wauthorId, final UserPushInfo userPushInfo, final Integer shield) throws Exception {
 		if(userPushInfo != null && userId != userPushInfo.getId() && shield.equals(Tag.FALSE)) {
 			pushExecutor.execute(new Runnable() {
 	
@@ -358,7 +345,7 @@ public class PushServiceImpl implements PushService {
 						// 对方已经开通了IM, 默认屏蔽用户的提醒
 						if(UserInfoUtil.checkIsImVersion(userPushInfo.getVer())) {
 							pushIMMessage(userPushInfo.getId(), new PushWorldIM(Tag.PUSH_ACTION_LIKED, fullName, TIP_LIKED,
-									userId, userPushInfo.getId(), worldId, id), 
+									userId, userPushInfo.getId(), worldId, wauthorId, 0, id), 
 									fullName + TIP_LIKED, userPushInfo.getPhoneCode(), userPushInfo.getAcceptLikedPush(), shield, callback);
 							
 						// 对方未开通IM使用个推
@@ -743,6 +730,14 @@ public class PushServiceImpl implements PushService {
 	 */
 	public interface PushFailedCallback {
 		public void onPushFailed(Exception e);
+	}
+
+	@Override
+	public void pushUserRecSysMsg(Integer recUid, String content) throws Exception {
+		Map<String, Object> extra = new HashMap<String, Object>();
+		extra.put("sid", recUid);
+		yunbaPushService.pushTopicMsg(commonTopic, 
+				new PushSysIM(Tag.PUSH_ACTION_USER_REC_MSG, "",content, 0, 0, recUid), extra);
 	}
 
 

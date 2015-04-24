@@ -51,6 +51,7 @@ public class ZTWorldInteractAction extends BaseAction {
 	private Integer worldAuthorId;
 	private Integer reAuthorId;
 	private Boolean im = false;
+	private String ids;
 	
 	@Autowired
 	private ZTWorldInteractService worldInteractService;
@@ -382,11 +383,42 @@ public class ZTWorldInteractAction extends BaseAction {
 	
 	/**
 	 * 查询某个用户
+	 * 
 	 * @return
 	 */
 	public String queryLikeOthersWorldThumbnail() {
 		try {
 			worldInteractService.buildLikeOthersWorldThumbnail(limit, userId, getCurrentLoginUserId(), jsonMap);
+			JSONUtil.optSuccess(jsonMap);
+		} catch (Exception e) {
+			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+		}
+		return StrutsKey.JSON;
+	}
+	
+	/**
+	 * 查询喜欢我的消息
+	 * 
+	 * @return
+	 */
+	public String queryLikeMeCount() {
+		try {
+			worldInteractService.buildLikeMeCount(minId, getCurrentLoginUserId(), jsonMap);
+			JSONUtil.optSuccess(jsonMap);
+		} catch (Exception e) {
+			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+		}
+		return StrutsKey.JSON;
+	}
+	
+	/**
+	 * 查询评论reid列表
+	 * 
+	 * @return
+	 */
+	public String queryCommentReId() {
+		try {
+			worldInteractService.buildCommentReId(ids, jsonMap);
 			JSONUtil.optSuccess(jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
@@ -529,6 +561,14 @@ public class ZTWorldInteractAction extends BaseAction {
 
 	public void setReAuthorId(Integer reAuthorId) {
 		this.reAuthorId = reAuthorId;
+	}
+
+	public String getIds() {
+		return ids;
+	}
+
+	public void setIds(String ids) {
+		this.ids = ids;
 	}
 	
 }

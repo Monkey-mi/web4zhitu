@@ -27,6 +27,7 @@ import com.hts.web.common.SerializableSinceIdListAdapter;
 import com.hts.web.common.pojo.HTWorldCommentDto;
 import com.hts.web.common.pojo.HTWorldInteract;
 import com.hts.web.common.pojo.HTWorldLikeMe;
+import com.hts.web.common.pojo.HTWorldLikeMeThumb;
 import com.hts.web.common.pojo.HTWorldLiked;
 import com.hts.web.common.pojo.OpSysMsg;
 import com.hts.web.common.pojo.OpSysMsgDto;
@@ -43,8 +44,10 @@ import com.hts.web.common.pojo.UserPushInfo;
 import com.hts.web.common.service.KeyGenService;
 import com.hts.web.common.service.impl.BaseServiceImpl;
 import com.hts.web.common.service.impl.KeyGenServiceImpl;
+import com.hts.web.common.util.Log;
 import com.hts.web.common.util.PushUtil;
 import com.hts.web.common.util.StringUtil;
+import com.hts.web.common.util.TimeUtil;
 import com.hts.web.common.util.UserInfoUtil;
 import com.hts.web.operations.dao.SysMsgDao;
 import com.hts.web.push.service.PushService;
@@ -144,6 +147,8 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 	@Value("${push.feedbackListeners}")
 	private String feedbackListeners;
 
+	private Integer likeMeGroupInterval = 50*60*1000;
+	
 	public Integer getCustomerServiceId() {
 		return customerServiceId;
 	}
@@ -810,34 +815,72 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 	}
 
 	@Override
-	public void buildLikeMeMsg(Integer maxId, final Integer userId, Integer start,
-			Integer limit, Map<String, Object> jsonMap) throws Exception {
-		buildSerializables(maxId, start, limit, jsonMap, new SerializableListAdapter<HTWorldLikeMe>() {
-
-			@Override
-			public List<HTWorldLikeMe> getSerializables(
-					RowSelection rowSelection) {
-				List<HTWorldLikeMe> list = worldLikedDao.queryLikeMe(userId, rowSelection);
-				userInfoService.extractVerify(list);
-				userInteractService.extractRemark(userId, list);
-				return list;
-			}
-
-			@Override
-			public List<HTWorldLikeMe> getSerializableByMaxId(int maxId,
-					RowSelection rowSelection) {
-				List<HTWorldLikeMe> list = worldLikedDao.queryLikeMe(maxId, userId, rowSelection);
-				userInfoService.extractVerify(list);
-				userInteractService.extractRemark(userId, list);
-				return list;
-			}
-
-			@Override
-			public long getTotalByMaxId(int maxId) {
-				return 0;
+	public void buildLikeMeMsg(Integer maxId, 
+			final Integer userId,final Integer limit, 
+			final Map<String, Object> jsonMap) throws Exception {
+		List<HTWorldLikeMe> likeMeList = null;
+		if(maxId == 0) {
+			Date minDate = TimeUtil.getSubDateFromNow(likeMeGroupInterval);
+			Integer minId= worldLikedDao.queryMinIdByMinDate(userId, minDate);
+			if(minId > 0) {
+				likeMeList = worldLikedDao.queryLikeMeByGroup(minId, userId); // 根据最小id查询喜欢过我的人的分组列表
+				
+				extractLikeMeWorldThumb(minId, userId, likeMeList); // 根据最小id获取被点过赞所有缩略图
+				
+				if(likeMeList.size() < limit) { // 不足一页，加载更多数据
+					List<HTWorldLikeMe> noThumbsList = worldLikedDao.queryLikeMe(minId-1, 
+							userId, limit-likeMeList.size());
+					likeMeList.addAll(noThumbsList);
+				} else { // 大于或等于一页, 下一页以最小id作为起始id
+					jsonMap.put(OptResult.JSON_KEY_MAX_ID, minId);
+				}
+				
+				jsonMap.put(OptResult.JSON_KEY_INTERVAL, likeMeGroupInterval);
+				
+			} else {
+				likeMeList = worldLikedDao.queryLikeMe(userId, limit);
 			}
 			
-		}, OptResult.JSON_KEY_MSG, null);
+		} else {
+			likeMeList = worldLikedDao.queryLikeMe(maxId, userId, limit);
+		}
+		
+		userInfoService.extractVerify(likeMeList);
+		jsonMap.put(OptResult.JSON_KEY_MSG, likeMeList);
+		
+	}
+	
+	/**
+	 * 
+	 * @param minId
+	 * @param likeMeList
+	 * @param limit
+	 */
+	private void extractLikeMeWorldThumb(Integer minId, Integer authorId, 
+			final List<HTWorldLikeMe> likeMeList) {
+		final Map<Integer, Integer> idxMap = new HashMap<Integer, Integer>();
+		for(int i = 0; i < likeMeList.size(); i++) {
+			Integer uid = likeMeList.get(i).getUserId();
+			idxMap.put(uid, i);
+		}
+		worldLikedDao.queryLikeMeWorld(minId, authorId, 
+				new RowCallback<HTWorldLikeMeThumb>() {
+
+					@Override
+					public void callback(HTWorldLikeMeThumb t) {
+						Integer uid = t.getUserId();
+						Integer idx = idxMap.get(uid);
+						if(idx != null) {
+							HTWorldLikeMe likeMe = likeMeList.get(idx);
+							if(likeMe.getTitleThumbs() == null) {
+								likeMe.setTitleThumbs(new ArrayList<HTWorldLikeMeThumb>());
+							}
+							likeMe.getTitleThumbs().add(t);
+						}
+					}
+			
+		});
 	}
 
 }
+

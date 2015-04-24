@@ -507,6 +507,13 @@ public class OptResult {
 	 * remark
 	 */
 	public static final String JSON_KEY_REMARK_ME = "remarkMe";
+	
+	/**
+	 * interval
+	 */
+	public static final String JSON_KEY_INTERVAL = "interval";
+	
+	
 }
 
 

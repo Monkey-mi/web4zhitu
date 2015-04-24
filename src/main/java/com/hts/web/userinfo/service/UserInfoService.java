@@ -140,7 +140,7 @@ public interface UserInfoService extends BaseService {
 			String platformToken, Long platformTokenExpires, String platformSign, 
 			Integer platformVerify, String platformReason, String loginCode, String userName,
 			String userAvatar, String userAvatarL,Integer sex, String pushToken, 
-			Integer phoneCode, String phoneSys, String phoneVer, Float ver) throws Exception;
+			Integer phoneCode, String phoneSys, String phoneVer, Float ver, String platformUnionId) throws Exception;
 	
 	
 	/**

@@ -6,8 +6,16 @@ import com.hts.web.base.StrutsKey;
 import com.hts.web.base.constant.OptResult;
 import com.hts.web.common.BaseAction;
 import com.hts.web.common.util.JSONUtil;
+import com.hts.web.operations.service.UserOperationsService;
 import com.hts.web.userinfo.service.UserRecService;
 
+/**
+ * 用户推荐Action
+ * 
+ * 创建时间: 2015-04-21
+ * @author lynch
+ *
+ */
 public class UserRecAction extends BaseAction {
 
 	/**
@@ -18,9 +26,14 @@ public class UserRecAction extends BaseAction {
 	@Autowired
 	private UserRecService recService;
 	
+	@Autowired
+	private UserOperationsService userOperationsService;
+	
 	private String platConcerns;
 	private String province;
 	private String city;
+	private Integer worldLimit = 0;
+	private Boolean trimMe = true;
 	
 	/**
 	 * 保存社交平台关注的用户账号
@@ -67,6 +80,22 @@ public class UserRecAction extends BaseAction {
 		return StrutsKey.JSON;
 	}
 
+	/**
+	 * 查询注册推荐用户
+	 * 
+	 * @return
+	 */
+	public String queryRegisterRec() {
+		try {
+			userOperationsService.buildLabelRecommendUser(maxId, start, limit, worldLimit,
+					getCurrentLoginUserId(), trimMe, jsonMap);
+			JSONUtil.optSuccess(jsonMap);
+		} catch (Exception e) {
+			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+		}
+		return StrutsKey.JSON;
+	}
+	
 	public String getPlatConcerns() {
 		return platConcerns;
 	}
@@ -89,6 +118,22 @@ public class UserRecAction extends BaseAction {
 
 	public void setCity(String city) {
 		this.city = city;
+	}
+
+	public Integer getWorldLimit() {
+		return worldLimit;
+	}
+
+	public void setWorldLimit(Integer worldLimit) {
+		this.worldLimit = worldLimit;
+	}
+
+	public Boolean getTrimMe() {
+		return trimMe;
+	}
+
+	public void setTrimMe(Boolean trimMe) {
+		this.trimMe = trimMe;
 	}
 	
 }

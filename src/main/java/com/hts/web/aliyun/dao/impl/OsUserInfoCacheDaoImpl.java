@@ -102,9 +102,7 @@ public class OsUserInfoCacheDaoImpl extends BaseOsCacheDaoImpl implements
 			return;
 		}
 		// 清空已生效的操作缓存
-		for(int i = 0; i < list.size(); i++) {
-			op.leftPop();
-		}
+		op.trim(list.size() - 1, -1);
 	}
 
 }

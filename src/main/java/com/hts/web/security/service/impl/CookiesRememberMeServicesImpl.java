@@ -3,10 +3,8 @@ package com.hts.web.security.service.impl;
 import java.util.Arrays;
 import java.util.Date;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,17 +78,6 @@ public class CookiesRememberMeServicesImpl extends AbstractRememberMeServices
 	protected void onLoginSuccess(HttpServletRequest request,
 			HttpServletResponse response,
 			Authentication successfulAuthentication) {
-		
-//		String username = successfulAuthentication.getName();
-//        PersistentRememberMeToken persistentToken = new PersistentRememberMeToken(username, userLoginPersistentService.generateSeriesData(),
-//        		userLoginPersistentService.generateTokenData(), new Date());
-//        try {
-//            tokenRepository.createNewToken(persistentToken);
-//            addCookie(persistentToken, request, response);
-//        } catch (DataAccessException e) {
-//            logger.error("Failed to save persistent token ", e);
-//        }
-
 	}
 	
 	
@@ -114,31 +101,6 @@ public class CookiesRememberMeServicesImpl extends AbstractRememberMeServices
 					"No persistent token found for series id: " + presentedSeries);
 		}
 		
-		/*
-		 * 为了避免多并发请求时误判为token被盗，暂时屏蔽被盗判断功能
-		 */
-		// We have a match for this user/series combination
-//		if (!presentedToken.equals(token.getTokenValue())) {
-			// Token doesn't match series value. Delete all logins for this user
-			// and throw an exception to warn them.
-//			tokenRepository.removeUserTokens(token.getUsername());
-//			logger.debug("PersistentTokenBasedRememberMeServices.cookieStolen for user '" + token.getUsername() + "', series '" + token.getSeries() + "'");
-//			throw new CookieTheftException(messages.getMessage(
-//							"PersistentTokenBasedRememberMeServices.cookieStolen",
-//							"Invalid remember-me token (Series/token) mismatch. Implies previous cookie theft attack."));
-//			logger.warn(message)
-//		}
-//
-//		if (token.getDate().getTime() + getTokenValiditySeconds() * 1000L < System.currentTimeMillis()) {
-//			throw new RememberMeAuthenticationException("Remember-me login has expired");
-//		}
-
-		// Token also matches, so login is valid. Update the token value,
-		// keeping the *same* series number.
-//		if (logger.isDebugEnabled()) {
-//			logger.debug("Refreshing persistent login token for user '" + token.getUsername() + "', series '" + token.getSeries() + "'");
-//		}
-
 		PersistentRememberMeToken newToken = new PersistentRememberMeToken(token.getUsername(), token.getSeries(),
 				userLoginPersistentService.generateTokenData(), new Date());
 
@@ -163,35 +125,8 @@ public class CookiesRememberMeServicesImpl extends AbstractRememberMeServices
 	private void addCookie(PersistentRememberMeToken token,
 			HttpServletRequest request, HttpServletResponse response) {
 		
-		boolean isAddSessionId = false;
-		String userAgent = request.getHeader("User-Agent").toLowerCase();
-		if(userAgent.contains("android")) {
-			Cookie[] cookies = request.getCookies();
-	        if ((cookies != null) && (cookies.length != 0)) {
-	        	for (Cookie cookie : cookies) {
-	                if (REMEMBER_ME_VER.equals(cookie.getName())) {
-	                	isAddSessionId = true;
-	                	break;
-	                }
-	            }
-	        }
-		} else {
-			isAddSessionId = true;
-		}
-		
-		if(isAddSessionId) {
-			HttpSession session = request.getSession();
-			int maxAge = session.getMaxInactiveInterval();
-			String contextPath = request.getContextPath();
-	        String path = contextPath.length() > 0 ? contextPath : "/";
-			Cookie cookie = new Cookie("JSESSIONID", request.getSession().getId());
-			cookie.setMaxAge(maxAge);
-			cookie.setPath(path);
-			response.addCookie(cookie);
-		}
 		setCookie(new String[] { token.getSeries(), token.getTokenValue() },
 				getTokenValiditySeconds(), request, response);
-		
 	}
 	
 	

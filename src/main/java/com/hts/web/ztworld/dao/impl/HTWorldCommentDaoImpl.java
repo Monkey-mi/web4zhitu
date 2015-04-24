@@ -21,6 +21,7 @@ import com.hts.web.base.database.SQLUtil;
 import com.hts.web.common.dao.impl.BaseDaoImpl;
 import com.hts.web.common.pojo.HTWorldComment;
 import com.hts.web.common.pojo.HTWorldCommentDto;
+import com.hts.web.common.pojo.HTWorldCommentReId;
 import com.hts.web.common.pojo.HTWorldCommentUser;
 import com.hts.web.common.pojo.HTWorldThumbDto;
 import com.hts.web.common.pojo.UserInfoDto;
@@ -51,7 +52,6 @@ public class HTWorldCommentDaoImpl extends BaseDaoImpl implements
 	 */
 	private static final String COMMENT_USER_INFO = "u0.user_name,u0.user_avatar,"
 			+ "u0.user_avatar_l,u0.star,u0.platform_verify";
-	
 	
 	/**
 	 * 保存织图评论
@@ -224,23 +224,33 @@ public class HTWorldCommentDaoImpl extends BaseDaoImpl implements
 	/**
 	 * 根据id来更新ck位
 	 */
-	private static final String UPDATE_CK_BY_ID = "update " + table + " set ck=? where id=?";
+	private static final String UPDATE_CK_BY_ID = "update " + table 
+			+ " set ck=? where id=?";
 	
 	/**
 	 * 根据id更新valid
 	 */
-	private static final String UPDATE_VALID_BY_IDS = " update " + table + " set valid=1 where id in ";
+	private static final String UPDATE_VALID_BY_IDS = " update " + table 
+			+ " set valid=1 where id in ";
 	
 	/**
 	 * 根据id来修改评论内容
 	 */
-	private static final String UPDATE_CONTENT_BY_ID = " update " + table + " set content=? where id=?";
+	private static final String UPDATE_CONTENT_BY_ID = " update " + table 
+			+ " set content=? where id=?";
 	
 	/**
 	 * 根据id来修改时间comment_date
 	 */
-	private static final String UPDATE_COMMENT_DATE_BY_ID = " update " + table + " set comment_date=? where id=?";
+	private static final String UPDATE_COMMENT_DATE_BY_ID = " update " + table 
+			+ " set comment_date=? where id=?";
 			
+	/**
+	 * 查询回复id
+	 */
+	private static final String QUERY_RE_IDS = "select id, re_id from " + table
+			+ " where id in ";
+	
 	@Autowired
 	private HTWorldDao worldDao;
 	
@@ -616,6 +626,23 @@ public class HTWorldCommentDaoImpl extends BaseDaoImpl implements
 		HTWorldThumbDto thumb = worldDao.buildHTWorldThumbDtoByResultSet(dto.getWorldId(), rs);
 		dto.setHtworld(thumb);
 		return dto;
+	}
+	
+	@Override
+	public List<HTWorldCommentReId> queryReId(Integer[] ids) {
+		String inSelection = SQLUtil.buildInSelection(ids);
+		String sql = QUERY_RE_IDS + inSelection;
+		return getJdbcTemplate().query(sql, ids, 
+				new RowMapper<HTWorldCommentReId>() {
+
+					@Override
+					public HTWorldCommentReId mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						return new HTWorldCommentReId(
+								rs.getInt("id"),
+								rs.getInt("re_id"));
+					}
+		});
 	}
 	
 	

@@ -38,7 +38,8 @@ public class HTWorldComment implements Serializable {
 	}
 
 	public HTWorldComment(Integer id, Integer authorId, String content,
-			Date commentDate, Integer worldId, Integer worldAuthorId, Integer reId, Integer reAuthorId, Integer ck, Integer valid,
+			Date commentDate, Integer worldId, Integer worldAuthorId, 
+			Integer reId, Integer reAuthorId, Integer ck, Integer valid,
 			Integer shield) {
 		super();
 		this.id = id;

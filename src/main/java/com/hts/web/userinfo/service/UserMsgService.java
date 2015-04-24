@@ -307,15 +307,16 @@ public interface UserMsgService extends BaseService {
 			Integer start, Integer limit, Map<String, Object> jsonMap) throws Exception;
 
 	/**
+	 * 构建所有喜欢我的信息
+	 * 
 	 * @param maxId
 	 * @param userId
-	 * @param start
 	 * @param limit
 	 * @param jsonMap
 	 * @throws Exception
 	 */
-	public void buildLikeMeMsg(Integer maxId, Integer userId, Integer start, Integer limit,
-			Map<String, Object> jsonMap) throws Exception;
+	public void buildLikeMeMsg(Integer maxId, Integer userId,
+			Integer limit, Map<String, Object> jsonMap) throws Exception;
 	
 	/**
 	 * 构建用户和织图缩略图

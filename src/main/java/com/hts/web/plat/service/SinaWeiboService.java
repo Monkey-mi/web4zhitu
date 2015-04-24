@@ -1,4 +1,4 @@
-package com.hts.web.weibo.service;
+package com.hts.web.plat.service;
 
 import com.hts.web.common.service.BaseService;
 

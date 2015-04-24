@@ -18,7 +18,7 @@ public class HTWorldStickerUsedDaoImpl extends BaseDaoImpl implements
 	
 	@Override
 	public void saveUsed(HTWorldStickerUsed used) {
-		getJdbcTemplate().update(SAVE_USED, new Object[]{
+		getMasterJdbcTemplate().update(SAVE_USED, new Object[]{
 				used.getUserId(),
 				used.getStickerId(),
 				used.getUsedTime()});

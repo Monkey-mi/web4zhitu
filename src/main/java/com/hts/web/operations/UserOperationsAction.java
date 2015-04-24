@@ -168,7 +168,8 @@ public class UserOperationsAction extends BaseAction {
 	 */
 	public String queryLabelRecommendUser()	 {
 		try {
-			userOperationsService.buildLabelRecommendUser(maxId, start, limit, worldLimit, getCurrentLoginUserId(), trimMe, jsonMap);
+			userOperationsService.buildLabelRecommendUser(maxId, start, limit, 
+					worldLimit, getCurrentLoginUserId(), trimMe, jsonMap);
 			JSONUtil.optSuccess(jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);

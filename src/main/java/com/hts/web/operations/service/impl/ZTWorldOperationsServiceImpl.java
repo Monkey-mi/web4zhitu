@@ -701,7 +701,6 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 			Integer[] worldIds = new Integer[list.size()];
 			for (int i = 0; i < list.size(); i++) {
 				Integer worldId = list.get(i).getWorldId();
-				Log.debug(worldId);
 				worldIds[i] = worldId;
 				indexMap.put(worldId, i);
 			}

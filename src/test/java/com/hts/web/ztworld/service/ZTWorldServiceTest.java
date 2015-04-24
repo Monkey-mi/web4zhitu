@@ -149,7 +149,7 @@ public class ZTWorldServiceTest extends BaseTest {
 	
 	@Test
 	public void getTitleChildPageInfoTest() throws Exception {
-		JSONObject jsonObj = service.getTitleChildPageInfo(1479237, 10, true, true);
+		JSONObject jsonObj = service.getTitleChildPageInfo(147927, 10, true, true);
 		Log.debug(jsonObj.toString());
 		
 	}

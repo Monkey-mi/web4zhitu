@@ -1,5 +1,8 @@
 package com.hts.web.push.service.impl;
 
+import java.util.Map;
+import java.util.Set;
+
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,6 +53,8 @@ public class YunbaPushServiceImpl implements YunbaPushService {
 					aps.put("badge", 1);
 					aps.put("alert", title);
 					apnJSON.put("aps", aps);
+					apnJSON.put("a", msg.getA());
+					apnJSON.put("uid", msg.getUid());
 					yunbaClient.publishToAlias(String.valueOf(toAlias), json.toString(), apnJSON);
 				} else {
 					yunbaClient.publishToAlias(String.valueOf(toAlias), json.toString());
@@ -92,5 +97,27 @@ public class YunbaPushServiceImpl implements YunbaPushService {
 			throw new HTSException(e.getMessage(), e);
 		}
 		
+	}
+
+	@Override
+	public void pushTopicMsg(String topic, PushIM msg, Map<String, Object> extra)
+			throws HTSException {
+		try {
+			net.sf.json.JSONObject json = net.sf.json.JSONObject.fromObject(msg);
+			JSONObject apnJSON = new JSONObject();
+			JSONObject aps = new JSONObject();
+			aps.put("sound", "default");
+			aps.put("badge", 1);
+			aps.put("alert", msg.getM());
+			apnJSON.put("aps", aps);
+			apnJSON.put("a", msg.getA());
+			Set<String> keies = extra.keySet();
+			for(String k : keies) {
+				apnJSON.put(k, extra.get(k));
+			}
+			yunbaClient.publishToTopic(topic, json.toString(), apnJSON);
+		} catch (Exception e) {
+			throw new HTSException(e.getMessage(), e);
+		}
 	}
 }

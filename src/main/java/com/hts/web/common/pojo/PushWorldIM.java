@@ -17,6 +17,8 @@ public class PushWorldIM extends PushIM {
 	private static final long serialVersionUID = -4821371907419382577L;
 
 	private Integer wid;
+	private Integer waid;
+	private Integer reid;
 	private Integer oid;
 
 	public PushWorldIM() {
@@ -24,9 +26,11 @@ public class PushWorldIM extends PushIM {
 	}
 
 	public PushWorldIM(Integer a, String u, String m, Integer uid, Integer tid,
-			Integer wid, Integer oid) {
+			Integer wid, Integer waid, Integer reid, Integer oid) {
 		super(a, u, m, uid, tid);
 		this.wid = wid;
+		this.waid = waid;
+		this.reid = reid;
 		this.oid = oid;
 	}
 
@@ -45,5 +49,23 @@ public class PushWorldIM extends PushIM {
 	public void setOid(Integer oid) {
 		this.oid = oid;
 	}
+
+	public Integer getWaid() {
+		return waid;
+	}
+
+	public void setWaid(Integer waid) {
+		this.waid = waid;
+	}
+
+	public Integer getReid() {
+		return reid;
+	}
+
+	public void setReid(Integer reid) {
+		this.reid = reid;
+	}
+	
+	
 	
 }

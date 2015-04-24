@@ -69,7 +69,7 @@ public class UserInfoServiceTest extends BaseTest {
 				"http://imzhitu.qiniudn.com/avatar/s/2014/02/05/15/23d241de6d2eb98675e4ee89c46f044c.jpg",
 				"http://imzhitu.qiniudn.com/avatar/m/2014/02/05/15/23d241de6d2eb98675e4ee89c46f044c.jpg",
 				Tag.SEX_UNKNOWN,
-				"c66202b9e888a76b66fe63573a396121", Tag.ANDROID, null, "4.01", 2.0981f);
+				"c66202b9e888a76b66fe63573a396121", Tag.ANDROID, null, "4.01", 2.0981f, null);
 		JSONObject jsObj = JSONObject.fromObject(userInfo);
 		Log.debug(jsObj);
 	}

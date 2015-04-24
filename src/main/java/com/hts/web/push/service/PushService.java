@@ -27,8 +27,8 @@ public interface PushService {
 	 * @param shield
 	 * @throws Exception
 	 */
-	public void pushComment(final Integer id, Integer authorId, Integer worldId, String content,
-			UserPushInfo userPushInfo, Integer shield) throws Exception;
+	public void pushComment(final Integer id, Integer authorId, Integer worldId, Integer wauthorId, 
+			String content, UserPushInfo userPushInfo, Integer shield) throws Exception;
 
 	/**
 	 * 回复推送
@@ -40,8 +40,9 @@ public interface PushService {
 	 * @param shield
 	 * @throws Exception
 	 */
-	public void pushReply(Integer id, Integer authorId, Integer worldId, String content,
-			UserPushInfo userPushInfo, Integer shield) throws Exception;
+	public void pushReply(Integer id, Integer authorId, Integer worldId, 
+			Integer watuhorId, Integer reId, String content, UserPushInfo userPushInfo,
+			Integer shield) throws Exception;
 
 	/**
 	 * 喜欢推送
@@ -53,7 +54,7 @@ public interface PushService {
 	 * @param shield
 	 * @throws Exception
 	 */
-	public void pushLiked(final Integer id, Integer userId, Integer worldId,
+	public void pushLiked(final Integer id, Integer userId, Integer worldId, Integer wauthorId,
 			UserPushInfo userPushInfo, Integer shield) throws Exception;
 
 	/**
@@ -125,6 +126,14 @@ public interface PushService {
 			String pushId, List<UserPushInfo> pushInfoList,
 			PushFailedCallback callback) throws Exception;
 	
-//	public void threadLog(Integer i, Integer i2, Integer i3, Integer i4) throws InterruptedException;	
+	
+	/**
+	 * 推送用户推荐全局系统消息
+	 * 
+	 * @param recUid　推荐用户id
+	 * @param content
+	 * @throws Exception
+	 */
+	public void pushUserRecSysMsg(Integer recUid, String content) throws Exception;
 
 }

@@ -10,6 +10,7 @@ import com.hts.web.base.database.RowSelection;
 import com.hts.web.common.dao.BaseDao;
 import com.hts.web.common.pojo.HTWorldComment;
 import com.hts.web.common.pojo.HTWorldCommentDto;
+import com.hts.web.common.pojo.HTWorldCommentReId;
 import com.hts.web.common.pojo.HTWorldCommentUser;
 
 /**
@@ -254,5 +255,13 @@ public interface HTWorldCommentDao extends BaseDao {
 	 * @param content
 	 */
 	public void updateContentById(Integer id , String content);
+	
+	/**
+	 * 查询ReId列表
+	 * 
+	 * @param ids
+	 * @return
+	 */
+	public List<HTWorldCommentReId> queryReId(Integer[] ids);
 	
 }

@@ -404,6 +404,18 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 	private static final String QUERY_REC_INFO = "select " + REC_INFO 
 			+ " from " + table + " where id=?";
 	
+	/**
+	 * 根据id更新登录账号
+	 */
+	private static final String UPDATE_LOGIN_CODE_BY_UID = "update " + table
+			+ " set login_code=? where id=?";
+	
+	/**
+	 * 根据id查询UserInfoDto
+	 */
+	private static final String QUERY_USER_INFO_DTO_BY_ID = "select u0.id," + U0_INFO
+			+ " from " + table + " as u0 where u0.id=?";
+	
 	
 	@Autowired
 	private UserRecommendDao userRecommendDao;
@@ -1226,6 +1238,25 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 		} catch(EmptyResultDataAccessException e) {
 			return null;
 		}
+	}
+
+	@Override
+	public void updateLoginCodeByUID(Integer id, String loginCode) {
+		getMasterJdbcTemplate().update(UPDATE_LOGIN_CODE_BY_UID, 
+				new Object[]{loginCode, id});
+	}
+
+	@Override
+	public UserInfoDto queryUserInfoDtoById(Integer id) {
+		return getJdbcTemplate().queryForObject(QUERY_USER_INFO_DTO_BY_ID,
+				new Object[]{id}, new RowMapper<UserInfoDto>() {
+
+					@Override
+					public UserInfoDto mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						return buildUserInfoDtoByResult(rs.getInt("id"), rs);
+					}
+		});
 	}
 
 

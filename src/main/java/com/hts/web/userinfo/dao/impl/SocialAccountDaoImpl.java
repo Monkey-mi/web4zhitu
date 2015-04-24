@@ -86,6 +86,12 @@ public class SocialAccountDaoImpl extends BaseDaoImpl implements SocialAccountDa
 	
 	private static final String QUERY_USER_ID = "select * from " + table
 			+ " where platform_id=? and platform_code=? limit 1";
+	
+	/**
+	 * 根据用户id更新platform_id
+	 */
+	private static final String UPDATE_PLATFORM_ID_BY_UID = "update " + table
+			+ " set platform_id=? where user_id=? and platform_code=?";
 
 
 	@Override
@@ -257,6 +263,13 @@ public class SocialAccountDaoImpl extends BaseDaoImpl implements SocialAccountDa
 				rs.getInt("platform_verify"),
 				rs.getString("platform_reason"),
 				rs.getInt("user_id"));
+	}
+
+	@Override
+	public void updatePlatformId(Integer userId, Integer platformCode,
+			String platformId) {
+		getMasterJdbcTemplate().update(UPDATE_PLATFORM_ID_BY_UID, 
+				new Object[]{userId, platformCode, platformId});
 	}
 
 }

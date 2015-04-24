@@ -128,4 +128,11 @@ public class ZTWorldInteractServiceTest extends BaseTest {
 	public void testSaveCommentReport() throws Exception {
 		service.saveCommentReport(485, 2, "");
 	}
+	
+	@Test
+	public void buildLikeMeCountTest() throws Exception {
+		Map<String, Object> jsonMap = new HashMap<String, Object>();
+		service.buildLikeMeCount(1000, 485, jsonMap);
+		logObj(jsonMap);
+	}
 }

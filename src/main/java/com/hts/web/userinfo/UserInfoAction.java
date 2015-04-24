@@ -80,6 +80,9 @@ public class UserInfoAction extends BaseAction {
 	private Integer tradeId = 0;
 	private String job;
 	
+	// 为了兼容2.9.88微信登录ios和android使用了不同的字段
+	private String platformUnionId; 
+	
 	
 	@Autowired
 	private UserInfoService userInfoService;
@@ -190,7 +193,7 @@ public class UserInfoAction extends BaseAction {
 			JSONUtil.optResult(OptResult.OPT_SUCCESS, userInfo, OptResult.JSON_KEY_USER_INFO, jsonMap);
 			
 		} catch(HTSException e) {
-			JSONUtil.optFailed(getCurrentLoginUserId(), e.getErrorCode(), e.getMessage(), e, jsonMap);
+			JSONUtil.optFailed(e.getErrorCode(), e.getMessage(), jsonMap);
 			
 		} catch (Exception e) {
 			StringBuilder build = new StringBuilder("login error,");
@@ -221,7 +224,8 @@ public class UserInfoAction extends BaseAction {
 		try {
 			UserInfo userInfo = userInfoService.loginBySocialAccount(platformCode, platformToken, 
 					platformTokenExpires, platformSign, platformVerify,platformReason, platformId, 
-					userName, userAvatar,userAvatarL, sex, pushToken, phoneCode, phoneSys, phoneVer, ver);
+					userName, userAvatar,userAvatarL, sex, pushToken, phoneCode, phoneSys, phoneVer, ver,
+					platformUnionId);
 			/*
 			 * 获取绑定的社交账号
 			 */
@@ -561,6 +565,19 @@ public class UserInfoAction extends BaseAction {
 		}
 		return StrutsKey.JSON;
 	}
+
+	/**
+	 * 搜集社交平台token
+	 * @return
+	 */
+	public String clpi() {
+		try {
+			JSONUtil.optSuccess(OptResult.ADD_SUCCESS, jsonMap);
+		} catch (Exception e) {
+			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+		}
+		return StrutsKey.JSON;
+	}
 	
 	public Integer getId() {
 		return id;
@@ -883,6 +900,14 @@ public class UserInfoAction extends BaseAction {
 
 	public void setPlatformReason(String platformReason) {
 		this.platformReason = platformReason;
+	}
+
+	public String getPlatformUnionId() {
+		return platformUnionId;
+	}
+
+	public void setPlatformUnionId(String platformUnionId) {
+		this.platformUnionId = platformUnionId;
 	}
 	
 }

@@ -2,6 +2,7 @@ package com.hts.web.common.pojo;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.struts2.json.annotations.JSON;
 
@@ -39,11 +40,12 @@ public class HTWorldLikeMe implements Serializable, ObjectWithUserVerify, Object
 	private String verifyIcon;
 	
 	private String remark;
+	
+	private List<HTWorldLikeMeThumb> titleThumbs;
 
 	public HTWorldLikeMe(Integer id, Date likedDate, Integer userId,
 			String userName, String userAvatar, String userAvatarL,
-			Integer star, Integer platformVerify, Integer worldId,
-			String titleThumbPath) {
+			Integer star, Integer platformVerify) {
 		super();
 		this.id = id;
 		this.likedDate = likedDate;
@@ -53,8 +55,6 @@ public class HTWorldLikeMe implements Serializable, ObjectWithUserVerify, Object
 		this.userAvatarL = userAvatarL;
 		this.star = star;
 		this.platformVerify = platformVerify;
-		this.worldId = worldId;
-		this.titleThumbPath = titleThumbPath;
 	}
 
 	public Integer getId() {
@@ -172,4 +172,12 @@ public class HTWorldLikeMe implements Serializable, ObjectWithUserVerify, Object
 		return this.userId;
 	}
 
+	public List<HTWorldLikeMeThumb> getTitleThumbs() {
+		return titleThumbs;
+	}
+
+	public void setTitleThumbs(List<HTWorldLikeMeThumb> titleThumbs) {
+		this.titleThumbs = titleThumbs;
+	}
+	
 }

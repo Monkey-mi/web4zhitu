@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -17,6 +18,7 @@ import com.hts.web.base.database.RowSelection;
 import com.hts.web.base.database.SQLUtil;
 import com.hts.web.common.dao.impl.BaseDaoImpl;
 import com.hts.web.common.pojo.HTWorldLikeMe;
+import com.hts.web.common.pojo.HTWorldLikeMeThumb;
 import com.hts.web.common.pojo.HTWorldLiked;
 import com.hts.web.common.pojo.HTWorldLikedUser;
 import com.hts.web.common.pojo.HTWorldThumbDto;
@@ -51,8 +53,21 @@ public class HTWorldLikedDaoImpl extends BaseDaoImpl implements HTWorldLikedDao{
 	/**
 	 *　喜欢我的用户信息
 	 */
-	private static final String LIKE_ME_INFO = "l0.id,l0.liked_date,l0.user_id,l0.world_id,u0.user_name,u0.user_avatar,"
+	private static final String LIKE_ME_INFO = "l0.id,l0.liked_date,l0.user_id,"
+			+ "l0.world_id,u0.user_name,u0.user_avatar,"
 			+ "u0.user_avatar_l,u0.star,u0.platform_verify,w0.title_thumb_path";
+	
+	/**
+	 * 喜欢我的用户分组信息
+	 */
+	private static final String LIKE_ME_INFO_BY_GROUP = "l0.id,l0.liked_date,l0.user_id,"
+			+ "u0.user_name,u0.user_avatar,"
+			+ "u0.user_avatar_l,u0.star,u0.platform_verify";
+	
+	/**
+	 * 喜欢我的用户织图信息
+	 */
+	private static final String LIKE_ME_WORLD_INFO = "hl0.user_id, hl0.world_id, h0.title_thumb_path";
 	
 	/**
 	 * 织图喜欢表
@@ -217,6 +232,12 @@ public class HTWorldLikedDaoImpl extends BaseDaoImpl implements HTWorldLikedDao{
 	 */
 	private static final String QUERY_LIKE_ME_COUNT_BY_WUID = "select count(*) from " + table 
 			+ " where world_author_id=? and valid=1";
+	
+	/**
+	 * 根据小id查询被赞数
+	 */
+	private static final String QUERY_LIKE_ME_COUNT_BY_MINID = "select count(*) from " + table 
+			+ " where world_author_id=? and valid=1 and id>?";
 
 	/**
 	 * 查询喜欢我的用户信息
@@ -224,15 +245,43 @@ public class HTWorldLikedDaoImpl extends BaseDaoImpl implements HTWorldLikedDao{
 	private static final String QUERY_LIKE_ME = "select " + LIKE_ME_INFO + " from "
 			+ table + " as l0," + HTS.USER_INFO + " u0, " + HTS.HTWORLD_HTWORLD + " as w0"
 			+ " where l0.user_id=u0.id and l0.world_id=w0.id and l0.valid=1 and l0.world_author_id=?"
-			+ " order by l0.id desc limit ?,?";
-	
+			+ " and user_id!=? order by l0.id desc limit ?";
 	/**
-	 * 查询喜欢我的用户信息
+	 * 根据最大id查询喜欢我的用户信息
 	 */
 	private static final String QUERY_LIKE_ME_BY_MAXID = "select " + LIKE_ME_INFO + " from "
 			+ table + " as l0," + HTS.USER_INFO + " u0, " + HTS.HTWORLD_HTWORLD + " as w0"
 			+ " where l0.user_id=u0.id and l0.world_id=w0.id and l0.valid=1 and l0.world_author_id=?"
-			+ " and l0.id<=? order by l0.id desc limit ?,?";
+			+ " and l0.user_id!=? and l0.id<=? order by l0.id desc limit ?";
+	
+	/**
+	 * 查询喜欢我的用户分组信息
+	 */
+	private static final String QUERY_LIKE_ME_BY_GROUP = "select " + LIKE_ME_INFO_BY_GROUP 
+			+ " from " + table + " l0, " + HTS.USER_INFO + " u0"
+			+ " where l0.user_id=u0.id and l0.world_author_id=? and l0.user_id!=?"
+			+ " and l0.valid=1 and l0.id>=? group by l0.user_id order by l0.id desc";
+
+	/**
+	 * 根据用户id查询喜欢我的织图信息，不做分页
+	 */
+	private static final String QUERY_LIKE_ME_WORLD = "select " + LIKE_ME_WORLD_INFO
+		+ " from " + table + " hl0," + HTS.HTWORLD_HTWORLD + " h0"
+		+ " where hl0.world_id=h0.id and hl0.world_author_id=? and hl0.user_id!=?"
+		+ " and hl0.id>=? and hl0.valid=1"
+		+ " order by hl0.id desc";
+	
+	/**
+	 *　查询被赞的最小id
+	 */
+	private static final String QUERY_MIN_ID_BY_DATE = "select min(id) from "
+			+ table + " where world_author_id=? and valid=1 and liked_date>=?";
+	
+	/**
+	 * 查询最大被赞记录id
+	 */
+	private static final String QUERY_MAX_LIKE_ME_ID = "select max(id) from "
+			+ table + " where world_author_id=?";
 	
 	@Autowired
 	private HTWorldDao worldDao;
@@ -518,10 +567,60 @@ public class HTWorldLikedDaoImpl extends BaseDaoImpl implements HTWorldLikedDao{
 	}
 
 	@Override
-	public List<HTWorldLikeMe> queryLikeMe(Integer userId,
-			RowSelection rowSelection) {
-		return getJdbcTemplate().query(QUERY_LIKE_ME, 
-				new Object[]{userId, rowSelection.getFirstRow(), rowSelection.getLimit()}, 
+	public long queryLikeMeCount(Integer minId, Integer worldAuthorId) {
+		return getJdbcTemplate().queryForLong(QUERY_LIKE_ME_COUNT_BY_MINID, 
+				new Object[]{worldAuthorId, minId});
+	}
+	
+	@Override
+	public Integer queryMinIdByMinDate(Integer authorId, Date minDate) {
+		try {
+			return getJdbcTemplate().queryForInt(QUERY_MIN_ID_BY_DATE, 
+					new Object[]{authorId, minDate});
+		} catch(DataAccessException e) {
+			return 0;
+		}
+	}
+	
+	@Override
+	public List<HTWorldLikeMe> queryLikeMe(Integer maxId, Integer authorId,
+			Integer limit) {
+		return getJdbcTemplate().query(QUERY_LIKE_ME_BY_MAXID, 
+				new Object[]{authorId, authorId, maxId, limit}, 
+				new RowMapper<HTWorldLikeMe>(){
+
+					@Override
+					public HTWorldLikeMe mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						HTWorldLikeMe lm = buildLikeMe(rs);
+						lm.setWorldId(rs.getInt("world_id"));
+						lm.setTitleThumbPath(rs.getString("title_thumb_path"));
+						return lm;
+					}
+		});
+	}
+	
+	@Override
+	public List<HTWorldLikeMe> queryLikeMe(Integer authorId,
+			Integer limit) {
+		return getJdbcTemplate().query(QUERY_LIKE_ME, new Object[]{authorId, authorId, limit}, 
+				new RowMapper<HTWorldLikeMe>(){
+
+					@Override
+					public HTWorldLikeMe mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						HTWorldLikeMe lm = buildLikeMe(rs);
+						lm.setWorldId(rs.getInt("world_id"));
+						lm.setTitleThumbPath(rs.getString("title_thumb_path"));
+						return lm;
+					}
+		});
+	}
+	
+	@Override
+	public List<HTWorldLikeMe> queryLikeMeByGroup(Integer minId, Integer authorId) {
+		return getJdbcTemplate().query(QUERY_LIKE_ME_BY_GROUP, 
+				new Object[]{authorId, authorId, minId}, 
 				new RowMapper<HTWorldLikeMe>(){
 
 					@Override
@@ -531,20 +630,29 @@ public class HTWorldLikedDaoImpl extends BaseDaoImpl implements HTWorldLikedDao{
 					}
 		});
 	}
-
+	
 	@Override
-	public List<HTWorldLikeMe> queryLikeMe(Integer maxId, Integer userId,
-			RowSelection rowSelection) {
-		return getJdbcTemplate().query(QUERY_LIKE_ME_BY_MAXID, 
-				new Object[]{userId, maxId, rowSelection.getFirstRow(), rowSelection.getLimit()}, 
-				new RowMapper<HTWorldLikeMe>(){
-
-					@Override
-					public HTWorldLikeMe mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
-						return buildLikeMe(rs);
-					}
+	public void queryLikeMeWorld(Integer minId, Integer authorId,
+			final RowCallback<HTWorldLikeMeThumb> callback) {
+		
+		getJdbcTemplate().query(QUERY_LIKE_ME_WORLD,
+				new Object[]{authorId, authorId, minId},
+				new RowCallbackHandler() {
+		
+			@Override
+			public void processRow(ResultSet rs) throws SQLException {
+				callback.callback(buildLikeMeThumb(rs));
+			}
 		});
+	}
+	
+	@Override
+	public Integer queryMaxLikeMeId(Integer authorId) {
+		try {
+			return getJdbcTemplate().queryForInt(QUERY_MAX_LIKE_ME_ID, authorId);
+		} catch(DataAccessException e) {
+			return 0;
+		}
 	}
 	
 	public HTWorldLikeMe buildLikeMe(ResultSet rs) throws SQLException {
@@ -556,9 +664,15 @@ public class HTWorldLikedDaoImpl extends BaseDaoImpl implements HTWorldLikedDao{
 				rs.getString("user_avatar"),
 				rs.getString("user_avatar_l"),
 				rs.getInt("star"),
-				rs.getInt("platform_verify"),
+				rs.getInt("platform_verify"));
+	}
+	
+	public HTWorldLikeMeThumb buildLikeMeThumb(ResultSet rs) throws SQLException {
+		return new HTWorldLikeMeThumb(
+				rs.getInt("user_id"),
 				rs.getInt("world_id"),
 				rs.getString("title_thumb_path"));
 	}
+
 
 }

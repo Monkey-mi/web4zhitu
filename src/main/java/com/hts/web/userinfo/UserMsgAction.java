@@ -1,6 +1,8 @@
 package com.hts.web.userinfo;
 
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.hts.web.base.HTSException;
@@ -374,12 +376,12 @@ public class UserMsgAction extends BaseAction {
 	 */
 	public String queryLikeMeMsg() {
 		try {
-			userMsgService.buildLikeMeMsg(maxId, getCurrentLoginUserId(), 
-					start, limit, jsonMap);
+			userMsgService.buildLikeMeMsg(maxId, getCurrentLoginUserId(), limit, jsonMap);
 			JSONUtil.optSuccess(jsonMap);
 		} catch(Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
 		}
+		
 		return StrutsKey.JSON;
 	}
 	
@@ -396,6 +398,16 @@ public class UserMsgAction extends BaseAction {
 		}catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
 		}
+		return StrutsKey.JSON;
+	}
+	
+	/**
+	 * 时间同步
+	 * 
+	 * @return
+	 */
+	public String timeSync() {
+		JSONUtil.optSuccess(String.valueOf(new Date().getTime()), jsonMap);
 		return StrutsKey.JSON;
 	}
 	

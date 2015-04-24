@@ -1,5 +1,7 @@
 package com.hts.web.push.service;
 
+import java.util.Map;
+
 import com.hts.web.base.HTSException;
 import com.hts.web.common.pojo.PushIM;
 
@@ -24,6 +26,17 @@ public interface YunbaPushService {
 	 * @throws HTSException
 	 */
 	public void pushTopicMsg(String topic, PushIM msg) throws HTSException;
+	
+	/**
+	 * 推送系统消息
+	 * 
+	 * @param topic
+	 * @param msg
+	 * @param extra
+	 * @throws HTSException
+	 */
+	public void pushTopicMsg(String topic, PushIM msg, 
+			Map<String, Object> extra) throws HTSException;
 
 	/**
 	 * 

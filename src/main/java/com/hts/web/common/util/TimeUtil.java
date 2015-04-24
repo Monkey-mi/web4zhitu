@@ -1,5 +1,6 @@
 package com.hts.web.common.util;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -63,4 +64,30 @@ public class TimeUtil {
 	public static long getTimeLONG() {
 		return new Date().getTime();
 	}
+	
+	/**
+	 * 获取从当前日期减去指定时间的日期
+	 * 
+	 * @param nowDate
+	 * @param subtime
+	 */
+	public static Date getSubDateFromNow(long subtime) {
+		Date nowDate = new Date();
+		long time = nowDate.getTime();
+		nowDate.setTime(time - subtime);
+		return nowDate;
+	}
+
+	/**
+	 * 获取从当前日期减去指定时间的日期长整数
+	 * 
+	 * @param nowDate
+	 * @param subtime
+	 */
+	public static long getSubTimeFromNow(long subtime) {
+		Date nowDate = new Date();
+		long time = nowDate.getTime();
+		return time - subtime;
+	}
+	
 }

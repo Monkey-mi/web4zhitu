@@ -1,8 +1,11 @@
 package com.hts.web.push.yunba;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.CodingErrorAction;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.net.ssl.SSLContext;
 
@@ -12,11 +15,13 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.ParseException;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.config.AuthSchemes;
 import org.apache.http.client.config.CookieSpecs;
 import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.config.ConnectionConfig;
@@ -48,6 +53,7 @@ import org.apache.http.io.HttpMessageWriterFactory;
 import org.apache.http.io.SessionInputBuffer;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicLineParser;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.message.LineParser;
 import org.apache.http.util.CharArrayBuffer;
 import org.apache.http.util.EntityUtils;
@@ -262,6 +268,46 @@ public class YunbaClientImpl implements YunbaClient {
 		}
 	}
 
+	public static void main(String[] args) {
+		// 创建默认的httpClient实例.    
+        CloseableHttpClient httpclient = HttpClients.createDefault();  
+        // 创建httppost    
+        HttpPost httppost = new HttpPost("http://192.168.1.151/hts/user/interact_queryConcerns");  
+        // 创建参数队列    
+        List<NameValuePair> formparams = new ArrayList<NameValuePair>();  
+        UrlEncodedFormEntity uefEntity;  
+        try {  
+            uefEntity = new UrlEncodedFormEntity(formparams, "UTF-8");  
+            httppost.setEntity(uefEntity);  
+            httppost.setHeader("Cookie", "IMZHITU_REMEMBER_ME_COOKIE=SjRpbU54WExZUjFlc2VEZ0lPL2ZMUT09Ok12eGY4UktQUFNUMjBueEgwNEFoNHc9PQ;JSESSIONID=mrj14hhud3gu1el3mwtpj7bcm");
+            System.out.println("executing request " + httppost.getURI());  
+            CloseableHttpResponse response = httpclient.execute(httppost);  
+            try {  
+                HttpEntity entity = response.getEntity();  
+                if (entity != null) {  
+                    System.out.println("--------------------------------------");  
+                    System.out.println("Response content: " + EntityUtils.toString(entity, "UTF-8"));  
+                    System.out.println("--------------------------------------");  
+                }  
+            } finally {  
+                response.close();  
+            }  
+        } catch (ClientProtocolException e) {  
+            e.printStackTrace();  
+        } catch (UnsupportedEncodingException e1) {  
+            e1.printStackTrace();  
+        } catch (IOException e) {  
+            e.printStackTrace();  
+        } finally {  
+            // 关闭连接,释放资源    
+            try {  
+                httpclient.close();  
+            } catch (IOException e) {  
+                e.printStackTrace();  
+            }  
+        }  
+    }  
+  
 	@Override
 	public void publishToAlias(String toAlias, String msg, JSONObject apnsJSON) throws YunbaException{
 		try {

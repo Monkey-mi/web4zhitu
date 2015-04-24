@@ -21,10 +21,10 @@ public class HTWorldStickerUsed implements Serializable {
 	private Integer id;
 	private Integer userId;
 	private Integer stickerId;
-	private Integer usedTime;
+	private Long usedTime;
 
 	public HTWorldStickerUsed(Integer userId, Integer stickerId,
-			Integer usedTime) {
+			Long usedTime) {
 		super();
 		this.userId = userId;
 		this.stickerId = stickerId;
@@ -55,11 +55,11 @@ public class HTWorldStickerUsed implements Serializable {
 		this.stickerId = stickerId;
 	}
 
-	public Integer getUsedTime() {
+	public Long getUsedTime() {
 		return usedTime;
 	}
 
-	public void setUsedTime(Integer usedTime) {
+	public void setUsedTime(Long usedTime) {
 		this.usedTime = usedTime;
 	}
 
