@@ -1,10 +1,6 @@
 //download
 function download(){
-	if(navigator.userAgent.indexOf("iPhone")==-1){
-		window.location.href="http://a.app.qq.com/o/simple.jsp?pkgname=com.htshuo.htsg&g_f=991653#opened";
-	}else{
-		window.location.href="http://um0.cn/5HgX8j/";
-	}
+	window.location.href="http://a.app.qq.com/o/simple.jsp?pkgname=com.htshuo.htsg&g_f=991653#opened";
 };
 
 function setCookie(name,value){
