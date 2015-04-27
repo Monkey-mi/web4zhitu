@@ -109,10 +109,9 @@ public interface HTWorldDao extends BaseDao {
 	 * 查询织图和用户互动信息
 	 * 
 	 * @param worldId
-	 * @param userId
 	 * @return
 	 */
-	public HTWorldInteractDto queryHTWorldInteract(Integer worldId, Integer userId);
+	public HTWorldInteractDto queryHTWorldInteract(Integer worldId);
 
 	/**
 	 * 查询指定用户及其关注好友的织图

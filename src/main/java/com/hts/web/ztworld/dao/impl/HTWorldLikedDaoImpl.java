@@ -283,6 +283,12 @@ public class HTWorldLikedDaoImpl extends BaseDaoImpl implements HTWorldLikedDao{
 	private static final String QUERY_MAX_LIKE_ME_ID = "select max(id) from "
 			+ table + " where world_author_id=?";
 	
+	/**
+	 * 查询喜欢id
+	 */
+	private static final String QUERY_LIKE_ID = "select world_id from " 
+			+ table + " where user_id=? and world_id=? and valid=1";
+	
 	@Autowired
 	private HTWorldDao worldDao;
 	
@@ -655,6 +661,15 @@ public class HTWorldLikedDaoImpl extends BaseDaoImpl implements HTWorldLikedDao{
 		}
 	}
 	
+	@Override
+	public Integer queryLikedId(Integer userId, Integer worldId) {
+		try {
+			return getJdbcTemplate().queryForInt(QUERY_LIKE_ID, new Object[]{userId, worldId});
+		} catch(DataAccessException e) {
+			return 0;
+		}
+	}
+	
 	public HTWorldLikeMe buildLikeMe(ResultSet rs) throws SQLException {
 		return new HTWorldLikeMe(
 				rs.getInt("id"),
@@ -673,6 +688,7 @@ public class HTWorldLikedDaoImpl extends BaseDaoImpl implements HTWorldLikedDao{
 				rs.getInt("world_id"),
 				rs.getString("title_thumb_path"));
 	}
+
 
 
 }

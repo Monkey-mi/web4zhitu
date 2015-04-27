@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -57,6 +58,8 @@ import com.hts.web.userinfo.service.UserInteractService;
  */
 @Service("HTSUserInteractService")
 public class UserInteractServiceImpl extends BaseServiceImpl implements UserInteractService{
+	
+	private static Logger logger = Logger.getLogger(UserInteractServiceImpl.class);
 	
 	/**
 	 * 已经关注错误
@@ -522,9 +525,11 @@ public class UserInteractServiceImpl extends BaseServiceImpl implements UserInte
 	public void saveShield(Integer userId, Integer shieldId) throws Exception {
 		Integer suid = userShieldDao.queryShieldId(userId, shieldId);
 		if(suid == null) {
-			userShieldDao.saveShield(userId, shieldId, new Date());
-		} else {
-			throw new HTSException("该用户已经被屏蔽", HAS_OPTIONED_ERROR);
+			try {
+				userShieldDao.saveShield(userId, shieldId, new Date());
+			} catch(Exception e) {
+				logger.warn("save shield error : uid=" + userId + ", shield id=" + shieldId);
+			}
 		}
 	}
 
@@ -532,11 +537,12 @@ public class UserInteractServiceImpl extends BaseServiceImpl implements UserInte
 	public void deleteShield(Integer userId, Integer shieldId) throws Exception {
 		Integer suid = userShieldDao.queryShieldId(userId, shieldId);
 		if(suid != null) {
+			try {
 			userShieldDao.deleteShield(userId, shieldId);
-		} else {
-			throw new HTSException("该用户未被屏蔽", HAS_CANCEL_OPTION_ERROR);
+			} catch(Exception e) {
+				logger.warn("save shield error : uid=" + userId + ", shield id=" + shieldId);
+			}
 		}
-		
 	}
 
 	@Override
@@ -562,6 +568,14 @@ public class UserInteractServiceImpl extends BaseServiceImpl implements UserInte
 		}, OptResult.JSON_KEY_USER_INFO, null);
 	}
 
+	
+	@Override
+	public void buildShieldId(Integer userId, Map<String, Object> jsonMap)
+			throws Exception {
+		List<Integer> shieldList = userShieldDao.queryShieldIds(userId);
+		jsonMap.put(OptResult.JSON_KEY_USER_INFO, shieldList);
+	}
+	
 	@Override
 	public void saveReport(Integer userId, Integer reportId) throws Exception {
 		UserReport ur = userReportDao.queryReportId(userId, reportId);
@@ -710,4 +724,5 @@ public class UserInteractServiceImpl extends BaseServiceImpl implements UserInte
 		userConcernService.extractIsMututal(userId, list);
 		jsonMap.put(OptResult.JSON_KEY_IS_MUTUTAL, list);
 	}
+
 }

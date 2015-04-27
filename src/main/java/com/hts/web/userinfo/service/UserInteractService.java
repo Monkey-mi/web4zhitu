@@ -241,6 +241,16 @@ public interface UserInteractService extends BaseService {
 	public void deleteShield(Integer userId, Integer shieldId) throws Exception;
 	
 	/**
+	 * 构建屏蔽id列表
+	 * 
+	 * @param userId
+	 * @param jsonMap
+	 * @throws Exception
+	 */
+	public void buildShieldId(Integer userId,
+			Map<String, Object> jsonMap) throws Exception;
+	
+	/**
 	 * 查询屏蔽用户
 	 * 
 	 * @param userId

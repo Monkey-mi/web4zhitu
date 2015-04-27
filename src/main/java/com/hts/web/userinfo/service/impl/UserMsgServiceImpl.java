@@ -147,7 +147,7 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 	@Value("${push.feedbackListeners}")
 	private String feedbackListeners;
 
-	private Integer likeMeGroupInterval = 50*60*1000;
+	private Integer likeMeGroupInterval = 5*60*1000;
 	
 	public Integer getCustomerServiceId() {
 		return customerServiceId;
@@ -348,7 +348,7 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 		if(senderId.equals(recipientId)) {
 			throw new HTSException("不能向自己发送私信");
 		}
-		boolean shield = (userMsgShieldDao.queryShieldId(recipientId) != null ? true : false);
+		boolean shield = (userMsgShieldDao.queryShieldId(recipientId, senderId) != null ? true : false);
 		final Integer id = keyGenService.generateId(KeyGenServiceImpl.USER_MSG_ID);
 		userMsgDao.saveMsg(new UserMsg(id, new Date(), content, msgType));
 		UserMsgBox msgBox = new UserMsgBox(id,senderId,recipientId,id);

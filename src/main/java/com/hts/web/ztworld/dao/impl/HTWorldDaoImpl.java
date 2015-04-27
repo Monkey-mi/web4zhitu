@@ -52,6 +52,8 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 	
 	private static final String THUMB_USER = "id,author_id,cover_path,title_path,title_thumb_path ";
 	
+	private static final String GEO_INFO = "id,title_path,title_thumb_path,longitude,latitude,location_desc,location_addr";
+	
 	/**
 	 * 保存世界
 	 */
@@ -342,15 +344,9 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 	/**
 	 * 查询织图互动信息
 	 */
-	private static final String QUERY_WORLD_INTERACT = "select h.*, 1-ISNULL(hl.user_id) as liked, 1-ISNULL(hk.user_id) as keep from"
-			+ " (select h0.*," + U0_INFO + " from htworld_htworld as h0, user_info as u0"
-			+ " where h0.author_id=u0.id and h0.id=?) as h" 
-			+ " left join (select * from htworld_liked  hl0 where hl0.valid=? and hl0.world_id=? and hl0.user_id=?) as hl" 
-			+ " on h.id = hl.world_id" 
-			+ " left join (select * from htworld_keep hk0 where hk0.valid=? and hk0.world_id=? and hk0.user_id=?) as hk" 
-			+ " on h.id = hk.world_id";
-	
-	private static final String GEO_INFO = "id,title_path,title_thumb_path,longitude,latitude,location_desc,location_addr";
+	private static final String QUERY_WORLD_INTERACT = "select h0.*," + U0_INFO 
+			+ " from htworld_htworld as h0, user_info as u0"
+			+ " where h0.author_id=u0.id and h0.id=?";
 	
 	/**
 	 * 根据用户id查询所有织图位置信息
@@ -974,16 +970,16 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 	};
 	
 	@Override
-	public HTWorldInteractDto queryHTWorldInteract(Integer worldId, Integer userId) {
+	public HTWorldInteractDto queryHTWorldInteract(Integer worldId) {
 		return queryForObjectWithNULL(QUERY_WORLD_INTERACT, new RowMapper<HTWorldInteractDto>() {
 
 			@Override
 			public HTWorldInteractDto mapRow(ResultSet rs, int rowNum)
 					throws SQLException {
-				return buildHTWorldInteractDtoByResultSet(rs);
+				return buildHTWorldInteractDto(rs);
 			}
 			
-		}, new Object[]{worldId, Tag.TRUE, worldId, userId, Tag.TRUE, worldId, userId});
+		}, new Object[]{worldId});
 	}
 	
 	@Override

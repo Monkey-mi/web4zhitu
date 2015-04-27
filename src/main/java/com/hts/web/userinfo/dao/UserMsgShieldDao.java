@@ -22,9 +22,10 @@ public interface UserMsgShieldDao extends BaseDao {
 
 	/**
 	 * 查询屏蔽用户信息
+	 * 
 	 * @param userId
 	 */
-	public Integer queryShieldId(Integer userId);
+	public Integer queryShieldId(Integer userId, Integer shieldId);
 	
 	/**
 	 * 删除屏蔽

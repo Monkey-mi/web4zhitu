@@ -58,17 +58,20 @@ public class SquarePushDaoImpl extends BaseDaoImpl implements SquarePushDao {
 	/**
 	 * 查询广场织图列表
 	 */
-	private static final String QUERY_SQUARE = QUERY_SQUARE_HEAD + " and h.valid=? and h.shield=? and hw.valid=?" + ORDER_BY_HW_SERIAL_DESC;
+	private static final String QUERY_SQUARE = QUERY_SQUARE_HEAD 
+			+ " and h.valid=? and h.shield=? and hw.valid=?" + ORDER_BY_HW_SERIAL_DESC;
 	
 	/**
 	 * 根据最大序号查询广场织图列表
 	 */
-	private static final String QUERY_SQUARE_BY_MAX_SERIAL = QUERY_SQUARE_HEAD + " and h.valid=? and h.shield=? and hw.valid=? and hw.serial<=?" + ORDER_BY_HW_SERIAL_DESC;
+	private static final String QUERY_SQUARE_BY_MAX_SERIAL = QUERY_SQUARE_HEAD 
+			+ " and h.valid=? and h.shield=? and hw.valid=? and hw.serial<=?" + ORDER_BY_HW_SERIAL_DESC;
 	
 	/**
 	 * 根据最小序号查询广场织图列表
 	 */
-	private static final String QUERY_SQUARE_BY_MIN_SERIAL = QUERY_SQUARE_HEAD + " and h.valid=? and h.shield=? and hw.valid=? and hw.serial>?" + ORDER_BY_HW_SERIAL_DESC;
+	private static final String QUERY_SQUARE_BY_MIN_SERIAL = QUERY_SQUARE_HEAD 
+			+ " and h.valid=? and h.shield=? and hw.valid=? and hw.serial>?" + ORDER_BY_HW_SERIAL_DESC;
 	
 	/**
 	 * 查询广场织图总数头部
@@ -220,6 +223,12 @@ public class SquarePushDaoImpl extends BaseDaoImpl implements SquarePushDao {
 			+ " and h.valid=? and h.shield=? and hw.valid=? and hw.superb=?";
 	
 	/**
+	 * 从主库查询精品织图
+	 */
+	private static final String QUERY_SUPERB_SQUARE_INDEX_FROM_MASTER = QUERY_SUPERB_SQUARE_INDEX_HEAD 
+			+ ORDER_BY_HW_SERIAL_DESC + " limit ?,?";
+	
+	/**
 	 * 查询精品织图分类索引
 	 */
 	private static final String QUERY_SUPERB_SQUARE_INDEX = QUERY_SUPERB_SQUARE_INDEX_HEAD 
@@ -236,7 +245,7 @@ public class SquarePushDaoImpl extends BaseDaoImpl implements SquarePushDao {
 	 * 查询广场分类索引SQL头部
 	 */
 	private static final String QUERY_SQUARE_INDEX_HEAD = "select " + SQUARE_INDEX + " from " 
-	 + HTS.HTWORLD_HTWORLD + " as h," + HTS.USER_INFO + " as u, (";
+			+ HTS.HTWORLD_HTWORLD + " as h," + HTS.USER_INFO + " as u, (";
 
 	/**
 	 * 查询广场分类索引SQL尾部
@@ -592,6 +601,22 @@ public class SquarePushDaoImpl extends BaseDaoImpl implements SquarePushDao {
 		return getJdbcTemplate().queryForInt(QUERY_MAX_SQUARE_SERIAL);
 	}
 
+	
+	@Override
+	public List<OpWorldTypeDto2> querySuperbSquareIndexFromMaster(RowSelection rowSelection) {
+		return getMasterJdbcTemplate().query(QUERY_SUPERB_SQUARE_INDEX_FROM_MASTER, 
+				new Object[]{Tag.TRUE, Tag.FALSE, Tag.TRUE, Tag.TRUE,
+				rowSelection.getFirstRow(), rowSelection.getLimit()}, 
+				new RowMapper<OpWorldTypeDto2>() {
+
+					@Override
+					public OpWorldTypeDto2 mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						return buildSquareIndex(rs);
+					}
+		});
+	}
+	
 	@Override
 	public List<OpWorldTypeDto2> querySuperbSquareIndex(RowSelection rowSelection) {
 		return queryForPage(QUERY_SUPERB_SQUARE_INDEX,

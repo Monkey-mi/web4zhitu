@@ -331,6 +331,21 @@ public class UserInteractAction extends BaseAction {
 	}
 	
 	/**
+	 * 查询屏蔽id列表
+	 * 
+	 * @return
+	 */
+	public String queryShieldIds() {
+		try {
+			userInteractService.buildShieldId(getCurrentLoginUserId(), jsonMap);
+			JSONUtil.optSuccess(jsonMap);
+		} catch(Exception e) {
+			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+		}
+		return StrutsKey.JSON;
+	}
+	
+	/**
 	 * 举报用户
 	 * 
 	 * @return

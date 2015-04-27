@@ -52,17 +52,23 @@ public class UserShieldDaoImpl extends BaseDaoImpl implements UserShieldDao {
 	/**
 	 * 查询屏蔽用户信息
 	 */
-	private static final String QUERY_SHIELD_USER = "select su0.id,su0.shield_id," + SHIELD_INFO + " from ("
-			+ " select id,shield_id from " + table + " where user_id=? order by id desc limit ?,?) as su0,"
-			+ HTS.USER_INFO + " u0 where u0.id=su0.shield_id";
+	private static final String QUERY_SHIELD_USER = "select su0.id,su0.shield_id," + SHIELD_INFO 
+			+ " from " + table + " as su0," + HTS.USER_INFO 
+			+ " u0 where u0.id=su0.shield_id and su0.user_id=? order by su0.id desc limit ?,?";
 	
 	/**
 	 * 根据最大id查询屏蔽用户信息
 	 */
-	private static final String QUERY_SHIELD_USER_BY_MAX_ID = "select su0.id,su0.shield_id," + SHIELD_INFO + " from ("
-			+ " select id,shield_id from " + table + " where user_id=? and id<=? order by id desc limit ?,?) as su0,"
-			+ HTS.USER_INFO + " u0 where u0.id=su0.shield_id";
+	private static final String QUERY_SHIELD_USER_BY_MAX_ID = "select su0.id,su0.shield_id," + SHIELD_INFO 
+			+ " from " + table + " as su0," + HTS.USER_INFO 
+			+ " u0 where u0.id=su0.shield_id and su0.user_id=? and su0.id<=? order by su0.id desc limit ?,?";
 
+	/**
+	 * 查询屏蔽ids
+	 */
+	private static final String QUERY_SHIELD_IDS = "select shield_id from "
+			+ table + " where user_id=?";
+	
 	@Override
 	public Integer queryShieldId(Integer userId, Integer shieldId) {
 		return queryForObjectWithNULL(QUERY_SHIELD_ID, new Object[]{userId, shieldId},
@@ -108,6 +114,12 @@ public class UserShieldDaoImpl extends BaseDaoImpl implements UserShieldDao {
 			}
 		});
 	}
+	
+	@Override
+	public List<Integer> queryShieldIds(Integer userId) {
+		return getJdbcTemplate().queryForList(QUERY_SHIELD_IDS, 
+				Integer.class, userId);
+	}
 
 	public UserShieldInfo buildShieldInfo(ResultSet rs) throws SQLException {
 		return new UserShieldInfo(
@@ -120,4 +132,5 @@ public class UserShieldDaoImpl extends BaseDaoImpl implements UserShieldDao {
 				rs.getString("province"),
 				rs.getString("city"));
 	}
+
 }

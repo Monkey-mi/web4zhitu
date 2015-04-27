@@ -212,4 +212,16 @@ public class UserInteractServiceTest extends BaseTest {
 			}
 		});
 	}
+	
+	@Test
+	public void buildShieldIdTest() throws Exception {
+		logNumberList(logger, new NumberListAdapter() {
+
+			@Override
+			public void buildNumberList(Map<String, Object> jsonMap)
+					throws Exception {
+				service.buildShieldId(2000, jsonMap);
+			}
+		});
+	}
 }

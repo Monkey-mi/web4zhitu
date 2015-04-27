@@ -237,6 +237,14 @@ public interface SquarePushDao extends BaseDao {
 	public Integer queryMaxSquareSerial();
 	
 	/**
+	 * 从主库查询广场精品
+	 * 
+	 * @param rowSelection
+	 * @return
+	 */
+	public List<OpWorldTypeDto2> querySuperbSquareIndexFromMaster(RowSelection rowSelection);
+	
+	/**
 	 * 查询广场精品分类索引
 	 * 
 	 * @param rowSelection

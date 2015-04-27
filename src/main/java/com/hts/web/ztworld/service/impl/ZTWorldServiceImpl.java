@@ -722,11 +722,18 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 	}
 
 	@Override
-	public void extractExtraInfo(boolean trimExtra, int commentLimit,
+	public void extractExtraInfo(boolean extractLiked, boolean extractKeep, Integer userId, 
+			boolean trimExtra, int commentLimit,
 			int likedLimit, final HTWorldInteractDto world) {
 		if (!trimExtra && world != null) {
 			final Map<Integer, UserVerify> verifyMap = userInfoService.getVerify();
 			Integer worldId = world.getId();
+			
+			if(extractLiked && userId != null) {
+				Integer liked = worldLikedDao.queryLikedId(userId, worldId) != 0 ? Tag.TRUE : Tag.FALSE;
+				world.setLiked(liked);
+			}
+			
 			if (commentLimit > 0) {
 				worldCommentDao.queryCommentUserByLimit(worldId, commentLimit,
 						new RowCallback<HTWorldCommentUser>() {

@@ -759,7 +759,7 @@
 							$ztdesc = $(".zt-desc:eq(0)");
 						} else {
 							$descHide = $ztcontainer.find('.zt-desc-hide:eq(0)');
-							$ztdesc = $ztcontainer.find('.zt-desc(0)');
+							$ztdesc = $ztcontainer.find('.zt-desc:eq(0)');
 						}
 						$descHide.show();
 						$this.hide();

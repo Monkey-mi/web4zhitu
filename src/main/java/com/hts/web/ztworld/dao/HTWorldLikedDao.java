@@ -32,6 +32,15 @@ public interface HTWorldLikedDao extends BaseDao {
 	 */
 	public HTWorldLiked queryLiked(Integer userId, Integer worldId);
 	
+	/**
+	 * 查询喜欢的织图id
+	 * 
+	 * @param userId
+	 * @param worldId
+	 * @return
+	 */
+	public Integer queryLikedId(Integer userId, Integer worldId);
+	
 	
 	/**
 	 * 保存织图喜欢
@@ -290,4 +299,5 @@ public interface HTWorldLikedDao extends BaseDao {
 	 * @return
 	 */
 	public Integer queryMaxLikeMeId(Integer authorId);
+	
 }

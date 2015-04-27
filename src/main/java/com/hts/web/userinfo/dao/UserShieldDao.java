@@ -55,4 +55,12 @@ public interface UserShieldDao extends BaseDao {
 	 * @return
 	 */
 	public List<UserShieldInfo> queryShieldUser(Integer maxId, Integer userId, RowSelection rowSelection);
+	
+	/**
+	 * 查询所有屏蔽id列表
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	public List<Integer> queryShieldIds(Integer userId);
 }

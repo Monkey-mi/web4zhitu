@@ -663,7 +663,7 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 	public HTWorldInteractDto getWorldInteract(Integer worldId, Integer userId, boolean isAddClick, 
 			boolean trimExtras, Integer commentLimit, Integer likedLimit)
 			throws Exception {
-		HTWorldInteractDto dto = worldDao.queryHTWorldInteract(worldId, userId);
+		HTWorldInteractDto dto = worldDao.queryHTWorldInteract(worldId);
 		if(dto == null) {
 			throw new HTSException("指定织图不存在");
 		}
@@ -673,12 +673,12 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 				dto.getUserInfo().setIsMututal(isMututal);
 			}
 		}
-		worldService.extractExtraInfo(trimExtras, commentLimit, likedLimit, dto);
+		worldService.extractExtraInfo(true, true, userId, trimExtras, commentLimit, likedLimit, dto);
 		userInfoService.extractVerify(dto);
 		userInteractService.extractRemark(userId, dto);
-		if(isAddClick) {
-			worldService.addClickCount(worldId, 1);
-		}
+//		if(isAddClick) {
+//			worldService.addClickCount(worldId, 1);
+//		}
 		return dto;
 	}
 

@@ -145,7 +145,7 @@ public interface ZTWorldService extends BaseService {
 	 * @param likedLimit
 	 * @param world
 	 */
-	public void extractExtraInfo(boolean trimExtra, int commentLimit,
+	public void extractExtraInfo(boolean extractLiked, boolean extractKeep, Integer userId, boolean trimExtra, int commentLimit,
 			int likedLimit, HTWorldInteractDto world);
 
 	/**

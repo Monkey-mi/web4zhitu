@@ -18,21 +18,23 @@ public class UserMsgShieldDaoImpl extends BaseDaoImpl implements
 			+ " (user_id,shield_id) values (?,?)";
 	
 	/** 查询屏蔽id */
-	private static final String QUERY_SHIELD_ID = "select DISTINCT shield_id from " + table + " where user_id=?";
+	private static final String QUERY_SHIELD_ID = "select DISTINCT shield_id from " 
+	+ table + " where user_id=? and shield_id=?";
 	
 	/** 删除屏蔽 */
-	private static final String DELETE_SHIELD = "delete from " + table + " where user_id=? and shield_id=?";
+	private static final String DELETE_SHIELD = "delete from " + table 
+			+ " where user_id=? and shield_id=?";
 	
-
 	@Override
 	public void saveShield(Integer userId, Integer shieldId) {
 		getMasterJdbcTemplate().update(SAVE_SHIELD, new Object[]{userId, shieldId});
 	}
 
 	@Override
-	public Integer queryShieldId(Integer userId) {
+	public Integer queryShieldId(Integer userId, Integer shieldId) {
 		try {
-			return getJdbcTemplate().queryForInt(QUERY_SHIELD_ID, userId);
+			return getJdbcTemplate().queryForInt(QUERY_SHIELD_ID,
+					new Object[]{userId, shieldId});
 		} catch(EmptyResultDataAccessException e) {
 		}
 		return null;
