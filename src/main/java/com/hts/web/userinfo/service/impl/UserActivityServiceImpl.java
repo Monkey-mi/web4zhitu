@@ -1,6 +1,9 @@
 package com.hts.web.userinfo.service.impl;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +13,7 @@ import com.hts.web.aliyun.service.OsUserInfoService;
 import com.hts.web.base.constant.Tag;
 import com.hts.web.common.pojo.UserActivity;
 import com.hts.web.common.service.impl.BaseServiceImpl;
+import com.hts.web.operations.service.OpStarRecommendService;
 import com.hts.web.userinfo.dao.UserActivityDao;
 import com.hts.web.userinfo.dao.UserInfoDao;
 import com.hts.web.userinfo.service.UserActivityService;
@@ -28,10 +32,35 @@ public class UserActivityServiceImpl extends BaseServiceImpl implements
 	
 	@Autowired
 	private OsUserInfoService osUserInfoService;
+	
+	@Autowired
+	private OpStarRecommendService starRecommendService;
 
 	// 发图积分=5
 	private Integer scoreWorld = 5;
 	
+	//一周登录有效总次数 2次
+	private Integer oneWeekLoginValidTimes = 2;
+	//登录一次算100分
+	private Integer loginScore = 100;
+	
+	//点赞 一周最多20次
+	private Integer oneWeekLikeValidTimes = 20;
+	//点赞一次10分
+	private Integer likeScore = 10;
+	
+	//评论 一周最多 10
+	private Integer oneWeekCommentValidTimes = 10;
+	//评论一次算20分
+	private Integer commentScore = 20;
+	
+	//轮换一次达人推荐，减200分
+	private Integer changeStarRecommendSub = -200;
+	
+	//发图积分
+	private Integer firstWorldOfDayScore = 200;
+	private Integer secondWorldOfDayScore = 100;
+	private Integer thirdWorldOfDayScore = 50;
 
 	public Integer getScoreWorld() {
 		return scoreWorld;
@@ -42,6 +71,7 @@ public class UserActivityServiceImpl extends BaseServiceImpl implements
 	}
 
 	@Override
+	@Deprecated
 	public void addActivityScore(Integer typeId, int mutiple, Integer userId) {
 		Integer score = 0;
 		switch (typeId) {
@@ -66,6 +96,74 @@ public class UserActivityServiceImpl extends BaseServiceImpl implements
 			} catch (Exception e) {
 				log.warn("update opensearch user activity fail", e);
 			}
+		}
+		
+	}
+	
+	
+	/**
+	 * 活动规则
+	 * @param typeId 定义在Tag类当中
+	 * @param userId
+	 */
+	public void addActivityScore(Integer  typeId,Integer userId)throws Exception{
+		Date now = new Date();
+		Integer score = 0;
+		if(typeId == Tag.ACT_TYPE_CHANGE_SUB){//轮换推荐导致的减分
+			score = changeStarRecommendSub;
+		}else if(typeId == Tag.ACT_TYPE_WORLD){//发图
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+			String tmp = df.format(now);
+			try{
+				Date begin = df.parse(tmp);
+				long r = userActivityDao.queryUserActivityTotalCount(userId, typeId, begin, now);
+				if( r == 0 ){
+					score = firstWorldOfDayScore;
+				}else if( r == 1 ){
+					score = secondWorldOfDayScore;
+				}else if( r == 2 ){
+					score = thirdWorldOfDayScore;
+				}
+			}catch(Exception e){
+				log.warn("update opensearch user activity fail", e);
+			}
+			
+		}else{//非发图
+			Calendar calendar = Calendar.getInstance(Locale.CHINA);
+			calendar.setTime(now);
+			calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+			long r = userActivityDao.queryUserActivityTotalCount(userId, typeId, calendar.getTime(), now);
+			switch(typeId){
+			case Tag.ACT_TYPE_COMMENT : //评论
+				if( r < oneWeekCommentValidTimes ){
+					score = commentScore;
+				}
+				break;
+			case Tag.ACT_TYPE_LIKE : 	//点赞
+				if( r < oneWeekLikeValidTimes ){
+					score = likeScore;
+				}
+				break;
+			case Tag.ACT_TYPE_LOGIN : 	//登录
+				if( r < oneWeekLoginValidTimes ){
+					score = loginScore;
+				}
+				break;
+			}
+		}
+		
+		if(score != 0 ){//将数据更新到对应表中
+			//user_activity那张表对应的活跃值变化记录
+			userActivityDao.saveActivity(new UserActivity(userId,typeId,now,score));
+			
+			//统计一次该用户的活跃值
+			Integer total = userActivityDao.queryTotalScore(userId);
+			
+			//用户那张表user_info对应的activity字段
+			userInfoDao.updateActivity(userId, total);
+			
+			//达人推荐那张表operactions_star_recommend中 冗余的activity字段
+			starRecommendService.updateStarRecommend(userId, total);
 		}
 		
 	}

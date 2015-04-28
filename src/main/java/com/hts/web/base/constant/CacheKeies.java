@@ -174,6 +174,10 @@ public class CacheKeies {
 	 */
 	public static final String PLAT_BE_CONCERN = MODULE_PLAT + "beConceron";
 	
+	/**
+	 * 达人推荐
+	 */
+	public static final String OP_STAR_RECOMMEND = "starRecommend";
 
 	
 	

@@ -21,4 +21,11 @@ public interface UserActivityService extends BaseService {
 	 * @param userId
 	 */
 	public void addActivityScore(Integer typeId, int multiple, Integer userId);
+	
+	/**
+	 * 添加活跃积分
+	 * @param typeId 定义在Tag类中 eg.Tag.ACT_TYPE_COMMENT
+	 * @param userId
+	 */
+	public void addActivityScore(Integer  typeId,Integer userId)throws Exception;
 }

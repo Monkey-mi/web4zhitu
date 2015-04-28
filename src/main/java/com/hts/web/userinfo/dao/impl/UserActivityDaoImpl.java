@@ -1,5 +1,7 @@
 package com.hts.web.userinfo.dao.impl;
 
+import java.util.Date;
+
 import org.springframework.stereotype.Repository;
 
 import com.hts.web.base.database.HTS;
@@ -24,6 +26,11 @@ public class UserActivityDaoImpl extends BaseDaoImpl implements UserActivityDao 
 	public static final String QUERY_TOTAL_SCORE = "select sum(score) from " + table
 			+ " where user_id=?";
 	
+	/**
+	 * 查询总数
+	 */
+	private static final String QUERY_USER_ACTIVITY_TOTAL_COUNT = "select count(*) from hts.user_activity where user_id=? and type_id=? and date_added between ? and ?";
+	
 	@Override
 	public void saveActivity(UserActivity act) {
 		getMasterJdbcTemplate().update(SAVE_ACTIVITY, new Object[]{
@@ -36,7 +43,12 @@ public class UserActivityDaoImpl extends BaseDaoImpl implements UserActivityDao 
 
 	@Override
 	public Integer queryTotalScore(Integer userId) {
-		return getJdbcTemplate().queryForInt(QUERY_TOTAL_SCORE, userId);
+		return getMasterJdbcTemplate().queryForInt(QUERY_TOTAL_SCORE, userId);
+	}
+	
+	@Override
+	public long queryUserActivityTotalCount(Integer userId,Integer typeId,Date begin,Date end){
+		return getMasterJdbcTemplate().queryForLong(QUERY_USER_ACTIVITY_TOTAL_COUNT, userId,typeId,begin,end);
 	}
 
 }

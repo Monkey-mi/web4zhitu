@@ -280,6 +280,26 @@ public class Tag {
 	 */
 	public static final int ACT_TYPE_WORLD = 1;
 	
+	/**
+	 * 活跃类型；登录
+	 */
+	public static final int ACT_TYPE_LOGIN = 2;
+	
+	/**
+	 * 活跃类型：点赞
+	 */
+	public static final int ACT_TYPE_LIKE = 3;
+	
+	/**
+	 * 活跃类型：评论
+	 */
+	public static final int ACT_TYPE_COMMENT = 4;
+	
+	/**
+	 * 活跃类型：轮换减分
+	 */
+	public static final int ACT_TYPE_CHANGE_SUB = 5;
+	
 	
 	/**
 	 * APP版本:2.0，版本号过溢出则使用次版本

@@ -7,6 +7,7 @@ import com.hts.web.base.StrutsKey;
 import com.hts.web.base.constant.OptResult;
 import com.hts.web.common.BaseAction;
 import com.hts.web.common.util.JSONUtil;
+import com.hts.web.operations.service.OpStarRecommendService;
 import com.hts.web.operations.service.UserOperationsService;
 import com.hts.web.ztworld.service.impl.ZTWorldServiceImpl;
 
@@ -35,6 +36,22 @@ public class UserOperationsAction extends BaseAction {
 	
 	@Autowired
 	private UserOperationsService userOperationsService;
+	
+	@Autowired
+	private OpStarRecommendService starRecommendService;
+	
+	/**
+	 * 查询达人推荐
+	 */
+	public String queryStarRecommend(){
+		try{
+			starRecommendService.queryStarRecommend(jsonMap);
+			JSONUtil.optSuccess(jsonMap);
+		}catch (Exception e) {
+			JSONUtil.optFailed(getCurrentLoginUserId(), OptResult.QUERY_FAILED, e, jsonMap);
+		}
+		return StrutsKey.JSON;
+	}
 	
 	/**
 	 * 查询推荐用户

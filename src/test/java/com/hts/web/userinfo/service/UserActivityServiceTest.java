@@ -16,4 +16,12 @@ public class UserActivityServiceTest extends BaseTest {
 		service.addActivityScore(Tag.ACT_TYPE_WORLD, 2, 485);
 	}
 	
+	@Test
+	public void addActivityScoreTest()throws Exception{
+		for(int i=0; i<4;i++){
+			service.addActivityScore(Tag.ACT_TYPE_WORLD, 1111);
+		}
+		
+	}
+	
 }
