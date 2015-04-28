@@ -347,7 +347,7 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 	/**
 	 * 更新活跃度
 	 */
-	private static final String UPDATE_ACTIVITY = "update " + table + " set activity=? where id=?";
+	private static final String UPDATE_ACTIVITY = "update " + table + " set activity=activity+? where id=?";
 	
 	/**
 	 * 根据loginCodes查询已经注册的用户

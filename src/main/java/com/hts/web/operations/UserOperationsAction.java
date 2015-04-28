@@ -40,18 +40,7 @@ public class UserOperationsAction extends BaseAction {
 	@Autowired
 	private OpStarRecommendService starRecommendService;
 	
-	/**
-	 * 查询达人推荐
-	 */
-	public String queryStarRecommend(){
-		try{
-			starRecommendService.queryStarRecommend(jsonMap);
-			JSONUtil.optSuccess(jsonMap);
-		}catch (Exception e) {
-			JSONUtil.optFailed(getCurrentLoginUserId(), OptResult.QUERY_FAILED, e, jsonMap);
-		}
-		return StrutsKey.JSON;
-	}
+	
 	
 	/**
 	 * 查询推荐用户
@@ -180,16 +169,29 @@ public class UserOperationsAction extends BaseAction {
 	}
 	
 	/**
-	 * 查询标签推荐用户
+	 * 查询标签推荐用户  用下面个方法代替
 	 * @return
 	 */
-	public String queryLabelRecommendUser()	 {
-		try {
-			userOperationsService.buildLabelRecommendUser(maxId, start, limit, 
-					worldLimit, getCurrentLoginUserId(), trimMe, jsonMap);
+//	public String queryLabelRecommendUser()	 {
+//		try {
+//			userOperationsService.buildLabelRecommendUser(maxId, start, limit, 
+//					worldLimit, getCurrentLoginUserId(), trimMe, jsonMap);
+//			JSONUtil.optSuccess(jsonMap);
+//		} catch (Exception e) {
+//			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+//		}
+//		return StrutsKey.JSON;
+//	}
+	
+	/**
+	 * 查询达人推荐
+	 */
+	public String queryLabelRecommendUser(){
+		try{
+			starRecommendService.queryStarRecommend(jsonMap);
 			JSONUtil.optSuccess(jsonMap);
-		} catch (Exception e) {
-			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+		}catch (Exception e) {
+			JSONUtil.optFailed(getCurrentLoginUserId(), OptResult.QUERY_FAILED, e, jsonMap);
 		}
 		return StrutsKey.JSON;
 	}

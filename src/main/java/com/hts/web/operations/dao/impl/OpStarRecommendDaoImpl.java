@@ -53,7 +53,7 @@ public class OpStarRecommendDaoImpl extends BaseDaoImpl implements OpStarRecomme
 	/**
 	 * 更新达人推荐用户的activity值
 	 */
-	public static String UPDATE_STAR_RECOMMEND_ACTIVITY = "update hts.operations_star_recommend set activity=? where user_id=?";
+	public static String UPDATE_STAR_RECOMMEND_ACTIVITY = "update hts.operations_star_recommend set activity=activity+? where user_id=?";
 	
 	public static String QUERY_TOP_STAR_RECOMMEND_TOTAL_COUNT = "select count(*) from hts.operations_star_recommend osr where top=1";
 	

@@ -157,13 +157,13 @@ public class UserActivityServiceImpl extends BaseServiceImpl implements
 			userActivityDao.saveActivity(new UserActivity(userId,typeId,now,score));
 			
 			//统计一次该用户的活跃值
-			Integer total = userActivityDao.queryTotalScore(userId);
+			//Integer total = userActivityDao.queryTotalScore(userId);
 			
 			//用户那张表user_info对应的activity字段
-			userInfoDao.updateActivity(userId, total);
+			userInfoDao.updateActivity(userId, score);
 			
 			//达人推荐那张表operactions_star_recommend中 冗余的activity字段
-			starRecommendService.updateStarRecommend(userId, total);
+			starRecommendService.updateStarRecommend(userId, score);
 		}
 		
 	}
