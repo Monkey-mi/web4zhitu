@@ -26,7 +26,7 @@ public class OpStarRecommendServiceTest extends BaseTest{
 	@Test
 	public void queryStarRecommendTest()throws Exception{
 		Map<String,Object>jsonMap = new HashMap<String,Object>();
-		service.queryStarRecommend(jsonMap);
+		service.queryStarRecommend(0,1, jsonMap);
 		log.info("jsonMap is ===============>>>>"+jsonMap);
 	}
 	

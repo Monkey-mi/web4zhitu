@@ -43,6 +43,7 @@ import com.hts.web.userinfo.dao.UserConcernDao;
 import com.hts.web.userinfo.dao.UserInfoDao;
 import com.hts.web.userinfo.dao.UserRemarkDao;
 import com.hts.web.userinfo.dao.UserShieldDao;
+import com.hts.web.userinfo.service.UserActivityService;
 import com.hts.web.userinfo.service.UserInfoService;
 import com.hts.web.userinfo.service.UserInteractService;
 import com.hts.web.ztworld.dao.HTWorldCommentDao;
@@ -125,6 +126,9 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 	
 	@Autowired
 	private UserRemarkDao userRemarkDao;
+	
+	@Autowired
+	private UserActivityService userActivityService;
 	
 
 	@Override
@@ -248,6 +252,9 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 		
 		userInfoService.extractVerify(dto);
 		pushStatus.setInteractRes(dto);
+		
+		userActivityService.addActivityScore(Tag.ACT_TYPE_COMMENT, authorId);
+		
 		return pushStatus;
 	}
 	
@@ -394,6 +401,7 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 		HTWorldLiked liked = worldLikedDao.queryLiked(userId, worldId);
 		if(liked == null) {
 			pushStatus = saveLikedOpt(im, userId, worldId, worldAuthorId);
+			userActivityService.addActivityScore(Tag.ACT_TYPE_LIKE, userId);
 		} else if(liked.getValid() == Tag.FALSE) {
 			pushStatus = reSaveLiked(im, userId, worldId, worldAuthorId);
 		}

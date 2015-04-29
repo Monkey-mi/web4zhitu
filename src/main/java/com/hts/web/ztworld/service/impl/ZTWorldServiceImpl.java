@@ -375,12 +375,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 		Integer childCount = worldDao.queryChildCount(authorId);
 		userInfoDao.updateWorldAndChildCount(authorId, count.intValue(), childCount);
 		
-		// 添加活跃积分
-		int mutiple = 1;
-		if(childWorldMap.size() > 0) {
-			mutiple = childWorldMap.size();
-		}
-		userActivityService.addActivityScore(Tag.ACT_TYPE_WORLD, mutiple, authorId);
+		userActivityService.addActivityScore(Tag.ACT_TYPE_WORLD, authorId);
 		
 		if(trust >= Tag.TRUE && shield.equals(Tag.FALSE)) {
 			worldCacheDao.saveLatestCache(world);

@@ -20,6 +20,7 @@ public interface UserActivityService extends BaseService {
 	 * @param multiple
 	 * @param userId
 	 */
+	@Deprecated
 	public void addActivityScore(Integer typeId, int multiple, Integer userId);
 	
 	/**

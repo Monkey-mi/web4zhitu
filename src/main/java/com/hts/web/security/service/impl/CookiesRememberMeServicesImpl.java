@@ -23,10 +23,12 @@ import org.springframework.security.web.context.HttpSessionSecurityContextReposi
 import org.springframework.security.web.context.SecurityContextRepository;
 
 import com.hts.web.aliyun.service.OsUserInfoService;
+import com.hts.web.base.constant.Tag;
 import com.hts.web.common.util.TimeUtil;
 import com.hts.web.security.service.LoginService;
 import com.hts.web.security.service.UserLoginPersistentService;
 import com.hts.web.userinfo.dao.UserInfoDao;
+import com.hts.web.userinfo.service.UserActivityService;
 
 /**
  * <p>
@@ -55,6 +57,9 @@ public class CookiesRememberMeServicesImpl extends AbstractRememberMeServices
 
 	@Autowired
 	private OsUserInfoService osUserInfoService;
+	
+	@Autowired
+	private UserActivityService userActivityService;
 	
 	private SecurityContextRepository securityContextRepository = new HttpSessionSecurityContextRepository();
 
@@ -107,8 +112,9 @@ public class CookiesRememberMeServicesImpl extends AbstractRememberMeServices
 		try {
 			tokenRepository.updateToken(newToken.getSeries(), newToken.getTokenValue(), newToken.getDate());
 			try {
-				osUserInfoService.updateLastLogin(Integer.parseInt(newToken.getUsername()),
-						TimeUtil.getTimeLONG(newToken.getDate()));
+				Integer uid = Integer.parseInt(newToken.getUsername());
+				userActivityService.addActivityScore(Tag.ACT_TYPE_LOGIN, uid);
+				osUserInfoService.updateLastLogin(uid, TimeUtil.getTimeLONG(newToken.getDate()));
 			} catch(Exception e) {
 				log.warn("update opensearch userinfo last login error", e);
 			}
@@ -141,6 +147,7 @@ public class CookiesRememberMeServicesImpl extends AbstractRememberMeServices
 				userLoginPersistentService.generateTokenData(), new Date());
 		tokenRepository.createNewToken(newToken);
 		try {
+			userActivityService.addActivityScore(Tag.ACT_TYPE_LOGIN, userId);
 			osUserInfoService.updateLastLogin(userId, TimeUtil.getTimeLONG(newToken.getDate()));
 		} catch(Exception e) {
 			log.warn("update opensearch userinfo last login error", e);
