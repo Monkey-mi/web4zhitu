@@ -22,7 +22,7 @@ public interface OpStarRecommendService {
 	 * @param jsonMap
 	 * @throws Exception
 	 */
-	public void queryStarRecommend(Map<String, Object> jsonMap)throws Exception;
+	public void queryStarRecommend(Integer maxId,int start,Map<String, Object> jsonMap)throws Exception;
 	
 	/**
 	 * 从缓存中查询达人推荐数据

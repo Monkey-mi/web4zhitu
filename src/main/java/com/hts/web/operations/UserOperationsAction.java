@@ -188,7 +188,7 @@ public class UserOperationsAction extends BaseAction {
 	 */
 	public String queryLabelRecommendUser(){
 		try{
-			starRecommendService.queryStarRecommend(jsonMap);
+			starRecommendService.queryStarRecommend(maxId,start,jsonMap);
 			JSONUtil.optSuccess(jsonMap);
 		}catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), OptResult.QUERY_FAILED, e, jsonMap);

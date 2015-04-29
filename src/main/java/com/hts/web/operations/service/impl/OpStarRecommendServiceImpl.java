@@ -53,10 +53,15 @@ public class OpStarRecommendServiceImpl extends BaseServiceImpl implements OpSta
 	 * 查询达人推荐，先从缓存中查询，若缓存中没有数据，则从数据库中查询数据
 	 */
 	@Override
-	public void queryStarRecommend(Map<String, Object> jsonMap)throws Exception {
-		List<OpStarRecommendDto>list = queryStarRecommend();
-		if(list == null || list.size() < 1){
+	public void queryStarRecommend(Integer maxId,int start,Map<String, Object> jsonMap)throws Exception {
+		List<OpStarRecommendDto>list = null;
+		if(maxId == null || maxId == 0 || start == 1){
 			list = queryStarRecommend(0,1,defaulStarRecommendLimit,defaultWorldLimit);
+		}else{
+			list = queryStarRecommend();
+			if(list == null || list.size() < 1){
+				list = queryStarRecommend(maxId,start,defaulStarRecommendLimit,defaultWorldLimit);
+			}
 		}
 		jsonMap.put(OptResult.JSON_KEY_USER_INFO, list);
 	}
