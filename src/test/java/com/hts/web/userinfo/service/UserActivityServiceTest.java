@@ -14,7 +14,6 @@ public class UserActivityServiceTest extends BaseTest {
 	@Test
 	public void testAddActivityScore() {
 		service.addActivityScore(Tag.ACT_TYPE_WORLD, 2, 485);
-		//
 	}
 	
 	@Test
