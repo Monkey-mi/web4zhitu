@@ -26,28 +26,28 @@ public class OpStarRecommendDaoImpl extends BaseDaoImpl implements OpStarRecomme
 	 * 查询置顶的达人推荐用户
 	 */
 	private static String QUERY_TOP_STAR_RECOMMEND =  "select " + U_INFO + " from "
-			+ "(select user_id from hts.operations_star_recommend osr where osr.valid=1 and osr.top=1 order by osr.activity limit ?,?) t "
+			+ "(select user_id from hts.operations_star_recommend osr where osr.valid=1 and osr.top=1 order by osr.activity desc limit ?,?) t "
 			+ " left join hts.user_info u on t.user_id=u.id";
 	
 	/**
 	 * 查询置顶的达人推荐用户 by maxId
 	 */
 	private static String QUERY_TOP_STAR_RECOMMEND_BY_MAXID =  "select " + U_INFO + " from "
-			+ "(select user_id from hts.operations_star_recommend osr where osr.valid=1 and osr.top=1 and osr.id<? order by osr.activity limit ?,?) t "
+			+ "(select user_id from hts.operations_star_recommend osr where osr.valid=1 and osr.top=1 and osr.id<? order by osr.activity desc limit ?,?) t "
 			+ " left join hts.user_info u on t.user_id=u.id";
 	
 	/**
 	 * 查询非置顶的达人推荐用户
 	 */
 	private static String QUERY_STAR_RECOMMEND =  "select " + U_INFO + " from "
-			+ "(select user_id from hts.operations_star_recommend osr where osr.valid=1 and osr.top=0 order by osr.activity limit ?,?) t "
+			+ "(select user_id from hts.operations_star_recommend osr where osr.valid=1 and osr.top=0 order by osr.activity desc limit ?,?) t "
 			+ " left join hts.user_info u on t.user_id=u.id";
 	
 	/**
 	 * 查询非置顶的达人推荐用户 by maxId
 	 */
 	private static String QUERY_STAR_RECOMMEND_BY_MAXID =  "select " + U_INFO + " from "
-			+ "(select user_id from hts.operations_star_recommend osr where osr.valid=1 and osr.top=0 and osr.id<? order by osr.activity limit ?,?) t "
+			+ "(select user_id from hts.operations_star_recommend osr where osr.valid=1 and osr.top=0 and osr.id<? order by osr.activity desc limit ?,?) t "
 			+ " left join hts.user_info u on t.user_id=u.id";
 	
 	/**
@@ -80,10 +80,10 @@ public class OpStarRecommendDaoImpl extends BaseDaoImpl implements OpStarRecomme
 			Object[] agrs = null;
 			if(maxId != null && maxId > 0){
 				sql = QUERY_TOP_STAR_RECOMMEND_BY_MAXID;
-				agrs = new Object[]{maxId,start,limit};
+				agrs = new Object[]{maxId,first,limit};
 			}else{
 				sql = QUERY_TOP_STAR_RECOMMEND;
-				agrs = new Object[]{start,limit};
+				agrs = new Object[]{first,limit};
 			}
 			
 			//置顶的
@@ -98,12 +98,13 @@ public class OpStarRecommendDaoImpl extends BaseDaoImpl implements OpStarRecomme
 		}else{//不需要查询置顶的
 			String sql = null;
 			Object[] agrs = null;
+			first = (int)(first - topStarRecommendTotal );
 			if(maxId != null && maxId > 0){
 				sql = QUERY_STAR_RECOMMEND_BY_MAXID;
-				agrs = new Object[]{maxId,start,limit};
+				agrs = new Object[]{maxId,first,limit};
 			}else{
 				sql = QUERY_STAR_RECOMMEND;
-				agrs = new Object[]{start,limit};
+				agrs = new Object[]{first,limit};
 			}
 			list = getMasterJdbcTemplate().query(sql, agrs, rowMapper);
 		}
