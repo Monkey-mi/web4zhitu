@@ -37,30 +37,30 @@ public class UserActivityServiceImpl extends BaseServiceImpl implements
 	private OpStarRecommendService starRecommendService;
 
 	// 发图积分=5
-	private Integer scoreWorld = 5;
+	private static Integer scoreWorld = 5;
 	
 	//一周登录有效总次数 2次
-	private Integer oneWeekLoginValidTimes = 2;
+	private static Integer oneWeekLoginValidTimes = 2;
 	//登录一次算100分
-	private Integer loginScore = 100;
+	private static Integer loginScore = 100;
 	
 	//点赞 一周最多20次
-	private Integer oneWeekLikeValidTimes = 20;
+	private static Integer oneWeekLikeValidTimes = 20;
 	//点赞一次10分
-	private Integer likeScore = 10;
+	private static Integer likeScore = 10;
 	
 	//评论 一周最多 10
-	private Integer oneWeekCommentValidTimes = 10;
+	private static Integer oneWeekCommentValidTimes = 10;
 	//评论一次算20分
-	private Integer commentScore = 20;
+	private static Integer commentScore = 20;
 	
 	//轮换一次达人推荐，减200分
-	private Integer changeStarRecommendSub = -200;
+	private static Integer changeStarRecommendSub = -200;
 	
 	//发图积分
-	private Integer firstWorldOfDayScore = 200;
-	private Integer secondWorldOfDayScore = 100;
-	private Integer thirdWorldOfDayScore = 50;
+	private static Integer firstWorldOfDayScore = 200;
+	private static Integer secondWorldOfDayScore = 100;
+	private static Integer thirdWorldOfDayScore = 50;
 
 	public Integer getScoreWorld() {
 		return scoreWorld;
@@ -111,6 +111,7 @@ public class UserActivityServiceImpl extends BaseServiceImpl implements
 		Integer score = 0;
 		if(typeId == Tag.ACT_TYPE_CHANGE_SUB){//轮换推荐导致的减分
 			score = changeStarRecommendSub;
+			updateAllActivity(userId,typeId,now,score);
 		}else if(typeId == Tag.ACT_TYPE_WORLD){//发图
 			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 			String tmp = df.format(now);
@@ -119,10 +120,13 @@ public class UserActivityServiceImpl extends BaseServiceImpl implements
 				long r = userActivityDao.queryUserActivityTotalCount(userId, typeId, begin, now);
 				if( r == 0 ){
 					score = firstWorldOfDayScore;
+					updateAllActivity(userId,typeId,now,score);
 				}else if( r == 1 ){
 					score = secondWorldOfDayScore;
+					updateAllActivity(userId,typeId,now,score);
 				}else if( r == 2 ){
 					score = thirdWorldOfDayScore;
+					updateAllActivity(userId,typeId,now,score);
 				}
 			}catch(Exception e){
 				log.warn("update opensearch user activity fail", e);
@@ -134,38 +138,41 @@ public class UserActivityServiceImpl extends BaseServiceImpl implements
 			calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
 			long r = userActivityDao.queryUserActivityTotalCount(userId, typeId, calendar.getTime(), now);
 			switch(typeId){
-			case Tag.ACT_TYPE_COMMENT : //评论
-				if( r < oneWeekCommentValidTimes ){
-					score = commentScore;
-				}
-				break;
-			case Tag.ACT_TYPE_LIKE : 	//点赞
-				if( r < oneWeekLikeValidTimes ){
-					score = likeScore;
-				}
-				break;
-			case Tag.ACT_TYPE_LOGIN : 	//登录
-				if( r < oneWeekLoginValidTimes ){
-					score = loginScore;
-				}
-				break;
+				case Tag.ACT_TYPE_COMMENT : //评论
+					if( r < oneWeekCommentValidTimes ){
+						score = commentScore;
+						updateAllActivity(userId,typeId,now,score);
+					}
+					break;
+				case Tag.ACT_TYPE_LIKE : 	//点赞
+					if( r < oneWeekLikeValidTimes ){
+						score = likeScore;
+						updateAllActivity(userId,typeId,now,score);
+					}
+					break;
+				case Tag.ACT_TYPE_LOGIN : 	//登录
+					if( r < oneWeekLoginValidTimes ){
+						score = loginScore;
+						updateAllActivity(userId,typeId,now,score);
+					}
+					break;
 			}
-		}
-		
-		if(score != 0 ){//将数据更新到对应表中
-			//user_activity那张表对应的活跃值变化记录
-			userActivityDao.saveActivity(new UserActivity(userId,typeId,now,score));
-			
-			//统计一次该用户的活跃值
-			//Integer total = userActivityDao.queryTotalScore(userId);
-			
-			//用户那张表user_info对应的activity字段
-			userInfoDao.updateActivity(userId, score);
-			
-			//达人推荐那张表operactions_star_recommend中 冗余的activity字段
-			starRecommendService.updateStarRecommend(userId, score);
 		}
 		
 	}
 	
+	
+	private void updateAllActivity(Integer userId,Integer typeId,Date now,Integer score)throws Exception{
+		//user_activity那张表对应的活跃值变化记录
+		userActivityDao.saveActivity(new UserActivity(userId,typeId,now,score));
+		
+		//统计一次该用户的活跃值
+		//Integer total = userActivityDao.queryTotalScore(userId);
+		
+		//用户那张表user_info对应的activity字段
+		userInfoDao.updateActivity(userId, score);
+		
+		//达人推荐那张表operactions_star_recommend中 冗余的activity字段
+		starRecommendService.updateStarRecommend(userId, score);
+	}
 }
