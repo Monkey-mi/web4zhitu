@@ -113,7 +113,7 @@ public class CookiesRememberMeServicesImpl extends AbstractRememberMeServices
 			tokenRepository.updateToken(newToken.getSeries(), newToken.getTokenValue(), newToken.getDate());
 			try {
 				Integer uid = Integer.parseInt(newToken.getUsername());
-				userActivityService.addActivityScore(Tag.ACT_TYPE_LOGIN, uid);
+//				userActivityService.addActivityScore(Tag.ACT_TYPE_LOGIN, uid);
 				osUserInfoService.updateLastLogin(uid, TimeUtil.getTimeLONG(newToken.getDate()));
 			} catch(Exception e) {
 				log.warn("update opensearch userinfo last login error", e);
@@ -147,7 +147,7 @@ public class CookiesRememberMeServicesImpl extends AbstractRememberMeServices
 				userLoginPersistentService.generateTokenData(), new Date());
 		tokenRepository.createNewToken(newToken);
 		try {
-			userActivityService.addActivityScore(Tag.ACT_TYPE_LOGIN, userId);
+//			userActivityService.addActivityScore(Tag.ACT_TYPE_LOGIN, userId);
 			osUserInfoService.updateLastLogin(userId, TimeUtil.getTimeLONG(newToken.getDate()));
 		} catch(Exception e) {
 			log.warn("update opensearch userinfo last login error", e);
