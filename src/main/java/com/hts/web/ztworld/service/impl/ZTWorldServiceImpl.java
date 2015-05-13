@@ -55,6 +55,8 @@ import com.hts.web.common.util.MD5Encrypt;
 import com.hts.web.common.util.NumberUtil;
 import com.hts.web.common.util.StringUtil;
 import com.hts.web.operations.dao.ActivityDao;
+import com.hts.web.operations.dao.ChannelWorldDao;
+import com.hts.web.operations.service.ChannelService;
 import com.hts.web.userinfo.dao.UserConcernDao;
 import com.hts.web.userinfo.dao.UserInfoDao;
 import com.hts.web.userinfo.dao.UserRecDao;
@@ -220,6 +222,12 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 	@Autowired
 	private UserRecDao userRecDao;
 	
+	@Autowired
+	private ChannelWorldDao channelWorldDao;
+
+	@Autowired
+	private ChannelService channelService;
+	
 	private String baseThumbPathAixin = "http://imzhitu.qiniudn.com/world/thumbs/1403056393000.png";
 	private String baseThumbPathXing = "http://imzhitu.qiniudn.com/world/thumbs/1403057093000.png";
 	private String baseThumbPathHuabian = "http://imzhitu.qiniudn.com/world/thumbs/1403056953000.png";
@@ -272,10 +280,10 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 	public HTWorld saveWorld(String childsJSON, Integer titleId,
 			Integer phoneCode, Integer id, Integer authorId, String worldName,
 			String worldDesc, String worldLabel, String labelIds, String worldType, 
-			Integer typeId, String coverPath, String titlePath, String titleThumbPath, 
-			String thumbs, Double longitude, Double latitude, String locationDesc,
+			Integer typeId, String coverPath, String titlePath, String bgPath,
+			String titleThumbPath, String thumbs, Double longitude, Double latitude, String locationDesc,
 			String locationAddr, String province, String city, Integer size,
-			String activityIds, Integer ver) throws Exception {
+			String activityIds, Integer ver, String channelIds, Integer tp) throws Exception {
 		
 		Date date = new Date();
 		Integer worldId = keyGenService.generateId(KeyGenServiceImpl.HTWORLD_HTWORLD_ID);
@@ -285,29 +293,46 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 				? worldId : Tag.FALSE;
 		Float userVer = (Float)tags.get("ver");
 		HTWorld world = null;
+		int worldChildCount = 1;
 		
-		//构造子世界信息 
-		Object[] childWorldInfo = JSONUtil
-				.coverChildWorldInfoFromString(childsJSON);
-		Map<Integer, HTWorldChildWorld> childWorldMap = (Map<Integer, HTWorldChildWorld>) childWorldInfo[0];
-		Map<Integer, HTWorldChildWorldThumb> thumbsMap = (Map<Integer, HTWorldChildWorldThumb>) childWorldInfo[1];
-		setUpTitleWorld(titleId, titleThumbPath, titlePath, childWorldMap, phoneCode, userVer); // 设置封面世界
-		
-		saveChildWorldInfo(titleId, childWorldMap, thumbsMap, worldId, phoneCode, userVer);// 循环保存子世界信息
+		switch(tp) {
+		case Tag.WORLD_TYPE_DEFAULT:
+			//构造子世界信息 
+			Object[] childWorldInfo = JSONUtil
+					.coverChildWorldInfoFromString(childsJSON);
+			Map<Integer, HTWorldChildWorld> childWorldMap = (Map<Integer, HTWorldChildWorld>) childWorldInfo[0];
+			Map<Integer, HTWorldChildWorldThumb> thumbsMap = (Map<Integer, HTWorldChildWorldThumb>) childWorldInfo[1];
+			setUpTitleWorld(titleId, titleThumbPath, titlePath, childWorldMap, phoneCode, userVer); // 设置封面世界
+			
+			saveChildWorldInfo(titleId, childWorldMap, thumbsMap, worldId, phoneCode, userVer);// 循环保存子世界信息
+			if (StringUtil.checkIsNULL(titlePath)) {
+				titlePath = childWorldMap.get(titleId).getPath();
+			}
+			worldChildCount = childWorldMap.size();
+			break;
+		default:
+			break;
+		}
 		// 生成短链
 		String shortLink = MD5Encrypt.shortUrl(worldId);
-		if (StringUtil.checkIsNULL(titlePath)) {
-			titlePath = childWorldMap.get(titleId).getPath();
-		}
 		
 		worldDesc = StringUtil.filterXSS(worldDesc);
 		world = new HTWorld(worldId, shortLink, authorId, worldName, worldDesc, 
-				null, null,  null, date, date, coverPath, titlePath, 
+				null, null,  null, date, date, coverPath, titlePath, bgPath,
 				titleThumbPath, thumbs, longitude, latitude, locationDesc, locationAddr, 
-				phoneCode, province, city, size, childWorldMap.size(), ver, Tag.TRUE, 
+				phoneCode, province, city, size, worldChildCount, ver, tp, Tag.TRUE, 
 				trust, shield);
 		
 		world.setWorldURL(worldDao.getUrlPrefix() + shortLink);
+		
+		worldDao.saveWorld(world); // 保存世界信息
+		
+		// 更新织图总数
+		Long worldCount = worldDao.queryWorldCountByAuthorId(authorId);
+		Integer childCount = worldDao.queryChildCount(authorId);
+		userInfoDao.updateWorldAndChildCount(authorId, worldCount.intValue(), childCount);
+		
+		userActivityService.addActivityScore(Tag.ACT_TYPE_WORLD, authorId);
 		
 		// 兼容旧版本参加活动
 		if (!StringUtil.checkIsNULL(activityIds)) { 
@@ -364,18 +389,18 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 				String[] labelArray = new String[nameSet.size()];
 				world.setWorldLabel(StringUtil.convertArrayToString(nameSet.toArray(labelArray)));
 			}
+			
+			if(!StringUtil.checkIsNULL(channelIds)) {
+				Integer[] cids = StringUtil.convertStringToIds(channelIds);
+				for(Integer cid : cids) {
+					channelService.saveChannelWorld(cid, worldId, authorId, worldChildCount);
+				}
+			}
+			
 		} catch(Exception e) {
 			Log.warn(authorId, "save world label error, " + e.getMessage());
 		}
 		
-		worldDao.saveWorld(world); // 保存世界信息
-		
-		// 更新织图总数
-		Long count = worldDao.queryWorldCountByAuthorId(authorId);
-		Integer childCount = worldDao.queryChildCount(authorId);
-		userInfoDao.updateWorldAndChildCount(authorId, count.intValue(), childCount);
-		
-		userActivityService.addActivityScore(Tag.ACT_TYPE_WORLD, authorId);
 		
 		if(trust >= Tag.TRUE && shield.equals(Tag.FALSE)) {
 			worldCacheDao.saveLatestCache(world);

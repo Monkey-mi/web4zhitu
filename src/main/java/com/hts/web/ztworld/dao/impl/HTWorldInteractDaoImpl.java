@@ -32,7 +32,7 @@ public class HTWorldInteractDaoImpl extends BaseDaoImpl implements
 	/**
 	 * 查询互动
 	 */
-	private static final String QUERY_INTERACT = "select hi.*,h.title_path,h.title_thumb_path,h.cover_path,h.valid,h.shield,"+U0_INFO+" from"
+	private static final String QUERY_INTERACT = "select hi.*,h.title_path,h.bg_path,h.title_thumb_path,h.cover_path,h.valid,h.shield,"+U0_INFO+" from"
 		+ " ((select id,author_id as user_id,re_id,content,world_id, comment_date as interact_date, '1' as interact_type from " + comment 
 		+ " where world_author_id=? and valid=1 and shield=0 order by id desc limit ?,?)"
 		+ " UNION ALL"
@@ -47,7 +47,7 @@ public class HTWorldInteractDaoImpl extends BaseDaoImpl implements
 	/**
 	 * 根据最大日期查询互动
 	 */
-	private static final String QUERY_INTERACT_BY_MAX_DATE = "select hi.*,h.title_path,h.title_thumb_path,h.cover_path,h.valid,h.shield,"+U0_INFO+" from"
+	private static final String QUERY_INTERACT_BY_MAX_DATE = "select hi.*,h.title_path,h.bg_path,h.title_thumb_path,h.cover_path,h.valid,h.shield,"+U0_INFO+" from"
 			+ " ((select id,author_id as user_id,re_id,content,world_id, comment_date as interact_date,'1' as interact_type from " + comment
 			+ " where world_author_id=? and valid=1 and shield=0 and comment_date<=? order by id desc limit ?,?)"
 			+ " UNION ALL"

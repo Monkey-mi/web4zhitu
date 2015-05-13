@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.apache.struts2.json.annotations.JSON;
 
+import com.hts.web.base.constant.Tag;
+
 /**
  * <p>
  * 织图互动数据传输对象POJO
@@ -41,6 +43,7 @@ public class HTWorldInteractDto implements HTWorldWithExtra, ObjectWithUserVerif
 	private Integer keepCount; // 被收藏次数
 	private String coverPath; // 封面路径
 	private String titlePath; // 首页路径
+	private String bgPath;
 	private String titleThumbPath; // 首页缩略图路径
 	private String thumbs; // 缩略图列表
 	private Double longitude;// 经度
@@ -53,6 +56,7 @@ public class HTWorldInteractDto implements HTWorldWithExtra, ObjectWithUserVerif
 	private Integer size; // 织图大小
 	private Integer childCount; // 子世界张数
 	private Integer ver; // 织图版本
+	private Integer tp = Tag.WORLD_TYPE_DEFAULT; // 织图类型
 	private Integer valid; // 是否有效标志
 	private Integer shield; // 是否被屏蔽
 	private String worldURL; // 连接路径
@@ -76,10 +80,11 @@ public class HTWorldInteractDto implements HTWorldWithExtra, ObjectWithUserVerif
 			String worldType, Integer typeId, Date dateAdded,
 			Date dateModified, Integer clickCount, Integer likeCount,
 			Integer commentCount, Integer keepCount, String coverPath,
-			String titlePath, String titleThumbPath, String thumbs,
+			String titlePath, String bgPath, String titleThumbPath, String thumbs,
 			Double longitude, Double latitude, String locationDesc,
 			String locationAddr, Integer phoneCode, String province,
 			String city, Integer size, Integer childCount, Integer ver,
+			Integer tp,
 			Integer valid, Integer shield) {
 		super();
 		this.id = id;
@@ -98,6 +103,7 @@ public class HTWorldInteractDto implements HTWorldWithExtra, ObjectWithUserVerif
 		this.keepCount = keepCount;
 		this.coverPath = coverPath;
 		this.titlePath = titlePath;
+		this.bgPath = bgPath;
 		this.titleThumbPath = titleThumbPath;
 		this.thumbs = thumbs;
 		this.longitude = longitude;
@@ -110,6 +116,7 @@ public class HTWorldInteractDto implements HTWorldWithExtra, ObjectWithUserVerif
 		this.size = size;
 		this.childCount = childCount;
 		this.ver = ver;
+		this.tp = tp;
 		this.valid = valid;
 		this.shield = shield;
 	}
@@ -464,4 +471,20 @@ public class HTWorldInteractDto implements HTWorldWithExtra, ObjectWithUserVerif
 		userInfo.setRemark(remark);
 	}
 
+	public String getBgPath() {
+		return bgPath;
+	}
+
+	public void setBgPath(String bgPath) {
+		this.bgPath = bgPath;
+	}
+
+	public Integer getTp() {
+		return tp;
+	}
+
+	public void setTp(Integer tp) {
+		this.tp = tp;
+	}
+	
 }

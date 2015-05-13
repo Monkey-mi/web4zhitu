@@ -43,7 +43,7 @@ public class SquarePushDaoImpl extends BaseDaoImpl implements SquarePushDao {
 	 */
 	private static final String SQUARE_INDEX = " h.id, h.short_link, h.author_id, h.click_count,"
 			+ " h.like_count, h.comment_count, h.world_label, h.world_type, h.type_id, h.world_desc,"
-			+ " h.title_path, h.title_thumb_path, u.user_name, u.user_avatar, u.user_avatar_l,"
+			+ " h.title_path,h.bg_path, h.title_thumb_path, u.user_name, u.user_avatar, u.user_avatar_l,"
 			+ " u.star,u.platform_verify, hw.superb, hw.type_id, hw.serial, hw.review";
 	
 	/**
@@ -720,6 +720,7 @@ public class SquarePushDaoImpl extends BaseDaoImpl implements SquarePushDao {
 					rs.getInt("author_id"),
 					rs.getString("world_desc"),
 					rs.getString("title_path"),
+					rs.getString("bg_path"),
 					rs.getString("title_thumb_path"),
 					rs.getInt("click_count"),
 					rs.getInt("like_count"),
@@ -780,6 +781,7 @@ public class SquarePushDaoImpl extends BaseDaoImpl implements SquarePushDao {
 				rs.getInt("keep_count"),
 				rs.getString("cover_path"),
 				rs.getString("title_path"),
+				rs.getString("bg_path"),
 				rs.getString("title_thumb_path"),
 				rs.getDouble("longitude"),
 				rs.getDouble("latitude"),
@@ -790,7 +792,8 @@ public class SquarePushDaoImpl extends BaseDaoImpl implements SquarePushDao {
 				rs.getString("city"),
 				rs.getInt("size"),
 				rs.getInt("child_count"),
-				rs.getInt("ver"));
+				rs.getInt("ver"),
+				rs.getInt("tp"));
 		dto.setWorldId(dto.getId());
 		if(urlPrefix != null) {
 			if(dto.getShortLink() != null) {

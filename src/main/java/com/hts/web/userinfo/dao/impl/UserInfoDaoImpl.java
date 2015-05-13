@@ -421,6 +421,11 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 	private UserRecommendDao userRecommendDao;
 	
 	@Override
+	public UserInfoDto buildUserInfoDto(Integer userId, ResultSet rs) throws SQLException {
+		return buildUserInfoDtoByResult(userId, rs);
+	}
+	
+	@Override
 	public void saveUserInfo(UserInfo userInfo, byte[] passwordEncrypt) {
 		getMasterJdbcTemplate().update(SAVE_USER_INFO, new Object[]{
 				userInfo.getId(),
@@ -1258,7 +1263,6 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 					}
 		});
 	}
-
 
 
 }

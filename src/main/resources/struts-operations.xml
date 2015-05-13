@@ -40,5 +40,11 @@
 			</result>
 		</action>
 		
+		<action name="channel_*" class="com.hts.web.operations.ChannelAction"
+			method="{1}">
+			<result name="json" type="json">
+				<param name="root">jsonMap</param>
+			</result>
+		</action>
 	</package>
 </struts>

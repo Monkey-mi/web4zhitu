@@ -4,6 +4,8 @@ import java.util.Date;
 
 import org.apache.struts2.json.annotations.JSON;
 
+import com.hts.web.base.constant.Tag;
+
 public abstract class HTWorldBase {
 
 	protected Integer id;
@@ -22,6 +24,7 @@ public abstract class HTWorldBase {
 	protected Integer keepCount = 0; // 被收藏次数
 	protected String coverPath; // 封面路径
 	protected String titlePath; // 首页路径
+	protected String bgPath;
 	protected String titleThumbPath; // 首页缩略图路径
 	protected Double longitude;// 经度
 	protected Double latitude;// 纬度
@@ -33,6 +36,7 @@ public abstract class HTWorldBase {
 	protected Integer size; // 织图大小
 	protected Integer childCount; // 子世界总数
 	protected Integer ver; // 织图版本
+	protected Integer tp = Tag.WORLD_TYPE_DEFAULT; //织图分类
 	protected Integer valid; // 是否有效标志
 	protected Integer shield; // 是否被屏蔽
 	protected String worldURL; // 连接路径
@@ -49,10 +53,10 @@ public abstract class HTWorldBase {
 			String worldType, Integer typeId, Date dateAdded,
 			Date dateModified, Integer clickCount, Integer likeCount,
 			Integer commentCount, Integer keepCount, String coverPath,
-			String titlePath, String titleThumbPath,
+			String titlePath, String bgPath, String titleThumbPath,
 			Double longitude, Double latitude, String locationDesc,
 			String locationAddr, Integer phoneCode, String province,
-			String city, Integer ver, Integer size, Integer childCount,
+			String city, Integer ver, Integer tp, Integer size, Integer childCount,
 			Integer valid, Integer shield, String worldURL) {
 		super();
 		this.id = id;
@@ -71,6 +75,7 @@ public abstract class HTWorldBase {
 		this.keepCount = keepCount;
 		this.coverPath = coverPath;
 		this.titlePath = titlePath;
+		this.bgPath = bgPath;
 		this.titleThumbPath = titleThumbPath;
 		this.longitude = longitude;
 		this.latitude = latitude;
@@ -82,6 +87,7 @@ public abstract class HTWorldBase {
 		this.size = size;
 		this.childCount = childCount;
 		this.ver = ver;
+		this.tp = tp;
 		this.valid = valid;
 		this.shield = shield;
 		this.worldURL = worldURL;
@@ -348,4 +354,20 @@ public abstract class HTWorldBase {
 		this.keep = keep;
 	}
 
+	public String getBgPath() {
+		return bgPath;
+	}
+
+	public void setBgPath(String bgPath) {
+		this.bgPath = bgPath;
+	}
+
+	public Integer getTp() {
+		return tp;
+	}
+
+	public void setTp(Integer tp) {
+		this.tp = tp;
+	}
+	
 }

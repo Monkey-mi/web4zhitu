@@ -124,6 +124,7 @@ public class Tag {
 	 */
 	public static final int PUSH_ACTION_SYS_MSG = 7;
 	
+	
 	/**
 	 * 小秘书私信推送
 	 */
@@ -236,8 +237,6 @@ public class Tag {
 	 */
 	public static final int USER_MSG_CHANNEL_STAR = 7;
 	
-	
-	
 	/**
 	 * 频道织图通知
 	 */
@@ -300,6 +299,36 @@ public class Tag {
 	 */
 	public static final int ACT_TYPE_CHANGE_SUB = 5;
 	
+	/**
+	 * 织图类型:默认
+	 */
+	public static final int WORLD_TYPE_DEFAULT = 0;
+	
+	/**
+	 * 织图类型:文字
+	 */
+	public static final int WORLD_TYPE_TEXT = 1;
+	
+
+	/**
+	 * 频道成员
+	 */
+	public static final int CHANNEL_MEMBER_NORMAL = 0;
+	
+	/**
+	 * 频道主人
+	 */
+	public static final int CHANNEL_MEMBER_OWNER = 1;
+	
+	/**
+	 * 频道类型普通
+	 */
+	public static final int CHANNEL_TYPE_NORMAL = 0;
+
+	/**
+	 * 频道类型活动
+	 */
+	public static final int CHANNEL_TYPE_ACTIVITY = 1;
 	
 	/**
 	 * APP版本:2.0，版本号过溢出则使用次版本

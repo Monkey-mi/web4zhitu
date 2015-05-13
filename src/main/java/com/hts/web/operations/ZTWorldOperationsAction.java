@@ -1,7 +1,5 @@
 package com.hts.web.operations;
 
-import javax.servlet.http.Cookie;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.hts.web.base.StrutsKey;
@@ -9,7 +7,6 @@ import com.hts.web.base.constant.OptResult;
 import com.hts.web.base.constant.Tag;
 import com.hts.web.common.BaseAction;
 import com.hts.web.common.util.JSONUtil;
-import com.hts.web.common.util.Log;
 import com.hts.web.operations.service.ChannelService;
 import com.hts.web.operations.service.UserOperationsService;
 import com.hts.web.operations.service.ZTWorldOperationsService;

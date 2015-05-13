@@ -76,8 +76,13 @@ public class YunbaClientImpl implements YunbaClient {
 	private static final int MAX_ROUTE = 40; //目标主机的最大连接数
 	private static final int MAX_PER_ROUTE = 20; //每个路由基础的连接
 	
+	public static void main(String[] args) {
+		System.out.println(CONNECT_URL);
+	}
+	
 	private PoolingHttpClientConnectionManager connManager;
 	private RequestConfig defaultRequestConfig;
+	private RequestConfig commonTopicRequestConfig;
 	
 	@Value("${yunba.appkey}")
 	private String appkey;
@@ -188,6 +193,18 @@ public class YunbaClientImpl implements YunbaClient {
 				.setConnectTimeout(5000)
 				.setConnectionRequestTimeout(5000)
 				.build();
+		
+		
+		commonTopicRequestConfig = RequestConfig.custom()
+				.setCookieSpec(CookieSpecs.BEST_MATCH)
+				.setExpectContinueEnabled(true)
+				.setStaleConnectionCheckEnabled(true)
+				.setTargetPreferredAuthSchemes(Arrays.asList(AuthSchemes.NTLM, AuthSchemes.DIGEST))
+				.setProxyPreferredAuthSchemes(Arrays.asList(AuthSchemes.BASIC))
+				.setSocketTimeout(60*60*1000)
+				.setConnectTimeout(60*60*1000)
+				.setConnectionRequestTimeout(60*60*1000)
+				.build();
 	}
 
 	/**
@@ -200,13 +217,25 @@ public class YunbaClientImpl implements YunbaClient {
 				.setDefaultRequestConfig(defaultRequestConfig).build();
 		return httpclient;
 	}
-
+	
 	private void emit(String method, String topicAlias, String topic, String msg,
 			JSONObject apnsJSON) throws YunbaException, ClientProtocolException, IOException, JSONException {
+		emit(method, topicAlias, topic, msg,
+				apnsJSON, defaultRequestConfig);
+	}
+	
+	private void emit2CommonTopic(String method, String topicAlias, String topic, String msg,
+			JSONObject apnsJSON) throws YunbaException, ClientProtocolException, IOException, JSONException{
+		emit(method, topicAlias, topic, msg,
+				apnsJSON, commonTopicRequestConfig);
+	}
+
+	private void emit(String method, String topicAlias, String topic, String msg,
+			JSONObject apnsJSON, RequestConfig requestConfig) throws YunbaException, ClientProtocolException, IOException, JSONException {
 		CloseableHttpClient httpclient = getHttpClient();
 		HttpPost httppost = new HttpPost(CONNECT_URL);
 		httppost.setHeader("Content-type", "application/json");
-		httppost.setConfig(defaultRequestConfig);
+		httppost.setConfig(requestConfig);
 		JSONObject json = new JSONObject();
 		JSONObject opts = new JSONObject();
 		json.put("method", method);
@@ -267,46 +296,6 @@ public class YunbaClientImpl implements YunbaClient {
 			response.close();
 		}
 	}
-
-	public static void main(String[] args) {
-		// 创建默认的httpClient实例.    
-        CloseableHttpClient httpclient = HttpClients.createDefault();  
-        // 创建httppost    
-        HttpPost httppost = new HttpPost("http://192.168.1.151/hts/user/interact_queryConcerns");  
-        // 创建参数队列    
-        List<NameValuePair> formparams = new ArrayList<NameValuePair>();  
-        UrlEncodedFormEntity uefEntity;  
-        try {  
-            uefEntity = new UrlEncodedFormEntity(formparams, "UTF-8");  
-            httppost.setEntity(uefEntity);  
-            httppost.setHeader("Cookie", "IMZHITU_REMEMBER_ME_COOKIE=SjRpbU54WExZUjFlc2VEZ0lPL2ZMUT09Ok12eGY4UktQUFNUMjBueEgwNEFoNHc9PQ;JSESSIONID=mrj14hhud3gu1el3mwtpj7bcm");
-            System.out.println("executing request " + httppost.getURI());  
-            CloseableHttpResponse response = httpclient.execute(httppost);  
-            try {  
-                HttpEntity entity = response.getEntity();  
-                if (entity != null) {  
-                    System.out.println("--------------------------------------");  
-                    System.out.println("Response content: " + EntityUtils.toString(entity, "UTF-8"));  
-                    System.out.println("--------------------------------------");  
-                }  
-            } finally {  
-                response.close();  
-            }  
-        } catch (ClientProtocolException e) {  
-            e.printStackTrace();  
-        } catch (UnsupportedEncodingException e1) {  
-            e1.printStackTrace();  
-        } catch (IOException e) {  
-            e.printStackTrace();  
-        } finally {  
-            // 关闭连接,释放资源    
-            try {  
-                httpclient.close();  
-            } catch (IOException e) {  
-                e.printStackTrace();  
-            }  
-        }  
-    }  
   
 	@Override
 	public void publishToAlias(String toAlias, String msg, JSONObject apnsJSON) throws YunbaException{
@@ -327,9 +316,9 @@ public class YunbaClientImpl implements YunbaClient {
 	}
 
 	@Override
-	public void publishToTopic(String toTopic, String msg, JSONObject apnsJSON) throws YunbaException{
+	public void publishToCommonTopic(String toTopic, String msg, JSONObject apnsJSON) throws YunbaException{
 		try {
-			emit("publish", "topic", toTopic, msg, apnsJSON);
+			emit2CommonTopic("publish", "topic", toTopic, msg, apnsJSON);
 		} catch(Exception e) {
 			throw new YunbaException(e);
 		}

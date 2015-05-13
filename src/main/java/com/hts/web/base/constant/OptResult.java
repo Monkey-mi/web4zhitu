@@ -464,6 +464,11 @@ public class OptResult {
 	public static final String JSON_KEY_CHANNELS = "channels";
 	
 	/**
+	 * channel
+	 */
+	public static final String JSON_KEY_CHANNEL = "channel";
+	
+	/**
 	 * stars
 	 */
 	public static final String JSON_KEY_STARS = "stars";

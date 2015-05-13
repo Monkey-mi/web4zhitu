@@ -50,7 +50,7 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 	
 	private static String table = HTS.HTWORLD_HTWORLD;
 	
-	private static final String THUMB_USER = "id,author_id,cover_path,title_path,title_thumb_path ";
+	private static final String THUMB_USER = "id,author_id,cover_path,title_path,bg_path,title_thumb_path ";
 	
 	private static final String GEO_INFO = "id,title_path,title_thumb_path,longitude,latitude,location_desc,location_addr";
 	
@@ -58,11 +58,11 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 	 * 保存世界
 	 */
 	private static final String SAVE_WORLD = "insert into " + table 
-			+ " (id, short_link, world_name, world_desc, world_label, world_type, type_id, date_added, date_modified," 
-			+ "author_id, cover_path, title_path, title_thumb_path, thumbs," 
+			+ " (id, short_link, world_name, world_desc, world_label, world_type, type_id, date_added,"
+			+ " date_modified,author_id, cover_path, title_path, bg_path, title_thumb_path, thumbs," 
 			+ "longitude,latitude,location_desc,location_addr, phone_code, province," 
-			+ "city, size, child_count,ver, valid, latest_valid, shield)"
-			+ " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			+ "city, size, child_count,ver,tp, valid, latest_valid, shield)"
+			+ " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 	/**
 	 * 查询织图世界
@@ -595,6 +595,7 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 				htworld.getAuthorId(),
 				htworld.getCoverPath(),
 				htworld.getTitlePath(),
+				htworld.getBgPath(),
 				htworld.getTitleThumbPath(),
 				htworld.getThumbs(),
 				htworld.getLongitude(),
@@ -607,6 +608,7 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 				htworld.getSize(),
 				htworld.getChildCount(),
 				htworld.getVer(),
+				htworld.getTp(),
 				htworld.getValid(),
 				htworld.getLatestValid(),
 				htworld.getShield()
@@ -1100,6 +1102,7 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 				rs.getInt("keep_count"),
 				rs.getString("cover_path"),
 				rs.getString("title_path"),
+				rs.getString("bg_path"),
 				rs.getString("title_thumb_path"),
 				rs.getString("thumbs"),
 				rs.getDouble("longitude"),
@@ -1112,6 +1115,7 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 				rs.getInt("size"),
 				rs.getInt("child_count"),
 				rs.getInt("ver"),
+				rs.getInt("tp"),
 				rs.getInt("valid"),
 				rs.getInt("shield"));
 		world.setWorldURL(urlPrefix + world.getShortLink());
@@ -1150,6 +1154,7 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 				rs.getInt("keep_count"), 
 				rs.getString("cover_path"), 
 				rs.getString("title_path"),
+				rs.getString("bg_path"),
 				rs.getString("title_thumb_path"), 
 				rs.getString("thumbs"),
 				rs.getDouble("longitude"),
@@ -1162,6 +1167,7 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 				rs.getInt("size"),
 				rs.getInt("child_count"),
 				rs.getInt("ver"),
+				rs.getInt("tp"),
 				rs.getInt("valid"),
 				rs.getInt("shield"));
 		dto.setWorldURL(urlPrefix + dto.getShortLink());
@@ -1195,6 +1201,7 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 				rs.getInt("keep_count"), 
 				rs.getString("cover_path"), 
 				rs.getString("title_path"),
+				rs.getString("bg_path"),
 				rs.getString("title_thumb_path"),
 				rs.getString("thumbs"),
 				rs.getDouble("longitude"),
@@ -1207,6 +1214,7 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 				rs.getInt("size"),
 				rs.getInt("child_count"),
 				rs.getInt("ver"),
+				rs.getInt("tp"),
 				rs.getInt("valid"),
 				rs.getInt("shield"));
 		dto.setWorldURL(urlPrefix + dto.getShortLink());
@@ -1285,6 +1293,7 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 		return new HTWorldThumbDto(worldId,
 				rs.getString("cover_path"),
 				rs.getString("title_path"),
+				rs.getString("bg_path"),
 				rs.getString("title_thumb_path"),
 				rs.getInt("valid"),
 				rs.getInt("shield"));
@@ -1313,6 +1322,7 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 				rs.getInt("author_id"), 
 				rs.getString("cover_path"), 
 				rs.getString("title_path"), 
+				rs.getString("bg_path"),
 				rs.getString("title_thumb_path"));
 	}
 
@@ -1625,6 +1635,7 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 		world.setKeepCount(rs.getInt("keep_count"));
 		world.setCoverPath(rs.getString("cover_path"));
 		world.setTitlePath(rs.getString("title_path"));
+		world.setBgPath(rs.getString("bg_path"));
 		world.setTitleThumbPath(rs.getString("title_thumb_path"));
 		world.setLongitude(rs.getDouble("longitude"));
 		world.setLatitude(rs.getDouble("latitude"));
@@ -1636,6 +1647,7 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 		world.setSize(rs.getInt("size"));
 		world.setChildCount(rs.getInt("child_count"));
 		world.setVer(rs.getInt("ver"));
+		world.setTp(rs.getInt("tp"));
 		world.setValid(rs.getInt("valid"));
 		world.setShield(rs.getInt("shield"));
 		world.setWorldURL(url);

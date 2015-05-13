@@ -34,9 +34,8 @@ public class ZTWorldServiceTest extends BaseTest {
 				+ " '1012805956' : ["
 				+ "   	{"
 				+ "   	'width' : 640,"
-				+ "     'path' : 'http://imzhitu.qiniudn.com/ios/image/2014/3/26/21/c5a9e4e8b41011e3a9a712bf1fbc47a9_8.jpg',"
-				+ "     'middlePath' : 'http://imzhitu.qiniudn.com/ios/image/2014/3/26/21/c5a9e4e8b41011e3a9a712bf1fbc47a9_8.jpg',"
-				+ "     'height' : 640,'angle':90,'type':1,'typePath':'http://imzhitu.qiniudn.com/world/thumbs/octagon.png'"
+				+ "       'path' : 'http://imzhitu.qiniudn.com/ios/image/2014/3/26/21/c5a9e4e8b41011e3a9a712bf1fbc47a9_8.jpg',"
+				+ "     'height' : 640,'angle':90,'type':1"
 				+ "   	}"
 				+ "   ]"
 				+ "   }";
@@ -44,8 +43,11 @@ public class ZTWorldServiceTest extends BaseTest {
 				"织图描述...", "自拍情结", "1,2","自拍情节", 4, 
 				"http://imzhitu.qiniudn.com/ios/image/2014/3/26/21/c5a9e4e8b41011e3a9a712bf1fbc47a9_8.jpg",
 				"http://imzhitu.qiniudn.com/ios/image/2014/3/26/21/c5a9e4e8b41011e3a9a712bf1fbc47a9_8.jpg",
+				null,
 				"http://imzhitu.qiniudn.com/ios/image/2014/3/26/21/c5a9e4e8b41011e3a9a712bf1fbc47a9_8.jpg",
-				null, 0.1d, 0.1d, "locationDesc", "locationAddr", "province", "city", null, "18", 1);
+				null,
+				0.1d, 0.1d, "locationDesc", "locationAddr", "province", "city", null, "18", 1, 
+				null, Tag.WORLD_TYPE_DEFAULT);
 		logObj(world);
 	}
 	
@@ -134,8 +136,10 @@ public class ZTWorldServiceTest extends BaseTest {
 				"worldDesc", "街景,路线", "1,2","故事", 4, 
 				"http://imzhitu.qiniudn.com/ios/image/2014/3/26/21/c5a9e4e8b41011e3a9a712bf1fbc47a9_8.jpg",
 				"http://imzhitu.qiniudn.com/ios/image/2014/3/26/21/c5a9e4e8b41011e3a9a712bf1fbc47a9_8.jpg",
+				null,
 				"http://imzhitu.qiniudn.com/ios/image/2014/3/26/21/c5a9e4e8b41011e3a9a712bf1fbc47a9_8.jpg",
-				null, 0.1d, 0.1d, "locationDesc", "locationAddr", "province", "city", null, "18", 1);
+				null, 0.1d, 0.1d, "locationDesc", "locationAddr", "province", "city", null, "18", 1, 
+				null, Tag.WORLD_TYPE_DEFAULT);
 		logObj(world);
 		service.deleteWorld(world.getId(),485);
 	}

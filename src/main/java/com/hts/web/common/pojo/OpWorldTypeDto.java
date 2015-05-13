@@ -42,6 +42,7 @@ public class OpWorldTypeDto implements HTWorldWithExtra, ObjectWithUserVerify, O
 	private Integer keepCount; // 收藏次数
 	private String coverPath; // 封面路径
 	private String titlePath; // 首页路径
+	private String bgPath;
 	private String titleThumbPath; // 首页缩略图路径
 	private Double longitude;// 经度
 	private Double latitude;// 纬度
@@ -53,6 +54,7 @@ public class OpWorldTypeDto implements HTWorldWithExtra, ObjectWithUserVerify, O
 	private Integer size; // 织图大小
 	private Integer childCount; // 子世界张数
 	private Integer ver; // 织图版本
+	private Integer tp = Tag.WORLD_TYPE_DEFAULT; // 织图分类
 	private Integer valid;
 	private Integer shield;
 	private String worldURL;
@@ -87,10 +89,10 @@ public class OpWorldTypeDto implements HTWorldWithExtra, ObjectWithUserVerify, O
 			Integer typeId, Date dateAdded, Date dateModified,
 			Integer authorId, Integer clickCount, Integer likeCount,
 			Integer commentCount, Integer keepCount, String coverPath,
-			String titlePath, String titleThumbPath, Double longitude,
+			String titlePath, String bgPath, String titleThumbPath, Double longitude,
 			Double latitude, String locationDesc, String locationAddr,
 			Integer phoneCode, String province, String city, Integer size,
-			Integer childCount, Integer ver) {
+			Integer childCount, Integer ver, Integer tp) {
 		super();
 		this.recommendId = recommendId;
 		this.id = id;
@@ -111,6 +113,7 @@ public class OpWorldTypeDto implements HTWorldWithExtra, ObjectWithUserVerify, O
 		this.keepCount = keepCount;
 		this.coverPath = coverPath;
 		this.titlePath = titlePath;
+		this.bgPath = bgPath;
 		this.titleThumbPath = titleThumbPath;
 		this.longitude = longitude;
 		this.latitude = latitude;
@@ -122,6 +125,7 @@ public class OpWorldTypeDto implements HTWorldWithExtra, ObjectWithUserVerify, O
 		this.size = size;
 		this.childCount = childCount;
 		this.ver = ver;
+		this.tp = tp;
 	}
 
 	public Integer getAuthorId() {
@@ -496,6 +500,22 @@ public class OpWorldTypeDto implements HTWorldWithExtra, ObjectWithUserVerify, O
 	@Override
 	public void setRemark(String remark) {
 		userInfo.setRemark(remark);
+	}
+
+	public String getBgPath() {
+		return bgPath;
+	}
+
+	public void setBgPath(String bgPath) {
+		this.bgPath = bgPath;
+	}
+
+	public Integer getTp() {
+		return tp;
+	}
+
+	public void setTp(Integer tp) {
+		this.tp = tp;
 	}
 	
 }

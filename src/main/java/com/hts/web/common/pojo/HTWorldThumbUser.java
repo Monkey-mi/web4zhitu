@@ -22,6 +22,7 @@ public class HTWorldThumbUser implements Serializable {
 	private Integer userId;
 	private String coverPath;
 	private String titlePath;
+	private String bgPath;
 	private String titleThumbPath;
 	
 	public HTWorldThumbUser() {
@@ -29,12 +30,13 @@ public class HTWorldThumbUser implements Serializable {
 	}
 
 	public HTWorldThumbUser(Integer id, Integer userId, String coverPath,
-			String titlePath, String titleThumbPath) {
+			String titlePath, String bgPath, String titleThumbPath) {
 		super();
 		this.id = id;
 		this.userId = userId;
 		this.coverPath = coverPath;
 		this.titlePath = titlePath;
+		this.bgPath = bgPath;
 		this.titleThumbPath = titleThumbPath;
 	}
 
@@ -68,6 +70,14 @@ public class HTWorldThumbUser implements Serializable {
 
 	public void setTitlePath(String titlePath) {
 		this.titlePath = titlePath;
+	}
+	
+	public String getBgPath() {
+		return bgPath;
+	}
+
+	public void setBgPath(String bgPath) {
+		this.bgPath = bgPath;
 	}
 
 	public String getTitleThumbPath() {

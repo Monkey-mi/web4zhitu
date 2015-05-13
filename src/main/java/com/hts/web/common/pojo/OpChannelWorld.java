@@ -1,120 +1,127 @@
 package com.hts.web.common.pojo;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-import com.hts.web.base.constant.Tag;
+import org.apache.struts2.json.annotations.JSON;
 
-public class OpChannelWorld extends HTWorldBase implements Serializable, 
-	HTWorldWithExtra, ObjectWithUserVerify, ObjectWithConcerned, ObjectWithUserRemark {
+/**
+ * <p>
+ * 频道织图POJO
+ * </p>
+ * 
+ * 创建时间: 2015-05-01
+ * 
+ * @author lynch
+ *
+ */
+public class OpChannelWorld implements Serializable {
 
-	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 157956695027833615L;
-	
-	private Integer recommendId;
-	private UserInfoDto userInfo;
-	private Integer concerned = Tag.FALSE;
-	
-	private List<HTWorldLikedUser> likes = new ArrayList<HTWorldLikedUser>(); // 喜欢的用户
-	private List<HTWorldCommentUser> comments = new ArrayList<HTWorldCommentUser>(); // 评论
+
+	private Integer id;
+	private Integer channelId;
+	private Integer worldId;
+	private Integer authorId;
+	private Date dateAdded;
+	private Integer valid;
+	private Integer notified;
+	private Integer superb;
+	private Integer serial;
 	
 	public OpChannelWorld() {
 		super();
 	}
 
-	public OpChannelWorld(Integer id, String shortLink, Integer authorId,
-			String worldName, String worldDesc, String worldLabel,
-			String worldType, Integer typeId, Date dateAdded,
-			Date dateModified, Integer clickCount, Integer likeCount,
-			Integer commentCount, Integer keepCount, String coverPath,
-			String titlePath, String titleThumbPath, String thumbs,
-			Double longitude, Double latitude, String locationDesc,
-			String locationAddr, Integer phoneCode, String province,
-			String city, Integer size, Integer childCount, Integer ver,
-			Integer valid, Integer shield, String worldURL) {
-		
-		super(id, shortLink, authorId, worldName, worldDesc, worldLabel,
-				worldType, typeId, dateAdded, dateModified, clickCount,
-				likeCount, commentCount, keepCount, coverPath, titlePath,
-				titleThumbPath, longitude, latitude, locationDesc,
-				locationAddr, phoneCode, province, city, size, childCount, ver,
-				valid, shield, worldURL);
-	}
-	
-
-	public Integer getRecommendId() {
-		return recommendId;
+	public OpChannelWorld(Integer id, Integer channelId, Integer worldId,
+			Integer authorId, Date dateAdded, Integer valid, Integer notified,
+			Integer superb, Integer serial) {
+		super();
+		this.id = id;
+		this.channelId = channelId;
+		this.worldId = worldId;
+		this.authorId = authorId;
+		this.dateAdded = dateAdded;
+		this.valid = valid;
+		this.notified = notified;
+		this.superb = superb;
+		this.serial = serial;
 	}
 
-	public void setRecommendId(Integer recommendId) {
-		this.recommendId = recommendId;
+	public Integer getId() {
+		return id;
 	}
 
-
-	public UserInfoDto getUserInfo() {
-		return userInfo;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
-
-	public void setUserInfo(UserInfoDto userInfo) {
-		this.userInfo = userInfo;
-	}
-	
-	public List<HTWorldLikedUser> getLikes() {
-		return likes;
+	public Integer getChannelId() {
+		return channelId;
 	}
 
-	public void setLikes(List<HTWorldLikedUser> likes) {
-		this.likes = likes;
+	public void setChannelId(Integer channelId) {
+		this.channelId = channelId;
 	}
 
-
-	public List<HTWorldCommentUser> getComments() {
-		return comments;
+	public Integer getWorldId() {
+		return worldId;
 	}
 
-
-	public void setComments(List<HTWorldCommentUser> comments) {
-		this.comments = comments;
-	}
-	
-	@Override
-	public Integer getVerifyId() {
-		return userInfo.getStar();
+	public void setWorldId(Integer worldId) {
+		this.worldId = worldId;
 	}
 
-	@Override
-	public void setVerifyName(String verifyName) {
-		userInfo.setVerifyName(verifyName);
+	public Integer getAuthorId() {
+		return authorId;
 	}
 
-	@Override
-	public void setVerifyIcon(String verifyIcon) {
-		userInfo.setVerifyIcon(verifyIcon);
+	public void setAuthorId(Integer authorId) {
+		this.authorId = authorId;
 	}
 
-	public Integer getConcerned() {
-		return concerned;
+	@JSON(format="yyyy-MM-dd HH:mm:ss")
+	public Date getDateAdded() {
+		return dateAdded;
 	}
 
-	@Override
-	public void setConcerned(Integer concerned) {
-		this.concerned = concerned;
+	public void setDateAdded(Date dateAdded) {
+		this.dateAdded = dateAdded;
 	}
 
-	@Override
-	public Integer getRemarkId() {
-		return userInfo.getId();
+	public Integer getValid() {
+		return valid;
 	}
 
-	@Override
-	public void setRemark(String remark) {
-		userInfo.setRemark(remark);
+	public void setValid(Integer valid) {
+		this.valid = valid;
 	}
-	
+
+	public Integer getNotified() {
+		return notified;
+	}
+
+	public void setNotified(Integer notified) {
+		this.notified = notified;
+	}
+
+	public Integer getSuperb() {
+		return superb;
+	}
+
+	public void setSuperb(Integer superb) {
+		this.superb = superb;
+	}
+
+	public Integer getSerial() {
+		return serial;
+	}
+
+	public void setSerial(Integer serial) {
+		this.serial = serial;
+	}
+
 }

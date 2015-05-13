@@ -1,7 +1,10 @@
 package com.hts.web.operations.service;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -9,8 +12,8 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.hts.web.base.BaseTest;
-import com.hts.web.base.constant.OptResult;
-import com.hts.web.common.pojo.OpChannelStar;
+import com.hts.web.base.constant.Tag;
+import com.hts.web.common.util.Log;
 
 public class ChannelServiceTest extends BaseTest {
 
@@ -36,22 +39,32 @@ public class ChannelServiceTest extends BaseTest {
 	public void testBuildChannelWorld() throws Exception {
 		Map<String,Object> jsonMap = new HashMap<String, Object>();
 		service.buildChannelWorld(8, 527, 0, 1, 10, false, 0, 10, 4, jsonMap);
-		List<OpChannelStar> starList = (List<OpChannelStar>) jsonMap.get(OptResult.JSON_KEY_STARS);
-		for(OpChannelStar s : starList) {
-			logger.debug(s.getId() + " : " + s.getUserName());
-		}
-		
-		
-//		logNumberList(logger, new NumberListAdapter(){
-//
-//			@Override
-//			public void buildNumberList(Map<String, Object> jsonMap)
-//					throws Exception {
-//				service.buildChannelWorld(1, 485, 10000, 1, 10, false, 0, 10, 4, jsonMap);
-//				service.buildChannelWorld(1, 527, 0, 1, 10, false, 0, 10, 4, jsonMap);
-//			}
-//			
-//		});
+		logNumberList(logger, new NumberListAdapter(){
+
+			@Override
+			public void buildNumberList(Map<String, Object> jsonMap)
+					throws Exception {
+				service.buildChannelWorld(1, 485, 10000, 1, 10, false, 0, 10, 4, jsonMap);
+				service.buildChannelWorld(1, 527, 0, 1, 10, false, 0, 10, 4, jsonMap);
+			}
+			
+		});
+	}
+	
+	@Test
+	public void testBuildSuperbChannelWorld() throws Exception {
+		Map<String,Object> jsonMap = new HashMap<String, Object>();
+		service.buildChannelWorld(8, 527, 0, 1, 10, false, 0, 10, 4, jsonMap);
+		logNumberList(logger, new NumberListAdapter(){
+
+			@Override
+			public void buildNumberList(Map<String, Object> jsonMap)
+					throws Exception {
+				service.buildSuperbChannelWorld(1, 485, 10000, 1, 10, false, 0, 10, 4, jsonMap);
+				service.buildSuperbChannelWorld(1, 527, 0, 1, 10, false, 0, 10, 4, jsonMap);
+			}
+			
+		});
 	}
 	
 	@Test
@@ -65,4 +78,61 @@ public class ChannelServiceTest extends BaseTest {
 			}
 		});
 	}
+	
+	@Test
+	public void buildSubscribeChannelTest() throws Exception {
+		logNumberList(logger, new NumberListAdapter(){
+
+			@Override
+			public void buildNumberList(Map<String, Object> jsonMap)
+					throws Exception {
+				service.buildSubscribedChannel(true, 485, 0, 1, 10, jsonMap);
+				service.buildSubscribedChannel(true, 485, 1000, 1, 10, jsonMap);
+			}
+		});
+	}
+	
+	@Test
+	public void buildChannelAbstractTest() throws Exception {
+		Map<String, Object> jsonMap = new HashMap<String, Object>();
+		service.buildChannelAbstract(1, 485, jsonMap);
+	}
+	
+	@Test
+	public void buildChannelDetailTest() throws Exception {
+		Map<String, Object> jsonMap = new HashMap<String, Object>();
+		service.buildChannelDetail(1, 10, jsonMap);
+	}
+	
+	@Test
+	public void saveMemberTest() throws Exception {
+		service.saveMember(1, 485);
+	}
+	
+	@Test
+	public void deleteMemberTest() throws Exception {
+		service.deleteMember(1, 485);
+	}
+	
+	@Test
+	public void buildHotTest() throws Exception {
+		Map<String, Object> jsonMap = new HashMap<String, Object>();
+		service.buildHot(1, 10, 485, jsonMap);
+		logObj(jsonMap);
+	}
+	
+	@Test
+	public void saveChannelWorldTest() throws Exception {
+		int wid = (int)(10000 * Math.random());
+		service.saveChannelWorld(9999, wid, 485, 1);
+	}
+	
+	@Test
+	public void saveChannelTest() throws Exception {
+//		service.saveChannel(485, "频道名称", null, null, null,
+//				"http://imzhitu.qiniudn.com/op/channel/1416212996000.png",
+//				"http://imzhitu.qiniudn.com/op/channel/1416212996000.png", 
+//				Tag.CHANNEL_TYPE_NORMAL, null, Tag.TRUE, Tag.TRUE, Tag.TRUE);
+	}
+	
 }

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.hts.web.base.HTSException;
 import com.hts.web.base.StrutsKey;
 import com.hts.web.base.constant.OptResult;
+import com.hts.web.base.constant.Tag;
 import com.hts.web.common.BaseAction;
 import com.hts.web.common.pojo.HTWorld;
 import com.hts.web.common.pojo.HTWorldDto;
@@ -45,6 +46,7 @@ public class ZTWorldAction extends BaseAction {
 	private String worldType;
 	private String coverPath;
 	private String titlePath;
+	private String bgPath;
 	private String titleThumbPath;
 	private String thumbs;
 	private Double longitude;
@@ -72,8 +74,10 @@ public class ZTWorldAction extends BaseAction {
 	private Boolean isAddClick = false; // 添加播放次数标记位
 	private Boolean  isNotAddClick = false; // 不添加播放次数标记位
 	private String labelIds;
+	private String channelIds;
 	private Integer typeId;
 	private Integer ver = 0; // 织图版本，默认为1
+//	private Integer tp = Tag.WORLD_TYPE_DEFAULT;
 	private String query; // 查询调价
 	private Float logoVer = 0f;
 	
@@ -153,9 +157,28 @@ public class ZTWorldAction extends BaseAction {
 		try {
 			HTWorld world = worldService.saveWorld(childs, titleId, phoneCode,
 					id, getCurrentLoginUserId(), worldName,worldDesc, worldLabel, 
-					labelIds, worldType, typeId, coverPath, titlePath, titleThumbPath, 
+					labelIds, worldType, typeId, coverPath, titlePath, bgPath, titleThumbPath, 
 					thumbs, longitude, latitude, locationDesc, locationAddr, province, 
-					city, size, activityIds, ver);
+					city, size, activityIds, ver, channelIds, Tag.WORLD_TYPE_DEFAULT);
+			JSONUtil.optResult(OptResult.OPT_SUCCESS, world, OptResult.JSON_KEY_HTWORLD, jsonMap);
+		} catch (Exception e) {
+			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+		}
+		return StrutsKey.JSON;
+	}
+	
+	/**
+	 * 分享文本
+	 * 
+	 * @return
+	 */
+	public String shareText() {
+		try {
+			HTWorld world = worldService.saveWorld(null, 0, phoneCode,
+					id, getCurrentLoginUserId(), worldName,worldDesc, worldLabel, 
+					labelIds, worldType, typeId, coverPath, titlePath, bgPath, titleThumbPath, 
+					null, longitude, latitude, locationDesc, locationAddr, province, 
+					city, size, activityIds, ver, channelIds, Tag.WORLD_TYPE_TEXT);
 			JSONUtil.optResult(OptResult.OPT_SUCCESS, world, OptResult.JSON_KEY_HTWORLD, jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
@@ -171,9 +194,9 @@ public class ZTWorldAction extends BaseAction {
 		try {
 			HTWorld world = worldService.saveWorld(childs, titleId, phoneCode,
 					id, authorId, worldName,worldDesc, worldLabel, 
-					labelIds, worldType, typeId, coverPath, titlePath, titleThumbPath, 
+					labelIds, worldType, typeId, coverPath, titlePath, bgPath, titleThumbPath, 
 					thumbs, longitude, latitude, locationDesc, locationAddr, province, 
-					city, size, activityIds, ver);
+					city, size, activityIds, ver, channelIds, Tag.WORLD_TYPE_DEFAULT);
 			JSONUtil.optResult(OptResult.OPT_SUCCESS, world, OptResult.JSON_KEY_HTWORLD, jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
@@ -882,7 +905,21 @@ public class ZTWorldAction extends BaseAction {
 	public void setNextCursor(Integer nextCursor) {
 		this.nextCursor = nextCursor;
 	}
-	
-	
 
+	public String getBgPath() {
+		return bgPath;
+	}
+
+	public void setBgPath(String bgPath) {
+		this.bgPath = bgPath;
+	}
+
+	public String getChannelIds() {
+		return channelIds;
+	}
+
+	public void setChannelIds(String channelIds) {
+		this.channelIds = channelIds;
+	}
+	
 }

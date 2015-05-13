@@ -5,6 +5,8 @@ import java.util.Date;
 
 import org.apache.struts2.json.annotations.JSON;
 
+import com.hts.web.base.constant.Tag;
+
 /**
  * <p>
  * 织图数据传输对象
@@ -38,6 +40,7 @@ public class HTWorldDto implements Serializable, ObjectWithUserVerify, ObjectWit
 	private Integer keepCount; // 被收藏次数
 	private String coverPath; // 封面路径
 	private String titlePath; // 首页路径
+	private String bgPath;
 	private String titleThumbPath; // 首页缩略图路径
 	private String thumbs; // 缩略图列表
 	private Double longitude;// 经度
@@ -50,6 +53,7 @@ public class HTWorldDto implements Serializable, ObjectWithUserVerify, ObjectWit
 	private Integer size; // 织图大小
 	private Integer childCount; // 子世界总数
 	private Integer ver; // 织图版本
+	private Integer tp = Tag.WORLD_TYPE_DEFAULT;
 	private Integer valid; // 是否有效标志
 	private Integer shield; // 是否被屏蔽
 	private String worldURL; // 连接路径
@@ -65,11 +69,11 @@ public class HTWorldDto implements Serializable, ObjectWithUserVerify, ObjectWit
 			String worldType, Integer typeId, Date dateAdded,
 			Date dateModified, Integer clickCount, Integer likeCount,
 			Integer commentCount, Integer keepCount, String coverPath,
-			String titlePath, String titleThumbPath, String thumbs,
+			String titlePath, String bgPath, String titleThumbPath, String thumbs,
 			Double longitude, Double latitude, String locationDesc,
 			String locationAddr, Integer phoneCode, String province,
 			String city, Integer size, Integer childCount, Integer ver,
-			Integer valid, Integer shield) {
+			Integer tp, Integer valid, Integer shield) {
 		super();
 		this.id = id;
 		this.shortLink = shortLink;
@@ -87,6 +91,7 @@ public class HTWorldDto implements Serializable, ObjectWithUserVerify, ObjectWit
 		this.keepCount = keepCount;
 		this.coverPath = coverPath;
 		this.titlePath = titlePath;
+		this.bgPath = bgPath;
 		this.titleThumbPath = titleThumbPath;
 		this.thumbs = thumbs;
 		this.longitude = longitude;
@@ -384,6 +389,22 @@ public class HTWorldDto implements Serializable, ObjectWithUserVerify, ObjectWit
 	@Override
 	public void setRemark(String remark) {
 		userInfo.setRemark(remark);
+	}
+
+	public String getBgPath() {
+		return bgPath;
+	}
+
+	public void setBgPath(String bgPath) {
+		this.bgPath = bgPath;
+	}
+
+	public Integer getTp() {
+		return tp;
+	}
+
+	public void setTp(Integer tp) {
+		this.tp = tp;
 	}
 	
 }

@@ -75,7 +75,7 @@ public class YunbaPushServiceImpl implements YunbaPushService {
 			aps.put("badge", 1);
 			aps.put("alert", msg.getM());
 			apnJSON.put("aps", aps);
-			yunbaClient.publishToTopic(topic, json.toString(), apnJSON);
+			yunbaClient.publishToCommonTopic(topic, json.toString(), apnJSON);
 		} catch (Exception e) {
 			throw new HTSException(e.getMessage(), e);
 		}
@@ -92,7 +92,7 @@ public class YunbaPushServiceImpl implements YunbaPushService {
 			aps.put("badge", 1);
 			aps.put("alert", msg);
 			apnJSON.put("aps", aps);
-			yunbaClient.publishToTopic(topic, msg, apnJSON);
+			yunbaClient.publishToCommonTopic(topic, msg, apnJSON);
 		} catch (Exception e) {
 			throw new HTSException(e.getMessage(), e);
 		}
@@ -115,7 +115,7 @@ public class YunbaPushServiceImpl implements YunbaPushService {
 			for(String k : keies) {
 				apnJSON.put(k, extra.get(k));
 			}
-			yunbaClient.publishToTopic(topic, json.toString(), apnJSON);
+			yunbaClient.publishToCommonTopic(topic, json.toString(), apnJSON);
 		} catch (Exception e) {
 			throw new HTSException(e.getMessage(), e);
 		}

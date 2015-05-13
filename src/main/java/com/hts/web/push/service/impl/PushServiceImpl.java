@@ -682,6 +682,16 @@ public class PushServiceImpl implements PushService {
 		}
 	}
 	
+	public static void main(String[] args) {
+		String token = "581344d5 fa048084 e6acaefd 54e12e7f 014b0085 eced6c44 91a7d762 85ca4a4c";
+		String payload = APNS.newPayload()
+                .badge(1)
+                .sound("")
+                .customField("playload", "测试")
+                .localizedKey("测试内容")
+                .build();
+	}
+	
 	/**
 	 * APNS推送
 	 * @param title
@@ -738,6 +748,11 @@ public class PushServiceImpl implements PushService {
 		extra.put("sid", recUid);
 		yunbaPushService.pushTopicMsg(commonTopic, 
 				new PushSysIM(Tag.PUSH_ACTION_USER_REC_MSG, "",content, 0, 0, recUid), extra);
+	}
+
+	@Override
+	public void apnsPushTest(String token) throws HTSException {
+		apnsPush("测试标题", token, "测试内容",apnsPoolService);
 	}
 
 

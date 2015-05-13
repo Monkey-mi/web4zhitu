@@ -55,9 +55,9 @@ public interface ZTWorldService extends BaseService {
 	public HTWorld saveWorld(String childsJSON, Integer titleId,Integer phoneCode, 
 			Integer id, Integer authorId, String worldName, String worldDesc, String worldLabel,
 			String labelIds, String worldType, Integer typeId, String coverPath, String titlePath,
-			String titleThumbPath, String thumbs, Double longitude, Double latitude, 
+			String bgPath, String titleThumbPath, String thumbs, Double longitude, Double latitude, 
 			String locationDesc, String locationAddr,String province, String city, Integer size, 
-			String activityIds, Integer ver) throws Exception;
+			String activityIds, Integer ver, String channelIds, Integer tp) throws Exception;
 
 	/**
 	 * 删除织图

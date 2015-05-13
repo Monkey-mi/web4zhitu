@@ -22,6 +22,7 @@ public class HTWorldThumbDto implements Serializable {
 	private Integer id;
 	private String coverPath;
 	private String titlePath;
+	private String bgPath;
 	private String titleThumbPath;
 	private Integer valid;
 	private Integer shield;
@@ -31,10 +32,11 @@ public class HTWorldThumbDto implements Serializable {
 	}
 	
 	public HTWorldThumbDto(Integer id, String coverPath, String titlePath,
-			String titleThumbPath, Integer valid, Integer shield) {
+			String bgPath, String titleThumbPath, Integer valid, Integer shield) {
 		this.id = id;
 		this.coverPath = coverPath;
 		this.titlePath = titlePath;
+		this.bgPath = bgPath;
 		this.titleThumbPath = titleThumbPath;
 		this.valid = valid;
 		this.shield = shield;
@@ -86,6 +88,14 @@ public class HTWorldThumbDto implements Serializable {
 
 	public void setShield(Integer shield) {
 		this.shield = shield;
+	}
+
+	public String getBgPath() {
+		return bgPath;
+	}
+
+	public void setBgPath(String bgPath) {
+		this.bgPath = bgPath;
 	}
 	
 }

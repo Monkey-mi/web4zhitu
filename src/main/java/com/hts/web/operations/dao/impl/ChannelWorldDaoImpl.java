@@ -14,6 +14,7 @@ import com.hts.web.common.dao.impl.BaseDaoImpl;
 import com.hts.web.common.pojo.OpChannel;
 import com.hts.web.common.pojo.OpChannelCover;
 import com.hts.web.common.pojo.OpChannelWorld;
+import com.hts.web.common.pojo.OpChannelWorldDto;
 import com.hts.web.common.pojo.UserInfoDto;
 import com.hts.web.operations.dao.ChannelWorldDao;
 import com.hts.web.userinfo.dao.UserInfoDao;
@@ -25,39 +26,44 @@ public class ChannelWorldDaoImpl extends BaseDaoImpl implements ChannelWorldDao 
 
 	private static String table = HTS.OPERATIONS_CHANNEL_WORLD;
 	
-	/**
-	 * 查询频道织图
-	 */
-	private static final String QUERY_WORLD = "SELECT oc.id as recommend_id, " + H0_INFO + ", " + U0_INFO 
-			+ " from (select oc.id, oc.world_id from " + table + " as oc, " + HTS.HTWORLD_HTWORLD 
-			+ " as h where oc.world_id=h.id and h.valid=1 and h.shield=0 and oc.valid=1 and oc.channel_id=? order by id desc limit ?,?)"
-			+ " as oc, " + HTS.HTWORLD_HTWORLD + " as h0, " + HTS.USER_INFO 
-			+ " as u0 where oc.world_id = h0.id and h0.author_id = u0.id";
+	private static final String QUERY_WORLD = "SELECT oc0.id as recommend_id, " + H0_INFO + ", " + U0_INFO 
+			+ " from " + table + " as oc0, " + HTS.HTWORLD_HTWORLD + " as h0, " + HTS.USER_INFO + " as u0"
+			+ " where oc0.world_id=h0.id and h0.author_id = u0.id "
+			+ " and h0.valid=1 and h0.shield=0 and oc0.valid=1 and oc0.channel_id=?"
+			+ " order by oc0.id desc limit ?,?";
 	
-	/**
-	 * 根据最大id查询频道织图
-	 */
-	private static final String QUERY_WORLD_BY_MAX_ID = "SELECT oc.id as recommend_id, " + H0_INFO + ", " + U0_INFO 
-			+ " from (select oc.id, oc.world_id from " + table + " as oc, " + HTS.HTWORLD_HTWORLD 
-			+ " as h where oc.world_id=h.id and h.valid=1 and h.shield=0 and oc.valid=1 and oc.channel_id=? and oc.id<=? order by id desc limit ?,?)"
-			+ " as oc, " + HTS.HTWORLD_HTWORLD + " as h0, " + HTS.USER_INFO 
-			+ " as u0 where oc.world_id = h0.id and h0.author_id = u0.id";
+	private static final String QUERY_WORLD_BY_MAX_ID = "SELECT oc0.id as recommend_id, " + H0_INFO + ", " + U0_INFO 
+			+ " from " + table + " as oc0, " + HTS.HTWORLD_HTWORLD + " as h0, " + HTS.USER_INFO + " as u0"
+			+ " where oc0.world_id=h0.id and h0.author_id = u0.id "
+			+ " and h0.valid=1 and h0.shield=0 and oc0.valid=1 and oc0.channel_id=? and oc0.id<=?"
+			+ " order by oc0.id desc limit ?,?";
 	
-	/**
-	 * 查询封面缩略图SQL头部
-	 */
+	
+	private static final String QUERY_SUPERB_WORLD = "SELECT oc0.id as recommend_id, " + H0_INFO + ", " + U0_INFO 
+			+ " from " + table + " as oc0, " + HTS.HTWORLD_HTWORLD + " as h0, " + HTS.USER_INFO + " as u0"
+			+ " where oc0.world_id=h0.id and h0.author_id = u0.id "
+			+ " and h0.valid=1 and h0.shield=0 and oc0.valid=1 and superb=1 and oc0.channel_id=?"
+			+ " order by oc0.id desc limit ?,?";
+	
+	private static final String QUERY_SUPERB_WORLD_BY_MAX_ID = "SELECT oc0.id as recommend_id, " + H0_INFO + ", " + U0_INFO 
+			+ " from " + table + " as oc0, " + HTS.HTWORLD_HTWORLD + " as h0, " + HTS.USER_INFO + " as u0"
+			+ " where oc0.world_id=h0.id and h0.author_id = u0.id "
+			+ " and h0.valid=1 and h0.shield=0 and oc0.valid=1 and superb=1 and oc0.channel_id=? and oc0.id<=?"
+			+ " order by oc0.id desc limit ?,?";
+	
 	private static final String QUERY_TITLE_THUMB_HEAD = "select cw.channel_id,w.title_thumb_path from " 
 			+ HTS.HTWORLD_HTWORLD + " as w, (";
-	/**
-	 * 查询封面缩略图
-	 */
 	private static final String QUERY_TITLE_THUMB = "(select channel_id,world_id from " + table 
 			+ " where channel_id=? and valid=1 order by id desc limit ?)";
 	
-	/**
-	 * 查询封面缩略图SQL尾部
-	 */
 	private static final String QUERY_TITLE_THUMB_FOOT = ") as cw where w.id=cw.world_id";
+	
+	private static final String SAVE_CHANNEL_WORLD = "insert into " + table 
+			+ " (id,channel_id,world_id,author_id,date_added,valid,notified,superb,serial)"
+			+ " values (?,?,?,?,?,?,?,?,?)";
+	
+	private static final String QUERY_WORLD_COUNT = "select count(*) from " + table
+			+ " where channel_id=? and valid=1";
 	
 	@Autowired
 	private HTWorldDao worldDao;
@@ -66,14 +72,14 @@ public class ChannelWorldDaoImpl extends BaseDaoImpl implements ChannelWorldDao 
 	private UserInfoDao userInfoDao;
 	
 	@Override
-	public List<OpChannelWorld> queryChannelWorld(Integer channelId,
+	public List<OpChannelWorldDto> queryChannelWorld(Integer channelId,
 			RowSelection rowSelection) {
 		return getJdbcTemplate().query(QUERY_WORLD, 
 				new Object[]{channelId, rowSelection.getFirstRow(), rowSelection.getLimit()}, 
-				new RowMapper<OpChannelWorld>() {
+				new RowMapper<OpChannelWorldDto>() {
 
 			@Override
-			public OpChannelWorld mapRow(ResultSet rs, int rowNum)
+			public OpChannelWorldDto mapRow(ResultSet rs, int rowNum)
 					throws SQLException {
 				return buildChannelWorld(rs);
 			}
@@ -81,22 +87,22 @@ public class ChannelWorldDaoImpl extends BaseDaoImpl implements ChannelWorldDao 
 	}
 
 	@Override
-	public List<OpChannelWorld> queryChannelWorld(Integer maxId,
+	public List<OpChannelWorldDto> queryChannelWorld(Integer maxId,
 			Integer channelId, RowSelection rowSelection) {
 		return getJdbcTemplate().query(QUERY_WORLD_BY_MAX_ID, 
 				new Object[]{channelId, maxId, rowSelection.getFirstRow(), rowSelection.getLimit()}, 
-				new RowMapper<OpChannelWorld>() {
+				new RowMapper<OpChannelWorldDto>() {
 
 			@Override
-			public OpChannelWorld mapRow(ResultSet rs, int rowNum)
+			public OpChannelWorldDto mapRow(ResultSet rs, int rowNum)
 					throws SQLException {
 				return buildChannelWorld(rs);
 			}
 		});
 	}
 	
-	public OpChannelWorld buildChannelWorld(ResultSet rs) throws SQLException{
-		OpChannelWorld world = new OpChannelWorld();
+	public OpChannelWorldDto buildChannelWorld(ResultSet rs) throws SQLException{
+		OpChannelWorldDto world = new OpChannelWorldDto();
 		worldDao.setWorldInfo(rs, world);
 		world.setRecommendId(rs.getInt("recommend_id"));
 		UserInfoDto user = UserInfoDaoImpl.buildUserInfoDtoByResult(world.getAuthorId(), rs);
@@ -132,6 +138,57 @@ public class ChannelWorldDaoImpl extends BaseDaoImpl implements ChannelWorldDao 
 			
 		});
 			
+	}
+
+	@Override
+	public List<OpChannelWorldDto> querySuperbChannelWorld(Integer channelId,
+			RowSelection rowSelection) {
+		return getJdbcTemplate().query(QUERY_SUPERB_WORLD, 
+				new Object[]{channelId, rowSelection.getFirstRow(), rowSelection.getLimit()}, 
+				new RowMapper<OpChannelWorldDto>() {
+
+			@Override
+			public OpChannelWorldDto mapRow(ResultSet rs, int rowNum)
+					throws SQLException {
+				return buildChannelWorld(rs);
+			}
+		});
+	}
+
+	@Override
+	public List<OpChannelWorldDto> querySuperbChannelWorld(Integer maxId,
+			Integer channelId, RowSelection rowSelection) {
+		return getJdbcTemplate().query(QUERY_SUPERB_WORLD_BY_MAX_ID, 
+				new Object[]{channelId, maxId, rowSelection.getFirstRow(), rowSelection.getLimit()}, 
+				new RowMapper<OpChannelWorldDto>() {
+
+			@Override
+			public OpChannelWorldDto mapRow(ResultSet rs, int rowNum)
+					throws SQLException {
+				return buildChannelWorld(rs);
+			}
+		});
+	}
+
+	@Override
+	public void saveChannelWorld(OpChannelWorld world) {
+		getMasterJdbcTemplate().update(SAVE_CHANNEL_WORLD, new Object[]{
+				world.getId(),
+				world.getChannelId(),
+				world.getWorldId(),
+				world.getAuthorId(),
+				world.getDateAdded(),
+				world.getValid(),
+				world.getNotified(),
+				world.getSuperb(),
+				world.getSerial()
+		});
+	}
+	
+	@Override
+	public long queryWorldCount(Integer channelId) {
+		return getJdbcTemplate().queryForLong(QUERY_WORLD_COUNT,
+				new Object[]{channelId});
 	}
 
 }

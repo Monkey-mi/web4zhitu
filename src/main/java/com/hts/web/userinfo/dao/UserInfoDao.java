@@ -27,6 +27,15 @@ import com.hts.web.common.pojo.UserWorldBase;
  *
  */
 public interface UserInfoDao extends BaseDao {
+	
+	/**
+	 * 构建用户信息
+	 * 
+	 * @param rs
+	 * @return
+	 * @throws SQLException
+	 */
+	public UserInfoDto buildUserInfoDto(Integer userId, ResultSet rs) throws SQLException;
 
 	/**
 	 * 保存用户信息

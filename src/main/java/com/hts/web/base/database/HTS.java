@@ -296,6 +296,12 @@ public class HTS {
 	public static final String OPERATIONS_CHANNEL_WORLD = DB + "operations_channel_world";
 	
 	/**
+	 * 频道成员表
+	 * 
+	 */
+	public static final String OPERATIONS_CHANNEL_MEMBER = DB + "operations_channel_member";
+	
+	/**
 	 * 找回密码表
 	 */
 	public static final String RETRIEVE_PASSWORD = DB + "user_retrieve_password";

@@ -27,6 +27,7 @@ public class OpWorldTypeDto2 implements Serializable, ObjectWithUserVerify, Obje
 	private Integer authorId; // 作者id
 	private String worldDesc; // 织图描述
 	private String titlePath; // 首页路径
+	private String bgPath;
 	private String titleThumbPath; // 首页缩略图路径
 	private Integer clickCount; // 播放次数
 	private Integer likeCount; // 喜欢次数
@@ -52,7 +53,7 @@ public class OpWorldTypeDto2 implements Serializable, ObjectWithUserVerify, Obje
 	}
 
 	public OpWorldTypeDto2(Integer recommendId, Integer id, String shortLink,
-			Integer authorId, String worldDesc, String titlePath,
+			Integer authorId, String worldDesc, String titlePath, String bgPath,
 			String titleThumbPath, Integer clickCount, Integer likeCount,
 			Integer commentCount, String worldLabel, String worldType,
 			Integer typeId, Integer superb, Integer squareLabel, String review) {
@@ -63,6 +64,7 @@ public class OpWorldTypeDto2 implements Serializable, ObjectWithUserVerify, Obje
 		this.authorId = authorId;
 		this.worldDesc = worldDesc;
 		this.titlePath = titlePath;
+		this.bgPath = bgPath;
 		this.titleThumbPath = titleThumbPath;
 		this.clickCount = clickCount;
 		this.likeCount = likeCount;
@@ -254,6 +256,14 @@ public class OpWorldTypeDto2 implements Serializable, ObjectWithUserVerify, Obje
 	@Override
 	public Integer getWorldId() {
 		return id;
+	}
+
+	public String getBgPath() {
+		return bgPath;
+	}
+
+	public void setBgPath(String bgPath) {
+		this.bgPath = bgPath;
 	}
 	
 }

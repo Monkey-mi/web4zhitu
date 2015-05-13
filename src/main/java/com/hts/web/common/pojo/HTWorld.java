@@ -38,6 +38,7 @@ public class HTWorld implements Serializable {
 	private Integer keepCount = 0; // 被收藏次数
 	private String coverPath; // 封面路径
 	private String titlePath; // 首页路径
+	private String bgPath; // 　背景路径
 	private String titleThumbPath; // 首页缩略图路径
 	private String thumbs; // 多张缩略图路径
 	private Double longitude;// 经度
@@ -50,6 +51,7 @@ public class HTWorld implements Serializable {
 	private Integer size; // 织图大小
 	private Integer childCount; // 子世界总数
 	private Integer ver; // 织图版本
+	private Integer tp; // 织图类型标记
 	private Integer valid; // 是否有效标志
 	private Integer latestValid; // 最新织图有效标记
 	private Integer shield; // 是否被屏蔽
@@ -64,10 +66,10 @@ public class HTWorld implements Serializable {
 			String worldType, Integer typeId, Date dateAdded,
 			Date dateModified, Integer clickCount, Integer likeCount,
 			Integer commentCount, Integer keepCount, String coverPath,
-			String titlePath, String titleThumbPath, String thumbs,
+			String titlePath, String bgPath, String titleThumbPath, String thumbs,
 			Double longitude, Double latitude, String locationDesc,
 			String locationAddr, Integer phoneCode, String province,
-			String city, Integer size, Integer childCount, Integer ver,
+			String city, Integer size, Integer childCount, Integer ver, Integer tp,
 			Integer valid, Integer shield) {
 		super();
 		this.id = id;
@@ -86,6 +88,7 @@ public class HTWorld implements Serializable {
 		this.keepCount = keepCount;
 		this.coverPath = coverPath;
 		this.titlePath = titlePath;
+		this.bgPath = bgPath;
 		this.titleThumbPath = titleThumbPath;
 		this.thumbs = thumbs;
 		this.longitude = longitude;
@@ -98,6 +101,7 @@ public class HTWorld implements Serializable {
 		this.size = size;
 		this.childCount = childCount;
 		this.ver = ver;
+		this.tp = tp;
 		this.valid = valid;
 		this.shield = shield;
 	}
@@ -106,10 +110,10 @@ public class HTWorld implements Serializable {
 			String worldName, String worldDesc, String worldLabel,
 			String worldType, Integer typeId, Date dateAdded,
 			Date dateModified, String coverPath, String titlePath,
-			String titleThumbPath, String thumbs, Double longitude,
-			Double latitude, String locationDesc, String locationAddr,
+			String bgPath, String titleThumbPath, String thumbs, 
+			Double longitude, Double latitude, String locationDesc, String locationAddr,
 			Integer phoneCode, String province, String city, Integer size,
-			Integer childCount, Integer ver, Integer valid,
+			Integer childCount, Integer ver, Integer tp, Integer valid,
 			Integer latestValid, Integer shield) {
 		super();
 		this.id = id;
@@ -124,6 +128,7 @@ public class HTWorld implements Serializable {
 		this.dateModified = dateModified;
 		this.coverPath = coverPath;
 		this.titlePath = titlePath;
+		this.bgPath = bgPath;
 		this.titleThumbPath = titleThumbPath;
 		this.thumbs = thumbs;
 		this.longitude = longitude;
@@ -136,6 +141,7 @@ public class HTWorld implements Serializable {
 		this.size = size;
 		this.childCount = childCount;
 		this.ver = ver;
+		this.tp = tp;
 		this.valid = valid;
 		this.latestValid = latestValid;
 		this.shield = shield;
@@ -229,6 +235,22 @@ public class HTWorld implements Serializable {
 
 	public void setTitlePath(String titlePath) {
 		this.titlePath = titlePath;
+	}
+	
+	public String getBgPath() {
+		return bgPath;
+	}
+
+	public void setBgPath(String bgPath) {
+		this.bgPath = bgPath;
+	}
+
+	public Integer getTp() {
+		return tp;
+	}
+
+	public void setTp(Integer tp) {
+		this.tp = tp;
 	}
 
 	public String getTitleThumbPath() {

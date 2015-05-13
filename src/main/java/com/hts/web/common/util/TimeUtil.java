@@ -1,6 +1,5 @@
 package com.hts.web.common.util;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -90,4 +89,15 @@ public class TimeUtil {
 		return time - subtime;
 	}
 	
+	/**
+	 * 根据长整数获取对应的日期对象
+	 * 
+	 * @param time
+	 * @return
+	 */
+	public static Date getDate(long time) {
+		Date d = new Date();
+		d.setTime(time);
+		return d;
+	}
 }

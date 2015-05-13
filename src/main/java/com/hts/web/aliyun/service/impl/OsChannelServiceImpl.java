@@ -57,17 +57,18 @@ public class OsChannelServiceImpl implements OsChannelService {
 	}
 	
 	public void deleteChannelAtOnce(Integer[] ids) throws Exception {
+		channelDao.deletChannelByIds(ids);
 		
 	}
 
 	@Override
 	public void saveChannelAtOnce(List<OpChannel> channels) throws Exception {
-		
+		channelDao.saveChannel(channels);
 	}
 
 	@Override
 	public void updateChannelAtOnce(List<OpChannel> channels) throws Exception {
-		
+		channelDao.updateChannel(channels);
 	}
 
 

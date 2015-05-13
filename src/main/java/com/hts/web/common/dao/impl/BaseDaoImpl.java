@@ -74,15 +74,15 @@ public class BaseDaoImpl implements BaseDao{
 	 */
 	protected static final String H0_INFO = "h0.id,h0.short_link, h0.author_id, h0.world_name, h0.world_desc, h0.world_label,"
 			+ "h0.world_type, h0.type_id, h0.date_added, h0.date_modified, h0.click_count,"
-			+ "h0.like_count, h0.comment_count, h0.keep_count, h0.cover_path, h0.title_path,"
+			+ "h0.like_count, h0.comment_count, h0.keep_count, h0.cover_path, h0.title_path,h0.bg_path,"
 			+ "h0.title_thumb_path, h0.longitude, h0.latitude, h0.location_desc,"
 			+ "h0.location_addr, h0.phone_code, h0.province, h0.city, h0.size, h0.child_count, h0.ver,"
-			+ "h0.valid, h0.shield";
+			+ "h0.tp,h0.valid, h0.shield";
 	
 	/**
 	 * 查询织图缩略图信息字段
 	 */
-	protected static final String WORLD_THUMB = "h.cover_path,h.title_path,h.title_thumb_path,h.valid,h.shield";
+	protected static final String WORLD_THUMB = "h.cover_path,h.title_path,h.bg_path,h.title_thumb_path,h.valid,h.shield";
 
 	protected static final String DEFAULT_ID_KEY = "id";
 	
