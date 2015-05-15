@@ -108,12 +108,12 @@ public class UserActivityServiceImpl extends BaseServiceImpl implements
 	 */
 	public void addActivityScore(Integer  typeId,Integer userId)throws Exception{
 		Date now = new Date();
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		Integer score = 0;
 		if(typeId == Tag.ACT_TYPE_CHANGE_SUB){//轮换推荐导致的减分
 			score = changeStarRecommendSub;
 			updateAllActivity(userId,typeId,now,score);
 		}else if(typeId == Tag.ACT_TYPE_WORLD){//发图
-			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 			String tmp = df.format(now);
 			try{
 				Date begin = df.parse(tmp);
@@ -133,10 +133,18 @@ public class UserActivityServiceImpl extends BaseServiceImpl implements
 			}
 			
 		}else{//非发图
+			//转换时间到周一
 			Calendar calendar = Calendar.getInstance(Locale.CHINA);
-			calendar.setTime(now);
-			calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-			long r = userActivityDao.queryUserActivityTotalCount(userId, typeId, calendar.getTime(), now);
+			String tmp = df.format(now);
+			Date t = df.parse(tmp);
+			calendar.setTime(t);
+			int weekday = calendar.get(Calendar.DAY_OF_WEEK);
+			if(weekday == Calendar.SUNDAY){
+				weekday = 8;
+			}
+			long m = 1000L*60*60*(weekday-2);
+			Date begin = new Date((calendar.getTimeInMillis()-m));
+			long r = userActivityDao.queryUserActivityTotalCount(userId, typeId, begin, now);
 			switch(typeId){
 				case Tag.ACT_TYPE_COMMENT : //评论
 					if( r < oneWeekCommentValidTimes ){
