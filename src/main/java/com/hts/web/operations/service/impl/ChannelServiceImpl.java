@@ -17,7 +17,6 @@ import com.hts.web.base.database.RowCallback;
 import com.hts.web.base.database.RowSelection;
 import com.hts.web.common.SerializableListAdapter;
 import com.hts.web.common.pojo.HTWorldLabel;
-import com.hts.web.common.pojo.HTWorldLabelWorld;
 import com.hts.web.common.pojo.OpActivity;
 import com.hts.web.common.pojo.OpChannel;
 import com.hts.web.common.pojo.OpChannelCount;
@@ -28,6 +27,7 @@ import com.hts.web.common.pojo.OpChannelMemberThumb;
 import com.hts.web.common.pojo.OpChannelName;
 import com.hts.web.common.pojo.OpChannelStar;
 import com.hts.web.common.pojo.OpChannelSub;
+import com.hts.web.common.pojo.OpChannelSysDanmuDto;
 import com.hts.web.common.pojo.OpChannelTopOne;
 import com.hts.web.common.pojo.OpChannelTopOneTitle;
 import com.hts.web.common.pojo.OpChannelWorld;
@@ -39,9 +39,11 @@ import com.hts.web.common.util.StringUtil;
 import com.hts.web.operations.dao.ActivityCacheDao;
 import com.hts.web.operations.dao.ChannelCacheDao;
 import com.hts.web.operations.dao.ChannelCoverCacheDao;
+import com.hts.web.operations.dao.ChannelDanmuReadDao;
 import com.hts.web.operations.dao.ChannelDao;
 import com.hts.web.operations.dao.ChannelMemberDao;
 import com.hts.web.operations.dao.ChannelStarCacheDao;
+import com.hts.web.operations.dao.ChannelSysDanmuDao;
 import com.hts.web.operations.dao.ChannelTopOneCacheDao;
 import com.hts.web.operations.dao.ChannelTopOneTitleCacheDao;
 import com.hts.web.operations.dao.ChannelWorldDao;
@@ -101,9 +103,21 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 	@Autowired
 	private HTWorldLabelDao labelDao;
 	
+	@Autowired
+	private ChannelSysDanmuDao sysDanumuDao;
+	
+	@Autowired
+	private ChannelDanmuReadDao danmuReadDao;
+	
+	/**
+	 * 2.9.89版本热门频道限定条数
+	 */
+	private static final int CHANNEL_CACHE_LIMIT_2_9_89 = 8;
+	
 	@Override
 	public void buildChannel(Map<String, Object> jsonMap) throws Exception {
-		List<OpChannel> list = channelCacheDao.queryChannel();
+		List<OpChannel> list = channelCacheDao.queryChannel(
+				new RowSelection(1, CHANNEL_CACHE_LIMIT_2_9_89));
 		OpActivity maxAct = activityCacheDao.queryMaxActivity();
 		OpChannelTopOne maxTopOne = channelTopOneCacheDao.queryMaxTopOne();
 		Integer maxActId = maxAct != null ? maxAct.getId() : 0;
@@ -458,6 +472,101 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 		// TODO save channel and label link
 		
 	}
-	
 
+	@Override
+	public void buildSysDanmu(final Integer channelId, final Integer userId, Integer maxId,
+			Integer start, Integer limit, Map<String, Object> jsonMap) throws Exception {
+		
+		buildSerializables("getRecommendId", maxId, start, limit, jsonMap, 
+				new SerializableListAdapter<OpChannelSysDanmuDto>() {
+
+					@Override
+					public List<OpChannelSysDanmuDto> getSerializables(RowSelection rowSelection) {
+						List<OpChannelSysDanmuDto> list = getSysDanmuList(channelId, userId, rowSelection);
+						
+						//　检测到列表为空，表示已经将该频道下的弹幕看完，从头开始获取弹幕
+						if(list == null || list.size() == 0) {
+							list = sysDanumuDao.querySysDanmu(channelId, rowSelection);
+							if(list.size() > 0) {
+								Integer maxSerial = list.get(list.size() - 1).getRecommendId();
+								danmuReadDao.updateDanmuSerial(channelId, userId, maxSerial);
+							}
+						}
+						return list;
+						
+					}
+
+					@Override
+					public List<OpChannelSysDanmuDto> getSerializableByMaxId(int maxId, 
+							RowSelection rowSelection) {
+						List<OpChannelSysDanmuDto> list = getSysDanmuList(maxId, channelId, userId, rowSelection);
+						
+						//　检测到列表为空，表示已经将该频道下的弹幕看完，从头开始获取弹幕
+						if(list == null || list.size() == 0) {
+							danmuReadDao.updateDanmuSerial(channelId, userId, 0);
+							list = sysDanumuDao.querySysDanmu(channelId, rowSelection);
+							if(list.size() > 0) {
+								Integer maxSerial = list.get(list.size() - 1).getRecommendId();
+								danmuReadDao.updateDanmuSerial(channelId, userId, maxSerial);
+							}
+						}
+						return list;
+					}
+
+					@Override
+					public long getTotalByMaxId(int maxId) {
+						return 0;
+					}
+					
+		}, OptResult.JSON_KEY_MSG, null);
+	}
+	
+	/**
+	 * 获取系统弹幕列表
+	 * 
+	 * @param channelId
+	 * @param userId
+	 * @param rowSelection
+	 * @return
+	 */
+	private List<OpChannelSysDanmuDto> getSysDanmuList(Integer channelId, Integer userId,
+			RowSelection rowSelection) {
+		List<OpChannelSysDanmuDto> list = null;
+		Integer maxSerial = danmuReadDao.queryDanmuSerial(channelId, userId);
+		if(maxSerial == 0) { // 未看过改频道的系统弹幕
+			list = sysDanumuDao.querySysDanmu(channelId, rowSelection);
+			if(list.size() > 0) {
+				maxSerial = list.get(list.size() - 1).getRecommendId();
+				danmuReadDao.saveDanmuSerial(channelId, userId, maxSerial);
+			}
+		} else { // 曾经看过改频道的系统弹幕，从历史记录开始查看
+			list = sysDanumuDao.querySysDanmu(maxSerial - 1, channelId, rowSelection);
+			if(list.size() > 0) {
+				maxSerial = list.get(list.size() - 1).getRecommendId();
+				danmuReadDao.updateDanmuSerial(channelId, userId, maxSerial);
+			}
+		}
+		return list;
+	}
+	
+	/**
+	 * 根据最大id获取系统弹幕列表
+	 * 
+	 * @param maxId
+	 * @param channelId
+	 * @param userId
+	 * @param rowSelection
+	 * @return
+	 */
+	private List<OpChannelSysDanmuDto> getSysDanmuList(Integer maxId, Integer channelId, Integer userId, 
+			RowSelection rowSelection) {
+		List<OpChannelSysDanmuDto> list = 
+				sysDanumuDao.querySysDanmu(maxId, channelId, rowSelection);
+		Integer maxSerial = 0;
+		if(list != null && list.size() > 0) {
+			maxSerial = list.get(list.size() - 1).getRecommendId();
+			danmuReadDao.updateDanmuSerial(channelId, userId, maxSerial);
+		}
+		return list;
+	}
 }

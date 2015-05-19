@@ -93,7 +93,7 @@ public interface ChannelDao extends BaseDao {
 	 * 
 	 * @return
 	 */
-	public List<OpChannel> querySuperbChannel();
+	public List<OpChannel> querySuperbChannel(Integer limit);
 	
 	/**
 	 * 添加织图和子世界总数

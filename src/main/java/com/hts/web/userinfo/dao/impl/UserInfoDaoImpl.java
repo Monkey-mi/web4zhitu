@@ -16,6 +16,7 @@ import com.hts.web.base.database.HTS;
 import com.hts.web.base.database.RowSelection;
 import com.hts.web.base.database.SQLUtil;
 import com.hts.web.common.dao.impl.BaseDaoImpl;
+import com.hts.web.common.pojo.UserAvatarLite;
 import com.hts.web.common.pojo.UserInfo;
 import com.hts.web.common.pojo.UserInfoAvatar;
 import com.hts.web.common.pojo.UserInfoDto;
@@ -415,6 +416,10 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 	 */
 	private static final String QUERY_USER_INFO_DTO_BY_ID = "select u0.id," + U0_INFO
 			+ " from " + table + " as u0 where u0.id=?";
+	
+	
+	private static final String QUERY_USER_AVATAR_LITE = "select u0.id,u0.user_name,u0.user_avatar" 
+			+ " from " + table + " u0 where u0.id=?";
 	
 	
 	@Autowired
@@ -1264,5 +1269,24 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 		});
 	}
 
+	@Override
+	public UserAvatarLite queryUserAvatarLite(Integer id) {
+		try {
+			return getJdbcTemplate().queryForObject(QUERY_USER_AVATAR_LITE, new Object[]{id},
+					new RowMapper<UserAvatarLite>() {
+	
+						@Override
+						public UserAvatarLite mapRow(ResultSet rs, int rowNum)
+								throws SQLException {
+							return new UserAvatarLite(
+									rs.getInt("id"),
+									rs.getString("user_name"),
+									rs.getString("user_avatar"));
+						}
+			});
+		} catch(EmptyResultDataAccessException e) {
+			return null;
+		}
+	}
 
 }

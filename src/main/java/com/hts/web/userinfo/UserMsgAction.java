@@ -384,6 +384,23 @@ public class UserMsgAction extends BaseAction {
 		
 		return StrutsKey.JSON;
 	}
+
+	/**
+	 * 查询喜欢我的消息列表（不分组）
+	 * 
+	 * @return
+	 */
+	public String queryLikeMeMsgWithoutGroup() {
+		try {
+			userMsgService.buildLikeMeMsgWithoutGroup(maxId, 
+					getCurrentLoginUserId(), limit, jsonMap);
+			JSONUtil.optSuccess(jsonMap);
+		} catch(Exception e) {
+			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+		}
+		
+		return StrutsKey.JSON;
+	}
 	
 	/**
 	 * 查询用户和织图缩略图信息

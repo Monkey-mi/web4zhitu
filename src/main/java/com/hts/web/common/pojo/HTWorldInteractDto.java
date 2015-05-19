@@ -59,6 +59,7 @@ public class HTWorldInteractDto implements HTWorldWithExtra, ObjectWithUserVerif
 	private Integer tp = Tag.WORLD_TYPE_DEFAULT; // 织图类型
 	private Integer valid; // 是否有效标志
 	private Integer shield; // 是否被屏蔽
+	private HTWorldTextStyle textStyle;
 	private String worldURL; // 连接路径
 	private Object liked = 0; // 是否喜欢
 	private Object keep = 0; // 是否收藏
@@ -84,8 +85,7 @@ public class HTWorldInteractDto implements HTWorldWithExtra, ObjectWithUserVerif
 			Double longitude, Double latitude, String locationDesc,
 			String locationAddr, Integer phoneCode, String province,
 			String city, Integer size, Integer childCount, Integer ver,
-			Integer tp,
-			Integer valid, Integer shield) {
+			Integer tp, Integer valid, Integer shield, HTWorldTextStyle textStyle) {
 		super();
 		this.id = id;
 		this.shortLink = shortLink;
@@ -119,6 +119,7 @@ public class HTWorldInteractDto implements HTWorldWithExtra, ObjectWithUserVerif
 		this.tp = tp;
 		this.valid = valid;
 		this.shield = shield;
+		this.textStyle = textStyle;
 	}
 
 	public Integer getInteractId() {
@@ -486,5 +487,15 @@ public class HTWorldInteractDto implements HTWorldWithExtra, ObjectWithUserVerif
 	public void setTp(Integer tp) {
 		this.tp = tp;
 	}
+
+	public HTWorldTextStyle getTextStyle() {
+		return textStyle;
+	}
+
+	public void setTextStyle(HTWorldTextStyle textStyle) {
+		this.textStyle = textStyle;
+	}
+	
+	
 	
 }

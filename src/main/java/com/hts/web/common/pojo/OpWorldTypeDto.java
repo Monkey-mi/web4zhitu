@@ -57,6 +57,7 @@ public class OpWorldTypeDto implements HTWorldWithExtra, ObjectWithUserVerify, O
 	private Integer tp = Tag.WORLD_TYPE_DEFAULT; // 织图分类
 	private Integer valid;
 	private Integer shield;
+	private HTWorldTextStyle textStyle;
 	private String worldURL;
 
 	private Integer superb;
@@ -92,7 +93,7 @@ public class OpWorldTypeDto implements HTWorldWithExtra, ObjectWithUserVerify, O
 			String titlePath, String bgPath, String titleThumbPath, Double longitude,
 			Double latitude, String locationDesc, String locationAddr,
 			Integer phoneCode, String province, String city, Integer size,
-			Integer childCount, Integer ver, Integer tp) {
+			Integer childCount, Integer ver, Integer tp, HTWorldTextStyle textStyle) {
 		super();
 		this.recommendId = recommendId;
 		this.id = id;
@@ -126,6 +127,7 @@ public class OpWorldTypeDto implements HTWorldWithExtra, ObjectWithUserVerify, O
 		this.childCount = childCount;
 		this.ver = ver;
 		this.tp = tp;
+		this.textStyle = textStyle;
 	}
 
 	public Integer getAuthorId() {
@@ -516,6 +518,14 @@ public class OpWorldTypeDto implements HTWorldWithExtra, ObjectWithUserVerify, O
 
 	public void setTp(Integer tp) {
 		this.tp = tp;
+	}
+
+	public HTWorldTextStyle getTextStyle() {
+		return textStyle;
+	}
+
+	public void setTextStyle(HTWorldTextStyle textStyle) {
+		this.textStyle = textStyle;
 	}
 	
 }

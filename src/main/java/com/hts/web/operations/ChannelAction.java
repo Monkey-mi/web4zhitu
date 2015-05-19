@@ -158,6 +158,22 @@ public class ChannelAction extends BaseAction {
 		return StrutsKey.JSON;
 	}
 	
+	/**
+	 * 查询系统弹幕
+	 * 
+	 * @return
+	 */
+	public String querySysDanmu() {
+		try {
+			channelService.buildSysDanmu(channelId, userId, 
+					maxId, start, limit, jsonMap);
+			JSONUtil.optSuccess(jsonMap);
+		} catch(Exception e) {
+			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+		}
+		return StrutsKey.JSON;
+	}
+	
 	public Integer getChannelId() {
 		return channelId;
 	}

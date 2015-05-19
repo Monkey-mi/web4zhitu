@@ -302,6 +302,16 @@ public class HTS {
 	public static final String OPERATIONS_CHANNEL_MEMBER = DB + "operations_channel_member";
 	
 	/**
+	 * 频道系统弹幕表
+	 */
+	public static final String OPERATIONS_CHANNEL_SYS_DANNMU = DB + "operations_channel_sys_danmu";
+	
+	/**
+	 * 频道系统弹幕已读记录表
+	 */
+	public static final String OPERATIONS_CHANNEL_DANMU_READ = DB + "operations_channel_danmu_read";
+	
+	/**
 	 * 找回密码表
 	 */
 	public static final String RETRIEVE_PASSWORD = DB + "user_retrieve_password";

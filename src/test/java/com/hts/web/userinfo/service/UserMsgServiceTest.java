@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.hts.web.base.BaseTest;
 import com.hts.web.base.constant.OptResult;
-import com.hts.web.base.constant.Tag;
 import com.hts.web.common.pojo.HTWorldInteract;
 import com.hts.web.common.pojo.UserMsgStatus;
 import com.hts.web.common.util.Log;
@@ -169,7 +168,7 @@ public class UserMsgServiceTest extends BaseTest {
 	}
 	
 	@Test
-	public void buildLikeMe() throws Exception {
+	public void buildLikeMeTest() throws Exception {
 		logNumberList(log, new NumberListAdapter() {
 
 			@Override
@@ -179,6 +178,19 @@ public class UserMsgServiceTest extends BaseTest {
 //				service.buildLikeMeMsg(0, 485, 1, 10, jsonMap);
 				service.buildLikeMeMsg(0, 485, 10, jsonMap);
 //				service.buildLikeMeMsg(1000, 485, 10, jsonMap);
+			}
+		});
+	}
+	
+	@Test
+	public void buildLikeMeWithoutGroupTest() throws Exception {
+		logNumberList(log, new NumberListAdapter() {
+
+			@Override
+			public void buildNumberList(Map<String, Object> jsonMap)
+					throws Exception {
+				service.buildLikeMeMsgWithoutGroup(0, 485, 10, jsonMap);
+				service.buildLikeMeMsgWithoutGroup(1000, 485, 10, jsonMap);
 			}
 		});
 	}

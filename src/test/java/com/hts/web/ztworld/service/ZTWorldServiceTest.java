@@ -9,8 +9,6 @@ import net.sf.json.JSONObject;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.hts.web.base.BaseTest;
 import com.hts.web.base.constant.OptResult;
@@ -47,7 +45,7 @@ public class ZTWorldServiceTest extends BaseTest {
 				"http://imzhitu.qiniudn.com/ios/image/2014/3/26/21/c5a9e4e8b41011e3a9a712bf1fbc47a9_8.jpg",
 				null,
 				0.1d, 0.1d, "locationDesc", "locationAddr", "province", "city", null, "18", 1, 
-				null, Tag.WORLD_TYPE_DEFAULT);
+				null, Tag.WORLD_TYPE_DEFAULT, null, 0);
 		logObj(world);
 	}
 	
@@ -139,7 +137,7 @@ public class ZTWorldServiceTest extends BaseTest {
 				null,
 				"http://imzhitu.qiniudn.com/ios/image/2014/3/26/21/c5a9e4e8b41011e3a9a712bf1fbc47a9_8.jpg",
 				null, 0.1d, 0.1d, "locationDesc", "locationAddr", "province", "city", null, "18", 1, 
-				null, Tag.WORLD_TYPE_DEFAULT);
+				null, Tag.WORLD_TYPE_DEFAULT, null, 0);
 		logObj(world);
 		service.deleteWorld(world.getId(),485);
 	}
@@ -199,7 +197,9 @@ public class ZTWorldServiceTest extends BaseTest {
 	
 	@Test
 	public void testGetHTWorldDtoById() throws Exception {
-		service.getHTWorldDtoById(10962, true);
+		HTWorldDto dto = service.getHTWorldDtoById(26767, true);
+		JSONObject jsobj = JSONObject.fromObject(dto.getTextStyle());
+		System.out.println(jsobj.get("mask"));
 	}
 	
 	@Test

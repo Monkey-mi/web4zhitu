@@ -8,7 +8,5 @@ import com.hts.web.common.pojo.OpChannel;
 
 public interface ChannelCacheDao extends BaseCacheDao {
 
-	public List<OpChannel> queryChannel();
-	
 	public List<OpChannel> queryChannel(RowSelection rowSelection);
 }

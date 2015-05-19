@@ -319,6 +319,18 @@ public interface UserMsgService extends BaseService {
 			Integer limit, Map<String, Object> jsonMap) throws Exception;
 	
 	/**
+	 * 构建所有喜欢我的信息（不分组）
+	 * 
+	 * @param maxId
+	 * @param userId
+	 * @param limit
+	 * @param jsonMap
+	 * @throws Exception
+	 */
+	public void buildLikeMeMsgWithoutGroup(Integer maxId, Integer userId, 
+			Integer limit, final Map<String, Object> jsonMap) throws Exception;
+	
+	/**
 	 * 构建用户和织图缩略图
 	 * 
 	 * @param userIdStr

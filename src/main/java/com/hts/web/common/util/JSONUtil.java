@@ -14,6 +14,7 @@ import com.hts.web.base.constant.OptResult;
 import com.hts.web.common.pojo.HTWorld;
 import com.hts.web.common.pojo.HTWorldChildWorld;
 import com.hts.web.common.pojo.HTWorldChildWorldThumb;
+import com.hts.web.common.pojo.HTWorldTextStyle;
 
 /**
  * JSON工具类<br />
@@ -299,29 +300,20 @@ public class JSONUtil {
 		JSONObject.toBean(jsonObj,beanObj, jsonConfig);
 	}
 	
-	public static void main(String[] args) {
-			
-		String json = "	{'id':'1',"
-					+ " 'worldName':'测试世界',"
-					+ " 'worldDesc':'测试世界描述',"
-					+ " 'worldLabel':'生活',"
-					+ "	'title':'1',"
-					+ "	'latitude':'12.6111111',"
-					+ "	'longitude':'-50.61111111111',"
-					+ " 'locationDesc':'广州番禺区大学城中五路',"
-					+ "	'childs':{"
-					+ "	'1':[{'path':'img1.jpg','width':'640','height':'960'},"
-					+ "	     {'coordinatex':20,'coordinatey':'80','toId':'2','atId':'1','thumbPath':'bg.jpg'}],"
-					+ "	'2':[{'path':'img2.jpg','width':'640','height':'960'},"
-					+ "		 {'coordinatex':160,'coordinatey':180,'toId':'3','atId':'2','thumbPath':'bg.jpg'}],"
-					+ "	'3':[{'path':'img3.jpg','width':'640','height':'960'}]}"
-					+ "}";
-		
-		HTWorld htWorld = JSONUtil.getHTWorld(json);
-		Object[] childWorldInfo = JSONUtil.getChildWorldInfo(json);
-		Object Obj = JSONUtil.getProperty("longitude", json);
-		double titleId = Double.valueOf(Obj.toString());
-
+	/**
+	 * 根据文字获取JSONObject
+	 * @param text
+	 * @return
+	 */
+	public static HTWorldTextStyle getJSObjectFromText(String text) {
+		HTWorldTextStyle style = null;
+		if(text != null) {
+			style = new HTWorldTextStyle();
+			JSONObject jsobj = JSONObject.fromObject(text);
+			style.setColor(jsobj.optString("color"));
+			style.setMask(jsobj.optInt("mask"));
+		}
+		return style;
 	}
 	
 }

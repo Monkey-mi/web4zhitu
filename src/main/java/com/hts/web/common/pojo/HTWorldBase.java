@@ -40,9 +40,11 @@ public abstract class HTWorldBase {
 	protected Integer valid; // 是否有效标志
 	protected Integer shield; // 是否被屏蔽
 	protected String worldURL; // 连接路径
+	protected HTWorldTextStyle textStyle;
 	
 	private Object liked = 0; // 是否喜欢
 	private Object keep = 0; // 是否收藏
+	
 	
 	public HTWorldBase() {
 		super();
@@ -57,7 +59,7 @@ public abstract class HTWorldBase {
 			Double longitude, Double latitude, String locationDesc,
 			String locationAddr, Integer phoneCode, String province,
 			String city, Integer ver, Integer tp, Integer size, Integer childCount,
-			Integer valid, Integer shield, String worldURL) {
+			Integer valid, Integer shield, HTWorldTextStyle textStyle, String worldURL) {
 		super();
 		this.id = id;
 		this.shortLink = shortLink;
@@ -90,6 +92,7 @@ public abstract class HTWorldBase {
 		this.tp = tp;
 		this.valid = valid;
 		this.shield = shield;
+		this.textStyle = textStyle;
 		this.worldURL = worldURL;
 		
 	}
@@ -368,6 +371,14 @@ public abstract class HTWorldBase {
 
 	public void setTp(Integer tp) {
 		this.tp = tp;
+	}
+
+	public HTWorldTextStyle getTextStyle() {
+		return textStyle;
+	}
+
+	public void setTextStyle(HTWorldTextStyle textStyle) {
+		this.textStyle = textStyle;
 	}
 	
 }

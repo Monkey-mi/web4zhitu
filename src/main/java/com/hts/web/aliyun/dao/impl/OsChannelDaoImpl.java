@@ -63,7 +63,7 @@ public class OsChannelDaoImpl extends BaseOsDaoImpl implements OsChannelDao {
 		fields.put("member_count", channel.getMemberCount());
 		fields.put("superb_count", channel.getSuperbCount());
 		fields.put("last_modified", channel.getLastModified().getTime());
-		fields.put("labelIds", channel.getLabelIds().split(","));
+		fields.put("label_ids", channel.getLabelIds().split(","));
 		fields.put("channel_label", channel.getChannelLabel().split(","));
 		JSONObject opt = getAddOpt(fields);
 		return opt;

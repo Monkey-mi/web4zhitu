@@ -56,6 +56,7 @@ public class HTWorld implements Serializable {
 	private Integer latestValid; // 最新织图有效标记
 	private Integer shield; // 是否被屏蔽
 	private String worldURL; // 连接路径
+	private HTWorldTextStyle textStyle;
 
 	public HTWorld() {
 		super();
@@ -70,7 +71,7 @@ public class HTWorld implements Serializable {
 			Double longitude, Double latitude, String locationDesc,
 			String locationAddr, Integer phoneCode, String province,
 			String city, Integer size, Integer childCount, Integer ver, Integer tp,
-			Integer valid, Integer shield) {
+			Integer valid, Integer shield, HTWorldTextStyle textStyle) {
 		super();
 		this.id = id;
 		this.shortLink = shortLink;
@@ -104,6 +105,7 @@ public class HTWorld implements Serializable {
 		this.tp = tp;
 		this.valid = valid;
 		this.shield = shield;
+		this.textStyle = textStyle;
 	}
 
 	public HTWorld(Integer id, String shortLink, Integer authorId,
@@ -114,7 +116,7 @@ public class HTWorld implements Serializable {
 			Double longitude, Double latitude, String locationDesc, String locationAddr,
 			Integer phoneCode, String province, String city, Integer size,
 			Integer childCount, Integer ver, Integer tp, Integer valid,
-			Integer latestValid, Integer shield) {
+			Integer latestValid, Integer shield, HTWorldTextStyle textStyle) {
 		super();
 		this.id = id;
 		this.shortLink = shortLink;
@@ -145,6 +147,7 @@ public class HTWorld implements Serializable {
 		this.valid = valid;
 		this.latestValid = latestValid;
 		this.shield = shield;
+		this.textStyle = textStyle;
 	}
 
 	public Integer getId() {
@@ -420,5 +423,15 @@ public class HTWorld implements Serializable {
 	public void setLatestValid(Integer latestValid) {
 		this.latestValid = latestValid;
 	}
+
+	public HTWorldTextStyle getTextStyle() {
+		return textStyle;
+	}
+
+	public void setTextStyle(HTWorldTextStyle textStyle) {
+		this.textStyle = textStyle;
+	}
+	
+	
 
 }

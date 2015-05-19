@@ -450,4 +450,13 @@ public interface UserInfoService extends BaseService {
 	 */
 //	public void updateOnlineByPushToken(String pushToken, Integer exceptId, Integer online) throws Exception;
 	
+	/**
+	 * 构建用户头像信息
+	 * 
+	 * @param id
+	 * @param jsonMap
+	 */
+	public void buildUserAvatarLite(Integer id, 
+			Map<String, Object> jsonMap) throws Exception;
+	
 }

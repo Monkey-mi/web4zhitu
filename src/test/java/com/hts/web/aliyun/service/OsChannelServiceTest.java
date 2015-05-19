@@ -12,10 +12,10 @@ public class OsChannelServiceTest extends BaseTest{
 	
 	@Test
 	public void updateChannelAtOnceTest() throws Exception {
-//		service.updateChannelAtOnce(8, null, null, 
-//				null, "美女副标题", null, null, 
-//				null, null, "美女,御姐", "2,3,4",
-//				null, null, null);
+		service.updateChannelAtOnce(8, null, null, 
+				null, "副标题", null, null, 
+				null, null, "美女,御姐", "2,3,4",
+				null, null, null);
 	}
 
 }

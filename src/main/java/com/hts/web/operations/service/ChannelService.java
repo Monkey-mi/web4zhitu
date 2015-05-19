@@ -163,5 +163,16 @@ public interface ChannelService extends BaseService{
 	public void saveChannel(Integer ownerId, String channelName, String channelTitle,
 			String subtitle, String channelDesc, String channelIcon, String subIcon,
 			Integer channelType, String channelLabel, Integer danmu, Integer mood, Integer world);
-
+	
+	/**
+	 *　构建系统弹幕列表
+	 *
+	 * @param userId
+	 * @param maxId
+	 * @param start
+	 * @param limit
+	 * @throws Exception
+	 */
+	public void buildSysDanmu(Integer channelId, Integer userId, Integer maxId, 
+			Integer start, Integer limit, Map<String, Object> jsonMap) throws Exception;
 }

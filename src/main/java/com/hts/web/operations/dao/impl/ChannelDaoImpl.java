@@ -73,7 +73,7 @@ public class ChannelDaoImpl extends BaseDaoImpl implements ChannelDao {
 			+ " from " + table + " where id in "; 
 	
 	private static final String QUERY_SUPERB_CHANNEL = "select " + CHANNEL_ABSTRACT + " from " 
-			+ table + " c0 where c0.superb=? order by serial desc limit 500";
+			+ table + " c0 where c0.superb=? order by serial desc limit ?";
 	
 	
 	private static final String UPDATE_WORLD_AND_CHILD_COUNT = "update " + table
@@ -233,9 +233,9 @@ public class ChannelDaoImpl extends BaseDaoImpl implements ChannelDao {
 
 
 	@Override
-	public List<OpChannel> querySuperbChannel() {
+	public List<OpChannel> querySuperbChannel(Integer limit) {
 		return getJdbcTemplate().query(QUERY_SUPERB_CHANNEL, 
-				new Object[]{Tag.TRUE}, new RowMapper<OpChannel>() {
+				new Object[]{Tag.TRUE, limit}, new RowMapper<OpChannel>() {
 
 					@Override
 					public OpChannel mapRow(ResultSet rs, int rowNum)

@@ -579,6 +579,21 @@ public class UserInfoAction extends BaseAction {
 		return StrutsKey.JSON;
 	}
 	
+	/**
+	 * 查询用户头像
+	 * 
+	 * @return
+	 */
+	public String queryProfileLite() {
+		try {
+			userInfoService.buildUserAvatarLite(id, jsonMap);
+			JSONUtil.optSuccess(jsonMap);
+		} catch (Exception e) {
+			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+		}
+		return StrutsKey.JSON;
+	}
+	
 	public Integer getId() {
 		return id;
 	}

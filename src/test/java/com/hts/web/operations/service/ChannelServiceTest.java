@@ -1,9 +1,5 @@
 package com.hts.web.operations.service;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,8 +8,6 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.hts.web.base.BaseTest;
-import com.hts.web.base.constant.Tag;
-import com.hts.web.common.util.Log;
 
 public class ChannelServiceTest extends BaseTest {
 
@@ -95,13 +89,13 @@ public class ChannelServiceTest extends BaseTest {
 	@Test
 	public void buildChannelAbstractTest() throws Exception {
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
-		service.buildChannelAbstract(1, 485, jsonMap);
+		service.buildChannelAbstract(11834, 485, jsonMap);
 	}
 	
 	@Test
 	public void buildChannelDetailTest() throws Exception {
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
-		service.buildChannelDetail(1, 10, jsonMap);
+		service.buildChannelDetail(11834, 10, jsonMap);
 	}
 	
 	@Test
@@ -135,4 +129,17 @@ public class ChannelServiceTest extends BaseTest {
 //				Tag.CHANNEL_TYPE_NORMAL, null, Tag.TRUE, Tag.TRUE, Tag.TRUE);
 	}
 	
+	
+	@Test
+	public void buildSysDanmu() throws Exception {
+		logNumberList(logger, new NumberListAdapter(){
+
+			@Override
+			public void buildNumberList(Map<String, Object> jsonMap)
+					throws Exception {
+//				service.buildSysDanmu(11575, 485, 0, 1, 10, jsonMap);
+				service.buildSysDanmu(11575, 485, 1000, 1, 10, jsonMap);
+			}
+		});
+	}
 }

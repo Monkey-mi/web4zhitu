@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.json.JSONObject;
+
 import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -26,12 +28,14 @@ import com.hts.web.common.pojo.HTWorldInteractDto;
 import com.hts.web.common.pojo.HTWorldLatest;
 import com.hts.web.common.pojo.HTWorldLatestId;
 import com.hts.web.common.pojo.HTWorldLatestIndex;
+import com.hts.web.common.pojo.HTWorldTextStyle;
 import com.hts.web.common.pojo.HTWorldThumbDto;
 import com.hts.web.common.pojo.HTWorldThumbUser;
 import com.hts.web.common.pojo.HTWorldThumbnail;
 import com.hts.web.common.pojo.UserInfo;
 import com.hts.web.common.pojo.UserInfoDto;
 import com.hts.web.common.util.CollectionUtil;
+import com.hts.web.common.util.JSONUtil;
 import com.hts.web.userinfo.dao.impl.UserInfoDaoImpl;
 import com.hts.web.ztworld.dao.HTWorldDao;
 
@@ -61,8 +65,8 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 			+ " (id, short_link, world_name, world_desc, world_label, world_type, type_id, date_added,"
 			+ " date_modified,author_id, cover_path, title_path, bg_path, title_thumb_path, thumbs," 
 			+ "longitude,latitude,location_desc,location_addr, phone_code, province," 
-			+ "city, size, child_count,ver,tp, valid, latest_valid, shield)"
-			+ " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			+ "city, size, child_count,ver,tp, valid, latest_valid, shield, text_style)"
+			+ " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 	/**
 	 * 查询织图世界
@@ -582,6 +586,11 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 	
 	@Override
 	public void saveWorld(HTWorld htworld) {
+		String styleStr = null;
+		HTWorldTextStyle style = htworld.getTextStyle();
+		if(style != null) {
+			styleStr = JSONObject.fromObject(style).toString();
+		}
 		getMasterJdbcTemplate().update(SAVE_WORLD, new Object[]{
 				htworld.getId(),
 				htworld.getShortLink(),
@@ -611,7 +620,8 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 				htworld.getTp(),
 				htworld.getValid(),
 				htworld.getLatestValid(),
-				htworld.getShield()
+				htworld.getShield(),
+				styleStr
 		});
 	}
 	
@@ -1117,7 +1127,8 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 				rs.getInt("ver"),
 				rs.getInt("tp"),
 				rs.getInt("valid"),
-				rs.getInt("shield"));
+				rs.getInt("shield"),
+				JSONUtil.getJSObjectFromText(rs.getString("text_style")));
 		world.setWorldURL(urlPrefix + world.getShortLink());
 		return world;
 	}
@@ -1169,7 +1180,8 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 				rs.getInt("ver"),
 				rs.getInt("tp"),
 				rs.getInt("valid"),
-				rs.getInt("shield"));
+				rs.getInt("shield"),
+				JSONUtil.getJSObjectFromText(rs.getString("text_style")));
 		dto.setWorldURL(urlPrefix + dto.getShortLink());
 		UserInfoDto userInfo = UserInfoDaoImpl.buildUserInfoDtoByResult(dto.getAuthorId(), rs);
 		dto.setUserInfo(userInfo);
@@ -1216,7 +1228,8 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 				rs.getInt("ver"),
 				rs.getInt("tp"),
 				rs.getInt("valid"),
-				rs.getInt("shield"));
+				rs.getInt("shield"),
+				JSONUtil.getJSObjectFromText(rs.getString("text_style")));
 		dto.setWorldURL(urlPrefix + dto.getShortLink());
 		UserInfoDto userInfo = UserInfoDaoImpl.buildUserInfoDtoByResult(dto.getAuthorId(), rs);
 		dto.setUserInfo(userInfo);
@@ -1650,6 +1663,7 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 		world.setTp(rs.getInt("tp"));
 		world.setValid(rs.getInt("valid"));
 		world.setShield(rs.getInt("shield"));
+		world.setTextStyle(JSONUtil.getJSObjectFromText(rs.getString("text_style")));
 		world.setWorldURL(url);
 	}
 	

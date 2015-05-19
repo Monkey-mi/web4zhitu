@@ -19,6 +19,7 @@ import com.hts.web.base.constant.PlatFormCode;
 import com.hts.web.base.constant.Tag;
 import com.hts.web.common.pojo.ObjectWithUserVerify;
 import com.hts.web.common.pojo.ObjectWithUserVerifyDesc;
+import com.hts.web.common.pojo.UserAvatarLite;
 import com.hts.web.common.pojo.UserInfo;
 import com.hts.web.common.pojo.UserPushInfo;
 import com.hts.web.common.pojo.UserSocialAccount;
@@ -945,6 +946,15 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 	@Override
 	public void updateJob(Integer userId, Integer tradeId, String job) throws Exception {
 		userInfoDao.updateJob(userId, tradeId, job);
+	}
+
+	@Override
+	public void buildUserAvatarLite(Integer id, Map<String, Object> jsonMap) throws Exception {
+		UserAvatarLite avatar = userInfoDao.queryUserAvatarLite(id);
+		if(avatar == null) {
+			throw new HTSException("没有这个用户");
+		}
+		jsonMap.put(OptResult.JSON_KEY_USER_INFO, avatar);
 	}
 
 }

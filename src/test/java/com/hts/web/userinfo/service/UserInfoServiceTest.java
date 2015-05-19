@@ -177,4 +177,10 @@ public class UserInfoServiceTest extends BaseTest {
 //		Thread.sleep(10000);
 	}
 	
+	@Test
+	public void queryProfileLiteTest() throws Exception {
+		Map<String, Object> jsonMap = new HashMap<String, Object>();
+		service.buildUserAvatarLite(485, jsonMap);
+		logObj(jsonMap);
+	}
 }

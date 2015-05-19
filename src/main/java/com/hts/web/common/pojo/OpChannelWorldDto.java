@@ -36,14 +36,14 @@ public class OpChannelWorldDto extends HTWorldBase implements Serializable,
 			Double longitude, Double latitude, String locationDesc,
 			String locationAddr, Integer phoneCode, String province,
 			String city, Integer size, Integer childCount, Integer ver, Integer tp,
-			Integer valid, Integer shield, String worldURL) {
+			Integer valid, Integer shield, HTWorldTextStyle textStyle, String worldURL) {
 		
 		super(id, shortLink, authorId, worldName, worldDesc, worldLabel,
 				worldType, typeId, dateAdded, dateModified, clickCount,
 				likeCount, commentCount, keepCount, coverPath, titlePath,
 				bgPath, titleThumbPath, longitude, latitude, locationDesc,
 				locationAddr, phoneCode, province, city, size, childCount, ver, tp,
-				valid, shield, worldURL);
+				valid, shield, textStyle, worldURL);
 	}
 	
 

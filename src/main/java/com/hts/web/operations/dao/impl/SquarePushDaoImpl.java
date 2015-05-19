@@ -17,6 +17,7 @@ import com.hts.web.common.pojo.OpWorldType;
 import com.hts.web.common.pojo.OpWorldTypeDto;
 import com.hts.web.common.pojo.OpWorldTypeDto2;
 import com.hts.web.common.pojo.UserInfoDto;
+import com.hts.web.common.util.JSONUtil;
 import com.hts.web.operations.dao.SquarePushDao;
 import com.hts.web.userinfo.dao.impl.UserInfoDaoImpl;
 
@@ -793,7 +794,8 @@ public class SquarePushDaoImpl extends BaseDaoImpl implements SquarePushDao {
 				rs.getInt("size"),
 				rs.getInt("child_count"),
 				rs.getInt("ver"),
-				rs.getInt("tp"));
+				rs.getInt("tp"),
+				JSONUtil.getJSObjectFromText(rs.getString("text_style")));
 		dto.setWorldId(dto.getId());
 		if(urlPrefix != null) {
 			if(dto.getShortLink() != null) {

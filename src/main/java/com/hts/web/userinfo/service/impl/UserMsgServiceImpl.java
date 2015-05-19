@@ -44,7 +44,6 @@ import com.hts.web.common.pojo.UserPushInfo;
 import com.hts.web.common.service.KeyGenService;
 import com.hts.web.common.service.impl.BaseServiceImpl;
 import com.hts.web.common.service.impl.KeyGenServiceImpl;
-import com.hts.web.common.util.Log;
 import com.hts.web.common.util.PushUtil;
 import com.hts.web.common.util.StringUtil;
 import com.hts.web.common.util.TimeUtil;
@@ -848,6 +847,19 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 		userInfoService.extractVerify(likeMeList);
 		jsonMap.put(OptResult.JSON_KEY_MSG, likeMeList);
 		
+	}
+	
+	@Override
+	public void buildLikeMeMsgWithoutGroup(Integer maxId, Integer userId, 
+			Integer limit, final Map<String, Object> jsonMap) throws Exception {
+		List<HTWorldLikeMe> likeMeList = null;
+		if(maxId == 0) {
+			likeMeList = worldLikedDao.queryLikeMe(userId, limit);
+		} else {
+			likeMeList = worldLikedDao.queryLikeMe(maxId, userId, limit);
+		}
+		userInfoService.extractVerify(likeMeList);
+		jsonMap.put(OptResult.JSON_KEY_MSG, likeMeList);
 	}
 	
 	/**

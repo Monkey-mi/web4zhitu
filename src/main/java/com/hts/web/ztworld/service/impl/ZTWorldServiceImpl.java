@@ -43,6 +43,7 @@ import com.hts.web.common.pojo.HTWorldLatest;
 import com.hts.web.common.pojo.HTWorldLatestId;
 import com.hts.web.common.pojo.HTWorldLatestIndex;
 import com.hts.web.common.pojo.HTWorldLikedUser;
+import com.hts.web.common.pojo.HTWorldTextStyle;
 import com.hts.web.common.pojo.HTWorldWithExtra;
 import com.hts.web.common.pojo.UserDynamicRec;
 import com.hts.web.common.pojo.UserVerify;
@@ -283,7 +284,8 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 			Integer typeId, String coverPath, String titlePath, String bgPath,
 			String titleThumbPath, String thumbs, Double longitude, Double latitude, String locationDesc,
 			String locationAddr, String province, String city, Integer size,
-			String activityIds, Integer ver, String channelIds, Integer tp) throws Exception {
+			String activityIds, Integer ver, String channelIds, Integer tp, 
+			String color, Integer mask) throws Exception {
 		
 		Date date = new Date();
 		Integer worldId = keyGenService.generateId(KeyGenServiceImpl.HTWORLD_HTWORLD_ID);
@@ -294,6 +296,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 		Float userVer = (Float)tags.get("ver");
 		HTWorld world = null;
 		int worldChildCount = 1;
+		HTWorldTextStyle textStyle = null;
 		
 		switch(tp) {
 		case Tag.WORLD_TYPE_DEFAULT:
@@ -310,6 +313,11 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 			}
 			worldChildCount = childWorldMap.size();
 			break;
+		case Tag.WORLD_TYPE_TEXT:
+			textStyle = new HTWorldTextStyle();
+			textStyle.setColor(color);
+			textStyle.setMask(mask);
+			break;
 		default:
 			break;
 		}
@@ -321,7 +329,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 				null, null,  null, date, date, coverPath, titlePath, bgPath,
 				titleThumbPath, thumbs, longitude, latitude, locationDesc, locationAddr, 
 				phoneCode, province, city, size, worldChildCount, ver, tp, Tag.TRUE, 
-				trust, shield);
+				trust, shield, textStyle);
 		
 		world.setWorldURL(worldDao.getUrlPrefix() + shortLink);
 		

@@ -27,7 +27,8 @@ var callSetting = {
     function openclient(checkConf) {
     	if(inapp == 1)
     		return;
-    	
+
+    	this.removeAttribute('href');
     	var ifr = document.createElement('iframe');
 	    ifr.style.display = 'none';
 		var uatype = getUAType(ua);
@@ -63,6 +64,26 @@ var callSetting = {
     	else return 0;
     }
     window.addEventListener("DOMContentLoaded", function(){
-		document.getElementById("imzhitu-call-app").addEventListener('click',openclient,false);
+    	var $callapp = document.getElementById("imzhitu-call-app");
+    	if($callapp)
+    		$callapp.addEventListener('click',openclient,false);
+    	
+    	var $concern = document.getElementById("imzhitu-concern");
+    	if($concern)
+    		$concern.addEventListener('click',openclient,false);
+    	
+    	var $usesticker = document.getElementById("imzhitu-use-sticker");
+    	if($usesticker) {
+    		var uatype = getUAType(ua);
+    		if(uatype == 2) {
+    			$usesticker.style.display = "none";
+    		}
+    		$usesticker.addEventListener('click',openclient,false);
+    	}
+    	
+    	var $sharepage = document.getElementById("imzhitu-share-page");
+    	if($sharepage) {
+    		$sharepage.addEventListener('click',openclient,false);
+    	}
    }, false);
 })()

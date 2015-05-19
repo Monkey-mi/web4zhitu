@@ -25,6 +25,5 @@ public class HTWorldCacheDaoImpl extends BaseCacheDaoImpl<HTWorld> implements
 		List<HTWorld> list = listOpt.range(CacheKeies.ZTWORLD_LATEST_WORLD, 0, limit-1);
 		return list;
 	}
-	
 
 }

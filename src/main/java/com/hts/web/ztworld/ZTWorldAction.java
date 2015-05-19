@@ -86,6 +86,9 @@ public class ZTWorldAction extends BaseAction {
 	private Integer intervalType;
 	private Integer nextCursor;
 	
+	private String color;
+	private Integer mask = Tag.FALSE;
+	
 	@Autowired
 	private ZTWorldService worldService;
 
@@ -159,7 +162,7 @@ public class ZTWorldAction extends BaseAction {
 					id, getCurrentLoginUserId(), worldName,worldDesc, worldLabel, 
 					labelIds, worldType, typeId, coverPath, titlePath, bgPath, titleThumbPath, 
 					thumbs, longitude, latitude, locationDesc, locationAddr, province, 
-					city, size, activityIds, ver, channelIds, Tag.WORLD_TYPE_DEFAULT);
+					city, size, activityIds, ver, channelIds, Tag.WORLD_TYPE_DEFAULT, color, mask);
 			JSONUtil.optResult(OptResult.OPT_SUCCESS, world, OptResult.JSON_KEY_HTWORLD, jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
@@ -178,7 +181,7 @@ public class ZTWorldAction extends BaseAction {
 					id, getCurrentLoginUserId(), worldName,worldDesc, worldLabel, 
 					labelIds, worldType, typeId, coverPath, titlePath, bgPath, titleThumbPath, 
 					null, longitude, latitude, locationDesc, locationAddr, province, 
-					city, size, activityIds, ver, channelIds, Tag.WORLD_TYPE_TEXT);
+					city, size, activityIds, ver, channelIds, Tag.WORLD_TYPE_TEXT, color, mask);
 			JSONUtil.optResult(OptResult.OPT_SUCCESS, world, OptResult.JSON_KEY_HTWORLD, jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
@@ -196,7 +199,7 @@ public class ZTWorldAction extends BaseAction {
 					id, authorId, worldName,worldDesc, worldLabel, 
 					labelIds, worldType, typeId, coverPath, titlePath, bgPath, titleThumbPath, 
 					thumbs, longitude, latitude, locationDesc, locationAddr, province, 
-					city, size, activityIds, ver, channelIds, Tag.WORLD_TYPE_DEFAULT);
+					city, size, activityIds, ver, channelIds, Tag.WORLD_TYPE_DEFAULT, color, mask);
 			JSONUtil.optResult(OptResult.OPT_SUCCESS, world, OptResult.JSON_KEY_HTWORLD, jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
@@ -920,6 +923,22 @@ public class ZTWorldAction extends BaseAction {
 
 	public void setChannelIds(String channelIds) {
 		this.channelIds = channelIds;
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+	public Integer getMask() {
+		return mask;
+	}
+
+	public void setMask(Integer mask) {
+		this.mask = mask;
 	}
 	
 }
