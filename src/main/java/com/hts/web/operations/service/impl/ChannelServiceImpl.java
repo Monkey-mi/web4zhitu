@@ -397,12 +397,14 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 		}
 		memberDao.saveMember(new OpChannelMember(channelId, userId, 
 				Tag.CHANNEL_MEMBER_NORMAL, new Date()));
+		updateMemberCount(channelId);
 	}
 
 	@Override
 	public void deleteMember(Integer channelId, Integer userId)
 			throws Exception {
 		memberDao.deleteMember(channelId, userId);
+		updateMemberCount(channelId);
 	}
 
 	@Override

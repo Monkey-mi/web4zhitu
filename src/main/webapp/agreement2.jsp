@@ -128,7 +128,7 @@
 	</div>
    	<div class="copyright-div">
        <span class="copyright">服务条款</span>
-       <span class="copyright">|&nbsp;粤ICP备12087844号-1</span> <span class="copyright">©2013-2014 imzhitu.com.All Rights Reserved</span>
+       <span class="copyright">|&nbsp;粤ICP备12087844号-1</span> <span class="copyright">©2013-2015 imzhitu.com.All Rights Reserved</span>
    </div>	
 </div>
 <jsp:include page="/base/baidustats.jsp"></jsp:include>

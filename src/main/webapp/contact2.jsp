@@ -53,7 +53,7 @@
 			</div>
 			<div class="p2">
 			<span class="list-style"></span>如有合作意向请联系<br />
-			QQ：2435072761<br />
+			QQ：363044692<br />
 			</div>
 			<div class="p2">
 			如果涉及到版权相关合作及问题，请用上方的电话或者QQ联系我们。<br />
@@ -69,7 +69,7 @@
 	</div>
    	<div class="copyright-div">
        <span class="copyright">服务条款</span>
-       <span class="copyright">|&nbsp;粤ICP备12087844号-1</span> <span class="copyright">©2013-2014 imzhitu.com.All Rights Reserved</span>
+       <span class="copyright">|&nbsp;粤ICP备12087844号-1</span> <span class="copyright">©2013-2015 imzhitu.com.All Rights Reserved</span>
    </div>	
 </div>
 <jsp:include page="/base/baidustats.jsp"></jsp:include>
