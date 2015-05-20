@@ -100,7 +100,8 @@ public class ChannelAction extends BaseAction {
 	 */
 	public String queryDetail() {
 		try {
-			channelService.buildChannelDetail(channelId, memberLimit, jsonMap);
+			channelService.buildChannelDetail(channelId, getCurrentLoginUserId(),
+					memberLimit, jsonMap);
 			JSONUtil.optSuccess(jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);

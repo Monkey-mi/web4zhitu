@@ -38,6 +38,7 @@ import com.hts.web.common.service.impl.KeyGenServiceImpl;
 import com.hts.web.common.util.StringUtil;
 import com.hts.web.operations.dao.ActivityCacheDao;
 import com.hts.web.operations.dao.ChannelCacheDao;
+import com.hts.web.operations.dao.ChannelCountBaseDao;
 import com.hts.web.operations.dao.ChannelCoverCacheDao;
 import com.hts.web.operations.dao.ChannelDanmuReadDao;
 import com.hts.web.operations.dao.ChannelDao;
@@ -108,6 +109,9 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 	
 	@Autowired
 	private ChannelDanmuReadDao danmuReadDao;
+
+	@Autowired
+	private ChannelCountBaseDao countBaseDao;
 	
 	/**
 	 * 2.9.89版本热门频道限定条数
@@ -153,13 +157,15 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 
 					@Override
 					public List<OpChannelWorldDto> getSerializables(RowSelection rowSelection) {
-						List<OpChannelWorldDto> worldList = channelWorldDao.queryChannelWorld(channelId, rowSelection);
-						int extrasLimit = 0;
-						if(completeLimit > 0)
-							extrasLimit = Math.min(completeLimit, worldList.size());
-						else 
-							extrasLimit = worldList.size();
-						worldService.extractExtraInfo(true, true, userId, trimExtras, commentLimit, likedLimit, extrasLimit, worldList);
+						// 查询出所有置顶织图
+						List<OpChannelWorldDto> worldList = 
+								channelWorldDao.queryWeightChannelWorld(channelId, rowSelection);
+						// 查询未置顶的织图
+						List<OpChannelWorldDto> normalList = channelWorldDao.queryChannelWorld(channelId, rowSelection);
+						worldList.addAll(normalList);
+						
+						worldService.extractExtraInfo(true, true, userId, trimExtras, commentLimit, 
+								likedLimit, worldList.size(), worldList);
 						userInfoService.extractVerify(worldList);
 						userConcernService.extractConcernStatus(userId, worldList);
 						userInteractService.extractRemark(userId, worldList);
@@ -181,12 +187,8 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 					@Override
 					public List<OpChannelWorldDto> getSerializableByMaxId(int maxId, RowSelection rowSelection) {
 						List<OpChannelWorldDto> worldList = channelWorldDao.queryChannelWorld(maxId, channelId, rowSelection);
-						int extrasLimit = 0;
-						if(completeLimit > 0)
-							extrasLimit = Math.min(completeLimit, worldList.size());
-						else 
-							extrasLimit = worldList.size();
-						worldService.extractExtraInfo(true, true, userId, trimExtras, commentLimit, likedLimit, extrasLimit, worldList);
+						worldService.extractExtraInfo(true, true, userId, trimExtras, commentLimit, 
+								likedLimit, worldList.size(), worldList);
 						userInfoService.extractVerify(worldList);
 						userInteractService.extractRemark(userId, worldList);
 						userConcernService.extractConcernStatus(userId, worldList);
@@ -335,9 +337,11 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 	}
 
 	@Override
-	public void buildChannelDetail(Integer channelId, Integer memberLimit,
+	public void buildChannelDetail(Integer channelId, Integer userId, Integer memberLimit,
 			Map<String, Object> jsonMap) throws Exception {
 		OpChannelDetail detail = channelDao.queryChannelDetail(channelId);
+		Integer subscribed = memberDao.queryId(channelId, userId) == 0 ? Tag.FALSE : Tag.TRUE;
+		detail.setSubscribed(subscribed);
 		userInfoService.extractVerify(detail.getOwner());
 		if(memberLimit != null && memberLimit > 0) {
 			List<OpChannelMemberThumb> members = 
@@ -406,10 +410,9 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 			Integer authorId, Integer addChildCount) {
 		Integer id = keyGenService.generateId(KeyGenServiceImpl.OP_CHANNEL_WORLD_ID);
 		OpChannelWorld world = new OpChannelWorld(id, channelId,
-				worldId, authorId, new Date(), Tag.TRUE, Tag.TRUE, Tag.FALSE, 0);
+				worldId, authorId, new Date(), Tag.TRUE, Tag.TRUE, Tag.FALSE, id);
 		channelWorldDao.saveChannelWorld(world);
-		Long worldCount = channelWorldDao.queryWorldCount(channelId);
-		channelDao.updateWorldAddChildCount(channelId, worldCount.intValue(), addChildCount);
+		addWorldCountAndChildCount(channelId, addChildCount);
 	}
 
 	@Override
@@ -568,5 +571,37 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 			danmuReadDao.updateDanmuSerial(channelId, userId, maxSerial);
 		}
 		return list;
+	}
+
+	@Override
+	public void addWorldCountAndChildCount(Integer channelId,
+			Integer addChildCount) {
+		channelDao.addWorldAndChildCount(channelId, 1, addChildCount);
+	}
+
+	@Override
+	public void updateWorldCount(Integer channelId) {
+		Integer worldCount = channelWorldDao.queryWorldCount(channelId).intValue();
+		Integer childCount = channelWorldDao.queryChildCount(channelId);
+		Integer[] countBase = countBaseDao.queryWorldAndChildCount(channelId);
+		worldCount = countBase[0] + worldCount;
+		childCount = countBase[1] + childCount;
+		channelDao.updateWorldAndChildCount(channelId, worldCount, childCount);
+	}
+
+	@Override
+	public void updateMemberCount(Integer channelId) {
+		Integer memberCount = memberDao.queryMemberCount(channelId).intValue();
+		Integer countBase = countBaseDao.queryMemberCount(channelId);
+		memberCount = memberCount + countBase;
+		channelDao.updateMemberCount(channelId, memberCount);
+	}
+
+	@Override
+	public void updateSuperbCount(Integer channelId) {
+		Integer superbCount = channelWorldDao.querySuperbCount(channelId).intValue();
+		Integer countBase = countBaseDao.querySuperbCount(channelId);
+		superbCount = superbCount + countBase;
+		channelDao.updateSuperbCount(channelId, superbCount);
 	}
 }

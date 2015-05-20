@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 
 import com.hts.web.base.BaseTest;
 
@@ -23,8 +24,12 @@ public class UserRecServiceTest extends BaseTest {
 	
 	@Test
 	public void buildRecUserTest() throws Exception {
-		Map<String, Object> jsonMap = new HashMap<String, Object>();
-		service.buildRecUser(1551, null, null, jsonMap);
-		log.debug(jsonMap);
+		try {
+			Map<String, Object> jsonMap = new HashMap<String, Object>();
+			service.buildRecUser(1551, null, null, jsonMap);
+			log.debug(jsonMap);
+		} catch(EmptyResultDataAccessException e) {
+			e.printStackTrace();
+		}
 	}
 }

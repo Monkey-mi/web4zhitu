@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.apache.struts2.json.annotations.JSON;
 
+import com.hts.web.base.constant.Tag;
+
 /**
  * <p>
  * 频道详情POJO
@@ -47,6 +49,8 @@ public class OpChannelDetail implements Serializable {
 	private UserInfoDto owner;
 
 	private List<OpChannelMemberThumb> members;
+	
+	private Integer subscribed = Tag.FALSE;
 
 	public OpChannelDetail() {
 		super();
@@ -267,6 +271,14 @@ public class OpChannelDetail implements Serializable {
 
 	public void setSuperb(Integer superb) {
 		this.superb = superb;
+	}
+
+	public Integer getSubscribed() {
+		return subscribed;
+	}
+
+	public void setSubscribed(Integer subscribed) {
+		this.subscribed = subscribed;
 	}
 	
 }

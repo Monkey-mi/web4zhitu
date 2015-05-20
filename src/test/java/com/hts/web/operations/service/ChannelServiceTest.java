@@ -95,7 +95,7 @@ public class ChannelServiceTest extends BaseTest {
 	@Test
 	public void buildChannelDetailTest() throws Exception {
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
-		service.buildChannelDetail(11834, 10, jsonMap);
+		service.buildChannelDetail(11834,485, 10, jsonMap);
 	}
 	
 	@Test

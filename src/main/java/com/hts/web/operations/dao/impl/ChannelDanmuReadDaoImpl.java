@@ -25,7 +25,7 @@ public class ChannelDanmuReadDaoImpl extends BaseDaoImpl implements
 	@Override
 	public void updateDanmuSerial(Integer channelId, Integer userId, 
 			Integer danmuId) {
-		getJdbcTemplate().update(UPDATE_DANMU_SERIAL, 
+		getMasterJdbcTemplate().update(UPDATE_DANMU_SERIAL, 
 				new Object[]{danmuId, channelId, userId});
 	}
 
@@ -41,7 +41,7 @@ public class ChannelDanmuReadDaoImpl extends BaseDaoImpl implements
 
 	@Override
 	public void saveDanmuSerial(Integer channelId, Integer userId, Integer maxId) {
-		getJdbcTemplate().update(SAVE_DANMU_SERIAL, 
+		getMasterJdbcTemplate().update(SAVE_DANMU_SERIAL, 
 				new Object[]{channelId, userId, maxId});
 	}
 

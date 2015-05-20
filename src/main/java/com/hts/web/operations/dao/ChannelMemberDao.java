@@ -72,4 +72,12 @@ public interface ChannelMemberDao extends BaseDao {
 	public void queryChannelSub(Integer userId, Integer[] channelIds, 
 			RowCallback<OpChannelSub> callback);
 	
+	/**
+	 * 查询成员总数
+	 * 
+	 * @param channelId
+	 * @return
+	 */
+	public Long queryMemberCount(Integer channelId);
+	
 }

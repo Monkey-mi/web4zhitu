@@ -50,7 +50,9 @@ public class ChannelMemberDaoImpl extends BaseDaoImpl implements
 	
 	private static final String QUERY_CHANNEL_SUB = "select channel_id,user_id from " 
 			+ table + " where user_id=? and channel_id in";
-	
+
+	private static final String QUERY_MEMBER_COUNT = "select count(*) from " 
+			+ table + " where channel_id=?";
 	
 	public OpChannelMemberThumb buildThumb(ResultSet rs) throws SQLException {
 		return new OpChannelMemberThumb(
@@ -138,6 +140,11 @@ public class ChannelMemberDaoImpl extends BaseDaoImpl implements
 				
 			}
 		});
+	}
+
+	@Override
+	public Long queryMemberCount(Integer channelId) {
+		return getJdbcTemplate().queryForLong(QUERY_MEMBER_COUNT, channelId);
 	}
 	
 }

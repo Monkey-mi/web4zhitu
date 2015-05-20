@@ -102,7 +102,34 @@ public interface ChannelDao extends BaseDao {
 	 * @param worldCount
 	 * @param childCount
 	 */
-	public void updateWorldAddChildCount(Integer id, Integer worldCount, Integer childCount);
+	public void addWorldAndChildCount(Integer id, 
+			Integer worldCount, Integer addChildCount);
+	
+	/**
+	 * 更新织图和子世界总数
+	 * 
+	 * @param id
+	 * @param worldCount
+	 * @param childCount
+	 */
+	public void updateWorldAndChildCount(Integer id, 
+			Integer worldCount, Integer childCount);
+	
+	/**
+	 * 更新成员总数
+	 * 
+	 * @param id
+	 * @param memberCount
+	 */
+	public void updateMemberCount(Integer id, Integer memberCount);
+
+	/**
+	 * 更新精选总数
+	 * 
+	 * @param id
+	 * @param superbCount
+	 */
+	public void updateSuperbCount(Integer id, Integer superbCount);
 	
 	/**
 	 * 保存频道

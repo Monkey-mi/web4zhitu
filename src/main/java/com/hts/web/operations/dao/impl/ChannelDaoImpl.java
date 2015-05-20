@@ -76,9 +76,18 @@ public class ChannelDaoImpl extends BaseDaoImpl implements ChannelDao {
 			+ table + " c0 where c0.superb=? order by serial desc limit ?";
 	
 	
-	private static final String UPDATE_WORLD_AND_CHILD_COUNT = "update " + table
-			+ " set world_count=?, child_count=child_count+?"
+	private static final String ADD_WORLD_AND_CHILD_COUNT = "update " + table
+			+ " set world_count=world_count+?, child_count=child_count+?"
 			+ " where id=?";
+	
+	private static final String UPDATE_WORLD_AND_CHILD_COUNT = "update " + table
+			+ " set world_count=?, child_count=? where id=?";
+	
+	private static final String UPDATE_MEMBER_COUNT = "update " + table
+			+ " set member_count=? where id=?";
+	
+	private static final String UPDATE_SUPERB_COUNT = "update " + table
+			+ " set superb_count=? where id=?";
 	
 	private static final String SAVE_CHANNEL = "insert into " + table
 			+ " (id,owner_id,channel_name,channel_title,subtitle,channel_desc,"
@@ -247,11 +256,19 @@ public class ChannelDaoImpl extends BaseDaoImpl implements ChannelDao {
 
 
 	@Override
-	public void updateWorldAddChildCount(Integer id, Integer worldCount,
+	public void addWorldAndChildCount(Integer id, Integer addWorldCount,
+			Integer addChildCount) {
+		getMasterJdbcTemplate().update(ADD_WORLD_AND_CHILD_COUNT, 
+				new Object[]{addWorldCount, addChildCount, id});
+	}
+	
+	@Override
+	public void updateWorldAndChildCount(Integer id, Integer worldCount,
 			Integer childCount) {
 		getMasterJdbcTemplate().update(UPDATE_WORLD_AND_CHILD_COUNT, 
 				new Object[]{worldCount, childCount, id});
 	}
+
 
 
 	@Override
@@ -306,6 +323,18 @@ public class ChannelDaoImpl extends BaseDaoImpl implements ChannelDao {
 				channel.getMood(),
 				channel.getWorld()
 		});
+	}
+
+	@Override
+	public void updateMemberCount(Integer id, Integer memberCount) {
+		getMasterJdbcTemplate().update(UPDATE_MEMBER_COUNT,
+				new Object[]{memberCount, id});
+	}
+
+	@Override
+	public void updateSuperbCount(Integer id, Integer superbCount) {
+		getMasterJdbcTemplate().update(UPDATE_SUPERB_COUNT,
+				new Object[]{superbCount, id});
 	}
 
 }

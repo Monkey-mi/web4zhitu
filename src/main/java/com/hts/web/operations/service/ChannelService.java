@@ -104,7 +104,7 @@ public interface ChannelService extends BaseService{
 	 * @param jsonMap
 	 * @throws Exception
 	 */
-	public void buildChannelDetail(Integer channelId, Integer memberLimit,
+	public void buildChannelDetail(Integer channelId, Integer userId, Integer memberLimit,
 			Map<String, Object> jsonMap) throws Exception;
 	
 	
@@ -175,4 +175,33 @@ public interface ChannelService extends BaseService{
 	 */
 	public void buildSysDanmu(Integer channelId, Integer userId, Integer maxId, 
 			Integer start, Integer limit, Map<String, Object> jsonMap) throws Exception;
+	
+	/**
+	 * 更新织图和图片总数
+	 * 
+	 * @param channelId
+	 * @param addChildCount　指定添加的图片数
+	 */
+	public void addWorldCountAndChildCount(Integer channelId, Integer addChildCount);
+
+	/**
+	 * 更新图片总数
+	 * 
+	 * @param channelId
+	 */
+	public void updateWorldCount(Integer channelId);
+	
+	/**
+	 * 更新成员数
+	 * 
+	 * @param channelId
+	 */
+	public void updateMemberCount(Integer channelId);
+
+	/**
+	 * 
+	 * @param channelId
+	 */
+	public void updateSuperbCount(Integer channelId);
+	
 }
