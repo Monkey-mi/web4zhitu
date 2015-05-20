@@ -15,6 +15,7 @@ import com.hts.web.common.pojo.UserInfo;
 import com.hts.web.common.pojo.UserSocialAccount;
 import com.hts.web.common.util.JSONUtil;
 import com.hts.web.security.service.LoginService;
+import com.hts.web.userinfo.service.UserActivityService;
 import com.hts.web.userinfo.service.UserInfoService;
 import com.hts.web.userinfo.service.impl.UserInfoServiceImpl;
 
@@ -86,9 +87,12 @@ public class UserInfoAction extends BaseAction {
 	
 	@Autowired
 	private UserInfoService userInfoService;
+	
 	@Autowired
 	private LoginService loginService;
 	
+	@Autowired
+	private UserActivityService userActivityService;
 	/**
 	 * 向织图注册
 	 * 
@@ -589,6 +593,22 @@ public class UserInfoAction extends BaseAction {
 			userInfoService.buildUserAvatarLite(id, jsonMap);
 			JSONUtil.optSuccess(jsonMap);
 		} catch (Exception e) {
+			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+		}
+		return StrutsKey.JSON;
+	}
+	
+	/**
+	 * 每日登录接口
+	 * 
+	 * @return
+	 */
+	public String dailyLogin() {
+		try {
+			userActivityService.addActivityScore(Tag.ACT_TYPE_LOGIN, 
+					getCurrentLoginUserId());
+			JSONUtil.optSuccess(OptResult.UPDATE_SUCCESS, jsonMap);
+		} catch(Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
 		}
 		return StrutsKey.JSON;
