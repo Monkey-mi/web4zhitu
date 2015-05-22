@@ -552,9 +552,8 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 				
 				sysMsgDao.updateUnreadSysMsg(userId);
 				// 更新最新标记
-				if(clearUnCheck && list.size() > 0) {
-					sysMsgDao.updateIsNew(userId, list.get(list.size()-1).getId(), 
-							list.get(0).getId());
+				if(list.size() > 0) {
+					sysMsgDao.updateIsNew(userId, list.get(0).getId());
 				}
 				return list;
 			}
@@ -567,11 +566,11 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 					list = sysMsgDao.querySysMsgDtoByMaxId(userId, maxId, rowSelection);
 				else
 					list = sysMsgDao.querySysMsgDtoByMaxId2(userId, maxId, rowSelection);
-				// 更新最新标记
-				if(clearUnCheck && list.size() > 0) {
-					sysMsgDao.updateIsNew(userId, list.get(list.size()-1).getId(), 
-							list.get(0).getId());
-				}
+//				// 更新最新标记
+//				if(clearUnCheck && list.size() > 0) {
+//					sysMsgDao.updateIsNew(userId, list.get(list.size()-1).getId(), 
+//							list.get(0).getId());
+//				}
 				return list;
 			}
 

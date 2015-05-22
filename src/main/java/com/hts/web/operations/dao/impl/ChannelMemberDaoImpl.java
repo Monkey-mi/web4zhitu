@@ -144,7 +144,7 @@ public class ChannelMemberDaoImpl extends BaseDaoImpl implements
 
 	@Override
 	public Long queryMemberCount(Integer channelId) {
-		return getJdbcTemplate().queryForLong(QUERY_MEMBER_COUNT, channelId);
+		return getMasterJdbcTemplate().queryForLong(QUERY_MEMBER_COUNT, channelId);
 	}
 	
 }

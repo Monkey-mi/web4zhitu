@@ -325,7 +325,7 @@ public class HTWorldLikedDaoImpl extends BaseDaoImpl implements HTWorldLikedDao{
 	
 	@Override
 	public long queryLikedCount(Integer worldId) {
-		return getJdbcTemplate().queryForLong(QUERY_WORLD_LIKED_COUNT, new Object[]{worldId, Tag.TRUE});
+		return getMasterJdbcTemplate().queryForLong(QUERY_WORLD_LIKED_COUNT, new Object[]{worldId, Tag.TRUE});
 	}
 
 	@Override
@@ -569,7 +569,7 @@ public class HTWorldLikedDaoImpl extends BaseDaoImpl implements HTWorldLikedDao{
 
 	@Override
 	public long queryLikeMeCount(Integer worldAuthorId) {
-		return getJdbcTemplate().queryForLong(QUERY_LIKE_ME_COUNT_BY_WUID, worldAuthorId);
+		return getMasterJdbcTemplate().queryForLong(QUERY_LIKE_ME_COUNT_BY_WUID, worldAuthorId);
 	}
 
 	@Override

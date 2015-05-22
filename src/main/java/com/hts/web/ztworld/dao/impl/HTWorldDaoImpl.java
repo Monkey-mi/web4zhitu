@@ -94,10 +94,6 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 	 */
 	private static final String QUERY_HTWORLD_DTO_BY_SHORT_LINK = QUERY_HTWORLD_DTO_HEADER + " and h.valid=? and h.shield=? and h.short_link=?";
 	
-	public static void main(String[] args) {
-		System.out.println(QUERY_HTWORLD_DTO_BY_SHORT_LINK);
-	}
-	
 	/**
 	 * 根据id查询织图世界数据传输对象并且不检查有效性
 	 */
@@ -154,11 +150,11 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 			+ " (SELECT id FROM " + table + " where author_id=? and valid=1 and shield=0 order by id desc limit ?)"
 			+ "	UNION ALL "
 			+ "	(select h0.id from " + table + " as h0, " + HTS.USER_CONCERN + " as uc0 "
-			+ "	where h0.author_id=uc0.concern_id and h0.valid=1 and h0.shield=0 and uc0.user_id=? and uc0.valid=1 order by h0.id desc limit ?)"
+			+ "	where h0.author_id=uc0.concern_id and h0.valid=1 and h0.shield=0 and tp=0 and uc0.user_id=?"
+			+ " and uc0.valid=1 order by h0.id desc limit ?)"
 			+ "	) as h1 order by h1.id desc limit ?) as h2, " + table + " as h3, " 
 			+ HTS.USER_INFO + " as u0 where h2.id = h3.id and h3.author_id=u0.id";
 	
-
 	/**
 	 * 根据最大id查询指定用户及其关注好友的织图
 	 */
@@ -167,7 +163,8 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 			+ " (SELECT id FROM " + table + " where author_id=? and valid=1 and shield=0 and id<=? order by id desc limit ?)"
 			+ "	UNION ALL "
 			+ "	(select h0.id from " + table + " as h0, " + HTS.USER_CONCERN + " as uc0 "
-			+ "	where h0.author_id=uc0.concern_id and h0.valid=1 and h0.shield=0 and uc0.user_id=? and uc0.valid=1 and h0.id<=? order by h0.id desc limit ?)"
+			+ "	where h0.author_id=uc0.concern_id and h0.valid=1 and h0.shield=0 and h0.tp=0 and uc0.user_id=?"
+			+ " and uc0.valid=1 and h0.id<=? order by h0.id desc limit ?)"
 			+ "	) as h1 order by h1.id desc limit ?) as h2, " + table + " as h3, " 
 			+ HTS.USER_INFO + " as u0 where h2.id = h3.id and h3.author_id=u0.id";
 	
@@ -1269,7 +1266,7 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 	
 	@Override
 	public long queryWorldCountByAuthorId(Integer authorId) {
-		return getJdbcTemplate().queryForLong(QUERY_WORLD_COUNT_BY_AUTHOR_ID,
+		return getMasterJdbcTemplate().queryForLong(QUERY_WORLD_COUNT_BY_AUTHOR_ID,
 				new Object[]{authorId});
 	}
 	
@@ -1724,7 +1721,7 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 
 	@Override
 	public Integer queryChildCount(Integer authorId) {
-		return getJdbcTemplate().queryForInt(QUERY_CHILD_SUM, authorId);
+		return getMasterJdbcTemplate().queryForInt(QUERY_CHILD_SUM, authorId);
 	}
 
 	

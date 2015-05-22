@@ -24,6 +24,7 @@ public class OpChannel implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -5720016134600357550L;
+	private Integer recommendId;
 	private Integer id;
 	private Integer ownerId;
 	private String channelName;
@@ -281,4 +282,12 @@ public class OpChannel implements Serializable {
 		this.superb = superb;
 	}
 
+	public Integer getRecommendId() {
+		return recommendId;
+	}
+
+	public void setRecommendId(Integer recommendId) {
+		this.recommendId = recommendId;
+	}
+	
 }

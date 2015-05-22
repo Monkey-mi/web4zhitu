@@ -4,34 +4,35 @@ import java.io.Serializable;
 
 /**
  * <p>
- * 频道名称POJO
+ * 关联频道POJO
  * </p>
  * 
- * 创建时间: 2015-05-09
+ * 创建时间: 2015-05-21
  * 
  * @author lynch
  *
  */
-public class OpChannelName implements Serializable {
+public class OpChannelLink implements Serializable {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -7696130355490625455L;
-
-	private Integer recommendId;
+	private static final long serialVersionUID = -8075186443566752897L;
+	
 	private Integer id;
 	private String channelName;
-
-	public OpChannelName() {
+	
+	public OpChannelLink() {
 		super();
 	}
-
-	public OpChannelName(Integer id, String channelName) {
+	
+	public OpChannelLink(Integer id, String channelName) {
 		super();
 		this.id = id;
 		this.channelName = channelName;
 	}
+
+
 
 	public Integer getId() {
 		return id;
@@ -47,14 +48,6 @@ public class OpChannelName implements Serializable {
 
 	public void setChannelName(String channelName) {
 		this.channelName = channelName;
-	}
-
-	public Integer getRecommendId() {
-		return recommendId;
-	}
-
-	public void setRecommendId(Integer recommendId) {
-		this.recommendId = recommendId;
 	}
 
 }

@@ -119,7 +119,7 @@ public class SysMsgDaoImpl extends BaseDaoImpl implements SysMsgDao {
 	 * 更新最新标记
 	 */
 	private static final String UPDATE_IS_NEW = "update " + table 
-			+ " set is_new=0 where recipient_id=? and is_new=1 and id between ? and ?";
+			+ " set is_new=0 where recipient_id=? and is_new=1 and id<=?";
 	
 	@Override
 	public void saveMsg(OpSysMsg msg) {
@@ -275,8 +275,8 @@ public class SysMsgDaoImpl extends BaseDaoImpl implements SysMsgDao {
 	}
 	
 	@Override
-	public void updateIsNew(Integer recipientId, Integer minId, Integer maxId) {
-		getMasterJdbcTemplate().update(UPDATE_IS_NEW, new Object[]{recipientId, minId, maxId});
+	public void updateIsNew(Integer recipientId, Integer maxId) {
+		getMasterJdbcTemplate().update(UPDATE_IS_NEW, new Object[]{recipientId, maxId});
 	}
 	
 	/**

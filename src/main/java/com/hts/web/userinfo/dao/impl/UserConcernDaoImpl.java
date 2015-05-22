@@ -353,7 +353,7 @@ public class UserConcernDaoImpl extends BaseDaoImpl implements UserConcernDao{
 
 	@Override
 	public long queryConcernCount(Integer userId){
-		return getJdbcTemplate().queryForLong(QUERY_CONCERN_COUNT_HEADER,
+		return getMasterJdbcTemplate().queryForLong(QUERY_CONCERN_COUNT_HEADER,
 				new Object[]{userId, Tag.TRUE});
 	}
 	
@@ -548,7 +548,7 @@ public class UserConcernDaoImpl extends BaseDaoImpl implements UserConcernDao{
 	
 	@Override
 	public long queryFollowCount(Integer userId){
-		return getJdbcTemplate().queryForLong(QUERY_FOLLOW_COUNT_HEADER, 
+		return getMasterJdbcTemplate().queryForLong(QUERY_FOLLOW_COUNT_HEADER, 
 				new Object[]{userId, Tag.TRUE});
 	}
 	

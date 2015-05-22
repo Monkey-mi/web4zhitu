@@ -74,10 +74,10 @@ var callSetting = {
     	
     	var $usesticker = document.getElementById("imzhitu-use-sticker");
     	if($usesticker) {
-    		var uatype = getUAType(ua);
-    		if(uatype == 2) {
-    			$usesticker.style.display = "none";
-    		}
+//    		var uatype = getUAType(ua);
+//    		if(uatype == 2) {
+//    			$usesticker.style.display = "none";
+//    		}
     		$usesticker.addEventListener('click',openclient,false);
     	}
     	

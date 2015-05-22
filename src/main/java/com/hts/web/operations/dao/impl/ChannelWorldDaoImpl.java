@@ -107,13 +107,13 @@ public class ChannelWorldDaoImpl extends BaseDaoImpl implements ChannelWorldDao 
 	
 	@Override
 	public Long queryWorldCount(Integer channelId) {
-		return getJdbcTemplate().queryForLong(QUERY_WORLD_COUNT,
+		return getMasterJdbcTemplate().queryForLong(QUERY_WORLD_COUNT,
 				new Object[]{channelId});
 	}
 	
 	@Override
 	public int queryChildCount(Integer channelId) {
-		return getJdbcTemplate().queryForInt(QUERY_CHILD_COUNT,
+		return getMasterJdbcTemplate().queryForInt(QUERY_CHILD_COUNT,
 				new Object[]{channelId});
 	}
 	
@@ -248,7 +248,7 @@ public class ChannelWorldDaoImpl extends BaseDaoImpl implements ChannelWorldDao 
 
 	@Override
 	public Long querySuperbCount(Integer channelId) {
-		return getJdbcTemplate().queryForLong(QUERY_SUPERB_COUNT,
+		return getMasterJdbcTemplate().queryForLong(QUERY_SUPERB_COUNT,
 				new Object[]{channelId});
 	}
 

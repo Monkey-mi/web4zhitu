@@ -158,7 +158,7 @@ var ui = {
 			width 				: config.w, // 显示框宽度
 			height 				: config.h, // 显示宽长度
 			radius				: config.r,	//圆圈半径
-			maxContainHeight	: maxContainHeight, // 播放容器最大高度
+			maxContainHeight	: maxContainHeight, // 播放容器最大高度
 			limit 				: 5, // 每页查询条数
 			url 				: './ztworld/ztworld_queryTitleChildWorldPage', // 数据获取地址
 			loadMoreURL			: './ztworld/ztworld_queryChildWorldPage', // 加载更多子世界地址

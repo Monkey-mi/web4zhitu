@@ -159,6 +159,6 @@ public interface SysMsgDao extends BaseDao {
 	 * @param recipientId
 	 * @param minId
 	 */
-	public void updateIsNew(Integer recipientId, Integer maxId, Integer minId);
+	public void updateIsNew(Integer recipientId, Integer minId);
 	
 }

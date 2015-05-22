@@ -204,4 +204,12 @@ public interface ChannelService extends BaseService{
 	 */
 	public void updateSuperbCount(Integer channelId);
 	
+	/**
+	 * 构建关联频道列表
+	 * 
+	 * @param channelId
+	 * @param jsonMap
+	 */
+	public void buildLinkChannel(Integer channelId, Map<String, Object> jsonMap);
+	
 }

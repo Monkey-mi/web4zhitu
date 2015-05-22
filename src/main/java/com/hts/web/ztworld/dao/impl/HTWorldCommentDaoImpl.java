@@ -273,7 +273,7 @@ public class HTWorldCommentDaoImpl extends BaseDaoImpl implements
 	
 	@Override
 	public long queryCommentCount(Integer worldId) {
-		return getJdbcTemplate().queryForLong(QUERY_WORLD_COMMENTED_COUNT, new Object[]{
+		return getMasterJdbcTemplate().queryForLong(QUERY_WORLD_COMMENTED_COUNT, new Object[]{
 			worldId,Tag.TRUE,Tag.FALSE
 		});
 	}

@@ -22,6 +22,7 @@ import com.hts.web.common.pojo.OpChannel;
 import com.hts.web.common.pojo.OpChannelCount;
 import com.hts.web.common.pojo.OpChannelCover;
 import com.hts.web.common.pojo.OpChannelDetail;
+import com.hts.web.common.pojo.OpChannelLink;
 import com.hts.web.common.pojo.OpChannelMember;
 import com.hts.web.common.pojo.OpChannelMemberThumb;
 import com.hts.web.common.pojo.OpChannelName;
@@ -42,6 +43,7 @@ import com.hts.web.operations.dao.ChannelCountBaseDao;
 import com.hts.web.operations.dao.ChannelCoverCacheDao;
 import com.hts.web.operations.dao.ChannelDanmuReadDao;
 import com.hts.web.operations.dao.ChannelDao;
+import com.hts.web.operations.dao.ChannelLinkDao;
 import com.hts.web.operations.dao.ChannelMemberDao;
 import com.hts.web.operations.dao.ChannelStarCacheDao;
 import com.hts.web.operations.dao.ChannelSysDanmuDao;
@@ -112,6 +114,9 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 
 	@Autowired
 	private ChannelCountBaseDao countBaseDao;
+	
+	@Autowired
+	private ChannelLinkDao linkDao;
 	
 	/**
 	 * 2.9.89版本热门频道限定条数
@@ -281,7 +286,7 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 			return;
 		}
 		
-		buildSerializables(maxId, start, limit, jsonMap, 
+		buildSerializables("getRecommendId", maxId, start, limit, jsonMap, 
 				new SerializableListAdapter<OpChannel>() {
 
 					@Override
@@ -605,5 +610,11 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 		Integer countBase = countBaseDao.querySuperbCount(channelId);
 		superbCount = superbCount + countBase;
 		channelDao.updateSuperbCount(channelId, superbCount);
+	}
+
+	@Override
+	public void buildLinkChannel(Integer channelId, Map<String, Object> jsonMap) {
+		List<OpChannelLink> list = linkDao.queryLink(channelId);
+		jsonMap.put(OptResult.JSON_KEY_CHANNEL, list);
 	}
 }

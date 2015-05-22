@@ -116,7 +116,7 @@ public class HTWorldKeepDaoImpl extends BaseDaoImpl implements HTWorldKeepDao{
 	
 	@Override
 	public long queryKeepCount(Integer worldId) {
-		return getJdbcTemplate().queryForLong(QUERY_KEEP_COUNT, new Object[]{worldId, Tag.TRUE});
+		return getMasterJdbcTemplate().queryForLong(QUERY_KEEP_COUNT, new Object[]{worldId, Tag.TRUE});
 	}
 	
 	@Override
@@ -143,7 +143,7 @@ public class HTWorldKeepDaoImpl extends BaseDaoImpl implements HTWorldKeepDao{
 
 	@Override
 	public long queryUserKeepCount(Integer userId) {
-		return getJdbcTemplate().queryForLong(QUERY_USER_KEEP_COUNT, userId);
+		return getMasterJdbcTemplate().queryForLong(QUERY_USER_KEEP_COUNT, userId);
 	}
 
 

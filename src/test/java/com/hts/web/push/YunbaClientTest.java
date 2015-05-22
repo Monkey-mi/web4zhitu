@@ -29,7 +29,7 @@ public class YunbaClientTest extends BaseTest {
 //			aps.put("alert", "谈了那么久的恋爱，还是走到了尽头，你将永远是我的备胎——至我终将逝去的春天，立夏你好。");
 //			apnJSON.put("aps", aps);
 //			apnJSON.put("a", Tag.PUSH_ACTION_SYS);
-//			client.publishToCommonTopic("t3", "谈了那么久的恋爱，还是走到了尽头，你将永远是我的备胎——至我终将逝去的春天，立夏你好。", apnJSON);
+//			client.publishToCommonTopic("t9", "谈了那么久的恋爱，还是走到了尽头，你将永远是我的备胎——至我终将逝去的春天，立夏你好。", apnJSON);
 //		} catch (JSONException e) {
 //			e.printStackTrace();
 //		} catch (YunbaException e) {

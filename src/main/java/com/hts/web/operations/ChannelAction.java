@@ -175,6 +175,21 @@ public class ChannelAction extends BaseAction {
 		return StrutsKey.JSON;
 	}
 	
+	/**
+	 * 查询关联频道
+	 * 
+	 * @return
+	 */
+	public String queryLink() {
+		try {
+			channelService.buildLinkChannel(channelId, jsonMap);
+			JSONUtil.optSuccess(jsonMap);
+		} catch(Exception e) {
+			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+		}
+		return StrutsKey.JSON;
+	}
+	
 	public Integer getChannelId() {
 		return channelId;
 	}

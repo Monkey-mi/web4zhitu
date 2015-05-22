@@ -333,24 +333,15 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 		
 		world.setWorldURL(worldDao.getUrlPrefix() + shortLink);
 		
-		worldDao.saveWorld(world); // 保存世界信息
-		
-		// 更新织图总数
-		Long worldCount = worldDao.queryWorldCountByAuthorId(authorId);
-		Integer childCount = worldDao.queryChildCount(authorId);
-		userInfoDao.updateWorldAndChildCount(authorId, worldCount.intValue(), childCount);
-		
-		userActivityService.addActivityScore(Tag.ACT_TYPE_WORLD, authorId);
-		
-		// 兼容旧版本参加活动
-		if (!StringUtil.checkIsNULL(activityIds)) { 
-			Integer[] actIds = StringUtil.convertStringToIds(activityIds);
-			for (Integer actId : actIds) {
-				Integer lwid = keyGenService.generateId(KeyGenServiceImpl.HTWORLD_LABEL_WORLD_ID);
-				worldLabelWorldDao.saveLabelWorld(new HTWorldLabelWorld(lwid, worldId, authorId,
-						actId, Tag.FALSE, lwid, 0));
-			}
-		}
+//		// 兼容旧版本参加活动
+//		if (!StringUtil.checkIsNULL(activityIds)) { 
+//			Integer[] actIds = StringUtil.convertStringToIds(activityIds);
+//			for (Integer actId : actIds) {
+//				Integer lwid = keyGenService.generateId(KeyGenServiceImpl.HTWORLD_LABEL_WORLD_ID);
+//				worldLabelWorldDao.saveLabelWorld(new HTWorldLabelWorld(lwid, worldId, authorId,
+//						actId, Tag.FALSE, lwid, 0));
+//			}
+//		}
 		
 		// 保存织图标签
 		try {
@@ -386,9 +377,9 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 							labelId, valid, lwid, 0));
 					int count = 0;
 					if(label.getLabelState().equals(Tag.WORLD_LABEL_NORMAL)) { // 普通标签算真实总数，其他标签等审核
-						Long labelWorldCount = worldLabelWorldDao.queryWorldCountByLabelId(labelId);
-						count = labelWorldCount.intValue();
-						worldLabelDao.updateWorldCount(labelId, count);
+//						Long labelWorldCount = worldLabelWorldDao.queryWorldCountByLabelId(labelId);
+//						count = labelWorldCount.intValue();
+//						worldLabelDao.updateWorldCount(labelId, count);
 					} else if(shield.equals(Tag.FALSE) && !trust.equals(Tag.FALSE)) {
 						count = worldLabelDao.queryWorldCount(labelId);
 						worldLabelDao.updateWorldCount(labelId, ++count);
@@ -409,10 +400,18 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 			Log.warn(authorId, "save world label error, " + e.getMessage());
 		}
 		
+		worldDao.saveWorld(world); // 保存世界信息
 		
-		if(trust >= Tag.TRUE && shield.equals(Tag.FALSE)) {
-			worldCacheDao.saveLatestCache(world);
-		}
+		// 更新织图总数
+		Long worldCount = worldDao.queryWorldCountByAuthorId(authorId);
+		Integer childCount = worldDao.queryChildCount(authorId);
+		userInfoDao.updateWorldAndChildCount(authorId, worldCount.intValue(), childCount);
+		
+		userActivityService.addActivityScore(Tag.ACT_TYPE_WORLD, authorId);
+		
+//		if(trust >= Tag.TRUE && shield.equals(Tag.FALSE)) {
+//			worldCacheDao.saveLatestCache(world);
+//		}
 		return world;
 	}
 	

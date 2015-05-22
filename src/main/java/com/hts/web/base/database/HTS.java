@@ -326,4 +326,9 @@ public class HTS {
 	 */
 	public static final String OPERATIONS_USER_REC = DB + "operations_user_rec";
 	
+	/**
+	 * 关联频道表
+	 */
+	public static final String OPERATIONS_CHANNEL_LINK = DB + "operations_channel_link";
+	
 }

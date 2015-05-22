@@ -453,6 +453,10 @@
 					 },function(ds){
 						 if(ds['result'] == 0) {
 								hts.parse($ztcontainer,ds['htworld'], ds['htworld']['childs'],function (ds) {
+									if(ds['childs'].length == 0) {
+										$loading.hide();
+										return;
+									}
 									settings.init(ds);
 									hts.showTitle($ztcontainer, $loading);
 									$ztcontainer.data('init', true);  // 更新初始化标记

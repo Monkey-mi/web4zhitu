@@ -131,7 +131,7 @@ public class ChannelServiceTest extends BaseTest {
 	
 	
 	@Test
-	public void buildSysDanmu() throws Exception {
+	public void buildSysDanmuTest() throws Exception {
 		logNumberList(logger, new NumberListAdapter(){
 
 			@Override
@@ -139,6 +139,18 @@ public class ChannelServiceTest extends BaseTest {
 					throws Exception {
 //				service.buildSysDanmu(11575, 485, 0, 1, 10, jsonMap);
 				service.buildSysDanmu(11575, 485, 1000, 1, 10, jsonMap);
+			}
+		});
+	}
+	
+	@Test
+	public void buildLinkChannelTest() throws Exception {
+		logNumberList(logger, new NumberListAdapter(){
+
+			@Override
+			public void buildNumberList(Map<String, Object> jsonMap)
+					throws Exception {
+				service.buildLinkChannel(11579, jsonMap);
 			}
 		});
 	}

@@ -41,22 +41,24 @@ public class ChannelDaoImpl extends BaseDaoImpl implements ChannelDao {
 	
 	private static String table = HTS.OPERATIONS_CHANNEL;
 	
-	private static final String QUERY_SUBSCRIBED_CHANNEL = "select " + CHANNEL_ABSTRACT + " from " 
+	private static final String QUERY_SUBSCRIBED_CHANNEL = "select m0.id as recommend_id," 
+			+ CHANNEL_ABSTRACT + " from " 
 			+ table + " c0, " + HTS.OPERATIONS_CHANNEL_MEMBER + " m0"
 			+ " where c0.id=m0.channel_id and m0.user_id=?"
 			+ " order by m0.id desc limit ?,?";
 	
-	private static final String QUERY_SUBSCRIBED_CHANNEL_BY_MAX_ID = "select " + CHANNEL_ABSTRACT + " from " 
+	private static final String QUERY_SUBSCRIBED_CHANNEL_BY_MAX_ID = "select m0.id as recommend_id," 
+			+ CHANNEL_ABSTRACT + " from " 
 			+ table + " c0, " + HTS.OPERATIONS_CHANNEL_MEMBER + " m0"
 			+ " where c0.id=m0.channel_id and m0.user_id=? and m0.id<=?"
 			+ " order by m0.id desc limit ?,?";
 	
-	private static final String QUERY_SUBSCRIBED_NAME = "select c0.id,c0.channel_name from " 
+	private static final String QUERY_SUBSCRIBED_NAME = "select m0.id as recommend_id,c0.id,c0.channel_name from " 
 			+ table + " c0, " + HTS.OPERATIONS_CHANNEL_MEMBER + " m0"
 			+ " where c0.id=m0.channel_id and m0.user_id=?"
 			+ " order by m0.id desc limit ?,?";
 	
-	private static final String QUERY_SUBSCRIBED_NAME_BY_MAX_ID = "select c0.id,c0.channel_name from " 
+	private static final String QUERY_SUBSCRIBED_NAME_BY_MAX_ID = "select m0.id as recommend_id,c0.id,c0.channel_name from " 
 			+ table + " c0, " + HTS.OPERATIONS_CHANNEL_MEMBER + " m0"
 			+ " where c0.id=m0.channel_id and m0.user_id=? and m0.id<=?"
 			+ " order by m0.id desc limit ?,?";
@@ -177,7 +179,9 @@ public class ChannelDaoImpl extends BaseDaoImpl implements ChannelDao {
 					@Override
 					public OpChannel mapRow(ResultSet rs, int rowNum)
 							throws SQLException {
-						return buildChannel(rs);
+						OpChannel channel = buildChannel(rs);
+						channel.setRecommendId(rs.getInt("recommend_id"));
+						return channel;
 					}
 		});
 	}
@@ -192,7 +196,9 @@ public class ChannelDaoImpl extends BaseDaoImpl implements ChannelDao {
 					@Override
 					public OpChannel mapRow(ResultSet rs, int rowNum)
 							throws SQLException {
-						return buildChannel(rs);
+						OpChannel channel = buildChannel(rs);
+						channel.setRecommendId(rs.getInt("recommend_id"));
+						return channel;
 					}
 		});
 	}
@@ -281,7 +287,9 @@ public class ChannelDaoImpl extends BaseDaoImpl implements ChannelDao {
 					@Override
 					public OpChannelName mapRow(ResultSet rs, int rowNum)
 							throws SQLException {
-						return buildName(rs);
+						OpChannelName name =  buildName(rs);
+						name.setRecommendId(rs.getInt("recommend_id"));
+						return name;
 					}
 		});
 	}
@@ -297,7 +305,9 @@ public class ChannelDaoImpl extends BaseDaoImpl implements ChannelDao {
 					@Override
 					public OpChannelName mapRow(ResultSet rs, int rowNum)
 							throws SQLException {
-						return buildName(rs);
+						OpChannelName name =  buildName(rs);
+						name.setRecommendId(rs.getInt("recommend_id"));
+						return name;
 					}
 		});
 	}
