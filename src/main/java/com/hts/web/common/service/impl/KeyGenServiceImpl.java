@@ -201,6 +201,11 @@ public class KeyGenServiceImpl extends BaseServiceImpl implements KeyGenService{
 	 */
 	public static final Integer HTWORLD_STICKER_ID = 37;
 	
+	/**
+	 * 关联频道serial
+	 */
+	public static final Integer OP_CHANNEL_LINK_SERIAL = 38;
+	
 	@Autowired
 	private KeyGenDao keyGenDao;
 	
