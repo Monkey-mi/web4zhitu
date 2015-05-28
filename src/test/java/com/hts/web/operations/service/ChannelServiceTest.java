@@ -1,6 +1,7 @@
 package com.hts.web.operations.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -8,6 +9,9 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.hts.web.base.BaseTest;
+import com.hts.web.base.constant.OptResult;
+import com.hts.web.common.pojo.OpChannel;
+import com.hts.web.common.util.Log;
 
 public class ChannelServiceTest extends BaseTest {
 
@@ -112,7 +116,11 @@ public class ChannelServiceTest extends BaseTest {
 	public void buildHotTest() throws Exception {
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
 		service.buildHot(1, 10, 485, jsonMap);
-		logObj(jsonMap);
+		List<OpChannel> list = (List<OpChannel>) jsonMap.get(OptResult.JSON_KEY_CHANNELS);
+		for(OpChannel c : list) {
+			Log.debug(c.getId() + " : " + c.getChannelName() + " : " + c.getThemeId());
+		}
+//		logObj(jsonMap);
 	}
 	
 	@Test
@@ -154,4 +162,18 @@ public class ChannelServiceTest extends BaseTest {
 			}
 		});
 	}
+
+	@Test
+	public void buildThemeChannelTest() throws Exception {
+		logNumberList(logger, new NumberListAdapter(){
+
+			@Override
+			public void buildNumberList(Map<String, Object> jsonMap)
+					throws Exception {
+				service.buildThemeChannel(10000, 0, 1, 10, jsonMap);
+				service.buildThemeChannel(10000, 1000, 1, 10, jsonMap);
+			}
+		});
+	}
+	
 }

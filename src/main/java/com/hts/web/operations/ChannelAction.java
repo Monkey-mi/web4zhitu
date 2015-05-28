@@ -31,6 +31,7 @@ public class ChannelAction extends BaseAction {
 	private Integer memberLimit = 0;
 	private Integer completeLimit = 3; // 包含评论和喜欢列表的织图数量
 	private Boolean nameOnly = false;
+	private Integer themeId;
 	
 	/**
 	 * 查询已经订阅的频道
@@ -190,6 +191,21 @@ public class ChannelAction extends BaseAction {
 		return StrutsKey.JSON;
 	}
 	
+	/**
+	 * 查询主题频道
+	 * 
+	 * @return
+	 */
+	public String queryThemeChannel() {
+		try {
+			channelService.buildThemeChannel(themeId, maxId, start, limit, jsonMap);
+			JSONUtil.optSuccess(jsonMap);
+		} catch(Exception e) {
+			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+		}
+		return StrutsKey.JSON;
+	}
+	
 	public Integer getChannelId() {
 		return channelId;
 	}
@@ -220,6 +236,14 @@ public class ChannelAction extends BaseAction {
 
 	public void setNameOnly(Boolean nameOnly) {
 		this.nameOnly = nameOnly;
+	}
+
+	public Integer getThemeId() {
+		return themeId;
+	}
+
+	public void setThemeId(Integer themeId) {
+		this.themeId = themeId;
 	}
 	
 }

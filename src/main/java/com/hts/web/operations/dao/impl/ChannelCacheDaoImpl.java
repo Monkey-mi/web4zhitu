@@ -15,9 +15,14 @@ public class ChannelCacheDaoImpl extends BaseCacheDaoImpl<OpChannel> implements
 		ChannelCacheDao {
 
 	@Override
+	public List<OpChannel> queryChannel() {
+		return getRedisTemplate().opsForList().range(CacheKeies.OP_CHANNEL, 0, -1);
+	}
+	
+	@Override
 	public List<OpChannel> queryChannel(RowSelection rowSelection) {
 		return getRedisTemplate().opsForList().range(CacheKeies.OP_CHANNEL, 
 				rowSelection.getFirstRow(), rowSelection.getMaxRow()-1);
 	}
-	
+
 }

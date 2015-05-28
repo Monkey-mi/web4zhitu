@@ -36,6 +36,7 @@ import com.hts.web.common.service.impl.KeyGenServiceImpl;
 import com.hts.web.operations.dao.OpUserVerifyDtoCacheDao;
 import com.hts.web.operations.dao.SysMsgDao;
 import com.hts.web.operations.dao.UserRecommendDao;
+import com.hts.web.operations.dao.UserZombieDao;
 import com.hts.web.operations.service.UserOperationsService;
 import com.hts.web.userinfo.dao.SocialAccountDao;
 import com.hts.web.userinfo.dao.UserInfoDao;
@@ -123,6 +124,9 @@ public class UserOperationsServiceImpl extends BaseServiceImpl implements
 	
 	@Autowired
 	private UserInteractService userInteractService;
+	
+	@Autowired
+	private UserZombieDao zombieDao;
 	
 	@Value("${op.squareRecommendUserLimit}")
 	private Integer squareRecommendUserLimit = 6;
@@ -549,6 +553,12 @@ public class UserOperationsServiceImpl extends BaseServiceImpl implements
 				return 0;
 			}
 		}, OptResult.JSON_KEY_USER_INFO, null);
+	}
+
+	@Override
+	public Integer getRandomZombieId() throws Exception {
+		List<Integer> ids = zombieDao.queryRandomZombieId(2);
+		return ids.get(0);
 	}
 
 

@@ -212,4 +212,13 @@ public interface ChannelService extends BaseService{
 	 */
 	public void buildLinkChannel(Integer channelId, Map<String, Object> jsonMap);
 	
+	/**
+	 * 构建专题频道
+	 * 
+	 * @param themeId
+	 * @param jsonMap
+	 */
+	public void buildThemeChannel(final Integer themeId, Integer maxId, Integer start,
+			Integer limit, Map<String, Object> jsonMap) throws Exception;
+	
 }

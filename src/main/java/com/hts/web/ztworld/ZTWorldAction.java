@@ -16,6 +16,7 @@ import com.hts.web.common.pojo.HTWorld;
 import com.hts.web.common.pojo.HTWorldDto;
 import com.hts.web.common.util.JSONUtil;
 import com.hts.web.common.util.StringUtil;
+import com.hts.web.operations.service.UserOperationsService;
 import com.hts.web.ztworld.service.ZTWorldService;
 import com.hts.web.ztworld.service.impl.ZTWorldServiceImpl;
 
@@ -91,6 +92,9 @@ public class ZTWorldAction extends BaseAction {
 	
 	@Autowired
 	private ZTWorldService worldService;
+	
+	@Autowired
+	private UserOperationsService userOptService;
 
 	
 	/**
@@ -171,6 +175,29 @@ public class ZTWorldAction extends BaseAction {
 	}
 	
 	/**
+	 * 运营马甲分享接口
+	 * 
+	 * @return
+	 */
+	public String shareWorldForOpt() {
+		try {
+			Integer uid = userOptService.getRandomZombieId();
+			if(uid == null || uid == 0) {
+				uid = getCurrentLoginUserId();
+			}
+			HTWorld world = worldService.saveWorld(childs, titleId, phoneCode,
+					id, uid, worldName,worldDesc, worldLabel, 
+					labelIds, worldType, typeId, coverPath, titlePath, bgPath, titleThumbPath, 
+					thumbs, longitude, latitude, locationDesc, locationAddr, province, 
+					city, size, activityIds, ver, channelIds, Tag.WORLD_TYPE_DEFAULT, color, mask);
+			JSONUtil.optResult(OptResult.OPT_SUCCESS, world, OptResult.JSON_KEY_HTWORLD, jsonMap);
+		} catch (Exception e) {
+			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+		}
+		return StrutsKey.JSON;
+	}
+	
+	/**
 	 * 分享文本
 	 * 
 	 * @return
@@ -179,6 +206,29 @@ public class ZTWorldAction extends BaseAction {
 		try {
 			HTWorld world = worldService.saveWorld(null, 0, phoneCode,
 					id, getCurrentLoginUserId(), worldName,worldDesc, worldLabel, 
+					labelIds, worldType, typeId, coverPath, titlePath, bgPath, titleThumbPath, 
+					null, longitude, latitude, locationDesc, locationAddr, province, 
+					city, size, activityIds, ver, channelIds, Tag.WORLD_TYPE_TEXT, color, mask);
+			JSONUtil.optResult(OptResult.OPT_SUCCESS, world, OptResult.JSON_KEY_HTWORLD, jsonMap);
+		} catch (Exception e) {
+			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+		}
+		return StrutsKey.JSON;
+	}
+	
+	/**
+	 * 运营马甲分享接口
+	 * 
+	 * @return
+	 */
+	public String shareTextForOpt() {
+		try {
+			Integer uid = userOptService.getRandomZombieId();
+			if(uid == null || uid == 0) {
+				uid = getCurrentLoginUserId();
+			}
+			HTWorld world = worldService.saveWorld(null, 0, phoneCode,
+					id, uid, worldName,worldDesc, worldLabel, 
 					labelIds, worldType, typeId, coverPath, titlePath, bgPath, titleThumbPath, 
 					null, longitude, latitude, locationDesc, locationAddr, province, 
 					city, size, activityIds, ver, channelIds, Tag.WORLD_TYPE_TEXT, color, mask);

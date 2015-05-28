@@ -43,6 +43,7 @@ public class OpChannel implements Serializable {
 	private Date createTime;
 	private Date lastModified;
 	private Integer superb;
+	private Integer themeId;
 	private Integer serial;
 	private Integer danmu;
 	private Integer mood;
@@ -61,8 +62,9 @@ public class OpChannel implements Serializable {
 			String channelIcon, String subIcon, Integer channelType,
 			String channelLabel, String labelIds, Integer worldCount,
 			Integer childCount, Integer memberCount, Integer superbCount,
-			Date createTime, Date lastModified, Integer superb, Integer serial,
-			Integer danmu, Integer mood, Integer world) {
+			Date createTime, Date lastModified, Integer superb,
+			Integer themeId, Integer serial, Integer danmu, Integer mood,
+			Integer world) {
 		super();
 		this.id = id;
 		this.ownerId = ownerId;
@@ -82,6 +84,7 @@ public class OpChannel implements Serializable {
 		this.createTime = createTime;
 		this.lastModified = lastModified;
 		this.superb = superb;
+		this.themeId = themeId;
 		this.serial = serial;
 		this.danmu = danmu;
 		this.mood = mood;
@@ -288,6 +291,14 @@ public class OpChannel implements Serializable {
 
 	public void setRecommendId(Integer recommendId) {
 		this.recommendId = recommendId;
+	}
+
+	public Integer getThemeId() {
+		return themeId;
+	}
+
+	public void setThemeId(Integer themeId) {
+		this.themeId = themeId;
 	}
 	
 }

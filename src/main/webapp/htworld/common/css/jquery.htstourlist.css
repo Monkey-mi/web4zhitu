@@ -1,5 +1,6 @@
 .zt-desc {
 	margin-bottom:0px !important;
+	z-index:8;
 }
 
 .zt-desc-show,.zt-desc-hide{
@@ -16,4 +17,16 @@
 	width: 40px !important;
 	height: 40px !important;
 	margin: -20px 0 0 -20px !important;
+}
+
+.zt-loading {
+	z-index:9;
+}
+
+.zt-tag {
+	z-index:8;
+}
+
+.zt-desc-show, .zt-desc-hide {
+	z-index:9;
 }

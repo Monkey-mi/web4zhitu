@@ -91,4 +91,10 @@ public class UserOperationsServiceTest extends BaseTest {
 		}
 //		logObj(jsonMap);
 	}
+	
+	@Test
+	public void getRandomZombieIdTest() throws Exception {
+		Integer id = service.getRandomZombieId();
+		Log.debug(id);
+	}
 }

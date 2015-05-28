@@ -377,9 +377,9 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 							labelId, valid, lwid, 0));
 					int count = 0;
 					if(label.getLabelState().equals(Tag.WORLD_LABEL_NORMAL)) { // 普通标签算真实总数，其他标签等审核
-//						Long labelWorldCount = worldLabelWorldDao.queryWorldCountByLabelId(labelId);
-//						count = labelWorldCount.intValue();
-//						worldLabelDao.updateWorldCount(labelId, count);
+						Long labelWorldCount = worldLabelWorldDao.queryWorldCountByLabelId(labelId);
+						count = labelWorldCount.intValue();
+						worldLabelDao.updateWorldCount(labelId, count);
 					} else if(shield.equals(Tag.FALSE) && !trust.equals(Tag.FALSE)) {
 						count = worldLabelDao.queryWorldCount(labelId);
 						worldLabelDao.updateWorldCount(labelId, ++count);

@@ -178,6 +178,14 @@ public interface UserOperationsService extends BaseService {
 	 */
 	public void buildVerify(Map<String, Object> jsonMap) throws Exception;
 	
+	/**
+	 * 随机获取马甲id
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public Integer getRandomZombieId() throws Exception;
+	
 	
 	
 }

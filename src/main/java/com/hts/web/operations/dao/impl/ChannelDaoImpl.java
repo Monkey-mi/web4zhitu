@@ -30,13 +30,13 @@ public class ChannelDaoImpl extends BaseDaoImpl implements ChannelDao {
 	private static final String CHANNEL_ABSTRACT = "c0.id,c0.owner_id,c0.channel_name,"
 			+ "c0.channel_title,c0.subtitle,c0.channel_desc,c0.channel_icon,"
 			+ "c0.sub_icon, c0.channel_type,c0.channel_label,c0.label_ids,c0.world_count,c0.child_count,"
-			+ "c0.member_count,c0.superb_count,c0.create_time,c0.last_modified,c0.superb,c0.serial,"
+			+ "c0.member_count,c0.superb_count,c0.create_time,c0.last_modified,c0.superb,c0.theme_id,c0.serial,"
 			+ "c0.danmu,c0.mood,c0.world";
 	
 	private static final String CHANNEL_DETAIL = "c0.id,c0.owner_id,c0.channel_name,"
 			+ "c0.channel_title,c0.subtitle,c0.channel_desc,c0.channel_icon,"
 			+ "c0.sub_icon, c0.channel_type,c0.channel_label,c0.label_ids,c0.world_count,c0.child_count,"
-			+ "c0.member_count,c0.superb_count,c0.create_time,c0.last_modified,c0.superb,c0.serial,"
+			+ "c0.member_count,c0.superb_count,c0.create_time,c0.last_modified,c0.superb,c0.theme_id,c0.serial,"
 			+ "c0.danmu,c0.mood,c0.world," + U0_INFO;
 	
 	private static String table = HTS.OPERATIONS_CHANNEL;
@@ -96,6 +96,15 @@ public class ChannelDaoImpl extends BaseDaoImpl implements ChannelDao {
 			+ "channel_icon,sub_icon,channel_type,channel_label,label_ids,create_time,"
 			+ "last_modified,danmu,mood,world) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 	
+	
+	private static final String QUERY_THEME_CHANNEL = "select " 
+			+ CHANNEL_ABSTRACT + " from " + table + " c0 where c0.valid=1 and c0.theme_id=?"
+			+ " order by c0.serial desc limit ?,?";
+	
+	private static final String QUERY_THEME_CHANNEL_BY_MAX_ID = "select " 
+			+ CHANNEL_ABSTRACT + " from " + table + " c0 where c0.valid=1 and c0.theme_id=? and c0.serial<=?"
+			+ " order by c0.serial desc limit ?,?";
+	
 	@Autowired
 	private UserInfoDao userInfoDao;
 	
@@ -119,6 +128,7 @@ public class ChannelDaoImpl extends BaseDaoImpl implements ChannelDao {
 				TimeUtil.getDate(rs.getLong("create_time")),
 				TimeUtil.getDate(rs.getLong("last_modified")),
 				rs.getInt("superb"),
+				rs.getInt("theme_id"),
 				rs.getInt("serial"),
 				rs.getInt("danmu"),
 				rs.getInt("mood"),
@@ -153,6 +163,7 @@ public class ChannelDaoImpl extends BaseDaoImpl implements ChannelDao {
 				TimeUtil.getDate(rs.getLong("create_time")),
 				TimeUtil.getDate(rs.getLong("last_modified")),
 				rs.getInt("superb"),
+				rs.getInt("theme_id"),
 				rs.getInt("danmu"),
 				rs.getInt("mood"),
 				rs.getInt("world"));
@@ -345,6 +356,40 @@ public class ChannelDaoImpl extends BaseDaoImpl implements ChannelDao {
 	public void updateSuperbCount(Integer id, Integer superbCount) {
 		getMasterJdbcTemplate().update(UPDATE_SUPERB_COUNT,
 				new Object[]{superbCount, id});
+	}
+
+	@Override
+	public List<OpChannel> queryThemeChannel(Integer themeId,
+			RowSelection rowSelection) {
+		return getJdbcTemplate().query(QUERY_THEME_CHANNEL, 
+				new Object[]{themeId, rowSelection.getFirstRow(), rowSelection.getLimit()}, 
+				new RowMapper<OpChannel>() {
+
+					@Override
+					public OpChannel mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						OpChannel channel = buildChannel(rs);
+						channel.setRecommendId(rs.getInt("serial"));
+						return channel;
+					}
+		});
+	}
+
+	@Override
+	public List<OpChannel> queryThemeChannel(Integer maxId, Integer themeId,
+			RowSelection rowSelection) {
+		return getJdbcTemplate().query(QUERY_THEME_CHANNEL_BY_MAX_ID, 
+				new Object[]{themeId, maxId, rowSelection.getFirstRow(), rowSelection.getLimit()}, 
+				new RowMapper<OpChannel>() {
+
+					@Override
+					public OpChannel mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						OpChannel channel = buildChannel(rs);
+						channel.setRecommendId(rs.getInt("serial"));
+						return channel;
+					}
+		});
 	}
 
 }

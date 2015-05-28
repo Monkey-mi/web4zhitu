@@ -131,6 +131,11 @@ public class CacheKeies {
 	 * 频道封面
 	 */
 	public static final String OP_CHANNEL_COVER = MODULE_OP + "channel:cover";
+
+	/**
+	 * 频道主题
+	 */
+	public static final String OP_CHANNEL_THEME = MODULE_OP + "channel:theme";
 	
 	/**
 	 * 用户模块

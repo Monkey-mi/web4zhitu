@@ -137,4 +137,25 @@ public interface ChannelDao extends BaseDao {
 	 * @param channel
 	 */
 	public void saveChannel(OpChannel channel);
+	
+	/**
+	 * 查询专题频道
+	 * 
+	 * @param themeId
+	 * @param rowSelection
+	 * @return
+	 */
+	public List<OpChannel> queryThemeChannel(Integer themeId,
+			RowSelection rowSelection);
+	
+	/**
+	 * 查询专题频道
+	 * 
+	 * @param maxId
+	 * @param themeId
+	 * @param rowSelection
+	 * @return
+	 */
+	public List<OpChannel> queryThemeChannel(Integer maxId, 
+			Integer themeId, RowSelection rowSelection);
 }

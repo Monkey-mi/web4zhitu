@@ -317,6 +317,11 @@ public class HTS {
 	public static final String OPERATIONS_CHANNEL_COUNT_BASE = DB + "operations_channel_danmu_read";
 	
 	/**
+	 * 频道专题表
+	 */
+	public static final String QUERY_CHANNEL_THEME = DB + "operations_channel_theme";
+	
+	/**
 	 * 找回密码表
 	 */
 	public static final String RETRIEVE_PASSWORD = DB + "user_retrieve_password";

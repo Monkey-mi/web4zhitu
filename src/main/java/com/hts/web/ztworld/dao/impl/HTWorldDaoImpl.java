@@ -147,10 +147,10 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 	 */
 	private static final String QUERY_CONCERN_WORLD = "select h3.*," + U0_INFO + " from ("
 			+ " select h1.id from ("
-			+ " (SELECT id FROM " + table + " where author_id=? and valid=1 and shield=0 order by id desc limit ?)"
+			+ " (SELECT id FROM " + table + " where author_id=? and valid=1 and shield=0 and tp=0 order by id desc limit ?)"
 			+ "	UNION ALL "
 			+ "	(select h0.id from " + table + " as h0, " + HTS.USER_CONCERN + " as uc0 "
-			+ "	where h0.author_id=uc0.concern_id and h0.valid=1 and h0.shield=0 and tp=0 and uc0.user_id=?"
+			+ "	where h0.author_id=uc0.concern_id and h0.valid=1 and h0.shield=0 and h0.tp=0 and uc0.user_id=?"
 			+ " and uc0.valid=1 order by h0.id desc limit ?)"
 			+ "	) as h1 order by h1.id desc limit ?) as h2, " + table + " as h3, " 
 			+ HTS.USER_INFO + " as u0 where h2.id = h3.id and h3.author_id=u0.id";
@@ -160,7 +160,7 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 	 */
 	private static final String QUERY_CONCERN_WORLD_BY_MAX_ID = "select h3.*," + U0_INFO + " from ("
 			+ " select h1.id from ("
-			+ " (SELECT id FROM " + table + " where author_id=? and valid=1 and shield=0 and id<=? order by id desc limit ?)"
+			+ " (SELECT id FROM " + table + " where author_id=? and valid=1 and shield=0 and tp=0 and id<=? order by id desc limit ?)"
 			+ "	UNION ALL "
 			+ "	(select h0.id from " + table + " as h0, " + HTS.USER_CONCERN + " as uc0 "
 			+ "	where h0.author_id=uc0.concern_id and h0.valid=1 and h0.shield=0 and h0.tp=0 and uc0.user_id=?"
@@ -238,7 +238,7 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 	 */
 	private static final String QUERY_USER_WORLD = "select h.*,1-ISNULL(hl.user_id) as liked, 1-ISNULL(hk.user_id) as keep from"
 			+ " (select h0.*," + U0_INFO + " from " + table + " as h0, " + HTS.USER_INFO + " as u0" 
-			+ " where h0.author_id=u0.id and h0.author_id=? and h0.valid=1 order by h0.id desc LIMIT ?,?) as h"
+			+ " where h0.author_id=u0.id and h0.author_id=? and h0.valid=1 and h0.tp=0 order by h0.id desc LIMIT ?,?) as h"
 			+ " left join (select * from " + HTS.HTWORLD_LIKED + " hl0 where hl0.valid=1 and hl0.user_id=?) as hl"
 			+ " on h.id = hl.world_id"
 			+ " left join (select * from " + HTS.HTWORLD_KEEP + " hk0 where hk0.valid=1 and hk0.user_id=?) as hk"
@@ -249,7 +249,7 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 	 */
 	private static final String QUERY_USER_WORLD_BY_MAX_ID = "select h.*,1-ISNULL(hl.user_id) as liked, 1-ISNULL(hk.user_id) as keep from"
 			+ " (select h0.*," + U0_INFO  + " from " + table + " as h0, " + HTS.USER_INFO + " as u0" 
-			+ " where h0.author_id=u0.id and h0.author_id=? and h0.valid=1 and h0.id<=? order by h0.id desc LIMIT ?,?) as h"
+			+ " where h0.author_id=u0.id and h0.author_id=? and h0.valid=1 and h0.tp=0 and h0.id<=? order by h0.id desc LIMIT ?,?) as h"
 			+ " left join (select * from " + HTS.HTWORLD_LIKED + " hl0 where hl0.valid=1 and hl0.user_id=? and hl0.world_id<=?) as hl"
 			+ " on h.id = hl.world_id"
 			+ " left join (select * from " + HTS.HTWORLD_KEEP + " hk0 where hk0.valid=1 and hk0.user_id=? and hk0.world_id<=?) as hk"

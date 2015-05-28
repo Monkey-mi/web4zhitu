@@ -29,6 +29,7 @@ import com.hts.web.common.pojo.OpChannelName;
 import com.hts.web.common.pojo.OpChannelStar;
 import com.hts.web.common.pojo.OpChannelSub;
 import com.hts.web.common.pojo.OpChannelSysDanmuDto;
+import com.hts.web.common.pojo.OpChannelTheme;
 import com.hts.web.common.pojo.OpChannelTopOne;
 import com.hts.web.common.pojo.OpChannelTopOneTitle;
 import com.hts.web.common.pojo.OpChannelWorld;
@@ -47,6 +48,7 @@ import com.hts.web.operations.dao.ChannelLinkDao;
 import com.hts.web.operations.dao.ChannelMemberDao;
 import com.hts.web.operations.dao.ChannelStarCacheDao;
 import com.hts.web.operations.dao.ChannelSysDanmuDao;
+import com.hts.web.operations.dao.ChannelThemeCacheDao;
 import com.hts.web.operations.dao.ChannelTopOneCacheDao;
 import com.hts.web.operations.dao.ChannelTopOneTitleCacheDao;
 import com.hts.web.operations.dao.ChannelWorldDao;
@@ -63,6 +65,9 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 
 	@Autowired
 	private ChannelCacheDao channelCacheDao;
+	
+	@Autowired
+	private ChannelThemeCacheDao themeCacheDao;
 	
 	@Autowired
 	private ChannelWorldDao channelWorldDao;
@@ -359,8 +364,7 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 	@Override
 	public void buildHot(Integer start, Integer limit, Integer userId,
 			Map<String, Object> jsonMap) throws Exception {
-		final List<OpChannel> list = channelCacheDao.queryChannel(
-				new RowSelection(start, limit));
+		final List<OpChannel> list = channelCacheDao.queryChannel();
 		if(list != null && list.size() > 0) {
 			final Map<Integer, Integer> idxMap = new HashMap<Integer, Integer>();
 			Integer[] ids = new Integer[list.size()];
@@ -389,10 +393,13 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 					int idx = idxMap.get(id);
 					list.get(idx).setSubscribed(Tag.TRUE);
 				}
-				
 			});
 		}
+		
+		List<OpChannelTheme> themes = themeCacheDao.queryTheme();
+		
 		jsonMap.put(OptResult.JSON_KEY_CHANNELS, list);
+		jsonMap.put(OptResult.JSON_KEY_THEMES, themes);
 	}
 
 	@Override
@@ -616,5 +623,31 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 	public void buildLinkChannel(Integer channelId, Map<String, Object> jsonMap) {
 		List<OpChannelLink> list = linkDao.queryLink(channelId);
 		jsonMap.put(OptResult.JSON_KEY_CHANNEL, list);
+	}
+
+	@Override
+	public void buildThemeChannel(final Integer themeId, Integer maxId, Integer start, 
+			Integer limit, Map<String, Object> jsonMap) throws Exception {
+		buildSerializables("getRecommendId", maxId, start, limit, jsonMap, 
+				new SerializableListAdapter<OpChannel>() {
+
+					@Override
+					public List<OpChannel> getSerializables(RowSelection rowSelection) {
+						return channelDao.queryThemeChannel(themeId, rowSelection);
+						
+					}
+
+					@Override
+					public List<OpChannel> getSerializableByMaxId(int maxId, 
+							RowSelection rowSelection) {
+						return channelDao.queryThemeChannel(maxId, themeId, rowSelection);
+					}
+
+					@Override
+					public long getTotalByMaxId(int maxId) {
+						return 0;
+					}
+					
+		}, OptResult.JSON_KEY_CHANNELS, null);
 	}
 }
