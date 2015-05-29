@@ -25,4 +25,20 @@ public class ChannelCacheDaoImpl extends BaseCacheDaoImpl<OpChannel> implements
 				rowSelection.getFirstRow(), rowSelection.getMaxRow()-1);
 	}
 
+	@Override
+	public void updateChannel(List<OpChannel> topList,
+			List<OpChannel> superbList) {
+		for(OpChannel c : topList) {
+			c.setThemeId(0);
+		}
+		topList.addAll(superbList);
+		if(getRedisTemplate().hasKey(CacheKeies.OP_CHANNEL)) {
+			getRedisTemplate().delete(CacheKeies.OP_CHANNEL);
+		}
+		if(topList.size() > 0) {
+			OpChannel[] list = new OpChannel[topList.size()];
+			getRedisTemplate().opsForList().rightPushAll(CacheKeies.OP_CHANNEL, topList.toArray(list));
+		}
+	}
+
 }

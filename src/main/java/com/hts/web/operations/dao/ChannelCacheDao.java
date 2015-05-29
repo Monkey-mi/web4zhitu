@@ -11,4 +11,12 @@ public interface ChannelCacheDao extends BaseCacheDao {
 	public List<OpChannel> queryChannel();
 	
 	public List<OpChannel> queryChannel(RowSelection rowSelection);
+	
+	/**
+	 * 更新频道缓存,注意,superbList中不能含有topList的数据
+	 * 
+	 * @param topList 置顶的精选频道列表
+	 * @param superbList 普通精选频道列表
+	 */
+	public void updateChannel(List<OpChannel> topList, List<OpChannel> superbList);
 }
