@@ -183,13 +183,13 @@ public interface ChannelService extends BaseService{
 	 * @param addChildCount　指定添加的图片数
 	 */
 	public void addWorldCountAndChildCount(Integer channelId, Integer addChildCount);
-
+	
 	/**
-	 * 更新图片总数
+	 * 更新织图和图片总数
 	 * 
 	 * @param channelId
 	 */
-	public void updateWorldCount(Integer channelId);
+	public void updateWorldAndChildCount(Integer channelId);
 	
 	/**
 	 * 更新成员数

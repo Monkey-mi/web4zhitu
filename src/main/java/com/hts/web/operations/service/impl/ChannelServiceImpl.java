@@ -594,7 +594,7 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 	}
 
 	@Override
-	public void updateWorldCount(Integer channelId) {
+	public void updateWorldAndChildCount(Integer channelId) {
 		Integer worldCount = channelWorldDao.queryWorldCount(channelId).intValue();
 		Integer childCount = channelWorldDao.queryChildCount(channelId);
 		Integer[] countBase = countBaseDao.queryWorldAndChildCount(channelId);
