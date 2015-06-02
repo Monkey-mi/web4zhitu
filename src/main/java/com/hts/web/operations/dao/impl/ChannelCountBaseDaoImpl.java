@@ -15,20 +15,20 @@ import com.hts.web.operations.dao.ChannelCountBaseDao;
 public class ChannelCountBaseDaoImpl extends BaseDaoImpl implements
 		ChannelCountBaseDao {
 
-	private static String table = HTS.OPERATIONS_CHANNEL_WORLD;
+	private static String table = HTS.OPERATIONS_CHANNEL_COUNT_BASE;
 
 	private static final String QUERY_WORLD_COUNT = "select world_count from " 
-			+ table + " where id=?";
+			+ table + " where channel_id=?";
 	
 	private static final String QUERY_MEMBER_COUNT = "select member_count from " 
-			+ table + " where id=?";
+			+ table + " where channel_id=?";
 	
 	private static final String QUERY_SUPERB_COUNT = "select superb_count from " 
-			+ table + " where id=?";
+			+ table + " where channel_id=?";
 
 	private static final String QUERY_WORLD_AND_CHILD_COUNT = 
 			"select world_Count, child_count from " + table
-			+ " where id=?";
+			+ " where channel_id=?";
 	
 	@Override
 	public Integer queryWorldCount(Integer id) {

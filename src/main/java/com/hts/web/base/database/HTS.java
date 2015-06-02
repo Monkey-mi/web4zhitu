@@ -314,7 +314,7 @@ public class HTS {
 	/**
 	 * 频道计数基数表
 	 */
-	public static final String OPERATIONS_CHANNEL_COUNT_BASE = DB + "operations_channel_danmu_read";
+	public static final String OPERATIONS_CHANNEL_COUNT_BASE = DB + "operations_channel_count_base";
 	
 	/**
 	 * 频道专题表
