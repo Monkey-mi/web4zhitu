@@ -702,9 +702,33 @@ public class BaseServiceImpl implements BaseService{
 				dto, start, limit, jsonMap, adapter);
 	}
 	
-	protected <T extends AbstractNumberDto> void buildNumberDtos(String serialKey, String totalKey, String maxIdKey, String getIdMethod,
+	protected <T extends AbstractNumberDto> void buildNumberDtos(String serialKey, 
+			String totalKey, String maxIdKey, final String getIdMethod,
 			T dto, int start, int limit, Map<String, Object> jsonMap,
 			NumberDtoListAdapter<T> adapter) throws Exception {
+		buildNumberDtos(serialKey, totalKey, maxIdKey, getIdMethod,
+				dto, start, limit, jsonMap, adapter, new NumberDtoListMaxIdAdapter() {
+
+					@Override
+					public Serializable getMaxId(List<? extends Serializable> list) throws Exception {
+						Serializable ser = list.get(0);
+						Object obj = ser.getClass().getMethod(getIdMethod).invoke(ser);
+						if(obj != null) {
+							Serializable maxSerializable = (Serializable) obj;
+							return maxSerializable;
+						}
+						return null;
+					}
+			
+		});
+		
+	}
+	
+	
+	protected <T extends AbstractNumberDto> void buildNumberDtos(String serialKey, 
+			String totalKey, String maxIdKey, String getIdMethod,
+			T dto, int start, int limit, Map<String, Object> jsonMap, NumberDtoListAdapter<T> adapter, 
+			NumberDtoListMaxIdAdapter maxIdAdapter) throws Exception {
 		int firstRow = (start - 1) * limit;
 		dto.setFirstRow(firstRow);
 		dto.setLimit(limit);
@@ -713,19 +737,14 @@ public class BaseServiceImpl implements BaseService{
 		long total = adapter.queryTotal(dto);
 		
 		if(start == 1 && list.size() > 0) {
-			Serializable ser = list.get(0);
-			Object obj = ser.getClass().getMethod(getIdMethod).invoke(ser);
-			if(obj != null) {
-				Serializable maxSerializable = (Serializable) obj;
-				jsonMap.put(maxIdKey, maxSerializable);
-			}
+			Serializable maxSerializable = maxIdAdapter.getMaxId(list);
+			jsonMap.put(maxIdKey, maxSerializable);
 		}
 		
 		jsonMap.put(serialKey, list);
 		jsonMap.put(totalKey, total);
 		
 	}
-	
 	
 	protected interface NumberDtoListAdapter<T extends AbstractNumberDto> {
 		
@@ -745,6 +764,16 @@ public class BaseServiceImpl implements BaseService{
 		 */
 		public long queryTotal(T dto);
 		
+	}
+	
+	protected interface NumberDtoListMaxIdAdapter {
+		
+		/**
+		 * 从列表中获取maxid
+		 * @param list
+		 * @return
+		 */
+		public Serializable getMaxId(List<? extends Serializable> list) throws Exception;
 	}
 	
 }
