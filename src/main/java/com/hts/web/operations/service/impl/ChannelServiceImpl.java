@@ -1,5 +1,6 @@
 package com.hts.web.operations.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
@@ -127,6 +128,8 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 	 * 2.9.89版本热门频道限定条数
 	 */
 	private static final int CHANNEL_CACHE_LIMIT_2_9_89 = 8;
+	
+	private Integer officialId = 45162;
 	
 	@Override
 	public void buildChannel(Map<String, Object> jsonMap) throws Exception {
@@ -320,13 +323,34 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 
 					@Override
 					public List<OpChannelName> getSerializables(RowSelection rowSelection) {
-						return channelDao.querySubscribedName(userId, rowSelection);
+						final List<OpChannelName> list = new ArrayList<OpChannelName>();
+						channelDao.querySubscribedName(userId, rowSelection, new RowCallback<OpChannelName>() {
+
+							@Override
+							public void callback(OpChannelName t) {
+								if(!t.getId().equals(officialId)) {
+									list.add(t);
+								}
+							}
+						});
+						return list;
 					}
 
 					@Override
 					public List<OpChannelName> getSerializableByMaxId(int maxId, 
 							RowSelection rowSelection) {
-						return channelDao.querySubscribedName(maxId, userId, rowSelection);
+						final List<OpChannelName> list = new ArrayList<OpChannelName>();
+						channelDao.querySubscribedName(maxId, userId, rowSelection, new RowCallback<OpChannelName>() {
+
+							@Override
+							public void callback(OpChannelName t) {
+								if(!t.getId().equals(officialId)) {
+									list.add(t);
+								}
+							}
+							
+						});
+						return list;
 					}
 
 					@Override
@@ -492,7 +516,7 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 
 	@Override
 	public void buildSysDanmu(final Integer channelId, final Integer userId, Integer maxId,
-			Integer start, Integer limit, Map<String, Object> jsonMap) throws Exception {
+			Integer start, final Integer limit, Map<String, Object> jsonMap) throws Exception {
 		
 		buildSerializables("getRecommendId", maxId, start, limit, jsonMap, 
 				new SerializableListAdapter<OpChannelSysDanmuDto>() {
@@ -502,7 +526,7 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 						List<OpChannelSysDanmuDto> list = getSysDanmuList(channelId, userId, rowSelection);
 						
 						//　检测到列表为空，表示已经将该频道下的弹幕看完，从头开始获取弹幕
-						if(list == null || list.size() == 0) {
+						if(list == null || list.size() < limit) {
 							list = sysDanumuDao.querySysDanmu(channelId, rowSelection);
 							if(list.size() > 0) {
 								Integer maxSerial = list.get(list.size() - 1).getRecommendId();
@@ -519,7 +543,7 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 						List<OpChannelSysDanmuDto> list = getSysDanmuList(maxId, channelId, userId, rowSelection);
 						
 						//　检测到列表为空，表示已经将该频道下的弹幕看完，从头开始获取弹幕
-						if(list == null || list.size() == 0) {
+						if(list == null || list.size() < limit) {
 							danmuReadDao.updateDanmuSerial(channelId, userId, 0);
 							list = sysDanumuDao.querySysDanmu(channelId, rowSelection);
 							if(list.size() > 0) {

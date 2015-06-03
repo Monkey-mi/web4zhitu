@@ -289,38 +289,40 @@ public class ChannelDaoImpl extends BaseDaoImpl implements ChannelDao {
 
 
 	@Override
-	public List<OpChannelName> querySubscribedName(Integer userId,
-			RowSelection rowSelection) {
-		return getJdbcTemplate().query(QUERY_SUBSCRIBED_NAME, 
-				new Object[]{userId, rowSelection.getFirstRow(), rowSelection.getLimit()}, 
-				new RowMapper<OpChannelName>() {
+	public void querySubscribedName(Integer userId,
+			RowSelection rowSelection, final RowCallback<OpChannelName> callback) {
+		getJdbcTemplate().query(QUERY_SUBSCRIBED_NAME, 
+				new Object[]{userId, rowSelection.getFirstRow(), rowSelection.getLimit()},
+				new RowCallbackHandler() {
 
 					@Override
-					public OpChannelName mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
+					public void processRow(ResultSet rs) throws SQLException {
 						OpChannelName name =  buildName(rs);
 						name.setRecommendId(rs.getInt("recommend_id"));
-						return name;
+						callback.callback(name);
 					}
+			
 		});
 	}
 
 
 	@Override
-	public List<OpChannelName> querySubscribedName(Integer maxId, Integer userId,
-			RowSelection rowSelection) {
-		return getJdbcTemplate().query(QUERY_SUBSCRIBED_NAME_BY_MAX_ID, 
+	public void querySubscribedName(Integer maxId, Integer userId,
+			RowSelection rowSelection, final RowCallback<OpChannelName> callback) {
+		
+		getJdbcTemplate().query(QUERY_SUBSCRIBED_NAME_BY_MAX_ID, 
 				new Object[]{userId, maxId, rowSelection.getFirstRow(), rowSelection.getLimit()}, 
-				new RowMapper<OpChannelName>() {
+				new RowCallbackHandler() {
 
 					@Override
-					public OpChannelName mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
+					public void processRow(ResultSet rs) throws SQLException {
 						OpChannelName name =  buildName(rs);
 						name.setRecommendId(rs.getInt("recommend_id"));
-						return name;
+						callback.callback(name);
 					}
+			
 		});
+		
 	}
 
 	

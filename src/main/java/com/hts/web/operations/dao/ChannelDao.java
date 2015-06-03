@@ -49,8 +49,8 @@ public interface ChannelDao extends BaseDao {
 	 * @param rowSelection
 	 * @return
 	 */
-	public List<OpChannelName> querySubscribedName(Integer userId,
-			RowSelection rowSelection);
+	public void querySubscribedName(Integer userId,
+			RowSelection rowSelection, RowCallback<OpChannelName> callback);
 	
 	/**
 	 * 根据最大id查询已经加入的频道
@@ -60,8 +60,8 @@ public interface ChannelDao extends BaseDao {
 	 * @param rowSelection
 	 * @return
 	 */
-	public List<OpChannelName> querySubscribedName(Integer maxId, 
-			Integer userId, RowSelection rowSelection);
+	public void querySubscribedName(Integer maxId, 
+			Integer userId, RowSelection rowSelection, RowCallback<OpChannelName> callback);
 	
 	/**
 	 * 查询频道详情
