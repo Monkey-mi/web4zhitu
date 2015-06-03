@@ -702,11 +702,22 @@ public class BaseServiceImpl implements BaseService{
 				dto, start, limit, jsonMap, adapter);
 	}
 	
+	/**
+	 * 
+	 * @throws Exception
+	 * @author zhangbo 2015年6月3日
+	 */
+	protected <T extends AbstractNumberDto> void buildNumberDtos(T dto, int start, int limit, Map<String, Object> jsonMap,
+		NumberDtoListAdapter<T> adapter, NumberDtoListMaxIdAdapter maxIdAdapter) throws Exception {
+	    buildNumberDtos(OptResult.JSON_KEY_ROWS, OptResult.JSON_KEY_TOTAL, OptResult.JSON_KEY_MAX_ID,
+		    dto, start, limit, jsonMap, adapter, maxIdAdapter);
+	}
+	
 	protected <T extends AbstractNumberDto> void buildNumberDtos(String serialKey, 
 			String totalKey, String maxIdKey, final String getIdMethod,
 			T dto, int start, int limit, Map<String, Object> jsonMap,
 			NumberDtoListAdapter<T> adapter) throws Exception {
-		buildNumberDtos(serialKey, totalKey, maxIdKey, getIdMethod,
+		buildNumberDtos(serialKey, totalKey, maxIdKey,
 				dto, start, limit, jsonMap, adapter, new NumberDtoListMaxIdAdapter() {
 
 					@Override
@@ -726,7 +737,7 @@ public class BaseServiceImpl implements BaseService{
 	
 	
 	protected <T extends AbstractNumberDto> void buildNumberDtos(String serialKey, 
-			String totalKey, String maxIdKey, String getIdMethod,
+			String totalKey, String maxIdKey,
 			T dto, int start, int limit, Map<String, Object> jsonMap, NumberDtoListAdapter<T> adapter, 
 			NumberDtoListMaxIdAdapter maxIdAdapter) throws Exception {
 		int firstRow = (start - 1) * limit;
