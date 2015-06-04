@@ -365,8 +365,10 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 	public void buildChannelAbstract(Integer channelId, Integer userId,
 			Map<String, Object> jsonMap) throws Exception {
 		OpChannel channel = channelDao.queryChannel(channelId);
-		Integer subscribed = memberDao.queryId(channelId, userId) == 0 ? Tag.FALSE : Tag.TRUE;
+		Integer role = memberDao.queryDegree(channelId, userId);
+		Integer subscribed = role < 0 ? Tag.FALSE : Tag.TRUE;
 		channel.setSubscribed(subscribed);
+		channel.setRole(role);
 		jsonMap.put(OptResult.JSON_KEY_CHANNEL, channel);
 	}
 
@@ -374,8 +376,10 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 	public void buildChannelDetail(Integer channelId, Integer userId, Integer memberLimit,
 			Map<String, Object> jsonMap) throws Exception {
 		OpChannelDetail detail = channelDao.queryChannelDetail(channelId);
-		Integer subscribed = memberDao.queryId(channelId, userId) == 0 ? Tag.FALSE : Tag.TRUE;
+		Integer role = memberDao.queryDegree(channelId, userId);
+		Integer subscribed = role < 0 ? Tag.FALSE : Tag.TRUE;
 		detail.setSubscribed(subscribed);
+		detail.setRole(role);
 		userInfoService.extractVerify(detail.getOwner());
 		if(memberLimit != null && memberLimit > 0) {
 			List<OpChannelMemberThumb> members = 

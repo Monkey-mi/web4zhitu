@@ -52,6 +52,7 @@ public class OpChannelDetail implements Serializable {
 	private List<OpChannelMemberThumb> members;
 	
 	private Integer subscribed = Tag.FALSE;
+	private Integer role = -1;
 
 	public OpChannelDetail() {
 		super();
@@ -289,6 +290,14 @@ public class OpChannelDetail implements Serializable {
 
 	public void setThemeId(Integer themeId) {
 		this.themeId = themeId;
+	}
+
+	public Integer getRole() {
+		return role;
+	}
+
+	public void setRole(Integer role) {
+		this.role = role;
 	}
 	
 }

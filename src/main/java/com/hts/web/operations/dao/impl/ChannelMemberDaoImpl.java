@@ -54,6 +54,9 @@ public class ChannelMemberDaoImpl extends BaseDaoImpl implements
 	private static final String QUERY_MEMBER_COUNT = "select count(*) from " 
 			+ table + " where channel_id=?";
 	
+	private static final String QUERY_MEMBER_DEGREE = "select degree from " 
+			+ table + " where channel_id=? and user_id=?";
+	
 	public OpChannelMemberThumb buildThumb(ResultSet rs) throws SQLException {
 		return new OpChannelMemberThumb(
 				rs.getInt("id"),
@@ -145,6 +148,16 @@ public class ChannelMemberDaoImpl extends BaseDaoImpl implements
 	@Override
 	public Long queryMemberCount(Integer channelId) {
 		return getMasterJdbcTemplate().queryForLong(QUERY_MEMBER_COUNT, channelId);
+	}
+
+	@Override
+	public Integer queryDegree(Integer channelId, Integer userId) {
+		try {
+			return getJdbcTemplate().queryForInt(QUERY_MEMBER_DEGREE, 
+					new Object[]{channelId, userId});
+		} catch(DataAccessException e) {
+			return -1;
+		}
 	}
 	
 }

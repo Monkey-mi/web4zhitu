@@ -80,4 +80,13 @@ public interface ChannelMemberDao extends BaseDao {
 	 */
 	public Long queryMemberCount(Integer channelId);
 	
+	/**
+	 * 查询用户等级
+	 * 
+	 * @param channelId
+	 * @param userId
+	 * @return
+	 */
+	public Integer queryDegree(Integer channelId, Integer userId);
+	
 }

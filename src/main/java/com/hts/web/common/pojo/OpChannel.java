@@ -52,6 +52,7 @@ public class OpChannel implements Serializable {
 	private List<String> titleThumbnails;
 
 	private Integer subscribed = Tag.FALSE;
+	private Integer role = Tag.FALSE;
 
 	public OpChannel() {
 		super();
@@ -299,6 +300,14 @@ public class OpChannel implements Serializable {
 
 	public void setThemeId(Integer themeId) {
 		this.themeId = themeId;
+	}
+
+	public Integer getRole() {
+		return role;
+	}
+
+	public void setRole(Integer role) {
+		this.role = role;
 	}
 	
 }

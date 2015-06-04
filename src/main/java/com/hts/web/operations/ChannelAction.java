@@ -206,6 +206,33 @@ public class ChannelAction extends BaseAction {
 		return StrutsKey.JSON;
 	}
 	
+	/**
+	 * 删除织图
+	 * 
+	 * @return
+	 */
+	public String deleteWorld()	 {
+		try {
+			JSONUtil.optSuccess(OptResult.DELETE_SUCCESS, jsonMap);
+		} catch(Exception e) {
+			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+		}
+		return StrutsKey.JSON;
+	}
+	
+	/**
+	 * 织图加精
+	 * @return
+	 */
+	public String superbWorld()	 {
+		try {
+			JSONUtil.optSuccess(OptResult.UPDATE_SUCCESS, jsonMap);
+		} catch(Exception e) {
+			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+		}
+		return StrutsKey.JSON;
+	}
+	
 	public Integer getChannelId() {
 		return channelId;
 	}
