@@ -140,7 +140,12 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 		Integer maxActId = maxAct != null ? maxAct.getId() : 0;
 		Integer maxTopOneId = maxTopOne != null ? maxTopOne.getTopOneId() : 0;
 		
-		List<OpChannelCover> thumbs = channelCoverCacheDao.queryCacheCover();
+		List<OpChannelCover> thumbs = new ArrayList<OpChannelCover>();
+		for(OpChannel oc : list) {
+			thumbs.add(new OpChannelCover(
+					oc.getId(),
+					oc.getChannelIcon()));
+		}
 		
 		jsonMap.put(OptResult.JSON_KEY_MAX_ACTIVITY_ID, maxActId);
 		jsonMap.put(OptResult.JSON_KEY_MAX_TOP_ONE_ID, maxTopOneId);
