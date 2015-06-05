@@ -78,7 +78,7 @@ public class ChannelDaoImpl extends BaseDaoImpl implements ChannelDao {
 			+ table + " c0 where c0.superb=? order by serial desc limit ?";
 	
 	private static final String QUERY_OLD_CHANNEL = "select " + CHANNEL_ABSTRACT + " from " 
-			+ table + " c0 where id<10 order by serial limit 8";
+			+ table + " c0 where id<10 order by serial desc limit 8";
 	
 	
 	private static final String ADD_WORLD_AND_CHILD_COUNT = "update " + table
