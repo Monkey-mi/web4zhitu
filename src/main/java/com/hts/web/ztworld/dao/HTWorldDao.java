@@ -609,6 +609,14 @@ public interface HTWorldDao extends BaseDao {
 	 */
 	public Integer queryChildCount(Integer authorId);
 	
+	/**
+	 * 根据id查询子世界总数
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Integer queryChildCountById(Integer id);
+	
 }
 
 

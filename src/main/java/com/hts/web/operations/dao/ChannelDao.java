@@ -96,6 +96,13 @@ public interface ChannelDao extends BaseDao {
 	public List<OpChannel> querySuperbChannel(Integer limit);
 	
 	/**
+	 * 查询旧版频道
+	 * 
+	 * @return
+	 */
+	public List<OpChannel> queryOldChannel();
+	
+	/**
 	 * 添加织图和子世界总数
 	 * 
 	 * @param id
@@ -158,4 +165,14 @@ public interface ChannelDao extends BaseDao {
 	 */
 	public List<OpChannel> queryThemeChannel(Integer maxId, 
 			Integer themeId, RowSelection rowSelection);
+	
+	/**
+	 * 减少织图和图片数量
+	 * 
+	 * @param id
+	 * @param subWorldCount
+	 * @param subChildCount
+	 */
+	public void subWorldAndChildCount(Integer id, Integer subWorldCount,
+			Integer subChildCount);
 }

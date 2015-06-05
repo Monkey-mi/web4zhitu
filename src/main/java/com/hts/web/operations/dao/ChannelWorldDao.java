@@ -19,7 +19,7 @@ public interface ChannelWorldDao extends BaseDao {
 	 * @return
 	 */
 	public List<OpChannelWorldDto> queryChannelWorld(Integer channelId, 
-			RowSelection rowSelection);
+			RowSelection rowSelection, Integer userId);
 	
 	/**
 	 * 根据最大id查询频道织图
@@ -30,7 +30,7 @@ public interface ChannelWorldDao extends BaseDao {
 	 * @return
 	 */
 	public List<OpChannelWorldDto> queryChannelWorld(Integer maxId, 
-			Integer channelId, RowSelection rowSelection);
+			Integer channelId, RowSelection rowSelection, Integer userId);
 	
 	/**
 	 * 查询精选织图
@@ -51,6 +51,28 @@ public interface ChannelWorldDao extends BaseDao {
 	 * @return
 	 */
 	public List<OpChannelWorldDto> querySuperbChannelWorld(Integer maxId, 
+			Integer channelId, RowSelection rowSelection);
+	
+	
+	/**
+	 * 查询未审核的织图
+	 * 
+	 * @param channelId
+	 * @param rowSelection
+	 * @return
+	 */
+	public List<OpChannelWorldDto> queryUnValidChannelWorld(Integer channelId, 
+			RowSelection rowSelection);
+	
+	/**
+	 * 根据最大id查询未审核的织图
+	 * 
+	 * @param maxId
+	 * @param channelId
+	 * @param rowSelection
+	 * @return
+	 */
+	public List<OpChannelWorldDto> queryUnValidChannelWorld(Integer maxId, 
 			Integer channelId, RowSelection rowSelection);
 	
 	/**
@@ -114,5 +136,32 @@ public interface ChannelWorldDao extends BaseDao {
 	 */
 	public List<OpChannelWorldDto> queryWeightChannelWorld(Integer maxId, 
 			Integer channelId, RowSelection rowSelection);
+	
+	/**
+	 * 更新有效性
+	 * 
+	 * @param channelId
+	 * @param worldId
+	 * @param valid
+	 */
+	public void updateValid(Integer channelId, Integer worldId, Integer valid);
+	
+	/**
+	 * 更新精选标记
+	 * 
+	 * @param channelId
+	 * @param worldId
+	 * @param superb
+	 */
+	public void updateSuperb(Integer channelId, Integer worldId, Integer superb);
+	
+	/**
+	 * 查询未生效总数
+	 * 
+	 * @param channelId
+	 * @param valid
+	 * @return
+	 */
+	public long queryUnValidCount(Integer channelId);
 	
 }

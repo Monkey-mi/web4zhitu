@@ -41,4 +41,9 @@ public class ChannelCacheDaoImpl extends BaseCacheDaoImpl<OpChannel> implements
 		}
 	}
 
+	@Override
+	public List<OpChannel> queryOldChannel() {
+		return getRedisTemplate().opsForList().range(CacheKeies.OP_CHANNEL_OLD, 0, -1);
+	}
+
 }

@@ -26,42 +26,78 @@ public class ChannelWorldDaoImpl extends BaseDaoImpl implements ChannelWorldDao 
 
 	private static String table = HTS.OPERATIONS_CHANNEL_WORLD;
 	
-	private static final String QUERY_WORLD = "SELECT oc0.serial as recommend_id, " + H0_INFO + ", " + U0_INFO 
+	private static final String QUERY_WORLD = "select * from ("
+			+ " (SELECT oc0.serial as recommend_id,oc0.superb," + H0_INFO + ", " + U0_INFO 
 			+ " from " + table + " as oc0, " + HTS.HTWORLD_HTWORLD + " as h0, " + HTS.USER_INFO + " as u0"
 			+ " where oc0.world_id=h0.id and h0.author_id = u0.id "
 			+ " and oc0.valid=1 and h0.valid=1 and h0.shield=0 and oc0.channel_id=?"
-			+ " order by oc0.serial desc limit ?,?";
-	
-	private static final String QUERY_WORLD_BY_MAX_ID = "SELECT oc0.serial as recommend_id, " + H0_INFO + ", " + U0_INFO 
+			+ " order by oc0.serial desc limit ?)"
+			+ " UNION ALL"
+			+" (SELECT oc0.serial as recommend_id,oc0.superb," + H0_INFO + ", " + U0_INFO 
 			+ " from " + table + " as oc0, " + HTS.HTWORLD_HTWORLD + " as h0, " + HTS.USER_INFO + " as u0"
 			+ " where oc0.world_id=h0.id and h0.author_id = u0.id "
-			+ " and oc0.valid=1 and h0.valid=1 and h0.shield=0 and oc0.weight=0 and oc0.channel_id=? and oc0.serial<=?"
-			+ " order by oc0.serial desc limit ?,?";
+			+ " and h0.valid=1 and oc0.channel_id=? and h0.author_id=?"
+			+ " order by serial desc limit ?)"
+			+ " ) as o0 order by o0.recommend_id desc limit ?";
 	
-	private static final String QUERY_WEIGHT_WORLD = "SELECT oc0.serial as recommend_id, " + H0_INFO + ", " + U0_INFO 
+	
+//	private static final String QUERY_WORLD_BY_MAX_ID = "SELECT oc0.serial as recommend_id, " + H0_INFO + ", " + U0_INFO 
+//			+ " from " + table + " as oc0, " + HTS.HTWORLD_HTWORLD + " as h0, " + HTS.USER_INFO + " as u0"
+//			+ " where oc0.world_id=h0.id and h0.author_id = u0.id "
+//			+ " and oc0.valid=1 and h0.valid=1 and h0.shield=0 and oc0.channel_id=? and oc0.serial<=?"
+//			+ " order by oc0.serial desc limit ?,?";
+	
+	private static final String QUERY_WORLD_BY_MAX_ID = "select * from ("
+			+ " (SELECT oc0.serial as recommend_id, oc0.superb," + H0_INFO + ", " + U0_INFO 
+			+ " from " + table + " as oc0, " + HTS.HTWORLD_HTWORLD + " as h0, " + HTS.USER_INFO + " as u0"
+			+ " where oc0.world_id=h0.id and h0.author_id = u0.id "
+			+ " and oc0.valid=1 and h0.valid=1 and h0.shield=0 and oc0.channel_id=? and oc0.serial<=?"
+			+ " order by oc0.serial desc limit ?)"
+			+ " UNION ALL"
+			+" (SELECT oc0.serial as recommend_id, oc0.superb," + H0_INFO + ", " + U0_INFO 
+			+ " from " + table + " as oc0, " + HTS.HTWORLD_HTWORLD + " as h0, " + HTS.USER_INFO + " as u0"
+			+ " where oc0.world_id=h0.id and h0.author_id = u0.id "
+			+ " and h0.valid=1 and oc0.channel_id=? and h0.author_id=? and oc0.serial<=?"
+			+ " order by serial desc limit ?)"
+			+ " ) as o0 order by o0.recommend_id desc limit ?";
+	
+	private static final String QUERY_WEIGHT_WORLD = "SELECT oc0.serial as recommend_id, oc0.superb," + H0_INFO + ", " + U0_INFO 
 			+ " from " + table + " as oc0, " + HTS.HTWORLD_HTWORLD + " as h0, " + HTS.USER_INFO + " as u0"
 			+ " where oc0.world_id=h0.id and h0.author_id = u0.id "
 			+ " and oc0.valid=1 and h0.valid=1 and h0.shield=0 and oc0.weight=1 and oc0.channel_id=?"
 			+ " order by oc0.serial desc limit ?,?";
 	
-	private static final String QUERY_WEIGHT_WORLD_BY_MAX_ID = "SELECT oc0.serial as recommend_id, " + H0_INFO + ", " + U0_INFO 
+	private static final String QUERY_WEIGHT_WORLD_BY_MAX_ID = "SELECT oc0.serial as recommend_id, oc0.superb," + H0_INFO + ", " + U0_INFO 
 			+ " from " + table + " as oc0, " + HTS.HTWORLD_HTWORLD + " as h0, " + HTS.USER_INFO + " as u0"
 			+ " where oc0.world_id=h0.id and h0.author_id = u0.id "
 			+ " and oc0.valid=1 and h0.valid=1 and h0.shield=0 and oc0.weight=1 and oc0.channel_id=? and oc0.serial<=?"
 			+ " order by oc0.serial desc limit ?,?";
 	
 	
-	private static final String QUERY_SUPERB_WORLD = "SELECT oc0.serial as recommend_id, " + H0_INFO + ", " + U0_INFO 
+	private static final String QUERY_SUPERB_WORLD = "SELECT oc0.serial as recommend_id, oc0.superb," + H0_INFO + ", " + U0_INFO 
 			+ " from " + table + " as oc0, " + HTS.HTWORLD_HTWORLD + " as h0, " + HTS.USER_INFO + " as u0"
 			+ " where oc0.world_id=h0.id and h0.author_id = u0.id "
 			+ " and oc0.valid=1 and h0.valid=1 and h0.shield=0 and oc0.superb=1 and oc0.channel_id=?"
 			+ " order by oc0.serial desc limit ?,?";
 	
-	private static final String QUERY_SUPERB_WORLD_BY_MAX_ID = "SELECT oc0.serial as recommend_id, " + H0_INFO + ", " + U0_INFO 
+	private static final String QUERY_SUPERB_WORLD_BY_MAX_ID = "SELECT oc0.serial as recommend_id, oc0.superb," + H0_INFO + ", " + U0_INFO 
 			+ " from " + table + " as oc0, " + HTS.HTWORLD_HTWORLD + " as h0, " + HTS.USER_INFO + " as u0"
 			+ " where oc0.world_id=h0.id and h0.author_id = u0.id "
 			+ " and oc0.valid=1 and h0.valid=1 and h0.shield=0 and oc0.superb=1 and oc0.channel_id=? and oc0.serial<=?"
 			+ " order by oc0.serial desc limit ?,?";
+	
+	private static final String QUERY_UNVALID_WORLD = "SELECT oc0.serial as recommend_id, oc0.superb," + H0_INFO + ", " + U0_INFO 
+			+ " from " + table + " as oc0, " + HTS.HTWORLD_HTWORLD + " as h0, " + HTS.USER_INFO + " as u0"
+			+ " where oc0.world_id=h0.id and h0.author_id = u0.id "
+			+ " and oc0.valid=1 and h0.valid=1 and h0.shield=0 and oc0.valid=0 and oc0.channel_id=?"
+			+ " order by oc0.serial desc limit ?";
+	
+	private static final String QUERY_UNVALID_WORLD_BY_MAX_ID = "SELECT oc0.serial as recommend_id, oc0.superb," + H0_INFO + ", " + U0_INFO 
+			+ " from " + table + " as oc0, " + HTS.HTWORLD_HTWORLD + " as h0, " + HTS.USER_INFO + " as u0"
+			+ " where oc0.world_id=h0.id and h0.author_id = u0.id "
+			+ " and oc0.valid=1 and h0.valid=1 and h0.shield=0 and oc0.valid=0 and oc0.channel_id=? and oc0.serial<=?"
+			+ " order by oc0.serial desc limit ?";
+	
 	
 	private static final String QUERY_TITLE_THUMB_HEAD = "select cw.channel_id,w.title_thumb_path from " 
 			+ HTS.HTWORLD_HTWORLD + " as w, (";
@@ -83,6 +119,15 @@ public class ChannelWorldDaoImpl extends BaseDaoImpl implements ChannelWorldDao 
 	private static final String QUERY_CHILD_COUNT = "select sum(child_count) from " + table
 			+ " c0, " + HTS.HTWORLD_HTWORLD + " h0 where c0.world_id=h0.id "
 			+ " and c0.channel_id=?";
+	
+	private static final String UPDATE_VALID = "update " + table 
+			+ " set valid=? where channel_id=? and world_id=?";
+	
+	private static final String UPDATE_SUPERB = "update " + table
+			+ " set superb=? where channel_id=? and world_id=?";
+	
+	private static final String QUERY_UNVALID_COUNT = "select count(*) from " + table
+			+ " where channel_id=? and valid=0";
 	
 	@Autowired
 	private HTWorldDao worldDao;
@@ -119,9 +164,10 @@ public class ChannelWorldDaoImpl extends BaseDaoImpl implements ChannelWorldDao 
 	
 	@Override
 	public List<OpChannelWorldDto> queryChannelWorld(Integer channelId,
-			RowSelection rowSelection) {
+			RowSelection rowSelection, Integer userId) {
 		return getJdbcTemplate().query(QUERY_WORLD, 
-				new Object[]{channelId, rowSelection.getFirstRow(), rowSelection.getLimit()}, 
+				new Object[]{channelId, rowSelection.getLimit(),channelId, 
+				userId, rowSelection.getLimit(), rowSelection.getLimit()}, 
 				new RowMapper<OpChannelWorldDto>() {
 
 			@Override
@@ -134,9 +180,10 @@ public class ChannelWorldDaoImpl extends BaseDaoImpl implements ChannelWorldDao 
 
 	@Override
 	public List<OpChannelWorldDto> queryChannelWorld(Integer maxId,
-			Integer channelId, RowSelection rowSelection) {
+			Integer channelId, RowSelection rowSelection, Integer userId) {
 		return getJdbcTemplate().query(QUERY_WORLD_BY_MAX_ID, 
-				new Object[]{channelId, maxId, rowSelection.getFirstRow(), rowSelection.getLimit()}, 
+				new Object[]{channelId, maxId, rowSelection.getLimit(), channelId, userId, maxId,
+				rowSelection.getLimit(), rowSelection.getLimit()}, 
 				new RowMapper<OpChannelWorldDto>() {
 
 			@Override
@@ -151,6 +198,7 @@ public class ChannelWorldDaoImpl extends BaseDaoImpl implements ChannelWorldDao 
 		OpChannelWorldDto world = new OpChannelWorldDto();
 		worldDao.setWorldInfo(rs, world);
 		world.setRecommendId(rs.getInt("recommend_id"));
+		world.setSuperb(rs.getInt("superb"));
 		UserInfoDto user = UserInfoDaoImpl.buildUserInfoDtoByResult(world.getAuthorId(), rs);
 		world.setUserInfo(user);
 		return world;
@@ -249,6 +297,54 @@ public class ChannelWorldDaoImpl extends BaseDaoImpl implements ChannelWorldDao 
 	@Override
 	public Long querySuperbCount(Integer channelId) {
 		return getMasterJdbcTemplate().queryForLong(QUERY_SUPERB_COUNT,
+				new Object[]{channelId});
+	}
+
+	@Override
+	public void updateValid(Integer channelId, Integer worldId, Integer valid) {
+		getMasterJdbcTemplate().update(UPDATE_VALID, 
+				new Object[]{valid, channelId, worldId});
+	}
+
+	@Override
+	public void updateSuperb(Integer channelId, Integer worldId, Integer superb) {
+		getMasterJdbcTemplate().update(UPDATE_SUPERB, 
+				new Object[]{superb, channelId, worldId});
+	}
+
+	@Override
+	public List<OpChannelWorldDto> queryUnValidChannelWorld(Integer channelId,
+			RowSelection rowSelection) {
+		return getJdbcTemplate().query(QUERY_UNVALID_WORLD, 
+				new Object[]{channelId, rowSelection.getLimit()}, 
+				new RowMapper<OpChannelWorldDto>() {
+
+			@Override
+			public OpChannelWorldDto mapRow(ResultSet rs, int rowNum)
+					throws SQLException {
+				return buildChannelWorld(rs);
+			}
+		});
+	}
+
+	@Override
+	public List<OpChannelWorldDto> queryUnValidChannelWorld(Integer maxId,
+			Integer channelId, RowSelection rowSelection) {
+		return getJdbcTemplate().query(QUERY_UNVALID_WORLD_BY_MAX_ID, 
+				new Object[]{channelId, maxId, rowSelection.getLimit()}, 
+				new RowMapper<OpChannelWorldDto>() {
+
+			@Override
+			public OpChannelWorldDto mapRow(ResultSet rs, int rowNum)
+					throws SQLException {
+				return buildChannelWorld(rs);
+			}
+		});
+	}
+
+	@Override
+	public long queryUnValidCount(Integer channelId) {
+		return getJdbcTemplate().queryForLong(QUERY_UNVALID_COUNT,
 				new Object[]{channelId});
 	}
 

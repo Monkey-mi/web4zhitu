@@ -32,6 +32,7 @@ public class ChannelAction extends BaseAction {
 	private Integer completeLimit = 3; // 包含评论和喜欢列表的织图数量
 	private Boolean nameOnly = false;
 	private Integer themeId;
+	private Integer worldId;
 	
 	/**
 	 * 查询已经订阅的频道
@@ -161,6 +162,37 @@ public class ChannelAction extends BaseAction {
 	}
 	
 	/**
+	 * 查询未审核织图
+	 * @return
+	 */
+	public String queryUnValidChannelWorld() {
+		try {
+			channelService.buildUnValidChannelWorld(channelId, getCurrentLoginUserId(), 
+					maxId, start, limit, trimExtras,  commentLimit, likedLimit,
+					completeLimit, jsonMap);
+			JSONUtil.optSuccess(jsonMap);
+		} catch(Exception e) {
+			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+		}
+		return StrutsKey.JSON;
+	}
+	
+	/**
+	 * 查询未审核织图总数
+	 * 
+	 * @return
+	 */
+	public String queryUnValidCount() {
+		try {
+			channelService.buildUnValidWorldCount(channelId, jsonMap);
+			JSONUtil.optSuccess(jsonMap);
+		} catch(Exception e) {
+			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+		}
+		return StrutsKey.JSON;
+	}
+	
+	/**
 	 * 查询系统弹幕
 	 * 
 	 * @return
@@ -213,6 +245,41 @@ public class ChannelAction extends BaseAction {
 	 */
 	public String deleteWorld()	 {
 		try {
+			channelService.deleteWorld(channelId, worldId, 
+					getCurrentLoginUserId());
+			JSONUtil.optSuccess(OptResult.DELETE_SUCCESS, jsonMap);
+		} catch(Exception e) {
+			e.printStackTrace();
+			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+		}
+		return StrutsKey.JSON;
+	}
+	
+	/**
+	 * 织图审核通过
+	 * 
+	 * @return
+	 */
+	public String acceptWorld() {
+		try {
+			channelService.updateAcceptWorld(channelId, worldId, 
+					getCurrentLoginUserId());
+			JSONUtil.optSuccess(OptResult.DELETE_SUCCESS, jsonMap);
+		} catch(Exception e) {
+			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+		}
+		return StrutsKey.JSON;
+	}
+	
+	/**
+	 * 织图审核拒绝
+	 * 
+	 * @return
+	 */
+	public String rejectWorld() {
+		try {
+			channelService.updateRejectWorld(channelId, worldId, 
+					getCurrentLoginUserId());
 			JSONUtil.optSuccess(OptResult.DELETE_SUCCESS, jsonMap);
 		} catch(Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
@@ -222,12 +289,33 @@ public class ChannelAction extends BaseAction {
 	
 	/**
 	 * 织图加精
+	 * 
 	 * @return
 	 */
 	public String superbWorld()	 {
 		try {
+			channelService.addWorldSuperb(channelId, worldId,
+					getCurrentLoginUserId());
 			JSONUtil.optSuccess(OptResult.UPDATE_SUCCESS, jsonMap);
 		} catch(Exception e) {
+			e.printStackTrace();
+			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+		}
+		return StrutsKey.JSON;
+	}
+	
+	/**
+	 * 取消织图加精
+	 * 
+	 * @return
+	 */
+	public String unsuperbWorld() {
+		try {
+			channelService.deleteWorldSuperb(channelId, worldId,
+					getCurrentLoginUserId());
+			JSONUtil.optSuccess(OptResult.UPDATE_SUCCESS, jsonMap);
+		} catch(Exception e) {
+			e.printStackTrace();
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
 		}
 		return StrutsKey.JSON;
@@ -271,6 +359,14 @@ public class ChannelAction extends BaseAction {
 
 	public void setThemeId(Integer themeId) {
 		this.themeId = themeId;
+	}
+
+	public Integer getWorldId() {
+		return worldId;
+	}
+
+	public void setWorldId(Integer worldId) {
+		this.worldId = worldId;
 	}
 	
 }

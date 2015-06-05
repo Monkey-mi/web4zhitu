@@ -77,9 +77,16 @@ public class ChannelDaoImpl extends BaseDaoImpl implements ChannelDao {
 	private static final String QUERY_SUPERB_CHANNEL = "select " + CHANNEL_ABSTRACT + " from " 
 			+ table + " c0 where c0.superb=? order by serial desc limit ?";
 	
+	private static final String QUERY_OLD_CHANNEL = "select " + CHANNEL_ABSTRACT + " from " 
+			+ table + " c0 where id<10 order by serial limit 8";
+	
 	
 	private static final String ADD_WORLD_AND_CHILD_COUNT = "update " + table
 			+ " set world_count=world_count+?, child_count=child_count+?"
+			+ " where id=?";
+	
+	private static final String SUB_WORLD_AND_CHILD_COUNT = "update " + table
+			+ " set world_count=world_count-?, child_count=child_count-?"
 			+ " where id=?";
 	
 	private static final String UPDATE_WORLD_AND_CHILD_COUNT = "update " + table
@@ -278,6 +285,14 @@ public class ChannelDaoImpl extends BaseDaoImpl implements ChannelDao {
 		getMasterJdbcTemplate().update(ADD_WORLD_AND_CHILD_COUNT, 
 				new Object[]{addWorldCount, addChildCount, id});
 	}
+
+	@Override
+	public void subWorldAndChildCount(Integer id, Integer subWorldCount,
+			Integer subChildCount) {
+		getMasterJdbcTemplate().update(SUB_WORLD_AND_CHILD_COUNT, 
+				new Object[]{subWorldCount, subChildCount, id});
+		
+	}
 	
 	@Override
 	public void updateWorldAndChildCount(Integer id, Integer worldCount,
@@ -322,10 +337,8 @@ public class ChannelDaoImpl extends BaseDaoImpl implements ChannelDao {
 					}
 			
 		});
-		
 	}
 
-	
 	@Override
 	public void saveChannel(OpChannel channel) {
 		getMasterJdbcTemplate().update(SAVE_CHANNEL, new Object[]{
@@ -390,6 +403,19 @@ public class ChannelDaoImpl extends BaseDaoImpl implements ChannelDao {
 						OpChannel channel = buildChannel(rs);
 						channel.setRecommendId(rs.getInt("serial"));
 						return channel;
+					}
+		});
+	}
+
+	@Override
+	public List<OpChannel> queryOldChannel() {
+		return getJdbcTemplate().query(QUERY_OLD_CHANNEL,
+				new RowMapper<OpChannel>() {
+
+					@Override
+					public OpChannel mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						return buildChannel(rs);
 					}
 		});
 	}

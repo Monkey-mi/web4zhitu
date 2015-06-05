@@ -17,6 +17,7 @@ public class OpChannelWorldDto extends HTWorldBase implements Serializable,
 	private static final long serialVersionUID = 157956695027833615L;
 	
 	private Integer recommendId;
+	private Integer superb = Tag.FALSE;
 	private UserInfoDto userInfo;
 	private Integer concerned = Tag.FALSE;
 	
@@ -96,6 +97,14 @@ public class OpChannelWorldDto extends HTWorldBase implements Serializable,
 	@Override
 	public void setVerifyIcon(String verifyIcon) {
 		userInfo.setVerifyIcon(verifyIcon);
+	}
+	
+	public Integer getSuperb() {
+		return superb;
+	}
+
+	public void setSuperb(Integer superb) {
+		this.superb = superb;
 	}
 
 	public Integer getConcerned() {

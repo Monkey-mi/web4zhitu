@@ -329,6 +329,16 @@ public class Tag {
 	 * 频道类型活动
 	 */
 	public static final int CHANNEL_TYPE_ACTIVITY = 1;
+
+	/**
+	 * 频道成员权限: normal
+	 */
+	public static final int CHANNEL_MEMBER_ROLE_NORMAL = 0;
+	
+	/**
+	 * 频道成员权限: owner
+	 */
+	public static final int CHANNEL_MEMBER_ROLE_OWNER = 1;
 	
 	/**
 	 * APP版本:2.0，版本号过溢出则使用次版本

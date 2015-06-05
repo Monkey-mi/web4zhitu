@@ -113,6 +113,11 @@ public class CacheKeies {
 	public static final String OP_CHANNEL = MODULE_OP + "channel";
 	
 	/**
+	 * 旧版频道
+	 */
+	public static final String OP_CHANNEL_OLD = MODULE_OP + "channel:old";
+	
+	/**
 	 * 频道TopOne人物
 	 */
 	public static final String OP_CHANNEL_TOP_ONE = MODULE_OP + "channel:topone";

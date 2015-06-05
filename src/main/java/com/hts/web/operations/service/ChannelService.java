@@ -63,6 +63,36 @@ public interface ChannelService extends BaseService{
 			Integer likedLimit, Integer completeLimit, Map<String, Object> jsonMap) throws Exception;
 	
 	/**
+	 * 构建未生效的频道织图列表
+	 * 
+	 * @param channelId
+	 * @param userId
+	 * @param maxId
+	 * @param start
+	 * @param limit
+	 * @param trimExtras
+	 * @param commentLimit
+	 * @param likedLimit
+	 * @param completeLimit
+	 * @param jsonMap
+	 * @throws Exception
+	 */
+	public void buildUnValidChannelWorld(Integer channelId, Integer userId, Integer maxId,
+			Integer start, Integer limit, Boolean trimExtras, Integer commentLimit,
+			Integer likedLimit, Integer completeLimit, Map<String, Object> jsonMap) throws Exception;
+	
+	
+	/**
+	 * 构建未生效频道织图总数
+	 * 
+	 * @param channelId
+	 * @param jsonMap
+	 * @throws Exception
+	 */
+	public void buildUnValidWorldCount(Integer channelId, 
+			Map<String, Object> jsonMap) throws Exception;
+	
+	/**
 	 * 构建频道Top One列表
 	 * 
 	 * @param userId
@@ -218,7 +248,64 @@ public interface ChannelService extends BaseService{
 	 * @param themeId
 	 * @param jsonMap
 	 */
-	public void buildThemeChannel(final Integer themeId, Integer maxId, Integer start,
+	public void buildThemeChannel(Integer themeId, Integer maxId, Integer start,
 			Integer limit, Map<String, Object> jsonMap) throws Exception;
+	
+	
+	/**
+	 * 删除织图
+	 * 
+	 * @param channelId
+	 * @param worldId
+	 * @param userId
+	 * @throws Exception
+	 */
+	public void deleteWorld(Integer channelId, Integer worldId,
+			Integer userId) throws Exception;
+	
+	/**
+	 * 添加织图
+	 * 
+	 * @param channelId
+	 * @param worldId
+	 * @param userId
+	 * @throws Exception
+	 */
+	public void updateAcceptWorld(Integer channelId, Integer worldId, 
+			Integer userId) throws Exception;
+	
+	/**
+	 * 拒绝织图
+	 * 
+	 * @param channelId
+	 * @param worldId
+	 * @param userId
+	 * @throws Exception
+	 */
+	public void updateRejectWorld(Integer channelId, Integer worldId,
+			Integer userId) throws Exception;
+	
+	/**
+	 * 添加织图精选
+	 * 
+	 * @param channelId
+	 * @param worldId
+	 * @param userId
+	 * @throws Exception
+	 */
+	public void addWorldSuperb(Integer channelId, Integer worldId,
+			Integer userId) throws Exception;
+	
+	/**
+	 * 删除织图精选
+	 * 
+	 * @param channelId
+	 * @param worldId
+	 * @param userId
+	 * @throws Exception
+	 */
+	public void deleteWorldSuperb(Integer channelId, Integer worldId,
+			Integer userId) throws Exception;
+	
 	
 }

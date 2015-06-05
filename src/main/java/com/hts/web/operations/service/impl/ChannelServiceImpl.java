@@ -57,6 +57,7 @@ import com.hts.web.operations.service.ChannelService;
 import com.hts.web.userinfo.service.UserConcernService;
 import com.hts.web.userinfo.service.UserInfoService;
 import com.hts.web.userinfo.service.UserInteractService;
+import com.hts.web.ztworld.dao.HTWorldDao;
 import com.hts.web.ztworld.dao.HTWorldLabelDao;
 import com.hts.web.ztworld.service.ZTWorldService;
 
@@ -124,17 +125,14 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 	@Autowired
 	private ChannelLinkDao linkDao;
 	
-	/**
-	 * 2.9.89版本热门频道限定条数
-	 */
-	private static final int CHANNEL_CACHE_LIMIT_2_9_89 = 8;
+	@Autowired
+	private HTWorldDao worldDao;
 	
 	private Integer officialId = 45162;
 	
 	@Override
 	public void buildChannel(Map<String, Object> jsonMap) throws Exception {
-		List<OpChannel> list = channelCacheDao.queryChannel(
-				new RowSelection(1, CHANNEL_CACHE_LIMIT_2_9_89));
+		List<OpChannel> list = channelCacheDao.queryOldChannel();
 		OpActivity maxAct = activityCacheDao.queryMaxActivity();
 		OpChannelTopOne maxTopOne = channelTopOneCacheDao.queryMaxTopOne();
 		Integer maxActId = maxAct != null ? maxAct.getId() : 0;
@@ -175,12 +173,7 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 
 					@Override
 					public List<OpChannelWorldDto> getSerializables(RowSelection rowSelection) {
-						// 查询出所有置顶织图
-						List<OpChannelWorldDto> worldList = 
-								channelWorldDao.queryWeightChannelWorld(channelId, rowSelection);
-						// 查询未置顶的织图
-						List<OpChannelWorldDto> normalList = channelWorldDao.queryChannelWorld(channelId, rowSelection);
-						worldList.addAll(normalList);
+						List<OpChannelWorldDto> worldList = channelWorldDao.queryChannelWorld(channelId, rowSelection, userId);
 						
 						worldService.extractExtraInfo(true, true, userId, trimExtras, commentLimit, 
 								likedLimit, worldList.size(), worldList);
@@ -204,7 +197,7 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 
 					@Override
 					public List<OpChannelWorldDto> getSerializableByMaxId(int maxId, RowSelection rowSelection) {
-						List<OpChannelWorldDto> worldList = channelWorldDao.queryChannelWorld(maxId, channelId, rowSelection);
+						List<OpChannelWorldDto> worldList = channelWorldDao.queryChannelWorld(maxId, channelId, rowSelection, userId);
 						worldService.extractExtraInfo(true, true, userId, trimExtras, commentLimit, 
 								likedLimit, worldList.size(), worldList);
 						userInfoService.extractVerify(worldList);
@@ -232,26 +225,10 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 					@Override
 					public List<OpChannelWorldDto> getSerializables(RowSelection rowSelection) {
 						List<OpChannelWorldDto> worldList = channelWorldDao.querySuperbChannelWorld(channelId, rowSelection);
-						int extrasLimit = 0;
-						if(completeLimit > 0)
-							extrasLimit = Math.min(completeLimit, worldList.size());
-						else 
-							extrasLimit = worldList.size();
-						worldService.extractExtraInfo(true, true, userId, trimExtras, commentLimit, likedLimit, extrasLimit, worldList);
+						worldService.extractExtraInfo(true, true, userId, trimExtras, commentLimit, likedLimit, worldList.size(), worldList);
 						userInfoService.extractVerify(worldList);
 						userConcernService.extractConcernStatus(userId, worldList);
 						userInteractService.extractRemark(userId, worldList);
-						
-						// 获取频道红人， 并将查询用户放在第一
-						List<OpChannelStar> starList = channelStarCacheDao.queryStar(channelId);
-						for(OpChannelStar star : starList) {
-							if(star.getId().equals(userId)) {
-								starList.remove(star);
-								starList.add(0, star);
-								break;
-							}
-						}
-						jsonMap.put(OptResult.JSON_KEY_STARS, starList);
 						
 						return worldList;
 					}
@@ -259,12 +236,7 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 					@Override
 					public List<OpChannelWorldDto> getSerializableByMaxId(int maxId, RowSelection rowSelection) {
 						List<OpChannelWorldDto> worldList = channelWorldDao.querySuperbChannelWorld(maxId, channelId, rowSelection);
-						int extrasLimit = 0;
-						if(completeLimit > 0)
-							extrasLimit = Math.min(completeLimit, worldList.size());
-						else 
-							extrasLimit = worldList.size();
-						worldService.extractExtraInfo(true, true, userId, trimExtras, commentLimit, likedLimit, extrasLimit, worldList);
+						worldService.extractExtraInfo(true, true, userId, trimExtras, commentLimit, likedLimit, worldList.size(), worldList);
 						userInfoService.extractVerify(worldList);
 						userInteractService.extractRemark(userId, worldList);
 						userConcernService.extractConcernStatus(userId, worldList);
@@ -277,6 +249,45 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 					}
 					
 		}, OptResult.JSON_KEY_HTWORLD, null);
+	}
+	
+	@Override
+	public void buildUnValidChannelWorld(final Integer channelId, final Integer userId,
+			Integer maxId, Integer start, final Integer limit, final Boolean trimExtras,
+			final Integer commentLimit, final Integer likedLimit, final Integer completeLimit,
+			final Map<String, Object> jsonMap) throws Exception {
+		buildSerializables("getRecommendId", maxId, start, limit, jsonMap, 
+				new SerializableListAdapter<OpChannelWorldDto>() {
+
+					@Override
+					public List<OpChannelWorldDto> getSerializables(RowSelection rowSelection) {
+						List<OpChannelWorldDto> worldList = channelWorldDao.queryUnValidChannelWorld(channelId, 
+								rowSelection);
+						worldService.extractExtraInfo(true, true, userId, trimExtras, commentLimit, 
+								likedLimit, worldList.size(), worldList);
+						userInfoService.extractVerify(worldList);
+						userInteractService.extractRemark(userId, worldList);
+						return worldList;
+					}
+
+					@Override
+					public List<OpChannelWorldDto> getSerializableByMaxId(int maxId, RowSelection rowSelection) {
+						List<OpChannelWorldDto> worldList = channelWorldDao.queryUnValidChannelWorld(maxId, 
+								channelId, rowSelection);
+						worldService.extractExtraInfo(true, true, userId, trimExtras, commentLimit, 
+								likedLimit, worldList.size(), worldList);
+						userInfoService.extractVerify(worldList);
+						userInteractService.extractRemark(userId, worldList);
+						return worldList;
+					}
+
+					@Override
+					public long getTotalByMaxId(int maxId) {
+						return 0;
+					}
+					
+		}, OptResult.JSON_KEY_HTWORLD, null);
+		
 	}
 
 	@Override
@@ -457,7 +468,7 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 			Integer authorId, Integer addChildCount) {
 		Integer id = keyGenService.generateId(KeyGenServiceImpl.OP_CHANNEL_WORLD_ID);
 		OpChannelWorld world = new OpChannelWorld(id, channelId,
-				worldId, authorId, new Date(), Tag.TRUE, Tag.TRUE, Tag.FALSE, id);
+				worldId, authorId, new Date(), Tag.FALSE, Tag.TRUE, Tag.FALSE, id);
 		channelWorldDao.saveChannelWorld(world);
 		addWorldCountAndChildCount(channelId, addChildCount);
 	}
@@ -625,7 +636,7 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 			Integer addChildCount) {
 		channelDao.addWorldAndChildCount(channelId, 1, addChildCount);
 	}
-
+	
 	@Override
 	public void updateWorldAndChildCount(Integer channelId) {
 		Integer worldCount = channelWorldDao.queryWorldCount(channelId).intValue();
@@ -680,7 +691,71 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 					public long getTotalByMaxId(int maxId) {
 						return 0;
 					}
-					
 		}, OptResult.JSON_KEY_CHANNELS, null);
 	}
+
+	@Override
+	public void deleteWorld(Integer channelId, Integer worldId,
+			Integer userId) throws Exception {
+		Integer role = memberDao.queryDegree(channelId, userId);
+		if(!role.equals(Tag.CHANNEL_MEMBER_ROLE_OWNER)) {
+			throw new HTSException("permission deny");
+		}
+		channelWorldDao.updateValid(channelId, worldId, Tag.FALSE);
+		updateWorldAndChildCount(channelId);
+	}
+	
+	@Override
+	public void updateAcceptWorld(Integer channelId, Integer worldId, Integer userId)
+			throws Exception {
+		Integer role = memberDao.queryDegree(channelId, userId);
+		if(!role.equals(Tag.CHANNEL_MEMBER_ROLE_OWNER)) {
+			throw new HTSException("permission deny");
+		}
+		channelWorldDao.updateValid(channelId, worldId, Tag.FALSE);
+		updateWorldAndChildCount(channelId);
+		
+	}
+
+	@Override
+	public void updateRejectWorld(Integer channelId, Integer worldId,
+			Integer userId) throws Exception {
+		Integer role = memberDao.queryDegree(channelId, userId);
+		if(!role.equals(Tag.CHANNEL_MEMBER_ROLE_OWNER)) {
+			throw new HTSException("permission deny");
+		}
+		channelWorldDao.updateValid(channelId, worldId, Tag.REJECT);
+		updateWorldAndChildCount(channelId);
+	}
+
+	@Override
+	public void addWorldSuperb(Integer channelId, Integer worldId,
+			Integer userId) throws Exception {
+		Integer role = memberDao.queryDegree(channelId, userId);
+		if(!role.equals(Tag.CHANNEL_MEMBER_ROLE_OWNER)) {
+			throw new HTSException("permission deny");
+		}
+		channelWorldDao.updateSuperb(channelId, worldId, Tag.TRUE);
+		updateSuperbCount(channelId);
+	}
+
+	@Override
+	public void deleteWorldSuperb(Integer channelId, Integer worldId,
+			Integer userId) throws Exception {
+		Integer role = memberDao.queryDegree(channelId, userId);
+		if(!role.equals(Tag.CHANNEL_MEMBER_ROLE_OWNER)) {
+			throw new HTSException("permission deny");
+		}
+		channelWorldDao.updateSuperb(channelId, worldId, Tag.FALSE);
+		updateSuperbCount(channelId);
+	}
+
+	@Override
+	public void buildUnValidWorldCount(Integer channelId,
+			Map<String, Object> jsonMap) throws Exception {
+		long count = channelWorldDao.queryUnValidCount(channelId);
+		jsonMap.put(OptResult.JSON_KEY_TOTAL_COUNT, count);
+	}
+	
+
 }
