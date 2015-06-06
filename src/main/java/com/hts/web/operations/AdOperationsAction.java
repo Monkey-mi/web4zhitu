@@ -60,6 +60,7 @@ public class AdOperationsAction extends BaseAction {
 		} else {
 			ip = request.getHeader("x-forwarded-for");
 		}
+		
 		try {
 			link = adOperationsService.addAppLinkRecordFromURL(request.getServletPath(), ip);
 		} catch (Exception e) {
