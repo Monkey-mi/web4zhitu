@@ -264,7 +264,7 @@ public class ChannelAction extends BaseAction {
 		try {
 			channelService.updateAcceptWorld(channelId, worldId, 
 					getCurrentLoginUserId());
-			JSONUtil.optSuccess(OptResult.DELETE_SUCCESS, jsonMap);
+			JSONUtil.optSuccess(OptResult.UPDATE_SUCCESS, jsonMap);
 		} catch(Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
 		}

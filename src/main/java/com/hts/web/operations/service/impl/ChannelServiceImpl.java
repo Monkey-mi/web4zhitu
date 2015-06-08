@@ -470,7 +470,7 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 		OpChannelWorld world = new OpChannelWorld(id, channelId,
 				worldId, authorId, new Date(), Tag.FALSE, Tag.TRUE, Tag.FALSE, id);
 		channelWorldDao.saveChannelWorld(world);
-		addWorldCountAndChildCount(channelId, addChildCount);
+//		addWorldCountAndChildCount(channelId, addChildCount);
 	}
 
 	@Override
@@ -698,7 +698,8 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 	public void deleteWorld(Integer channelId, Integer worldId,
 			Integer userId) throws Exception {
 		Integer role = memberDao.queryDegree(channelId, userId);
-		if(!role.equals(Tag.CHANNEL_MEMBER_ROLE_OWNER)) {
+		if(!role.equals(Tag.CHANNEL_MEMBER_ROLE_OWNER) 
+				&& !role.equals(Tag.CHANNEL_MEMBER_ROLE_ADMIN)) {
 			throw new HTSException("permission deny");
 		}
 		channelWorldDao.updateValid(channelId, worldId, Tag.FALSE);
@@ -709,10 +710,12 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 	public void updateAcceptWorld(Integer channelId, Integer worldId, Integer userId)
 			throws Exception {
 		Integer role = memberDao.queryDegree(channelId, userId);
-		if(!role.equals(Tag.CHANNEL_MEMBER_ROLE_OWNER)) {
+		if(!role.equals(Tag.CHANNEL_MEMBER_ROLE_OWNER) 
+				&& !role.equals(Tag.CHANNEL_MEMBER_ROLE_ADMIN)) {
 			throw new HTSException("permission deny");
 		}
-		channelWorldDao.updateValid(channelId, worldId, Tag.FALSE);
+		Integer serial = keyGenService.generateId(KeyGenServiceImpl.OP_CHANNEL_WORLD_ID);
+		channelWorldDao.updateValidAndSerial(channelId, worldId, Tag.TRUE, serial);
 		updateWorldAndChildCount(channelId);
 		
 	}
@@ -721,7 +724,8 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 	public void updateRejectWorld(Integer channelId, Integer worldId,
 			Integer userId) throws Exception {
 		Integer role = memberDao.queryDegree(channelId, userId);
-		if(!role.equals(Tag.CHANNEL_MEMBER_ROLE_OWNER)) {
+		if(!role.equals(Tag.CHANNEL_MEMBER_ROLE_OWNER) 
+				&& !role.equals(Tag.CHANNEL_MEMBER_ROLE_ADMIN)) {
 			throw new HTSException("permission deny");
 		}
 		channelWorldDao.updateValid(channelId, worldId, Tag.REJECT);
@@ -732,7 +736,8 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 	public void addWorldSuperb(Integer channelId, Integer worldId,
 			Integer userId) throws Exception {
 		Integer role = memberDao.queryDegree(channelId, userId);
-		if(!role.equals(Tag.CHANNEL_MEMBER_ROLE_OWNER)) {
+		if(!role.equals(Tag.CHANNEL_MEMBER_ROLE_OWNER) 
+				&& !role.equals(Tag.CHANNEL_MEMBER_ROLE_ADMIN)) {
 			throw new HTSException("permission deny");
 		}
 		channelWorldDao.updateSuperb(channelId, worldId, Tag.TRUE);
@@ -743,7 +748,8 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 	public void deleteWorldSuperb(Integer channelId, Integer worldId,
 			Integer userId) throws Exception {
 		Integer role = memberDao.queryDegree(channelId, userId);
-		if(!role.equals(Tag.CHANNEL_MEMBER_ROLE_OWNER)) {
+		if(!role.equals(Tag.CHANNEL_MEMBER_ROLE_OWNER) 
+				&& !role.equals(Tag.CHANNEL_MEMBER_ROLE_ADMIN)) {
 			throw new HTSException("permission deny");
 		}
 		channelWorldDao.updateSuperb(channelId, worldId, Tag.FALSE);

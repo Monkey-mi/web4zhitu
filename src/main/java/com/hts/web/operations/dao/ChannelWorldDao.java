@@ -143,8 +143,21 @@ public interface ChannelWorldDao extends BaseDao {
 	 * @param channelId
 	 * @param worldId
 	 * @param valid
+	 * @param serial
 	 */
-	public void updateValid(Integer channelId, Integer worldId, Integer valid);
+	public void updateValid(Integer channelId, Integer worldId,
+			Integer valid);
+	
+	/**
+	 * 更新有效性和序号
+	 * 
+	 * @param channelId
+	 * @param worldId
+	 * @param valid
+	 * @param serial
+	 */
+	public void updateValidAndSerial(Integer channelId, Integer worldId,
+			Integer valid, Integer serial);
 	
 	/**
 	 * 更新精选标记
@@ -152,8 +165,20 @@ public interface ChannelWorldDao extends BaseDao {
 	 * @param channelId
 	 * @param worldId
 	 * @param superb
+	 * @param serial
 	 */
-	public void updateSuperb(Integer channelId, Integer worldId, Integer superb);
+	public void updateSuperbAndSerial(Integer channelId, Integer worldId, 
+			Integer superb, Integer serial);
+	
+	
+	/**
+	 * 更新精选和序号
+	 * @param channelId
+	 * @param worldId
+	 * @param superb
+	 */
+	public void updateSuperb(Integer channelId, Integer worldId, 
+			Integer superb);
 	
 	/**
 	 * 查询未生效总数

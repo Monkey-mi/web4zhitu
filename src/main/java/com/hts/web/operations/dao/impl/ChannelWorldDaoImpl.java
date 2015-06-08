@@ -26,7 +26,7 @@ public class ChannelWorldDaoImpl extends BaseDaoImpl implements ChannelWorldDao 
 
 	private static String table = HTS.OPERATIONS_CHANNEL_WORLD;
 	
-	private static final String QUERY_WORLD = "select * from ("
+	private static final String QUERY_WORLD = "select distinct * from ("
 			+ " (SELECT oc0.serial as recommend_id,oc0.superb," + H0_INFO + ", " + U0_INFO 
 			+ " from " + table + " as oc0, " + HTS.HTWORLD_HTWORLD + " as h0, " + HTS.USER_INFO + " as u0"
 			+ " where oc0.world_id=h0.id and h0.author_id = u0.id "
@@ -41,13 +41,14 @@ public class ChannelWorldDaoImpl extends BaseDaoImpl implements ChannelWorldDao 
 			+ " ) as o0 order by o0.recommend_id desc limit ?";
 	
 	
+	
 //	private static final String QUERY_WORLD_BY_MAX_ID = "SELECT oc0.serial as recommend_id, " + H0_INFO + ", " + U0_INFO 
 //			+ " from " + table + " as oc0, " + HTS.HTWORLD_HTWORLD + " as h0, " + HTS.USER_INFO + " as u0"
 //			+ " where oc0.world_id=h0.id and h0.author_id = u0.id "
 //			+ " and oc0.valid=1 and h0.valid=1 and h0.shield=0 and oc0.channel_id=? and oc0.serial<=?"
 //			+ " order by oc0.serial desc limit ?,?";
 	
-	private static final String QUERY_WORLD_BY_MAX_ID = "select * from ("
+	private static final String QUERY_WORLD_BY_MAX_ID = "select distinct * from ("
 			+ " (SELECT oc0.serial as recommend_id, oc0.superb," + H0_INFO + ", " + U0_INFO 
 			+ " from " + table + " as oc0, " + HTS.HTWORLD_HTWORLD + " as h0, " + HTS.USER_INFO + " as u0"
 			+ " where oc0.world_id=h0.id and h0.author_id = u0.id "
@@ -89,13 +90,13 @@ public class ChannelWorldDaoImpl extends BaseDaoImpl implements ChannelWorldDao 
 	private static final String QUERY_UNVALID_WORLD = "SELECT oc0.serial as recommend_id, oc0.superb," + H0_INFO + ", " + U0_INFO 
 			+ " from " + table + " as oc0, " + HTS.HTWORLD_HTWORLD + " as h0, " + HTS.USER_INFO + " as u0"
 			+ " where oc0.world_id=h0.id and h0.author_id = u0.id "
-			+ " and oc0.valid=1 and h0.valid=1 and h0.shield=0 and oc0.valid=0 and oc0.channel_id=?"
+			+ " and oc0.valid=0 and h0.valid=1 and h0.shield=0 and oc0.channel_id=?"
 			+ " order by oc0.serial desc limit ?";
 	
 	private static final String QUERY_UNVALID_WORLD_BY_MAX_ID = "SELECT oc0.serial as recommend_id, oc0.superb," + H0_INFO + ", " + U0_INFO 
 			+ " from " + table + " as oc0, " + HTS.HTWORLD_HTWORLD + " as h0, " + HTS.USER_INFO + " as u0"
 			+ " where oc0.world_id=h0.id and h0.author_id = u0.id "
-			+ " and oc0.valid=1 and h0.valid=1 and h0.shield=0 and oc0.valid=0 and oc0.channel_id=? and oc0.serial<=?"
+			+ " and oc0.valid=0 and h0.valid=1 and h0.shield=0 and oc0.channel_id=? and oc0.serial<=?"
 			+ " order by oc0.serial desc limit ?";
 	
 	
@@ -123,8 +124,14 @@ public class ChannelWorldDaoImpl extends BaseDaoImpl implements ChannelWorldDao 
 	private static final String UPDATE_VALID = "update " + table 
 			+ " set valid=? where channel_id=? and world_id=?";
 	
+	private static final String UPDATE_VALID_AND_SERIAL = "update " + table 
+			+ " set valid=?,serial=? where channel_id=? and world_id=?";
+	
 	private static final String UPDATE_SUPERB = "update " + table
 			+ " set superb=? where channel_id=? and world_id=?";
+	
+	private static final String UPDATE_SUPERB_AND_SERIAL = "update " + table
+			+ " set superb=?,serial=? where channel_id=? and world_id=?";
 	
 	private static final String QUERY_UNVALID_COUNT = "select count(*) from " + table
 			+ " where channel_id=? and valid=0";
@@ -305,11 +312,25 @@ public class ChannelWorldDaoImpl extends BaseDaoImpl implements ChannelWorldDao 
 		getMasterJdbcTemplate().update(UPDATE_VALID, 
 				new Object[]{valid, channelId, worldId});
 	}
+	
+	@Override
+	public void updateValidAndSerial(Integer channelId, Integer worldId, Integer valid, Integer serial) {
+		getMasterJdbcTemplate().update(UPDATE_VALID_AND_SERIAL,
+				new Object[]{valid,serial,channelId,worldId});
+	}
 
 	@Override
-	public void updateSuperb(Integer channelId, Integer worldId, Integer superb) {
+	public void updateSuperb(Integer channelId, Integer worldId,
+			Integer superb) {
 		getMasterJdbcTemplate().update(UPDATE_SUPERB, 
 				new Object[]{superb, channelId, worldId});
+	}
+	
+	@Override
+	public void updateSuperbAndSerial(Integer channelId, Integer worldId,
+			Integer superb, Integer serial) {
+		getMasterJdbcTemplate().update(UPDATE_SUPERB_AND_SERIAL, 
+				new Object[]{superb, serial, channelId, worldId});
 	}
 
 	@Override

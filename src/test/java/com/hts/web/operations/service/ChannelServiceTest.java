@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.hts.web.base.BaseTest;
 import com.hts.web.base.constant.OptResult;
 import com.hts.web.common.pojo.OpChannel;
+import com.hts.web.common.pojo.OpChannelWorldDto;
 import com.hts.web.common.util.Log;
 
 public class ChannelServiceTest extends BaseTest {
@@ -35,17 +36,18 @@ public class ChannelServiceTest extends BaseTest {
 	
 	@Test
 	public void testBuildChannelWorld() throws Exception {
-		Map<String,Object> jsonMap = new HashMap<String, Object>();
-		service.buildChannelWorld(8, 527, 0, 1, 10, false, 0, 10, 4, jsonMap);
 		logNumberList(logger, new NumberListAdapter(){
 
 			@Override
 			public void buildNumberList(Map<String, Object> jsonMap)
 					throws Exception {
-				service.buildChannelWorld(1, 485, 10000, 1, 10, false, 0, 10, 4, jsonMap);
-				service.buildChannelWorld(1, 527, 0, 1, 10, false, 0, 10, 4, jsonMap);
+//				service.buildChannelWorld(11832, 485, 10000, 1, 10, false, 0, 10, 4, jsonMap);
+				service.buildChannelWorld(11819, 527, 0, 1, 10, false, 0, 10, 4, jsonMap);
+				List<OpChannelWorldDto> list = (List<OpChannelWorldDto>) jsonMap.get(OptResult.JSON_KEY_HTWORLD);
+				for(OpChannelWorldDto dto : list) {
+					Log.debug(dto.getId() + " : " + dto.getSuperb());
+				}
 			}
-			
 		});
 	}
 	
@@ -172,6 +174,19 @@ public class ChannelServiceTest extends BaseTest {
 					throws Exception {
 				service.buildThemeChannel(10000, 0, 1, 10, jsonMap);
 				service.buildThemeChannel(10000, 1000, 1, 10, jsonMap);
+			}
+		});
+	}
+	
+	@Test
+	public void buildUnValidChannelWorldTest() throws Exception {
+		logNumberList(logger, new NumberListAdapter(){
+
+			@Override
+			public void buildNumberList(Map<String, Object> jsonMap)
+					throws Exception {
+				service.buildUnValidChannelWorld(11819, 485, 0, 
+						1, 10, false, 0, 10, 4, jsonMap);
 			}
 		});
 	}

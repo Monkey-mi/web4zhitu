@@ -341,6 +341,11 @@ public class Tag {
 	public static final int CHANNEL_MEMBER_ROLE_OWNER = 1;
 	
 	/**
+	 * 频道成员权限: admin
+	 */
+	public static final int CHANNEL_MEMBER_ROLE_ADMIN = 2;
+	
+	/**
 	 * APP版本:2.0，版本号过溢出则使用次版本
 	 */
 	public static final float VERSION_2_0 = 2.0f;
