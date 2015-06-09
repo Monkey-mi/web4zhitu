@@ -206,6 +206,11 @@ public class KeyGenServiceImpl extends BaseServiceImpl implements KeyGenService{
 	 */
 	public static final Integer OP_CHANNEL_LINK_SERIAL = 38;
 	
+	/**
+	 * 启动页id
+	 */
+	public static final Integer OP_MSG_START_PAGE_ID = 39;
+	
 	@Autowired
 	private KeyGenDao keyGenDao;
 	
