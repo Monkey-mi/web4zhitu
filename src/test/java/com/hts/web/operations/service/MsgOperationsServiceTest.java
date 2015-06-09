@@ -20,4 +20,11 @@ public class MsgOperationsServiceTest extends BaseTest {
 		service.buildNotice(1595, Tag.ANDROID, jsonMap);
 		logObj(jsonMap);
 	}
+	
+	@Test
+	public void buildMsgTest() throws Exception {
+		Map<String, Object> jsonMap = new HashMap<String, Object>();
+		service.buildStartPage(jsonMap);
+		logObj(jsonMap);
+	}
 }
