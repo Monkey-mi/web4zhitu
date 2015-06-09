@@ -9,4 +9,7 @@ public interface MsgOperationsService extends BaseService {
 	public void buildNotice(Integer userId, Integer phoneCode,
 			Map<String, Object> jsonMap) throws Exception;
 	
+	public void buildStartPage(Map<String, Object> jsonMap)
+			throws Exception;
+	
 }

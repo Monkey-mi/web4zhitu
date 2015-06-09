@@ -11,6 +11,7 @@ import com.hts.web.common.pojo.OpNotice;
 import com.hts.web.common.pojo.OpSysMsgDto;
 import com.hts.web.common.service.impl.BaseServiceImpl;
 import com.hts.web.operations.dao.NoticeCacheDao;
+import com.hts.web.operations.dao.StartPageCacheDao;
 import com.hts.web.operations.dao.SysMsgDao;
 import com.hts.web.operations.service.MsgOperationsService;
 
@@ -19,6 +20,9 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 
 	@Autowired
 	private NoticeCacheDao noticeCacheDao;
+	
+	@Autowired
+	private StartPageCacheDao startPageCacheDao;
 	
 	@Autowired
 	private SysMsgDao sysMsgDao;
@@ -34,5 +38,10 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 		}
 	}
 	
+	@Override
+	public void buildStartPage(Map<String, Object> jsonMap) throws Exception {
+		jsonMap.put(OptResult.JSON_KEY_MSG, 
+				startPageCacheDao.queryStartPage());
+	}
 	
 }
