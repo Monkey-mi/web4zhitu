@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -77,6 +78,8 @@ import com.hts.web.ztworld.dao.HTWorldLikedDao;
 @Service("HTSUserMsgService")
 public class UserMsgServiceImpl extends BaseServiceImpl implements
 		UserMsgService {
+	
+	private static Logger logger = Logger.getLogger(UserMsgServiceImpl.class);
 	
 	private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
@@ -354,9 +357,9 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 		userMsgSendBoxDao.saveSendMsg(msgBox);
 		if(!shield) { // 保存到接受者的收件箱并推送
 			msgBox.setCk(Tag.FALSE);
-			if(recipientId.equals(customerServiceId)) { // 表明这是通过反馈页面发送的
+			if(recipientId.equals(customerServiceId)) { // 表明这是通过app反馈页面发送的
 				userMsgRecipientBoxDao.saveRecipientBox(msgBox);
-				
+				autoResponse(senderId, recipientId, content, msgType); // 自动回复
 			} else {
 				UserPushInfo pusnInfo = userInfoDao.queryUserPushInfoById(recipientId);
 				// 系统发出或者2.9.5版本（用户间的私信不通过我们的服务器）之前的用户才会收到私信
@@ -371,10 +374,37 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 						@Override
 						public void onPushFailed(Exception e) {}
 					});
+					
 				}
 			}
 		}
 		return id;
+	}
+	
+	/**
+	 * 小秘书自动回复 
+	 * 
+	 * @param senderId
+	 * @param recipientId
+	 * @param content
+	 * @param msgType
+	 */
+	private void autoResponse(final Integer senderId, final Integer recipientId,
+			final String content, final Integer msgType) {
+		pushService.getPushExecutor().execute(new Runnable() {
+
+			@Override
+			public void run() {
+				try {
+					String answer = openSearchService.searchAnswer(content);
+					if(answer != null) {
+						saveUserMsg(recipientId, senderId, answer, msgType);
+					}
+				} catch (Exception e) {
+					logger.warn("xiao mi shu auto response error:" + e.getMessage());
+				}
+			}
+		});
 	}
 	
 	@Override

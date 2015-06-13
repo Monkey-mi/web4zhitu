@@ -112,6 +112,7 @@ public class PushServiceImpl implements PushService {
 		this.certificateResource = certificateResource;
 	}
 
+	@Override
 	public TaskExecutor getPushExecutor() {
 		return pushExecutor;
 	}

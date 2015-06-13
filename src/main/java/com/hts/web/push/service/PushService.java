@@ -2,6 +2,8 @@ package com.hts.web.push.service;
 
 import java.util.List;
 
+import org.springframework.core.task.TaskExecutor;
+
 import com.hts.web.base.HTSException;
 import com.hts.web.common.pojo.UserPushInfo;
 import com.hts.web.push.service.impl.PushServiceImpl.PushFailedCallback;
@@ -138,5 +140,7 @@ public interface PushService {
 	public void pushUserRecSysMsg(Integer recUid, String content) throws Exception;
 	
 	public void apnsPushTest(String pushToken) throws HTSException;
+	
+	public TaskExecutor getPushExecutor();
 
 }
