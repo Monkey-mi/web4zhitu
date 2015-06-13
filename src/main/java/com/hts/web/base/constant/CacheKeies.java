@@ -103,6 +103,11 @@ public class CacheKeies {
 	public static final String OP_MSG_START_PAGE = MODULE_OP + "msg:startPage";
 	
 	/**
+	 * 运营:公告
+	 */
+	public static final String OP_MSG_BULLETIN = MODULE_OP + "msg:bulletin";
+	
+	/**
 	 * 运营：精品分类
 	 */
 	public static final String OP_SUPERB_TYPE = MODULE_OP + "type:superb";
