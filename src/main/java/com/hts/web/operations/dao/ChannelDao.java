@@ -175,4 +175,20 @@ public interface ChannelDao extends BaseDao {
 	 */
 	public void subWorldAndChildCount(Integer id, Integer subWorldCount,
 			Integer subChildCount);
+	
+	/**
+	 * 根据名字获取id
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public Integer queryIdByName(String name);
+	
+	/**
+	 * 根据id查询名字,返回NULL表示没有此频道
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public String queryNameById(Integer id);
 }

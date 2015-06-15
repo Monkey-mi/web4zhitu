@@ -44,6 +44,7 @@ public class OpWorldTypeDto implements HTWorldWithExtra, ObjectWithUserVerify, O
 	private String titlePath; // 首页路径
 	private String bgPath;
 	private String titleThumbPath; // 首页缩略图路径
+	private List<HTWorldChannelName> channelNames;
 	private Double longitude;// 经度
 	private Double latitude;// 纬度
 	private String locationDesc;// 位置描述
@@ -90,9 +91,10 @@ public class OpWorldTypeDto implements HTWorldWithExtra, ObjectWithUserVerify, O
 			Integer typeId, Date dateAdded, Date dateModified,
 			Integer authorId, Integer clickCount, Integer likeCount,
 			Integer commentCount, Integer keepCount, String coverPath,
-			String titlePath, String bgPath, String titleThumbPath, Double longitude,
-			Double latitude, String locationDesc, String locationAddr,
-			Integer phoneCode, String province, String city, Integer size,
+			String titlePath, String bgPath, String titleThumbPath, 
+			List<HTWorldChannelName> channelNames,
+			Double longitude, Double latitude, String locationDesc, 
+			String locationAddr, Integer phoneCode, String province, String city, Integer size,
 			Integer childCount, Integer ver, Integer tp, HTWorldTextStyle textStyle) {
 		super();
 		this.recommendId = recommendId;
@@ -116,6 +118,7 @@ public class OpWorldTypeDto implements HTWorldWithExtra, ObjectWithUserVerify, O
 		this.titlePath = titlePath;
 		this.bgPath = bgPath;
 		this.titleThumbPath = titleThumbPath;
+		this.channelNames = channelNames;
 		this.longitude = longitude;
 		this.latitude = latitude;
 		this.locationDesc = locationDesc;
@@ -526,6 +529,14 @@ public class OpWorldTypeDto implements HTWorldWithExtra, ObjectWithUserVerify, O
 
 	public void setTextStyle(HTWorldTextStyle textStyle) {
 		this.textStyle = textStyle;
+	}
+
+	public List<HTWorldChannelName> getChannelNames() {
+		return channelNames;
+	}
+
+	public void setChannelNames(List<HTWorldChannelName> channelNames) {
+		this.channelNames = channelNames;
 	}
 	
 }

@@ -12,4 +12,8 @@ public interface MsgOperationsService extends BaseService {
 	public void buildStartPage(Map<String, Object> jsonMap)
 			throws Exception;
 	
+	public void buildBulletin(Map<String, Object> jsonMap)
+			throws Exception;
+	
+	
 }

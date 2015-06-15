@@ -318,7 +318,7 @@ public class YunbaClientImpl implements YunbaClient {
 	@Override
 	public void publishToCommonTopic(String toTopic, String msg, JSONObject apnsJSON) throws YunbaException{
 		try {
-			emit2CommonTopic("publish_async", "topic", toTopic, msg, apnsJSON);
+			emit2CommonTopic("publish", "topic", toTopic, msg, apnsJSON);
 		} catch(Exception e) {
 			throw new YunbaException(e);
 		}

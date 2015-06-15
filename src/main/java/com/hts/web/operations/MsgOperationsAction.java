@@ -50,6 +50,21 @@ public class MsgOperationsAction extends BaseAction {
 		return StrutsKey.JSON;
 	}
 
+	/**
+	 * 查询布告
+	 * 
+	 * @return
+	 */
+	public String queryBulletin() {
+		try {
+			msgOperationsService.buildBulletin(jsonMap);
+			JSONUtil.optSuccess(jsonMap);
+		} catch (Exception e) {
+			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+		}
+		return StrutsKey.JSON;
+	}
+	
 	public Integer getPhoneCode() {
 		return phoneCode;
 	}

@@ -40,7 +40,6 @@ public interface ZTWorldService extends BaseService {
 	 * @param coverPath
 	 * @param titlePath
 	 * @param titleThumbPath
-	 * @param thumbs
 	 * @param longitude
 	 * @param latitude
 	 * @param locationDesc
@@ -55,7 +54,7 @@ public interface ZTWorldService extends BaseService {
 	public HTWorld saveWorld(String childsJSON, Integer titleId,Integer phoneCode, 
 			Integer id, Integer authorId, String worldName, String worldDesc, String worldLabel,
 			String labelIds, String worldType, Integer typeId, String coverPath, String titlePath,
-			String bgPath, String titleThumbPath, String thumbs, Double longitude, Double latitude, 
+			String bgPath, String titleThumbPath, Double longitude, Double latitude, 
 			String locationDesc, String locationAddr,String province, String city, Integer size, 
 			String activityIds, Integer ver, String channelIds, Integer tp, String color, 
 			Integer mask) throws Exception;

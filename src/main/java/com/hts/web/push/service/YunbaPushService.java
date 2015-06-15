@@ -28,6 +28,15 @@ public interface YunbaPushService {
 	public void pushTopicMsg(String topic, PushIM msg) throws HTSException;
 	
 	/**
+	 * 推送公告
+	 * 
+	 * @param content
+	 * @param recipientId
+	 * @throws HTSException
+	 */
+	public void pushBulletin(String content, Integer recipientId) throws HTSException;
+	
+	/**
 	 * 推送系统消息
 	 * 
 	 * @param topic

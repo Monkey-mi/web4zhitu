@@ -1,7 +1,9 @@
 package com.hts.web.common.pojo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.struts2.json.annotations.JSON;
 
@@ -30,6 +32,7 @@ public class HTWorld implements Serializable {
 	private String worldLabel; // 世界标签
 	private String worldType; // 世界分类
 	private Integer typeId; // 分类id
+	private List<HTWorldChannelName> channelNames; // 频道名称列表
 	private Date dateAdded; // 添加时间
 	private Date dateModified; // 创建时间
 	private Integer clickCount = 0; // 查看次数
@@ -40,7 +43,6 @@ public class HTWorld implements Serializable {
 	private String titlePath; // 首页路径
 	private String bgPath; // 　背景路径
 	private String titleThumbPath; // 首页缩略图路径
-	private String thumbs; // 多张缩略图路径
 	private Double longitude;// 经度
 	private Double latitude;// 纬度
 	private String locationDesc;// 位置描述
@@ -67,7 +69,8 @@ public class HTWorld implements Serializable {
 			String worldType, Integer typeId, Date dateAdded,
 			Date dateModified, Integer clickCount, Integer likeCount,
 			Integer commentCount, Integer keepCount, String coverPath,
-			String titlePath, String bgPath, String titleThumbPath, String thumbs,
+			String titlePath, String bgPath, String titleThumbPath, 
+			List<HTWorldChannelName> channelNames,
 			Double longitude, Double latitude, String locationDesc,
 			String locationAddr, Integer phoneCode, String province,
 			String city, Integer size, Integer childCount, Integer ver, Integer tp,
@@ -91,7 +94,7 @@ public class HTWorld implements Serializable {
 		this.titlePath = titlePath;
 		this.bgPath = bgPath;
 		this.titleThumbPath = titleThumbPath;
-		this.thumbs = thumbs;
+		this.channelNames = channelNames;
 		this.longitude = longitude;
 		this.latitude = latitude;
 		this.locationDesc = locationDesc;
@@ -112,8 +115,8 @@ public class HTWorld implements Serializable {
 			String worldName, String worldDesc, String worldLabel,
 			String worldType, Integer typeId, Date dateAdded,
 			Date dateModified, String coverPath, String titlePath,
-			String bgPath, String titleThumbPath, String thumbs, 
-			Double longitude, Double latitude, String locationDesc, String locationAddr,
+			String bgPath, String titleThumbPath, List<HTWorldChannelName> channelNames,
+			Double longitude,Double latitude, String locationDesc, String locationAddr,
 			Integer phoneCode, String province, String city, Integer size,
 			Integer childCount, Integer ver, Integer tp, Integer valid,
 			Integer latestValid, Integer shield, HTWorldTextStyle textStyle) {
@@ -132,7 +135,7 @@ public class HTWorld implements Serializable {
 		this.titlePath = titlePath;
 		this.bgPath = bgPath;
 		this.titleThumbPath = titleThumbPath;
-		this.thumbs = thumbs;
+		this.channelNames = channelNames;
 		this.longitude = longitude;
 		this.latitude = latitude;
 		this.locationDesc = locationDesc;
@@ -262,14 +265,6 @@ public class HTWorld implements Serializable {
 
 	public void setTitleThumbPath(String titleThumbPath) {
 		this.titleThumbPath = titleThumbPath;
-	}
-
-	public String getThumbs() {
-		return thumbs;
-	}
-
-	public void setThumbs(String thumbs) {
-		this.thumbs = thumbs;
 	}
 
 	public String getWorldURL() {
@@ -431,7 +426,13 @@ public class HTWorld implements Serializable {
 	public void setTextStyle(HTWorldTextStyle textStyle) {
 		this.textStyle = textStyle;
 	}
-	
-	
 
+	public List<HTWorldChannelName> getChannelNames() {
+		return channelNames;
+	}
+
+	public void setChannelNames(List<HTWorldChannelName> channelNames) {
+		this.channelNames = channelNames;
+	}
+	
 }

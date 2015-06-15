@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
@@ -13,6 +14,7 @@ import com.hts.web.base.database.HTS;
 import com.hts.web.base.database.RowSelection;
 import com.hts.web.base.database.SQLUtil;
 import com.hts.web.common.dao.impl.BaseDaoImpl;
+import com.hts.web.common.pojo.HTWorldChannelName;
 import com.hts.web.common.pojo.OpWorldType;
 import com.hts.web.common.pojo.OpWorldTypeDto;
 import com.hts.web.common.pojo.OpWorldTypeDto2;
@@ -20,6 +22,7 @@ import com.hts.web.common.pojo.UserInfoDto;
 import com.hts.web.common.util.JSONUtil;
 import com.hts.web.operations.dao.SquarePushDao;
 import com.hts.web.userinfo.dao.impl.UserInfoDaoImpl;
+import com.hts.web.ztworld.dao.HTWorldDao;
 
 /**
  * <p>
@@ -253,6 +256,8 @@ public class SquarePushDaoImpl extends BaseDaoImpl implements SquarePushDao {
 	 */
 	private static final String QUERY_SQUARE_INDEX_FOOT = " ) as hw where h.id=hw.world_id and h.author_id=u.id ";
 	
+	@Autowired
+	private HTWorldDao worldDao;
 	
 	
 	@Override
@@ -762,6 +767,10 @@ public class SquarePushDaoImpl extends BaseDaoImpl implements SquarePushDao {
 	 */
 	@Override
 	public OpWorldTypeDto buildSquareDto(ResultSet rs) throws SQLException{
+		List<HTWorldChannelName> channelNames = 
+				worldDao.formatChannelNames(
+						rs.getString("channel_name"),
+						rs.getString("channel_id"));
 		OpWorldTypeDto dto = new OpWorldTypeDto(
 				rs.getInt("serial"),
 				rs.getInt("world_id"),
@@ -784,6 +793,7 @@ public class SquarePushDaoImpl extends BaseDaoImpl implements SquarePushDao {
 				rs.getString("title_path"),
 				rs.getString("bg_path"),
 				rs.getString("title_thumb_path"),
+				channelNames,
 				rs.getDouble("longitude"),
 				rs.getDouble("latitude"),
 				rs.getString("location_desc"),

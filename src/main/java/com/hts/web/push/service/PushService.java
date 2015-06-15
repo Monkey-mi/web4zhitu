@@ -98,6 +98,14 @@ public interface PushService {
 			throws Exception;
 	
 	/**
+	 * 推送公告
+	 * 
+	 * @param bulletin
+	 * @throws Exception
+	 */
+	public void pushBulletin(String bulletin, Integer recipientId) throws Exception;
+	
+	/**
 	 * 屏蔽消息推送
 	 * 
 	 * @param userId

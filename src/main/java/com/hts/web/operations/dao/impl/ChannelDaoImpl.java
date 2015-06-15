@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -111,6 +112,12 @@ public class ChannelDaoImpl extends BaseDaoImpl implements ChannelDao {
 	private static final String QUERY_THEME_CHANNEL_BY_MAX_ID = "select " 
 			+ CHANNEL_ABSTRACT + " from " + table + " c0 where c0.valid=1 and c0.theme_id=? and c0.serial<=?"
 			+ " order by c0.serial desc limit ?,?";
+	
+	private static final String QUERY_ID_BY_NAME = "select id from " + table
+			+ " where channel_name=?";
+	
+	private static final String QUERY_NAME_BY_ID = "select channel_name from " + table
+			+ " where id=?";
 	
 	@Autowired
 	private UserInfoDao userInfoDao;
@@ -418,6 +425,24 @@ public class ChannelDaoImpl extends BaseDaoImpl implements ChannelDao {
 						return buildChannel(rs);
 					}
 		});
+	}
+
+	@Override
+	public Integer queryIdByName(String name) {
+		try {
+			return getJdbcTemplate().queryForInt(QUERY_ID_BY_NAME, name);
+		} catch(EmptyResultDataAccessException e) {
+			return 0;
+		}
+	}
+
+	@Override
+	public String queryNameById(Integer id) {
+		try {
+			return getJdbcTemplate().queryForObject(QUERY_NAME_BY_ID, String.class, id);
+		} catch(EmptyResultDataAccessException e) {
+			return null;
+		}
 	}
 
 }

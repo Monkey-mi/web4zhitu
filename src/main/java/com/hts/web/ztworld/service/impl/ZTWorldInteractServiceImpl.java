@@ -204,11 +204,8 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 		// 获取已读状态
 		ck = wauthorId.equals(authorId) ? Tag.TRUE : Tag.FALSE;
 		
-		if(ck.equals(Tag.FALSE)) {
-			// 获取屏蔽状态
-			Map<String, Object> tags = userInfoDao.queryTagById(authorId);
-			shield = ((Integer)tags.get("shield")).equals(Tag.TRUE) ? Tag.TRUE : Tag.FALSE;
-		}
+		Map<String, Object> tags = userInfoDao.queryTagById(authorId);
+		shield = ((Integer)tags.get("shield")).equals(Tag.TRUE) ? Tag.TRUE : Tag.FALSE;
 		
 		Integer id = keyGenService.generateId(KeyGenServiceImpl.HTWORLD_COMMENT_ID);
 		HTWorldComment comment = new HTWorldComment(id, authorId, content, new Date(), worldId, wauthorId, 0,0, 
@@ -288,11 +285,8 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 		// 获取已读状态
 		ck = rAuthorId.equals(authorId) ? Tag.TRUE : Tag.FALSE;
 		
-		if(ck.equals(Tag.FALSE)) {
-			// 获取屏蔽状态
-			Map<String, Object> tags = userInfoDao.queryTagById(authorId);
-			shield = ((Integer)tags.get("shield")).equals(Tag.TRUE) ? Tag.TRUE : Tag.FALSE;
-		}
+		Map<String, Object> tags = userInfoDao.queryTagById(authorId);
+		shield = ((Integer)tags.get("shield")).equals(Tag.TRUE) ? Tag.TRUE : Tag.FALSE;
 		
 		Integer id = keyGenService.generateId(KeyGenServiceImpl.HTWORLD_COMMENT_ID);
 		HTWorldComment comment = new HTWorldComment(id, authorId, content, new Date(), worldId,

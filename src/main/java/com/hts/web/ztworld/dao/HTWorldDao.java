@@ -11,6 +11,7 @@ import com.hts.web.base.database.RowSelection;
 import com.hts.web.common.dao.BaseDao;
 import com.hts.web.common.pojo.HTWorld;
 import com.hts.web.common.pojo.HTWorldBase;
+import com.hts.web.common.pojo.HTWorldChannelName;
 import com.hts.web.common.pojo.HTWorldCount;
 import com.hts.web.common.pojo.HTWorldDto;
 import com.hts.web.common.pojo.HTWorldGeo;
@@ -616,6 +617,23 @@ public interface HTWorldDao extends BaseDao {
 	 * @return
 	 */
 	public Integer queryChildCountById(Integer id);
+	
+	/**
+	 * 解析频道名称为String[]
+	 * 
+	 * @param names
+	 * @return
+	 */
+	public String[] parseChannelNames(List<HTWorldChannelName> names);
+	
+	/**
+	 * 格式化频道名称为List
+	 * 
+	 * @param cnamesStr
+	 * @param cidsStr
+	 * @return
+	 */
+	public List<HTWorldChannelName> formatChannelNames(String cnamesStr, String cidsStr);
 	
 }
 

@@ -3,6 +3,7 @@ package com.hts.web.push.service.impl;
 import java.util.Map;
 import java.util.Set;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import com.hts.web.common.pojo.PushIM;
 import com.hts.web.common.util.StringUtil;
 import com.hts.web.push.service.YunbaPushService;
 import com.hts.web.push.yunba.YunbaClient;
+import com.hts.web.push.yunba.YunbaException;
 import com.hts.web.userinfo.dao.UserConcernDao;
 import com.hts.web.userinfo.dao.UserInfoDao;
 import com.hts.web.userinfo.dao.UserShieldDao;
@@ -62,6 +64,25 @@ public class YunbaPushServiceImpl implements YunbaPushService {
 			} catch (Exception e) {
 				throw new HTSException(e.getMessage(), e);
 			}
+		}
+	}
+	
+	@Override
+	public void pushBulletin(String content, Integer recipientId) throws HTSException {
+		JSONObject apnJSON = new JSONObject();
+		JSONObject aps = new JSONObject();
+		try {
+			aps.put("sound", "default");
+			aps.put("badge", 1);
+			aps.put("alert", content);
+			apnJSON.put("aps", aps);
+			apnJSON.put("a", Tag.PUSH_ACTION_SYS);
+			yunbaClient.publishToAlias(String.valueOf(recipientId), 
+					content, apnJSON);
+		} catch (JSONException e) {
+			throw new HTSException(e.getMessage(), e);
+		} catch (YunbaException e) {
+			throw new HTSException(e.getMessage(), e);
 		}
 	}
 

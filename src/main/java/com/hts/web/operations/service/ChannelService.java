@@ -175,6 +175,14 @@ public interface ChannelService extends BaseService{
 			Integer authorId, Integer addChildCount);
 	
 	/**
+	 * 根据id查询频道名称
+	 * 
+	 * @param channelId
+	 * @return
+	 */
+	public String queryChannelNameById(Integer channelId);
+	
+	/**
 	 * 保存频道
 	 * 
 	 * @param ownerId

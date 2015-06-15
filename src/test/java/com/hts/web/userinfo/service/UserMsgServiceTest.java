@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.hts.web.base.BaseTest;
 import com.hts.web.base.constant.OptResult;
+import com.hts.web.base.constant.Tag;
 import com.hts.web.common.pojo.HTWorldInteract;
 import com.hts.web.common.pojo.UserMsgStatus;
 import com.hts.web.common.util.Log;
@@ -81,7 +82,8 @@ public class UserMsgServiceTest extends BaseTest {
 	
 	@Test
 	public void testSaveUserMsg() throws Exception {
-//		service.saveUserMsg(400, 114, "呵呵呵", Tag.USER_MSG_NORMAL);
+		service.saveUserMsg(400, 114, "怎么", Tag.USER_MSG_NORMAL);
+		Thread.sleep(10000);
 	}
 	
 	@Test

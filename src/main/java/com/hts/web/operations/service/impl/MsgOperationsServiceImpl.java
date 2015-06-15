@@ -10,6 +10,7 @@ import com.hts.web.base.constant.Tag;
 import com.hts.web.common.pojo.OpNotice;
 import com.hts.web.common.pojo.OpSysMsgDto;
 import com.hts.web.common.service.impl.BaseServiceImpl;
+import com.hts.web.operations.dao.BulletinCacheDao;
 import com.hts.web.operations.dao.NoticeCacheDao;
 import com.hts.web.operations.dao.StartPageCacheDao;
 import com.hts.web.operations.dao.SysMsgDao;
@@ -27,6 +28,9 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 	@Autowired
 	private SysMsgDao sysMsgDao;
 
+	@Autowired
+	private BulletinCacheDao bulletinCacheDao;
+	
 	@Override
 	public void buildNotice(Integer userId, Integer phoneCode, Map<String, Object> jsonMap) throws Exception {
 		OpNotice notice = noticeCacheDao.queryNotice(phoneCode);
@@ -42,6 +46,12 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 	public void buildStartPage(Map<String, Object> jsonMap) throws Exception {
 		jsonMap.put(OptResult.JSON_KEY_MSG, 
 				startPageCacheDao.queryStartPage());
+	}
+
+	@Override
+	public void buildBulletin(Map<String, Object> jsonMap) throws Exception {
+		jsonMap.put(OptResult.JSON_KEY_MSG, 
+				bulletinCacheDao.queryBulletin());
 	}
 	
 }

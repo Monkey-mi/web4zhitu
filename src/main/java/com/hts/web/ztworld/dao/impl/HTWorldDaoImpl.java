@@ -21,6 +21,7 @@ import com.hts.web.base.database.SQLUtil;
 import com.hts.web.common.dao.impl.BaseDaoImpl;
 import com.hts.web.common.pojo.HTWorld;
 import com.hts.web.common.pojo.HTWorldBase;
+import com.hts.web.common.pojo.HTWorldChannelName;
 import com.hts.web.common.pojo.HTWorldCount;
 import com.hts.web.common.pojo.HTWorldDto;
 import com.hts.web.common.pojo.HTWorldGeo;
@@ -36,6 +37,7 @@ import com.hts.web.common.pojo.UserInfo;
 import com.hts.web.common.pojo.UserInfoDto;
 import com.hts.web.common.util.CollectionUtil;
 import com.hts.web.common.util.JSONUtil;
+import com.hts.web.common.util.StringUtil;
 import com.hts.web.userinfo.dao.impl.UserInfoDaoImpl;
 import com.hts.web.ztworld.dao.HTWorldDao;
 
@@ -63,10 +65,10 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 	 */
 	private static final String SAVE_WORLD = "insert into " + table 
 			+ " (id, short_link, world_name, world_desc, world_label, world_type, type_id, date_added,"
-			+ " date_modified,author_id, cover_path, title_path, bg_path, title_thumb_path, thumbs," 
+			+ " date_modified,author_id, cover_path, title_path, bg_path, title_thumb_path,channel_name,channel_id," 
 			+ "longitude,latitude,location_desc,location_addr, phone_code, province," 
 			+ "city, size, child_count,ver,tp, valid, latest_valid, shield, text_style)"
-			+ " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			+ " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 	/**
 	 * 查询织图世界
@@ -593,6 +595,15 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 		if(style != null) {
 			styleStr = JSONObject.fromObject(style).toString();
 		}
+		
+		List<HTWorldChannelName> channelNames = htworld.getChannelNames();
+		String channelName = null;
+		String channelId = null;
+		if(channelNames != null) {
+			String[] names = parseChannelNames(channelNames);
+			channelName = names[0];
+			channelId = names[1];
+		}
 		getMasterJdbcTemplate().update(SAVE_WORLD, new Object[]{
 				htworld.getId(),
 				htworld.getShortLink(),
@@ -608,7 +619,8 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 				htworld.getTitlePath(),
 				htworld.getBgPath(),
 				htworld.getTitleThumbPath(),
-				htworld.getThumbs(),
+				channelName,
+				channelId,
 				htworld.getLongitude(),
 				htworld.getLatitude(),
 				htworld.getLocationDesc(),
@@ -1097,6 +1109,9 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 	 * @throws SQLException 
 	 */
 	public HTWorld buildHTWorldByResultSet(ResultSet rs) throws SQLException {
+		List<HTWorldChannelName> channelNames = formatChannelNames(
+						rs.getString("channel_name"),
+						rs.getString("channel_id"));
 		HTWorld world = new HTWorld(
 				rs.getInt("id"), 
 				rs.getString("short_link"), 
@@ -1116,7 +1131,7 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 				rs.getString("title_path"),
 				rs.getString("bg_path"),
 				rs.getString("title_thumb_path"),
-				rs.getString("thumbs"),
+				channelNames,
 				rs.getDouble("longitude"),
 				rs.getDouble("latitude"), 
 				rs.getString("location_desc"),
@@ -1150,6 +1165,9 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 	}
 	
 	public HTWorldInteractDto buildHTWorldInteractDto(ResultSet rs) throws SQLException {
+		List<HTWorldChannelName> channelNames = formatChannelNames(
+				rs.getString("channel_name"),
+				rs.getString("channel_id"));
 		HTWorldInteractDto dto = new HTWorldInteractDto(
 				rs.getInt("id"),
 				rs.getString("short_link"),
@@ -1169,7 +1187,7 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 				rs.getString("title_path"),
 				rs.getString("bg_path"),
 				rs.getString("title_thumb_path"), 
-				rs.getString("thumbs"),
+				channelNames,
 				rs.getDouble("longitude"),
 				rs.getDouble("latitude"), 
 				rs.getString("location_desc"),
@@ -1198,6 +1216,9 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 	 * @throws SQLException
 	 */
 	public HTWorldDto buildHTWorldDtoByResulSet(ResultSet rs) throws SQLException {
+		List<HTWorldChannelName> channelNames = formatChannelNames(
+				rs.getString("channel_name"),
+				rs.getString("channel_id"));
 		HTWorldDto dto = new HTWorldDto(
 				rs.getInt("id"),
 				rs.getString("short_link"),
@@ -1217,7 +1238,7 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 				rs.getString("title_path"),
 				rs.getString("bg_path"),
 				rs.getString("title_thumb_path"),
-				rs.getString("thumbs"),
+				channelNames,
 				rs.getDouble("longitude"),
 				rs.getDouble("latitude"), 
 				rs.getString("location_desc"),
@@ -1633,7 +1654,9 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 		int id = rs.getInt("id");
 		String shortLink = rs.getString("short_link");
 		String url = shortLink == null ? urlPrefix + id : urlPrefix + shortLink;
-		
+		List<HTWorldChannelName> channelNames = formatChannelNames(
+				rs.getString("channel_name"),
+				rs.getString("channel_id"));
 		world.setId(rs.getInt("id"));
 		world.setShortLink(shortLink);
 		world.setAuthorId(rs.getInt("author_id"));
@@ -1652,6 +1675,7 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 		world.setTitlePath(rs.getString("title_path"));
 		world.setBgPath(rs.getString("bg_path"));
 		world.setTitleThumbPath(rs.getString("title_thumb_path"));
+		world.setChannelNames(channelNames);
 		world.setLongitude(rs.getDouble("longitude"));
 		world.setLatitude(rs.getDouble("latitude"));
 		world.setLocationDesc(rs.getString("location_desc"));
@@ -1732,6 +1756,43 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 	@Override
 	public Integer queryChildCountById(Integer id) {
 		return getJdbcTemplate().queryForInt(QUERY_CHILD_COUNT_BY_ID, id);
+	}
+	
+	public String[] parseChannelNames(List<HTWorldChannelName> names) {
+		StringBuilder cnameBuilder = new StringBuilder();
+		StringBuilder cidBuilder = new StringBuilder();
+		for(int i = 0; i < names.size(); i++) {
+			HTWorldChannelName cname = names.get(i);
+			String name = cname.getName();
+			int cid = cname.getId();
+			if((cnameBuilder.length() + name.length()) <= 255 
+					&& (cidBuilder.length() + String.valueOf(cid).length()) <= 255) {
+				if(i != 0) {
+					cnameBuilder.append(",");
+					cidBuilder.append(",");
+				}
+				cnameBuilder.append(name);
+				cidBuilder.append(cid);
+			}
+		}
+		return new String[]{cnameBuilder.toString(), cidBuilder.toString()};
+	}
+	
+	public List<HTWorldChannelName> formatChannelNames(String cnamesStr, String cidsStr) {
+		if(!StringUtil.checkIsNULL(cnamesStr) 
+				&& !StringUtil.checkIsNULL(cidsStr)) {
+			List<HTWorldChannelName> list = new ArrayList<HTWorldChannelName>();
+			String[] cnames = cnamesStr.split(",");
+			String[] cids = cidsStr.split(",");
+			for(int i = 0; i < cnames.length; i++) {
+				list.add(new HTWorldChannelName(
+						Integer.parseInt(cids[i]),
+						cnames[i]));
+			}
+			return list;
+		}
+		return null;
+		
 	}
 
 	

@@ -49,7 +49,6 @@ public class ZTWorldAction extends BaseAction {
 	private String titlePath;
 	private String bgPath;
 	private String titleThumbPath;
-	private String thumbs;
 	private Double longitude;
 	private Double latitude;
 	private String locationDesc;
@@ -165,7 +164,7 @@ public class ZTWorldAction extends BaseAction {
 			HTWorld world = worldService.saveWorld(childs, titleId, phoneCode,
 					id, getCurrentLoginUserId(), worldName,worldDesc, worldLabel, 
 					labelIds, worldType, typeId, coverPath, titlePath, bgPath, titleThumbPath, 
-					thumbs, longitude, latitude, locationDesc, locationAddr, province, 
+					longitude, latitude, locationDesc, locationAddr, province, 
 					city, size, activityIds, ver, channelIds, Tag.WORLD_TYPE_DEFAULT, color, mask);
 			JSONUtil.optResult(OptResult.OPT_SUCCESS, world, OptResult.JSON_KEY_HTWORLD, jsonMap);
 		} catch (Exception e) {
@@ -188,7 +187,7 @@ public class ZTWorldAction extends BaseAction {
 			HTWorld world = worldService.saveWorld(childs, titleId, phoneCode,
 					id, uid, worldName,worldDesc, worldLabel, 
 					labelIds, worldType, typeId, coverPath, titlePath, bgPath, titleThumbPath, 
-					thumbs, longitude, latitude, locationDesc, locationAddr, province, 
+					longitude, latitude, locationDesc, locationAddr, province, 
 					city, size, activityIds, ver, channelIds, Tag.WORLD_TYPE_DEFAULT, color, mask);
 			JSONUtil.optResult(OptResult.OPT_SUCCESS, world, OptResult.JSON_KEY_HTWORLD, jsonMap);
 		} catch (Exception e) {
@@ -207,7 +206,7 @@ public class ZTWorldAction extends BaseAction {
 			HTWorld world = worldService.saveWorld(null, 0, phoneCode,
 					id, getCurrentLoginUserId(), worldName,worldDesc, worldLabel, 
 					labelIds, worldType, typeId, coverPath, titlePath, bgPath, titleThumbPath, 
-					null, longitude, latitude, locationDesc, locationAddr, province, 
+					longitude, latitude, locationDesc, locationAddr, province, 
 					city, size, activityIds, ver, channelIds, Tag.WORLD_TYPE_TEXT, color, mask);
 			JSONUtil.optResult(OptResult.OPT_SUCCESS, world, OptResult.JSON_KEY_HTWORLD, jsonMap);
 		} catch (Exception e) {
@@ -230,7 +229,7 @@ public class ZTWorldAction extends BaseAction {
 			HTWorld world = worldService.saveWorld(null, 0, phoneCode,
 					id, uid, worldName,worldDesc, worldLabel, 
 					labelIds, worldType, typeId, coverPath, titlePath, bgPath, titleThumbPath, 
-					null, longitude, latitude, locationDesc, locationAddr, province, 
+					longitude, latitude, locationDesc, locationAddr, province, 
 					city, size, activityIds, ver, channelIds, Tag.WORLD_TYPE_TEXT, color, mask);
 			JSONUtil.optResult(OptResult.OPT_SUCCESS, world, OptResult.JSON_KEY_HTWORLD, jsonMap);
 		} catch (Exception e) {
@@ -248,7 +247,7 @@ public class ZTWorldAction extends BaseAction {
 			HTWorld world = worldService.saveWorld(childs, titleId, phoneCode,
 					id, authorId, worldName,worldDesc, worldLabel, 
 					labelIds, worldType, typeId, coverPath, titlePath, bgPath, titleThumbPath, 
-					thumbs, longitude, latitude, locationDesc, locationAddr, province, 
+					longitude, latitude, locationDesc, locationAddr, province, 
 					city, size, activityIds, ver, channelIds, Tag.WORLD_TYPE_DEFAULT, color, mask);
 			JSONUtil.optResult(OptResult.OPT_SUCCESS, world, OptResult.JSON_KEY_HTWORLD, jsonMap);
 		} catch (Exception e) {
@@ -861,14 +860,6 @@ public class ZTWorldAction extends BaseAction {
 
 	public void setIsNotAddClick(Boolean isNotAddClick) {
 		this.isNotAddClick = isNotAddClick;
-	}
-
-	public String getThumbs() {
-		return thumbs;
-	}
-
-	public void setThumbs(String thumbs) {
-		this.thumbs = thumbs;
 	}
 
 	public String getWorldType() {

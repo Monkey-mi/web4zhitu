@@ -26,10 +26,11 @@ public class YunbaClientTest extends BaseTest {
 //		try {
 //			aps.put("sound", "default");
 //			aps.put("badge", 1);
-//			aps.put("alert", "谈了那么久的恋爱，还是走到了尽头，你将永远是我的备胎——至我终将逝去的春天，立夏你好。");
+//			aps.put("alert", "织图新版火热上线！据说颜值高的人已经在玩了(⊙_⊙)！进入频道有惊喜，首创【弹幕】功能，边看图边勾搭，简直噜？！更能发布【文字】，超夯的图片心情，随时感慨随时发，赶紧接招吧！ ");
 //			apnJSON.put("aps", aps);
 //			apnJSON.put("a", Tag.PUSH_ACTION_SYS);
-//			client.publishToCommonTopic("t9", "谈了那么久的恋爱，还是走到了尽头，你将永远是我的备胎——至我终将逝去的春天，立夏你好。", apnJSON);
+////			client.publishToCommonTopic("t6", "织图新版火热上线！据说颜值高的人已经在玩了(⊙_⊙)！进入频道有惊喜，首创【弹幕】功能，边看图边勾搭，简直噜？！更能发布【文字】，超夯的图片心情，随时感慨随时发，赶紧接招吧！ ", apnJSON);
+//			client.publishToAlias("299398", "织图新版火热上线！据说颜值高的人已经在玩了(⊙_⊙)！进入频道有惊喜，首创【弹幕】功能，边看图边勾搭，简直噜？！更能发布【文字】，超夯的图片心情，随时感慨随时发，赶紧接招吧！ ", apnJSON);
 //		} catch (JSONException e) {
 //			e.printStackTrace();
 //		} catch (YunbaException e) {

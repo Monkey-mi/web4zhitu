@@ -45,7 +45,7 @@ public class HTWorldInteractDto implements HTWorldWithExtra, ObjectWithUserVerif
 	private String titlePath; // 首页路径
 	private String bgPath;
 	private String titleThumbPath; // 首页缩略图路径
-	private String thumbs; // 缩略图列表
+	private List<HTWorldChannelName> channelNames; // 频道名称列表
 	private Double longitude;// 经度
 	private Double latitude;// 纬度
 	private String locationDesc;// 位置描述
@@ -81,7 +81,8 @@ public class HTWorldInteractDto implements HTWorldWithExtra, ObjectWithUserVerif
 			String worldType, Integer typeId, Date dateAdded,
 			Date dateModified, Integer clickCount, Integer likeCount,
 			Integer commentCount, Integer keepCount, String coverPath,
-			String titlePath, String bgPath, String titleThumbPath, String thumbs,
+			String titlePath, String bgPath, String titleThumbPath, 
+			List<HTWorldChannelName> channelNames,
 			Double longitude, Double latitude, String locationDesc,
 			String locationAddr, Integer phoneCode, String province,
 			String city, Integer size, Integer childCount, Integer ver,
@@ -105,7 +106,7 @@ public class HTWorldInteractDto implements HTWorldWithExtra, ObjectWithUserVerif
 		this.titlePath = titlePath;
 		this.bgPath = bgPath;
 		this.titleThumbPath = titleThumbPath;
-		this.thumbs = thumbs;
+		this.channelNames = channelNames;
 		this.longitude = longitude;
 		this.latitude = latitude;
 		this.locationDesc = locationDesc;
@@ -251,14 +252,6 @@ public class HTWorldInteractDto implements HTWorldWithExtra, ObjectWithUserVerif
 
 	public void setTitleThumbPath(String titleThumbPath) {
 		this.titleThumbPath = titleThumbPath;
-	}
-
-	public String getThumbs() {
-		return thumbs;
-	}
-
-	public void setThumbs(String thumbs) {
-		this.thumbs = thumbs;
 	}
 
 	public Double getLongitude() {
@@ -495,7 +488,13 @@ public class HTWorldInteractDto implements HTWorldWithExtra, ObjectWithUserVerif
 	public void setTextStyle(HTWorldTextStyle textStyle) {
 		this.textStyle = textStyle;
 	}
-	
-	
+
+	public List<HTWorldChannelName> getChannelNames() {
+		return channelNames;
+	}
+
+	public void setChannelNames(List<HTWorldChannelName> channelNames) {
+		this.channelNames = channelNames;
+	}
 	
 }

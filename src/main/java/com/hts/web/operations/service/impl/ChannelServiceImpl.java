@@ -762,6 +762,11 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 		long count = channelWorldDao.queryUnValidCount(channelId);
 		jsonMap.put(OptResult.JSON_KEY_TOTAL_COUNT, count);
 	}
+
+	@Override
+	public String queryChannelNameById(Integer channelId) {
+		return channelDao.queryNameById(channelId);
+	}
 	
 
 }

@@ -43,7 +43,6 @@ public class ZTWorldServiceTest extends BaseTest {
 				"http://imzhitu.qiniudn.com/ios/image/2014/3/26/21/c5a9e4e8b41011e3a9a712bf1fbc47a9_8.jpg",
 				null,
 				"http://imzhitu.qiniudn.com/ios/image/2014/3/26/21/c5a9e4e8b41011e3a9a712bf1fbc47a9_8.jpg",
-				null,
 				0.1d, 0.1d, "locationDesc", "locationAddr", "province", "city", null, "18", 1, 
 				null, Tag.WORLD_TYPE_DEFAULT, null, 0);
 		logObj(world);
@@ -136,7 +135,7 @@ public class ZTWorldServiceTest extends BaseTest {
 				"http://imzhitu.qiniudn.com/ios/image/2014/3/26/21/c5a9e4e8b41011e3a9a712bf1fbc47a9_8.jpg",
 				null,
 				"http://imzhitu.qiniudn.com/ios/image/2014/3/26/21/c5a9e4e8b41011e3a9a712bf1fbc47a9_8.jpg",
-				null, 0.1d, 0.1d, "locationDesc", "locationAddr", "province", "city", null, "18", 1, 
+				0.1d, 0.1d, "locationDesc", "locationAddr", "province", "city", null, "18", 1, 
 				null, Tag.WORLD_TYPE_DEFAULT, null, 0);
 		logObj(world);
 		service.deleteWorld(world.getId(),485);

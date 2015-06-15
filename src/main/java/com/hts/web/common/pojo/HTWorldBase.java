@@ -1,6 +1,7 @@
 package com.hts.web.common.pojo;
 
 import java.util.Date;
+import java.util.List;
 
 import org.apache.struts2.json.annotations.JSON;
 
@@ -26,6 +27,7 @@ public abstract class HTWorldBase {
 	protected String titlePath; // 首页路径
 	protected String bgPath;
 	protected String titleThumbPath; // 首页缩略图路径
+	private List<HTWorldChannelName> channelNames; // 频道名称列表
 	protected Double longitude;// 经度
 	protected Double latitude;// 纬度
 	protected String locationDesc;// 位置描述
@@ -380,5 +382,15 @@ public abstract class HTWorldBase {
 	public void setTextStyle(HTWorldTextStyle textStyle) {
 		this.textStyle = textStyle;
 	}
+
+	public List<HTWorldChannelName> getChannelNames() {
+		return channelNames;
+	}
+
+	public void setChannelNames(List<HTWorldChannelName> channelNames) {
+		this.channelNames = channelNames;
+	}
+	
+	
 	
 }

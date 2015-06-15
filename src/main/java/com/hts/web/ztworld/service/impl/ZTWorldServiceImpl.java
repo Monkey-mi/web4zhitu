@@ -27,6 +27,7 @@ import com.hts.web.base.database.RowCallback;
 import com.hts.web.base.database.RowSelection;
 import com.hts.web.common.SerializableListAdapter;
 import com.hts.web.common.pojo.HTWorld;
+import com.hts.web.common.pojo.HTWorldChannelName;
 import com.hts.web.common.pojo.HTWorldChildWorld;
 import com.hts.web.common.pojo.HTWorldChildWorldAndThumbDto;
 import com.hts.web.common.pojo.HTWorldChildWorldDto;
@@ -282,7 +283,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 			Integer phoneCode, Integer id, Integer authorId, String worldName,
 			String worldDesc, String worldLabel, String labelIds, String worldType, 
 			Integer typeId, String coverPath, String titlePath, String bgPath,
-			String titleThumbPath, String thumbs, Double longitude, Double latitude, String locationDesc,
+			String titleThumbPath, Double longitude, Double latitude, String locationDesc,
 			String locationAddr, String province, String city, Integer size,
 			String activityIds, Integer ver, String channelIds, Integer tp, 
 			String color, Integer mask) throws Exception {
@@ -325,9 +326,10 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 		String shortLink = MD5Encrypt.shortUrl(worldId);
 		
 		worldDesc = StringUtil.filterXSS(worldDesc);
+		List<HTWorldChannelName> channelNames = new ArrayList<HTWorldChannelName>();
 		world = new HTWorld(worldId, shortLink, authorId, worldName, worldDesc, 
 				null, null,  null, date, date, coverPath, titlePath, bgPath,
-				titleThumbPath, thumbs, longitude, latitude, locationDesc, locationAddr, 
+				titleThumbPath,channelNames, longitude, latitude, locationDesc, locationAddr, 
 				phoneCode, province, city, size, worldChildCount, ver, tp, Tag.TRUE, 
 				trust, shield, textStyle);
 		
@@ -391,8 +393,12 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 			
 			if(!StringUtil.checkIsNULL(channelIds)) {
 				Integer[] cids = StringUtil.convertStringToIds(channelIds);
-				for(Integer cid : cids) {
-					channelService.saveChannelWorld(cid, worldId, authorId, worldChildCount);
+				for(int cid : cids) {
+					String channelName = channelService.queryChannelNameById(cid);
+					if(channelName != null) {
+						world.getChannelNames().add(new HTWorldChannelName(id, channelName));
+						channelService.saveChannelWorld(cid, worldId, authorId, worldChildCount);
+					}
 				}
 			}
 			
