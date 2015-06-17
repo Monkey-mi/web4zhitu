@@ -52,7 +52,6 @@ public class PushServiceTest extends BaseTest {
 			public void onPushFailed(Exception e) {
 				
 			}
-			
 		});
 //		Thread.sleep(10000);
 	}
@@ -87,7 +86,7 @@ public class PushServiceTest extends BaseTest {
 ////		Thread.sleep(5000);
 //	}
 	
-	@Test
+//	@Test
 	public void testPushConcern() throws Exception {
 		UserPushInfo info2 = new UserPushInfo(
 				485, "", 1, 0,
@@ -97,7 +96,7 @@ public class PushServiceTest extends BaseTest {
 //		Thread.sleep(5000);
 	}
 	
-	@Test
+//	@Test
 	public void testPushUserMessage() throws Exception {
 		UserPushInfo info2 = new UserPushInfo(
 				485, "", 1, 0,
@@ -112,7 +111,7 @@ public class PushServiceTest extends BaseTest {
 //		Thread.sleep(5000);
 	}
 	
-	@Test
+//	@Test
 	public void testPushSysMessage() throws Exception {
 		UserPushInfo info2 = new UserPushInfo(
 				485, "", 1, 0,

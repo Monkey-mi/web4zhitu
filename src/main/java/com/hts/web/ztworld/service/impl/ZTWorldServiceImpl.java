@@ -164,6 +164,8 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 	 */
 	private Integer sysRecStart = 200;
 	
+	private Integer officiaChannellId = 45162;
+	
 	@Autowired
 	private KeyGenService keyGenService;
 	
@@ -394,9 +396,12 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 			if(!StringUtil.checkIsNULL(channelIds)) {
 				Integer[] cids = StringUtil.convertStringToIds(channelIds);
 				for(int cid : cids) {
+					if(cid == officiaChannellId) // 不允许向官方频道发图
+						continue;
+					
 					String channelName = channelService.queryChannelNameById(cid);
-					if(channelName != null) {
-						world.getChannelNames().add(new HTWorldChannelName(id, channelName));
+					if(!StringUtil.checkIsNULL(channelName)) {
+						world.getChannelNames().add(new HTWorldChannelName(cid, channelName));
 						channelService.saveChannelWorld(cid, worldId, authorId, worldChildCount);
 					}
 				}

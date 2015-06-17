@@ -1,5 +1,7 @@
 package com.hts.web.operations.dao;
 
+import java.util.List;
+
 import com.hts.web.common.dao.BaseCacheDao;
 import com.hts.web.common.pojo.OpMsgStartPage;
 
@@ -19,10 +21,10 @@ public interface StartPageCacheDao extends BaseCacheDao {
 	 * 
 	 * @return
 	 */
-	public OpMsgStartPage queryStartPage();
+	public List<OpMsgStartPage> queryStartPage();
 	
 	/**
 	 * 更新启动页
 	 */
-	public void updateStartPage(OpMsgStartPage page);
+	public void updateStartPage(List<OpMsgStartPage> pages);
 }

@@ -27,7 +27,7 @@ public class OpMsgStartPage implements Serializable {
 	private String link;
 	private Date beginDate;
 	private Date endDate;
-	private Integer showCount;
+	private Long lastModified;
 
 	public Integer getId() {
 		return id;
@@ -79,12 +79,14 @@ public class OpMsgStartPage implements Serializable {
 		this.endDate = endDate;
 	}
 
-	public Integer getShowCount() {
-		return showCount;
+	public Long getLastModified() {
+		return lastModified;
 	}
 
-	public void setShowCount(Integer showCount) {
-		this.showCount = showCount;
+	public void setLastModified(Long lastModified) {
+		this.lastModified = lastModified;
 	}
-
+	
+	
+	
 }
