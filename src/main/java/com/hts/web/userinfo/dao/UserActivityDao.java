@@ -26,7 +26,7 @@ public interface UserActivityDao extends BaseDao {
 	 * @param userId
 	 * @return
 	 */
-	public Integer queryTotalScore(Integer userId);
+//	public Integer queryTotalScore(Integer userId);
 	
 	/**
 	 * 查询总数， 根据用户id，类型，开始时间，结束时间

@@ -70,37 +70,6 @@ public class UserActivityServiceImpl extends BaseServiceImpl implements
 		this.scoreWorld = scoreWorld;
 	}
 
-	@Override
-	@Deprecated
-	public void addActivityScore(Integer typeId, int mutiple, Integer userId) {
-		Integer score = 0;
-		switch (typeId) {
-		case Tag.ACT_TYPE_WORLD:
-			score = scoreWorld;
-			
-			break;
-		default:
-			break;
-		}
-		
-		if(score > 0) {
-			if(mutiple < 1) {
-				mutiple = 1;
-			}
-			userActivityDao.saveActivity(new UserActivity(userId, 
-					typeId, new Date(), score * mutiple));
-			Integer total = userActivityDao.queryTotalScore(userId);
-			userInfoDao.updateActivity(userId, total);
-			try {
-				osUserInfoService.updateUserWithoutNULL(userId, null, null, null, null, null, total);
-			} catch (Exception e) {
-				log.warn("update opensearch user activity fail", e);
-			}
-		}
-		
-	}
-	
-	
 	/**
 	 * 活动规则
 	 * @param typeId 定义在Tag类当中

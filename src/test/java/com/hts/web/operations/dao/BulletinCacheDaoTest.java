@@ -38,7 +38,7 @@ public class BulletinCacheDaoTest extends BaseTest {
 		msg2.setId(2);
 		msg2.setBulletinType(2);
 		msg2.setBulletinPath("http://imzhitu.qiniudn.com/op/activity/1433657248000.png");
-		msg2.setLink("11834");
+		msg2.setLink("11819");
 		
 		OpMsgBulletin msg3 = new OpMsgBulletin();
 		msg3.setId(3);

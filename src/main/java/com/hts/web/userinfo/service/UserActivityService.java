@@ -12,16 +12,6 @@ import com.hts.web.common.service.BaseService;
  *
  */
 public interface UserActivityService extends BaseService {
-
-	/**
-	 * 添加活跃积分
-	 * 
-	 * @param typeId
-	 * @param multiple
-	 * @param userId
-	 */
-	@Deprecated
-	public void addActivityScore(Integer typeId, int multiple, Integer userId);
 	
 	/**
 	 * 添加活跃积分

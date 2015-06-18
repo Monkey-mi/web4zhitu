@@ -17,14 +17,8 @@ public class UserActivityDaoImpl extends BaseDaoImpl implements UserActivityDao 
 	/**
 	 * 保存活跃度
 	 */
-	public static final String SAVE_ACTIVITY = "insert into " + table
+	private static final String SAVE_ACTIVITY = "insert into " + table
 			+ " (user_id,type_id,date_added,score) values (?,?,?,?)";
-	
-	/**
-	 * 查询总分
-	 */
-	public static final String QUERY_TOTAL_SCORE = "select sum(score) from " + table
-			+ " where user_id=?";
 	
 	/**
 	 * 查询总数
@@ -41,11 +35,6 @@ public class UserActivityDaoImpl extends BaseDaoImpl implements UserActivityDao 
 		});
 	}
 
-	@Override
-	public Integer queryTotalScore(Integer userId) {
-		return getMasterJdbcTemplate().queryForInt(QUERY_TOTAL_SCORE, userId);
-	}
-	
 	@Override
 	public long queryUserActivityTotalCount(Integer userId,Integer typeId,Date begin,Date end){
 		return getMasterJdbcTemplate().queryForLong(QUERY_USER_ACTIVITY_TOTAL_COUNT, userId,typeId,begin,end);
