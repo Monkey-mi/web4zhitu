@@ -16,10 +16,12 @@ import java.util.Set;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hts.web.base.HTSException;
+import com.hts.web.base.constant.LoggerKeies;
 import com.hts.web.base.constant.OptResult;
 import com.hts.web.base.constant.Tag;
 import com.hts.web.base.database.HTS;
@@ -93,6 +95,8 @@ import com.hts.web.ztworld.service.ZTWorldService;
 public class ZTWorldServiceImpl extends BaseServiceImpl implements
 		ZTWorldService {
 
+	private static Logger saveWorldLogger = Logger.getLogger(LoggerKeies.WORLD_WORLD);
+	
 	/**
 	 * 织图管理密码
 	 */
@@ -408,7 +412,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 			}
 			
 		} catch(Exception e) {
-			Log.warn(authorId, "save world label error, " + e.getMessage());
+			saveWorldLogger.warn("save world label error, " + e.getMessage(), e);
 		}
 		
 		worldDao.saveWorld(world); // 保存世界信息

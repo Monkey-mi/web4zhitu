@@ -5,10 +5,12 @@ import java.text.SimpleDateFormat;
 
 import net.sf.json.JSONObject;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.hts.web.base.HTSException;
 import com.hts.web.base.StrutsKey;
+import com.hts.web.base.constant.LoggerKeies;
 import com.hts.web.base.constant.OptResult;
 import com.hts.web.base.constant.Tag;
 import com.hts.web.common.BaseAction;
@@ -36,6 +38,9 @@ public class ZTWorldAction extends BaseAction {
 	 * 
 	 */
 	private static final long serialVersionUID = -6544742573214995778L;
+	
+	private static Logger worldLogger = Logger.getLogger(LoggerKeies.WORLD_WORLD);
+	private static Logger textLogger = Logger.getLogger(LoggerKeies.WORLD_TEXT);
 	
 	private Integer id;
 	private Integer authorId = 0;
@@ -168,7 +173,7 @@ public class ZTWorldAction extends BaseAction {
 					city, size, activityIds, ver, channelIds, Tag.WORLD_TYPE_DEFAULT, color, mask);
 			JSONUtil.optResult(OptResult.OPT_SUCCESS, world, OptResult.JSON_KEY_HTWORLD, jsonMap);
 		} catch (Exception e) {
-			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+			JSONUtil.optFailed2(getCurrentLoginUserId(), e, jsonMap, worldLogger);
 		}
 		return StrutsKey.JSON;
 	}
@@ -191,7 +196,7 @@ public class ZTWorldAction extends BaseAction {
 					city, size, activityIds, ver, channelIds, Tag.WORLD_TYPE_DEFAULT, color, mask);
 			JSONUtil.optResult(OptResult.OPT_SUCCESS, world, OptResult.JSON_KEY_HTWORLD, jsonMap);
 		} catch (Exception e) {
-			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+			JSONUtil.optFailed2(getCurrentLoginUserId(), e, jsonMap, worldLogger);
 		}
 		return StrutsKey.JSON;
 	}
@@ -210,7 +215,7 @@ public class ZTWorldAction extends BaseAction {
 					city, size, activityIds, ver, channelIds, Tag.WORLD_TYPE_TEXT, color, mask);
 			JSONUtil.optResult(OptResult.OPT_SUCCESS, world, OptResult.JSON_KEY_HTWORLD, jsonMap);
 		} catch (Exception e) {
-			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+			JSONUtil.optFailed2(getCurrentLoginUserId(), e, jsonMap, textLogger);
 		}
 		return StrutsKey.JSON;
 	}
@@ -233,7 +238,7 @@ public class ZTWorldAction extends BaseAction {
 					city, size, activityIds, ver, channelIds, Tag.WORLD_TYPE_TEXT, color, mask);
 			JSONUtil.optResult(OptResult.OPT_SUCCESS, world, OptResult.JSON_KEY_HTWORLD, jsonMap);
 		} catch (Exception e) {
-			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+			JSONUtil.optFailed2(getCurrentLoginUserId(), e, jsonMap, textLogger);
 		}
 		return StrutsKey.JSON;
 	}
@@ -251,7 +256,7 @@ public class ZTWorldAction extends BaseAction {
 					city, size, activityIds, ver, channelIds, Tag.WORLD_TYPE_DEFAULT, color, mask);
 			JSONUtil.optResult(OptResult.OPT_SUCCESS, world, OptResult.JSON_KEY_HTWORLD, jsonMap);
 		} catch (Exception e) {
-			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+			JSONUtil.optFailed2(getCurrentLoginUserId(), e, jsonMap, worldLogger);
 		}
 		return StrutsKey.JSON;
 	}

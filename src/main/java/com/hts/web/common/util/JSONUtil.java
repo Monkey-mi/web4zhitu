@@ -10,6 +10,8 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.PropertyFilter;
 
+import org.apache.log4j.Logger;
+
 import com.hts.web.base.constant.OptResult;
 import com.hts.web.common.pojo.HTWorld;
 import com.hts.web.common.pojo.HTWorldChildWorld;
@@ -73,7 +75,6 @@ public class JSONUtil {
 	 */
 	public static void optFailed(Integer uid, String msg, Exception e, Map<String, Object> jsonMap) {
 		optFailed(msg, jsonMap);
-//		Log.warn("[uid:" + uid + "]," + msg);
 		Log.warn(msg, e);
 	}
 	
@@ -101,8 +102,35 @@ public class JSONUtil {
 	public static void optFailed(Integer uid, Integer resultCode, String msg,
 			Exception e, Map<String, Object> jsonMap) {
 		optFailed(resultCode, msg, jsonMap);
-//		Log.warn("[uid:" + uid + "]," + msg);
 		Log.warn(msg, e);
+	}
+	
+	/**
+	 * 操作失败2,自定义logger
+	 * 
+	 * @param uid
+	 * @param resultCode
+	 * @param e
+	 * @param jsonMap
+	 * @param logger
+	 */
+	public static void optFailed2(Integer uid, Integer resultCode,
+			Exception e, Map<String, Object> jsonMap, Logger logger) {
+		optFailed(resultCode, e.getMessage(), jsonMap);
+		logger.warn(e.getMessage(), e);
+	}
+	
+	/**
+	 * 操作失败2,自定义logger
+	 * 
+	 * @param uid
+	 * @param e
+	 * @param jsonMap
+	 * @param logger
+	 */
+	public static void optFailed2(Integer uid, Exception e, Map<String, Object> jsonMap, Logger logger) {
+		optFailed(e.getMessage(), jsonMap);
+		logger.warn(e.getMessage(), e);
 	}
 	
 	

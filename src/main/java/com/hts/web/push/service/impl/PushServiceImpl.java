@@ -8,6 +8,7 @@ import java.util.Map;
 
 import net.sf.json.JSONObject;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -21,13 +22,13 @@ import com.gexin.rp.sdk.base.impl.Target;
 import com.gexin.rp.sdk.http.IGtPush;
 import com.gexin.rp.sdk.template.TransmissionTemplate;
 import com.hts.web.base.HTSException;
+import com.hts.web.base.constant.LoggerKeies;
 import com.hts.web.base.constant.Tag;
 import com.hts.web.common.pojo.PushIM;
 import com.hts.web.common.pojo.PushMsg;
 import com.hts.web.common.pojo.PushSysIM;
 import com.hts.web.common.pojo.PushWorldIM;
 import com.hts.web.common.pojo.UserPushInfo;
-import com.hts.web.common.util.Log;
 import com.hts.web.common.util.PushUtil;
 import com.hts.web.common.util.StringUtil;
 import com.hts.web.common.util.UserInfoUtil;
@@ -52,6 +53,9 @@ public class PushServiceImpl implements PushService {
 	private static final String TIP_CONCERN = "关注了你";
 	private static final String TIP_LIKED = "赞了你的织图";
 	private static final String TIP_MSG = "你收到1条私信";
+	
+	private static Logger imLog = Logger.getLogger(LoggerKeies.PUSH_IM);
+	
 	
 	@Autowired
 	private UserInfoDao userInfoDao;
@@ -224,9 +228,8 @@ public class PushServiceImpl implements PushService {
 							
 							@Override
 							public void onPushFailed(Exception e) {
-								Log.warn(authorId, "comment push error (" + "id=" + id + ", authorId=" + authorId 
+								imLog.warn("comment push error (" + "id=" + id + ", authorId=" + authorId 
 										+ ", wauthorId=" + userPushInfo.getId() + ")");
-//								worldCommentDao.updatePushed(id, Tag.FALSE);
 							}
 						};
 						
@@ -279,7 +282,7 @@ public class PushServiceImpl implements PushService {
 							
 							@Override
 							public void onPushFailed(Exception e) {
-								Log.warn(authorId, "reply push error (" + "id=" + id + ", authorId=" + authorId 
+								imLog.warn("reply push error (" + "id=" + id + ", authorId=" + authorId 
 										+ ", wauthorId=" + userPushInfo.getId() + ")");
 //								worldCommentDao.updatePushed(id, Tag.FALSE);
 							}
@@ -332,7 +335,7 @@ public class PushServiceImpl implements PushService {
 							
 							@Override
 							public void onPushFailed(Exception e) {
-								Log.warn(userId, "liked push error (" + "id=" + id + ", userId=" + userId 
+								imLog.warn("liked push error (" + "id=" + id + ", userId=" + userId 
 										+ ", wauthorId=" + userPushInfo.getId() + ", worldId=" + worldId + ")");
 //								worldLikedDao.updatePushed(id, Tag.FALSE);
 							}
@@ -379,7 +382,7 @@ public class PushServiceImpl implements PushService {
 							
 							@Override
 							public void onPushFailed(Exception e) {
-								Log.warn(userId, "concern push error (" + "id=" + id + ", userId=" + userId 
+								imLog.warn("concern push error (" + "id=" + id + ", userId=" + userId 
 										+ ", concernId=" + userPushInfo.getId() + ")");
 //								userConcernDao.updatePushed(id, Tag.FALSE);
 							}
@@ -476,9 +479,9 @@ public class PushServiceImpl implements PushService {
 	}
 	
 	@Override
-	public void pushBulletin(String bulletin, Integer recipientId)
+	public void pushBulletin(String bulletin, List<Integer> recipientIds)
 			throws Exception {
-		yunbaPushService.pushBulletin(bulletin, recipientId);
+		yunbaPushService.pushBulletin(bulletin, recipientIds);
 	}
 	
 	@Override
@@ -496,7 +499,7 @@ public class PushServiceImpl implements PushService {
 										
 										@Override
 										public void onPushFailed(Exception e) {
-											Log.warn(userId, "An error occured while shielding " + shieldId + " by " + userId);
+											imLog.warn("An error occured while shielding " + shieldId + " by " + userId);
 										}
 									});
 						}

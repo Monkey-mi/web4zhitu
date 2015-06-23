@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.hts.web.aliyun.service.OsUserInfoService;
 import com.hts.web.base.HTSException;
+import com.hts.web.base.constant.LoggerKeies;
 import com.hts.web.base.constant.OptResult;
 import com.hts.web.base.constant.PlatFormCode;
 import com.hts.web.base.constant.Tag;
@@ -56,7 +57,10 @@ import com.hts.web.userinfo.service.UserInteractService;
 @Service("HTSUserInfoService")
 public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoService{
 	
-	private static Logger logger = Logger.getLogger(UserInfoServiceImpl.class);
+	private static Logger loginLogger = Logger.getLogger(LoggerKeies.USER_LOGIN);
+	private static Logger registerLogger = Logger.getLogger(LoggerKeies.USER_REGISTER);
+	private static Logger loginBySocialLogger = Logger.getLogger(LoggerKeies.USER_LOGIN_BY_SOCIAL);
+	private static Logger registerBySocialLogger = Logger.getLogger(LoggerKeies.USER_REGISTER_BY_SOCIAL);
 	/**
 	 * 账号错误
 	 */
@@ -258,7 +262,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 		try {
 			userInteractService.saveConcern(true, id, officialId);
 		} catch(Exception e) {
-			logger.warn("concern offical error:" + e.getMessage());
+			registerLogger.warn("concern offical error:" + e.getMessage());
 		}
 		
 		return userInfo;
@@ -290,7 +294,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 		try {
 			userInteractService.saveConcern(true, id, officialId);
 		} catch(Exception e) {
-			logger.warn("concern offical error:" + e.getMessage());
+			registerBySocialLogger.warn("concern offical error:" + e.getMessage());
 		}
 		
 		// 关注指定的微博账号
@@ -309,7 +313,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 			Integer phoneCode, String phoneSys, String phoneVer, Float ver) throws Exception {
 		UserInfo userInfo = userInfoDao.queryUserInfoByLoginCode(loginCode, PlatFormCode.ZHITU);
 		if(userInfo == null) {
-			logger.warn("login logincode error,loginCode=" + loginCode + ", pwd=" + password
+			loginLogger.warn("login logincode error,loginCode=" + loginCode + ", pwd=" + password
 					+ ",phoneCode=" + phoneCode + ",phoneSys=" + phoneSys + "," + ",phoneVer=" + phoneVer
 					+ ",ver=" + ver);
 			//账号错误
@@ -375,7 +379,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 				? phoneVer.substring(0, PHONE_VER_MAX_LENGTH) : phoneVer;
 		ver = ver > VER_MAX ? VER_MAX : ver;
 		if(StringUtil.checkIsNULL(loginCode)) {
-			logger.warn("loginBySocialAccount logincode error,loginCode=" + loginCode
+			loginBySocialLogger.warn("loginBySocialAccount logincode error,loginCode=" + loginCode
 					+ ",phoneCode=" + phoneCode + ",phoneSys=" + phoneSys 
 					+ ",phoneVer=" + phoneVer + ",ver=" + ver);
 			throw new HTSException(TIP_LOGIN_CODE_ERROR, LOGIN_CODE_ERROR);

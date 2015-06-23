@@ -82,7 +82,6 @@ public class BaseOsDaoImpl implements BaseOsDao {
 	 * @throws Exception
 	 */
 	protected void pushUpdate(String json, String indexName, String tableName) throws Exception {
-		Log.debug(json);
 		CloudsearchDoc doc = new CloudsearchDoc(indexName, getSearchClient());
 		String res = doc.push(json, tableName);
 		if(res != null) {

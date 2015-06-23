@@ -1,5 +1,6 @@
 package com.hts.web.push.service;
 
+import java.util.List;
 import java.util.Map;
 
 import com.hts.web.base.HTSException;
@@ -31,10 +32,10 @@ public interface YunbaPushService {
 	 * 推送公告
 	 * 
 	 * @param content
-	 * @param recipientId
+	 * @param recipientIds
 	 * @throws HTSException
 	 */
-	public void pushBulletin(String content, Integer recipientId) throws HTSException;
+	public void pushBulletin(String content, List<Integer> recipientIds) throws HTSException;
 	
 	/**
 	 * 推送系统消息

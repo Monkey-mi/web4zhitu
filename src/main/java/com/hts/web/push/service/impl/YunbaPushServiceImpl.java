@@ -1,7 +1,10 @@
 package com.hts.web.push.service.impl;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import net.sf.json.JSONArray;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -68,7 +71,7 @@ public class YunbaPushServiceImpl implements YunbaPushService {
 	}
 	
 	@Override
-	public void pushBulletin(String content, Integer recipientId) throws HTSException {
+	public void pushBulletin(String content, List<Integer> recipientIds) throws HTSException {
 		JSONObject apnJSON = new JSONObject();
 		JSONObject aps = new JSONObject();
 		try {
@@ -77,7 +80,7 @@ public class YunbaPushServiceImpl implements YunbaPushService {
 			aps.put("alert", content);
 			apnJSON.put("aps", aps);
 			apnJSON.put("a", Tag.PUSH_ACTION_SYS);
-			yunbaClient.publishToAlias(String.valueOf(recipientId), 
+			yunbaClient.publishToAliasBatch(JSONArray.fromObject(recipientIds), 
 					content, apnJSON);
 		} catch (JSONException e) {
 			throw new HTSException(e.getMessage(), e);

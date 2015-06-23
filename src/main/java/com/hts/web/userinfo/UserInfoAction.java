@@ -3,11 +3,13 @@ package com.hts.web.userinfo;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.hts.web.base.HTSException;
 import com.hts.web.base.StrutsKey;
+import com.hts.web.base.constant.LoggerKeies;
 import com.hts.web.base.constant.OptResult;
 import com.hts.web.base.constant.Tag;
 import com.hts.web.common.BaseAction;
@@ -35,6 +37,10 @@ public class UserInfoAction extends BaseAction {
 	 * 
 	 */
 	private static final long serialVersionUID = 6624712753708108526L;
+	
+	private static Logger loginLogger = Logger.getLogger(LoggerKeies.USER_LOGIN);
+	private static Logger loginBySocialLogger = Logger.getLogger(LoggerKeies.USER_LOGIN_BY_SOCIAL);
+	private static Logger registerLogger = Logger.getLogger(LoggerKeies.USER_REGISTER);
 	
 	private Integer id; //用户id
 	private Integer platformCode; //社交平台代号
@@ -106,7 +112,7 @@ public class UserInfoAction extends BaseAction {
 			loginService.persistentLoginStatus(userInfo.getId(), request, response);
 			JSONUtil.optResult(OptResult.OPT_SUCCESS, userInfo, OptResult.JSON_KEY_USER_INFO, jsonMap);
 		} catch(HTSException e) {
-			JSONUtil.optFailed(getCurrentLoginUserId(), e.getErrorCode(), e.getMessage(), e, jsonMap);
+			JSONUtil.optFailed2(getCurrentLoginUserId(), e.getErrorCode(), e, jsonMap, registerLogger);
 		} catch (Exception e) {
 			StringBuilder build = new StringBuilder("register error,");
 			build.append(e.getMessage()).append(",")
@@ -128,7 +134,7 @@ public class UserInfoAction extends BaseAction {
 			.append("phoneSys=").append(phoneSys).append(",")
 			.append("phoneVer=").append(phoneVer).append(",")
 			.append("ver=").append(ver);
-			JSONUtil.optFailed(getCurrentLoginUserId(), build.toString(), e, jsonMap);
+			JSONUtil.optFailed2(getCurrentLoginUserId(), e, jsonMap, registerLogger);
 		}
 		return StrutsKey.JSON;
 	}
@@ -197,7 +203,7 @@ public class UserInfoAction extends BaseAction {
 			JSONUtil.optResult(OptResult.OPT_SUCCESS, userInfo, OptResult.JSON_KEY_USER_INFO, jsonMap);
 			
 		} catch(HTSException e) {
-			JSONUtil.optFailed(e.getErrorCode(), e.getMessage(), jsonMap);
+			JSONUtil.optFailed2(getCurrentLoginUserId(), e.getErrorCode(), e, jsonMap, loginLogger);
 			
 		} catch (Exception e) {
 			StringBuilder build = new StringBuilder("login error,");
@@ -209,7 +215,7 @@ public class UserInfoAction extends BaseAction {
 			.append("phoneSys=").append(phoneSys).append(",")
 			.append("phoneVer=").append(phoneVer).append(",")
 			.append("ver=").append(ver);
-			JSONUtil.optFailed(getCurrentLoginUserId(), build.toString(), e, jsonMap);
+			JSONUtil.optFailed2(getCurrentLoginUserId(), e, jsonMap, loginLogger);
 		}
 		
 		return StrutsKey.JSON;
@@ -242,7 +248,7 @@ public class UserInfoAction extends BaseAction {
 			JSONUtil.optResult(OptResult.OPT_SUCCESS, userInfo, OptResult.JSON_KEY_USER_INFO, jsonMap);
 			
 		} catch(HTSException e) {
-			JSONUtil.optFailed(getCurrentLoginUserId(), e.getErrorCode(), e.getMessage(), e, jsonMap);
+			JSONUtil.optFailed2(getCurrentLoginUserId(), e.getErrorCode(), e, jsonMap, loginBySocialLogger);
 		} catch (Exception e) {
 			StringBuilder build = new StringBuilder("loginBySocialAccount error,");
 			build.append(e.getMessage()).append(",")
@@ -262,7 +268,7 @@ public class UserInfoAction extends BaseAction {
 			.append("phoneSys=").append(phoneSys).append(",")
 			.append("phoneVer=").append(phoneVer).append(",")
 			.append("ver=").append(ver);
-			JSONUtil.optFailed(getCurrentLoginUserId(), build.toString(), e, jsonMap);
+			JSONUtil.optFailed2(getCurrentLoginUserId(), e, jsonMap, loginBySocialLogger);
 		}
 		return StrutsKey.JSON;
 	}

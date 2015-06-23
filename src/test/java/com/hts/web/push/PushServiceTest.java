@@ -154,4 +154,10 @@ public class PushServiceTest extends BaseTest {
 //		service.pushUserRecSysMsg(4, "伟大的安妮加入织图啦，赶快来围观吧！");
 	}
 	
+	@Test
+	public void apnsPushTest() throws Exception {
+		service.apnsPushTest("581344d5fa048084e6acaefd54e12e7f014b0085eced6c4491a7d76285ca4a4c");
+		Thread.sleep(3000);
+	}
+	
 }
