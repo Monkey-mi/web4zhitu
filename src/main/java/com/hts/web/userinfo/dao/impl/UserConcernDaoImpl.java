@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowCallbackHandler;
@@ -635,14 +636,18 @@ public class UserConcernDaoImpl extends BaseDaoImpl implements UserConcernDao{
 	
 	@Override
 	public Integer queryIsMututal(Integer userId, Integer concernId) {
-		return queryForObjectWithNULL(QUERY_IS_MUTUTAL, new Object[]{userId, concernId},
-				new RowMapper<Integer>() {
-
-			@Override
-			public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
-				return getIsMututal(rs);
-			}
-		});
+		try {
+			return getJdbcTemplate().queryForObject(QUERY_IS_MUTUTAL, new Object[]{userId, concernId}, 
+					new RowMapper<Integer>(){
+	
+				@Override
+				public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
+					return getIsMututal(rs);
+				}
+			});
+		} catch(DataAccessException e) {
+			return Tag.UN_CONCERN;
+		}
 	}
 	
 	@Override

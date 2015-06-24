@@ -608,7 +608,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 			boolean trimSocialAccountInfo) throws HTSException {
 		UserInfo userInfo = null;
 		userInfo = userInfoDao.queryUserInfoById(userId);
-		if(joinId != 0 && userId != joinId) {
+		if(joinId != 0 && !userId.equals(joinId)) {
 			userInfo.setIsMututal(userConcernDao.queryIsMututal(joinId, userId));
 			userInfo.setPlatformToken(null);
 		}
