@@ -128,7 +128,15 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 	@Autowired
 	private HTWorldDao worldDao;
 	
+	/**
+	 * 官方频道id
+	 */
 	private Integer officialId = 45162;
+	
+	/**
+	 * 官方频道主id
+	 */
+	private Integer officialOwnerId = 2063;
 	
 	@Override
 	public void buildChannel(Map<String, Object> jsonMap) throws Exception {
@@ -344,7 +352,7 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 
 							@Override
 							public void callback(OpChannelName t) {
-								if(!t.getId().equals(officialId)) {
+								if(!userId.equals(officialOwnerId) && !t.getId().equals(officialId)) {
 									list.add(t);
 								}
 							}
@@ -360,7 +368,7 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 
 							@Override
 							public void callback(OpChannelName t) {
-								if(!t.getId().equals(officialId)) {
+								if(!userId.equals(officialOwnerId) && !t.getId().equals(officialId)) {
 									list.add(t);
 								}
 							}

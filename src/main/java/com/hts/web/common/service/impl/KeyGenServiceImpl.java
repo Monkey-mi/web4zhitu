@@ -217,11 +217,6 @@ public class KeyGenServiceImpl extends BaseServiceImpl implements KeyGenService{
 	@Override
 	public Integer generateId(Integer keyId) {
 		return keyGenDao.nextId(KEY_PREFIX + keyId);
-//		Integer[] meta = keyGenDao.queryMaxIdAndStepForUpdate(keyId);
-//		int maxId = meta[0];
-//		maxId += meta[1];
-//		keyGenDao.updateMaxId(keyId, maxId);
-//		return maxId;
 	}
 
 }

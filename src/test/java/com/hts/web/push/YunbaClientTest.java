@@ -31,14 +31,15 @@ public class YunbaClientTest extends BaseTest {
 //		try {
 //			aps.put("sound", "default");
 //			aps.put("badge", 1);
-//			aps.put("alert", "apns push test");
+//			aps.put("alert", "消息推送修复,不影响用户");
 //			apnJSON.put("aps", aps);
 //			apnJSON.put("a", Tag.PUSH_ACTION_SYS);
 //			List<Integer> uids = new ArrayList<Integer>();
-//			uids.add(2035);
+//			uids.add(4);
+////			uids.add(2035);
 //			JSONArray toAliasBatch = JSONArray.fromObject(uids);
 //			client.publishToAliasBatch(toAliasBatch, 
-//					"apns push test", apnJSON);
+//					"端午小长假咻~的一声就过了，像【夏の风】一样【Fly away】，连伤心都来不及╮(╯▽╰)╭。赶紧让【喵星人】贴纸来治愈你，我戳→ → → ！！！", apnJSON);
 //		} catch (JSONException e) {
 //			e.printStackTrace();
 //		} catch (YunbaException e) {
