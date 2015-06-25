@@ -156,8 +156,7 @@ public class PushServiceTest extends BaseTest {
 	
 	@Test
 	public void apnsPushTest() throws Exception {
-		service.apnsPushTest("581344d5fa048084e6acaefd54e12e7f014b0085eced6c4491a7d76285ca4a4c");
-		Thread.sleep(3000);
+//		service.apnsPushTest("581344d5fa048084e6acaefd54e12e7f014b0085eced6c4491a7d76285ca4a4c");
 	}
 	
 }
