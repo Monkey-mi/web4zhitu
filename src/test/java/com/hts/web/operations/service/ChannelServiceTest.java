@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.hts.web.base.BaseTest;
 import com.hts.web.base.constant.OptResult;
+import com.hts.web.base.constant.Tag;
 import com.hts.web.common.pojo.OpChannel;
 import com.hts.web.common.pojo.OpChannelWorldDto;
 import com.hts.web.common.util.Log;
@@ -128,7 +129,7 @@ public class ChannelServiceTest extends BaseTest {
 	@Test
 	public void saveChannelWorldTest() throws Exception {
 		int wid = (int)(10000 * Math.random());
-		service.saveChannelWorld(9999, wid, 485, 1);
+		service.saveChannelWorld(9999, wid, 485, 1, Tag.TRUE);
 	}
 	
 	@Test

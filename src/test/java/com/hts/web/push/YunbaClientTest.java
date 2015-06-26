@@ -35,8 +35,7 @@ public class YunbaClientTest extends BaseTest {
 //			apnJSON.put("aps", aps);
 //			apnJSON.put("a", Tag.PUSH_ACTION_SYS);
 //			List<Integer> uids = new ArrayList<Integer>();
-//			uids.add(4);
-////			uids.add(2035);
+//			uids.add(2035);
 //			JSONArray toAliasBatch = JSONArray.fromObject(uids);
 //			client.publishToAliasBatch(toAliasBatch, 
 //					"端午小长假咻~的一声就过了，像【夏の风】一样【Fly away】，连伤心都来不及╮(╯▽╰)╭。赶紧让【喵星人】贴纸来治愈你，我戳→ → → ！！！", apnJSON);

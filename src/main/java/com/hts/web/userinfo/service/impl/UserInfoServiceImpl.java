@@ -299,11 +299,6 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 			registerBySocialLogger.warn("concern offical error:" + e.getMessage());
 		}
 		
-		// 关注指定的微博账号
-		if(platformCode.equals(PlatFormCode.SINA)) {
-			platService.savePlatConcern(platformToken, PlatFormCode.SINA);
-		}
-		
 //		pushRecommandUser(loginCode, platformToken, userInfo.getId(), userName);
 		
 		return userInfo;

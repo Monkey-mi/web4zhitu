@@ -74,16 +74,17 @@ var callSetting = {
     	
     	var $usesticker = document.getElementById("imzhitu-use-sticker");
     	if($usesticker) {
-//    		var uatype = getUAType(ua);
-//    		if(uatype == 2) {
-//    			$usesticker.style.display = "none";
-//    		}
     		$usesticker.addEventListener('click',openclient,false);
     	}
     	
     	var $sharepage = document.getElementById("imzhitu-share-page");
     	if($sharepage) {
     		$sharepage.addEventListener('click',openclient,false);
+    	}
+    	
+    	var $enterchannel = document.getElementById("imzhitu-enter-channel");
+    	if($enterchannel) {
+    		$enterchannel.addEventListener('click',openclient,false);
     	}
    }, false);
 })()

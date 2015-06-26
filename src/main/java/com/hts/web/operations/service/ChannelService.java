@@ -172,7 +172,7 @@ public interface ChannelService extends BaseService{
 	 * @param userId
 	 */
 	public void saveChannelWorld(Integer channelId, Integer worldId, 
-			Integer authorId, Integer addChildCount);
+			Integer authorId, Integer addChildCount, Integer valid);
 	
 	/**
 	 * 根据id查询频道名称

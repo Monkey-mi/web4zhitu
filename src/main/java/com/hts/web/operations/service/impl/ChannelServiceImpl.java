@@ -47,6 +47,7 @@ import com.hts.web.operations.dao.ChannelDanmuReadDao;
 import com.hts.web.operations.dao.ChannelDao;
 import com.hts.web.operations.dao.ChannelLinkDao;
 import com.hts.web.operations.dao.ChannelMemberDao;
+import com.hts.web.operations.dao.ChannelPVCacheDao;
 import com.hts.web.operations.dao.ChannelStarCacheDao;
 import com.hts.web.operations.dao.ChannelSysDanmuDao;
 import com.hts.web.operations.dao.ChannelThemeCacheDao;
@@ -127,6 +128,9 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 	
 	@Autowired
 	private HTWorldDao worldDao;
+	
+	@Autowired
+	private ChannelPVCacheDao channelPVCacheDao;
 	
 	/**
 	 * 官方频道id
@@ -394,6 +398,7 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 		channel.setSubscribed(subscribed);
 		channel.setRole(role);
 		jsonMap.put(OptResult.JSON_KEY_CHANNEL, channel);
+		channelPVCacheDao.inrc(channelId);
 	}
 
 	@Override
@@ -473,12 +478,14 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 
 	@Override
 	public void saveChannelWorld(Integer channelId, Integer worldId,
-			Integer authorId, Integer addChildCount) {
+			Integer authorId, Integer addChildCount, Integer valid) {
 		Integer id = keyGenService.generateId(KeyGenServiceImpl.OP_CHANNEL_WORLD_ID);
 		OpChannelWorld world = new OpChannelWorld(id, channelId,
-				worldId, authorId, new Date(), Tag.FALSE, Tag.TRUE, Tag.FALSE, id);
+				worldId, authorId, new Date(), valid, Tag.TRUE, Tag.FALSE, id);
 		channelWorldDao.saveChannelWorld(world);
-//		addWorldCountAndChildCount(channelId, addChildCount);
+		if(valid.equals(Tag.TRUE)) {
+			addWorldCountAndChildCount(channelId, addChildCount);
+		}
 	}
 
 	@Override

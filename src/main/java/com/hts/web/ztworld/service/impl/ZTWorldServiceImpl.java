@@ -176,6 +176,11 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 	 */
 	private Integer officialChannelOwnerId = 2063;
 	
+	/**
+	 * 旧版频道最大id
+	 */
+	private Integer oldChannelMaxId = 10;
+	
 	@Autowired
 	private KeyGenService keyGenService;
 	
@@ -347,16 +352,6 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 		
 		world.setWorldURL(worldDao.getUrlPrefix() + shortLink);
 		
-//		// 兼容旧版本参加活动
-//		if (!StringUtil.checkIsNULL(activityIds)) { 
-//			Integer[] actIds = StringUtil.convertStringToIds(activityIds);
-//			for (Integer actId : actIds) {
-//				Integer lwid = keyGenService.generateId(KeyGenServiceImpl.HTWORLD_LABEL_WORLD_ID);
-//				worldLabelWorldDao.saveLabelWorld(new HTWorldLabelWorld(lwid, worldId, authorId,
-//						actId, Tag.FALSE, lwid, 0));
-//			}
-//		}
-		
 		// 保存织图标签
 		try {
 			if(!StringUtil.checkIsNULL(worldLabel)) {
@@ -402,23 +397,27 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 				String[] labelArray = new String[nameSet.size()];
 				world.setWorldLabel(StringUtil.convertArrayToString(nameSet.toArray(labelArray)));
 			}
-			
+		} catch(Exception e) {
+			saveWorldLogger.warn("save world label error, " + e.getMessage(), e);
+		}
+		
+		try {
 			if(!StringUtil.checkIsNULL(channelIds)) {
 				Integer[] cids = StringUtil.convertStringToIds(channelIds);
-				for(int cid : cids) {
-					if(authorId != officialChannelOwnerId && cid == officialChannelId) // 不允许向官方频道发图
+				for(Integer cid : cids) {
+					if(!authorId.equals(officialChannelOwnerId) && cid.equals(officialChannelId)) // 非官号不允许向官方频道发图
 						continue;
 					
 					String channelName = channelService.queryChannelNameById(cid);
 					if(!StringUtil.checkIsNULL(channelName)) {
 						world.getChannelNames().add(new HTWorldChannelName(cid, channelName));
-						channelService.saveChannelWorld(cid, worldId, authorId, worldChildCount);
+						Integer valid = (cid > oldChannelMaxId && trust >= Tag.TRUE) ? Tag.TRUE : Tag.FALSE;
+						channelService.saveChannelWorld(cid, worldId, authorId, worldChildCount, valid);
 					}
 				}
 			}
-			
 		} catch(Exception e) {
-			saveWorldLogger.warn("save world label error, " + e.getMessage(), e);
+			saveWorldLogger.warn("save channel world error, " + e.getMessage(), e);
 		}
 		
 		worldDao.saveWorld(world); // 保存世界信息
@@ -430,9 +429,6 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 		
 		userActivityService.addActivityScore(Tag.ACT_TYPE_WORLD, authorId);
 		
-//		if(trust >= Tag.TRUE && shield.equals(Tag.FALSE)) {
-//			worldCacheDao.saveLatestCache(world);
-//		}
 		return world;
 	}
 	
