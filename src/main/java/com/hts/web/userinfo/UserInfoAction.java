@@ -82,7 +82,8 @@ public class UserInfoAction extends BaseAction {
 	
 	private String actions; // 消息推送动作类型列表
 	private String labelIds; 
-	private Float ver = Tag.VERSION_2_8_2; // app版本号
+	// app版本号,非英语环境有机率出现ognl解析错误,解决访问为setVer时获取String转为Float
+	private Float ver = Tag.VERSION_2_8_2; 
 	
 	private Integer tradeId = 0;
 	private String job;
@@ -915,8 +916,12 @@ public class UserInfoAction extends BaseAction {
 		return ver;
 	}
 
-	public void setVer(Float ver) {
-		this.ver = ver;
+	public void setVer(String ver) {
+		if(ver == null) {
+			this.ver = Tag.VERSION_2_8_2;
+		} else {
+			this.ver = Float.valueOf(ver);
+		}
 	}
 
 	public String getJob() {
