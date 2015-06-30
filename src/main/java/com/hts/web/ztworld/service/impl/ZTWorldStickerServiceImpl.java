@@ -19,8 +19,10 @@ import com.hts.web.base.database.RowCallback;
 import com.hts.web.base.database.RowSelection;
 import com.hts.web.common.SerializableListAdapter;
 import com.hts.web.common.pojo.HTWorldStickerDto;
+import com.hts.web.common.pojo.HTWorldStickerTop;
 import com.hts.web.common.pojo.HTWorldStickerTypeDto;
 import com.hts.web.common.pojo.HTWorldStickerUsed;
+import com.hts.web.common.pojo.StickerWithLock;
 import com.hts.web.common.service.impl.BaseServiceImpl;
 import com.hts.web.common.util.TimeUtil;
 import com.hts.web.ztworld.dao.HTWorldStickerCacheDao;
@@ -28,6 +30,7 @@ import com.hts.web.ztworld.dao.HTWorldStickerDao;
 import com.hts.web.ztworld.dao.HTWorldStickerTypeCacheDao;
 import com.hts.web.ztworld.dao.HTWorldStickerUnlockDao;
 import com.hts.web.ztworld.dao.HTWorldStickerUsedDao;
+import com.hts.web.ztworld.dao.StickerTopCacheDao;
 import com.hts.web.ztworld.service.ZTWorldStickerService;
 
 @Service("HTSZTWorldStickerService")
@@ -38,6 +41,9 @@ public class ZTWorldStickerServiceImpl extends BaseServiceImpl implements
 	
 	@Autowired
 	private HTWorldStickerCacheDao stickerCacheDao;
+	
+	@Autowired
+	private StickerTopCacheDao stickerTopCacheDao;
 	
 	@Autowired
 	private HTWorldStickerTypeCacheDao stickerTypeCacheDao;
@@ -63,8 +69,9 @@ public class ZTWorldStickerServiceImpl extends BaseServiceImpl implements
 	}
 
 	@Override
-	public void buildTopSticker(Map<String, Object> jsonMap) throws Exception {
-		List<HTWorldStickerDto> list = stickerCacheDao.queryTopSticker();
+	public void buildTopSticker(Integer userId, Map<String, Object> jsonMap) throws Exception {
+		List<HTWorldStickerTop> list = stickerTopCacheDao.queryTopSticker();
+		extractUnlock(userId, list);
 		jsonMap.put(OptResult.JSON_KEY_STICKER, list);
 	}
 
@@ -121,16 +128,15 @@ public class ZTWorldStickerServiceImpl extends BaseServiceImpl implements
 	}
 
 	@Override
-	public void extractUnlock(Integer userId, final List<HTWorldStickerDto> list) {
+	public void extractUnlock(Integer userId, final List<? extends StickerWithLock> list) {
 		if(list.size() > 0) {
 			final Map<Integer, Integer> indexMap = new HashMap<Integer, Integer>();
 			List<Integer> idlist = new ArrayList<Integer>();
 			for(int i = 0; i < list.size(); i++) {
-				HTWorldStickerDto dto = list.get(i);
-				dto.setSharePath(sharePath + "?stid=" + dto.getId());
+				StickerWithLock dto = list.get(i);
 				if(dto.getHasLock().equals(Tag.TRUE)) {
-					indexMap.put(dto.getId(), i);
-					idlist.add(dto.getId());
+					indexMap.put(dto.getStickerId(), i);
+					idlist.add(dto.getStickerId());
 				}
 			}
 			if(idlist.size() > 0) {

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.hts.web.common.pojo.HTWorldStickerDto;
+import com.hts.web.common.pojo.StickerWithLock;
 import com.hts.web.common.service.BaseService;
 
 /**
@@ -23,7 +24,7 @@ public interface ZTWorldStickerService extends BaseService {
 	 * @param jsonMap
 	 * @throws Exception
 	 */
-	public void buildTopSticker(Map<String, Object> jsonMap) throws Exception;
+	public void buildTopSticker(Integer userId, Map<String, Object> jsonMap) throws Exception;
 	
 	/**
 	 * 构建推荐贴纸列表
@@ -76,7 +77,7 @@ public interface ZTWorldStickerService extends BaseService {
 	 * @throws Exception
 	 */
 	public void extractUnlock(Integer userId, 
-			List<HTWorldStickerDto> list) throws Exception;
+			List<? extends StickerWithLock> list) throws Exception;
 	
 	/**
 	 * 保存贴纸使用记录

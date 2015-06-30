@@ -1,26 +1,17 @@
 package com.hts.web.common.pojo;
 
 import java.io.Serializable;
+import java.util.List;
 
 import com.hts.web.base.constant.Tag;
 
-/**
- * <p>
- * 贴纸缓存POJO
- * </p>
- * 
- * 创建时间:2014-12-26
- * 
- * @author lynch
- *
- */
-public class HTWorldStickerDto implements Serializable, StickerWithLock {
+public class HTWorldStickerTop implements Serializable, StickerWithLock {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 4633460625872645207L;
-
+	private static final long serialVersionUID = 510725241630367713L;
+	
 	private Integer recommendId;
 	private Integer id;
 	private Integer typeId;
@@ -35,35 +26,29 @@ public class HTWorldStickerDto implements Serializable, StickerWithLock {
 	private Integer unlock = Tag.FALSE;
 	private Integer labelId;
 	private Integer fill = 0;
-
-	public HTWorldStickerDto() {
-		super();
-	}
-
-	public HTWorldStickerDto(Integer recommendId, Integer id, Integer typeId,
+	
+	private List<HTWorldStickerDto> sets;
+	
+	public HTWorldStickerTop(Integer recommendId, Integer id, Integer typeId,
 			Integer setId, String stickerPath, String stickerThumbPath,
 			String stickerDemoPath, String stickerName, String stickerDesc,
-			Integer hasLock, Integer labelId, Integer fill) {
+			String sharePath, Integer hasLock, Integer unlock, Integer labelId,
+			Integer fill) {
 		super();
 		this.recommendId = recommendId;
 		this.id = id;
 		this.typeId = typeId;
+		this.setId = setId;
 		this.stickerPath = stickerPath;
 		this.stickerThumbPath = stickerThumbPath;
 		this.stickerDemoPath = stickerDemoPath;
 		this.stickerName = stickerName;
 		this.stickerDesc = stickerDesc;
+		this.sharePath = sharePath;
 		this.hasLock = hasLock;
+		this.unlock = unlock;
 		this.labelId = labelId;
 		this.fill = fill;
-	}
-
-	public Integer getTypeId() {
-		return typeId;
-	}
-
-	public void setTypeId(Integer typeId) {
-		this.typeId = typeId;
 	}
 
 	public Integer getRecommendId() {
@@ -80,6 +65,22 @@ public class HTWorldStickerDto implements Serializable, StickerWithLock {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public Integer getTypeId() {
+		return typeId;
+	}
+
+	public void setTypeId(Integer typeId) {
+		this.typeId = typeId;
+	}
+
+	public Integer getSetId() {
+		return setId;
+	}
+
+	public void setSetId(Integer setId) {
+		this.setId = setId;
 	}
 
 	public String getStickerPath() {
@@ -162,12 +163,12 @@ public class HTWorldStickerDto implements Serializable, StickerWithLock {
 		this.fill = fill;
 	}
 
-	public Integer getSetId() {
-		return setId;
+	public List<HTWorldStickerDto> getSets() {
+		return sets;
 	}
 
-	public void setSetId(Integer setId) {
-		this.setId = setId;
+	public void setSets(List<HTWorldStickerDto> sets) {
+		this.sets = sets;
 	}
 
 	@Override

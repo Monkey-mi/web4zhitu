@@ -15,8 +15,6 @@ public class ZTWorldStickerTest extends BaseTest {
 	@Autowired
 	private ZTWorldStickerService service;
 	
-	
-	
 	@Test
 	public void buildTopStickerTest() throws Exception {
 		logNumberList(log, new NumberListAdapter() {
@@ -24,7 +22,7 @@ public class ZTWorldStickerTest extends BaseTest {
 			@Override
 			public void buildNumberList(Map<String, Object> jsonMap)
 					throws Exception {
-				service.buildTopSticker(jsonMap);
+				service.buildTopSticker(485, jsonMap);
 			}
 			
 		});

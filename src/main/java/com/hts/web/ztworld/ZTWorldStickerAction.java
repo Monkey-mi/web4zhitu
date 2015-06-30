@@ -41,7 +41,7 @@ public class ZTWorldStickerAction extends BaseAction {
 	 */
 	public String queryTopSticker() {
 		try {
-			stickerService.buildTopSticker(jsonMap);
+			stickerService.buildTopSticker(getCurrentLoginUserId(), jsonMap);
 			JSONUtil.optSuccess(jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);

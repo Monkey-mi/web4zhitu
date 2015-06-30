@@ -211,6 +211,11 @@ public class KeyGenServiceImpl extends BaseServiceImpl implements KeyGenService{
 	 */
 	public static final Integer OP_MSG_START_PAGE_ID = 39;
 	
+	/**
+	 * 贴纸系列序号
+	 */
+	public static final Integer HTWORLD_STICKER_SET_SERIAL = 40;
+	
 	@Autowired
 	private KeyGenDao keyGenDao;
 	

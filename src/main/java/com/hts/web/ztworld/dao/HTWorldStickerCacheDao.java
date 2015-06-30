@@ -16,12 +16,12 @@ import com.hts.web.common.pojo.HTWorldStickerDto;
  */
 public interface HTWorldStickerCacheDao extends BaseCacheDao {
 
-	/**
-	 * 查询置顶贴纸
-	 * 
-	 * @return
-	 */
-	public List<HTWorldStickerDto> queryTopSticker();
+//	/**
+//	 * 查询置顶贴纸
+//	 * 
+//	 * @return
+//	 */
+//	public List<HTWorldStickerDto> queryTopSticker();
 	
 	/**
 	 * 查询推荐贴纸
