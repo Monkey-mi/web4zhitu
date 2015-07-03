@@ -72,8 +72,8 @@
 		<!-- 邀请、下载页面跳转 -->
 		<action name="download" class="com.hts.web.operations.UserOperationsAction"
 			method="invite">
-			<result name="phone" type="dispatcher">/index/download4activity.jsp</result>
-			<result name="web" type="dispatcher">/index/webdownload4activity.jsp</result>
+			<result name="phone" type="redirect">/index4ph.html</result>
+			<result name="web" type="redirect">/</result>
 			<result name="error" type="dispatcher">/error/error404.jsp</result>
 		</action>
 		

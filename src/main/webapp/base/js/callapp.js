@@ -1,7 +1,7 @@
 var callSetting = {
 	schemeIOS: 'imzhitu://',
 	schemeADR: 'imzhitu://open',
-	url: 'http://imzhitu.com/download',
+	url: 'http://imzhitu.com/index4ph.html',
 	
 };
 (function(){
@@ -18,7 +18,7 @@ var callSetting = {
     if(!callSetting) {
        	config.schemeIOS = 'imzhitu://';
        	config.schemeADR = 'imzhitu://open';
-       	config.url = 'http://imzhitu.com/download';
+       	config.url = 'http://imzhitu.com/index4ph.html';
     } else {
     	if(callSetting.sechemeIOS) config.schemeIOS = callSetting.sechemeIOS;
     	if(callSetting.schemeADR) config.schemeADR = callSetting.schemeADR;
@@ -86,5 +86,13 @@ var callSetting = {
     	if($enterchannel) {
     		$enterchannel.addEventListener('click',openclient,false);
     	}
+    	
+    	var $callapp = document.getElementsByName("imzhitu-callapp");
+    	if($callapp.length) {
+    		for(var i = 0; i < $callapp.length; i++) {
+    			$callapp[i].addEventListener('click',openclient,false);
+    		}
+    	}
+    	
    }, false);
 })()
