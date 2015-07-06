@@ -8,8 +8,8 @@
 <meta name="description" content="${worldDesc }">
 <meta name="keywords" content="相册,美图,社交,旅行,故事,时尚,${worldLabel}">
 <title>${title }</title>
-<link rel="stylesheet" type="text/css" href="${webRootPath }/htworld/phonev2/css/htszoomtour2013122801.css?ver=${webVer}" />
-<link rel="stylesheet" type="text/css" href="${webRootPath }/htworld/phonev2/css/style2013122801.css?ver=${webVer}" />
+<link rel="stylesheet" type="text/css" href="/staticres/htworld/phonev2/css/htszoomtour2013122801.css" />
+<link rel="stylesheet" type="text/css" href="/staticres/htworld/phonev2/css/style2013122801.css" />
 <script>
 var _hmt = _hmt || [];
 </script>
@@ -73,7 +73,7 @@ var _hmt = _hmt || [];
 	</div>
 </div>
 <div id="foot-wrap">
-	<img class="logo" height="45" src="${webRootPath }/htworld/phonev2/images/logo.png"/>
+	<img class="logo" height="45" src="/staticres/htworld/phonev2/images/logo.png"/>
 	<div id="download-btn-wrap">
 		<a class="download-btn" target="_blank" id="ios-download" 
 			onclick="_hmt.push(['_trackEvent', 'app', 'download', 'zhitu'])"
@@ -82,10 +82,14 @@ var _hmt = _hmt || [];
 </div>
 </div>
 </div>
-<jsp:include page="/base/baidustats.jsp"></jsp:include>
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fd52a9c49fb7a48b836a1a23f21b49f1d' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript" src="/staticres/base/js/jquery/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="/staticres/base/js/baseTools.js"></script>
+<script type="text/javascript" src="/staticres/htworld/common/js/jquery.htszoomtourV3.js"></script>
+<script type="text/javascript" src="/staticres/htworld/phonev2/js/hts2014022401.js"></script>
+
 </body>
-<script type="text/javascript" src="${webRootPath }/base/js/jquery/jquery-1.8.2.min.js?ver=${webVer}"></script>
-<script type="text/javascript" src="${webRootPath }/base/js/baseTools.js?ver=${webVer}"></script>
-<script type="text/javascript" src="${webRootPath }/htworld/common/js/jquery.htszoomtourV3.js?ver=${webVer}"></script>
-<script type="text/javascript" src="${webRootPath }/htworld/phonev2/js/hts2014022401.js?ver=${webVer}"></script>
 </html>

@@ -7,7 +7,7 @@
 <meta name="description" content="${worldDesc }">
 <meta name="keywords" content="相册,美图,社交,旅行,故事,时尚,${worldLabel}">
 <title>${title}</title>
-<link rel="stylesheet" type="text/css" href="${webRootPath }/htworld/webv2/css/style.css?ver=${webVer}" />
+<link rel="stylesheet" type="text/css" href="/staticres/htworld/webv2/css/style.css" />
 <script>
 var _hmt = _hmt || [];
 </script>
@@ -39,20 +39,10 @@ var _hmt = _hmt || [];
 				<span class="unlike icon"></span>
 				<span id="like-count">${likeCount}</span>
 			</div>
-			<!-- 
-			<div class="zt-world-opt">
-				<div id="show-thumb" class="btn-round opt-btn" title="显示圈">
-					<div class="show-thumb-icon icon"></div>
-				</div>
-				<div id="hide-thumb" class="btn-round opt-btn" title="隐藏圈">
-					<div class="hide-thumb-icon icon"></div>
-				</div>
-			</div>
-			 -->
 		</div>
 	</div>
 	<div id="left-panel">
-		<a class="logo" href="${webRootPath }/" title="织图首页"><img src="${webRootPath }/htworld/webv2/images/logo.png" /></a>
+		<a class="logo" href="/" title="织图首页"><img src="/staticres/htworld/webv2/images/logo.png" /></a>
 		<a id="download-iphone" class="btn-download btn-round" title="织图iPhone版本下载" target="_blank" 
 			onclick="_hmt.push(['_trackEvent', 'app', 'download', 'ios'])"
 			href="https://itunes.apple.com/cn/app/zhi-tu/id576156900?mt=8">iPhone版本下载</a>
@@ -108,14 +98,17 @@ var _hmt = _hmt || [];
 		</div>
 	</div>
 	<a id="btn-open-right" class="btn-right-panel none" href="#right-panel" title="展开" ></a>
-<jsp:include page="/base/baidustats.jsp"></jsp:include>
+	<script type="text/javascript">
+		var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+		document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fd52a9c49fb7a48b836a1a23f21b49f1d' type='text/javascript'%3E%3C/script%3E"));
+	</script>
+	<link rel="stylesheet" type="text/css" href="/staticres/base/js/jquery/pageslide-2.0.0/jquery.pageslide.css" />
+	<link rel="stylesheet" type="text/css" href="/staticres/htworld/webv2/css/htszoomtourV2.css" />
+	<script type="text/javascript" src="/staticres/base/js/jquery/jquery-1.8.2.min.js"></script>
+	<script type="text/javascript" src="/staticres/base/js/baseTools.js"></script>
+	<script type="text/javascript" src="/staticres/base/js/jquery/jquery.nicescroll.min.js"></script>
+	<script type="text/javascript" src="/staticres/htworld/common/js/jquery.htszoomtourV3.js"></script>
+	<script type="text/javascript" src="/staticres/htworld/webv2/js/hts2014022401.js"></script>
+	<script type="text/javascript" src="/staticres/base/js/jquery/pageslide-2.0.0/jquery.pageslide.js"></script>
 </body>
-<link rel="stylesheet" type="text/css" href="${webRootPath }/base/js/jquery/pageslide-2.0.0/jquery.pageslide.css?ver=${webVer}" />
-<link rel="stylesheet" type="text/css" href="${webRootPath }/htworld/webv2/css/htszoomtourV2.css?ver=${webVer}" />
-<script type="text/javascript" src="${webRootPath }/base/js/jquery/jquery-1.8.2.min.js?ver=${webVer}"></script>
-<script type="text/javascript" src="${webRootPath }/base/js/baseTools.js?ver=${webVer}"></script>
-<script type="text/javascript" src="${webRootPath }/base/js/jquery/jquery.nicescroll.min.js?ver=${webVer}"></script>
-<script type="text/javascript" src="${webRootPath }/htworld/common/js/jquery.htszoomtourV3.js?ver=${webVer}"></script>
-<script type="text/javascript" src="${webRootPath }/htworld/webv2/js/hts2014022401.js?ver=${webVer}"></script>
-<script type="text/javascript" src="${webRootPath }/base/js/jquery/pageslide-2.0.0/jquery.pageslide.js?ver=${webVer}"></script>
 </html>

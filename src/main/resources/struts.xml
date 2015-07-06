@@ -34,7 +34,7 @@
 	
 		<!-- 首页 -->
 		<action name="">
-			<result type="dispatcher">/index.jsp</result>
+			<result type="dispatcher">/index.html</result>
 		</action>
 
 		<!-- 首页 -->

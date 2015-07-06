@@ -1,0 +1,41 @@
+body {
+	font-family: "微软雅黑", Arial, Helvetica, sans-serif;
+	margin: 0;
+	padding: 0;
+	background: #fffcf5;
+}
+
+#wrapper {
+	text-align: center;	
+	margin-top: 8%;
+}
+
+#icon {
+	display: inline-block;
+	width: 24%;
+}
+
+#tip {
+	display: inline-block;
+	position:absolute;
+	margin:-3% 0 0  -6%;
+	width:18%;
+}
+
+#text {
+	width:30%;
+	margin: 5% auto 0 auto;
+	background: #eb6877;
+	color: #ffffff;
+	text-align:center;
+	padding: 1% 0 1% 0;
+	font-size:16px;
+}
+
+a {
+	color: #ffffff;
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: underline;
+}
