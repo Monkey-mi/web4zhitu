@@ -356,9 +356,10 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 
 							@Override
 							public void callback(OpChannelName t) {
-								if(!userId.equals(officialOwnerId) && !t.getId().equals(officialId)) {
-									list.add(t);
+								if(t.getId().equals(officialId) && !userId.equals(officialOwnerId)) {
+									return;
 								}
+								list.add(t);
 							}
 						});
 						return list;
@@ -372,9 +373,10 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 
 							@Override
 							public void callback(OpChannelName t) {
-								if(!userId.equals(officialOwnerId) && !t.getId().equals(officialId)) {
-									list.add(t);
+								if(t.getId().equals(officialId) && !userId.equals(officialOwnerId)) {
+									return;
 								}
+								list.add(t);
 							}
 							
 						});

@@ -3,39 +3,31 @@ body {
 	margin: 0;
 	padding: 0;
 	background: #fffcf5;
+	text-align:center;
 }
 
-#wrapper {
-	text-align: center;	
-	margin-top: 8%;
+#main {
+	display:inline-block;
+	max-width:750px;
+	margin-top:50px;
+	
 }
 
 #icon {
 	display: inline-block;
-	width: 24%;
-}
-
-#tip {
-	display: inline-block;
-	position:absolute;
-	margin:-3% 0 0  -6%;
-	width:18%;
+	width:90%;
 }
 
 #text {
-	width:30%;
-	margin: 5% auto 0 auto;
+	margin: 20px 5px 0 5px;
 	background: #eb6877;
 	color: #ffffff;
 	text-align:center;
-	padding: 1% 0 1% 0;
+	padding: 10px 0 10px 0;
 	font-size:16px;
 }
 
 a {
 	color: #ffffff;
-	text-decoration: none;
-}
-a:hover {
 	text-decoration: underline;
 }

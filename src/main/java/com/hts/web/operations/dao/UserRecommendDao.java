@@ -162,6 +162,10 @@ public interface UserRecommendDao extends BaseDao {
 	public List<OpUser> queryRecommendUserOrderByAct(
 			Integer maxId, Integer joinId, RowSelection rowSelection);
 	
+	public List<OpUser> queryWeightRec(Integer userId, Integer limit);
+	
+	public List<OpUser> queryWeightVerifyRec(Integer userId, Integer verifyId, Integer limit);
+	
 	
 	/**
 	 * 查询推荐总数

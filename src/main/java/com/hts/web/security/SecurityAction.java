@@ -26,24 +26,12 @@ public class SecurityAction extends BaseAction {
 	 * 退出成功提示
 	 */
 	public static final String TIP_LOGOUT_SUCCESS = "退出成功";
-	private Logger logger = Logger.getLogger(SecurityAction.class);
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -4709462554516978675L;
 
-	public String accessDeny() {
-		// 记录user-agent
-        String userAgent = request.getHeader("User-Agent");
-        logger.warn("无访问权限,user-agent：" + userAgent);
-        
-		JSONUtil.optFailed(403, "无访问权限，请重新登陆", jsonMap);
-        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-        
-		return StrutsKey.JSON;
-	}
-	
 	/**
 	 * 退出成功
 	 * 

@@ -98,6 +98,8 @@ public class UserOperationsServiceImpl extends BaseServiceImpl implements
 	 */
 	public static final int USER_RECOMMEND_PENDING = 0;
 	
+	private Integer weightLimit = 10;
+	
 	@Autowired
 	private KeyGenService keyGenService;
 	
@@ -517,34 +519,56 @@ public class UserOperationsServiceImpl extends BaseServiceImpl implements
 		jsonMap.put(OptResult.JSON_KEY_VERIFY, verifyList);
 	}
 
-
 	@Override
 	public void buildVerifyRecommendUser(int maxId, int start, int limit,
-			final Integer userId, final Integer verifyId, final int worldLimit, Map<String, Object> jsonMap)
+			final Integer userId, final Integer verifyId, final int worldLimit, final Map<String, Object> jsonMap)
 			throws Exception {
+		if(maxId < 0) {
+			// 避免重复加载第一页数据的情况
+			jsonMap.put(OptResult.JSON_KEY_USER_INFO, new ArrayList<OpUser>());
+			return;
+		}
 		buildSerializables("getActivity",maxId, start, limit, jsonMap, new SerializableListAdapter<OpUser>() {
 
 			@Override
 			public List<OpUser> getSerializables(
 					RowSelection rowSelection) {
-				List<OpUser> userList = userRecommendDao.queryVerifyRecommendUserOrderByAct(userId, verifyId, rowSelection);
+				List<OpUser> userList = null;
+				List<OpUser> weightList = null;
+				if(verifyId == 0) {
+					List<OpUserVerifyDto> verifyList = opUserVerifyDtoCacheDao.queryVerify();
+					jsonMap.put(OptResult.JSON_KEY_VERIFY, verifyList);
+					userList = userRecommendDao.queryRecommendUserOrderByAct(userId, rowSelection);
+					weightList = userRecommendDao.queryWeightRec(userId, weightLimit);
+				} else {
+					userList = userRecommendDao.queryVerifyRecommendUserOrderByAct(userId, verifyId, rowSelection);
+					if(checkHasWeight(verifyId)) {
+						weightList = userRecommendDao.queryWeightVerifyRec(userId, verifyId, weightLimit);
+					}
+				} 
+				if(weightList != null && !weightList.isEmpty()) {
+					userList.addAll(0, weightList);
+				}
 				if(worldLimit > 0) {
 					extractHTWorldThumbUser(worldLimit,userList);
 				}
 				userInfoService.extractVerify(userList);
-				userInteractService.extractRemark(userId, userList);
 				return userList;
 			}
 
 			@Override
 			public List<OpUser> getSerializableByMaxId(int maxId,
 					RowSelection rowSelection) {
-				List<OpUser> userList = userRecommendDao.queryVerifyRecommendUserOrderByAct(maxId, userId, verifyId, rowSelection);
+				List<OpUser> userList = null;
+				if(verifyId == 0) {
+					userList = userRecommendDao.queryRecommendUserOrderByAct(maxId, userId, rowSelection);
+				} else {
+					userList = userRecommendDao.queryVerifyRecommendUserOrderByAct(maxId, userId, verifyId, rowSelection);
+				}
 				if(worldLimit > 0) {
 					extractHTWorldThumbUser(worldLimit,userList);
 				}
 				userInfoService.extractVerify(userList);
-				userInteractService.extractRemark(userId, userList);
 				return userList;
 			}
 
@@ -554,7 +578,27 @@ public class UserOperationsServiceImpl extends BaseServiceImpl implements
 			}
 		}, OptResult.JSON_KEY_USER_INFO, null);
 	}
-
+	
+	/**
+	 * 判断查询分榜单推荐用户是否含有置顶
+	 * 
+	 * @param verifyId
+	 * @return
+	 */
+	private boolean checkHasWeight(Integer verifyId) {
+		boolean flag = false;
+		switch(verifyId) {
+		case 16: // 女神范
+		case 5: // 旅行家
+		case 3: //摄影师
+			flag = true;
+			break;
+		default:
+			break;
+		}
+		return flag;
+	}
+	
 	@Override
 	public Integer getRandomZombieId() throws Exception {
 		List<Integer> ids = zombieDao.queryRandomZombieId(2);

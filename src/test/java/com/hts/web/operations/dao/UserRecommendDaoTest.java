@@ -72,8 +72,14 @@ public class UserRecommendDaoTest extends BaseTest {
 	}
 	
 	@Test
+	public void queryRecommendUserOrderByActTest() {
+		dao.queryRecommendUserOrderByAct(140, new RowSelection(1,10));
+		dao.queryRecommendUserOrderByAct(0, new RowSelection(1,10));
+	}
+	
+	@Test
 	public void testQueryVerifyRecommendUserOrderByAct() {
-//		dao.queryVerifyRecommendUserOrderByAct(485,2, new RowSelection(1, 10));
+		dao.queryVerifyRecommendUserOrderByAct(485,2, new RowSelection(1, 10));
 		dao.queryVerifyRecommendUserOrderByAct(1000,485, 4, new RowSelection(1, 10));
 	}
 }

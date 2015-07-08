@@ -19,7 +19,6 @@ import com.hts.web.common.dao.impl.BaseDaoImpl;
 import com.hts.web.common.pojo.OpUser;
 import com.hts.web.common.pojo.OpUserLabelRecommend;
 import com.hts.web.common.pojo.OpUserRecommend;
-import com.hts.web.common.pojo.UserDynamicRec;
 import com.hts.web.common.pojo.UserVerifyDto;
 import com.hts.web.operations.dao.UserRecommendDao;
 import com.hts.web.userinfo.dao.UserVerifyDao;
@@ -40,6 +39,11 @@ public class UserRecommendDaoImpl extends BaseDaoImpl implements
 			+ "u.address,u.province,u.city,u.birthday,u.signature,u.user_label,"
 			+ "u.register_date,u.online,u.concern_count,u.follow_count," 
 			+ "u.world_count,u.liked_count,u.keep_count,u.shield,u.star,u.trust,u.activity";
+	
+	/**
+	 * 推荐信息
+	 */
+	private static final String UR_INFO = "ur.id,ur.recommend_desc,ur.last_pos,ur.last_verify_pos,ur.curr_pos,ur.curr_verify_pos";
 
 	/**
 	 * 标签推荐用户信息 
@@ -69,7 +73,6 @@ public class UserRecommendDaoImpl extends BaseDaoImpl implements
 			+ " (select concern_id from " + HTS.USER_CONCERN + " where valid=? and user_id=?)"
 			+ " and ur.user_id!=?" + ORDER_BY_UR_ID_DESC;
 	
-	
 	/** 
 	 * 根据最大id查询有效推荐用户 
 	 */
@@ -84,52 +87,62 @@ public class UserRecommendDaoImpl extends BaseDaoImpl implements
 	/** 
 	 * 查询推荐用户，根据activity排序
 	 */
-	private static final String QUERY_RECOMMEND_USER_ORDER_BY_ACT = "select u3.*,if(u3.fix_pos = 0 ,@rownum1 :=@rownum1 + 1,u3.fix_pos) as rownum1 from (select u2.*,@rownum1:=0 from"
-			+ " (SELECT u1.*,@rownum:=@rownum+1 as rownum"
-			+ " from (SELECT @rownum:=0,ur0.id,ur0.recommend_desc,ur0.date_modified,ur0.last_pos,ur0.last_verify_pos,ur0.fix_pos,"
-			+ U_INFO+" from " + HTS.OPERATIONS_USER_RECOMMEND + " as ur0, " 
-			+ HTS.USER_INFO + " as u"
-			+ " where ur0.user_id=u.id and ur0.user_accept=1 and ur0.sys_accept=1 ORDER BY u.activity desc, ur0.id desc) u1) as u2"
-			+ " where u2.user_id!=?  and NOT EXISTS"
-			+ " (select concern_id from " + HTS.USER_CONCERN + " where u2.user_id=concern_id and valid=1 and user_id=?)) as u3 order by rownum1 asc, u3.fix_pos desc";
+	private static final String QUERY_RECOMMEND_USER_ORDER_BY_ACT = "select " + UR_INFO +"," + U_INFO 
+			+ " from " + table + " ur, " + HTS.USER_INFO + " as u"
+			+ " where ur.user_id=u.id and ur.user_accept=1 and ur.sys_accept=1 and ur.weight=0"
+			+ " and NOT EXISTS (select concern_id from " + HTS.USER_CONCERN + " where ur.user_id=concern_id and valid=1 and user_id=?)" 
+			+ " ORDER BY ur.curr_pos desc limit ?,?";
 
 	
 	/**
 	 * 查询推荐用户，根据activity排序
 	 */
-	private static final String QUERY_RECOMMEND_USER_ORDER_BY_ACT_BY_MAX_ID = "select u3.*,if(u3.fix_pos = 0 ,@rownum1 :=@rownum1 + 1,u3.fix_pos) as rownum1 from (select u2.*,@rownum1:=0 from"
-			+ " (SELECT u1.*,@rownum:=@rownum+1 as rownum"
-			+ " from (SELECT @rownum:=0,ur0.id,ur0.recommend_desc,ur0.date_modified,ur0.last_pos,ur0.last_verify_pos,ur0.fix_pos,"
-			+ U_INFO+" from " + HTS.OPERATIONS_USER_RECOMMEND + " as ur0, " 
-			+ HTS.USER_INFO + " as u"
-			+ " where ur0.user_id=u.id and ur0.user_accept=1 and ur0.sys_accept=1 ORDER BY u.activity desc, ur0.id desc) u1) as u2"
-			+ " where u2.user_id!=?  and NOT EXISTS"
-			+ " (select concern_id from " + HTS.USER_CONCERN + " where u2.user_id=concern_id and valid=1 and user_id=?) and u2.activity<=? ) as u3 order by rownum1 asc, u3.fix_pos desc";
+	private static final String QUERY_RECOMMEND_USER_ORDER_BY_ACT_BY_MAX_ID = "select " + UR_INFO +"," + U_INFO 
+			+ " from " + table + " ur, " + HTS.USER_INFO + " as u"
+			+ " where ur.user_id=u.id and ur.user_accept=1 and ur.sys_accept=1 and ur.weight=0 and ur.curr_pos<=?"
+			+ " and NOT EXISTS (select concern_id from " + HTS.USER_CONCERN + " where ur.user_id=concern_id and valid=1 and user_id=?)" 
+			+ " ORDER BY ur.curr_pos desc limit ?,?";
+	
+	/**
+	 * 查询总榜置顶推荐
+	 */
+	private static final String QUERY_WEIGHT_REC = "select " + UR_INFO +"," + U_INFO 
+			+ " from " + table + " ur, " + HTS.USER_INFO + " as u"
+			+ " where ur.user_id=u.id and ur.user_accept=1 and ur.sys_accept=1 and ur.weight > 0"
+			+ " and NOT EXISTS (select concern_id from " + HTS.USER_CONCERN + " where ur.user_id=concern_id and valid=1 and user_id=?)" 
+			+ " ORDER BY ur.weight desc limit ?";
 	
 	/** 
 	 * 查询分榜推荐用户，根据activity排序
 	 */
-	private static final String QUERY_VERIFY_RECOMMEND_USER_ORDER_BY_ACT = " SELECT u1.*,@rownum:=@rownum+1 as rownum"
-			+ " from (SELECT @rownum:=0,ur0.id,ur0.recommend_desc,ur0.date_modified,ur0.last_pos,ur0.last_verify_pos,ur0.fix_pos,"
-			+ U_INFO + " from "
-			+ "(select * from " + HTS.OPERATIONS_USER_RECOMMEND + " ur1 where ur1.user_accept=1 and ur1.sys_accept=1 and ur1.verify_id=?"
-			+ " and NOT EXISTS (select concern_id from " + HTS.USER_CONCERN 
-			+ " where ur1.user_id=concern_id and valid=1 and user_id=?)) as ur0, " 
-			+ HTS.USER_INFO + " as u"
-			+ " where ur0.user_id=u.id ORDER BY ur0.weight desc, u.activity desc, ur0.id desc) u1";
+	private static final String QUERY_VERIFY_RECOMMEND_USER_ORDER_BY_ACT = "select " + UR_INFO +"," + U_INFO 
+			+ " from " + table + " ur, " + HTS.USER_INFO + " as u"
+			+ " where ur.user_id=u.id and ur.user_accept=1 and ur.sys_accept=1 and ur.weight=0 and ur.verify_id=?"
+			+ " and NOT EXISTS (select concern_id from " + HTS.USER_CONCERN + " where ur.user_id=concern_id and valid=1 and user_id=?)" 
+			+ " ORDER BY ur.curr_pos desc limit ?,?";
 
 	
 	/**
 	 * 查询分榜推荐用户，根据activity排序
 	 */
-	private static final String QUERY_VERIFY_RECOMMEND_USER_ORDER_BY_ACT_MAX_ID = " SELECT u1.*,@rownum:=@rownum+1 as rownum"
-			+ " from (SELECT @rownum:=0,ur0.id,ur0.recommend_desc,ur0.date_modified,ur0.last_pos,ur0.last_verify_pos,ur0.fix_pos,"
-			+ U_INFO + " from "
-			+ "(select * from " + HTS.OPERATIONS_USER_RECOMMEND + " ur1 where ur1.user_accept=1 and ur1.sys_accept=1 and ur1.verify_id=?"
-			+ " and NOT EXISTS (select concern_id from " + HTS.USER_CONCERN 
-			+ " where ur1.user_id=concern_id and valid=1 and user_id=?)) as ur0, " 
-			+ HTS.USER_INFO + " as u"
-			+ " where ur0.user_id=u.id and u.activity<=? ORDER BY ur0.weight desc, u.activity desc, ur0.id desc) u1";
+	private static final String QUERY_VERIFY_RECOMMEND_USER_ORDER_BY_ACT_MAX_ID = "select " + UR_INFO +"," + U_INFO 
+			+ " from " + table + " ur, " + HTS.USER_INFO + " as u"
+			+ " where ur.user_id=u.id and ur.user_accept=1 and ur.sys_accept=1 and ur.weight=0 and ur.verify_id=? and ur.curr_pos<=?"
+			+ " and NOT EXISTS (select concern_id from " + HTS.USER_CONCERN + " where ur.user_id=concern_id and valid=1 and user_id=?)" 
+			+ " ORDER BY ur.curr_pos desc limit ?,?";
+	
+	/**
+	 * 查询置顶分榜推荐用户
+	 */
+	private static final String QUERY_WEIGHT_VERIFY_REC = "select " + UR_INFO +"," + U_INFO 
+			+ " from " + table + " ur, " + HTS.USER_INFO + " as u"
+			+ " where ur.user_id=u.id and ur.user_accept=1 and ur.sys_accept=1 and ur.weight > 0 and ur.verify_id=?"
+			+ " and NOT EXISTS (select concern_id from " + HTS.USER_CONCERN + " where ur.user_id=concern_id and valid=1 and user_id=?)" 
+			+ " ORDER BY ur.weight desc limit ?";
+	
+	public static void main(String[] args) {
+		System.out.println(QUERY_WEIGHT_REC);
+	}
 	
 	/** 
 	 * 查询社交平台推荐用户SQL头部 
@@ -148,7 +161,7 @@ public class UserRecommendDaoImpl extends BaseDaoImpl implements
 	/** 
 	 * 根据UID查询推荐用户 
 	 */
-	private static final String QUERY_OP_USER_BY_UID = "select '1000000' as id,'2' as last_pos,'2' as last_verify_pos, '0' as fix_pos, u.register_date as date_modified,'' as recommend_desc," 
+	private static final String QUERY_OP_USER_BY_UID = "select '1000000' as id,'2' as last_pos,'2' as last_verify_pos, u.register_date as date_modified,'' as recommend_desc," 
 			+ U_INFO + " from " 
 			+ HTS.USER_INFO + " as u where u.id=? and u.star=1";
 	
@@ -425,65 +438,116 @@ public class UserRecommendDaoImpl extends BaseDaoImpl implements
 	@Override
 	public List<OpUser> queryRecommendUserOrderByAct(Integer joinId,
 			RowSelection rowSelection) {
-		return queryForPage(QUERY_RECOMMEND_USER_ORDER_BY_ACT,
-				new Object[]{joinId, joinId}, new RowMapper<OpUser>() {
+		return getJdbcTemplate().query(QUERY_RECOMMEND_USER_ORDER_BY_ACT,
+				new Object[]{joinId, rowSelection.getFirstRow(), rowSelection.getLimit()}, 
+				new RowMapper<OpUser>() {
 
 			@Override
 			public OpUser mapRow(ResultSet rs, int rowNum)
 					throws SQLException {
 				OpUser user = buildOpUser(rs);
-				user.setCurrPos(rs.getInt("rownum"));
+				user.setRecommendId(rs.getInt("curr_pos"));
+				user.setCurrPos(rs.getInt("curr_pos"));
+				user.setCurrVerifyPos(rs.getInt("curr_verify_pos"));
+				user.setActivity(rs.getInt("curr_pos"));
 				return user;
 			}
-		}, rowSelection);
+		});
 	}
 
 	@Override
 	public List<OpUser> queryRecommendUserOrderByAct(Integer maxId,
 			Integer joinId, RowSelection rowSelection) {
-		return queryForPage(QUERY_RECOMMEND_USER_ORDER_BY_ACT_BY_MAX_ID,
-				new Object[]{joinId, joinId, maxId}, new RowMapper<OpUser>() {
+		return getJdbcTemplate().query(QUERY_RECOMMEND_USER_ORDER_BY_ACT_BY_MAX_ID,
+				new Object[]{maxId, joinId, rowSelection.getFirstRow(), rowSelection.getLimit()}, 
+				new RowMapper<OpUser>() {
 
 			@Override
 			public OpUser mapRow(ResultSet rs, int rowNum)
 					throws SQLException {
 				OpUser user = buildOpUser(rs);
-				user.setCurrPos(rs.getInt("rownum"));
+				user.setRecommendId(rs.getInt("curr_pos"));
+				user.setCurrPos(rs.getInt("curr_pos"));
+				user.setCurrVerifyPos(rs.getInt("curr_verify_pos"));
+				user.setActivity(rs.getInt("curr_pos"));
 				return user;
 			}
-		}, rowSelection);
+		});
 	}
 	
 	@Override
 	public List<OpUser> queryVerifyRecommendUserOrderByAct(Integer userId, Integer verifyId,
 			RowSelection rowSelection) {
-		return queryForPage(QUERY_VERIFY_RECOMMEND_USER_ORDER_BY_ACT,
-				new Object[]{verifyId, userId}, new RowMapper<OpUser>() {
+		return getJdbcTemplate().query(QUERY_VERIFY_RECOMMEND_USER_ORDER_BY_ACT,
+				new Object[]{verifyId, userId, rowSelection.getFirstRow(), rowSelection.getLimit()}, 
+				new RowMapper<OpUser>() {
 
 			@Override
 			public OpUser mapRow(ResultSet rs, int rowNum)
 					throws SQLException {
 				OpUser user = buildOpUser(rs);
-				user.setCurrPos(rs.getInt("rownum"));
+				user.setRecommendId(rs.getInt("curr_pos"));
+				user.setCurrPos(rs.getInt("curr_pos"));
+				user.setCurrVerifyPos(rs.getInt("curr_verify_pos"));
+				user.setActivity(rs.getInt("curr_pos"));
 				return user;
 			}
-		}, rowSelection);
+		});
 	}
 
 	@Override
 	public List<OpUser> queryVerifyRecommendUserOrderByAct(Integer maxId, Integer userId, 
 			Integer verifyId, RowSelection rowSelection) {
-		return queryForPage(QUERY_VERIFY_RECOMMEND_USER_ORDER_BY_ACT_MAX_ID,
-				new Object[]{verifyId, userId, maxId}, new RowMapper<OpUser>() {
+		return getJdbcTemplate().query(QUERY_VERIFY_RECOMMEND_USER_ORDER_BY_ACT_MAX_ID,
+				new Object[]{verifyId, maxId, userId, rowSelection.getFirstRow(), rowSelection.getLimit()},
+				new RowMapper<OpUser>() {
 
 			@Override
 			public OpUser mapRow(ResultSet rs, int rowNum)
 					throws SQLException {
 				OpUser user = buildOpUser(rs);
-				user.setCurrPos(rs.getInt("rownum"));
+				user.setRecommendId(rs.getInt("curr_pos"));
+				user.setCurrPos(rs.getInt("curr_pos"));
+				user.setCurrVerifyPos(rs.getInt("curr_verify_pos"));
+				user.setActivity(rs.getInt("curr_pos"));
 				return user;
 			}
-		}, rowSelection);
+		});
+	}
+	
+	@Override
+	public List<OpUser> queryWeightRec(Integer userId, Integer limit) {
+		return getJdbcTemplate().query(QUERY_WEIGHT_REC,
+				new Object[]{userId, limit}, new RowMapper<OpUser>() {
+
+			@Override
+			public OpUser mapRow(ResultSet rs, int rowNum)
+					throws SQLException {
+				OpUser user = buildOpUser(rs);
+				user.setCurrPos(rs.getInt("curr_pos"));
+				user.setCurrVerifyPos(rs.getInt("curr_verify_pos"));
+				user.setActivity(Integer.MAX_VALUE);
+				return user;
+			}
+		});
+	}
+
+	@Override
+	public List<OpUser> queryWeightVerifyRec(Integer userId, Integer verifyId,
+			Integer limit) {
+		return getJdbcTemplate().query(QUERY_WEIGHT_VERIFY_REC,
+				new Object[]{verifyId, userId, limit}, new RowMapper<OpUser>() {
+
+			@Override
+			public OpUser mapRow(ResultSet rs, int rowNum)
+					throws SQLException {
+				OpUser user = buildOpUser(rs);
+				user.setCurrPos(rs.getInt("curr_pos"));
+				user.setCurrVerifyPos(rs.getInt("curr_verify_pos"));
+				user.setActivity(Integer.MAX_VALUE);
+				return user;
+			}
+		});
 	}
 	
 	@Override
@@ -568,7 +632,6 @@ public class UserRecommendDaoImpl extends BaseDaoImpl implements
 				rs.getString("platform_sign"),
 				rs.getInt("platform_verify"),
 				rs.getString("platform_reason"),
-				(Date)rs.getObject("date_modified"),
 				rs.getString("recommend_desc"),
 				rs.getString("user_name"),
 				rs.getString("user_avatar"),
@@ -592,8 +655,7 @@ public class UserRecommendDaoImpl extends BaseDaoImpl implements
 				rs.getInt("star"),
 				rs.getInt("activity"),
 				rs.getInt("last_pos"),
-				rs.getInt("last_verify_pos"),
-				rs.getInt("fix_pos"));
+				rs.getInt("last_verify_pos"));
 	}
 	
 	/**
@@ -665,5 +727,6 @@ public class UserRecommendDaoImpl extends BaseDaoImpl implements
 				rs.getInt("star"),
 				rs.getInt("activity"));
 	}
+
 
 }

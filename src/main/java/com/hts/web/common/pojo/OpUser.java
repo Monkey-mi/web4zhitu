@@ -67,7 +67,7 @@ public class OpUser implements UserWithWorld, ObjectWithUserVerify,
 	private Integer currPos = 0; // 当前排名
 	private Integer currVerifyPos = 0; // 当前分榜排名
 
-	private Integer fixPos = 0;// 固定排名
+//	private Integer fixPos = 0;// 固定排名
 
 	private String remark;
 
@@ -114,19 +114,18 @@ public class OpUser implements UserWithWorld, ObjectWithUserVerify,
 		this.activity = activity;
 	}
 
-	// 有固定排名的
+//	// 有固定排名的
 	public OpUser(Integer recommendId, Integer id, Integer platformCode,
 			String platformSign, Integer platformVerify, String platformReason,
-			Date recommendDate, String recommendDesc, String userName,
+			String recommendDesc, String userName,
 			String userAvatar, String userAvatarL, Integer sex, String email,
 			String address, String province, String city, Date birthday,
 			String signature, String userLabel, Date registerDate,
 			Integer online, Integer concernCount, Integer followCount,
 			Integer worldCount, Integer likedCount, Integer keepCount,
 			Integer shield, Integer star, Integer activity, Integer lastPos,
-			Integer lastVerifyPos, Integer fixPox) {
+			Integer lastVerifyPos) {
 		this.recommendId = recommendId;
-		this.recommendDate = recommendDate;
 		this.recommendDesc = recommendDesc;
 		this.id = id;
 		this.platformCode = platformCode;
@@ -156,7 +155,6 @@ public class OpUser implements UserWithWorld, ObjectWithUserVerify,
 		this.activity = activity;
 		this.lastPos = lastPos;
 		this.lastVerifyPos = lastVerifyPos;
-		this.fixPos = fixPox;
 	}
 
 	public Integer getRecommendId() {
@@ -449,13 +447,13 @@ public class OpUser implements UserWithWorld, ObjectWithUserVerify,
 		this.currVerifyPos = currVerifyPos;
 	}
 
-	public void setFixPos(Integer fixPos) {
-		this.fixPos = fixPos;
-	}
-
-	public Integer getFixPos() {
-		return this.fixPos;
-	}
+//	public void setFixPos(Integer fixPos) {
+//		this.fixPos = fixPos;
+//	}
+//
+//	public Integer getFixPos() {
+//		return this.fixPos;
+//	}
 
 	public String getVerifyName() {
 		return verifyName;

@@ -168,10 +168,10 @@ public class UserOperationsAction extends BaseAction {
 		return StrutsKey.JSON;
 	}
 	
-	/**
-	 * 查询标签推荐用户  用下面个方法代替
-	 * @return
-	 */
+//	/**
+//	 * 查询标签推荐用户  用下面个方法代替
+//	 * @return
+//	 */
 //	public String queryLabelRecommendUser()	 {
 //		try {
 //			userOperationsService.buildLabelRecommendUser(maxId, start, limit, 
@@ -218,7 +218,7 @@ public class UserOperationsAction extends BaseAction {
 	 */
 	public String queryVerifyRecommendUser() {
 		try {
-			userOperationsService.buildVerifyRecommendUser(maxId, start, limit,getCurrentLoginUserId(),
+			userOperationsService.buildVerifyRecommendUser(maxId, start, limit, getCurrentLoginUserId(),
 					verifyId, worldLimit, jsonMap);
 			JSONUtil.optSuccess(jsonMap);
 		} catch (Exception e) {
@@ -226,6 +226,7 @@ public class UserOperationsAction extends BaseAction {
 		}
 		return StrutsKey.JSON;
 	}
+	
 	
 	public String queryVerify() {
 		try {

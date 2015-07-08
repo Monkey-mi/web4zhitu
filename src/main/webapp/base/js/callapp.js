@@ -1,7 +1,7 @@
 var callSetting = {
 	schemeIOS: 'imzhitu://',
 	schemeADR: 'imzhitu://open',
-	url: 'http://open.imzhitu.com/index4ph.html',
+	url: 'http://imzhitu.com/index4ph.html',
 	
 };
 (function(){
@@ -18,7 +18,7 @@ var callSetting = {
     if(!callSetting) {
        	config.schemeIOS = 'imzhitu://';
        	config.schemeADR = 'imzhitu://open';
-       	config.url = 'http://open.imzhitu.com/index4ph.html';
+       	config.url = 'http://imzhitu.com/index4ph.html';
     } else {
     	if(callSetting.sechemeIOS) config.schemeIOS = callSetting.sechemeIOS;
     	if(callSetting.schemeADR) config.schemeADR = callSetting.schemeADR;

@@ -18,39 +18,56 @@
 		</interceptors>
 		<!-- 修改默认的拦截器stack，原来是defaultStack -->
 		<default-interceptor-ref name="htsStack" />
-
+		
+		<!-- 默认控制器 -->
+		<default-action-ref name="notFoundAction" />
+		
 		<!--全局跳转 -->
 		<global-results>
-			<result name="exception">/error/error500.html</result>
+			<result name="exception">/500</result>
 		</global-results>
 
 		<!-- 定义要捕获的异常 -->
 		<global-exception-mappings>
 			<exception-mapping result="exception" exception="java.lang.Exception" />
 		</global-exception-mappings>
+		
+		<action name="notFoundAction">
+			<result type="redirect">/404</result>
+		</action>
+		
 	</package>
 
 	<package name="hts" namespace="/" extends="hts-package">
 	
+		<action name="404" class="com.hts.web.error.ErrorAction" method="error404">
+			<result name="json" type="json">
+				<param name="root">jsonMap</param>
+			</result>
+		</action>
+		
+		<action name="500" class="com.hts.web.error.ErrorAction" method="error500">
+			<result name="json" type="json">
+				<param name="root">jsonMap</param>
+			</result>
+		</action>
+		
+		<action name="403" class="com.hts.web.error.ErrorAction" method="error403">
+			<result name="json" type="json">
+				<param name="root">jsonMap</param>
+			</result>
+		</action>
+		
 		<!-- 首页 -->
 		<action name="">
 			<result type="dispatcher">/index.html</result>
-		</action>
-
-		<!-- 首页 -->
-		<action name="zhitu_*">
-			<result type="dispatcher">/{1}2.jsp</result>
-		</action>
-
-		<action name="notfound">
-			<result type="dispatcher">/error/error404.jsp</result>
 		</action>
 
 		<!-- 广告跳转 -->
 		<action name="APP*" class="com.hts.web.operations.AdOperationsAction"
 			method="checkAppLink">
 			<result name="redirect" type="redirect">${appLink}</result>
-			<result name="error" type="dispatcher">/error/error404.jsp</result>
+			<result name="error" type="redirect">/404</result>
 		</action>
 
 		<!-- 进入汇图世界(旧) -->
@@ -58,7 +75,7 @@
 			method="checkExists">
 			<result name="phone" type="dispatcher">/htworld/phonev2/index.jsp</result>
 			<result name="web" type="dispatcher">/htworld/webv2/index.jsp</result>
-			<result name="error" type="dispatcher">/error/error404.jsp</result>
+			<result name="error" type="redirect">/404</result>
 		</action>
 		
 		<!-- 进入汇图世界(新) -->
@@ -66,15 +83,7 @@
 			method="checkExists">
 			<result name="phone" type="dispatcher">/htworld/phonev2/index.jsp</result>
 			<result name="web" type="dispatcher">/htworld/webv2/index.jsp</result>
-			<result name="error" type="dispatcher">/error/error404.jsp</result>
-		</action>
-		
-		<!-- 邀请、下载页面跳转 -->
-		<action name="download" class="com.hts.web.operations.UserOperationsAction"
-			method="invite">
-			<result name="phone" type="redirect">/index4ph.html</result>
-			<result name="web" type="redirect">/</result>
-			<result name="error" type="dispatcher">/error/error404.jsp</result>
+			<result name="error" type="redirect">/404</result>
 		</action>
 		
 		<!-- 活动跳转 -->
