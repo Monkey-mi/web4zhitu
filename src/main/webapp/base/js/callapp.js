@@ -5,11 +5,11 @@ var callSetting = {
 	
 };
 (function(){
-	var inapp = 1,
+	var inapp = 0,
 		reg = new RegExp("(^|&)inapp=([^&]*)(&|$)", "i"),
 		r = window.location.search.substr(1).match(reg);
 	
-	if(r == null || r == undefined) inapp = 1;
+	if(r == null || r == undefined) inapp = 0;
 	else inapp=unescape(r[2]);
 	
     var ua = navigator.userAgent.toLowerCase();

@@ -118,6 +118,11 @@ public class HTS {
 	public static final String USER_REC = DB + "user_rec";
 	
 	/**
+	 * 织图管理员表
+	 */
+	public static final String USER_ADMIN = DB + "user_admin";
+	
+	/**
 	 * 织图世界表
 	 */
 	public static final String HTWORLD_HTWORLD = DB + "htworld_htworld";

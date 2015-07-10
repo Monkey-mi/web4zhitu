@@ -2,11 +2,10 @@ package com.hts.web.plat.dao.impl;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.BoundListOperations;
 import org.springframework.stereotype.Repository;
-
-import uk.ltd.getahead.dwr.util.Logger;
 
 import com.hts.web.base.constant.CacheKeies;
 import com.hts.web.common.dao.impl.BaseCacheDaoImpl;

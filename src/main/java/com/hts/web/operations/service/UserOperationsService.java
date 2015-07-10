@@ -186,6 +186,4 @@ public interface UserOperationsService extends BaseService {
 	 */
 	public Integer getRandomZombieId() throws Exception;
 	
-	
-	
 }

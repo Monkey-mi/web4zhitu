@@ -1,9 +1,8 @@
 package com.hts.web.aliyun.dao.impl;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
-import uk.ltd.getahead.dwr.util.Logger;
 
 import com.hts.web.aliyun.dao.OsUserLoginCacheDao;
 import com.hts.web.aliyun.dao.OsUserLoginDao;

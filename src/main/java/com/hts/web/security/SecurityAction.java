@@ -1,11 +1,5 @@
 package com.hts.web.security;
 
-import javax.servlet.http.HttpServletResponse;
-
-
-
-import uk.ltd.getahead.dwr.util.Logger;
-
 import com.hts.web.base.StrutsKey;
 import com.hts.web.base.constant.OptResult;
 import com.hts.web.common.BaseAction;

@@ -9,6 +9,7 @@ import com.hts.web.common.BaseAction;
 import com.hts.web.common.util.JSONUtil;
 import com.hts.web.operations.service.OpStarRecommendService;
 import com.hts.web.operations.service.UserOperationsService;
+import com.hts.web.userinfo.service.UserConcernService;
 import com.hts.web.ztworld.service.impl.ZTWorldServiceImpl;
 
 /**
@@ -33,6 +34,7 @@ public class UserOperationsAction extends BaseAction {
 	private Boolean accepted = false;
 	private Integer verifyId = 1;
 	private Boolean trimSelf = false;
+	private String concernIds;
 	
 	@Autowired
 	private UserOperationsService userOperationsService;
@@ -40,7 +42,8 @@ public class UserOperationsAction extends BaseAction {
 	@Autowired
 	private OpStarRecommendService starRecommendService;
 	
-	
+	@Autowired
+	private UserConcernService userConcernService;
 	
 	/**
 	 * 查询推荐用户
@@ -168,21 +171,6 @@ public class UserOperationsAction extends BaseAction {
 		return StrutsKey.JSON;
 	}
 	
-//	/**
-//	 * 查询标签推荐用户  用下面个方法代替
-//	 * @return
-//	 */
-//	public String queryLabelRecommendUser()	 {
-//		try {
-//			userOperationsService.buildLabelRecommendUser(maxId, start, limit, 
-//					worldLimit, getCurrentLoginUserId(), trimMe, jsonMap);
-//			JSONUtil.optSuccess(jsonMap);
-//		} catch (Exception e) {
-//			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
-//		}
-//		return StrutsKey.JSON;
-//	}
-	
 	/**
 	 * 查询达人推荐
 	 */
@@ -249,6 +237,21 @@ public class UserOperationsAction extends BaseAction {
 		}
 		return "iphone";
 	}
+
+	/**
+	 * 查询关注状态
+	 * 
+	 * @return
+	 */
+	public String queryConcernStatus() {
+		try {
+			userConcernService.buildConcernStatus(userId, concernIds, jsonMap);
+			JSONUtil.optSuccess(jsonMap);
+		} catch(Exception e) {
+			JSONUtil.optFailed(userId, e.getMessage(), e, jsonMap);
+		}
+		return StrutsKey.JSON;
+	}
 	
 	public Integer getWorldLimit() {
 		return worldLimit;
@@ -288,6 +291,14 @@ public class UserOperationsAction extends BaseAction {
 
 	public void setTrimSelf(Boolean trimSelf) {
 		this.trimSelf = trimSelf;
+	}
+
+	public String getConcernIds() {
+		return concernIds;
+	}
+
+	public void setConcernIds(String concernIds) {
+		this.concernIds = concernIds;
 	}
 	
 }

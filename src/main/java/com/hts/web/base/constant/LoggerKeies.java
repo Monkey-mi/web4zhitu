@@ -51,4 +51,9 @@ public class LoggerKeies {
 	 */
 	public static final String WORLD_TEXT = MODULE_WORLD + "text";
 	
+	/**
+	 * 屏蔽评论
+	 */
+	public static final String WORLD_SHIELD_COMMENT = MODULE_WORLD + "shieldComment";
+	
 }

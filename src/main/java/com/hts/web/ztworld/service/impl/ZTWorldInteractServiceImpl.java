@@ -7,10 +7,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hts.web.base.HTSException;
+import com.hts.web.base.constant.LoggerKeies;
 import com.hts.web.base.constant.OptResult;
 import com.hts.web.base.constant.Tag;
 import com.hts.web.base.database.HTS;
@@ -39,6 +41,7 @@ import com.hts.web.common.service.impl.KeyGenServiceImpl;
 import com.hts.web.common.util.StringUtil;
 import com.hts.web.common.util.UserInfoUtil;
 import com.hts.web.push.service.PushService;
+import com.hts.web.userinfo.dao.UserAdminDao;
 import com.hts.web.userinfo.dao.UserConcernDao;
 import com.hts.web.userinfo.dao.UserInfoDao;
 import com.hts.web.userinfo.dao.UserRemarkDao;
@@ -66,6 +69,8 @@ import com.hts.web.ztworld.service.ZTWorldService;
  */
 @Service("HTSZTWorldInteractService")
 public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWorldInteractService{
+	
+	private static Logger shieldCommentLogger = Logger.getLogger(LoggerKeies.WORLD_SHIELD_COMMENT);
 	
 	/**
 	 * 错误代码：重复操作
@@ -129,6 +134,9 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 	
 	@Autowired
 	private UserActivityService userActivityService;
+	
+	@Autowired
+	private UserAdminDao userAdminDao;
 	
 
 	@Override
@@ -255,9 +263,48 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 		return pushStatus;
 	}
 	
+	/**
+	 * 回复暗号检查，如果回复暗号并且拥有权限可以直接删除评论
+	 * 
+	 * @param authorId
+	 * @param reId
+	 * @param content
+	 * @param worldId
+	 * @return
+	 * @throws Exception
+	 */
+	public PushStatus replyCypherCheck(Integer authorId, Integer reId, String content, Integer worldId) throws Exception {
+		if(!StringUtil.checkIsNULL(content) && content.contains("zt666")) {
+			if(reId != null && reId != 0) {
+				if(userAdminDao.queryShieldCommentPermission(authorId)) {
+					worldCommentDao.validRecord(HTS.HTWORLD_COMMENT, Tag.FALSE, reId); // 直接删除评论
+					Long count = worldCommentDao.queryCommentCount(worldId);
+					worldDao.updateCommentCount(worldId, count.intValue());
+					
+					HTWorldCommentDto dto = new HTWorldCommentDto(0, authorId, reId, "删除成功", 
+							new Date(), worldId, 0);
+					UserInfoDto udto = userInfoDao.queryUserInfoDtoById(authorId);
+					dto.setUserInfo(udto);
+					PushStatus pushStatus = new PushStatus(authorId, Tag.IOS, Tag.UN_CONCERN,
+							Tag.FALSE, Tag.TRUE, "");
+					pushStatus.setInteractRes(dto);
+					shieldCommentLogger.info("authorId=" + authorId + ",worldId=" + worldId + ",cid="+reId);
+					return pushStatus;
+				}
+			}
+		}
+		return null;
+	}
+	
 	@Override
 	public PushStatus saveReply(Boolean im, Integer worldId, Integer worldAuthorId, 
 			Integer authorId,  String content, Integer reId, Integer reAuthorId) throws Exception {
+		// 暗号检查
+		PushStatus cypherStatus = replyCypherCheck(authorId, reId, content, worldId);
+		if(cypherStatus != null) {
+			return cypherStatus;
+		}
+		
 		Integer ck = Tag.TRUE;
 		Integer shield = Tag.FALSE;
 		Integer rAuthorId = reAuthorId;

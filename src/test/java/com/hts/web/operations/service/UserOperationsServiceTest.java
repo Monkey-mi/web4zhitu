@@ -97,4 +97,5 @@ public class UserOperationsServiceTest extends BaseTest {
 		Integer id = service.getRandomZombieId();
 		Log.debug(id);
 	}
+	
 }

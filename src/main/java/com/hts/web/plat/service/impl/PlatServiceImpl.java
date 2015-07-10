@@ -2,10 +2,9 @@ package com.hts.web.plat.service.impl;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import uk.ltd.getahead.dwr.util.Logger;
 
 import com.hts.web.common.pojo.PlatConcern;
 import com.hts.web.plat.dao.PlatConcernCacheDao;

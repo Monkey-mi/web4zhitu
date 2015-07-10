@@ -681,7 +681,7 @@ public class UserConcernDaoImpl extends BaseDaoImpl implements UserConcernDao{
 				callback.callback(new UserIsMututal(
 						userId,
 						rs.getInt("concern_id"),
-						rs.getInt("is_mututal")));
+						getIsMututal(rs)));
 			}
 		});
 	}

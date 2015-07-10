@@ -51,7 +51,7 @@ public class ZTWorldInteractServiceTest extends BaseTest {
 	
 	@Test
 	public void saveReply() throws Exception {
-		PushStatus status = service.saveReply(true, 14467, null, 1591, "@朱天杰 : 回复测试", 7952,485);
+		PushStatus status = service.saveReply(true, 14467, null, 1591, "@朱天杰 : zt666", 7952,485);
 		JSONObject jsObj = JSONObject.fromObject(status);
 		logger.debug(jsObj);
 	}

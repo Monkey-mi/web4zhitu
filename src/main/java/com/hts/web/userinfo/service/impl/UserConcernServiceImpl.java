@@ -1,5 +1,6 @@
 package com.hts.web.userinfo.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -9,12 +10,15 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hts.web.base.constant.OptResult;
 import com.hts.web.base.constant.Tag;
 import com.hts.web.base.database.RowCallback;
 import com.hts.web.common.pojo.ObjectWithConcerned;
 import com.hts.web.common.pojo.ObjectWithIsMututal;
+import com.hts.web.common.pojo.UserConcernStatus;
 import com.hts.web.common.pojo.UserIsMututal;
 import com.hts.web.common.service.impl.BaseServiceImpl;
+import com.hts.web.common.util.StringUtil;
 import com.hts.web.userinfo.dao.UserConcernDao;
 import com.hts.web.userinfo.service.UserConcernService;
 
@@ -73,6 +77,18 @@ public class UserConcernServiceImpl extends BaseServiceImpl implements
 				
 			});
 		}
+	}
+
+	@Override
+	public void buildConcernStatus(Integer joinId, String idsStr,
+			Map<String, Object> jsonMap) {
+		Integer[] uids = StringUtil.convertStringToIds(idsStr);
+		List<UserConcernStatus> clist = new ArrayList<UserConcernStatus>();
+		for(Integer uid : uids) {
+			clist.add(new UserConcernStatus(uid, Tag.UN_CONCERN));
+		}
+		extractIsMututal(joinId, clist);
+		jsonMap.put(OptResult.JSON_KEY_CONCERNS, clist);
 	}
 	
 }

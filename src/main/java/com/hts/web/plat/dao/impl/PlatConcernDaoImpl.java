@@ -1,8 +1,8 @@
 package com.hts.web.plat.dao.impl;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
-import uk.ltd.getahead.dwr.util.Logger;
 import weibo4j.Friendships;
 import weibo4j.model.WeiboException;
 
