@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" 
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<package name="hts-package" abstract="true" extends="json-default">
+		<!-- 定义一个拦截器stack -->
+		<!-- 
+		<interceptors>
+			<interceptor-stack name="htsStack">
+				<interceptor-ref name="defaultStack" />
+				<interceptor-ref name="exception">
+					<param name="logEnabled">true</param>
+					<param name="logLevel">info</param>
+				</interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		 -->
+		<!-- 修改默认的拦截器stack，原来是defaultStack -->
+		<!-- 
+		<default-interceptor-ref name="htsStack" />
+		 -->
+		
+		<!-- 默认控制器 -->
+		<default-action-ref name="notFoundAction" />
+		
+		<!--全局跳转 -->
+		<global-results>
+			<result name="exception">/500</result>
+		</global-results>
+
+		<!-- 定义要捕获的异常 -->
+		<global-exception-mappings>
+			<exception-mapping result="exception" exception="java.lang.Exception" />
+		</global-exception-mappings>
+		
+		<action name="notFoundAction">
+			<result type="redirect">/404</result>
+		</action>
+		
+	</package>
+
+	<package name="hts" namespace="/" extends="hts-package">
+	
+		<action name="404" class="com.hts.web.error.ErrorAction" method="error404">
+			<result name="json" type="json">
+				<param name="root">jsonMap</param>
+			</result>
+		</action>
+		
+		<action name="500" class="com.hts.web.error.ErrorAction" method="error500">
+			<result name="json" type="json">
+				<param name="root">jsonMap</param>
+			</result>
+		</action>
+		
+		<action name="403" class="com.hts.web.error.ErrorAction" method="error403">
+			<result name="json" type="json">
+				<param name="root">jsonMap</param>
+			</result>
+		</action>
+		
+		<!-- 首页 -->
+		<action name="">
+			<result type="dispatcher">/index.html</result>
+		</action>
+
+		<!-- 广告跳转 -->
+		<action name="APP*" class="com.hts.web.operations.AdOperationsAction"
+			method="checkAppLink">
+			<result name="redirect" type="redirect">${appLink}</result>
+			<result name="error" type="redirect">/404</result>
+		</action>
+
+		<!-- 进入汇图世界(旧) -->
+		<action name="NO*" class="com.hts.web.ztworld.ZTWorldAction"
+			method="checkExists">
+			<result name="phone" type="dispatcher">/htworld/phonev2/index.jsp</result>
+			<result name="web" type="dispatcher">/htworld/webv2/index.jsp</result>
+			<result name="error" type="redirect">/404</result>
+		</action>
+		
+		<!-- 进入汇图世界(新) -->
+		<action name="DT*" class="com.hts.web.ztworld.ZTWorldAction"
+			method="checkExists">
+			<result name="phone" type="dispatcher">/htworld/phonev2/index.jsp</result>
+			<result name="web" type="dispatcher">/htworld/webv2/index.jsp</result>
+			<result name="error" type="redirect">/404</result>
+		</action>
+		
+		<!-- 活动跳转 -->
+		<action name="activity_*">
+			<result type="dispatcher">/operations/phone/activity/{1}.jsp</result>
+		</action>
+		
+		<!-- 下载页面跳转 -->
+		<action name="qrdownload" class="com.hts.web.operations.UserOperationsAction"
+			method="qrdownload">
+			<result name="iphone" type="redirect">https://itunes.apple.com/cn/app/zhi-tu/id576156900?mt=8</result>
+			<result name="android" type="redirect">http://dd.myapp.com/16891/1923471F4A3601B5AB88B5FB0EDB8965.apk?fsname=com%2Ehtshuo%2Ehtsg%5F2%2E9%2E5%5F28.apk</result>
+		</action>
+		
+		<!-- 贴纸介绍页条状 -->
+		<action name="sticker_intro">
+			<result type="dispatcher">/htworld/stickerIntro.html</result>
+		</action>
+
+	</package>
+	
+	<include file="struts-hts-constant.xml" />
+	<include file="struts-hts-user.xml" />
+	<include file="struts-hts-ztworld.xml" />
+	<include file="struts-hts-operations.xml" />
+	<include file="struts-hts-security.xml" />
+	<include file="struts-hts-qiniu.xml" />
+</struts>

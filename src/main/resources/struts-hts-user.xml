@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" 
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<package name="user" namespace="/user" extends="hts-package">
+		<action name="user_*" class="com.hts.web.userinfo.UserInfoAction"
+			method="{1}">
+			<result name="json" type="json">
+				<param name="root">jsonMap</param>
+			</result>
+			<result name="redirect" type="redirect">user_loginSuccess</result>
+		</action>
+
+		<action name="interact_*" class="com.hts.web.userinfo.UserInteractAction"
+			method="{1}">
+			<result name="json" type="json">
+				<param name="root">jsonMap</param>
+			</result>
+		</action>
+		
+		<action name="msg_*" class="com.hts.web.userinfo.UserMsgAction"
+			method="{1}">
+			<result name="json" type="json">
+				<param name="root">jsonMap</param>
+			</result>
+		</action>
+		
+		<action name="rpwd_*" class="com.hts.web.userinfo.UserRetrievePWDAction"
+			method="{1}">
+			<result name="json" type="json">
+				<param name="root">jsonMap</param>
+			</result>
+			<result name="webpage" type="dispatcher">/resetPwd/resetpwd.jsp</result>
+			<result name="websuccess" type="redirect">/resetPwd/resetpwdSuccess.jsp</result>
+			<result name="weberror" type="dispatcher">/resetPwd/resetpwdFailed.jsp</result>
+			<result name="phonepage" type="dispatcher">/resetPwd/resetpwdMP.jsp</result>
+			<result name="phonesuccess" type="redirect">/resetPwd/resetpwdSuccessMP.jsp</result>
+			<result name="phoneerror" type="dispatcher">/resetPwd/resetpwdFailedMP.jsp</result>
+		</action>
+		
+		<action name="rec_*" class="com.hts.web.userinfo.UserRecAction"
+			method="{1}">
+			<result name="json" type="json">
+				<param name="root">jsonMap</param>
+			</result>
+		</action>
+	</package>
+</struts>
