@@ -1,5 +1,6 @@
 package com.hts.web.userinfo.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,7 @@ import com.hts.web.common.pojo.UserAvatarLite;
 import com.hts.web.common.pojo.UserInfo;
 import com.hts.web.common.pojo.UserPushInfo;
 import com.hts.web.common.pojo.UserSocialAccount;
+import com.hts.web.common.pojo.UserSocialAccountDto;
 import com.hts.web.common.pojo.UserVerify;
 import com.hts.web.common.service.KeyGenService;
 import com.hts.web.common.service.impl.BaseServiceImpl;
@@ -608,21 +610,21 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 			userInfo.setPlatformToken(null);
 		}
 		
-//		if(!trimSocialAccountInfo || !trimSocialAccount) {
-//			List<UserSocialAccountDto> accountInfo = socialAccountDao.querySocialAccountDtoByUserId(userId);
-//			if(!trimSocialAccountInfo) {
-//				userInfo.setSocialAccountInfo(accountInfo);
-//			}
-//			
-//			if(!trimSocialAccount) {
-//				// 兼容281以前的版本
-//				List<Integer> accounts = new ArrayList<Integer>();
-//				for(UserSocialAccountDto account : accountInfo) {
-//					accounts.add(account.getPlatformCode());
-//				}
-//				userInfo.setSocialAccounts(accounts);
-//			}
-//		}
+		if(!trimSocialAccountInfo || !trimSocialAccount) {
+			List<UserSocialAccountDto> accountInfo = socialAccountDao.querySocialAccountDtoByUserId(userId);
+			if(!trimSocialAccountInfo) {
+				userInfo.setSocialAccountInfo(accountInfo);
+			}
+			
+			if(!trimSocialAccount) {
+				// 兼容281以前的版本
+				List<Integer> accounts = new ArrayList<Integer>();
+				for(UserSocialAccountDto account : accountInfo) {
+					accounts.add(account.getPlatformCode());
+				}
+				userInfo.setSocialAccounts(accounts);
+			}
+		}
 		extractVerifyDesc(userInfo);
 		userInteractService.extractRemark(joinId, userInfo);
 		

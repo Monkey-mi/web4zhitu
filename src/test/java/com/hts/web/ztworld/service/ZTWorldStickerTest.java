@@ -70,7 +70,7 @@ public class ZTWorldStickerTest extends BaseTest {
 	
 	@Test
 	public void unlockTest() throws Exception {
-		service.unlock((int)(Math.random() * 1000000), (int)(Math.random() * 1000000));
+		service.unlock(2, 22);
 	}
 	
 	@Test

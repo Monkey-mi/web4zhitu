@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.stereotype.Repository;
 
@@ -33,7 +34,11 @@ public class HTWorldStickerUnlockDaoImpl extends BaseDaoImpl implements
 	
 	@Override
 	public void saveUnlock(Integer stickerId, Integer userId, Date date) {
-		getMasterJdbcTemplate().update(SAVE_UNLOCK, new Object[]{stickerId, userId, date});
+		try {
+			getMasterJdbcTemplate().update(SAVE_UNLOCK, new Object[]{stickerId, userId, date});
+		} catch(DuplicateKeyException e) {
+		}
+			
 	}
 
 	@Override

@@ -7,4 +7,6 @@ public interface StickerWithLock {
 	public Integer getHasLock();
 	
 	public void setUnlock(Integer unlock);
+	
+	public void setSharePath(String sharePath);
 }

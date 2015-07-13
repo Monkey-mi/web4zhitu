@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>织图贴纸</title>
+<style type="text/css">
+	body {
+		background: #e2e7e8;
+		padding:0;
+		margin: 0 auto;
+		text-align:center;
+	}
+	
+	#main {
+		padding:10px;
+	}
+	
+	#sticker-wrap {
+		width:100%;
+		display:inline-block;
+		max-width:750px;
+		color:#373e46;
+	}
+	
+	#sticker-demo-img {
+		background:#ffffff;
+	}
+	
+</style>
+</head>
+<body>
+<div id="main">
+	<div id="sticker-wrap">
+		<img id="sticker-demo-img" width="100%" alt="织图贴纸" src="/staticres/htworld/common/images/img-loading.png"/>
+	</div>
+</div>
+
+<script type="text/javascript">
+var reg = new RegExp("(^|&)stid=([^&]*)(&|$)", "i"),
+	r = window.location.search.substr(1).match(reg),
+	id=unescape(r[2]);
+	
+var xmlhttp;
+function post(url, args, callback) {
+	xmlhttp=null;
+	if (window.XMLHttpRequest) {
+		xmlhttp=new XMLHttpRequest();
+	} else if (window.ActiveXObject) {
+	  xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	if (xmlhttp != null) {
+		xmlhttp.onreadystatechange=function() {
+			if (xmlhttp.readyState==4) {
+		  		if (xmlhttp.status==200) {
+		    		//console.log(xmlhttp.responseText);
+		    		callback(xmlhttp.responseText);
+			  	} else {
+			  		// do with error
+			 	}
+		  	}
+		};
+	  	xmlhttp.open("POST",url,true);
+	  	xmlhttp.setRequestHeader("CONTENT-TYPE","application/x-www-form-urlencoded");
+	  	xmlhttp.send(args);
+	} else {
+		// do with error
+	}
+}
+
+function state_Change() {
+	if (xmlhttp.readyState==4) {
+  		if (xmlhttp.status==200) {
+    		//console.log(xmlhttp.responseText);
+	  	} else {
+	    	//alert("Problem retrieving XML data");
+	 	}
+  	}
+}
+
+post("./ztworld/sticker_queryStickerById", "id="+id, function(data) {
+	var res = JSON.parse(data);
+	if(res['result'] == 0) {
+		var o = res['obj'];
+		//var s = document.getElementById('sticker-name')
+		//	.innerText = o['stickerName'];
+		//document.getElementById('sticker-desc')
+		//	.innerText = o['stickerDesc'];
+		var img = new Image();
+		img.src = o['stickerPath'];
+		img.onload = function() {	
+			document.getElementById('sticker-demo-img')
+				.setAttribute('src', o['stickerDemoPath']);
+		};
+	}
+});
+</script>
+</body>
+</html>

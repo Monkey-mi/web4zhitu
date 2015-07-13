@@ -70,7 +70,7 @@ public class ZTWorldStickerServiceImpl extends BaseServiceImpl implements
 	@Override
 	public void buildTopSticker(Integer userId, Map<String, Object> jsonMap) throws Exception {
 		List<HTWorldStickerTop> list = stickerTopCacheDao.queryTopSticker();
-		extractUnlock(userId, list);
+		extractTopUnlock(userId, list);
 		jsonMap.put(OptResult.JSON_KEY_STICKER, list);
 	}
 
@@ -133,6 +133,7 @@ public class ZTWorldStickerServiceImpl extends BaseServiceImpl implements
 			List<Integer> idlist = new ArrayList<Integer>();
 			for(int i = 0; i < list.size(); i++) {
 				StickerWithLock dto = list.get(i);
+				dto.setSharePath(sharePath + "?stid=" + dto.getStickerId());
 				if(dto.getHasLock().equals(Tag.TRUE)) {
 					indexMap.put(dto.getStickerId(), i);
 					idlist.add(dto.getStickerId());
@@ -146,6 +147,60 @@ public class ZTWorldStickerServiceImpl extends BaseServiceImpl implements
 					public void callback(Integer t) {
 						Integer idx = indexMap.get(t);
 						list.get(idx).setUnlock(Tag.TRUE);
+					}
+				});
+			}
+		}
+	}
+	
+	public void extractTopUnlock(Integer userId, final List<HTWorldStickerTop> list) {
+		if(list.size() > 0) {
+			final Map<Integer, Integer[]> indexMap = new HashMap<Integer, Integer[]>();
+			List<Integer> idlist = new ArrayList<Integer>();
+			for(int i = 0; i < list.size(); i++) {
+				List<HTWorldStickerDto> sets = list.get(i).getSets();
+				
+				if(sets == null) {
+					StickerWithLock dto = list.get(i);
+					dto.setSharePath(sharePath + "?stid=" + dto.getStickerId());
+					indexMap.put(dto.getStickerId(), new Integer[]{i,-1});
+					idlist.add(dto.getStickerId());
+				} else {
+					for(int k = 0; k < sets.size(); k++) {
+						StickerWithLock dto = list.get(i).getSets().get(k);
+						dto.setSharePath(sharePath + "?stid=" + dto.getStickerId());
+						if(dto.getHasLock().equals(Tag.TRUE)) {
+							indexMap.put(dto.getStickerId(), new Integer[]{i,k});
+							idlist.add(dto.getStickerId());
+							if(k == 0) {
+								HTWorldStickerTop top = list.get(i);
+								top.setSharePath(sharePath + "?stid=" + top.getStickerId());
+							}
+							
+						}
+					}
+					
+				}
+				
+			}
+			if(idlist.size() > 0) {
+				Integer[] stickerIds = new Integer[idlist.size()];
+				unlockDao.queryUnlock(userId, idlist.toArray(stickerIds), new RowCallback<Integer>() {
+
+					@Override
+					public void callback(Integer t) {
+						Integer[] idx = indexMap.get(t);
+						int i = idx[0];
+						int k = idx[1];
+						if(k == -1) {
+							list.get(i).setUnlock(Tag.TRUE);
+						} else {
+							list.get(i).getSets().get(k).setUnlock(Tag.TRUE);
+							if(k == 0) {
+								list.get(i).setUnlock(Tag.TRUE);
+							}
+						}
+						
 					}
 				});
 			}
