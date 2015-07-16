@@ -51,8 +51,8 @@ public class AppLinkDaoImpl extends BaseDaoImpl implements AppLinkDao {
 	private static final String UPDATE_APP_LINK = "update " + table 
 			+ " set app_name=?,app_icon=?,app_desc=?,app_link=?,phone_code=? where id=?";
 	
-	@Value("${${appUrlPrefix}}")
-	private String appUrlPrefix = "http://www.imzhitu.com/APP";
+	@Value("${appUrlPrefix}")
+	private String appUrlPrefix = "http://api.imzhitu.com/APP";
 	
 	public String getAppUrlPrefix() {
 		return appUrlPrefix;
@@ -173,7 +173,7 @@ public class AppLinkDaoImpl extends BaseDaoImpl implements AppLinkDao {
 			rs.getString("app_name"),
 			rs.getString("app_icon"),
 			rs.getString("app_desc"),
-			urlPrefix + rs.getString("short_link")
+			appUrlPrefix + rs.getString("short_link")
 		);
 	}
 	
@@ -195,7 +195,7 @@ public class AppLinkDaoImpl extends BaseDaoImpl implements AppLinkDao {
 				rs.getInt("click_count"),
 				rs.getInt("serial"),
 				rs.getInt("open"));
-		link.setUrl(urlPrefix + rs.getString("short_link"));
+		link.setUrl(appUrlPrefix + rs.getString("short_link"));
 		return link;
 	}
 
