@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="user-scalable=no width=device-width">
+<title>画个圆小游戏</title>
+<link rel="stylesheet" href="/staticres/game/drawcircle/style.css">
+<style type="text/css" media="screen">
+#download-wrap {
+	width: 100%;
+	text-align: center;
+	position: fixed;
+	bottom: 0;
+	height: 60px;
+}
+
+#download-btn {
+	background: #fcb3c7;
+	height: 100%;
+	width: 100%;
+	display: inline-block;
+}
+
+#download-btn img {
+	height: 100%;
+	width: auto;
+}
+
+#download-btn #d1 {
+	float: left;
+}
+
+#download-btn #d3 {
+	float: right;
+}
+</style>
+<script src="/staticres/game/common/js/jquery.min.js"></script>
+<script type="text/javascript" language="JavaScript">
+    function HideContent(d) {
+        $('#' + d).hide();
+    }
+    function ShowContent(d) {
+        $('#' + d).show(1000);
+    }
+</script>
+<script type="text/javascript"src="/staticres/game/drawcircle/cookies.js"></script>
+<script src="/staticres/game/drawcircle/paper-full.min.js"></script>
+<script type="text/paperscript" canvas="canvas" src="/staticres/game/drawcircle/circle-origin.js"></script>
+<script language="javascript" type="text/javascript" src="/staticres/game/drawcircle/share.js"></script>
+
+</head>
+<body onload="updateShare(0);">
+	<canvas id="canvas" resize="" stats="" hidpi="on" width="1600" height="468"
+		style="-webkit-user-select: none; touch-action: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></canvas>
+	<div id="inputpage" style="display: none;">
+		<div id="middle">
+			<div id="name_form">
+				<p>载入中，请稍等。。。</p>
+			</div>
+		</div>
+	</div>
+
+	<div id="download-wrap">
+		<a id="download-btn" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.htshuo.htsg"
+			onclick="_hmt.push(['_trackEvent', 'play', 'download', 'xuannvyou'])">
+			<img id="d1" alt="" src="http://imzhitu.qiniudn.com/op/sticker/150717/nvyoud1.jpg">
+			<img id="d2" alt="" src="http://imzhitu.qiniudn.com/op/sticker/150717/nvyoud2.jpg">
+			<img id="d3" alt="" src="http://imzhitu.qiniudn.com/op/sticker/150717/nvyoud3.jpg">
+		</a>
+	</div>
+	<script>
+        var loading = true;
+    </script>
+
+
+</body>
+</html>

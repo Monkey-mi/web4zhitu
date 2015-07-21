@@ -90,4 +90,15 @@ public interface ZTWorldStickerService extends BaseService {
 			Integer stickerId) throws Exception;
 	
 	
+	/**
+	 * 构建贴纸库
+	 * 
+	 * @param typeId
+	 * @param start
+	 * @param limit
+	 * @throws Exception
+	 */
+	public void buildLib(Integer typeId, Integer start,
+			Integer limit, Map<String, Object> jsonMap) throws Exception;
+	
 }

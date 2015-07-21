@@ -78,4 +78,16 @@ public class ZTWorldStickerTest extends BaseTest {
 		service.saveStickerUsed(485, 11);
 	}
 	
+	@Test
+	public void buildLibTest() throws Exception {
+		logNumberList(log, new NumberListAdapter() {
+
+			@Override
+			public void buildNumberList(Map<String, Object> jsonMap)
+					throws Exception {
+				service.buildLib(0, 1, 10, jsonMap);
+			}
+			
+		});
+	}
 }

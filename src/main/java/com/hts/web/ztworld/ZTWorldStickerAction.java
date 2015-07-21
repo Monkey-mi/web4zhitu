@@ -148,7 +148,23 @@ public class ZTWorldStickerAction extends BaseAction {
 	public String stickerIntro() {
 		return SUCCESS;
 	}
+	
+	/**
+	 * 查询贴纸库
+	 * 
+	 * @return
+	 */
+	public String queryLib() {
+		try {
+			stickerService.buildLib(typeId, start, limit, jsonMap);
+			JSONUtil.optSuccess(jsonMap);
+		} catch(Exception e) {
+			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+		}
+		return StrutsKey.JSON;
+	}
 
+	
 	public Integer getTypeId() {
 		return typeId;
 	}

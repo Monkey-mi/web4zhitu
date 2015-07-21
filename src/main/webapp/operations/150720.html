@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="description" content="#旋风少女#剧场，周边奖品等你拿！ ">
+<title>#旋风少女#剧场，周边奖品等你拿！ </title>
+<style type="text/css">
+body {
+	margin: 0 auto 0 auto;
+	padding: 0;
+	text-align: center;
+	font-size:0;
+	font-family:"微软雅黑",Arial, Helvetica, sans-serif;
+	background:#f3f4f6;
+}
+
+img {
+	width: 100%;
+	border: 0;
+	padding: 0;
+	margin: 0;
+}
+
+a {
+	text-decoration: none;
+	color: #ffffff;
+}
+
+#main {
+	display:inline-block;
+	width: 100%;
+	max-width:750px;
+	/*margin-bottom:60px;*/
+}
+
+
+.user-wrap {
+	display:inline-block;
+}
+
+.user-wrap img{
+	float:left;
+}
+
+.share-wrap img{
+	float:left;
+}
+
+.concern-btn {
+	display:inline-block;
+	width:200px;
+	height:80px;
+	position:absolute;
+	left: 50%;
+	margin: 760px 0 0 63px;
+	-moz-border-radius: 100px;   
+	-webkit-border-radius: 100px;
+    border-radius:100px;
+    font-size: 32px;
+    line-height:80px;
+    cursor:pointer;
+    background:#e7f383;
+    color:#301c20;
+    font-weight:900;
+    display:none;
+}
+
+
+#share-btn {
+	display:inline-block;
+	width:360px;
+	height:100px;
+	position:absolute;
+	left: 50%;
+	margin: 250px 0 0 -180px;
+	-moz-border-radius: 100px;   
+	-webkit-border-radius: 100px;
+    border-radius: 100px;
+    font-size: 40px;
+    line-height:100px;
+    background:#fe94ba;
+	font-weight:900;
+	display:none;
+}
+
+/*
+#download-wrap {
+	width:100%;
+	text-align:center;
+	position:fixed;
+	bottom:0;
+	display:none;
+}
+#download-btn {
+	background:#a5ebf5;
+	height:60px;
+	width:100%;
+	display:inline-block;
+}
+
+#download-btn img {
+	height:100%;
+	width:auto;
+}
+
+#download-btn #d1 {
+	float:left;
+}
+
+#download-btn #d3 {
+	float:right;
+}
+*/
+
+</style>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?d52a9c49fb7a48b836a1a23f21b49f1d";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head>
+<body>
+<div id="main">
+<div id="header">
+<img alt="" src="http://imzhitu.qiniudn.com/op/sticker/150720/01.jpg" />
+</div>
+<img alt="" src="http://imzhitu.qiniudn.com/op/sticker/150720/02.jpg" />
+<img alt="" src="http://imzhitu.qiniudn.com/op/sticker/150720/03.jpg" />
+
+<div class="user-wrap">
+<img alt="" src="http://imzhitu.qiniudn.com/op/sticker/150720/09.jpg" />
+<a id="concern-82174" class="concern-btn concern" name="imzhitu-callapp" href="imzhitu://concern?uid=1543273">+关注</a>
+<a class="concern-btn concerned">已关注</a>
+</div>
+
+<img alt="" src="http://imzhitu.qiniudn.com/op/sticker/150720/05.jpg" />
+<img alt="" src="http://imzhitu.qiniudn.com/op/sticker/150720/06.jpg" />
+<img alt="" src="http://imzhitu.qiniudn.com/op/sticker/150720/07.jpg" />
+
+<div class="share-wrap">
+<img alt="" src="http://imzhitu.qiniudn.com/op/sticker/150720/08.jpg" />
+<a id="share-btn" href="imzhitu://sharePage">分享粗去</a>
+</div>
+</div>
+
+<!-- 
+<div id="download-wrap">
+<a id="download-btn" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.htshuo.htsg"　
+	onclick="_hmt.push(['_trackEvent', 'op', 'download', 'xuanfengshaonv'])">
+	<img id="d1" alt="" src="http://imzhitu.qiniudn.com/op/sticker/150717/nanyoud1.jpg">
+	<img id="d2" alt="" src="http://imzhitu.qiniudn.com/op/sticker/150717/nanyoud2.jpg">
+	<img id="d3"alt="" src="http://imzhitu.qiniudn.com/op/sticker/150717/nanyoud3.jpg">
+</a>
+</div>
+ -->
+
+<script type="text/javascript" src="/staticres/base/js/callapp2.js"></script>
+<script type="text/javascript" src="/staticres/base/js/jquery/jquery-1.8.2.min.js"></script>
+<script type="text/javascript">
+var inapp = 0;
+$(document).ready(function() {
+	inapp = callAppInit();
+	initLayout();
+	
+	if(inapp == 1) {
+		var reg = new RegExp("(^|&)uid=([^&]*)(&|$)", "i"),
+			r = window.location.search.substr(1).match(reg);
+			
+		if(r == null || r == undefined) {
+			bindAllBtnClick2Callapp();
+		} else {
+			uid = unescape(r[2]);
+			fetchConcernStatus(uid);
+		}
+		
+	} else {
+		//$("#download-wrap").show();
+		bindAllBtnClick2Callapp();
+	}
+	document.getElementById("share-btn").addEventListener('click',openclient,false);
+});
+
+function initLayout() {
+	var maxW = 750;
+	var winWidth = $(window).width();
+	
+	winWidth = winWidth > maxW ? maxW : winWidth;
+
+	var scale = 1,
+		headerH = 1243,
+		
+		btnW = 200,
+		btnH = 80,		
+		btnMarginTop = 760,
+		btnMarginLeft = 63,
+		btnFontSize = 32,
+		btnRadius = 100,
+
+		spbtnW = 360,
+		spbtnH = 100,		
+		spbtnMarginTop = 250,
+		spbtnMarginLeft = -180,
+		spbtnFontSize = 40,
+		spbtnRadius = 100;
+		
+	scale = winWidth / maxW;
+	
+	btnW = btnW * scale;
+	btnH = btnH * scale;
+	btnMarginTop = btnMarginTop * scale;
+	btnMarginLeft = btnMarginLeft * scale;
+	btnFontSize = btnFontSize * scale;
+	btnRadius = btnRadius * scale;
+	
+	
+	spbtnW = spbtnW * scale;
+	spbtnH = spbtnH * scale;
+	spbtnMarginTop = spbtnMarginTop * scale;
+	spbtnMarginLeft = spbtnMarginLeft * scale;
+	spbtnFontSize = spbtnFontSize * scale;
+	spbtnRadius = spbtnRadius * scale;
+	
+	$("#header").height(scale * headerH + 'px');
+	
+	$(".concern-btn").css({
+		"width":btnW + "px",
+		"height":btnH + "px",
+		"margin-top":btnMarginTop + "px",
+		"margin-left":btnMarginLeft + "px",
+		"font-size":btnFontSize + "px",
+		"line-height":btnH + "px",
+		"-moz-border-radius":btnRadius + "px",
+		"-webkit-border-radius":btnRadius + "px",
+		"border-radius":btnRadius + "px"});
+		
+	$(".concern").show();
+	
+	$("#share-btn").css({
+		"width":spbtnW + "px",
+		"height":spbtnH + "px",
+		"margin-top":spbtnMarginTop + "px",
+		"margin-left":spbtnMarginLeft + "px",
+		"font-size":spbtnFontSize + "px",
+		"line-height":spbtnH + "px",
+		"-moz-border-radius":spbtnRadius + "px",
+		"-webkit-border-radius":spbtnRadius + "px",
+		"border-radius":spbtnRadius + "px"}).show();
+	
+	/*
+	if(inapp==1) {
+		$("#main").css({"margin-bottom":"0px"});
+	}
+	*/
+		
+}
+
+function bindConcern(uid, status) {
+	var $btn = $("#concern-" + uid);
+	switch(status) {
+	case 0:
+		$btn.hide().siblings(".concerned:eq(0)").show();
+		break;
+	case 1:
+		$btn.hide().siblings(".concerned:eq(0)").text("相互关注").show();
+		break;
+	default:
+		$btn.click(function() {
+			$this = $(this);
+			$this.hide().siblings(".concerned:eq(0)").show();
+		});
+		break;
+	}
+}
+
+function fetchConcernStatus(uid) {
+	$.post("./user_queryConcernStatus",{
+		"userId":uid,
+		"concernIds":"1543273",
+	},function(data){
+		if(data['result'] == 0) {
+			var status = data['concerns'];
+			for(var i = 0; i < status.length; i++) {
+				bindConcern(status[i]['userId'], status[i]['isMututal']);
+			}
+		} else {
+			bindAllBtnClick2Callapp();
+		}
+	}, "json");
+}
+
+function bindAllBtnClick2Callapp() {
+	var $callapp = document.getElementsByName("imzhitu-callapp");
+   	if($callapp.length) {
+   		for(var i = 0; i < $callapp.length; i++) {
+   			$callapp[i].addEventListener('click',openclient,false);
+   		}
+   	}
+}
+</script>
+
+</body>
+</html>

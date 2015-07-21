@@ -34,6 +34,7 @@ public class HTWorldStickerDto implements Serializable, StickerWithLock {
 	private Integer hasLock;
 	private Integer unlock = Tag.FALSE;
 	private Integer labelId;
+	private String labelName;
 	private Integer fill = 0;
 
 	public HTWorldStickerDto() {
@@ -174,5 +175,14 @@ public class HTWorldStickerDto implements Serializable, StickerWithLock {
 	public Integer getStickerId() {
 		return id;
 	}
+
+	public String getLabelName() {
+		return labelName;
+	}
+
+	public void setLabelName(String labelName) {
+		this.labelName = labelName;
+	}
+	
 	
 }

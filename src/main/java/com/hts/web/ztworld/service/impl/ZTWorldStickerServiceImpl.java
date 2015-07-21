@@ -18,6 +18,7 @@ import com.hts.web.base.database.RowCallback;
 import com.hts.web.base.database.RowSelection;
 import com.hts.web.common.SerializableListAdapter;
 import com.hts.web.common.pojo.HTWorldStickerDto;
+import com.hts.web.common.pojo.HTWorldStickerSetDto;
 import com.hts.web.common.pojo.HTWorldStickerTop;
 import com.hts.web.common.pojo.HTWorldStickerTypeDto;
 import com.hts.web.common.pojo.HTWorldStickerUsed;
@@ -29,6 +30,7 @@ import com.hts.web.ztworld.dao.HTWorldStickerDao;
 import com.hts.web.ztworld.dao.HTWorldStickerTypeCacheDao;
 import com.hts.web.ztworld.dao.HTWorldStickerUnlockDao;
 import com.hts.web.ztworld.dao.HTWorldStickerUsedDao;
+import com.hts.web.ztworld.dao.StickerSetDtoCacheDao;
 import com.hts.web.ztworld.dao.StickerTopCacheDao;
 import com.hts.web.ztworld.service.ZTWorldStickerService;
 
@@ -59,6 +61,9 @@ public class ZTWorldStickerServiceImpl extends BaseServiceImpl implements
 	@Value("${op.stickerIntro}")
 	private String sharePath;
 	
+	@Autowired
+	private StickerSetDtoCacheDao stickerSetDtoCacheDao;
+	
 	public String getSharePath() {
 		return sharePath;
 	}
@@ -80,6 +85,9 @@ public class ZTWorldStickerServiceImpl extends BaseServiceImpl implements
 		List<HTWorldStickerDto> list = stickerCacheDao.queryRecommendSticker();
 		extractUnlock(userId, list);
 		List<HTWorldStickerTypeDto> typeList = stickerTypeCacheDao.queryStickerType();
+		if(typeList != null && typeList.get(0).getId() == -1) {
+			typeList.remove(0);
+		}
 		List<HTWorldStickerTypeDto> recType = stickerTypeCacheDao.queryRecommendType();
 		jsonMap.put(OptResult.JSON_KEY_TYPE, typeList);
 		jsonMap.put(OptResult.JSON_KEY_STICKER, list);
@@ -229,6 +237,23 @@ public class ZTWorldStickerServiceImpl extends BaseServiceImpl implements
 		} catch(Exception e) {
 			log.warn("save sticker used error", e);
 		}
+	}
+
+	@Override
+	public void buildLib(Integer typeId, Integer start, Integer limit,
+			Map<String, Object> jsonMap) throws Exception {
+		int firstRow = 0;
+		int maxRow = -1;
+		List<HTWorldStickerSetDto> list = null;
+		if(typeId == null || typeId == 0) {
+			typeId = -1;
+			jsonMap.put(OptResult.JSON_KEY_TYPE, stickerTypeCacheDao.queryStickerType());
+		} else {
+			firstRow = (start - 1) * limit;
+			maxRow = firstRow + limit;
+		}
+		list = stickerSetDtoCacheDao.querySet(typeId, firstRow, maxRow);
+		jsonMap.put(OptResult.JSON_KEY_STICKER, list);
 	}
 
 }
