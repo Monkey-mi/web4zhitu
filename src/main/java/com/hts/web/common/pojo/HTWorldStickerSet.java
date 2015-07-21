@@ -16,6 +16,7 @@ public class HTWorldStickerSet implements Serializable {
 	private static final long serialVersionUID = 1239248236459713126L;
 	private Integer id;
 	private String setName;
+	private Integer typeId;
 
 	public Integer getId() {
 		return id;
@@ -31,6 +32,14 @@ public class HTWorldStickerSet implements Serializable {
 
 	public void setSetName(String setName) {
 		this.setName = setName;
+	}
+
+	public Integer getTypeId() {
+		return typeId;
+	}
+
+	public void setTypeId(Integer typeId) {
+		this.typeId = typeId;
 	}
 
 }
