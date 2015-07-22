@@ -8,7 +8,7 @@ var VERSION = '1.0.4';
 
 // window size
 var viewWidth = view.viewSize.width;
-var viewHeight = view.viewSize.height - 60;
+var viewHeight = view.viewSize.height; // sub download height
 var windowWidth = viewWidth;
 var windowHeight = viewHeight;
 var windowMin = Math.min(windowWidth, windowHeight);
@@ -69,12 +69,12 @@ var helpSize = new Size(helpWidth, helpHeight);
 var centerPoint = new Point(viewWidth2, viewHeight2);
 
 // bias
-var menuButtonBiasX = windowHeight / 6;
+var menuButtonBiasX = windowHeight / 46;
 var menuButtonBiasY = windowHeight / 4.8;
-var maxRandomBias = windowHeight / 20;
+var maxRandomBias = windowHeight / 46;
 var minRandomBias = windowHeight / 200;
 var helpBiasY = windowHeight / 3;
-var rankBiasY = 0;
+var rankBiasY = -30;
 var arrowBiasX = windowMin / 20;
 var versionBiasX = windowMin / 5;
 var tutorialBiasY = windowHeight / 2.5;
@@ -162,7 +162,7 @@ var helpText = new PointText({
     fontSize: helpTextFontSize
 });
 //helpText.content = '画个圆\n\n重大更新：现在可以分享自己\n画的圆给好友了\n\n喏，圆心给你了，半径给你了。\n\n点此开始';
-helpText.content = '画个圆\n\n喏，圆心给你了，半径给你了。\n\n点此开始';
+helpText.content = '听说全世界只有3个人\n\n可以画个100分的圆！\n\n喏，圆心给你了，半径给你了。\n\n点此开始吧！';
 
 var helpGroup = new Group(helpBox, helpText);
 helpBox.onMouseUp = function(event) {
@@ -197,22 +197,22 @@ replaySVG.strokeCap = 'round';
 replaySVG.firstSegment.point -= [menuStrokeWidth, menuStrokeWidth2];
 replaySVG.lastSegment.remove();
 replaySVG.lastSegment.point += [menuStrokeWidth2, menuStrokeWidth2];
-var shareButton = new Path.Rectangle(new Point(viewWidth2 + menuButtonBiasX - menuButtonWidth2, viewHeight2 + menuButtonWidth2 - menuButtonHeight + menuButtonBiasY), menuButtonSize);
-shareButton.fillColor = 'white';
-var shareSVG = new Path.Rectangle(new Point(viewWidth2 + menuButtonBiasX - menuButtonWidth2, viewHeight2 + menuButtonWidth2 - menuButtonHeight + menuButtonBiasY), menuButtonSize);
-shareSVG.strokeColor = 'blue';
-shareSVG.strokeWidth = menuStrokeWidth;
-var shareSVG1 = new Path.Line(new Point(viewWidth2 + menuButtonBiasX, viewHeight2 + menuButtonBiasY), new Point(viewWidth2 + menuButtonBiasX, viewHeight2 - menuButtonHeight + menuButtonBiasY));
-var shareSVG2 = new Path.Line(new Point(viewWidth2 + menuButtonBiasX, viewHeight2 - menuButtonHeight + menuButtonBiasY), new Point(viewWidth2 + menuButtonBiasX - menuButtonHeight2, viewHeight2 - menuButtonHeight2 + menuButtonBiasY));
-var shareSVG3 = new Path.Line(new Point(viewWidth2 + menuButtonBiasX, viewHeight2 - menuButtonHeight + menuButtonBiasY), new Point(viewWidth2 + menuButtonBiasX + menuButtonHeight2, viewHeight2 - menuButtonHeight2 + menuButtonBiasY));
-shareSVG1.strokeColor = 'blue';
-shareSVG1.strokeWidth = menuStrokeWidth;
-shareSVG2.strokeColor = 'blue';
-shareSVG2.strokeWidth = menuStrokeWidth;
-shareSVG2.strokeCap = 'round';
-shareSVG3.strokeColor = 'blue';
-shareSVG3.strokeWidth = menuStrokeWidth;
-shareSVG3.strokeCap = 'round';
+//var shareButton = new Path.Rectangle(new Point(viewWidth2 + menuButtonBiasX - menuButtonWidth2, viewHeight2 + menuButtonWidth2 - menuButtonHeight + menuButtonBiasY), menuButtonSize);
+//shareButton.fillColor = 'white';
+//var shareSVG = new Path.Rectangle(new Point(viewWidth2 + menuButtonBiasX - menuButtonWidth2, viewHeight2 + menuButtonWidth2 - menuButtonHeight + menuButtonBiasY), menuButtonSize);
+//shareSVG.strokeColor = 'blue';
+//shareSVG.strokeWidth = menuStrokeWidth;
+//var shareSVG1 = new Path.Line(new Point(viewWidth2 + menuButtonBiasX, viewHeight2 + menuButtonBiasY), new Point(viewWidth2 + menuButtonBiasX, viewHeight2 - menuButtonHeight + menuButtonBiasY));
+//var shareSVG2 = new Path.Line(new Point(viewWidth2 + menuButtonBiasX, viewHeight2 - menuButtonHeight + menuButtonBiasY), new Point(viewWidth2 + menuButtonBiasX - menuButtonHeight2, viewHeight2 - menuButtonHeight2 + menuButtonBiasY));
+//var shareSVG3 = new Path.Line(new Point(viewWidth2 + menuButtonBiasX, viewHeight2 - menuButtonHeight + menuButtonBiasY), new Point(viewWidth2 + menuButtonBiasX + menuButtonHeight2, viewHeight2 - menuButtonHeight2 + menuButtonBiasY));
+//shareSVG1.strokeColor = 'blue';
+//shareSVG1.strokeWidth = menuStrokeWidth;
+//shareSVG2.strokeColor = 'blue';
+//shareSVG2.strokeWidth = menuStrokeWidth;
+//shareSVG2.strokeCap = 'round';
+//shareSVG3.strokeColor = 'blue';
+//shareSVG3.strokeWidth = menuStrokeWidth;
+//shareSVG3.strokeCap = 'round';
 var rankText = new PointText({
     point: [viewWidth2, viewHeight2 + rankBiasY - 2 * rankTextFontSize],
     justification: 'center',
@@ -220,7 +220,8 @@ var rankText = new PointText({
     fontSize: rankTextFontSize
 });
 rankText.content = '';
-var menuGroup = new Group(menuBox, replayButton, replaySVG, shareButton, shareSVG, shareSVG1, shareSVG2, shareSVG3, rankText);
+//var menuGroup = new Group(menuBox, replayButton, replaySVG, shareButton, shareSVG, shareSVG1, shareSVG2, shareSVG3, rankText);
+var menuGroup = new Group(menuBox, replayButton, replaySVG, rankText);
 menuGroup.visible = false;
 
 // menu related events
@@ -229,35 +230,35 @@ replayButton.onMouseUp = function(event) {
     init();
 };
 
-shareButton.onMouseDown = function(event) {
-    event.preventDefault();
-    HideContent('desktop-ad');
-	// dp_share();
-    //play68_submitScore(perfection);
-    if (!saved) {
-        circleId = uuid();
-        shareSVG2.rotate(20, [viewWidth2 + menuButtonBiasX, viewHeight2 - menuButtonHeight + menuButtonBiasY]);
-        shareSVG3.rotate(-20, [viewWidth2 + menuButtonBiasX, viewHeight2 - menuButtonHeight + menuButtonBiasY]);
-       /* $.ajax({
-            type: 'POST',
-            url: '/circle/save',
-            data: {
-                score: perfection,
-                simplified: simplified.exportJSON(),
-                window_min: windowMin,
-                window_width: windowWidth,
-                window_height: windowHeight,
-                circle_id: circleId,
-                circle_radius: circleRadius,
-                timestamp: (new Date).getTime(),
-                user_id: getCookie('uuid')
-            }
-        }).done(function() {
-            window.location.replace('http://games.yumaoshu.com/circle/show?circleId=' + circleId);
-        });*/
-        saved = true;
-    }
-};
+//shareButton.onMouseDown = function(event) {
+//    event.preventDefault();
+//    HideContent('desktop-ad');
+//	// dp_share();
+//    //play68_submitScore(perfection);
+//    if (!saved) {
+//        circleId = uuid();
+//        shareSVG2.rotate(20, [viewWidth2 + menuButtonBiasX, viewHeight2 - menuButtonHeight + menuButtonBiasY]);
+//        shareSVG3.rotate(-20, [viewWidth2 + menuButtonBiasX, viewHeight2 - menuButtonHeight + menuButtonBiasY]);
+//       /* $.ajax({
+//            type: 'POST',
+//            url: '/circle/save',
+//            data: {
+//                score: perfection,
+//                simplified: simplified.exportJSON(),
+//                window_min: windowMin,
+//                window_width: windowWidth,
+//                window_height: windowHeight,
+//                circle_id: circleId,
+//                circle_radius: circleRadius,
+//                timestamp: (new Date).getTime(),
+//                user_id: getCookie('uuid')
+//            }
+//        }).done(function() {
+//            window.location.replace('http://games.yumaoshu.com/circle/show?circleId=' + circleId);
+//        });*/
+//        saved = true;
+//    }
+//};
 
 // tutorial group
 //var tutorialBox = new Shape.Rectangle({
@@ -342,7 +343,7 @@ function init() {
     simplified.remove();
     simplified = null;
     perfectText.content = '';
-    document.title = '画个圆';
+    //document.title = '画个圆';
 }
 
 function uuid(len, radix) {
@@ -403,12 +404,44 @@ function encourage(perfection) {
     }
 }
 
+function beatEncourage(perfection) {
+    if (perfection < 0.1) {
+    	return 0.0;
+    } else if (perfection < 0.5) {
+    	return '20.2%';
+    } else if (perfection < 0.7) {
+    	return '32.5%';
+    } else if (perfection < 0.8) {
+    	return '40.1%';
+    } else if (perfection < 0.9) {
+    	return '60%以上';
+    } else if (perfection < 0.93) {
+    	return '70%以上';
+    } else if (perfection < 0.94) {
+    	return '80%以上';
+    } else if (perfection < 0.95) {
+    	return '82%以上';
+    } else if (perfection < 0.96) {
+    	return '88%以上';
+    } else if (perfection < 0.97) {
+    	return '90%以上';
+    } else if (perfection < 0.98) {
+    	return '95%以上';
+    } else if (perfection < 0.99) {
+    	return '99%以上';
+    } else {
+    	return '所有';
+    }
+}
+
 function fillRankText() {
     rankText.content = '“' + encourage(perfection) + '”\n\n';
-    rankText.content += '你刚刚画出了一个' + (perfection * 100).toFixed(2) + '分圆！\n快点击下面的蓝色分享\n按钮让小伙伴围观这个圆吧';
+    rankText.content += '你刚刚画出了一个' + (perfection * 100).toFixed(2) + '分圆！\n\n击败了全国' 
+    	+ beatEncourage(perfection) + '的用户!\n\n快点分享给你的小伙伴围观吧';
     //updateShare((perfection * 100).toFixed(2));
     updateShare(perfection);
     //Play68.setRankingScoreDesc((perfection * 100).toFixed(2));
+    document.title = '我刚刚画出了一个' + (perfection * 100).toFixed(2) + '分圆,听说全世界只有3个人可以画个100分的圆!';
 }
 
 function onFrame(event) {

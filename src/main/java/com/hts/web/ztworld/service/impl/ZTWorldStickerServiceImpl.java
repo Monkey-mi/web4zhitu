@@ -245,15 +245,14 @@ public class ZTWorldStickerServiceImpl extends BaseServiceImpl implements
 		int firstRow = 0;
 		int maxRow = -1;
 		List<HTWorldStickerSetDto> list = null;
-		if(typeId == null || typeId == 0) {
+		if(typeId == null || typeId == 0 || typeId == -1) {
 			typeId = -1;
 			jsonMap.put(OptResult.JSON_KEY_TYPE, stickerTypeCacheDao.queryStickerType());
-		} else {
-			firstRow = (start - 1) * limit;
-			maxRow = firstRow + limit;
 		}
+		firstRow = (start - 1) * limit;
+		maxRow = firstRow + limit - 1;
 		list = stickerSetDtoCacheDao.querySet(typeId, firstRow, maxRow);
 		jsonMap.put(OptResult.JSON_KEY_STICKER, list);
 	}
-
+	
 }

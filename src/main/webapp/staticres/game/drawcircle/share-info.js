@@ -2,7 +2,6 @@
 	updateShare(0);
 }
 
-
 function play68_submitScore(score) {
 	updateShareScore(score);
 	Play68.shareFriend();

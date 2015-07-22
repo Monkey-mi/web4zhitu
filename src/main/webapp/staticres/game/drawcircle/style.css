@@ -2,26 +2,15 @@ body {
 	margin: 0;
 	overflow: hidden;
 	padding:0;
-	background:#f3f4f6;
 }
-
-#inputpage {
-    width: 100%;
-    height: 100%;
-    top: 0px;
-    left: 0px;
-    position: absolute;
-    display: table;
-}
-#inputpage #middle {
-    display: table-cell;
-    vertical-align: middle;
+#canvas{
+	height:200px;
+	
 }
 
 #inputpage div {
     width: 200px;
     margin: auto auto;
-    padding: 20px 20px 20px 20px;
     font-weight: 400;
     background: #fff;
     border: 1px solid #e5e5e5;
@@ -30,6 +19,10 @@ body {
     border-radius:5px;
     border-color: #f0f0f0;
     border-bottom-color: #f0f0f0;
+    left:50%;
+    position:absolute;
+    margin-left:-100px;
+    text-align:center;
 }
 #middle div p {
 }

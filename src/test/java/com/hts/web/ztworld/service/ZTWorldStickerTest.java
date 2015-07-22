@@ -85,7 +85,7 @@ public class ZTWorldStickerTest extends BaseTest {
 			@Override
 			public void buildNumberList(Map<String, Object> jsonMap)
 					throws Exception {
-				service.buildLib(0, 1, 10, jsonMap);
+				service.buildLib(9, 1, 10, jsonMap);
 			}
 			
 		});
