@@ -10,9 +10,6 @@
 <title>${title }</title>
 <link rel="stylesheet" type="text/css" href="/staticres/htworld/phonev2/css/htszoomtour2013122801.css" />
 <link rel="stylesheet" type="text/css" href="/staticres/htworld/phonev2/css/style2013122801.css" />
-<script>
-var _hmt = _hmt || [];
-</script>
 </head>
 <body>
 <span id="loading">载入中...</span>
@@ -75,21 +72,18 @@ var _hmt = _hmt || [];
 <div id="foot-wrap">
 	<img class="logo" height="45" src="/staticres/htworld/phonev2/images/logo.png"/>
 	<div id="download-btn-wrap">
-		<a class="download-btn" target="_blank" id="ios-download" 
-			onclick="_hmt.push(['_trackEvent', 'app', 'download', 'zhitu'])"
+		<a class="download-btn" target="_blank" id="ios-download"
 			href="http://a.app.qq.com/o/simple.jsp?pkgname=com.htshuo.htsg&g_f=991653">点击下载最新版</a>
 	</div>
 </div>
 </div>
 </div>
-<script type="text/javascript">
-var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
-document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fd52a9c49fb7a48b836a1a23f21b49f1d' type='text/javascript'%3E%3C/script%3E"));
-</script>
 <script type="text/javascript" src="/staticres/base/js/jquery/jquery-1.8.2.min.js"></script>
 <script type="text/javascript" src="/staticres/base/js/baseTools.js"></script>
 <script type="text/javascript" src="/staticres/htworld/common/js/jquery.htszoomtourV3.js"></script>
 <script type="text/javascript" src="/staticres/htworld/phonev2/js/hts2014022401.js"></script>
-
+<div style="display:none;">
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1255868073'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1255868073' type='text/javascript'%3E%3C/script%3E"));</script>
+</div>
 </body>
 </html>

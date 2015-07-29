@@ -8,9 +8,6 @@
 <meta name="keywords" content="相册,美图,社交,旅行,故事,时尚,${worldLabel}">
 <title>${title}</title>
 <link rel="stylesheet" type="text/css" href="/staticres/htworld/webv2/css/style.css" />
-<script>
-var _hmt = _hmt || [];
-</script>
 </head>
 <body>
 	<div id="main" >
@@ -98,10 +95,6 @@ var _hmt = _hmt || [];
 		</div>
 	</div>
 	<a id="btn-open-right" class="btn-right-panel none" href="#right-panel" title="展开" ></a>
-	<script type="text/javascript">
-		var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
-		document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fd52a9c49fb7a48b836a1a23f21b49f1d' type='text/javascript'%3E%3C/script%3E"));
-	</script>
 	<link rel="stylesheet" type="text/css" href="/staticres/base/js/jquery/pageslide-2.0.0/jquery.pageslide.css" />
 	<link rel="stylesheet" type="text/css" href="/staticres/htworld/webv2/css/htszoomtourV2.css" />
 	<script type="text/javascript" src="/staticres/base/js/jquery/jquery-1.8.2.min.js"></script>
@@ -110,5 +103,8 @@ var _hmt = _hmt || [];
 	<script type="text/javascript" src="/staticres/htworld/common/js/jquery.htszoomtourV3.js"></script>
 	<script type="text/javascript" src="/staticres/htworld/webv2/js/hts2014022401.js"></script>
 	<script type="text/javascript" src="/staticres/base/js/jquery/pageslide-2.0.0/jquery.pageslide.js"></script>
+	<div style="display:none;">
+	<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1255868073'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1255868073' type='text/javascript'%3E%3C/script%3E"));</script>
+	</div>
 </body>
 </html>

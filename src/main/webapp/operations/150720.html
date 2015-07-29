@@ -144,17 +144,11 @@ a {
     font-size:14px;
 }
 </style>
-<script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "//hm.baidu.com/hm.js?d52a9c49fb7a48b836a1a23f21b49f1d";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>
 </head>
 <body>
+<div id='wx_pic' style="display:none;">
+	<img src='http://imzhitu.qiniudn.com/op/sticker/150725/thumbnail.jpg' />
+</div>
 <div id="main">
 <div id="header">
 <img alt="" src="http://imzhitu.qiniudn.com/op/sticker/150720/01.jpg" />
@@ -179,8 +173,7 @@ var _hmt = _hmt || [];
 </div>
 
 <div id="download-wrap">
-<a id="download-btn" title="点击下载" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.htshuo.htsg"　
-	onclick="_hmt.push(['_trackEvent', 'op', 'download', 'xuanfengshaonv'])">
+<a id="download-btn" title="点击下载" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.htshuo.htsg">
 	<img id="download-bg" alt="" src="/staticres/base/images/down-bg.jpg">
 	<img id="download-logo" alt="" src="/staticres/base/images/down-logo.png">
 	<span id="download-tip">点击下载</span>
@@ -334,6 +327,8 @@ function hideDownloadBtn() {
 	$("#main").css({"margin-bottom":"0px"});
 }
 </script>
-
+<div style="display:none;">
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1255868073'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1255868073' type='text/javascript'%3E%3C/script%3E"));</script>
+</div>
 </body>
 </html>

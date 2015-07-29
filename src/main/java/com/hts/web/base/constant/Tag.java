@@ -417,5 +417,25 @@ public class Tag {
 	public static final float VERSION_2_9_88 = 2.0988f;
 	
 	
+	/**
+	 * 喜欢关系,同城
+	 */
+	public static final int LIKE_ME_RELATE_CITY = 1;
+	
+	/**
+	 * 喜欢关系,共同关注
+	 */
+	public static final int LIKE_ME_RELATE_COMMON_CONCERN = 2;
+	
+	/**
+	 * 喜欢关系,好友关注
+	 */
+	public static final int LIKE_ME_RELATE_FRIEND_CONCERN = 3;
+	
+	/**
+	 * 喜欢关系,同省
+	 */
+	public static final int LIKE_ME_RELATE_PROVINCE = 4;
+	
 	
 }

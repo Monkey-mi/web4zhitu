@@ -281,5 +281,26 @@ public class StringUtil {
 		}
 		return input;
 	}
+	
+	public static String subSHIFromCity(String city) {
+		int idx = city.lastIndexOf("市");
+		if(idx > 0) {
+			return city.substring(0, idx);
+		}
+		return city;
+	}
+	
+	public static String subShengFromProvince(String province) {
+		int idx = province.lastIndexOf("省");
+		if(idx > 0) {
+			return province.substring(0, idx);
+		}
+		return province;
+	}
+	
+	public static void main(String[] args) {
+		String city = "深圳";
+		System.out.println(subSHIFromCity(city));
+	}
 
 }

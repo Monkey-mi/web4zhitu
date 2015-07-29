@@ -28,11 +28,13 @@ import com.hts.web.common.SerializableSinceIdListAdapter;
 import com.hts.web.common.pojo.HTWorldCommentDto;
 import com.hts.web.common.pojo.HTWorldInteract;
 import com.hts.web.common.pojo.HTWorldLikeMe;
+import com.hts.web.common.pojo.HTWorldLikeMeRelate;
 import com.hts.web.common.pojo.HTWorldLikeMeThumb;
 import com.hts.web.common.pojo.HTWorldLiked;
 import com.hts.web.common.pojo.OpSysMsg;
 import com.hts.web.common.pojo.OpSysMsgDto;
 import com.hts.web.common.pojo.UserInfoAvatar;
+import com.hts.web.common.pojo.UserInfoDto;
 import com.hts.web.common.pojo.UserIsMututal;
 import com.hts.web.common.pojo.UserMsg;
 import com.hts.web.common.pojo.UserMsgBox;
@@ -881,14 +883,55 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 	@Override
 	public void buildLikeMeMsgWithoutGroup(Integer maxId, Integer userId, 
 			Integer limit, final Map<String, Object> jsonMap) throws Exception {
+		userInfoDao.queryUserInfoDtoById(userId);
 		List<HTWorldLikeMe> likeMeList = null;
 		if(maxId == 0) {
 			likeMeList = worldLikedDao.queryLikeMe(userId, limit);
 		} else {
 			likeMeList = worldLikedDao.queryLikeMe(maxId, userId, limit);
 		}
+		extractRelate(userId, likeMeList);
 		userInfoService.extractVerify(likeMeList);
 		jsonMap.put(OptResult.JSON_KEY_MSG, likeMeList);
+	}
+
+	public void extractRelate(Integer userId, List<HTWorldLikeMe> list) {
+		if(list == null || list.size() == 0) {
+			return;
+		}
+		
+		UserInfoDto user = userInfoDao.queryUserInfoDtoById(userId);
+		String city = StringUtil.checkIsNULL(user.getCity()) ? null 
+				: StringUtil.subSHIFromCity(user.getCity());
+		String province = StringUtil.checkIsNULL(user.getProvince()) ? null
+				: StringUtil.subShengFromProvince(user.getProvince());
+
+		Map<Integer, HTWorldLikeMeRelate> relMap = new HashMap<Integer, HTWorldLikeMeRelate>();
+		
+		for(HTWorldLikeMe lm : list) {
+			Integer relId = lm.getId();
+			if(relMap.containsKey(relId)) {
+				lm.setRelate(relMap.get(relId));
+				
+			} else {
+				if(city!= null && !StringUtil.checkIsNULL(lm.getCity()) && lm.getCity().contains(city)) {
+					HTWorldLikeMeRelate rel = new HTWorldLikeMeRelate(Tag.LIKE_ME_RELATE_CITY, 
+							lm.getProvince() + " " + lm.getCity(), 0);
+					lm.setRelate(rel);
+					relMap.put(relId, rel);
+					continue;
+				}
+				
+				if(province!=null && !StringUtil.checkIsNULL(lm.getProvince()) && lm.getProvince().contains(province)) {
+					HTWorldLikeMeRelate rel = new HTWorldLikeMeRelate(Tag.LIKE_ME_RELATE_PROVINCE, 
+							lm.getProvince(), 0);
+					lm.setRelate(rel);
+					relMap.put(relId, rel);
+					continue;
+				}
+			}
+		}
+		
 	}
 	
 	/**

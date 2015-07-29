@@ -29,6 +29,9 @@ public class HTWorldLikeMe implements Serializable, ObjectWithUserVerify, Object
 	private String userName;
 	private String userAvatar;
 	private String userAvatarL;
+	
+	private String province;
+	private String city;
 
 	private Integer star;
 	private Integer platformVerify = Tag.VERIFY_NONE;
@@ -43,9 +46,11 @@ public class HTWorldLikeMe implements Serializable, ObjectWithUserVerify, Object
 	
 	private List<HTWorldLikeMeThumb> titleThumbs;
 
+	private HTWorldLikeMeRelate relate;
+
 	public HTWorldLikeMe(Integer id, Date likedDate, Integer userId,
 			String userName, String userAvatar, String userAvatarL,
-			Integer star, Integer platformVerify) {
+			String province, String city, Integer star, Integer platformVerify) {
 		super();
 		this.id = id;
 		this.likedDate = likedDate;
@@ -53,6 +58,8 @@ public class HTWorldLikeMe implements Serializable, ObjectWithUserVerify, Object
 		this.userName = userName;
 		this.userAvatar = userAvatar;
 		this.userAvatarL = userAvatarL;
+		this.province = province;
+		this.city = city;
 		this.star = star;
 		this.platformVerify = platformVerify;
 	}
@@ -178,6 +185,30 @@ public class HTWorldLikeMe implements Serializable, ObjectWithUserVerify, Object
 
 	public void setTitleThumbs(List<HTWorldLikeMeThumb> titleThumbs) {
 		this.titleThumbs = titleThumbs;
+	}
+
+	public HTWorldLikeMeRelate getRelate() {
+		return relate;
+	}
+
+	public void setRelate(HTWorldLikeMeRelate relate) {
+		this.relate = relate;
+	}
+
+	public String getProvince() {
+		return province;
+	}
+
+	public void setProvince(String province) {
+		this.province = province;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
 	}
 	
 }

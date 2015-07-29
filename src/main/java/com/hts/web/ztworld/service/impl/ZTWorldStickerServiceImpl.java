@@ -24,6 +24,7 @@ import com.hts.web.common.pojo.HTWorldStickerTypeDto;
 import com.hts.web.common.pojo.HTWorldStickerUsed;
 import com.hts.web.common.pojo.StickerWithLock;
 import com.hts.web.common.service.impl.BaseServiceImpl;
+import com.hts.web.common.util.Log;
 import com.hts.web.common.util.TimeUtil;
 import com.hts.web.ztworld.dao.HTWorldStickerCacheDao;
 import com.hts.web.ztworld.dao.HTWorldStickerDao;

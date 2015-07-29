@@ -54,7 +54,7 @@ public class HTWorldLikedDaoImpl extends BaseDaoImpl implements HTWorldLikedDao{
 	 *　喜欢我的用户信息
 	 */
 	private static final String LIKE_ME_INFO = "l0.id,l0.liked_date,l0.user_id,"
-			+ "l0.world_id,u0.user_name,u0.user_avatar,"
+			+ "l0.world_id,u0.user_name,u0.user_avatar,u0.province,u0.city,"
 			+ "u0.user_avatar_l,u0.star,u0.platform_verify,w0.title_thumb_path";
 	
 	/**
@@ -678,6 +678,8 @@ public class HTWorldLikedDaoImpl extends BaseDaoImpl implements HTWorldLikedDao{
 				rs.getString("user_name"),
 				rs.getString("user_avatar"),
 				rs.getString("user_avatar_l"),
+				rs.getString("province"),
+				rs.getString("city"),
 				rs.getInt("star"),
 				rs.getInt("platform_verify"));
 	}
