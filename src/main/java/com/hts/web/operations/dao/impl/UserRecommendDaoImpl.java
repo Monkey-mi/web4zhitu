@@ -43,7 +43,7 @@ public class UserRecommendDaoImpl extends BaseDaoImpl implements
 	/**
 	 * 推荐信息
 	 */
-	private static final String UR_INFO = "ur.id,ur.recommend_desc,ur.last_pos,ur.last_verify_pos,ur.curr_pos,ur.curr_verify_pos";
+	private static final String UR_INFO = "ur.id,ur.recommend_desc,ur.last_pos,ur.last_verify_pos,ur.curr_pos,ur.curr_verify_pos,ur.serial";
 
 	/**
 	 * 标签推荐用户信息 
@@ -91,7 +91,7 @@ public class UserRecommendDaoImpl extends BaseDaoImpl implements
 			+ " from " + table + " ur, " + HTS.USER_INFO + " as u"
 			+ " where ur.user_id=u.id and ur.user_accept=1 and ur.sys_accept=1 and ur.weight=0"
 			+ " and NOT EXISTS (select concern_id from " + HTS.USER_CONCERN + " where ur.user_id=concern_id and valid=1 and user_id=?)" 
-			+ " ORDER BY ur.activity desc limit ?,?";
+			+ " ORDER BY ur.serial desc limit ?,?";
 
 	
 	/**
@@ -99,9 +99,9 @@ public class UserRecommendDaoImpl extends BaseDaoImpl implements
 	 */
 	private static final String QUERY_RECOMMEND_USER_ORDER_BY_ACT_BY_MAX_ID = "select " + UR_INFO +"," + U_INFO 
 			+ " from " + table + " ur, " + HTS.USER_INFO + " as u"
-			+ " where ur.user_id=u.id and ur.user_accept=1 and ur.sys_accept=1 and ur.weight=0 and ur.activity<=?"
+			+ " where ur.user_id=u.id and ur.user_accept=1 and ur.sys_accept=1 and ur.weight=0 and ur.serial<=?"
 			+ " and NOT EXISTS (select concern_id from " + HTS.USER_CONCERN + " where ur.user_id=concern_id and valid=1 and user_id=?)" 
-			+ " ORDER BY ur.activity desc limit ?,?";
+			+ " ORDER BY ur.serial desc limit ?,?";
 	
 	/**
 	 * 查询总榜置顶推荐
@@ -119,7 +119,7 @@ public class UserRecommendDaoImpl extends BaseDaoImpl implements
 			+ " from " + table + " ur, " + HTS.USER_INFO + " as u"
 			+ " where ur.user_id=u.id and ur.user_accept=1 and ur.sys_accept=1 and ur.weight=0 and ur.verify_id=?"
 			+ " and NOT EXISTS (select concern_id from " + HTS.USER_CONCERN + " where ur.user_id=concern_id and valid=1 and user_id=?)" 
-			+ " ORDER BY ur.activity desc limit ?,?";
+			+ " ORDER BY ur.serial desc limit ?,?";
 	
 	
 	/**
@@ -127,9 +127,9 @@ public class UserRecommendDaoImpl extends BaseDaoImpl implements
 	 */
 	private static final String QUERY_VERIFY_RECOMMEND_USER_ORDER_BY_ACT_MAX_ID = "select " + UR_INFO +"," + U_INFO 
 			+ " from " + table + " ur, " + HTS.USER_INFO + " as u"
-			+ " where ur.user_id=u.id and ur.user_accept=1 and ur.sys_accept=1 and ur.weight=0 and ur.verify_id=? and ur.activity<=?"
+			+ " where ur.user_id=u.id and ur.user_accept=1 and ur.sys_accept=1 and ur.weight=0 and ur.verify_id=? and ur.serial<=?"
 			+ " and NOT EXISTS (select concern_id from " + HTS.USER_CONCERN + " where ur.user_id=concern_id and valid=1 and user_id=?)" 
-			+ " ORDER BY ur.activity desc limit ?,?";
+			+ " ORDER BY ur.serial desc limit ?,?";
 	
 	/**
 	 * 查询置顶分榜推荐用户
@@ -139,10 +139,6 @@ public class UserRecommendDaoImpl extends BaseDaoImpl implements
 			+ " where ur.user_id=u.id and ur.user_accept=1 and ur.sys_accept=1 and ur.weight > 0 and ur.verify_id=?"
 			+ " and NOT EXISTS (select concern_id from " + HTS.USER_CONCERN + " where ur.user_id=concern_id and valid=1 and user_id=?)" 
 			+ " ORDER BY ur.weight desc limit ?";
-	
-	public static void main(String[] args) {
-		System.out.println(QUERY_VERIFY_RECOMMEND_USER_ORDER_BY_ACT);
-	}
 	
 	/** 
 	 * 查询社交平台推荐用户SQL头部 
@@ -446,10 +442,10 @@ public class UserRecommendDaoImpl extends BaseDaoImpl implements
 			public OpUser mapRow(ResultSet rs, int rowNum)
 					throws SQLException {
 				OpUser user = buildOpUser(rs);
-				user.setRecommendId(rs.getInt("activity"));
+				user.setRecommendId(rs.getInt("serial"));
 				user.setCurrPos(rs.getInt("curr_pos"));
 				user.setCurrVerifyPos(rs.getInt("curr_verify_pos"));
-				user.setActivity(rs.getInt("activity"));
+				user.setActivity(rs.getInt("serial"));
 				return user;
 			}
 		});
@@ -466,10 +462,10 @@ public class UserRecommendDaoImpl extends BaseDaoImpl implements
 			public OpUser mapRow(ResultSet rs, int rowNum)
 					throws SQLException {
 				OpUser user = buildOpUser(rs);
-				user.setRecommendId(rs.getInt("activity"));
+				user.setRecommendId(rs.getInt("serial"));
 				user.setCurrPos(rs.getInt("curr_pos"));
 				user.setCurrVerifyPos(rs.getInt("curr_verify_pos"));
-				user.setActivity(rs.getInt("activity"));
+				user.setActivity(rs.getInt("serial"));
 				return user;
 			}
 		});
@@ -486,10 +482,10 @@ public class UserRecommendDaoImpl extends BaseDaoImpl implements
 			public OpUser mapRow(ResultSet rs, int rowNum)
 					throws SQLException {
 				OpUser user = buildOpUser(rs);
-				user.setRecommendId(rs.getInt("activity"));
+				user.setRecommendId(rs.getInt("serial"));
 				user.setCurrPos(rs.getInt("curr_pos"));
 				user.setCurrVerifyPos(rs.getInt("curr_verify_pos"));
-				user.setActivity(rs.getInt("activity"));
+				user.setActivity(rs.getInt("serial"));
 				return user;
 			}
 		});
@@ -506,10 +502,10 @@ public class UserRecommendDaoImpl extends BaseDaoImpl implements
 			public OpUser mapRow(ResultSet rs, int rowNum)
 					throws SQLException {
 				OpUser user = buildOpUser(rs);
-				user.setRecommendId(rs.getInt("activity"));
+				user.setRecommendId(rs.getInt("serial"));
 				user.setCurrPos(rs.getInt("curr_pos"));
 				user.setCurrVerifyPos(rs.getInt("curr_verify_pos"));
-				user.setActivity(rs.getInt("activity"));
+				user.setActivity(rs.getInt("serial"));
 				return user;
 			}
 		});
