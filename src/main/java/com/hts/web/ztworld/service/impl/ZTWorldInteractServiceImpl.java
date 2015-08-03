@@ -57,6 +57,7 @@ import com.hts.web.ztworld.dao.HTWorldLikedDao;
 import com.hts.web.ztworld.dao.HTWorldReportDao;
 import com.hts.web.ztworld.service.ZTWorldInteractService;
 import com.hts.web.ztworld.service.ZTWorldService;
+import com.imzhitu.filter.comment.service.CommentFilterService;
 
 /**
  * <p>
@@ -138,6 +139,8 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 	@Autowired
 	private UserAdminDao userAdminDao;
 	
+	@Autowired
+	private CommentFilterService commentFilterService;
 
 	@Override
 	public void buildComments(final Integer userId, final Integer worldId,  int sinceId, int maxId, 
@@ -192,6 +195,7 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 		Integer wauthorId = worldAuthorId;
 		UserPushInfo userPushInfo = null;
 		content = StringUtil.filterXSS(content);
+		boolean isad = false;
 		
 		// 获取推送信息
 //		if(worldAuthorId == null || worldAuthorId.equals(0)) {
@@ -211,9 +215,15 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 		
 		// 获取已读状态
 		ck = wauthorId.equals(authorId) ? Tag.TRUE : Tag.FALSE;
-		
-		Map<String, Object> tags = userInfoDao.queryTagById(authorId);
-		shield = ((Integer)tags.get("shield")).equals(Tag.TRUE) ? Tag.TRUE : Tag.FALSE;
+
+		// 过滤广告
+		isad = commentFilterService.isad(content);
+		if(isad) {
+			shield = Tag.TRUE;
+		} else {
+			Map<String, Object> tags = userInfoDao.queryTagById(authorId);
+			shield = ((Integer)tags.get("shield")).equals(Tag.TRUE) ? Tag.TRUE : Tag.FALSE;
+		}
 		
 		Integer id = keyGenService.generateId(KeyGenServiceImpl.HTWORLD_COMMENT_ID);
 		HTWorldComment comment = new HTWorldComment(id, authorId, content, new Date(), worldId, wauthorId, 0,0, 
@@ -310,6 +320,7 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 		Integer rAuthorId = reAuthorId;
 		UserPushInfo userPushInfo = null;
 		content = StringUtil.filterXSS(content);
+		boolean isad = false;
 		
 		// 获取推送信息
 //		if(reAuthorId == null || reAuthorId.equals(0)) {
@@ -332,8 +343,15 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 		// 获取已读状态
 		ck = rAuthorId.equals(authorId) ? Tag.TRUE : Tag.FALSE;
 		
-		Map<String, Object> tags = userInfoDao.queryTagById(authorId);
-		shield = ((Integer)tags.get("shield")).equals(Tag.TRUE) ? Tag.TRUE : Tag.FALSE;
+		// 过滤广告
+		isad = commentFilterService.isad(content);
+		if(isad) {
+			shield = Tag.TRUE;
+		} else {
+			Map<String, Object> tags = userInfoDao.queryTagById(authorId);
+			shield = ((Integer)tags.get("shield")).equals(Tag.TRUE) ? Tag.TRUE : Tag.FALSE;
+		}
+		
 		
 		Integer id = keyGenService.generateId(KeyGenServiceImpl.HTWORLD_COMMENT_ID);
 		HTWorldComment comment = new HTWorldComment(id, authorId, content, new Date(), worldId,

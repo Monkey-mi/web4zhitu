@@ -88,7 +88,7 @@
 	    p:connection-factory-ref="jedisConnFactory">
 		<property name="keySerializer">  
         	<bean class="org.springframework.data.redis.serializer.StringRedisSerializer"></bean>  
-	    </property>  
+	    </property>
 	</bean>
 
 </beans>

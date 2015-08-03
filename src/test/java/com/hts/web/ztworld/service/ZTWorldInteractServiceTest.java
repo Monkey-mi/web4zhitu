@@ -5,9 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +14,9 @@ import com.hts.web.common.pojo.HTWorldGeo;
 import com.hts.web.common.pojo.HTWorldInteractDto;
 import com.hts.web.common.pojo.PushStatus;
 import com.hts.web.common.util.Log;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 /**
  * <p>
@@ -34,12 +34,12 @@ public class ZTWorldInteractServiceTest extends BaseTest {
 	@Autowired
 	private ZTWorldInteractService service;
 	
+	
 	@Test
 	public void testSaveComment() throws Exception {
-		PushStatus status = service.saveComment(false, 14316, 1550, 1549, "评论测试" + new Date().getTime());
+		PushStatus status = service.saveComment(false, 14316, 1550, 1549, "呵呵光圈" + new Date().getTime());
 		JSONObject jsObj = JSONObject.fromObject(status);
 		logger.debug(jsObj);
-		Thread.sleep(5000);
 	}
 	
 	@Test
