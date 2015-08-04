@@ -32,17 +32,17 @@ public class ZTWorldServiceTest extends BaseTest {
 				+ " '1012805956' : ["
 				+ "   	{"
 				+ "   	'width' : 640,"
-				+ "       'path' : 'http://imzhitu.qiniudn.com/ios/image/2014/3/26/21/c5a9e4e8b41011e3a9a712bf1fbc47a9_8.jpg',"
+				+ "       'path' : 'http://static.imzhitu.com/ios/image/2014/3/26/21/c5a9e4e8b41011e3a9a712bf1fbc47a9_8.jpg',"
 				+ "     'height' : 640,'angle':90,'type':1"
 				+ "   	}"
 				+ "   ]"
 				+ "   }";
 		HTWorld world = service.saveWorld(json, 1012805956, Tag.ANDROID, 0, 485, "worldName",
 				"织图描述...", "自拍情结", "1,2","自拍情节", 4, 
-				"http://imzhitu.qiniudn.com/ios/image/2014/3/26/21/c5a9e4e8b41011e3a9a712bf1fbc47a9_8.jpg",
-				"http://imzhitu.qiniudn.com/ios/image/2014/3/26/21/c5a9e4e8b41011e3a9a712bf1fbc47a9_8.jpg",
+				"http://static.imzhitu.com/ios/image/2014/3/26/21/c5a9e4e8b41011e3a9a712bf1fbc47a9_8.jpg",
+				"http://static.imzhitu.com/ios/image/2014/3/26/21/c5a9e4e8b41011e3a9a712bf1fbc47a9_8.jpg",
 				null,
-				"http://imzhitu.qiniudn.com/ios/image/2014/3/26/21/c5a9e4e8b41011e3a9a712bf1fbc47a9_8.jpg",
+				"http://static.imzhitu.com/ios/image/2014/3/26/21/c5a9e4e8b41011e3a9a712bf1fbc47a9_8.jpg",
 				0.1d, 0.1d, "locationDesc", "locationAddr", "province", "city", null, "18", 1, 
 				null, Tag.WORLD_TYPE_DEFAULT, null, 0);
 		logObj(world);
@@ -124,17 +124,17 @@ public class ZTWorldServiceTest extends BaseTest {
 				+ " '1012805956' : ["
 				+ "   	{"
 				+ "   	'width' : 640,"
-				+ "       'path' : 'http://imzhitu.qiniudn.com/ios/image/2014/3/26/21/c5a9e4e8b41011e3a9a712bf1fbc47a9_8.jpg',"
+				+ "       'path' : 'http://static.imzhitu.com/ios/image/2014/3/26/21/c5a9e4e8b41011e3a9a712bf1fbc47a9_8.jpg',"
 				+ "     'height' : 640,'angle':90,'type':1"
 				+ "   	}"
 				+ "   ]"
 				+ "   }";
 		HTWorld world = service.saveWorld(json, 1012805956, Tag.ANDROID, 0, 485, "worldName",
 				"worldDesc", "街景,路线", "1,2","故事", 4, 
-				"http://imzhitu.qiniudn.com/ios/image/2014/3/26/21/c5a9e4e8b41011e3a9a712bf1fbc47a9_8.jpg",
-				"http://imzhitu.qiniudn.com/ios/image/2014/3/26/21/c5a9e4e8b41011e3a9a712bf1fbc47a9_8.jpg",
+				"http://static.imzhitu.com/ios/image/2014/3/26/21/c5a9e4e8b41011e3a9a712bf1fbc47a9_8.jpg",
+				"http://static.imzhitu.com/ios/image/2014/3/26/21/c5a9e4e8b41011e3a9a712bf1fbc47a9_8.jpg",
 				null,
-				"http://imzhitu.qiniudn.com/ios/image/2014/3/26/21/c5a9e4e8b41011e3a9a712bf1fbc47a9_8.jpg",
+				"http://static.imzhitu.com/ios/image/2014/3/26/21/c5a9e4e8b41011e3a9a712bf1fbc47a9_8.jpg",
 				0.1d, 0.1d, "locationDesc", "locationAddr", "province", "city", null, "18", 1, 
 				null, Tag.WORLD_TYPE_DEFAULT, null, 0);
 		logObj(world);

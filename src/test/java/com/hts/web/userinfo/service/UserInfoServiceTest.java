@@ -38,8 +38,8 @@ public class UserInfoServiceTest extends BaseTest {
 		String loginCode = "12s3462" + Math.random() * 100000;
 		String userName = "tom" + Math.random() * 100000;
 		UserInfo userInfo = service.register(loginCode, "123451s6", userName,
-				"http://imzhitu.qiniudn.com/avatar/s/2014/01/23/22/WbEic9FJoq06AicJTn8Dp68yYQJ8pDUXZDLDmIibg.jpg",
-				"http://imzhitu.qiniudn.com/avatar/m/2014/01/23/22/WTXodupl9CeIAxbVWEHorV1C0RsyJpr65ZV9bw.jpg", 
+				"http://static.imzhitu.com/avatar/s/2014/01/23/22/WbEic9FJoq06AicJTn8Dp68yYQJ8pDUXZDLDmIibg.jpg",
+				"http://static.imzhitu.com/avatar/m/2014/01/23/22/WTXodupl9CeIAxbVWEHorV1C0RsyJpr65ZV9bw.jpg", 
 				Tag.SEX_FEMALE, null, null,"广东省", "湛江市", 123.444d, 1211.33d,0, "互联网工程师", "push_token_test", 
 				PhoneType.PHONE_TYPE_ANDROID, null, "4.01", 2098700.0f);
 		logObj(userInfo);
@@ -66,8 +66,8 @@ public class UserInfoServiceTest extends BaseTest {
 				"OezXcEiiBSKSxW0eoylIeCepcSueXAZW35TQjEJF5W24SogjYXrlXX2dxpGWvBbICO0B2FZZ3KwuRkrqjJvYFLS4Wupp0_yPIB2gfs08CX9kj2k1pje6yubQkOFYRdfWYyKfZPHmQOfHdHzkGd38Vw",
 				1412276264337l, "呵呵",1, null,
 				"2097226533", "天天天杰",
-				"http://imzhitu.qiniudn.com/avatar/s/2014/02/05/15/23d241de6d2eb98675e4ee89c46f044c.jpg",
-				"http://imzhitu.qiniudn.com/avatar/m/2014/02/05/15/23d241de6d2eb98675e4ee89c46f044c.jpg",
+				"http://static.imzhitu.com/avatar/s/2014/02/05/15/23d241de6d2eb98675e4ee89c46f044c.jpg",
+				"http://static.imzhitu.com/avatar/m/2014/02/05/15/23d241de6d2eb98675e4ee89c46f044c.jpg",
 				Tag.SEX_UNKNOWN,
 				"c66202b9e888a76b66fe63573a396121", Tag.ANDROID, null, "4.01", 2.0981f, null);
 		JSONObject jsObj = JSONObject.fromObject(userInfo);
@@ -87,8 +87,8 @@ public class UserInfoServiceTest extends BaseTest {
 		String platformId = "1234567";
 //		service.deleteSocialAccount(740, 1);
 		service.saveOrUpdateSocialAccount(743, 1, "12322", 123l, platformId, "呵呵",
-				"http://imzhitu.qiniudn.com/avatar/s/2014/01/23/22/WbEic9FJoq06AicJTn8Dp68yYQJ8pDUXZDLDmIibg.jpg",
-				"http://imzhitu.qiniudn.com/avatar/m/2014/01/23/22/WTXodupl9CeIAxbVWEHorV1C0RsyJpr65ZV9bw.jpg", 
+				"http://static.imzhitu.com/avatar/s/2014/01/23/22/WbEic9FJoq06AicJTn8Dp68yYQJ8pDUXZDLDmIibg.jpg",
+				"http://static.imzhitu.com/avatar/m/2014/01/23/22/WTXodupl9CeIAxbVWEHorV1C0RsyJpr65ZV9bw.jpg", 
 				"呵呵", 21, null,
 				jsonMap);
 		Log.debug(jsonMap);
@@ -144,8 +144,8 @@ public class UserInfoServiceTest extends BaseTest {
 	@Test
 	public void testUpdateAvatar() throws Exception {
 		service.updateAvatar(485, 
-				"http://imzhitu.qiniudn.com/avatar/s/2014/02/05/15/23d241de6d2eb98675e4ee89c46f044c.jpg", 
-				"http://imzhitu.qiniudn.com/avatar/m/2014/02/05/15/23d241de6d2eb98675e4ee89c46f044c.jpg");
+				"http://static.imzhitu.com/avatar/s/2014/02/05/15/23d241de6d2eb98675e4ee89c46f044c.jpg", 
+				"http://static.imzhitu.com/avatar/m/2014/02/05/15/23d241de6d2eb98675e4ee89c46f044c.jpg");
 	}
 	
 	@Test

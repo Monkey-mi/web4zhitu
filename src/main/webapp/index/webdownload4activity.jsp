@@ -107,7 +107,7 @@ function download(){
 	<div id="main_box">
 		<div id="head_box">
 			<div id="head">
-			 	<img id="img_bg" src="http://imzhitu.qiniudn.com/images/web_dl_bg.jpg"/>
+			 	<img id="img_bg" src="http://static.imzhitu.com/images/web_dl_bg.jpg"/>
 				<div id="head_body">
 					<img id="img_logo" src="${webRootPath }/index/images/d4a_logo.png"/>
 					<div id="download_erweima">
@@ -123,8 +123,8 @@ function download(){
 					<img id="img_desc_2" alt="" src="${webRootPath }/index/images/web_dl_desc_2.png">
 				</div>
 				<div id="img_dp">
-					<img id="img_dp_1" src="http://imzhitu.qiniudn.com/images/d4a_desc_bg_1.jpg?ver=${webVer}"/>
-					<img id="img_dp_2" src="http://imzhitu.qiniudn.com/images/d4a_desc_bg_2.jpg?ver=${webVer}"/>
+					<img id="img_dp_1" src="http://static.imzhitu.com/images/d4a_desc_bg_1.jpg?ver=${webVer}"/>
+					<img id="img_dp_2" src="http://static.imzhitu.com/images/d4a_desc_bg_2.jpg?ver=${webVer}"/>
 				</div>
 				<div id="desc_3">
 					<img id="img_desc_3" alt="" src="${webRootPath }/index/images/web_dl_desc_3.png"/>

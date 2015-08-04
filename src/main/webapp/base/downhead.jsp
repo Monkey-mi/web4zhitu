@@ -1,3 +1,3 @@
 <script type="text/javascript">
-	var downloadUrlAndriod = "http://imzhitu.qiniudn.com/apk/zhitu_signed.apk";
+	var downloadUrlAndriod = "http://static.imzhitu.com/apk/zhitu_signed.apk";
 </script>

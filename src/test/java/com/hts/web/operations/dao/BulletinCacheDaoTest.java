@@ -31,19 +31,19 @@ public class BulletinCacheDaoTest extends BaseTest {
 		OpMsgBulletin msg1 = new OpMsgBulletin();
 		msg1.setId(1);
 		msg1.setBulletinType(1);
-		msg1.setBulletinPath("http://imzhitu.qiniudn.com/op/activity/1433814281000.png");
+		msg1.setBulletinPath("http://static.imzhitu.com/op/activity/1433814281000.png");
 		msg1.setLink("http://imzhitu.com/operations/2015021501.html");
 		
 		OpMsgBulletin msg2 = new OpMsgBulletin();
 		msg2.setId(2);
 		msg2.setBulletinType(2);
-		msg2.setBulletinPath("http://imzhitu.qiniudn.com/op/activity/1433657248000.png");
+		msg2.setBulletinPath("http://static.imzhitu.com/op/activity/1433657248000.png");
 		msg2.setLink("11819");
 		
 		OpMsgBulletin msg3 = new OpMsgBulletin();
 		msg3.setId(3);
 		msg3.setBulletinType(3);
-		msg3.setBulletinPath("http://imzhitu.qiniudn.com/op/activity/1433484215000.jpg");
+		msg3.setBulletinPath("http://static.imzhitu.com/op/activity/1433484215000.jpg");
 		msg3.setLink("自拍情结");
 		
 		list.add(msg1);

@@ -135,8 +135,8 @@ public class ChannelServiceTest extends BaseTest {
 	@Test
 	public void saveChannelTest() throws Exception {
 //		service.saveChannel(485, "频道名称", null, null, null,
-//				"http://imzhitu.qiniudn.com/op/channel/1416212996000.png",
-//				"http://imzhitu.qiniudn.com/op/channel/1416212996000.png", 
+//				"http://static.imzhitu.com/op/channel/1416212996000.png",
+//				"http://static.imzhitu.com/op/channel/1416212996000.png", 
 //				Tag.CHANNEL_TYPE_NORMAL, null, Tag.TRUE, Tag.TRUE, Tag.TRUE);
 	}
 	

@@ -247,10 +247,10 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 	@Autowired
 	private ChannelService channelService;
 	
-	private String baseThumbPathAixin = "http://imzhitu.qiniudn.com/world/thumbs/1403056393000.png";
-	private String baseThumbPathXing = "http://imzhitu.qiniudn.com/world/thumbs/1403057093000.png";
-	private String baseThumbPathHuabian = "http://imzhitu.qiniudn.com/world/thumbs/1403056953000.png";
-	private String baseThumbPathHua = "http://imzhitu.qiniudn.com/world/thumbs/1403057046000.png";
+	private String baseThumbPathAixin = "http://static.imzhitu.com/world/thumbs/1403056393000.png";
+	private String baseThumbPathXing = "http://static.imzhitu.com/world/thumbs/1403057093000.png";
+	private String baseThumbPathHuabian = "http://static.imzhitu.com/world/thumbs/1403056953000.png";
+	private String baseThumbPathHua = "http://static.imzhitu.com/world/thumbs/1403057046000.png";
 	private Integer latestDateInterval = 7; // 最新织图查询时间间隔
 	
 
@@ -304,6 +304,13 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 			String locationAddr, String province, String city, Integer size,
 			String activityIds, Integer ver, String channelIds, Integer tp, 
 			String color, Integer mask) throws Exception {
+
+		// 将七牛域名强制转换成织图域名
+		coverPath = StringUtil.replaceQiniuDomain(coverPath);
+		titlePath = StringUtil.replaceQiniuDomain(titlePath);
+		bgPath = StringUtil.replaceQiniuDomain(bgPath);
+		titleThumbPath = StringUtil.replaceQiniuDomain(titleThumbPath);
+		childsJSON = StringUtil.replaceQiniuDomain(childsJSON);
 		
 		Date date = new Date();
 		Integer worldId = keyGenService.generateId(KeyGenServiceImpl.HTWORLD_HTWORLD_ID);

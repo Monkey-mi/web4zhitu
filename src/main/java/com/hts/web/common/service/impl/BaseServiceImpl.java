@@ -786,5 +786,5 @@ public class BaseServiceImpl implements BaseService{
 		 */
 		public Serializable getMaxId(List<? extends Serializable> list) throws Exception;
 	}
-	
+
 }

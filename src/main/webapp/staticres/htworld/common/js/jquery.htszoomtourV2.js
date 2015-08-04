@@ -32,16 +32,16 @@
 	
 		radius			: 40,	//圆圈半径
 		border			: 2,  // 边框
-		arrowPathPrefix : 'http://imzhitu.qiniudn.com/world/arrowv2/arrow-',
+		arrowPathPrefix : 'http://static.imzhitu.com/world/arrowv2/arrow-',
 		arrowPathSuffix : '.png',
 		multiple		: false,
 		thumbBorderIndex: 7,
 		thumbMaskIndex  : 8,
 		
-		baseTypePath2	: 'http://imzhitu.qiniudn.com/world/thumbs/1403056393000.png',
-		baseTypePath3   : 'http://imzhitu.qiniudn.com/world/thumbs/1403057093000.png',
-		baseTypePath4	: 'http://imzhitu.qiniudn.com/world/thumbs/1403056953000.png',
-		baseTypePath5	: 'http://imzhitu.qiniudn.com/world/thumbs/1403057046000.png'
+		baseTypePath2	: 'http://static.imzhitu.com/world/thumbs/1403056393000.png',
+		baseTypePath3   : 'http://static.imzhitu.com/world/thumbs/1403057093000.png',
+		baseTypePath4	: 'http://static.imzhitu.com/world/thumbs/1403056953000.png',
+		baseTypePath5	: 'http://static.imzhitu.com/world/thumbs/1403057046000.png'
 		
 		
 	},

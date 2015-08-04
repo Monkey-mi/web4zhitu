@@ -33,27 +33,27 @@ function download(){
 }
 </script>
 </head>
-<body style="margin:0;padding:0;background-image:url('http://imzhitu.qiniudn.com/op%2Factivity%2Fweb%2Fweibo_pos_bg_2.png?${webVer}');">
+<body style="margin:0;padding:0;background-image:url('http://static.imzhitu.com/op%2Factivity%2Fweb%2Fweibo_pos_bg_2.png?${webVer}');">
 	<div id="main" style="width:100%;height:100%;">
 		<div id="head-banner" style="padding-top:26px;margin: 0px auto;height:58px;width:274px;">
-			<img src="http://imzhitu.qiniudn.com/weibo/weibo_title_5.png?1235" style="height:58px;width:274px;"/>
+			<img src="http://static.imzhitu.com/weibo/weibo_title_5.png?1235" style="height:58px;width:274px;"/>
 		</div>
 		<div id="download-btn" style="margin:0 auto;width:170px;height:40px;margin-top:22px;z-index:30;">
 			<a href="javascript:void(0);" >
-				<img alt="" src="http://imzhitu.qiniudn.com/op%2Factivity%2Fweb%2Fweibo_free_download_btn_2.png?${webVer} " style="width:170px;height:40px;" onclick="download()">
+				<img alt="" src="http://static.imzhitu.com/op%2Factivity%2Fweb%2Fweibo_free_download_btn_2.png?${webVer} " style="width:170px;height:40px;" onclick="download()">
 			</a>
 		</div>
 		<div  style="position:absolute;z-index:-1;top:121px;width:100%;height:456px;">
 			<div id="poster-pic" style="position:relative;margin:0 auto;width:320px;height:456px;">
-				<img alt="" src="http://imzhitu.qiniudn.com/op%2Factivity%2Fweb%2Fweibo_post_img_2.png?${webVer}" style="width:320px;height:456px;">
+				<img alt="" src="http://static.imzhitu.com/op%2Factivity%2Fweb%2Fweibo_post_img_2.png?${webVer}" style="width:320px;height:456px;">
 			</div>
 		</div>
 		<div id="post-words" style="margin:0 auto;height:20px;width:150px;margin-top:360px;">
-			<img src="http://imzhitu.qiniudn.com/weibo/weibo_word_3.png?1234" style="height:20px;width:150px;"/>
+			<img src="http://static.imzhitu.com/weibo/weibo_word_3.png?1234" style="height:20px;width:150px;"/>
 		</div>
 		<div id="click_btn" style="margin: 22px auto 0 auto;height:64px;width:170px;">
 			<a href="javascript:void(0);" >
-				<img src="http://imzhitu.qiniudn.com/op%2Factivity%2Fweb%2Fkick_dowloan_btn_2.png?${webVer}" style="height:40px;width:170px;" onclick="download()"/>
+				<img src="http://static.imzhitu.com/op%2Factivity%2Fweb%2Fkick_dowloan_btn_2.png?${webVer}" style="height:40px;width:170px;" onclick="download()"/>
 			</a>
 		</div>
 	</div>

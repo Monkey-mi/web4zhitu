@@ -152,7 +152,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 	
 	private static final String DEFAULT_NAME = "该用户未设置名字";
 	
-	private static final String DEFAULT_AVATAR_L = "http://imzhitu.qiniudn.com/avatar/m/no-avatar-l.png";
+	private static final String DEFAULT_AVATAR_L = "http://static.imzhitu.com/avatar/m/no-avatar-l.png";
 	
 	private static final String DEFAULT_AVATAR_S = DEFAULT_AVATAR_L + ".thumbnail";
 	
@@ -234,8 +234,9 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 			throw new HTSException(TIP_LOGIN_CODE_EXIST, LOGIN_CODE_EXIST);
 		}
 		
-		userAvatar = StringUtil.checkIsNULL(userAvatar) ? DEFAULT_AVATAR_S : userAvatar;
-		userAvatarL = filterUserAvatarL(userAvatarL, userAvatar);
+		userAvatar = StringUtil.checkIsNULL(userAvatar) ? DEFAULT_AVATAR_S : 
+			StringUtil.replaceQiniuDomain(userAvatar);
+		userAvatarL = filterUserAvatarL(StringUtil.replaceQiniuDomain(userAvatarL), userAvatar);
 		// 过滤空字符串
 		address = StringUtil.checkIsNULL(address) ? null : address;
 		pushToken = StringUtil.checkIsNULL(pushToken) ? null : pushToken;
@@ -640,6 +641,8 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 		address = StringUtil.filterXSS(address);
 		province = StringUtil.filterXSS(province);
 		city = StringUtil.filterXSS(city);
+		userAvatarL = StringUtil.replaceQiniuDomain(userAvatarL);
+		userAvatar = StringUtil.replaceQiniuDomain(userAvatar);
 //		if(userName != null && !userName.equals(userInfo.getUserName()) &&
 //				userInfoDao.checkUserNameExists(userName)) { //检测用户名是否存在
 //			HTSException e = new HTSException(TIP_USER_NAME_EXIST);
@@ -694,6 +697,10 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 	private void setUpProfile(UserInfo userInfo, String userName, String userAvatar, String userAvatarL, 
 			Integer sex, String email, String address, Date birthday, String province, 
 			String city, Double longitude, Double latitude) {
+		
+		userAvatarL = StringUtil.replaceQiniuDomain(userAvatarL);
+		userAvatar = StringUtil.replaceQiniuDomain(userAvatar);
+		
 		// 过滤空字符串
 		if(!StringUtil.checkIsNULL(userName))
 			userInfo.setUserName(userName);
@@ -791,6 +798,8 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 		if(StringUtil.checkIsNULL(userAvatar) || StringUtil.checkIsNULL(userAvatarL)) {
 			throw new HTSException("头像不能为空", AVATAR_ERROR);
 		}
+		userAvatarL = StringUtil.replaceQiniuDomain(userAvatarL);
+		userAvatar = StringUtil.replaceQiniuDomain(userAvatar);
 		osUserService.updateUserWithoutNULL(userId, null,
 				userAvatar, null, null, null, null);
 		userInfoDao.updateAvatar(userId, userAvatar, userAvatarL);

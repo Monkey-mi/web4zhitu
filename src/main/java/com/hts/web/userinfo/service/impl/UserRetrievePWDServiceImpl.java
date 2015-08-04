@@ -36,7 +36,7 @@ public class UserRetrievePWDServiceImpl extends BaseServiceImpl implements UserR
 			+ "<div style='height:420px;width:580px;border:10px solid #e6e6e6;'>"
 			+ "<div style='height:100%;width:540px;margin:auto;'>"
 			+ "<div style='background-color:#fefefe;width:100%;height:52px;padding: 20px 0px 10px 20px;'>"
-			+ "<img src='http://imzhitu.qiniudn.com/images/mail/logo.png' />"
+			+ "<img src='http://static.imzhitu.com/images/mail/logo.png' />"
 			+ "</div>"
 			+ "<div style='padding: 0px 0px 10px 20px;border-top:2px solid #e6e6e6;border-bottom:2px solid #e6e6e6;'>"
 			+ "<p style='font-size:16;color:#414241;font-weight:700;'>"

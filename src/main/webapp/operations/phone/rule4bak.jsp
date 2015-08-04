@@ -251,7 +251,7 @@
 		</div>
 		<div id="state-btns-wrap">
 			<a id="state-btn" class="color-btn apply" href="javascript:void(0);">
-				<img id="state-icon" class="btn-icon" alt="" src="http://imzhitu.qiniudn.com/user/verify/2014072201.png" />
+				<img id="state-icon" class="btn-icon" alt="" src="http://static.imzhitu.com/user/verify/2014072201.png" />
 				<span>加载中...</span>
 			</a>
 		</div>

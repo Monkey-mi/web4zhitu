@@ -30,6 +30,10 @@ import com.hts.web.base.HTSException;
  */
 public class StringUtil {
 
+	private static final String QINIU_DOMAIN = "imzhitu.qiniudn";
+	
+	private static final String ZHITU_DOMAIN = "static.imzhitu";
+
 	/**
 	 * 将字符串转换为整数数组
 	 * 
@@ -298,9 +302,18 @@ public class StringUtil {
 		return province;
 	}
 	
-	public static void main(String[] args) {
-		String city = "深圳";
-		System.out.println(subSHIFromCity(city));
-	}
 
+	/**
+	 * 替换七牛域名到织图域名
+	 * @param path
+	 * @return
+	 */
+	public static String replaceQiniuDomain(String path) {
+		if(!StringUtil.checkIsNULL(path) && path.contains(QINIU_DOMAIN)) {
+			return path.replace(QINIU_DOMAIN, ZHITU_DOMAIN);
+		}
+		return path;
+	}
+	
+	
 }
