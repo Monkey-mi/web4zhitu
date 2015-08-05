@@ -32,6 +32,7 @@ a {
 	display: inline-block;
 	width: 100%;
 	max-width: 750px;
+	margin-bottom:60px;
 }
 
 .share-wrap img {
@@ -70,6 +71,67 @@ a {
 	font-weight: 900;
 	display: none;
 }
+
+#download-wrap {
+	width:100%;
+	text-align:center;
+	position:fixed;
+	bottom:0;
+	height:60px;
+	display:none;
+	text-align:center;
+	z-index:99999;
+}
+
+#download-btn {
+	height:100%;
+	width:100%;
+	display:inline-block;
+	color:#ffffff;
+}
+
+#download-bg {
+	width:100%;
+	height:100%;
+	position:absolute;
+	left:0px;
+}
+
+#download-logo {
+	width:auto;
+	height:44px;
+	position:absolute;
+	left:0px;
+	margin-top:8px;
+	margin-left:12px;
+	
+}
+
+#download-close {
+	width:15px;
+	height:15px;
+	position:absolute;
+	right:0;
+	display:inline;
+	cursor:pointer;
+}
+
+#download-tip {
+	background:#3a97d0;
+	width: 100px;
+	height:36px;
+	right:0;
+	color:#ffffff;
+	-moz-border-radius: 4px;   
+	-webkit-border-radius: 4px;
+    border-radius: 4px;
+    margin:12px 18px 0 0;
+    line-height:36px;
+    text-align:center;
+    position:absolute;
+    font-size:14px;
+}
+
 </style>
 </head>
 <body>
@@ -87,17 +149,29 @@ a {
 <img alt="" src="http://static.imzhitu.com/op/sticker/150803/08.jpg" />
 <div class="share-wrap">
 <img alt="" src="http://static.imzhitu.com/op/sticker/150803/07.jpg" />
-<a id="share-btn" class="page-btn" href="imzhitu://useSticker">我要抢票</a>
+<a id="share-btn" class="page-btn" href="imzhitu://useSticker?actname=%E7%A0%B4%E9%A3%8E&sticker=%7B%22fill%22%3A0%2C%22hasLock%22%3A0%2C%22id%22%3A667%2C%22labelId%22%3A61590%2C%22labelName%22%3A%22%E7%A0%B4%E9%A3%8E%22%2C%22recommendId%22%3A11551%2C%22setId%22%3A%22%22%2C%22sharePath%22%3A%22%22%2C%22stickerDemoPath%22%3A%22%22%2C%22stickerDesc%22%3A%22%22%2C%22stickerId%22%3A667%2C%22stickerName%22%3A%22%E6%9C%89%E9%A2%9C%E6%9C%89%E8%82%89%22%2C%22stickerPath%22%3A%22http%3A%2F%2Fstatic.imzhitu.com%2Fworld%2Fsticker%2F1438602049000.png%22%2C%22stickerThumbPath%22%3A%22http%3A%2F%2Fstatic.imzhitu.com%2Fworld%2Fsticker%2F1438602052000.png%22%2C%22typeId%22%3A15%2C%22unlock%22%3A0%7D
+">我要抢票</a>
 <a id="share-btn-same" class="page-btn-same" href="imzhitu://sharePage">叫Ta一起抢</a>
+</div>
+</div>
+<div id="download-wrap">
+<a id="download-btn" title="点击下载" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.htshuo.htsg">
+	<img id="download-bg" alt="" src="/staticres/base/images/down-bg.jpg">
+	<img id="download-logo" alt="" src="/staticres/base/images/down-logo.png">
+	<span id="download-tip">点击下载</span>
+</a>
+<img id="download-close"　title="隐藏" onclick="javascript:hideDownloadBtn();" alt="" src="/staticres/base/images/down-close.jpg">
 </div>
 <script type="text/javascript" src="/staticres/base/js/callapp2.js"></script>
 <script type="text/javascript" src="/staticres/base/js/jquery/jquery-1.8.2.min.js"></script>
 <script type="text/javascript">
 
+var inapp = 0;
 $(document).ready(function() {
+	inapp = callAppInit();
+	
 	initLayout();
 	
-	var inapp = callAppInit();
 	if(inapp == 1) {
 		var reg = new RegExp("(^|&)uid=([^&]*)(&|$)", "i"),
 			r = window.location.search.substr(1).match(reg);
@@ -109,6 +183,7 @@ $(document).ready(function() {
 		}
 		
 	} else {
+		$("#download-wrap").show();
 		bindAllBtnClick2Callapp();
 	}
 	document.getElementById("share-btn").addEventListener('click',openclient,false);
@@ -151,8 +226,6 @@ function initLayout() {
 	pbtnMarginLeft_s = pbtnMarginLeft_s * scale;
 	pbtnFontSize_s = pbtnFontSize_s * scale;
 	
-	$("#main").width(winWidth).height(scale*userH + "px");
-	
 	$("#header").height(scale * headerH + 'px');
 		
 	$(".page-btn").css({
@@ -174,6 +247,10 @@ function initLayout() {
 		"line-height":pbtnH_s + "px"
 		})
 		.show();
+	
+	if(inapp==1) {
+		$("#main").css({"margin-bottom":"0px"});
+	}
 }
 
 function bindConcern(uid, status) {
@@ -204,8 +281,12 @@ function bindAllBtnClick2Callapp() {
    	}
 }
 
+function hideDownloadBtn() {
+	$("#download-wrap").hide();
+	$("#main").css({"margin-bottom":"0px"});
+}
+
 </script>
-</div>
 <div style="display:none;">
 <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1255868073'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1255868073' type='text/javascript'%3E%3C/script%3E"));</script>
 </div>
