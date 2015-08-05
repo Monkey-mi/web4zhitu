@@ -6,6 +6,7 @@ import java.util.Date;
 
 import org.apache.log4j.Logger;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.security.web.authentication.rememberme.PersistentRememberMeToken;
 import org.springframework.stereotype.Repository;
@@ -80,21 +81,25 @@ public class UserLoginPersistentDaoImpl extends BaseDaoImpl implements
 
 	@Override
 	public PersistentRememberMeToken getTokenForSeries(String seriesId) {
-		return queryForObjectWithNULL(QUERY_TOKEN_BY_SERIES, new RowMapper<PersistentRememberMeToken>(){
-
-			@Override
-			public PersistentRememberMeToken mapRow(ResultSet rs, int rowNum)
-					throws SQLException {
-				Date date = new Date();
-				date.setTime(rs.getLong("last_login"));
-				return new PersistentRememberMeToken(
-						String.valueOf(rs.getInt("user_id")),
-						rs.getString("series"), 
-						rs.getString("token"),
-						date);
-			}
-			
-		}, seriesId);
+		try {
+			return getMasterJdbcTemplate().queryForObject(QUERY_TOKEN_BY_SERIES, new RowMapper<PersistentRememberMeToken>() {
+	
+				@Override
+				public PersistentRememberMeToken mapRow(ResultSet rs, int rowNum)
+						throws SQLException {
+					Date date = new Date();
+					date.setTime(rs.getLong("last_login"));
+					return new PersistentRememberMeToken(
+							String.valueOf(rs.getInt("user_id")),
+							rs.getString("series"), 
+							rs.getString("token"),
+							date);
+				}
+				
+			}, seriesId);
+		} catch(EmptyResultDataAccessException e) {
+			return null;
+		}
 	}
 
 	@Override
@@ -104,19 +109,23 @@ public class UserLoginPersistentDaoImpl extends BaseDaoImpl implements
 
 	@Override
 	public PersistentRememberMeToken queryTokenByUserId(Integer userId) {
-		return queryForObjectWithNULL(QUERY_TOKEN_BY_USER_ID, new RowMapper<PersistentRememberMeToken>(){
-			@Override
-			public PersistentRememberMeToken mapRow(ResultSet rs, int rowNum)
-					throws SQLException {
-				Date date = new Date();
-				date.setTime(rs.getLong("last_login"));
-				return new PersistentRememberMeToken(
-						String.valueOf(rs.getInt("user_id")),
-						rs.getString("series"), 
-						rs.getString("token"),
-						date);
-			}
-		}, userId);
+		try {
+			return getMasterJdbcTemplate().queryForObject(QUERY_TOKEN_BY_USER_ID, new RowMapper<PersistentRememberMeToken>(){
+				@Override
+				public PersistentRememberMeToken mapRow(ResultSet rs, int rowNum)
+						throws SQLException {
+					Date date = new Date();
+					date.setTime(rs.getLong("last_login"));
+					return new PersistentRememberMeToken(
+							String.valueOf(rs.getInt("user_id")),
+							rs.getString("series"), 
+							rs.getString("token"),
+							date);
+				}
+			}, userId);
+		} catch(EmptyResultDataAccessException e) {
+			return null;
+		}
 	}
 
 }

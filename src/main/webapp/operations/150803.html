@@ -4,8 +4,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<meta name="description" content="去当破风手！">
-<title>去当破风手！</title>
+<meta name="description" content="抢《破风》电影票，看最燃大片！">
+<title>抢《破风》电影票，看最燃大片！ </title>
 <style type="text/css">
 body {
 	margin: 0 auto 0 auto;
@@ -13,7 +13,7 @@ body {
 	text-align: center;
 	font-size: 0;
 	font-family: "微软雅黑", Arial, Helvetica, sans-serif;
-	background: #000032;
+	background: #fcfcfc;
 }
 
 img {
@@ -74,19 +74,19 @@ a {
 </head>
 <body>
 <div id='wx_pic' style="display:none;">
-	<img src='http://imzhitu.qiniudn.com/op/sticker/150803/01.jpg' />
+	<img src='http://static.imzhitu.com/op/sticker/150803/thumbnail.jpg' />
 </div>
 <div id="main">
 <div id="header">
-<img alt="" src="http://imzhitu.qiniudn.com/op/sticker/150803/01.jpg" />
+<img alt="" src="http://static.imzhitu.com/op/sticker/150803/01.jpg" />
 </div>
-<img alt="" src="http://imzhitu.qiniudn.com/op/sticker/150803/02.jpg" />
-<img alt="" src="http://imzhitu.qiniudn.com/op/sticker/150803/03.jpg" />
-<img alt="" src="http://imzhitu.qiniudn.com/op/sticker/150803/04.jpg" />
-<img alt="" src="http://imzhitu.qiniudn.com/op/sticker/150803/05.jpg" />
-<img alt="" src="http://imzhitu.qiniudn.com/op/sticker/150803/06.jpg" />
+<img alt="" src="http://static.imzhitu.com/op/sticker/150803/02.jpg" />
+<img alt="" src="http://static.imzhitu.com/op/sticker/150803/03.jpg" />
+<img alt="" src="http://static.imzhitu.com/op/sticker/150803/04.jpg" />
+<img alt="" src="http://static.imzhitu.com/op/sticker/150803/05.jpg" />
+<img alt="" src="http://static.imzhitu.com/op/sticker/150803/08.jpg" />
 <div class="share-wrap">
-<img alt="" src="http://imzhitu.qiniudn.com/op/sticker/150803/07.jpg" />
+<img alt="" src="http://static.imzhitu.com/op/sticker/150803/07.jpg" />
 <a id="share-btn" class="page-btn" href="imzhitu://useSticker">我要抢票</a>
 <a id="share-btn-same" class="page-btn-same" href="imzhitu://sharePage">叫Ta一起抢</a>
 </div>
@@ -194,21 +194,6 @@ function bindConcern(uid, status) {
 	}
 }
 
-function fetchConcernStatus(uid) {
-	$.post("./user_queryConcernStatus",{
-		"userId":uid,
-		"concernIds":"1003041,413130,379055,1008829,1135290,165350,1022291",
-	},function(data){
-		if(data['result'] == 0) {
-			var status = data['concerns'];
-			for(var i = 0; i < status.length; i++) {
-				bindConcern(status[i]['userId'], status[i]['isMututal']);
-			}
-		} else {
-			bindAllBtnClick2Callapp();
-		}
-	}, "json");
-}
 
 function bindAllBtnClick2Callapp() {
 	var $callapp = document.getElementsByName("imzhitu-callapp");
