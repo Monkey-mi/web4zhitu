@@ -635,6 +635,14 @@ public interface HTWorldDao extends BaseDao {
 	 */
 	public List<HTWorldChannelName> formatChannelNames(String cnamesStr, String cidsStr);
 	
+	/**
+	 * 查询有效性
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Integer queryValid(Integer id);
+	
 }
 
 

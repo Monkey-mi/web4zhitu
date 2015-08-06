@@ -264,4 +264,13 @@ public interface HTWorldCommentDao extends BaseDao {
 	 */
 	public List<HTWorldCommentReId> queryReId(Integer[] ids);
 	
+	
+	/**
+	 * 查询评论有效性
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Integer queryValid(Integer id);
+	
 }

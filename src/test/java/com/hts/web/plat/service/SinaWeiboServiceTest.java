@@ -13,8 +13,8 @@ public class SinaWeiboServiceTest extends BaseTest{
 	
 	@Test
 	public void getFollowByIdTest()throws Exception{
-		String[] ids = service.getFollowerIdsById("2089415235", "2.00j2y5RCFZjt7D0939d0b686C537lD", 500);
-		System.out.println(ids.length);
+//		String[] ids = service.getFollowerIdsById("2089415235", "2.00j2y5RCFZjt7D0939d0b686C537lD", 500);
+//		System.out.println(ids.length);
 	}
 
 }

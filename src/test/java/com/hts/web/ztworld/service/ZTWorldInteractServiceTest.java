@@ -14,7 +14,9 @@ import com.hts.web.common.pojo.HTWorldGeo;
 import com.hts.web.common.pojo.HTWorldInteractDto;
 import com.hts.web.common.pojo.PushStatus;
 import com.hts.web.common.util.Log;
+import com.imzhitu.filter.comment.service.CommentFilterService;
 
+import junit.framework.Assert;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -51,7 +53,7 @@ public class ZTWorldInteractServiceTest extends BaseTest {
 	
 	@Test
 	public void saveReply() throws Exception {
-		PushStatus status = service.saveReply(true, 14467, null, 1591, "@朱天杰 : zt666", 7952,485);
+		PushStatus status = service.saveReply(true, 14316, null, 1591, "@朱天杰 : zt666", 22919,485);
 		JSONObject jsObj = JSONObject.fromObject(status);
 		logger.debug(jsObj);
 	}

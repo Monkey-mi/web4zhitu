@@ -3,6 +3,7 @@ package com.hts.web.ztworld.service;
 import java.util.List;
 import java.util.Map;
 
+import com.hts.web.base.constant.Tag;
 import com.hts.web.common.pojo.HTWorldGeo;
 import com.hts.web.common.pojo.HTWorldInteractDto;
 import com.hts.web.common.pojo.ObjectWithLiked;
@@ -227,4 +228,21 @@ public interface ZTWorldInteractService extends BaseService {
 	 * @param jsonMap
 	 */
 	public void buildCommentReId(String idsStr, Map<String, Object> jsonMap);
+	
+	
+	/**
+	 * 检测织图是否有效
+	 * 
+	 * @param worldId
+	 */
+	public boolean checkWorldValid(Integer worldId);
+	
+	/**
+	 * 检测评论是否有效
+	 * 
+	 * @param commentId
+	 * @return
+	 */
+	public boolean checkCommentValid(Integer commentId);
+	
 }

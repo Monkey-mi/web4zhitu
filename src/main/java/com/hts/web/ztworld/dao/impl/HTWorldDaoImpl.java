@@ -9,6 +9,7 @@ import java.util.Map;
 
 import net.sf.json.JSONObject;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -115,7 +116,7 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 	 * 更新评论次数 
 	 */
 	private static final String UPDATE_COMMENT_COUNT = "update " + table 
-			+ " set comment_count=? where id=? and valid=?";
+			+ " set comment_count=? where id=?";
 	
 	/**
 	 * 查询喜欢次数
@@ -127,14 +128,14 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 	 * 更新喜欢次数
 	 */
 	private static final String UPDATE_LIKE_COUNT = "update " + table 
-			+ " set like_count=? where id=? and valid=?";
+			+ " set like_count=? where id=?";
 	
 	
 	/** 
 	 * 更新收藏次数 
 	 */
 	private static final String UPDATE_KEEP_COUNT = "update " + table 
-			+ " set keep_count=? where id=? and valid=?";
+			+ " set keep_count=? where id=?";
 
 
 	/**
@@ -582,6 +583,12 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 	 */
 	private static final String QUERY_CHILD_COUNT_BY_ID = "select child_count from " + table
 			+ " where id=?";
+
+	/**
+	 * 查询有效性
+	 */
+	private static final String QUERY_VALID = "select valid from " + table
+			+ " where id=?";
 	
 	@Override
 	public void updateWorldShield(Integer worldId, Integer shield) {
@@ -646,7 +653,7 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 
 	@Override
 	public int updateCommentCount(Integer worldId, Integer count) {
-		return getMasterJdbcTemplate().update(UPDATE_COMMENT_COUNT, new Object[]{count, worldId, Tag.TRUE});
+		return getMasterJdbcTemplate().update(UPDATE_COMMENT_COUNT, new Object[]{count, worldId});
 	}
 
 	@Override
@@ -656,13 +663,13 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 	
 	@Override
 	public int updateLikeCount(Integer worldId, Integer count) {
-		return getMasterJdbcTemplate().update(UPDATE_LIKE_COUNT, new Object[]{count, worldId, Tag.TRUE});
+		return getMasterJdbcTemplate().update(UPDATE_LIKE_COUNT, new Object[]{count, worldId});
 	}
 	
 	@Override
 	public int updateKeepCount(Integer worldId, Integer count) {
 		return getMasterJdbcTemplate().update(UPDATE_KEEP_COUNT, 
-				new Object[]{count, worldId, Tag.TRUE});
+				new Object[]{count, worldId});
 	}
 
 	@Override
@@ -1795,5 +1802,13 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 		
 	}
 
+	@Override
+	public Integer queryValid(Integer id) {
+		try {
+			return getJdbcTemplate().queryForInt(QUERY_VALID, id);
+		} catch(EmptyResultDataAccessException e) {
+			return 0;
+		}
+	}
 	
 }

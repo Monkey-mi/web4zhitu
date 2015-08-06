@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -250,6 +251,12 @@ public class HTWorldCommentDaoImpl extends BaseDaoImpl implements
 	 */
 	private static final String QUERY_RE_IDS = "select id, re_id from " + table
 			+ " where id in ";
+	
+	/**
+	 * 查询有效性
+	 */
+	private static final String QUERY_VALID = "select valid from " + table
+			+ " where id=?";
 	
 	@Autowired
 	private HTWorldDao worldDao;
@@ -667,5 +674,12 @@ public class HTWorldCommentDaoImpl extends BaseDaoImpl implements
 				rs.getInt("platform_verify"));
 	}
 
-
+	@Override
+	public Integer queryValid(Integer id) {
+		try {
+			return getJdbcTemplate().queryForInt(QUERY_VALID, id);
+		} catch(EmptyResultDataAccessException e) {
+			return Tag.FALSE;
+		}
+	}
 }
