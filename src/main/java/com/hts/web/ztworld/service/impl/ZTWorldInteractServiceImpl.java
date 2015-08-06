@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import com.hts.web.base.HTSException;
@@ -489,6 +490,7 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 		Integer ck = Tag.TRUE;
 		Integer wauthorId = worldAuthorId;
 		UserPushInfo userPushInfo = null;
+		Integer id = 0;
 		
 		userPushInfo = userInfoDao.queryUserPushInfoByWorldId(worldId);
 		if(userPushInfo == null)
@@ -505,7 +507,11 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 		
 		
 		HTWorldLiked liked = new HTWorldLiked(userId, new Date(), worldId,userPushInfo.getId(), ck, Tag.TRUE);
-		Integer id = worldLikedDao.saveLiked(liked);
+		try {
+			id = worldLikedDao.saveLiked(liked);
+		} catch(DuplicateKeyException e) {
+			return reSaveLiked(im, userId, worldId, worldAuthorId);
+		}
 		
 		//喜欢数+1
 		Long count = worldLikedDao.queryLikedCount(worldId);

@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -294,15 +295,18 @@ public class HTWorldLikedDaoImpl extends BaseDaoImpl implements HTWorldLikedDao{
 	
 	@Override
 	public HTWorldLiked queryLiked(Integer userId, Integer worldId) {
-		return queryForObjectWithNULL(QUERY_LIKED, new RowMapper<HTWorldLiked>(){
-
-			@Override
-			public HTWorldLiked mapRow(ResultSet rs, int rowNum)
-					throws SQLException {
-				return buildHTWorldLiked(rs);
-			}
-			
-		}, new Object[] { userId, worldId });
+		try {
+			return getMasterJdbcTemplate().queryForObject(QUERY_LIKED, new RowMapper<HTWorldLiked>() {
+	
+				@Override
+				public HTWorldLiked mapRow(ResultSet rs, int rowNum) throws SQLException {
+					return buildHTWorldLiked(rs);
+				}
+				
+			}, new Object[]{userId, worldId});
+		} catch(EmptyResultDataAccessException e) {
+			return null;
+		}
 	}
 	
 	@Override
