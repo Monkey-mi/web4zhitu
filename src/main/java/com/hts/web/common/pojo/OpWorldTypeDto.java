@@ -26,6 +26,8 @@ public class OpWorldTypeDto implements HTWorldWithExtra, ObjectWithUserVerify, O
 	private static final long serialVersionUID = 1081514059974397934L;
 
 	private Integer recommendId;
+	private Integer recommendTypeId;
+	private Date recommendDate; // 兼容2.7以前的版本
 	private Integer id; // 织图id
 	private String shortLink; // 织图短链
 	private String worldName; // 世界名称
@@ -65,7 +67,7 @@ public class OpWorldTypeDto implements HTWorldWithExtra, ObjectWithUserVerify, O
 	private Integer squareLabel;
 	private Object liked = 0;
 	private Object keep = 0;
-	
+
 	private Integer isTutorial = Tag.FALSE;
 	private Integer concerned = Tag.FALSE;
 
@@ -73,8 +75,6 @@ public class OpWorldTypeDto implements HTWorldWithExtra, ObjectWithUserVerify, O
 	private Integer worldId; // 兼容2.0以前的版本
 	@Deprecated
 	private String recommender; // 兼容2.7以前的版本
-	@Deprecated
-	private Date recommendDate; // 兼容2.7以前的版本
 
 	private UserInfoDto userInfo;
 
@@ -86,18 +86,16 @@ public class OpWorldTypeDto implements HTWorldWithExtra, ObjectWithUserVerify, O
 	}
 
 	public OpWorldTypeDto(Integer recommendId, Integer id, Integer superb,
-			Integer squareLabel, String shortLink, String worldName,
-			String worldDesc, String worldLabel, String worldType,
-			Integer typeId, Date dateAdded, Date dateModified,
-			Integer authorId, Integer clickCount, Integer likeCount,
-			Integer commentCount, Integer keepCount, String coverPath,
-			String titlePath, String bgPath, String titleThumbPath, 
-			List<HTWorldChannelName> channelNames,
-			Double longitude, Double latitude, String locationDesc, 
-			String locationAddr, Integer phoneCode, String province, String city, Integer size,
-			Integer childCount, Integer ver, Integer tp, HTWorldTextStyle textStyle) {
+			Integer squareLabel, String shortLink, String worldName, String worldDesc, String worldLabel,
+			String worldType, Integer typeId, Date dateAdded, Date dateModified, Integer authorId, Integer clickCount,
+			Integer likeCount, Integer commentCount, Integer keepCount, String coverPath, String titlePath,
+			String bgPath, String titleThumbPath, List<HTWorldChannelName> channelNames, Double longitude,
+			Double latitude, String locationDesc, String locationAddr, Integer phoneCode, String province, String city,
+			Integer size, Integer childCount, Integer ver, Integer tp, HTWorldTextStyle textStyle) {
 		super();
 		this.recommendId = recommendId;
+//		this.recommendTypeId = recommendTypeId;
+//		this.recommendDate = recommendDate;
 		this.id = id;
 		this.superb = superb;
 		this.squareLabel = squareLabel;
@@ -439,7 +437,7 @@ public class OpWorldTypeDto implements HTWorldWithExtra, ObjectWithUserVerify, O
 	public void setKeep(Object keep) {
 		this.keep = keep;
 	}
-	
+
 	public Integer getVer() {
 		return ver;
 	}
@@ -447,7 +445,7 @@ public class OpWorldTypeDto implements HTWorldWithExtra, ObjectWithUserVerify, O
 	public void setVer(Integer ver) {
 		this.ver = ver;
 	}
-	
+
 	public Integer getIsTutorial() {
 		return isTutorial;
 	}
@@ -455,7 +453,7 @@ public class OpWorldTypeDto implements HTWorldWithExtra, ObjectWithUserVerify, O
 	public void setIsTutorial(Integer isTutorial) {
 		this.isTutorial = isTutorial;
 	}
-	
+
 	public Integer getConcerned() {
 		return concerned;
 	}
@@ -538,5 +536,5 @@ public class OpWorldTypeDto implements HTWorldWithExtra, ObjectWithUserVerify, O
 	public void setChannelNames(List<HTWorldChannelName> channelNames) {
 		this.channelNames = channelNames;
 	}
-	
+
 }

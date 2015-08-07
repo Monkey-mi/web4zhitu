@@ -479,9 +479,9 @@ public class PushServiceImpl implements PushService {
 	}
 	
 	@Override
-	public void pushBulletin(String bulletin, List<Integer> recipientIds)
+	public void pushBulletin(Integer pushAction, String bulletin, String sid, List<Integer> recipientIds)
 			throws Exception {
-		yunbaPushService.pushBulletin(bulletin, recipientIds);
+		yunbaPushService.pushBulletin(pushAction, bulletin, sid, recipientIds);
 	}
 	
 	@Override

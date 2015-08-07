@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
@@ -243,6 +244,11 @@ public class SquarePushDaoImpl extends BaseDaoImpl implements SquarePushDao {
 	 */
 	private static final String QUERY_SUPERB_SQUARE_INDEX_BY_MAX_SERIAL = QUERY_SUPERB_SQUARE_INDEX_HEAD 
 			+ " and hw.serial<=?" + ORDER_BY_HW_SERIAL_DESC;
+	
+	private static final String QUERY_SUPERB_INDEX_BY_WID = "select " + SQUARE_INDEX + " from " 
+			+ HTS.USER_INFO + " as u,"+ HTS.HTWORLD_HTWORLD +" as h, " + table 
+			+ " as hw where h.id=hw.world_id and h.author_id=u.id"
+			+ " and hw.valid=1 and hw.world_id=?";
 	
 	
 	/**
@@ -815,6 +821,23 @@ public class SquarePushDaoImpl extends BaseDaoImpl implements SquarePushDao {
 			}
 		}
 		return dto;
+	}
+
+	@Override
+	public OpWorldTypeDto2 querySuperbWorldTypeByWID(int wid) {
+		try {
+			return getJdbcTemplate().queryForObject(QUERY_SUPERB_INDEX_BY_WID,
+					new Object[]{wid}, new RowMapper<OpWorldTypeDto2>() {
+	
+				@Override
+				public OpWorldTypeDto2 mapRow(ResultSet rs, int rowNum)
+						throws SQLException {
+					return buildSquareIndex(rs);
+				}
+			});
+		} catch(EmptyResultDataAccessException e) {
+			return null;
+		}
 	}
 
 	

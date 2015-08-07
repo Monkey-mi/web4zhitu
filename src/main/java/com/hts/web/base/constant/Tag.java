@@ -243,6 +243,11 @@ public class Tag {
 	public static final int USER_MSG_CHANNEL_WORLD = 8;
 	
 	/**
+	 * 用户推荐通知
+	 */
+	public static final int USER_MSG_STAR_RECOMMEND = 10;
+	
+	/**
 	 * 本地标记
 	 */
 	public static final int STATE_LOCAL = 0;

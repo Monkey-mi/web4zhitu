@@ -71,7 +71,7 @@ public class YunbaPushServiceImpl implements YunbaPushService {
 	}
 	
 	@Override
-	public void pushBulletin(String content, List<Integer> recipientIds) throws HTSException {
+	public void pushBulletin(Integer pushAction, String content, String sid, List<Integer> recipientIds) throws HTSException {
 		JSONObject apnJSON = new JSONObject();
 		JSONObject aps = new JSONObject();
 		try {
@@ -79,7 +79,10 @@ public class YunbaPushServiceImpl implements YunbaPushService {
 			aps.put("badge", 1);
 			aps.put("alert", content);
 			apnJSON.put("aps", aps);
-			apnJSON.put("a", Tag.PUSH_ACTION_SYS);
+			apnJSON.put("a", pushAction);
+			if(sid != null) {
+				apnJSON.put("sid", sid);
+			}
 			yunbaClient.publishToAliasBatch(JSONArray.fromObject(recipientIds), 
 					content, apnJSON);
 		} catch (JSONException e) {

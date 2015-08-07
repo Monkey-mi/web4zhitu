@@ -289,5 +289,7 @@ public interface SquarePushDao extends BaseDao {
 	 */
 	public OpWorldTypeDto buildSquareDto(ResultSet rs) throws SQLException;
 	
+	public OpWorldTypeDto2 querySuperbWorldTypeByWID(int wid);
+	
 }
 

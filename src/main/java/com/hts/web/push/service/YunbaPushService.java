@@ -35,7 +35,7 @@ public interface YunbaPushService {
 	 * @param recipientIds
 	 * @throws HTSException
 	 */
-	public void pushBulletin(String content, List<Integer> recipientIds) throws HTSException;
+	public void pushBulletin(Integer pushAction, String content, String sid, List<Integer> recipientIds) throws HTSException;
 	
 	/**
 	 * 推送系统消息

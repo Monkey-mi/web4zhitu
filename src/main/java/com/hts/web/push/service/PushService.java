@@ -103,7 +103,7 @@ public interface PushService {
 	 * @param bulletin
 	 * @throws Exception
 	 */
-	public void pushBulletin(String bulletin, List<Integer> recipientIds) throws Exception;
+	public void pushBulletin(Integer pushAction, String bulletin, String sid, List<Integer> recipientIds) throws Exception;
 	
 	/**
 	 * 屏蔽消息推送
