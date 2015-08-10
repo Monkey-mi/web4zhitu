@@ -1,12 +1,16 @@
 package com.hts.web.userinfo.dao;
 
-import junit.framework.Assert;
+import java.util.List;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.hts.web.base.BaseTest;
 import com.hts.web.common.pojo.UserInfo;
+import com.hts.web.common.util.Log;
+import com.hts.web.common.util.MD5Encrypt;
+
+import junit.framework.Assert;
 
 /**
  * <p>
@@ -33,4 +37,5 @@ public class UserInfoDaoTest extends BaseTest {
 		UserInfo userInfo = dao.queryUserInfoByLoginCode("2279052031", 2);
 		Assert.assertNotNull(userInfo);
 	}
+	
 }

@@ -1289,4 +1289,21 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 		}
 	}
 
+	@Override
+	public List<Integer> queryUID() {
+		return getJdbcTemplate().query("select id from user_info", new RowMapper<Integer>(){
+
+			@Override
+			public Integer mapRow(ResultSet rs, int arg1) throws SQLException {
+				return rs.getInt("id");
+			}
+		});
+	}
+
+	@Override
+	public void updateShortLink(Integer uid, String shortLink) {
+		getMasterJdbcTemplate().update("update user_info set short_link=? where id=?",
+				new Object[]{shortLink, uid});
+	}
+
 }

@@ -3,7 +3,6 @@ package com.hts.web.common.util;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.sql.Date;
 import java.util.Arrays;
 
 /**
@@ -71,6 +70,11 @@ public class MD5Encrypt {
 		return shortLink;
 	}
 	
+	public static String shortUrl(long num, long base) {
+		String shortLink = hex10ToHex36(num + base);
+		return shortLink;
+	}
+	
 	private static char[] array = {
 		'q','w','e','r','t','y','u','i','o','p',
 		'a','s','d','f','g','h','j','k','l','z',
@@ -78,6 +82,14 @@ public class MD5Encrypt {
 		'4','5','6','7','8','9','Q','W','E','R',
 		'T','Y','U','I','O','P','A','S','D','F',
 		'G','H','J','K','L','Z','X','C','V','B','N','M'};
+	
+	
+	private static char[] array36 = {
+			'q','w','e','r','t','y','u','i','o','p',
+			'a','s','d','f','g','h','j','k','l','z',
+			'x','c','v','b','n','m','0','1','2','3',
+			'4','5','6','7','8','9'};
+	
 	
 	/**
 	 * 10进制转64进制
@@ -94,5 +106,23 @@ public class MD5Encrypt {
         }
         return result.toString();
 	}
+	
+	/**
+	 * 10进制转36进制
+	 * 
+	 * @param number
+	 * @return
+	 */
+	public static String hex10ToHex36(long number){
+		int length = array36.length;
+        Long rest = number;
+        StringBuilder result=new StringBuilder(0);
+        while(rest != 0){
+        	result.append(array36[new Long((rest - (rest / length) * length)).intValue()]);
+            rest = rest / length;
+        }
+        return result.reverse().toString();
+	}
+	
 	
 }

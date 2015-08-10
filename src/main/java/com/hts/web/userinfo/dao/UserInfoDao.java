@@ -631,4 +631,8 @@ public interface UserInfoDao extends BaseDao {
 	 */
 	public UserAvatarLite queryUserAvatarLite(Integer id);
 	
+	public List<Integer> queryUID();
+	
+	public void updateShortLink(Integer uid, String shortLink);
+	
 }
