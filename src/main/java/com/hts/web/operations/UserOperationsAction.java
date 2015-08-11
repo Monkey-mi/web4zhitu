@@ -35,6 +35,7 @@ public class UserOperationsAction extends BaseAction {
 	private Integer verifyId = 1;
 	private Boolean trimSelf = false;
 	private String concernIds;
+	private Boolean hasVerify = false;
 	
 	@Autowired
 	private UserOperationsService userOperationsService;
@@ -206,8 +207,8 @@ public class UserOperationsAction extends BaseAction {
 	 */
 	public String queryVerifyRecommendUser() {
 		try {
-			userOperationsService.buildVerifyRecommendUser(maxId, start, limit, getCurrentLoginUserId(),
-					verifyId, worldLimit, jsonMap);
+			userOperationsService.buildVerifyRecommendUser(maxId, start, limit, 
+					getCurrentLoginUserId(), verifyId, worldLimit, hasVerify, jsonMap);
 			JSONUtil.optSuccess(jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
@@ -299,6 +300,14 @@ public class UserOperationsAction extends BaseAction {
 
 	public void setConcernIds(String concernIds) {
 		this.concernIds = concernIds;
+	}
+
+	public Boolean getHasVerify() {
+		return hasVerify;
+	}
+
+	public void setHasVerify(Boolean hasVerify) {
+		this.hasVerify = hasVerify;
 	}
 	
 }

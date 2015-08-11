@@ -521,7 +521,8 @@ public class UserOperationsServiceImpl extends BaseServiceImpl implements
 
 	@Override
 	public void buildVerifyRecommendUser(int maxId, int start, int limit,
-			final Integer userId, final Integer verifyId, final int worldLimit, final Map<String, Object> jsonMap)
+			final Integer userId, final Integer verifyId, final int worldLimit, 
+			final boolean hasVerify, final Map<String, Object> jsonMap)
 			throws Exception {
 		if(maxId < 0) {
 			// 避免重复加载第一页数据的情况
@@ -536,11 +537,19 @@ public class UserOperationsServiceImpl extends BaseServiceImpl implements
 				List<OpUser> userList = null;
 				List<OpUser> weightList = null;
 				if(verifyId == 0) {
+					
 					List<OpUserVerifyDto> verifyList = opUserVerifyDtoCacheDao.queryVerify();
 					jsonMap.put(OptResult.JSON_KEY_VERIFY, verifyList);
+					
 					userList = userRecommendDao.queryRecommendUserOrderByAct(userId, rowSelection);
 					weightList = userRecommendDao.queryWeightRec(userId, weightLimit);
 				} else {
+					
+					if(hasVerify) {
+						List<OpUserVerifyDto> verifyList = opUserVerifyDtoCacheDao.queryVerify();
+						jsonMap.put(OptResult.JSON_KEY_VERIFY, verifyList);
+					}
+					
 					userList = userRecommendDao.queryVerifyRecommendUserOrderByAct(userId, verifyId, rowSelection);
 					if(checkHasWeight(verifyId)) {
 						weightList = userRecommendDao.queryWeightVerifyRec(userId, verifyId, weightLimit);
@@ -553,6 +562,7 @@ public class UserOperationsServiceImpl extends BaseServiceImpl implements
 					extractHTWorldThumbUser(worldLimit,userList);
 				}
 				userInfoService.extractVerify(userList);
+				
 				return userList;
 			}
 

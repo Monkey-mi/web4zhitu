@@ -657,6 +657,7 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 							jsonMap.put(OptResult.JSON_KEY_RECOMMEND_TYPE, worldTypeCacheDao.queryType());
 							// 随机加载一种达人
 							OpUserVerifyDto verify = opUserVerifyDtoCacheDao.queryRandomVerify();
+							List<OpUserVerifyDto> vlist = opUserVerifyDtoCacheDao.queryVerify();
 							jsonMap.put(OptResult.JSON_KEY_VERIFY, verify);
 							jsonMap.put(OptResult.JSON_KEY_STARS, 
 									userVerifyRecCacheDao.queryUserByVerifyId(verify.getId(), 10));

@@ -23,6 +23,7 @@ public class HTWorldStickerDto implements Serializable, StickerWithLock {
 
 	private Integer recommendId;
 	private Integer id;
+	@Deprecated
 	private Integer typeId;
 	private Integer setId;
 	private String stickerPath;
