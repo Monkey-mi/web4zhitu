@@ -1,6 +1,9 @@
 package com.hts.web.common.pojo;
 
 import java.io.Serializable;
+import java.util.Date;
+
+import org.apache.struts2.json.annotations.JSON;
 
 import com.hts.web.base.constant.Tag;
 
@@ -22,6 +25,8 @@ public class OpWorldTypeDto2 implements Serializable, ObjectWithUserVerify, Obje
 	private static final long serialVersionUID = 7418449788437718169L;
 
 	private Integer recommendId; // 推荐id
+	private Integer recommendTypeId;
+	private Date recommendDate;
 	private Integer id; // 织图id
 	private String shortLink;
 	private Integer authorId; // 作者id
@@ -45,20 +50,21 @@ public class OpWorldTypeDto2 implements Serializable, ObjectWithUserVerify, Obje
 	private String review;
 
 	private Integer liked = Tag.FALSE; // 是否喜欢
-	
+
 	private UserInfoDto userInfo;
 
 	public OpWorldTypeDto2() {
 		super();
 	}
 
-	public OpWorldTypeDto2(Integer recommendId, Integer id, String shortLink,
-			Integer authorId, String worldDesc, String titlePath, String bgPath,
-			String titleThumbPath, Integer clickCount, Integer likeCount,
-			Integer commentCount, String worldLabel, String worldType,
-			Integer typeId, Integer superb, Integer squareLabel, String review) {
+	public OpWorldTypeDto2(Integer recommendId, Integer recommendTypeId, Date recommendDate, Integer id,
+			String shortLink, Integer authorId, String worldDesc, String titlePath, String bgPath,
+			String titleThumbPath, Integer clickCount, Integer likeCount, Integer commentCount, String worldLabel,
+			String worldType, Integer typeId, Integer superb, Integer squareLabel, String review) {
 		super();
 		this.recommendId = recommendId;
+		this.recommendTypeId = recommendTypeId;
+		this.recommendDate = recommendDate;
 		this.id = id;
 		this.shortLink = shortLink;
 		this.authorId = authorId;
@@ -235,7 +241,7 @@ public class OpWorldTypeDto2 implements Serializable, ObjectWithUserVerify, Obje
 	public void setVerifyIcon(String verifyIcon) {
 		userInfo.setVerifyIcon(verifyIcon);
 	}
-	
+
 	public UserInfoDto getUserInfo() {
 		return userInfo;
 	}
@@ -265,5 +271,23 @@ public class OpWorldTypeDto2 implements Serializable, ObjectWithUserVerify, Obje
 	public void setBgPath(String bgPath) {
 		this.bgPath = bgPath;
 	}
+
+	public Integer getRecommendTypeId() {
+		return recommendTypeId;
+	}
+
+	public void setRecommendTypeId(Integer recommendTypeId) {
+		this.recommendTypeId = recommendTypeId;
+	}
+
+	@JSON(format = "yyyy-MM-dd HH:mm:ss")
+	public Date getRecommendDate() {
+		return recommendDate;
+	}
+
+	public void setRecommendDate(Date recommendDate) {
+		this.recommendDate = recommendDate;
+	}
+
 	
 }

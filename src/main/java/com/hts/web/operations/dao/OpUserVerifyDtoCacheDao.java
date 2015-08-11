@@ -17,4 +17,12 @@ import com.hts.web.common.pojo.OpUserVerifyDto;
 public interface OpUserVerifyDtoCacheDao extends BaseCacheDao {
 
 	public List<OpUserVerifyDto> queryVerify();
+
+	/**
+	 * 查询随机认证类型
+	 * 
+	 * @return
+	 */
+	public OpUserVerifyDto queryRandomVerify();
+	
 }

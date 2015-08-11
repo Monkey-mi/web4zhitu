@@ -26,12 +26,12 @@ import com.hts.web.common.pojo.OpActivityLogo;
 import com.hts.web.common.pojo.OpActivityStar;
 import com.hts.web.common.pojo.OpActivityWinnerDto;
 import com.hts.web.common.pojo.OpSquareTopic;
+import com.hts.web.common.pojo.OpUserVerifyDto;
 import com.hts.web.common.pojo.OpWorldType;
 import com.hts.web.common.pojo.OpWorldTypeDto;
 import com.hts.web.common.pojo.OpWorldTypeDto2;
 import com.hts.web.common.pojo.UserVerify;
 import com.hts.web.common.service.impl.BaseServiceImpl;
-import com.hts.web.common.util.Log;
 import com.hts.web.common.util.NumberUtil;
 import com.hts.web.operations.dao.ActivityAwardDao;
 import com.hts.web.operations.dao.ActivityCacheDao;
@@ -40,10 +40,12 @@ import com.hts.web.operations.dao.ActivityLikeRankDao;
 import com.hts.web.operations.dao.ActivityLogoCacheDao;
 import com.hts.web.operations.dao.ActivityStarCacheDao;
 import com.hts.web.operations.dao.ActivityWinnerDao;
+import com.hts.web.operations.dao.OpUserVerifyDtoCacheDao;
 import com.hts.web.operations.dao.OpWorldTypeCacheDao;
 import com.hts.web.operations.dao.OpWorldTypeDto2CacheDao;
 import com.hts.web.operations.dao.SquarePushDao;
 import com.hts.web.operations.dao.SquarePushTopicDao;
+import com.hts.web.operations.dao.UserVerifyRecCacheDao;
 import com.hts.web.operations.dao.XiaoMiShuWorldDao;
 import com.hts.web.operations.service.ZTWorldOperationsService;
 import com.hts.web.userinfo.dao.UserConcernDao;
@@ -54,7 +56,7 @@ import com.hts.web.ztworld.dao.HTWorldDao;
 import com.hts.web.ztworld.dao.HTWorldLabelDao;
 import com.hts.web.ztworld.dao.HTWorldLabelWorldDao;
 import com.hts.web.ztworld.dao.HTWorldLikedDao;
-import com.hts.web.ztworld.service.ZTWorldInteractService;
+import com.hts.web.ztworld.dao.TypeCacheDao;
 import com.hts.web.ztworld.service.ZTWorldService;
 
 /**
@@ -82,9 +84,6 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 	
 	@Autowired
 	private ZTWorldService worldService;
-	
-	@Autowired
-	private ZTWorldInteractService worldInteractService;
 	
 	@Autowired
 	private ActivityDao activityDao;
@@ -136,6 +135,15 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 	
 	@Autowired
 	private HTWorldDao worldDao;
+
+	@Autowired
+	private TypeCacheDao worldTypeCacheDao;
+	
+	@Autowired
+	private OpUserVerifyDtoCacheDao opUserVerifyDtoCacheDao;
+	
+	@Autowired
+	private UserVerifyRecCacheDao userVerifyRecCacheDao;
 	
 	@Value("${push.customerServiceId}")
 	private Integer customerServiceId = 13;
@@ -397,7 +405,7 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 				if(trimVer0) {
 					list = squarePushDao.querySuperbTypeSquare(joinId, rowSelection);
 				} else {
-					list = squarePushDao.querySuperbTypeSquareV2(joinId, rowSelection);
+					list = squarePushDao.querySuperbV4(rowSelection);
 				}
 				
 				if(!trimTutorial) { // 加载教程
@@ -429,7 +437,7 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 				if(trimVer0) {
 					list = squarePushDao.querySuperbTypeSquare(maxId, joinId, rowSelection);
 				} else {
-					list = squarePushDao.querySuperbTypeSquareV2(maxId, joinId, rowSelection);
+					list = squarePushDao.querySuperbV4(maxId, rowSelection);
 				}
 				worldService.extractExtraInfo(false, commentLimit, likedLimit, 
 						Math.min(list.size(), completeLimit), list);
@@ -552,7 +560,7 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 		
 		if(maxId == 0) {
 			rowSelection = new RowSelection(start, limit);
-			list = squarePushDao.querySuperbTypeSquareV2(joinId, rowSelection); // 加载最新1页
+			list = squarePushDao.querySuperbV4(rowSelection); // 加载最新1页
 			
 		// 下拉刷新
 		} else if(isRefresh) {
@@ -561,14 +569,14 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 			if(firstDto != null && firstDto.getRecommendId() > maxId) { // 有新数据更新
 				start = 1;
 				rowSelection = new RowSelection(start, limit);
-				list = squarePushDao.querySuperbTypeSquareV2(joinId, rowSelection); // 加载最新1页
+				list = squarePushDao.querySuperbV4(rowSelection); // 加载最新1页
 			} else if(start > superbListMaxPage){ // 超出最大限制页数，返回加载第1页
 				start = 1;
 				rowSelection = new RowSelection(start, limit);
-				list = squarePushDao.querySuperbTypeSquareV2(maxId, joinId, rowSelection); // 以maxId为基础加载第1页
+				list = squarePushDao.querySuperbV4(maxId, rowSelection); // 以maxId为基础加载第1页
 			} else {
 				rowSelection = new RowSelection(start, limit);
-				list = squarePushDao.querySuperbTypeSquareV2(maxId, joinId, rowSelection); // 以maxId为基础加载下1页
+				list = squarePushDao.querySuperbV4(maxId, rowSelection); // 以maxId为基础加载下1页
 			}
 			
 		// 上拉加载更多，并未超出最大限制页数
@@ -576,10 +584,10 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 			if(start > superbListMaxPage){ // 超出最大限制页数
 				start = 1;
 				rowSelection = new RowSelection(start, limit);
-				list = squarePushDao.querySuperbTypeSquareV2(maxId, joinId, rowSelection); // 以maxId为基础加载第1页
+				list = squarePushDao.querySuperbV4(maxId, rowSelection); // 以maxId为基础加载第1页
 			} else {
 				rowSelection = new RowSelection(start, limit);
-				list = squarePushDao.querySuperbTypeSquareV2(maxId, joinId, rowSelection); // 以maxId为基础加载下1页
+				list = squarePushDao.querySuperbV4(maxId, rowSelection); // 以maxId为基础加载下1页
 			}
 			
 		// 上拉加载更多，已经超出最大限制页数，返回空列表
@@ -629,19 +637,38 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 	}
 	
 	@Override
-	public void buildSuperbTypeSquareListV2(int maxId, int start, int limit,
+	public void buildSuperbTypeSquareListV2(final Integer typeId, int maxId, int start, int limit,
 			final int commentLimit, final int likedLimit, final int completeLimit, 
-			final boolean trimConcernId, final Integer joinId, Map<String, Object> jsonMap) throws Exception {
+			final boolean trimConcernId, final Integer joinId, final Map<String, Object> jsonMap) throws Exception {
 		buildSerializables("getRecommendId", maxId, start, limit, jsonMap, 
 				new SerializableListAdapter<OpWorldTypeDto>() {
 
 					@Override
 					public List<OpWorldTypeDto> getSerializables(
 							RowSelection rowSelection) {
-						List<OpWorldTypeDto> list = squarePushDao.querySuperbTypeSquareV2(joinId, rowSelection);
-						worldService.extractExtraInfo(false, commentLimit, likedLimit, list.size(), list);
+						List<OpWorldTypeDto> list = null;
+						
+						//TODO 等后台弄好后,completeLimit=0时,通过缓存加载第一页
+						
+						if(typeId == 0) { // 加载全部精选
+							list = squarePushDao.querySuperbV4(rowSelection);
+							
+							// 加载所有下拉菜单
+							jsonMap.put(OptResult.JSON_KEY_RECOMMEND_TYPE, worldTypeCacheDao.queryType());
+							// 随机加载一种达人
+							OpUserVerifyDto verify = opUserVerifyDtoCacheDao.queryRandomVerify();
+							jsonMap.put(OptResult.JSON_KEY_VERIFY, verify);
+							jsonMap.put(OptResult.JSON_KEY_STARS, 
+									userVerifyRecCacheDao.queryUserByVerifyId(verify.getId(), 10));
+							
+						} else { // 加载指定分类精选
+							list = squarePushDao.querySuperbByTypeIdV4(typeId, rowSelection);
+						}
+						
+						
+						// 加载点赞列表和关注状态等
+						worldService.extractExtraInfo(false, false, joinId, false, commentLimit, likedLimit, list.size(), list);
 						userInfoService.extractVerify(list);
-						userInteractService.extractRemark(joinId, list);
 						if(!trimConcernId) {
 							extractConcerned(joinId, list);
 						}
@@ -651,10 +678,16 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 					@Override
 					public List<OpWorldTypeDto> getSerializableByMaxId(
 							int maxId, RowSelection rowSelection) {
-						List<OpWorldTypeDto> list = squarePushDao.querySuperbTypeSquareV2(maxId, joinId, rowSelection);
-						worldService.extractExtraInfo(false, commentLimit, likedLimit, list.size(), list);
+						List<OpWorldTypeDto> list = null;
+						
+						if(typeId == 0) {
+							list = squarePushDao.querySuperbV4(maxId, rowSelection);
+						} else {
+							list = squarePushDao.querySuperbByTypeIdV4(maxId, typeId, rowSelection);
+						}
+						
+						worldService.extractExtraInfo(false, false, joinId, false, commentLimit, likedLimit, list.size(), list);
 						userInfoService.extractVerify(list);
-						userInteractService.extractRemark(joinId, list);
 						if(!trimConcernId) {
 							extractConcerned(joinId, list);
 						}
@@ -668,7 +701,7 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 					
 		},OptResult.JSON_KEY_HTWORLD, null);
 	}
-	
+
 	@Override
 	public void buildSuperbTypeSquareListV3(Integer joinId, int maxId, 
 			int cursor, int start, int limit, Map<String, Object> jsonMap) throws Exception {

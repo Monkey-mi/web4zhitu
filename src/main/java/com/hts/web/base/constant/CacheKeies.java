@@ -68,6 +68,11 @@ public class CacheKeies {
 	public static final String ZTWORLD_SUBTITLE = MODULE_ZTWORLD + "subtitle";
 	
 	/**
+	 * 织图分类
+	 */
+	public static final String ZTWORLD_TYPE = MODULE_ZTWORLD + "type";
+	
+	/**
 	 * 运营模块
 	 */
 	private static final String MODULE_OP = "op:";
@@ -121,6 +126,11 @@ public class CacheKeies {
 	 * 运营：用户认证
 	 */
 	public static final String OP_USER_VERIFY = MODULE_OP + "user:verify";
+	
+	/**
+	 * 认证推荐用户
+	 */
+	public static final String OP_USER_VERIFY_REC = MODULE_OP + "user:verify:rec:";
 	
 	/**
 	 * 频道

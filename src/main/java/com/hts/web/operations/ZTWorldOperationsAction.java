@@ -58,7 +58,7 @@ public class ZTWorldOperationsAction extends BaseAction {
 	private Integer completeLimit = 3; // 包含评论和喜欢列表的织图数量
 	private Integer nextCursor = 0;
 	
-	private Integer typeId; // 分类id
+	private Integer typeId = 0; // 分类id
 	
 	private Integer channelId; // 频道id
 	
@@ -207,7 +207,7 @@ public class ZTWorldOperationsAction extends BaseAction {
 	 */
 	public String querySuperbTypeSquareListV2() {
 		try {
-			worldOperationsService.buildSuperbTypeSquareListV2(maxId, start, limit,
+			worldOperationsService.buildSuperbTypeSquareListV2(typeId, maxId, start, limit,
 					commentLimit, likedLimit, completeLimit,
 					trimConcernId, getCurrentLoginUserId(), jsonMap);
 			JSONUtil.optSuccess(jsonMap);

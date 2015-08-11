@@ -18,7 +18,7 @@ import com.hts.web.common.util.Log;
  * <p>
  * 用户推荐数据访问对象单元测试
  * </p>
- * 
+ * queryRecommendUserOrderByAct
  * 创建时间：2014-1-13
  * @author ztj
  *

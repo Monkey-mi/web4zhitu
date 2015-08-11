@@ -128,7 +128,7 @@ public interface SquarePushDao extends BaseDao {
 	 * @param rowSelection
 	 * @return
 	 */
-	public List<OpWorldTypeDto> querySuperbTypeSquareV2(Integer joinId, RowSelection rowSelection);
+	public List<OpWorldTypeDto> querySuperbV4(RowSelection rowSelection);
 	
 	
 	/**
@@ -139,7 +139,28 @@ public interface SquarePushDao extends BaseDao {
 	 * @param rowSelection
 	 * @return
 	 */
-	public List<OpWorldTypeDto> querySuperbTypeSquareV2(Integer maxSerial, Integer joinId, RowSelection rowSelection);
+	public List<OpWorldTypeDto> querySuperbV4(Integer maxSerial, 
+			RowSelection rowSelection);
+	
+	
+	/**
+	 * 根据分类id查询精品
+	 * 
+	 * @param rowSelection
+	 * @return
+	 */
+	public List<OpWorldTypeDto> querySuperbByTypeIdV4(Integer typeId, 
+			RowSelection rowSelection);
+	
+	/**
+	 * 根据分类id查询精品
+	 * 
+	 * @param maxSerial
+	 * @param rowSelection
+	 * @return
+	 */
+	public List<OpWorldTypeDto> querySuperbByTypeIdV4(Integer maxSerial, Integer typeId, 
+			RowSelection rowSelection);
 	
 	/**
 	 * 查询普通广场织图

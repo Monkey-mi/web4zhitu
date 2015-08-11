@@ -162,13 +162,12 @@ public interface ZTWorldOperationsService extends BaseService {
 			Integer joinId, Map<String, Object> jsonMap) throws Exception;
 	
 	/**
-	 * 构建精品列表V2，不打散
+	 * 构建精品列表V2
 	 * 
+	 * @param typeId
 	 * @param maxId
 	 * @param start
 	 * @param limit
-	 * @param pageCount
-	 * @param isRefresh
 	 * @param commentLimit
 	 * @param likedLimit
 	 * @param completeLimit
@@ -177,7 +176,7 @@ public interface ZTWorldOperationsService extends BaseService {
 	 * @param jsonMap
 	 * @throws Exception
 	 */
-	public void buildSuperbTypeSquareListV2(int maxId, int start, int limit,
+	public void buildSuperbTypeSquareListV2(Integer typeId, int maxId, int start, int limit,
 			int commentLimit, int likedLimit, int completeLimit, boolean trimConcernId,
 			Integer joinId, Map<String, Object> jsonMap) throws Exception;
 	
