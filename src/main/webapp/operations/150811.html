@@ -4,9 +4,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<meta name="description" content="会画画是怎样一种体验！ ">
-<title>会画画是怎样一种体验！ </title>
-<link rel="stylesheet" type="text/css" href="/staticres/htworld/phonev2/css/htszoomtour2013122801.css" />
+<meta name="description" content="会画画是一种怎样的体验？">
+<title>会画画是一种怎样的体验？</title>
 <style type="text/css">
 body {
 	margin: 0 auto 0 auto;
@@ -77,7 +76,7 @@ a {
 	width:280px;
 	height:80px;
 	position:absolute;
-  left: 50%;  
+   	left: 50%;
 	margin: 480px 0 0 -80px;
 	-moz-border-radius: 0px;   
 	-webkit-border-radius: 0px;
@@ -89,6 +88,7 @@ a {
     font-size:35px;
 	font-weight:300;
 	text-align:center;
+	line-height:80px;
 	display:none;
 }
 
@@ -99,10 +99,6 @@ a {
 
 #opt-btn-bg {
 	float:left;
-}
-
-#use-btn {
-	margin-top:590px;
 }
 
 #download-wrap {
@@ -189,14 +185,16 @@ a {
 </head>
 <body>
 <div id='wx_pic' style="display:none;">
-	<img src='http://static.imzhitu.com/op/sticker/150811/banner.jpg' />
+	<img src='http://static.imzhitu.com/op/sticker/150811/thumbnail1.jpg' />
 </div>
 <div id="main">
 <div id="header">
 <img alt="" src="http://static.imzhitu.com/op/sticker/150811/01.jpg" /> 
 </div>
 <div class="user-wrap">
-<img alt="" src="http://static.imzhitu.com/op/sticker/150811/02.jpg" /> 
+<a name="imzhitu-callapp" href="imzhitu://user?uid=88664">
+<img alt="" src="http://static.imzhitu.com/op/sticker/150811/09.jpg" />
+</a>
 <a id="concern-88664" class="concern-btn concern" name="imzhitu-callapp" href="imzhitu://concern?uid=88664">+关注</a>
 <a class="concern-btn concerned">已关注</a>
 </div>
@@ -219,7 +217,9 @@ a {
 	</div>
 </div>
 <div class="user-wrap">
+<a name="imzhitu-callapp" href="imzhitu://user?uid=748582">
 <img alt="" src="http://static.imzhitu.com/op/sticker/150811/03.jpg" /> 
+</a>
 <a id="concern-748582" class="concern-btn concern" name="imzhitu-callapp" href="imzhitu://concern?uid=748582">+关注</a>
 <a class="concern-btn concerned">已关注</a>
 </div>
@@ -242,7 +242,9 @@ a {
 	</div>
 </div>
 <div class="user-wrap">
+<a name="imzhitu-callapp" href="imzhitu://user?uid=1912551">
 <img alt="" src="http://static.imzhitu.com/op/sticker/150811/04.jpg" /> 
+</a>
 <a id="concern-1912551" class="concern-btn concern" name="imzhitu-callapp" href="imzhitu://concern?uid=1912551">+关注</a>
 <a class="concern-btn concerned">已关注</a>
 </div>
@@ -265,7 +267,9 @@ a {
 	</div>
 </div>
 <div class="user-wrap">
+<a name="imzhitu-callapp" href="imzhitu://user?uid=94016">
 <img alt="" src="http://static.imzhitu.com/op/sticker/150811/05.jpg" />
+</a>
 <a id="concern-94016" class="concern-btn concern" name="imzhitu-callapp" href="imzhitu://concern?uid=94016">+关注</a>
 <a class="concern-btn concerned">已关注</a>
 </div>
@@ -288,7 +292,9 @@ a {
 	</div>
 </div>
 <div class="user-wrap">
+<a name="imzhitu-callapp" href="imzhitu://user?uid=296871">
 <img alt="" src="http://static.imzhitu.com/op/sticker/150811/06.jpg" />
+</a>
 <a id="concern-296871" class="concern-btn concern" name="imzhitu-callapp" href="imzhitu://concern?uid=296871">+关注</a>
 <a class="concern-btn concerned">已关注</a>
 </div>
@@ -311,7 +317,9 @@ a {
 	</div>
 </div>
 <div class="user-wrap">
+<a name="imzhitu-callapp" href="imzhitu://user?uid=395797">
 <img alt="" src="http://static.imzhitu.com/op/sticker/150811/07.jpg" />
+</a>
 <a id="concern-395797" class="concern-btn concern" name="imzhitu-callapp" href="imzhitu://concern?uid=395797">+关注</a>
 <a class="concern-btn concerned">已关注</a>
 </div>
@@ -350,8 +358,9 @@ a {
 <img id="download-close"　title="隐藏" onclick="javascript:hideDownloadBtn();" alt="" src="/staticres/base/images/down-close.jpg">
 </div>
 
-<script type="text/javascript" src="/staticres/base/js/callapp2.js"></script>
 
+<script type="text/javascript" src="/staticres/base/js/callapp2.js"></script>
+<link rel="stylesheet" type="text/css" href="/staticres/htworld/phonev2/css/htszoomtour2013122801.css" />
 <script type="text/javascript" src="/staticres/base/js/jquery/jquery-1.8.2.min.js"></script>
 <script type="text/javascript" src="/staticres/base/js/baseTools.js"></script>
 <script type="text/javascript" src="/staticres/htworld/common/js/jquery.htszoomtourV3.js"></script>
@@ -378,7 +387,6 @@ $(document).ready(function() {
 		bindAllBtnClick2Callapp();
 	}
 	document.getElementById("share-btn").addEventListener('click',openclient,false);
-	document.getElementById("use-btn").addEventListener('click',openclient,false);
 });
 
 function initLayout() {
@@ -451,16 +459,13 @@ function initLayout() {
 		"-moz-border-radius":btnRadius + "px",
 		"-webkit-border-radius":btnRadius + "px",
 		"border-radius":btnRadius + "px"});
-		
-/* 	$("#concern-654103, #concerned-654103").css({
-		"margin-top":btn654103MarginTop + "px"
-	}); */
 	
 	$(".concern").show();
 		
 	$(".opt-btn").css({
 		"width":spbtnW + "px",
 		"height":spbtnH + "px",
+		"line-height":spbtnH + "px",
 		"margin-top":spbtnMarginTop + "px",
 		"margin-left":spbtnMarginLeft + "px",
 		"-moz-border-radius":spbtnRadius + "px",
@@ -470,9 +475,6 @@ function initLayout() {
 		"border-width":spbtnBorderW + "px",
 		"padding":spbtnPadding + "px"});
 		
-	$("#use-btn").css({
-		"margin-top":ubtnMarginTop + "px"
-	});
 		
 	$(".opt-btn img").css({
 		"width":spimgW + "px",
