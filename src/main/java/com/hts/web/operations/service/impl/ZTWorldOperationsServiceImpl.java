@@ -647,7 +647,8 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 							RowSelection rowSelection) {
 						List<OpWorldTypeDto> list = null;
 						
-						//TODO 等后台弄好后,completeLimit=0时,通过缓存加载第一页
+						
+						OpUserVerifyDto verify = opUserVerifyDtoCacheDao.queryRandomVerify();
 						
 						if(typeId == 0) { // 加载全部精选
 							list = squarePushDao.querySuperbV4(rowSelection);
@@ -659,20 +660,25 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 							// 加载所有下拉菜单
 							jsonMap.put(OptResult.JSON_KEY_RECOMMEND_TYPE, worldTypeCacheDao.queryType());
 							// 随机加载一种达人
-							OpUserVerifyDto verify = opUserVerifyDtoCacheDao.queryRandomVerify();
 							jsonMap.put(OptResult.JSON_KEY_VERIFY, verify);
-							jsonMap.put(OptResult.JSON_KEY_STARS, 
-									userVerifyRecCacheDao.queryUserByVerifyId(verify.getId(), 10));
 							
 						} else { // 加载指定分类精选
 							list = squarePushDao.querySuperbByTypeIdV4(typeId, rowSelection);
 						}
 						
-						// 加载点赞列表和关注状态等
-						worldService.extractExtraInfo(false, false, joinId, false, commentLimit, likedLimit, list.size(), list);
+						// 每次刷新都加载明星
+						jsonMap.put(OptResult.JSON_KEY_STARS, 
+								userVerifyRecCacheDao.queryUserByVerifyId(verify.getId(), 10));
+						
 						userInfoService.extractVerify(list);
-						if(!trimConcernId) {
-							extractConcerned(joinId, list);
+						
+						// 瀑布流状态下才加载赞列表
+						if(completeLimit != 0) {
+							// 加载点赞列表和关注状态等
+							worldService.extractExtraInfo(true, false, joinId, false, commentLimit, likedLimit, list.size(), list);
+							if(!trimConcernId) {
+								extractConcerned(joinId, list);
+							}
 						}
 						return list;
 					}
@@ -688,10 +694,13 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 							list = squarePushDao.querySuperbByTypeIdV4(maxId, typeId, rowSelection);
 						}
 						
-						worldService.extractExtraInfo(false, false, joinId, false, commentLimit, likedLimit, list.size(), list);
-						userInfoService.extractVerify(list);
-						if(!trimConcernId) {
-							extractConcerned(joinId, list);
+						// 瀑布流状态下才加载赞列表
+						if(commentLimit != 0) {
+							worldService.extractExtraInfo(false, false, joinId, false, commentLimit, likedLimit, list.size(), list);
+							userInfoService.extractVerify(list);
+							if(!trimConcernId) {
+								extractConcerned(joinId, list);
+							}
 						}
 						return list;
 					}

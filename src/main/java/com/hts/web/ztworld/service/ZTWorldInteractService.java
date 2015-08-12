@@ -145,9 +145,9 @@ public interface ZTWorldInteractService extends BaseService {
 	 * @return
 	 * @throws Exception
 	 */
-	public HTWorldInteractDto getWorldInteract(Integer worldId, Integer userId,
-			boolean isAddClick, boolean trimExtras, Integer commentLimit,
-			Integer likedLimit) throws Exception;
+	public void getWorldInteract(Integer worldId, Integer userId,
+			boolean trimExtras, Integer commentLimit,
+			Integer likedLimit, Map<String, Object> jsonMap) throws Exception;
 
 	/**
 	 * 获取指定用户的织图位置信息

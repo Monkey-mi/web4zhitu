@@ -342,9 +342,9 @@ public class ZTWorldInteractAction extends BaseAction {
 	 */
 	public String queryWorldInteract() {
 		try {
-			HTWorldInteractDto world = worldInteractService.getWorldInteract(worldId, getCurrentLoginUserId(), 
-					isAddClick, trimExtras, commentLimit, likedLimit);
-			JSONUtil.optResult(OptResult.OPT_SUCCESS, world, OptResult.JSON_KEY_HTWORLD, jsonMap);
+			worldInteractService.getWorldInteract(worldId, getCurrentLoginUserId(), 
+					trimExtras, commentLimit, likedLimit, jsonMap);
+			JSONUtil.optSuccess(jsonMap);
 		} catch(Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
 		}

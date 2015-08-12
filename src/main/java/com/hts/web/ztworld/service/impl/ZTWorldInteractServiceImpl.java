@@ -21,6 +21,7 @@ import com.hts.web.base.database.RowCallback;
 import com.hts.web.base.database.RowSelection;
 import com.hts.web.common.SerializableListAdapter;
 import com.hts.web.common.SerializableSinceIdListAdapter;
+import com.hts.web.common.pojo.HTWorldChannelName;
 import com.hts.web.common.pojo.HTWorldComment;
 import com.hts.web.common.pojo.HTWorldCommentDto;
 import com.hts.web.common.pojo.HTWorldCommentReId;
@@ -32,6 +33,7 @@ import com.hts.web.common.pojo.HTWorldLiked;
 import com.hts.web.common.pojo.HTWorldReport;
 import com.hts.web.common.pojo.HTWorldThumbnail;
 import com.hts.web.common.pojo.ObjectWithLiked;
+import com.hts.web.common.pojo.OpChannel;
 import com.hts.web.common.pojo.PushStatus;
 import com.hts.web.common.pojo.UserConcernDto;
 import com.hts.web.common.pojo.UserInfoDto;
@@ -41,6 +43,7 @@ import com.hts.web.common.service.impl.BaseServiceImpl;
 import com.hts.web.common.service.impl.KeyGenServiceImpl;
 import com.hts.web.common.util.StringUtil;
 import com.hts.web.common.util.UserInfoUtil;
+import com.hts.web.operations.dao.ChannelDao;
 import com.hts.web.push.service.PushService;
 import com.hts.web.userinfo.dao.UserAdminDao;
 import com.hts.web.userinfo.dao.UserConcernDao;
@@ -148,6 +151,9 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 	@Autowired
 	private CommentFilterService commentFilterService;
 
+	@Autowired
+	private ChannelDao channelDao;
+	
 	@Override
 	public void buildComments(final Integer userId, final Integer worldId,  int sinceId, int maxId, 
 			int start, int limit, Map<String, Object> jsonMap) throws Exception {
@@ -733,8 +739,8 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 	}
 	
 	@Override
-	public HTWorldInteractDto getWorldInteract(Integer worldId, Integer userId, boolean isAddClick, 
-			boolean trimExtras, Integer commentLimit, Integer likedLimit)
+	public void getWorldInteract(Integer worldId, Integer userId, 
+			boolean trimExtras, Integer commentLimit, Integer likedLimit, Map<String, Object> jsonMap)
 			throws Exception {
 		HTWorldInteractDto dto = worldDao.queryHTWorldInteract(worldId);
 		if(dto == null) {
@@ -748,8 +754,22 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 		}
 		worldService.extractExtraInfo(true, true, userId, trimExtras, commentLimit, likedLimit, dto);
 		userInfoService.extractVerify(dto);
-		userInteractService.extractRemark(userId, dto);
-		return dto;
+		
+		// 加载第一个频道的信息
+		if(dto.getChannelNames() != null && dto.getChannelNames().size() > 0) {
+			HTWorldChannelName cname = dto.getChannelNames().get(0);
+			Integer cid = cname.getId();
+			if(cid != null) {
+				OpChannel channel = channelDao.queryChannel(cid);
+				if(channel != null) {
+					List<OpChannel> channelList = new ArrayList<OpChannel>();
+					channelList.add(channel);
+					jsonMap.put(OptResult.JSON_KEY_CHANNELS, channelList);
+				}
+			}
+		}
+		
+		jsonMap.put(OptResult.JSON_KEY_HTWORLD, dto);
 	}
 
 	@Override

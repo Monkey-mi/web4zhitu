@@ -106,10 +106,8 @@ public class ZTWorldInteractServiceTest extends BaseTest {
 	
 	@Test
 	public void testGetWorldInteract() throws Exception {
-		HTWorldInteractDto dto = service.getWorldInteract(10962, 527, true, false, 3, 12);
-		Log.debug(dto.toString());
-		JSONObject jsObj = JSONObject.fromObject(dto);
-		Log.debug(jsObj.toString());
+		Map<String, Object> jsonMap = new HashMap<String, Object>();
+		service.getWorldInteract(10962, 527, false, 3, 12, jsonMap);
 	}
 	
 	@Test
