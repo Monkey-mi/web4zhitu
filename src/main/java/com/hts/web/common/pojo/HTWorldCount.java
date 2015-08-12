@@ -4,15 +4,20 @@ public class HTWorldCount {
 
 	private Integer id;
 	private Integer likeCount;
+	private Integer clickCount;
+	private Integer commentCount;
 	
 	public HTWorldCount() {
 		super();
 	}
 
-	public HTWorldCount(Integer id, Integer likeCount) {
+	public HTWorldCount(Integer id, Integer likeCount, 
+			Integer clickCount, Integer commentCount) {
 		super();
 		this.id = id;
 		this.likeCount = likeCount;
+		this.clickCount = clickCount;
+		this.commentCount = commentCount;
 	}
 
 	public Integer getId() {
@@ -29,6 +34,22 @@ public class HTWorldCount {
 
 	public void setLikeCount(Integer likeCount) {
 		this.likeCount = likeCount;
+	}
+
+	public Integer getCommentCount() {
+		return commentCount;
+	}
+
+	public void setCommentCount(Integer commentCount) {
+		this.commentCount = commentCount;
+	}
+
+	public Integer getClickCount() {
+		return clickCount;
+	}
+
+	public void setClickCount(Integer clickCount) {
+		this.clickCount = clickCount;
 	}
 
 }

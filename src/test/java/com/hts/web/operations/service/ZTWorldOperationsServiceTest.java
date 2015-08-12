@@ -85,15 +85,6 @@ public class ZTWorldOperationsServiceTest extends BaseTest {
 	}
 	
 	@Test
-	public void testBuildSquareIndex() throws Exception {
-		Map<String, Object> jsonMap = new HashMap<String, Object>();
-		service.buildSquarePushIndex(381, true, true, false, 0,1, 18, false, 6, true, jsonMap);
-		service.buildSquarePushIndex(381, true, true, false, 1000,2, 18, false, 6, true, jsonMap);
-		service.buildSquarePushIndex(381, true, true, false, 1000,1, 18, false, 6, true, jsonMap);
-		logObj(jsonMap);
-	}
-	
-	@Test
 	public void testBuildActivity() throws Exception {
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
 //		service.buildActivity(false, jsonMap);

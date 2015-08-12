@@ -22,7 +22,7 @@ public class XiaoMiShuWorldDaoImpl extends BaseDaoImpl implements
 		XiaoMiShuWorldDao {
 
 	private static final String QUERY_WORLD = "select '0' as serial, h.id as world_id, '1' as superb, "
-			+ "'1' as rec_type_id, current_timestamp() as rec_date_modify,"
+			+ "'1' as rec_type_id, current_timestamp() as rec_date_modify,'' as review,"
 			+ " h.*,1-ISNULL(hl.user_id) as liked, 1-ISNULL(hk.user_id) as keep from"
 			+ " (select h0.*," + U0_INFO + " from " + HTS.HTWORLD_HTWORLD + " as h0, " + HTS.USER_INFO + " as u0" 
 			+ " where h0.author_id=u0.id and h0.author_id=? and h0.valid=1 order by h0.id desc LIMIT ?,?) as h"

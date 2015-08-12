@@ -569,7 +569,7 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 	/**
 	 * 查询计数
 	 */
-	private static final String QUERY_COUNT = "select id,like_count from " + table 
+	private static final String QUERY_COUNT = "select id,like_count,click_count,comment_count from " + table 
 			+ " where id in ";
 	
 	/**
@@ -1749,7 +1749,9 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 			public void processRow(ResultSet rs) throws SQLException {
 				callback.callback(new HTWorldCount(
 						rs.getInt("id"),
-						rs.getInt("like_count")));
+						rs.getInt("like_count"),
+						rs.getInt("click_count"),
+						rs.getInt("comment_count")));
 			}
 			
 		});

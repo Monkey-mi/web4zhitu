@@ -8,7 +8,7 @@ import com.hts.web.base.database.RowSelection;
 import com.hts.web.common.dao.BaseDao;
 import com.hts.web.common.pojo.OpWorldType;
 import com.hts.web.common.pojo.OpWorldTypeDto;
-import com.hts.web.common.pojo.OpWorldTypeDto2;
+import com.hts.web.common.pojo.OpWorldTypeDto;
 
 
 /**
@@ -63,6 +63,15 @@ public interface SquarePushDao extends BaseDao {
 	 * @return
 	 */
 	public long querySquareCountByMinId(int minSerial);
+	
+	
+	/**
+	 * 从主库查询最新精品
+	 * 
+	 * @param rowSelection
+	 * @return
+	 */
+	public List<OpWorldTypeDto> querySuperbFromMaster(RowSelection rowSelection);
 	
 	/**
 	 * 查询广场织图
@@ -263,7 +272,7 @@ public interface SquarePushDao extends BaseDao {
 	 * @param rowSelection
 	 * @return
 	 */
-	public List<OpWorldTypeDto2> querySuperbSquareIndexFromMaster(RowSelection rowSelection);
+//	public List<OpWorldTypeDto> querySuperbSquareIndexFromMaster(RowSelection rowSelection);
 	
 	/**
 	 * 查询广场精品分类索引
@@ -271,16 +280,16 @@ public interface SquarePushDao extends BaseDao {
 	 * @param rowSelection
 	 * @return
 	 */
-	public List<OpWorldTypeDto2> querySuperbSquareIndex(RowSelection rowSelection);
+//	public List<OpWorldTypeDto> querySuperbSquareIndex(RowSelection rowSelection);
 	
-	/**
-	 * 查询广场精品分类索引
-	 * 
-	 * @param maxSerial
-	 * @param rowSelection
-	 * @return
-	 */
-	public List<OpWorldTypeDto2> querySuperbSquareIndex(Integer maxSerial, RowSelection rowSelection);
+//	/**
+//	 * 查询广场精品分类索引
+//	 * 
+//	 * @param maxSerial
+//	 * @param rowSelection
+//	 * @return
+//	 */
+//	public List<OpWorldTypeDto> querySuperbSquareIndex(Integer maxSerial, RowSelection rowSelection);
 	
 	/**
 	 * 查询广场分类索引
@@ -290,16 +299,16 @@ public interface SquarePushDao extends BaseDao {
 	 * @param labels
 	 * @return
 	 */
-	public List<OpWorldTypeDto2> querySquarePushIndex(int limit,int superbLimit,List<OpWorldType> labels);
-	
-	/**
-	 * 查询广场分类索引
-	 * 
-	 * @param limit
-	 * @param labels
-	 * @return
-	 */
-	public List<OpWorldTypeDto2> querySquarePushIndex(int limit,List<OpWorldType> labels);
+//	public List<OpWorldTypeDto> querySquarePushIndex(int limit,int superbLimit,List<OpWorldType> labels);
+//	
+//	/**
+//	 * 查询广场分类索引
+//	 * 
+//	 * @param limit
+//	 * @param labels
+//	 * @return
+//	 */
+//	public List<OpWorldTypeDto> querySquarePushIndex(int limit,List<OpWorldType> labels);
 	
 	/**
 	 * 构建OpWorldTypeDto
@@ -310,7 +319,7 @@ public interface SquarePushDao extends BaseDao {
 	 */
 	public OpWorldTypeDto buildSquareDto(ResultSet rs) throws SQLException;
 	
-	public OpWorldTypeDto2 querySuperbWorldTypeByWID(int wid);
+//	public OpWorldTypeDto querySuperbWorldTypeByWID(int wid);
 	
 }
 

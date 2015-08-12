@@ -2,10 +2,9 @@ package com.hts.web.operations.dao;
 
 import java.util.List;
 
-import com.hts.web.base.constant.CacheKeies;
 import com.hts.web.base.database.RowSelection;
 import com.hts.web.common.dao.BaseCacheDao;
-import com.hts.web.common.pojo.OpWorldTypeDto2;
+import com.hts.web.common.pojo.OpWorldTypeDto;
 
 /**
  * <p>
@@ -24,7 +23,7 @@ public interface OpWorldTypeDto2CacheDao extends BaseCacheDao {
 	 * @param rowSelection
 	 * @return
 	 */
-	public List<OpWorldTypeDto2> querySuperbWorldType(RowSelection rowSelection);
+	public List<OpWorldTypeDto> querySuperbWorldType(RowSelection rowSelection);
 	
 	/**
 	 * 查询精品织图
@@ -33,7 +32,7 @@ public interface OpWorldTypeDto2CacheDao extends BaseCacheDao {
 	 * @param end
 	 * @return
 	 */
-	public List<OpWorldTypeDto2> querySuperbWorldType(int start, int end);
+	public List<OpWorldTypeDto> querySuperbWorldType(int start, int end);
 	
 	/**
 	 * 根据位置查询精品分类织图
@@ -41,12 +40,12 @@ public interface OpWorldTypeDto2CacheDao extends BaseCacheDao {
 	 * @param index
 	 * @return
 	 */
-	public OpWorldTypeDto2 querySuperWorldType(long index);
+	public OpWorldTypeDto querySuperWorldType(long index);
 	
 	/**
 	 * 获取最后一个精品
 	 * 
 	 * @return
 	 */
-	public OpWorldTypeDto2 queryLastSuperWorldType();
+	public OpWorldTypeDto queryLastSuperWorldType();
 }

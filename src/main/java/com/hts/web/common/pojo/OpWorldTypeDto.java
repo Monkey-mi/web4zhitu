@@ -28,6 +28,7 @@ public class OpWorldTypeDto implements HTWorldWithExtra, ObjectWithUserVerify, O
 	private Integer recommendId;
 	private Integer recommendTypeId;
 	private Date recommendDate;
+	private String review;
 	private Integer id; // 织图id
 	private String shortLink; // 织图短链
 	private String worldName; // 世界名称
@@ -87,7 +88,7 @@ public class OpWorldTypeDto implements HTWorldWithExtra, ObjectWithUserVerify, O
 		super();
 	}
 
-	public OpWorldTypeDto(Integer recommendId, Integer recommendTypeId, Date recommendDate, Integer id,
+	public OpWorldTypeDto(Integer recommendId, Integer recommendTypeId, Date recommendDate, String review, Integer id,
 			String shortLink, String worldName, String worldDesc, String worldLabel, String worldType, Integer typeId,
 			Date dateAdded, Date dateModified, Integer authorId, Integer clickCount, Integer likeCount,
 			Integer commentCount, Integer keepCount, String coverPath, String titlePath, String bgPath,
@@ -98,6 +99,7 @@ public class OpWorldTypeDto implements HTWorldWithExtra, ObjectWithUserVerify, O
 		this.recommendId = recommendId;
 		this.recommendTypeId = recommendTypeId;
 		this.recommendDate = recommendDate;
+		this.review = review;
 		this.id = id;
 		this.shortLink = shortLink;
 		this.worldName = worldName;
@@ -545,4 +547,12 @@ public class OpWorldTypeDto implements HTWorldWithExtra, ObjectWithUserVerify, O
 		this.recommendTypeId = recommendTypeId;
 	}
 
+	public String getReview() {
+		return review;
+	}
+
+	public void setReview(String review) {
+		this.review = review;
+	}
+	
 }

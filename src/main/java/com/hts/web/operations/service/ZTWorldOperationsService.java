@@ -204,26 +204,6 @@ public interface ZTWorldOperationsService extends BaseService {
 	public void buildRandomLabelPush(int limit, Integer joinId, Map<String, Object> jsonMap) throws Exception;
 	
 	/**
-	 * 构建广场索引
-	 * 
-	 * @param userId
-	 * @param trimLabel 是否过滤标签
-	 * @param trimNormal 是否过来普通分类
-	 * @param trimActivity 是否过滤活动
-	 * @param maxId 最大精品推荐id
-	 * @param superbStart 精品起始页
-	 * @param superbLimit 精品限制
-	 * @param trimConcernId 过滤关注人id 
-	 * @param typeLimit
-	 * @param isRandom
-	 * @param jsonMap
-	 * @throws Exception
-	 */
-	public void buildSquarePushIndex(Integer userId, boolean trimLabel, boolean trimNormal,
-			boolean trimActivity, int maxId, Integer superbStart, Integer superbLimit, 
-			boolean trimConcernId, Integer typeLimit, Boolean isRandom, Map<String, Object> jsonMap) throws Exception;
-	
-	/**
 	 * 构建分类索引
 	 * 
 	 * @param userId

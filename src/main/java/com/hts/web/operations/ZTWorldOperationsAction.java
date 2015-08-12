@@ -250,18 +250,15 @@ public class ZTWorldOperationsAction extends BaseAction {
 	
 	/**
 	 * 查询广场索引
+	 * v3.0.0弃用
 	 * 
 	 * @return
 	 */
+	@Deprecated
 	public String querySquarePushIndex() {
 		try {
-			if(superbStart < 1) superbStart = 1; // 避免请求0页码
-			worldOperationsService.buildSquarePushIndex(getCurrentLoginUserId(), trimLabel, 
-					trimNormal, trimActivity, maxSuperbId, superbStart, superbLimit, trimConcernId,
-					typeLimit, random, jsonMap);
 			JSONUtil.optSuccess(jsonMap);
 		} catch(Exception e) {
-			e.printStackTrace();
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
 		}
 		return StrutsKey.JSON;

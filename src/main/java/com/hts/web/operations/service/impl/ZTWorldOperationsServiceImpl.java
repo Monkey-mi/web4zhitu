@@ -29,7 +29,6 @@ import com.hts.web.common.pojo.OpSquareTopic;
 import com.hts.web.common.pojo.OpUserVerifyDto;
 import com.hts.web.common.pojo.OpWorldType;
 import com.hts.web.common.pojo.OpWorldTypeDto;
-import com.hts.web.common.pojo.OpWorldTypeDto2;
 import com.hts.web.common.pojo.UserVerify;
 import com.hts.web.common.service.impl.BaseServiceImpl;
 import com.hts.web.common.util.NumberUtil;
@@ -331,12 +330,12 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 
 	@Override
 	public void buildSquarePushLabelIndex(Integer superbLimit, Integer typeLimit, Map<String, Object> jsonMap) throws Exception {
-		List<OpWorldType> labelList = opWorldTypeCacheDao.queryCacheLabel(typeLabelLimit);
-		List<OpWorldTypeDto2> list = squarePushDao.querySquarePushIndex(typeLimit, superbLimit, labelList);
-		jsonMap.put(OptResult.JSON_KEY_LABEL_COUNT, SQUARE_LABEL_INDEX_LIMIT);
-		jsonMap.put(OptResult.JSON_KEY_SUPERB_COUNT, SQUARE_LABEL_INDEX_SUPERB_LIMIT);
-		jsonMap.put(OptResult.JSON_KEY_LABEL_INFO, labelList);
-		jsonMap.put(OptResult.JSON_KEY_HTWORLD, list);
+//		List<OpWorldType> labelList = opWorldTypeCacheDao.queryCacheLabel(typeLabelLimit);
+//		List<OpWorldTypeDto2> list = squarePushDao.querySquarePushIndex(typeLimit, superbLimit, labelList);
+//		jsonMap.put(OptResult.JSON_KEY_LABEL_COUNT, SQUARE_LABEL_INDEX_LIMIT);
+//		jsonMap.put(OptResult.JSON_KEY_SUPERB_COUNT, SQUARE_LABEL_INDEX_SUPERB_LIMIT);
+//		jsonMap.put(OptResult.JSON_KEY_LABEL_INFO, labelList);
+//		jsonMap.put(OptResult.JSON_KEY_HTWORLD, list);
 	}
 
 	@Override
@@ -460,92 +459,92 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 
 	@Override
 	public void buildRandomLabelPush(int limit, Integer joinId, Map<String, Object> jsonMap) {
-		List<OpWorldTypeDto> dtoList = null;
-		OpWorldType squareLabel = (OpWorldType)opWorldTypeCacheDao.queryCacheLabelByIndex(
-				NumberUtil.getRandomIndex(typeLabelLimit));
-		Long totalCount = squarePushDao.querySquareCount(squareLabel.getId());
-		if(totalCount > 0) {
-			int p = NumberUtil.getRandomPage(limit, totalCount.intValue());
-			dtoList = squarePushDao.querySquare(squareLabel.getId(), joinId, new RowSelection(p, limit));
-		} else {
-			dtoList = new ArrayList<OpWorldTypeDto>();
-		}
-		jsonMap.put(OptResult.JSON_KEY_HTWORLD, dtoList);
-		jsonMap.put(OptResult.JSON_KEY_LABEL_INFO, squareLabel);
-		
-	}
-
-	@Override
-	public void buildSquarePushIndex(Integer userId, boolean trimLabel, boolean trimNormal, 
-			boolean trimActivity, int maxSuperbId, Integer superbStart, Integer superbLimit,
-			boolean trimConcernId, Integer typeLimit, Boolean isRrandom, Map<String, Object> jsonMap)
-			throws Exception {
-		List<OpWorldType> labelList = null;
-		List<OpWorldTypeDto2> list = null;
-		if(!trimNormal) {
-			labelList = opWorldTypeCacheDao.queryCacheLabel(typeLabelLimit);
-			jsonMap.put(OptResult.JSON_KEY_LABEL_INFO, labelList);
-			list = squarePushDao.querySquarePushIndex(typeLimit, superbLimit, labelList);
-		} else {
-			if(maxSuperbId == 0) {
-				// 第一次查询缓存
-				list = opWorldTypeDto2CacheDao.querySuperbWorldType(new RowSelection(superbStart, superbLimit));
-			} else {
-				OpWorldTypeDto2 firstDto  = opWorldTypeDto2CacheDao.querySuperWorldType(0);
-				if(firstDto != null && firstDto.getRecommendId() > maxSuperbId) { // 有新数据更新
-					superbStart = 1;
-					list = opWorldTypeDto2CacheDao.querySuperbWorldType(new RowSelection(superbStart, superbLimit));
-				} else { // 加载下一页
-					RowSelection rowSelection = new RowSelection(superbStart, superbLimit);
-					if(rowSelection.getMaxRow() > superbTotal) { // 是否超出最大行数，返回第一页
-						superbStart = 1;
-						list = opWorldTypeDto2CacheDao.querySuperbWorldType(new RowSelection(superbStart, superbLimit));
-					} else {
-						list = squarePushDao.querySuperbSquareIndex(maxSuperbId, new RowSelection(superbStart, superbLimit));
-					}
-				}
-			}
-			
-			if(isRrandom) {
-				List<OpWorldTypeDto2> randomList = new ArrayList<OpWorldTypeDto2>();
-				if(superbStart.equals(1)) { // 第一页第一个不随机
-					randomList.add(list.get(0));
-					list.remove(0);
-				}
-				randomList(list, randomList, false);
-				list = randomList;
-			}
-			jsonMap.put(OptResult.JSON_KEY_NEXT_START, superbStart + 1);
-			
-			// 加载关注id列表
-			int size = list.size();
-			if(size > 0 && !trimConcernId) {
-				Set<Integer> cidSet = new HashSet<Integer>();
-				Integer[] concernIds = new Integer[size];
-				for(int i = 0; i < size; i++) {
-					OpWorldTypeDto2 dto = list.get(i);
-					Integer uid = dto.getAuthorId();
-					if(!cidSet.contains(uid)) {
-						concernIds[i] = dto.getAuthorId();
-						cidSet.add(dto.getAuthorId());
-					}
-				}
-				if(userId != -1) {
-					Set<Integer> cidSet2 = userConcernDao.queryConcernIds(userId, concernIds);
-					for(OpWorldTypeDto2 dto : list) {
-						if(cidSet2.contains(dto.getAuthorId())) {
-							dto.setConcerned(Tag.TRUE);
-						}
-					}
-				}
-			}
-		}
-		if(!trimActivity) {
-			List<OpActivity> activityList = activityCacheDao.queryActivity();
-			jsonMap.put(OptResult.JSON_KEY_ACTIVITY, activityList);
-			
-		}
-		jsonMap.put(OptResult.JSON_KEY_HTWORLD, list);
+//		List<OpWorldTypeDto> dtoList = null;
+//		OpWorldType squareLabel = (OpWorldType)opWorldTypeCacheDao.queryCacheLabelByIndex(
+//				NumberUtil.getRandomIndex(typeLabelLimit));
+//		Long totalCount = squarePushDao.querySquareCount(squareLabel.getId());
+//		if(totalCount > 0) {
+//			int p = NumberUtil.getRandomPage(limit, totalCount.intValue());
+//			dtoList = squarePushDao.querySquare(squareLabel.getId(), joinId, new RowSelection(p, limit));
+//		} else {
+//			dtoList = new ArrayList<OpWorldTypeDto>();
+//		}
+//		jsonMap.put(OptResult.JSON_KEY_HTWORLD, dtoList);
+//		jsonMap.put(OptResult.JSON_KEY_LABEL_INFO, squareLabel);
+//		
+//	}
+//
+//	@Override
+//	public void buildSquarePushIndex(Integer userId, boolean trimLabel, boolean trimNormal, 
+//			boolean trimActivity, int maxSuperbId, Integer superbStart, Integer superbLimit,
+//			boolean trimConcernId, Integer typeLimit, Boolean isRrandom, Map<String, Object> jsonMap)
+//			throws Exception {
+//		List<OpWorldType> labelList = null;
+//		List<OpWorldTypeDto> list = null;
+//		if(!trimNormal) {
+//			labelList = opWorldTypeCacheDao.queryCacheLabel(typeLabelLimit);
+//			jsonMap.put(OptResult.JSON_KEY_LABEL_INFO, labelList);
+//			list = squarePushDao.querySquarePushIndex(typeLimit, superbLimit, labelList);
+//		} else {
+//			if(maxSuperbId == 0) {
+//				// 第一次查询缓存
+//				list = opWorldTypeDto2CacheDao.querySuperbWorldType(new RowSelection(superbStart, superbLimit));
+//			} else {
+//				OpWorldTypeDto2 firstDto  = opWorldTypeDto2CacheDao.querySuperWorldType(0);
+//				if(firstDto != null && firstDto.getRecommendId() > maxSuperbId) { // 有新数据更新
+//					superbStart = 1;
+//					list = opWorldTypeDto2CacheDao.querySuperbWorldType(new RowSelection(superbStart, superbLimit));
+//				} else { // 加载下一页
+//					RowSelection rowSelection = new RowSelection(superbStart, superbLimit);
+//					if(rowSelection.getMaxRow() > superbTotal) { // 是否超出最大行数，返回第一页
+//						superbStart = 1;
+//						list = opWorldTypeDto2CacheDao.querySuperbWorldType(new RowSelection(superbStart, superbLimit));
+//					} else {
+//						list = squarePushDao.querySuperbSquareIndex(maxSuperbId, new RowSelection(superbStart, superbLimit));
+//					}
+//				}
+//			}
+//			
+//			if(isRrandom) {
+//				List<OpWorldTypeDto2> randomList = new ArrayList<OpWorldTypeDto2>();
+//				if(superbStart.equals(1)) { // 第一页第一个不随机
+//					randomList.add(list.get(0));
+//					list.remove(0);
+//				}
+//				randomList(list, randomList, false);
+//				list = randomList;
+//			}
+//			jsonMap.put(OptResult.JSON_KEY_NEXT_START, superbStart + 1);
+//			
+//			// 加载关注id列表
+//			int size = list.size();
+//			if(size > 0 && !trimConcernId) {
+//				Set<Integer> cidSet = new HashSet<Integer>();
+//				Integer[] concernIds = new Integer[size];
+//				for(int i = 0; i < size; i++) {
+//					OpWorldTypeDto2 dto = list.get(i);
+//					Integer uid = dto.getAuthorId();
+//					if(!cidSet.contains(uid)) {
+//						concernIds[i] = dto.getAuthorId();
+//						cidSet.add(dto.getAuthorId());
+//					}
+//				}
+//				if(userId != -1) {
+//					Set<Integer> cidSet2 = userConcernDao.queryConcernIds(userId, concernIds);
+//					for(OpWorldTypeDto2 dto : list) {
+//						if(cidSet2.contains(dto.getAuthorId())) {
+//							dto.setConcerned(Tag.TRUE);
+//						}
+//					}
+//				}
+//			}
+//		}
+//		if(!trimActivity) {
+//			List<OpActivity> activityList = activityCacheDao.queryActivity();
+//			jsonMap.put(OptResult.JSON_KEY_ACTIVITY, activityList);
+//			
+//		}
+//		jsonMap.put(OptResult.JSON_KEY_HTWORLD, list);
 	}
 	
 	
@@ -565,7 +564,7 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 		// 下拉刷新
 		} else if(isRefresh) {
 			pageCount = 0;
-			OpWorldTypeDto2 firstDto  = opWorldTypeDto2CacheDao.querySuperWorldType(0);
+			OpWorldTypeDto firstDto  = opWorldTypeDto2CacheDao.querySuperWorldType(0);
 			if(firstDto != null && firstDto.getRecommendId() > maxId) { // 有新数据更新
 				start = 1;
 				rowSelection = new RowSelection(start, limit);
@@ -653,11 +652,14 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 						if(typeId == 0) { // 加载全部精选
 							list = squarePushDao.querySuperbV4(rowSelection);
 							
+							if(completeLimit == 0) {
+								list = opWorldTypeDto2CacheDao.querySuperbWorldType(0, superbRandomLimit-1);
+							}
+							
 							// 加载所有下拉菜单
 							jsonMap.put(OptResult.JSON_KEY_RECOMMEND_TYPE, worldTypeCacheDao.queryType());
 							// 随机加载一种达人
 							OpUserVerifyDto verify = opUserVerifyDtoCacheDao.queryRandomVerify();
-							List<OpUserVerifyDto> vlist = opUserVerifyDtoCacheDao.queryVerify();
 							jsonMap.put(OptResult.JSON_KEY_VERIFY, verify);
 							jsonMap.put(OptResult.JSON_KEY_STARS, 
 									userVerifyRecCacheDao.queryUserByVerifyId(verify.getId(), 10));
@@ -665,7 +667,6 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 						} else { // 加载指定分类精选
 							list = squarePushDao.querySuperbByTypeIdV4(typeId, rowSelection);
 						}
-						
 						
 						// 加载点赞列表和关注状态等
 						worldService.extractExtraInfo(false, false, joinId, false, commentLimit, likedLimit, list.size(), list);
@@ -706,16 +707,16 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 	@Override
 	public void buildSuperbTypeSquareListV3(Integer joinId, int maxId, 
 			int cursor, int start, int limit, Map<String, Object> jsonMap) throws Exception {
-		List<OpWorldTypeDto2> list = null;
+		List<OpWorldTypeDto> list = null;
 		// 查询首页（循环加载缓存中的分页）
 		if(maxId == 0) { 
-			List<OpWorldTypeDto2> tempList = opWorldTypeDto2CacheDao.querySuperbWorldType(0, superbRandomLimit-1);
+			List<OpWorldTypeDto> tempList = opWorldTypeDto2CacheDao.querySuperbWorldType(0, superbRandomLimit-1);
 			list = opWorldTypeDto2CacheDao.querySuperbWorldType(superbRandomLimit, limit-1);
 			randomList(tempList, list, true); // 打乱队列顺序
 		
 		// 从库中查询下一页
 		} else {
-			list = squarePushDao.querySuperbSquareIndex(maxId, new RowSelection(start, limit));
+			list = squarePushDao.querySuperbV4(maxId, new RowSelection(start, limit));
 		}
 		userInfoService.extractVerify(list);
 		extractSuperbLikedAndCount(joinId, list);
@@ -729,7 +730,7 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 	 * @param joinId
 	 * @param list
 	 */
-	private void extractSuperbLikedAndCount(Integer joinId, final List<OpWorldTypeDto2> list) {
+	private void extractSuperbLikedAndCount(Integer joinId, final List<OpWorldTypeDto> list) {
 		if(list.size() > 0) {
 			final Map<Integer, Integer> indexMap = new HashMap<Integer, Integer>();
 			Integer[] worldIds = new Integer[list.size()];
@@ -756,7 +757,10 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 					public void callback(HTWorldCount t) {
 						Integer index = indexMap.get(t.getId());
 						if(index != null) {
-							list.get(index).setLikeCount(t.getLikeCount());
+							OpWorldTypeDto dto = list.get(index);
+							dto.setLikeCount(t.getLikeCount());
+							dto.setClickCount(t.getClickCount());
+							dto.setCommentCount(t.getCommentCount());
 						}
 					}
 				});
@@ -771,11 +775,11 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 	 * @param destList
 	 * @param headInsert
 	 */
-	private void randomList(List<OpWorldTypeDto2> sourceList, 
-			List<OpWorldTypeDto2> destList, boolean headInsert) {
+	private void randomList(List<OpWorldTypeDto> sourceList, 
+			List<OpWorldTypeDto> destList, boolean headInsert) {
 		if(sourceList.size() > 0) {
 			int index = NumberUtil.getRandomIndex(sourceList.size());
-			OpWorldTypeDto2 i = sourceList.get(index);
+			OpWorldTypeDto i = sourceList.get(index);
 			if(headInsert)
 				destList.add(0, i);
 			else 
@@ -903,7 +907,7 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 			throws Exception {
 		final Map<Integer, Integer> indexMap = new HashMap<Integer, Integer>();
 		final List<OpWorldType> labelList = opWorldTypeCacheDao.queryCacheLabel(typeLabelLimit);
-		final List<OpWorldTypeDto2> squareList = squarePushDao.querySquarePushIndex(limit, labelList);
+		final List<OpWorldTypeDto> squareList = squarePushDao.querySuperbV4(new RowSelection(1, limit));
 		for(int i = 0; i < labelList.size(); i++) {
 			indexMap.put(labelList.get(i).getId(), i);
 		}
@@ -1032,7 +1036,6 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 		userInteractService.extractRemark(joinId, starList);
 		jsonMap.put(OptResult.JSON_KEY_STARS, starList);
 	}
-
 
 
 }
