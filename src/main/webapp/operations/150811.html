@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="description" content="会画画是怎样一种体验！ ">
+<title>会画画是怎样一种体验！ </title>
+<link rel="stylesheet" type="text/css" href="/staticres/htworld/phonev2/css/htszoomtour2013122801.css" />
+<style type="text/css">
+body {
+	margin: 0 auto 0 auto;
+	padding: 0;
+	text-align: center;
+	font-size:0px;
+	font-family:"微软雅黑",Arial, Helvetica, sans-serif;
+	background:#f3f4f6;
+}
+
+img {
+	width: 100%;
+	border: 0;
+	padding: 0;
+	margin: 0;
+}
+
+a {
+	text-decoration: none;
+	color: #ffffff;
+}
+
+#main {
+	display:inline-block;
+	width: 100%;
+	max-width:750px;
+	margin-bottom:60px;
+}
+
+
+.user-wrap {
+	display:inline-block;
+}
+
+.user-wrap img{
+	float:left;
+}
+
+
+.concern-btn {
+	display:inline-block;
+	width:200px;
+	height:60px;
+	position:absolute;
+	left: 50%;
+	margin: 430px 0 0 120px;
+	-moz-border-radius: 0px;   
+	-webkit-border-radius: 0px;
+    border-radius:0px;
+    font-size: 35px;
+    line-height:74px;
+    cursor:pointer;
+    border: 8px solid #343434;
+    background:#ffffff;
+    color:#343434;
+    font-weight:300;
+    text-align:center;
+    display:none;
+}
+
+/* #concern-654103, #concerned-654103{
+	margin-top:125px;
+}
+ */
+
+.opt-btn {
+	display:inline-block;
+	width:280px;
+	height:80px;
+	position:absolute;
+  left: 50%;  
+	margin: 480px 0 0 -80px;
+	-moz-border-radius: 0px;   
+	-webkit-border-radius: 0px;
+    border-radius: 0px;
+    background:#ffffff;
+    border: 8px solid #343434;
+    padding:10px;
+    color:#343434;
+    font-size:35px;
+	font-weight:300;
+	text-align:center;
+	display:none;
+}
+
+.opt-btn img {
+	width:auto;
+	height:auto;
+}
+
+#opt-btn-bg {
+	float:left;
+}
+
+#use-btn {
+	margin-top:590px;
+}
+
+#download-wrap {
+	width:100%;
+	text-align:center;
+	position:fixed;
+	bottom:0;
+	height:60px;
+	display:none;
+	text-align:center;
+	z-index:99999;
+}
+
+#download-btn {
+	height:100%;
+	width:100%;
+	display:inline-block;
+	color:#ffffff;
+}
+
+#download-bg {
+	width:100%;
+	height:100%;
+	position:absolute;
+	left:0px;
+}
+
+#download-logo {
+	width:auto;
+	height:44px;
+	position:absolute;
+	left:0px;
+	margin-top:8px;
+	margin-left:12px;
+	
+}
+
+#download-close {
+	width:15px;
+	height:15px;
+	position:absolute;
+	right:0;
+	display:inline;
+	cursor:pointer;
+}
+
+#download-tip {
+	background:#3a97d0;
+	width: 100px;
+	height:36px;
+	right:0;
+	color:#ffffff;
+	-moz-border-radius: 4px;   
+	-webkit-border-radius: 4px;
+    border-radius: 4px;
+    margin:12px 18px 0 0;
+    line-height:36px;
+    text-align:center;
+    position:absolute;
+    font-size:14px;
+}
+
+.superb {
+	width:750px;
+	height:750px;
+	display:none;
+	position:relative;
+}
+
+.zt-container {
+	width:100% !important;
+	height:100% !important;
+	background:#edeff1 !important;
+}
+
+.zt-loading-bg   {
+    background:none !important;
+}
+
+.zt-loading,.zt-desc-hide,.zt-desc-hide {
+	z-index:99998 !important;
+}
+</style>
+</head>
+<body>
+<div id='wx_pic' style="display:none;">
+	<img src='http://static.imzhitu.com/op/sticker/150811/banner.jpg' />
+</div>
+<div id="main">
+<div id="header">
+<img alt="" src="http://static.imzhitu.com/op/sticker/150811/01.jpg" /> 
+</div>
+<div class="user-wrap">
+<img alt="" src="http://static.imzhitu.com/op/sticker/150811/02.jpg" /> 
+<a id="concern-88664" class="concern-btn concern" name="imzhitu-callapp" href="imzhitu://concern?uid=88664">+关注</a>
+<a class="concern-btn concerned">已关注</a>
+</div>
+<div class="superb">
+	<div class="zt-container" data-wid="1252689">
+	<div class="zt-title">
+		<img alt="">
+	</div>
+	<div class="zt-desc-hide" title="隐藏描述"></div>
+	<div class="zt-desc-show" title="显示描述"></div>
+	<div class="zt-desc">
+		<div class="zt-desc-text"></div>
+		<div class="zt-desc-bg"></div>
+	</div>
+	<div class="zt-loading">
+	<div class="zt-loading-bg"></div>
+	<div class="zt-loading-icon"></div>
+	<div><span>加载中...</span><span id="zt-progress">0</span><span>%</span></div>
+	</div>
+	</div>
+</div>
+<div class="user-wrap">
+<img alt="" src="http://static.imzhitu.com/op/sticker/150811/03.jpg" /> 
+<a id="concern-748582" class="concern-btn concern" name="imzhitu-callapp" href="imzhitu://concern?uid=748582">+关注</a>
+<a class="concern-btn concerned">已关注</a>
+</div>
+<div class="superb">
+	<div class="zt-container" data-wid="2657735">
+	<div class="zt-title">
+		<img alt="">
+	</div>
+	<div class="zt-desc-hide" title="隐藏描述"></div>
+	<div class="zt-desc-show" title="显示描述"></div>
+	<div class="zt-desc">
+		<div class="zt-desc-text"></div>
+		<div class="zt-desc-bg"></div>
+	</div>
+	<div class="zt-loading">
+	<div class="zt-loading-bg"></div>
+	<div class="zt-loading-icon"></div>
+	<div><span>加载中...</span><span id="zt-progress">0</span><span>%</span></div>
+	</div>
+	</div>
+</div>
+<div class="user-wrap">
+<img alt="" src="http://static.imzhitu.com/op/sticker/150811/04.jpg" /> 
+<a id="concern-1912551" class="concern-btn concern" name="imzhitu-callapp" href="imzhitu://concern?uid=1912551">+关注</a>
+<a class="concern-btn concerned">已关注</a>
+</div>
+<div class="superb">
+	<div class="zt-container" data-wid="2448446">
+	<div class="zt-title">
+		<img alt="">
+	</div>
+	<div class="zt-desc-hide" title="隐藏描述"></div>
+	<div class="zt-desc-show" title="显示描述"></div>
+	<div class="zt-desc">
+		<div class="zt-desc-text"></div>
+		<div class="zt-desc-bg"></div>
+	</div>
+	<div class="zt-loading">
+	<div class="zt-loading-bg"></div>
+	<div class="zt-loading-icon"></div>
+	<div><span>加载中...</span><span id="zt-progress">0</span><span>%</span></div>
+	</div>
+	</div>
+</div>
+<div class="user-wrap">
+<img alt="" src="http://static.imzhitu.com/op/sticker/150811/05.jpg" />
+<a id="concern-94016" class="concern-btn concern" name="imzhitu-callapp" href="imzhitu://concern?uid=94016">+关注</a>
+<a class="concern-btn concerned">已关注</a>
+</div>
+<div class="superb">
+	<div class="zt-container" data-wid="2329937">
+	<div class="zt-title">
+		<img alt="">
+	</div>
+	<div class="zt-desc-hide" title="隐藏描述"></div>
+	<div class="zt-desc-show" title="显示描述"></div>
+	<div class="zt-desc">
+		<div class="zt-desc-text"></div>
+		<div class="zt-desc-bg"></div>
+	</div>
+	<div class="zt-loading">
+	<div class="zt-loading-bg"></div>
+	<div class="zt-loading-icon"></div>
+	<div><span>加载中...</span><span id="zt-progress">0</span><span>%</span></div>
+	</div>
+	</div>
+</div>
+<div class="user-wrap">
+<img alt="" src="http://static.imzhitu.com/op/sticker/150811/06.jpg" />
+<a id="concern-296871" class="concern-btn concern" name="imzhitu-callapp" href="imzhitu://concern?uid=296871">+关注</a>
+<a class="concern-btn concerned">已关注</a>
+</div>
+<div class="superb">
+	<div class="zt-container" data-wid="1024113">
+	<div class="zt-title">
+		<img alt="">
+	</div>
+	<div class="zt-desc-hide" title="隐藏描述"></div>
+	<div class="zt-desc-show" title="显示描述"></div>
+	<div class="zt-desc">
+		<div class="zt-desc-text"></div>
+		<div class="zt-desc-bg"></div>
+	</div>
+	<div class="zt-loading">
+	<div class="zt-loading-bg"></div>
+	<div class="zt-loading-icon"></div>
+	<div><span>加载中...</span><span id="zt-progress">0</span><span>%</span></div>
+	</div>
+	</div>
+</div>
+<div class="user-wrap">
+<img alt="" src="http://static.imzhitu.com/op/sticker/150811/07.jpg" />
+<a id="concern-395797" class="concern-btn concern" name="imzhitu-callapp" href="imzhitu://concern?uid=395797">+关注</a>
+<a class="concern-btn concerned">已关注</a>
+</div>
+<div class="superb">
+	<div class="zt-container" data-wid="813210">
+	<div class="zt-title">
+		<img alt="">
+	</div>
+	<div class="zt-desc-hide" title="隐藏描述"></div>
+	<div class="zt-desc-show" title="显示描述"></div>
+	<div class="zt-desc">
+		<div class="zt-desc-text"></div>
+		<div class="zt-desc-bg"></div>
+	</div>
+	<div class="zt-loading">
+	<div class="zt-loading-bg"></div>
+	<div class="zt-loading-icon"></div>
+	<div><span>加载中...</span><span id="zt-progress">0</span><span>%</span></div>
+	</div>
+	</div>
+</div>
+
+<div id="opt-btn-wrap">
+<img id="opt-btn-bg" alt="" src="http://static.imzhitu.com/op/sticker/150811/08.jpg" /> 
+<a id="share-btn" class="opt-btn" href="imzhitu://sharePage">分享粗去</a>
+<div style="font-weight:600px">button</div>
+</div>
+</div>
+
+<div id="download-wrap">
+<a id="download-btn" title="点击下载" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.htshuo.htsg">
+	<img id="download-bg" alt="" src="/staticres/base/images/down-bg.jpg">
+	<img id="download-logo" alt="" src="/staticres/base/images/down-logo.png">
+	<span id="download-tip">点击下载</span>
+</a>
+<img id="download-close"　title="隐藏" onclick="javascript:hideDownloadBtn();" alt="" src="/staticres/base/images/down-close.jpg">
+</div>
+
+<script type="text/javascript" src="/staticres/base/js/callapp2.js"></script>
+
+<script type="text/javascript" src="/staticres/base/js/jquery/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="/staticres/base/js/baseTools.js"></script>
+<script type="text/javascript" src="/staticres/htworld/common/js/jquery.htszoomtourV3.js"></script>
+<script type="text/javascript">
+
+var inapp = 0;
+$(document).ready(function() {
+	inapp = callAppInit();
+	initLayout();
+	
+	if(inapp == 1) {
+		var reg = new RegExp("(^|&)uid=([^&]*)(&|$)", "i"),
+			r = window.location.search.substr(1).match(reg);
+			
+		if(r == null || r == undefined) {
+			bindAllBtnClick2Callapp();
+		} else {
+			uid = unescape(r[2]);
+			fetchConcernStatus(uid);
+		}
+		
+	} else {
+		$("#download-wrap").show();
+		bindAllBtnClick2Callapp();
+	}
+	document.getElementById("share-btn").addEventListener('click',openclient,false);
+	document.getElementById("use-btn").addEventListener('click',openclient,false);
+});
+
+function initLayout() {
+	var maxW = 750;
+	var winWidth = $(window).width();
+	
+	winWidth = winWidth > maxW ? maxW : winWidth;
+
+	var scale = 1,
+		headerH = 900,
+		
+		btnW = 200,
+		btnH = 60,		
+		btnMarginTop = 430,
+		btnMarginLeft = 120,
+		btnFontSize = 28,
+		btnRadius = 0,
+		btnBorderW =8,
+		
+		spbtnW = 280,
+		spbtnH = 80,		
+		spbtnMarginTop = 480,
+		spbtnMarginLeft = -140,
+		spbtnPadding = 10,
+		spbtnRadius = 0,
+		spbtnBorderW = 8,
+		spbtnFontSize = 35,
+		
+ 		ubtnMarginTop = 590,
+		
+		spimgW = 184,
+		
+		btn654103MarginTop = 125, 
+		
+	scale = winWidth / maxW;
+	
+	btnW = btnW * scale;
+	btnH = btnH * scale;
+	btnMarginTop = btnMarginTop * scale;
+	btnMarginLeft = btnMarginLeft * scale;
+	btnFontSize = btnFontSize * scale;
+	btnRadius = btnRadius * scale;
+	btnBorderW = btnBorderW * scale;
+	
+	spbtnW = spbtnW * scale;
+	spbtnH = spbtnH * scale;
+	spbtnMarginTop = spbtnMarginTop * scale;
+	spbtnMarginLeft = spbtnMarginLeft * scale;
+	spbtnRadius = spbtnRadius * scale;
+	spbtnPadding = spbtnPadding * scale;
+	spbtnBorderW = spbtnBorderW * scale;
+	spbtnFontSize = spbtnFontSize * scale;
+ 	
+	ubtnMarginTop = ubtnMarginTop * scale;
+
+	spimgW = spimgW * scale;
+	
+	btn654103MarginTop = btn654103MarginTop * scale; 
+		
+	$("#header").height(scale * headerH + 'px');
+	
+	$(".concern-btn").css({
+		"width":btnW + "px",
+		"height":btnH + "px",
+		"margin-top":btnMarginTop + "px",
+		"margin-left":btnMarginLeft + "px",
+		"font-size":btnFontSize + "px",
+		"line-height":btnH + "px",
+		"border-width":btnBorderW + "px",
+		"-moz-border-radius":btnRadius + "px",
+		"-webkit-border-radius":btnRadius + "px",
+		"border-radius":btnRadius + "px"});
+		
+/* 	$("#concern-654103, #concerned-654103").css({
+		"margin-top":btn654103MarginTop + "px"
+	}); */
+	
+	$(".concern").show();
+		
+	$(".opt-btn").css({
+		"width":spbtnW + "px",
+		"height":spbtnH + "px",
+		"margin-top":spbtnMarginTop + "px",
+		"margin-left":spbtnMarginLeft + "px",
+		"-moz-border-radius":spbtnRadius + "px",
+		"-webkit-border-radius":spbtnRadius + "px",
+		"border-radius":spbtnRadius + "px",
+		"font-size":spbtnFontSize + "px",
+		"border-width":spbtnBorderW + "px",
+		"padding":spbtnPadding + "px"});
+		
+	$("#use-btn").css({
+		"margin-top":ubtnMarginTop + "px"
+	});
+		
+	$(".opt-btn img").css({
+		"width":spimgW + "px",
+	});
+		
+	$(".opt-btn").show();
+		
+	$(".superb").css({
+		"width":winWidth + "px",
+		"height":winWidth + "px"
+	}).show();
+		
+	if(inapp==1) {
+		$("#main").css({"margin-bottom":"0px"});
+	}
+	
+	var scale = winWidth / 640,
+		width = winWidth,
+		height = winWidth,
+		radiu = parseInt(40 * scale),
+		config = {w:width,h:height,r:radiu,s:scale,key:"zhangjiaxin"},
+		worldSettings = {
+		adminKey			: config.key,
+		worldId 			: 15388, // 浏览的世界ID
+		scale 				: config.s, // 缩放比例
+		width 				: config.w, // 显示框宽度
+		height 				: config.h, // 显示宽长度
+		radius				: config.r,	//圆圈半径
+		limit 				: 5, // 每页查询条数
+		url 				: '../ztworld/ztworld_queryTitleChildWorldPage', // 数据获取地址
+		loadMoreURL			: '../ztworld/ztworld_queryChildWorldPage', // 加载更多子世界地址
+		inZoomfactor 		: 5, // 背景图渐变过程中放大的倍数
+		inSpeedfactor 		: 650, // 渐变速度
+		inImgdelayfactor 	: 3, // 渐变延迟时间
+		outZoomfactor 		: 3, // 背景图渐变过程中放大的倍数
+		outSpeedfactor 		: 650, // 渐变速度
+		tagTopPadding		: 1.5*scale,
+		outImgdelayfactor 	: 0,
+		ver					: 1,
+		multiple			: true
+	};
+	
+	
+	//mishengliang 图片渲染 循环渲染
+	$(".zt-container").each(function() {
+		var $this = $(this);
+		var wid = $this.data("wid");
+		worldSettings.worldId = wid;
+		$this.data('init', false).htszoomtour(worldSettings);
+	});
+		
+}
+
+function bindConcern(uid, status) {
+	var $btn = $("#concern-" + uid);
+	switch(status) {
+	case 0:
+		$btn.hide().siblings(".concerned:eq(0)").show();
+		break;
+	case 1:
+		$btn.hide().siblings(".concerned:eq(0)").text("相互关注").show();
+		break;
+	default:
+		$btn.click(function() {
+			$this = $(this);
+			$this.hide().siblings(".concerned:eq(0)").show();
+		});
+		break;
+	}
+}
+
+function fetchConcernStatus(uid) {
+	$.post("./user_queryConcernStatus",{
+		"userId":uid,
+		"concernIds":"88664,748582,1912551,94016,296871,395797",
+	},function(data){
+		if(data['result'] == 0) {
+			var status = data['concerns'];
+			for(var i = 0; i < status.length; i++) {
+				bindConcern(status[i]['userId'], status[i]['isMututal']);
+			}
+		} else {
+			bindAllBtnClick2Callapp();
+		}
+	}, "json");
+}
+
+function bindAllBtnClick2Callapp() {
+	var $callapp = document.getElementsByName("imzhitu-callapp");
+   	if($callapp.length) {
+   		for(var i = 0; i < $callapp.length; i++) {
+   			$callapp[i].addEventListener('click',openclient,false);
+   		}
+   	}
+}
+
+function hideDownloadBtn() {
+	$("#download-wrap").hide();
+	$("#main").css({"margin-bottom":"0px"});
+}
+
+</script>
+<div style="display:none;">
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1255868073'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1255868073' type='text/javascript'%3E%3C/script%3E"));</script>
+</div>
+</body>
+</html>
