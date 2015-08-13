@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="description" content="夏天和海有个约会！">
+<title>夏天和海有个约会！</title>
+<style type="text/css">
+body {
+	margin: 0 auto 0 auto;
+	padding: 0;
+	text-align: center;
+	font-size:0px;
+	font-family:"微软雅黑",Arial, Helvetica, sans-serif;
+	background:#f3f4f6;
+}
+
+img {
+	width: 100%;
+	border: 0;
+	padding: 0;
+	margin: 0;
+}
+
+a {
+	text-decoration: none;
+	color: #ffffff;
+}
+
+#main {
+	display:inline-block;
+	width: 100%;
+	max-width:750px;
+	margin-bottom:60px;
+}
+
+.opt-btn {
+	display:inline-block;
+	width:308px;
+	position:absolute;
+   	left: 50%;
+	margin: 480px 0 0 -154px;
+	text-align:center;
+}
+
+.opt-btn img {
+	width:100%;
+	height:auto;
+}
+
+#opt-btn-bg {
+	float:left;
+}
+
+#download-wrap {
+	width:100%;
+	text-align:center;
+	position:fixed;
+	bottom:0;
+	height:60px;
+	display:none;
+	text-align:center;
+	z-index:99999;
+}
+
+#download-btn {
+	height:100%;
+	width:100%;
+	display:inline-block;
+	color:#ffffff;
+}
+
+#download-bg {
+	width:100%;
+	height:100%;
+	position:absolute;
+	left:0px;
+}
+
+#download-logo {
+	width:auto;
+	height:44px;
+	position:absolute;
+	left:0px;
+	margin-top:8px;
+	margin-left:12px;
+	
+}
+
+#download-close {
+	width:15px;
+	height:15px;
+	position:absolute;
+	right:0;
+	display:inline;
+	cursor:pointer;
+}
+
+#download-tip {
+	background:#3a97d0;
+	width: 100px;
+	height:36px;
+	right:0;
+	color:#ffffff;
+	-moz-border-radius: 4px;   
+	-webkit-border-radius: 4px;
+    border-radius: 4px;
+    margin:12px 18px 0 0;
+    line-height:36px;
+    text-align:center;
+    position:absolute;
+    font-size:14px;
+}
+</style>
+</head>
+<body>
+<div id="main">
+
+<img alt="" src="http://static.imzhitu.com/op/sticker/150812/01.jpg" />
+<img alt="" src="http://static.imzhitu.com/op/sticker/150812/02.jpg" />
+<img alt="" src="http://static.imzhitu.com/op/sticker/150812/03.jpg" />
+<img alt="" src="http://static.imzhitu.com/op/sticker/150812/04.jpg" />
+
+<div id="opt-btn-wrap">
+<img id="opt-btn-bg" alt="" src="http://static.imzhitu.com/op/sticker/150812/05.jpg" />
+<a id="use-btn" class="opt-btn" href="imzhitu://useSticker">
+<img alt="" src="http://static.imzhitu.com/op/sticker/150812/button.png">
+</a>
+</div>
+</div>
+</div>
+
+<div id="download-wrap">
+<a id="download-btn" title="点击下载" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.htshuo.htsg">
+	<img id="download-bg" alt="" src="/staticres/base/images/down-bg.jpg">
+	<img id="download-logo" alt="" src="/staticres/base/images/down-logo.png">
+	<span id="download-tip">点击下载</span>
+</a>
+<img id="download-close"　title="隐藏" onclick="javascript:hideDownloadBtn();" alt="" src="/staticres/base/images/down-close.jpg">
+</div>
+
+<script type="text/javascript" src="/staticres/base/js/callapp2.js"></script>
+<script type="text/javascript" src="/staticres/base/js/jquery/jquery-1.8.2.min.js"></script>
+<script type="text/javascript">
+
+var inapp = 0;
+$(document).ready(function() {
+	inapp = callAppInit();
+	initLayout();
+	
+	if(inapp == 1) {
+		var reg = new RegExp("(^|&)uid=([^&]*)(&|$)", "i"),
+			r = window.location.search.substr(1).match(reg);
+			
+		if(r == null || r == undefined) {
+			bindAllBtnClick2Callapp();
+		} else {
+			uid = unescape(r[2]);
+			fetchConcernStatus(uid);
+		}
+		
+	} else {
+		$("#download-wrap").show();
+	}
+	document.getElementById("use-btn").addEventListener('click',openclient,false);
+});
+
+function initLayout() {
+	var maxW = 750;
+	var winWidth = $(window).width();
+	
+	winWidth = winWidth > maxW ? maxW : winWidth;
+
+	var scale = 1,
+		
+		spbtnW = 308,
+		spbtnMarginTop = 480,
+		spbtnMarginLeft = -154,
+		
+		scale = winWidth / maxW;
+	
+	
+	spbtnW = spbtnW * scale;
+	spbtnMarginTop = spbtnMarginTop * scale;
+	spbtnMarginLeft = spbtnMarginLeft * scale;
+		
+	$(".opt-btn").css({
+		"width":spbtnW + "px",
+		"margin-top":spbtnMarginTop + "px",
+		"margin-left":spbtnMarginLeft + "px"});
+		
+		
+	$(".opt-btn").show();
+		
+}
+
+function hideDownloadBtn() {
+	$("#download-wrap").hide();
+	$("#main").css({"margin-bottom":"0px"});
+}
+
+</script>
+<div style="display:none;">
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1255868073'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1255868073' type='text/javascript'%3E%3C/script%3E"));</script>
+</div>
+</body>
+</html>
