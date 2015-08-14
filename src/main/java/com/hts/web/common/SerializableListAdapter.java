@@ -12,8 +12,9 @@ public interface SerializableListAdapter<T extends Serializable> {
 	 * 
 	 * @param rowSelection
 	 * @return
+	 * @throws Exception 
 	 */
-	public List<T> getSerializables(RowSelection rowSelection);
+	public List<T> getSerializables(RowSelection rowSelection) throws Exception;
 	
 	/**
 	 * 获取序列化对象列表
@@ -29,7 +30,8 @@ public interface SerializableListAdapter<T extends Serializable> {
 	 * 
 	 * @param maxId
 	 * @return
+	 * @throws Exception 
 	 */
-	public long getTotalByMaxId(int maxId);
+	public long getTotalByMaxId(int maxId) throws Exception;
 
 }
