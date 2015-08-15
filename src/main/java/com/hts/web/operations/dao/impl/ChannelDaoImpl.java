@@ -32,13 +32,13 @@ public class ChannelDaoImpl extends BaseDaoImpl implements ChannelDao {
 			+ "c0.channel_title,c0.subtitle,c0.channel_desc,c0.channel_icon,"
 			+ "c0.sub_icon, c0.banner, c0.channel_type,c0.channel_label,c0.label_ids,c0.world_count,c0.child_count,"
 			+ "c0.member_count,c0.superb_count,c0.create_time,c0.last_modified,c0.superb,c0.theme_id,c0.serial,"
-			+ "c0.danmu,c0.mood,c0.world";
+			+ "c0.danmu,c0.mood,c0.world,c0.review";
 	
 	private static final String CHANNEL_DETAIL = "c0.id,c0.owner_id,c0.channel_name,"
 			+ "c0.channel_title,c0.subtitle,c0.channel_desc,c0.channel_icon,"
 			+ "c0.sub_icon, c0.banner, c0.channel_type,c0.channel_label,c0.label_ids,c0.world_count,c0.child_count,"
 			+ "c0.member_count,c0.superb_count,c0.create_time,c0.last_modified,c0.superb,c0.theme_id,c0.serial,"
-			+ "c0.danmu,c0.mood,c0.world," + U0_INFO;
+			+ "c0.danmu,c0.mood,c0.world,c0.review," + U0_INFO;
 	
 	private static String table = HTS.OPERATIONS_CHANNEL;
 	
@@ -147,7 +147,8 @@ public class ChannelDaoImpl extends BaseDaoImpl implements ChannelDao {
 				rs.getInt("serial"),
 				rs.getInt("danmu"),
 				rs.getInt("mood"),
-				rs.getInt("world"));
+				rs.getInt("world"),
+				rs.getString("review"));
 	}
 	
 	public OpChannelName buildName(ResultSet rs) throws SQLException {
@@ -182,7 +183,8 @@ public class ChannelDaoImpl extends BaseDaoImpl implements ChannelDao {
 				rs.getInt("theme_id"),
 				rs.getInt("danmu"),
 				rs.getInt("mood"),
-				rs.getInt("world"));
+				rs.getInt("world"),
+				rs.getString("review"));
 		detail.setOwner(owner);
 		return detail;
 	}

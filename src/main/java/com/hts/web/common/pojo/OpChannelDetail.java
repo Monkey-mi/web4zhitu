@@ -47,6 +47,7 @@ public class OpChannelDetail implements Serializable {
 	private Integer danmu;
 	private Integer mood;
 	private Integer world;
+	private String review;
 
 	private UserInfoDto owner;
 
@@ -65,7 +66,7 @@ public class OpChannelDetail implements Serializable {
 			String channelLabel, String labelIds, Integer worldCount,
 			Integer childCount, Integer memberCount, Integer superbCount,
 			Date createTime, Date lastModified, Integer superb, Integer themeId,
-			Integer danmu, Integer mood, Integer world) {
+			Integer danmu, Integer mood, Integer world, String review) {
 		super();
 		this.id = id;
 		this.ownerId = ownerId;
@@ -90,6 +91,7 @@ public class OpChannelDetail implements Serializable {
 		this.danmu = danmu;
 		this.mood = mood;
 		this.world = world;
+		this.review = review;
 	}
 
 	public Integer getId() {
@@ -309,6 +311,13 @@ public class OpChannelDetail implements Serializable {
 	public void setBanner(String banner) {
 		this.banner = banner;
 	}
-	
+
+	public String getReview() {
+		return review;
+	}
+
+	public void setReview(String review) {
+		this.review = review;
+	}
 	
 }
