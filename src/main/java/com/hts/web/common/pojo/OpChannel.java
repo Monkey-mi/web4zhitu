@@ -30,6 +30,7 @@ public class OpChannel implements Serializable {
 	private String channelName;
 	private String channelTitle;
 	private String subtitle;
+	private String banner;
 	private String channelDesc;
 	private String channelIcon;
 	private String subIcon;
@@ -60,7 +61,7 @@ public class OpChannel implements Serializable {
 
 	public OpChannel(Integer id, Integer ownerId, String channelName,
 			String channelTitle, String subtitle, String channelDesc,
-			String channelIcon, String subIcon, Integer channelType,
+			String channelIcon, String subIcon, String banner, Integer channelType,
 			String channelLabel, String labelIds, Integer worldCount,
 			Integer childCount, Integer memberCount, Integer superbCount,
 			Date createTime, Date lastModified, Integer superb,
@@ -75,6 +76,7 @@ public class OpChannel implements Serializable {
 		this.channelDesc = channelDesc;
 		this.channelIcon = channelIcon;
 		this.subIcon = subIcon;
+		this.banner = banner;
 		this.channelType = channelType;
 		this.channelLabel = channelLabel;
 		this.labelIds = labelIds;
@@ -308,6 +310,14 @@ public class OpChannel implements Serializable {
 
 	public void setRole(Integer role) {
 		this.role = role;
+	}
+
+	public String getBanner() {
+		return banner;
+	}
+
+	public void setBanner(String banner) {
+		this.banner = banner;
 	}
 	
 }

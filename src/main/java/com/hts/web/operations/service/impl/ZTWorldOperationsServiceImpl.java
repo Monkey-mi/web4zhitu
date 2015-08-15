@@ -636,7 +636,7 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 	}
 	
 	@Override
-	public void buildSuperbTypeSquareListV2(final Integer typeId, int maxId, int start, int limit,
+	public void buildSuperbTypeSquareListV2(final Integer typeId, int maxId, int start, final int limit,
 			final int commentLimit, final int likedLimit, final int completeLimit, 
 			final boolean trimConcernId, final Integer joinId, final Map<String, Object> jsonMap) throws Exception {
 		buildSerializables("getRecommendId", maxId, start, limit, jsonMap, 
@@ -654,7 +654,7 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 							list = squarePushDao.querySuperbV4(rowSelection);
 							
 							if(completeLimit == 0) {
-								list = opWorldTypeDto2CacheDao.querySuperbWorldType(0, superbRandomLimit-1);
+								list = opWorldTypeDto2CacheDao.querySuperbWorldType(0, limit-1);
 							}
 							
 							// 加载所有下拉菜单

@@ -30,13 +30,13 @@ public class ChannelDaoImpl extends BaseDaoImpl implements ChannelDao {
 
 	private static final String CHANNEL_ABSTRACT = "c0.id,c0.owner_id,c0.channel_name,"
 			+ "c0.channel_title,c0.subtitle,c0.channel_desc,c0.channel_icon,"
-			+ "c0.sub_icon, c0.channel_type,c0.channel_label,c0.label_ids,c0.world_count,c0.child_count,"
+			+ "c0.sub_icon, c0.banner, c0.channel_type,c0.channel_label,c0.label_ids,c0.world_count,c0.child_count,"
 			+ "c0.member_count,c0.superb_count,c0.create_time,c0.last_modified,c0.superb,c0.theme_id,c0.serial,"
 			+ "c0.danmu,c0.mood,c0.world";
 	
 	private static final String CHANNEL_DETAIL = "c0.id,c0.owner_id,c0.channel_name,"
 			+ "c0.channel_title,c0.subtitle,c0.channel_desc,c0.channel_icon,"
-			+ "c0.sub_icon, c0.channel_type,c0.channel_label,c0.label_ids,c0.world_count,c0.child_count,"
+			+ "c0.sub_icon, c0.banner, c0.channel_type,c0.channel_label,c0.label_ids,c0.world_count,c0.child_count,"
 			+ "c0.member_count,c0.superb_count,c0.create_time,c0.last_modified,c0.superb,c0.theme_id,c0.serial,"
 			+ "c0.danmu,c0.mood,c0.world," + U0_INFO;
 	
@@ -132,6 +132,7 @@ public class ChannelDaoImpl extends BaseDaoImpl implements ChannelDao {
 				rs.getString("channel_desc"),
 				rs.getString("channel_icon"),
 				rs.getString("sub_icon"),
+				rs.getString("banner"),
 				rs.getInt("channel_type"),
 				rs.getString("channel_label"),
 				rs.getString("label_ids"),
@@ -167,6 +168,7 @@ public class ChannelDaoImpl extends BaseDaoImpl implements ChannelDao {
 				rs.getString("channel_desc"),
 				rs.getString("channel_icon"),
 				rs.getString("sub_icon"),
+				rs.getString("banner"),
 				rs.getInt("channel_type"),
 				rs.getString("channel_label"),
 				rs.getString("label_ids"),

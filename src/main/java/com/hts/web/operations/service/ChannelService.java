@@ -121,10 +121,13 @@ public interface ChannelService extends BaseService{
 	 * 
 	 * @param channelId
 	 * @param userId
+	 * @param hasChannelStar
+	 * @param channelStarLimit
 	 * @param jsonMap
 	 * @throws Exception
 	 */
 	public void buildChannelAbstract(Integer channelId, Integer userId, 
+			Boolean hasChannelStar, Integer channelStarLimit, 
 			Map<String, Object> jsonMap) throws Exception;
 	
 	/**

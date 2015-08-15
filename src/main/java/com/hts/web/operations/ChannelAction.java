@@ -33,6 +33,8 @@ public class ChannelAction extends BaseAction {
 	private Boolean nameOnly = false;
 	private Integer themeId;
 	private Integer worldId;
+	private Boolean hasChannelStar = false;
+	private Integer channelStarLimit = 10;
 	
 	/**
 	 * 查询已经订阅的频道
@@ -118,8 +120,8 @@ public class ChannelAction extends BaseAction {
 	 */
 	public String queryAbstract() {
 		try {
-			channelService.buildChannelAbstract(channelId, 
-					getCurrentLoginUserId(), jsonMap);
+			channelService.buildChannelAbstract(channelId, getCurrentLoginUserId(),
+					hasChannelStar, channelStarLimit, jsonMap);
 			JSONUtil.optSuccess(jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
@@ -367,6 +369,22 @@ public class ChannelAction extends BaseAction {
 
 	public void setWorldId(Integer worldId) {
 		this.worldId = worldId;
+	}
+
+	public Boolean getHasChannelStar() {
+		return hasChannelStar;
+	}
+
+	public void setHasChannelStar(Boolean hasChannelStar) {
+		this.hasChannelStar = hasChannelStar;
+	}
+
+	public Integer getChannelStarLimit() {
+		return channelStarLimit;
+	}
+
+	public void setChannelStarLimit(Integer channelStarLimit) {
+		this.channelStarLimit = channelStarLimit;
 	}
 	
 }

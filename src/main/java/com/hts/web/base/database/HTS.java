@@ -292,7 +292,7 @@ public class HTS {
 	/**
 	 * 频道红人表
 	 */
-	public static final String OPERATIONS_CHANNEL_STAT = DB + "operations_channel_star";
+	public static final String OPERATIONS_CHANNEL_STAR = DB + "operations_channel_star";
 	
 	/**
 	 * 频道织图表

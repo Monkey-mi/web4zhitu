@@ -35,6 +35,7 @@ import com.hts.web.common.pojo.OpChannelTopOne;
 import com.hts.web.common.pojo.OpChannelTopOneTitle;
 import com.hts.web.common.pojo.OpChannelWorld;
 import com.hts.web.common.pojo.OpChannelWorldDto;
+import com.hts.web.common.pojo.UserInfoDto;
 import com.hts.web.common.service.KeyGenService;
 import com.hts.web.common.service.impl.BaseServiceImpl;
 import com.hts.web.common.service.impl.KeyGenServiceImpl;
@@ -49,6 +50,7 @@ import com.hts.web.operations.dao.ChannelLinkDao;
 import com.hts.web.operations.dao.ChannelMemberDao;
 import com.hts.web.operations.dao.ChannelPVCacheDao;
 import com.hts.web.operations.dao.ChannelStarCacheDao;
+import com.hts.web.operations.dao.ChannelStarDao;
 import com.hts.web.operations.dao.ChannelSysDanmuDao;
 import com.hts.web.operations.dao.ChannelThemeCacheDao;
 import com.hts.web.operations.dao.ChannelTopOneCacheDao;
@@ -100,9 +102,6 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 	private UserInteractService userInteractService;
 	
 	@Autowired
-	private ChannelCoverCacheDao channelCoverCacheDao;
-	
-	@Autowired
 	private ChannelDao channelDao;
 	
 	@Autowired
@@ -127,10 +126,10 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 	private ChannelLinkDao linkDao;
 	
 	@Autowired
-	private HTWorldDao worldDao;
+	private ChannelPVCacheDao channelPVCacheDao;
 	
 	@Autowired
-	private ChannelPVCacheDao channelPVCacheDao;
+	private ChannelStarDao channelStarDao;
 	
 	/**
 	 * 官方频道id
@@ -393,6 +392,7 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 	
 	@Override
 	public void buildChannelAbstract(Integer channelId, Integer userId,
+			Boolean hasChannelStar, Integer channelStarLimit,
 			Map<String, Object> jsonMap) throws Exception {
 		OpChannel channel = channelDao.queryChannel(channelId);
 		Integer role = memberDao.queryDegree(channelId, userId);
@@ -401,6 +401,13 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 		channel.setRole(role);
 		jsonMap.put(OptResult.JSON_KEY_CHANNEL, channel);
 		channelPVCacheDao.inrc(channelId);
+		
+		if(hasChannelStar) {
+			List<UserInfoDto> starList = channelStarDao.queryStar(channelId, 
+					new RowSelection(1, channelStarLimit));
+			jsonMap.put(OptResult.JSON_KEY_STARS, starList);
+		}
+		
 	}
 
 	@Override

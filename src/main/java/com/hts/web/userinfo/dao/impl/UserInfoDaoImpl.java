@@ -485,7 +485,9 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 	
 	@Override
 	public UserInfo queryUserInfoByLoginCode(String loginCode, Integer platformCode) {
-		return queryForObjectWithNULL(QUERY_BY_LOGIN_CODE, new Object[]{loginCode, platformCode}, new RowMapper<UserInfo>(){
+		try {
+			return getMasterJdbcTemplate().queryForObject(QUERY_BY_LOGIN_CODE,
+				new Object[]{loginCode, platformCode}, new RowMapper<UserInfo>(){
 
 				@Override
 				public UserInfo mapRow(ResultSet rs, int rowNum)
@@ -493,6 +495,9 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 					return buildUserInfoAndPassByResultSet(rs);
 				}
 			});
+		} catch(EmptyResultDataAccessException e) {
+			return null;
+		}
 	}
 	
 	@Override

@@ -431,7 +431,7 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 	/**
 	 * 根据ids查询缩略图
 	 */
-	private static final String QUERY_WORLD_TITLE_THUMB = "select id,author_id,world_desc,title_thumb_path from " + table
+	private static final String QUERY_WORLD_TITLE_THUMB = "select id,author_id,world_desc,title_thumb_path,valid from " + table
 			+ " where id in ";
 	
 	private static final String QUERY_LATEST_HEAD = "select t.id,t.ival,h.author_id,h.title_thumb_path from (";
@@ -1316,7 +1316,8 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 						rs.getInt("id"),
 						rs.getInt("author_id"),
 						rs.getString("title_thumb_path"),
-						rs.getString("world_desc"));
+						rs.getString("world_desc"),
+						rs.getInt("valid"));
 			}
 			
 		});

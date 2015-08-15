@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
@@ -203,16 +204,21 @@ public class SocialAccountDaoImpl extends BaseDaoImpl implements SocialAccountDa
 	
 	@Override
 	public UserSocialAccount queryUserId(String platformId, Integer platformCode) {
-		return queryForObjectWithNULL(QUERY_USER_ID, new Object[]{platformId, platformCode},
-				new RowMapper<UserSocialAccount>() {
-
-					@Override
-					public UserSocialAccount mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
-						return buildSocialAccountByResult(rs);
-					}
-			
-		});
+		try {
+			return getMasterJdbcTemplate().queryForObject(QUERY_USER_ID,
+					new Object[]{platformId, platformCode},
+					new RowMapper<UserSocialAccount>() {
+	
+						@Override
+						public UserSocialAccount mapRow(ResultSet rs, int rowNum)
+								throws SQLException {
+							return buildSocialAccountByResult(rs);
+						}
+				
+			});
+		} catch(EmptyResultDataAccessException e) {
+			 return null;
+		}
 	}
 	
 	@Override
