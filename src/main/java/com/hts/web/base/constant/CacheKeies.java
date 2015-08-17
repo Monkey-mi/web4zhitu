@@ -118,6 +118,16 @@ public class CacheKeies {
 	public static final String OP_MSG_BULLETIN = MODULE_OP + "msg:bulletin";
 	
 	/**
+	 * 运营:专题公告列表
+	 */
+	public static final String OP_MSG_THEME = MODULE_OP + "msg:theme";
+
+	/**
+	 * 运营:用户专题公告列表
+	 */
+	public static final String OP_MSG_USER_THEME = MODULE_OP + "msg:userTheme";
+	
+	/**
 	 * 运营：精品分类
 	 */
 	public static final String OP_SUPERB_TYPE = MODULE_OP + "type:superb";
@@ -131,6 +141,11 @@ public class CacheKeies {
 	 * 认证推荐用户
 	 */
 	public static final String OP_USER_VERIFY_REC = MODULE_OP + "user:verify:rec:";
+	
+	/**
+	 * 置顶认证推荐用户
+	 */
+	public static final String OP_USER_VERIFY_REC_TOP = MODULE_OP + "user:verify:rec:top";
 	
 	/**
 	 * 频道
