@@ -316,16 +316,6 @@ public class Tag {
 	
 
 	/**
-	 * 频道成员
-	 */
-	public static final int CHANNEL_MEMBER_NORMAL = 0;
-	
-	/**
-	 * 频道主人
-	 */
-	public static final int CHANNEL_MEMBER_OWNER = 1;
-	
-	/**
 	 * 频道类型普通
 	 */
 	public static final int CHANNEL_TYPE_NORMAL = 0;
@@ -356,14 +346,24 @@ public class Tag {
 	public static final int BULLETIN_DEFAULT = 0;
 	
 	/**
-	 * 公告类型:网页
+	 * 公告类型: 网页推荐
 	 */
 	public static final int BULLETIN_PAGE = 1;
 	
 	/**
-	 * 公告类型:频道
+	 * 公告类型: 频道推荐
 	 */
 	public static final int BULLETIN_CHANNEL = 2;
+	
+	/**
+	 * 公告类型：用户推荐
+	 */
+	public static final int BULLETIN_USER = 3;
+	
+	/**
+	 * 公告类型: 活动推荐
+	 */
+	public static final int BULLETIN_ACT = 4;
 	
 	/**
 	 * APP版本:2.0，版本号过溢出则使用次版本

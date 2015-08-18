@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.hts.web.base.constant.OptResult;
 import com.hts.web.base.constant.Tag;
+import com.hts.web.base.database.RowSelection;
 import com.hts.web.common.pojo.OpNotice;
 import com.hts.web.common.pojo.OpSysMsgDto;
 import com.hts.web.common.service.impl.BaseServiceImpl;
@@ -52,6 +53,19 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 	public void buildBulletin(Map<String, Object> jsonMap) throws Exception {
 		jsonMap.put(OptResult.JSON_KEY_MSG, 
 				bulletinCacheDao.queryBulletin());
+	}
+
+	@Override
+	public void buildTheme(int start, int limit, 
+			Map<String, Object> jsonMap) throws Exception {
+		jsonMap.put(OptResult.JSON_KEY_MSG, 
+				bulletinCacheDao.queryTheme(new RowSelection(start, limit)));
+	}
+
+	@Override
+	public void buildUserTheme(int start, int limit, Map<String, Object> jsonMap) throws Exception {
+		jsonMap.put(OptResult.JSON_KEY_MSG, 
+				bulletinCacheDao.queryUserTheme(new RowSelection(start, limit)));
 	}
 	
 }

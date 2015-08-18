@@ -474,7 +474,7 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 			throw new HTSException("channelId or userId can not be null");
 		}
 		memberDao.saveMember(new OpChannelMember(channelId, userId, 
-				Tag.CHANNEL_MEMBER_NORMAL, new Date()));
+				Tag.CHANNEL_MEMBER_ROLE_NORMAL, new Date()));
 		updateMemberCount(channelId);
 	}
 

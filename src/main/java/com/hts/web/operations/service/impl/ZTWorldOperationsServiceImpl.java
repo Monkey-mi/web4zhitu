@@ -651,10 +651,11 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 						OpUserVerifyDto verify = opUserVerifyDtoCacheDao.queryRandomVerify();
 						
 						if(typeId == 0) { // 加载全部精选
-							list = squarePushDao.querySuperbV4(rowSelection);
 							
 							if(completeLimit == 0) {
 								list = opWorldTypeDto2CacheDao.querySuperbWorldType(0, limit-1);
+							} else {
+								list = squarePushDao.querySuperbV4(rowSelection);
 							}
 							
 							// 加载所有下拉菜单
@@ -668,8 +669,9 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 						
 						// 每次刷新都加载明星
 						jsonMap.put(OptResult.JSON_KEY_STARS, 
-								userVerifyRecCacheDao.queryUserByVerifyId(verify.getId(), 10));
+								userVerifyRecCacheDao.queryUserByVerifyIdWithTop(verify.getId(), 10));
 						
+						extractSuperbLikedAndCount(joinId, list);
 						userInfoService.extractVerify(list);
 						
 						// 瀑布流状态下才加载赞列表
@@ -693,6 +695,8 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 						} else {
 							list = squarePushDao.querySuperbByTypeIdV4(maxId, typeId, rowSelection);
 						}
+						
+						extractSuperbLikedAndCount(joinId, list);
 						
 						// 瀑布流状态下才加载赞列表
 						if(commentLimit != 0) {

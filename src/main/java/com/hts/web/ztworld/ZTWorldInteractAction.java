@@ -11,7 +11,6 @@ import com.hts.web.base.StrutsKey;
 import com.hts.web.base.constant.OptResult;
 import com.hts.web.common.BaseAction;
 import com.hts.web.common.pojo.HTWorldGeo;
-import com.hts.web.common.pojo.HTWorldInteractDto;
 import com.hts.web.common.pojo.PushStatus;
 import com.hts.web.common.util.JSONUtil;
 import com.hts.web.ztworld.service.ZTWorldInteractService;

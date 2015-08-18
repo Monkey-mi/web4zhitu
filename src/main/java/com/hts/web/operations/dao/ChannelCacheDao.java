@@ -21,4 +21,13 @@ public interface ChannelCacheDao extends BaseCacheDao {
 	 * @param superbList 普通精选频道列表
 	 */
 	public void updateChannel(List<OpChannel> topList, List<OpChannel> superbList);
+	
+	
+	/**
+	 * 查询随机缓存频道
+	 * 
+	 * @param limit
+	 * @return
+	 */
+	public List<OpChannel> queryRandomChannel(Integer limit);
 }

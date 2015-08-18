@@ -523,6 +523,26 @@ public class OptResult {
 	 */
 	public static final String JSON_KEY_INTERVAL = "interval";
 	
+	/**
+	 * recType
+	 */
+	public static final String JSON_KEY_REC_TYPE = "recType";
+	
+	/**
+	 * rec
+	 */
+	public static final String JSON_KEY_REC = "rec";
+	
+	/**
+	 * recIndex
+	 */
+	public static final String JSON_KEY_REC_INDEX = "recIndex";
+	
+	/**
+	 * recMsg
+	 */
+	public static final String JSON_KEY_REC_MSG = "recMsg";
+	
 	
 }
 

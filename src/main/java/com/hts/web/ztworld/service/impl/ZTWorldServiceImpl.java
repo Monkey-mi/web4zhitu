@@ -1,5 +1,6 @@
 package com.hts.web.ztworld.service.impl;
 
+import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -12,9 +13,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +46,10 @@ import com.hts.web.common.pojo.HTWorldLatestIndex;
 import com.hts.web.common.pojo.HTWorldLikedUser;
 import com.hts.web.common.pojo.HTWorldTextStyle;
 import com.hts.web.common.pojo.HTWorldWithExtra;
-import com.hts.web.common.pojo.UserDynamicRec;
+import com.hts.web.common.pojo.OpChannel;
+import com.hts.web.common.pojo.OpMsgBulletin;
+import com.hts.web.common.pojo.OpUser;
+import com.hts.web.common.pojo.OpUserVerifyDto;
 import com.hts.web.common.pojo.UserVerify;
 import com.hts.web.common.service.KeyGenService;
 import com.hts.web.common.service.impl.BaseServiceImpl;
@@ -57,8 +58,10 @@ import com.hts.web.common.util.JSONUtil;
 import com.hts.web.common.util.MD5Encrypt;
 import com.hts.web.common.util.NumberUtil;
 import com.hts.web.common.util.StringUtil;
-import com.hts.web.operations.dao.ActivityDao;
-import com.hts.web.operations.dao.ChannelWorldDao;
+import com.hts.web.operations.dao.BulletinCacheDao;
+import com.hts.web.operations.dao.ChannelCacheDao;
+import com.hts.web.operations.dao.OpUserVerifyDtoCacheDao;
+import com.hts.web.operations.dao.UserVerifyRecCacheDao;
 import com.hts.web.operations.service.ChannelService;
 import com.hts.web.userinfo.dao.UserConcernDao;
 import com.hts.web.userinfo.dao.UserInfoDao;
@@ -73,12 +76,13 @@ import com.hts.web.ztworld.dao.HTWorldChildWorldTypeDao;
 import com.hts.web.ztworld.dao.HTWorldCommentDao;
 import com.hts.web.ztworld.dao.HTWorldDao;
 import com.hts.web.ztworld.dao.HTWorldFilterLogoCacheDao;
-import com.hts.web.ztworld.dao.HTWorldKeepDao;
 import com.hts.web.ztworld.dao.HTWorldLabelDao;
 import com.hts.web.ztworld.dao.HTWorldLabelWorldDao;
 import com.hts.web.ztworld.dao.HTWorldLikedDao;
-import com.hts.web.ztworld.dao.HTWorldTypeDao;
 import com.hts.web.ztworld.service.ZTWorldService;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 /**
  * <p>
@@ -148,6 +152,21 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 	};
 	
 	/**
+	 * 推荐类型
+	 */
+	private static final int[] REC_TYPES = new int[]{
+			Tag.BULLETIN_ACT,
+			Tag.BULLETIN_CHANNEL,
+			Tag.BULLETIN_USER,
+			Tag.BULLETIN_PAGE};
+	
+	
+	/**
+	 * 最少推荐数量
+	 */
+	private static final int REC_MIN_SIZE = 2;
+	
+	/**
 	 * 推荐用户信息，系统推荐
 	 */
 	private static final String USER_REC_MSG_SYS_REC = "推荐用户";
@@ -191,9 +210,6 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 	private HTWorldChildWorldDao worldChildWorldDao;
 	
 	@Autowired
-	private ActivityDao activityDao;
-	
-	@Autowired
 	private UserInfoDao userInfoDao;
 
 	@Autowired
@@ -201,9 +217,6 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 	
 	@Autowired
 	private HTWorldLikedDao worldLikedDao;
-	
-	@Autowired
-	private HTWorldTypeDao worldTypeDao;
 	
 	@Autowired
 	private HTWorldLabelDao worldLabelDao;
@@ -230,9 +243,6 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 	private HTWorldFilterLogoCacheDao worldFilterLogoCacheDao;
 	
 	@Autowired
-	private HTWorldKeepDao worldKeepDao;
-	
-	@Autowired
 	private UserConcernDao userConcernDao;
 	
 	@Autowired
@@ -240,12 +250,21 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 	
 	@Autowired
 	private UserRecDao userRecDao;
-	
-	@Autowired
-	private ChannelWorldDao channelWorldDao;
 
 	@Autowired
 	private ChannelService channelService;
+	
+	@Autowired
+	private BulletinCacheDao bulletinCacheDao;
+	
+	@Autowired
+	private ChannelCacheDao channelCacheDao;
+	
+	@Autowired
+	private OpUserVerifyDtoCacheDao opUserVerifyDtoCacheDao;
+	
+	@Autowired
+	private UserVerifyRecCacheDao userVerifyRecCacheDao;
 	
 	private String baseThumbPathAixin = "http://static.imzhitu.com/world/thumbs/1403056393000.png";
 	private String baseThumbPathXing = "http://static.imzhitu.com/world/thumbs/1403057093000.png";
@@ -816,11 +835,11 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 	}
 
 	@Override
-	public void buildConcernWorld(final Integer userId, int maxId,
-			int start, int limit, final Map<String, Object> jsonMap,
-			boolean trimTotal, final boolean trimExtras,
+	public void buildConcernWorld(final Integer recType, final Integer recPage,
+			final Integer userId, int maxId, int start, int limit, 
+			final Map<String, Object> jsonMap, boolean trimTotal, final boolean trimExtras,
 			final int commentLimit, final int likedLimit) throws Exception {
-		buildSerializables(maxId, start, limit, jsonMap,
+		buildSerializables(maxId, 1, limit, jsonMap,
 				new SerializableListAdapter<HTWorldInteractDto>() {
 
 					@Override
@@ -830,9 +849,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 						extractExtraInfo(true, true, userId, trimExtras, commentLimit, likedLimit, worldList.size(), worldList);
 						userInfoService.extractVerify(worldList);
 						userInteractService.extractRemark(userId, worldList);
-						if(worldList.size() > sysRecLimit) {
-							recommendUser(userId, jsonMap);
-						}
+						recFromConcern(userId, recPage, recType, jsonMap);
 						
 						return worldList;
 					}
@@ -845,9 +862,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 						extractExtraInfo(true, true, userId, trimExtras, commentLimit, likedLimit, worldList.size(), worldList);
 						userInfoService.extractVerify(worldList);
 						userInteractService.extractRemark(userId, worldList);
-						if(worldList.size() > sysRecLimit) {
-							recommendUser(userId, jsonMap);
-						}
+						recFromConcern(userId, recPage, recType, jsonMap);
 						return worldList;
 					}
 
@@ -866,18 +881,139 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 	 * @param jsonMap
 	 * @return
 	 */
-	private List<UserDynamicRec> recommendUser(Integer userId, Map<String, Object> jsonMap)	 {
-		List<UserDynamicRec> recList = null;
-		int start = NumberUtil.getRandomNum(0, sysRecStart);
-		recList = userRecDao.queryOpRecList(userId, start, sysRecLimit);
-		if(recList != null && recList.size() > 0) {
-			userInfoService.extractVerify(recList);
-			jsonMap.put(OptResult.JSON_KEY_USER_REC_MSG, USER_REC_MSG_SYS_REC);
-			jsonMap.put(OptResult.JSON_KEY_USER_REC, recList);
+//	private List<UserDynamicRec> recommendUser(Integer userId, Map<String, Object> jsonMap)	 {
+//		List<UserDynamicRec> recList = null;
+//		int start = NumberUtil.getRandomNum(0, sysRecStart);
+//		recList = userRecDao.queryOpRecList(userId, start, sysRecLimit);
+//		if(recList != null && recList.size() > 0) {
+//			userInfoService.extractVerify(recList);
+//			jsonMap.put(OptResult.JSON_KEY_USER_REC_MSG, USER_REC_MSG_SYS_REC);
+//			jsonMap.put(OptResult.JSON_KEY_USER_REC, recList);
+//		}
+//		return recList;
+//	}
+	
+	/**
+	 * 从信息流推荐内容
+	 * 
+	 * @param userId
+	 * @param recPage
+	 * @param recType
+	 * @return
+	 */
+	private void recFromConcern(Integer userId,
+			Integer recPage, Integer recType, Map<String, Object> jsonMap) {
+		if(recPage > REC_TYPES.length) {
+			return;
 		}
-		return recList;
+		
+		List<? extends Serializable> recList = null;
+		String recMsg = null;
+		int idx = recPage - 1;
+		int recIdx = recPage % 2 != 0 ? 3 : 6;
+		int type = REC_TYPES[idx];
+		
+		switch(type) {
+		case Tag.BULLETIN_PAGE:
+			recMsg = "推荐专题";
+			recList = recPage(userId);
+			break;
+			
+		case Tag.BULLETIN_CHANNEL:
+			recMsg = "推荐频道";
+			recList = recChannel(userId);
+			break;
+			
+		case Tag.BULLETIN_USER:
+			recMsg = "推荐用户";
+			recList = recUser(userId);
+			break;
+			
+		case Tag.BULLETIN_ACT:
+			recMsg = "推荐活动";
+			recList = recAct(userId);
+			break;
+			
+		default:
+			break;
+		}
+		
+		if(recList != null) {
+			jsonMap.put(OptResult.JSON_KEY_REC, recList);
+			jsonMap.put(OptResult.JSON_KEY_REC_INDEX, recIdx);
+			jsonMap.put(OptResult.JSON_KEY_REC_TYPE, type);
+			jsonMap.put(OptResult.JSON_KEY_REC_MSG, recMsg);
+		}
 	}
 	
+	/**
+	 * 推荐专题网页
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	private List<OpMsgBulletin> recPage(Integer userId) {
+		List<OpMsgBulletin> recList = new ArrayList<OpMsgBulletin>();
+		List<OpMsgBulletin> srcList = bulletinCacheDao.queryBulletin();
+		for(OpMsgBulletin pmsg : srcList) {
+			if(pmsg.getBulletinType().equals(Tag.BULLETIN_PAGE) && 
+					recList.size() < REC_MIN_SIZE) {
+				recList.add(pmsg);
+			}
+		}
+		if(recList.size() >= REC_MIN_SIZE) {
+			return recList;
+		}
+		return null;
+	}
+	
+	/**
+	 * 推荐用户专题
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	private List<OpUser> recUser(Integer userId) {
+		OpUserVerifyDto verify = opUserVerifyDtoCacheDao.queryRandomVerify();
+		List<OpUser> list =  userVerifyRecCacheDao.queryRandomUserByVerifyId(
+				verify.getId(), REC_MIN_SIZE);
+		if(list != null && list.size() >= REC_MIN_SIZE) {
+			return list;
+		}
+		return null;
+	}
+	
+	/**
+	 * 推荐活动
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	private List<OpMsgBulletin> recAct(Integer userId) {
+		List<OpMsgBulletin> recList = new ArrayList<OpMsgBulletin>();
+		List<OpMsgBulletin> srcList = bulletinCacheDao.queryBulletin();
+		for(OpMsgBulletin pmsg : srcList) {
+			if(pmsg.getBulletinType().equals(Tag.BULLETIN_ACT) && 
+					recList.size() < REC_MIN_SIZE) {
+				recList.add(pmsg);
+			}
+		}
+		if(recList.size() >= REC_MIN_SIZE) {
+			return recList;
+		}
+		return null;
+	}
+	
+	/**
+	 * 推荐频道
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	private List<OpChannel> recChannel(Integer userId) {
+		return channelCacheDao.queryRandomChannel(REC_MIN_SIZE);
+	}
+
 	@Override
 	public void buildKeepWorld(final Integer userId, int maxId,
 			int start, int limit, Map<String, Object> jsonMap,

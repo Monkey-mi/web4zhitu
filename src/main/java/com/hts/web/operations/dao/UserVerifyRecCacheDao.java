@@ -3,7 +3,7 @@ package com.hts.web.operations.dao;
 import java.util.List;
 
 import com.hts.web.common.dao.BaseCacheDao;
-import com.hts.web.common.pojo.UserInfoDto;
+import com.hts.web.common.pojo.OpUser;
 
 /**
  * 达人推荐缓存数据访问接口
@@ -13,6 +13,7 @@ import com.hts.web.common.pojo.UserInfoDto;
  */
 public interface UserVerifyRecCacheDao extends BaseCacheDao {
 
+	
 	/**
 	 * 根据认证id查询推荐用户列表
 	 * 
@@ -20,8 +21,32 @@ public interface UserVerifyRecCacheDao extends BaseCacheDao {
 	 * @param limit
 	 * @return
 	 */
-	public List<UserInfoDto> queryUserByVerifyId(Integer verifyId, Integer limit);
+	public List<OpUser> queryUserByVerifyId(Integer verifyId, Integer limit);
 	
-	public void update(Integer verifyId);
-
+	
+	/**
+	 * 根据认证id查询推荐用户列表, 置顶放在最前面
+	 * @param verifyId
+	 * @param limit
+	 * @return
+	 */
+	public List<OpUser> queryUserByVerifyIdWithTop(Integer verifyId, Integer limit);
+	
+	/**
+	 * 根据认证id随机查询推荐用户列表
+	 * 
+	 * @param verifyId
+	 * @param limit
+	 * @return
+	 */
+	public List<OpUser> queryRandomUserByVerifyId(Integer verifyId, Integer limit);
+	
+	/**
+	 * 根据认证id查询推荐用户列表， 将置顶推荐放在最前面
+	 * @param verifyId
+	 * @param limit
+	 * @return
+	 */
+	public List<OpUser> queryRandomUserByVerifyIdWithTop(Integer verifyId, Integer limit);
+	
 }

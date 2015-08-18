@@ -82,7 +82,6 @@ public class ZTWorldAction extends BaseAction {
 	private String channelIds;
 	private Integer typeId;
 	private Integer ver = 0; // 织图版本，默认为1
-//	private Integer tp = Tag.WORLD_TYPE_DEFAULT;
 	private String query; // 查询调价
 	private Float logoVer = 0f;
 	
@@ -93,6 +92,8 @@ public class ZTWorldAction extends BaseAction {
 	
 	private String color;
 	private Integer mask = Tag.FALSE;
+	private Integer recType = 0; // 关注信息流推荐类型
+	private Integer recPage = 1; // 关注信息页码
 	
 	@Autowired
 	private ZTWorldService worldService;
@@ -374,8 +375,9 @@ public class ZTWorldAction extends BaseAction {
 	 */
 	public String queryConcernWorld() {
 		try {
-			worldService.buildConcernWorld(getCurrentLoginUserId(), maxId, start, limit, jsonMap, 
-					trimTotal, trimExtras, commentLimit, likedLimit);
+			worldService.buildConcernWorld(recType, recPage, getCurrentLoginUserId(), 
+					maxId, start, limit, jsonMap, trimTotal, trimExtras, commentLimit,
+					likedLimit);
 			JSONUtil.optSuccess(jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
@@ -985,6 +987,22 @@ public class ZTWorldAction extends BaseAction {
 
 	public void setMask(Integer mask) {
 		this.mask = mask;
+	}
+
+	public Integer getRecType() {
+		return recType;
+	}
+
+	public void setRecType(Integer recType) {
+		this.recType = recType;
+	}
+
+	public Integer getRecPage() {
+		return recPage;
+	}
+
+	public void setRecPage(Integer recPage) {
+		this.recPage = recPage;
 	}
 	
 }

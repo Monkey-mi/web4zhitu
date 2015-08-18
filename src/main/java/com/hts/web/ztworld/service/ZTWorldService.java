@@ -151,19 +151,19 @@ public interface ZTWorldService extends BaseService {
 	/**
 	 * 构建关注的好友分享的织图列表
 	 * 
+	 * @param recType 上次推荐的类型
 	 * @param userId
-	 * @param sinceId
 	 * @param maxId
 	 * @param start
 	 * @param limit
 	 * @param jsonMap
-	 * @param trimTotal 是否过滤总数
+	 * @param trimTotal
 	 * @param trimExtras
 	 * @param commentLimit
 	 * @param likedLimit
 	 * @throws Exception
 	 */
-	public void buildConcernWorld(Integer userId, int maxId,
+	public void buildConcernWorld(Integer recType, Integer recPage, Integer userId, int maxId,
 			int start, int limit, Map<String, Object> jsonMap, boolean trimTotal,
 			boolean trimExtras, int commentLimit, int likedLimit) throws Exception;
 
