@@ -2,6 +2,7 @@ package com.hts.web.operations.dao;
 
 import java.util.List;
 
+import com.hts.web.base.database.RowSelection;
 import com.hts.web.common.dao.BaseCacheDao;
 import com.hts.web.common.pojo.OpMsgBulletin;
 
@@ -29,4 +30,32 @@ public interface BulletinCacheDao extends BaseCacheDao {
 	 * @param list
 	 */
 	public void updateBulletin(List<OpMsgBulletin> list);
+	
+	/**
+	 * 查询专题列表
+	 * 
+	 * @return
+	 */
+	public List<OpMsgBulletin> queryTheme(RowSelection rowSelection);
+	
+	/**
+	 * 查询用户专题列表
+	 * 
+	 * @return
+	 */
+	public List<OpMsgBulletin> queryUserTheme(RowSelection rowSelection);
+	
+	/**
+	 * 更新用户主题公告
+	 * @param cacheList
+	 */
+	public void updateUserThemeBulletin(List<OpMsgBulletin> cacheList);
+	
+	/**
+	 * 更新专题公告
+	 * @param cacheList
+	 */
+	public void updateThemeBulletin(List<OpMsgBulletin> cacheList);
+	
+	
 }
