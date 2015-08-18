@@ -29,5 +29,29 @@ public class BulletinCacheDaoImpl extends BaseCacheDaoImpl<OpMsgBulletin> implem
 					cacheList.toArray(list));
 		}
 	}
+	
+	@Override
+	public void updateUserThemeBulletin(List<OpMsgBulletin> cacheList){
+		if(getRedisTemplate().hasKey(CacheKeies.OP_MSG_USER_THEME)) {
+			getRedisTemplate().delete(CacheKeies.OP_MSG_USER_THEME);
+		}
+		if(cacheList.size() > 0) {
+			OpMsgBulletin[] list = new OpMsgBulletin[cacheList.size()];
+			getRedisTemplate().opsForList().rightPushAll(CacheKeies.OP_MSG_USER_THEME,
+					cacheList.toArray(list));
+		}
+	}
+	
+	@Override
+	public void updateThemeBulletin(List<OpMsgBulletin> cacheList){
+		if(getRedisTemplate().hasKey(CacheKeies.OP_MSG_THEME)) {
+			getRedisTemplate().delete(CacheKeies.OP_MSG_THEME);
+		}
+		if(cacheList.size() > 0) {
+			OpMsgBulletin[] list = new OpMsgBulletin[cacheList.size()];
+			getRedisTemplate().opsForList().rightPushAll(CacheKeies.OP_MSG_THEME,
+					cacheList.toArray(list));
+		}
+	}
 
 }
