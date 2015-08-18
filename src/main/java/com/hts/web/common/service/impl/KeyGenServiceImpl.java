@@ -185,7 +185,7 @@ public class KeyGenServiceImpl extends BaseServiceImpl implements KeyGenService{
 	 * 频道明星id
 	 */
 	public static final Integer OP_CHANNEL_STAR_ID = 34;
-
+	
 	/**
 	 * 频道织图id
 	 */
@@ -215,6 +215,11 @@ public class KeyGenServiceImpl extends BaseServiceImpl implements KeyGenService{
 	 * 贴纸系列序号
 	 */
 	public static final Integer HTWORLD_STICKER_SET_SERIAL = 40;
+	
+	/**
+	 * 频道红人排序
+	 */
+	public static final Integer OP_CHANNEL_STAR_SERIAL = 41;
 	
 	@Autowired
 	private KeyGenDao keyGenDao;
