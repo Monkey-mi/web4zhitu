@@ -252,7 +252,9 @@ function initLayout() {
 		pbtnMarginLeft = -168,
  		pbtnFontSize = 38,
 		pbtnRadius = 100; 
-		
+	
+	 pbtnMarginTop1 = 955,	
+	
 		spbtnW = 340,
 		spbtnH = 100,
 		spborderW = 10,
@@ -273,6 +275,8 @@ function initLayout() {
 	pbtnMarginLeft = pbtnMarginLeft * scale;
  	pbtnFontSize = pbtnFontSize * scale;
 	pbtnRadius = pbtnRadius * scale;
+	
+	pbtnMarginTop1 = pbtnMarginTop1 * scale;
 	
  	spbtnW = spbtnW * scale;
 	spbtnH = spbtnH * scale;
@@ -309,7 +313,7 @@ function initLayout() {
  	$("#share-btn-wrap1").css({
 		"width":pbtnW + "px",
 		"height":pbtnH + "px",
-		"margin-top":pbtnMarginTop-125 + "px",
+		"margin-top":pbtnMarginTop1 + "px",
 		"margin-left":pbtnMarginLeft + "px",
 }).show(); 
 	
@@ -355,7 +359,7 @@ function fetchConcernStatus(uid) {
 function bindAllBtnClick2Callapp() {
 	var $callapp = document.getElementsByName("imzhitu-callapp");
    	if($callapp.length) {
-   		for(var i = 0; i < $callapp.length; i++) {/*
+   		for(var i = 0; i < $callapp.length; i++) {
    			$callapp[i].addEventListener('click',openclient,false);
    		}
    	}
