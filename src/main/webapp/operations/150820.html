@@ -101,6 +101,15 @@ a {
 	line-height: 100px;
 }
 
+#share-btn-wrap1 a {
+	display: inline-block;
+	color: #000000;
+	font-weight: 900;
+	width: 360px;
+	height: 100px;
+	line-height: 100px;
+}
+
 #download-wrap {
 	width: 100%;
 	text-align: center;
@@ -163,11 +172,11 @@ a {
 </head>
 <body>
 <div id='wx_pic' style="display:none;">
-	<img src='http://static.imzhitu.com/op/sticker/150820/thumbnail.jpg' />
+	<img src='http://static.imzhitu.com/op/sticker/150820/bannerAgain.jpg' />
 </div>
 <div id="main">
 <div id="header">
-<img alt="" src="http://static.imzhitu.com/op/sticker/150820/01.jpg" /> 
+<img alt="" src="http://static.imzhitu.com/op/sticker/150820/01again.jpg" /> 
 <!-- <img alt="" src="01.jpg" /> -->
 </div>
 <div class="user-wrap">
@@ -187,10 +196,10 @@ a {
 <div class="share-wrap">
 <img alt="" src="http://static.imzhitu.com/op/sticker/150820/05again.jpg" /> 
 <div id="share-btn-wrap">
-<a id="share-btn"  href="imzhitu://sharePage" style="display:block"><img id="share-btn"  src="http://static.imzhitu.com/op/sticker/150820/button2.png"></a>
+<a id="share-btn"  href="imzhitu://sharePage" style="display:block"><img  src="http://static.imzhitu.com/op/sticker/150820/button2.png"></a>
 </div>
 <div id="share-btn-wrap1">
-<a id="share-btn"  href="imzhitu://sharePage" style="display:block"><img id="share-btn"  src="http://static.imzhitu.com/op/sticker/150820/button1.png"></a>
+<a id="share-btn1"  href="imzhitu://useSticker" style="display:block"><img  src="http://static.imzhitu.com/op/sticker/150820/button1.png"></a>
 </div>
 </div>
 </div>
@@ -228,6 +237,7 @@ var inapp = 0;
 		bindAllBtnClick2Callapp();
 	}
 	document.getElementById("share-btn").addEventListener('click',openclient,false);
+	document.getElementById("share-btn1").addEventListener('click',openclient,false);
 });
 
 function initLayout() {
@@ -237,7 +247,7 @@ function initLayout() {
 	winWidth = winWidth > maxW ? maxW : winWidth;
 
 	var scale = 1,
-		headerH = 833,
+		headerH = 822,
 		
 		btnW = 280,
 		btnH = 100,		
@@ -302,6 +312,12 @@ function initLayout() {
 		"height":spbtnH + "px",
 		"line-height":spbtnH + "px",
 		"border-width":spborderW + "px"}); 
+ 	
+  	$("#share-btn1").css({
+		"width":spbtnW + "px",
+		"height":spbtnH + "px",
+		"line-height":spbtnH + "px",
+		"border-width":spborderW + "px"});
 		
  	$("#share-btn-wrap").css({
 		"width":pbtnW + "px",
