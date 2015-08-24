@@ -716,7 +716,7 @@ public class SquarePushDaoImpl extends BaseDaoImpl implements SquarePushDao {
 
 	@Override
 	public List<OpWorldTypeDto> queryWeightSuperbFromMaster(int limit) {
-		return getJdbcTemplate().query(QUERY_WEIGHT_SUPERB_V4,
+		return getMasterJdbcTemplate().query(QUERY_WEIGHT_SUPERB_V4,
 				new Object[]{limit}, new RowMapper<OpWorldTypeDto>() {
 
 					@Override
