@@ -729,9 +729,9 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 		// 查询首页（循环加载缓存中的分页）
 		if(maxId == 0) { 
 			List<OpWorldTypeDto> weightList = opWorldTypeDto2CacheDao.queryWeightSuperb();
-			int randomLimit = superbRandomLimit - weightList.size();
-			List<OpWorldTypeDto> tempList = opWorldTypeDto2CacheDao.querySuperbWorldType(0, randomLimit-1);
-			list = opWorldTypeDto2CacheDao.querySuperbWorldType(randomLimit, limit-1);
+			limit= limit - weightList.size();
+			List<OpWorldTypeDto> tempList = opWorldTypeDto2CacheDao.querySuperbWorldType(0, superbRandomLimit-1);
+			list = opWorldTypeDto2CacheDao.querySuperbWorldType(superbRandomLimit, limit-1);
 			randomList(tempList, list, true); // 打乱队列顺序
 
 			if(!weightList.isEmpty()) {
