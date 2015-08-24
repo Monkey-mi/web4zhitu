@@ -53,7 +53,7 @@ a {
 	height: 74px;
 	position: absolute;
 	left: 50%;
-	margin: 294px 0 0 145px;
+	margin: 294px 0 0 149px;
 	-moz-border-radius: 0px;
 	-webkit-border-radius: 0px;
 	border-radius: 0px;
@@ -70,8 +70,8 @@ a {
 
 #share-btn-wrap {
 	display: inline-block;
-	width: 360px;
-	height: 100px;
+	width: 350px;
+	height: 90px;
 	position: absolute;
 	left: 50%;
 	margin: 260px 0 0 -200px;
@@ -100,7 +100,7 @@ a {
 #sticker-btn-wrap {
 	display: inline-block;
 	width: 340px;
-	height: 100px;
+	height: 90px;
 	position: absolute;
 	left: 50%;
 	margin: 300px 0 0 -200px;
@@ -298,6 +298,7 @@ var inapp = 0;
 		bindAllBtnClick2Callapp();
 	}
 	document.getElementById("share-btn").addEventListener('click',openclient,false);
+ 	document.getElementById("sticker-btn").addEventListener('click',openclient,false); 
 });
 
 function initLayout() {
@@ -312,12 +313,12 @@ function initLayout() {
 		btnW = 180,
 		btnH = 74,		
 		btnMarginTop = 294,
-		btnMarginLeft = 145,
+		btnMarginLeft = 149,
 		btnFontSize = 30,
  		btnRadius = 0, 
  		
-		pbtnW = 360,
-		pbtnH = 100,		
+		pbtnW = 350,
+		pbtnH = 90,		
 		pbtnMarginTop = 600,
 		pbtnMarginLeft = -185,
 		pbtnFontSize = 38,
@@ -373,6 +374,12 @@ function initLayout() {
 		"line-height":spbtnH + "px",
 		"border-width":spborderW + "px"});
 		
+	$("#sticker-btn").css({
+		"width":spbtnW + "px",
+		"height":spbtnH + "px",
+		"line-height":spbtnH + "px",
+		"border-width":spborderW + "px"});
+	
 	$("#share-btn-wrap").css({
 		"width":pbtnW + "px",
 		"height":pbtnH + "px",
