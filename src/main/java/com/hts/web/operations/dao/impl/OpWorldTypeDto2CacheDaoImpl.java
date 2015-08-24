@@ -44,5 +44,11 @@ public class OpWorldTypeDto2CacheDaoImpl extends BaseCacheDaoImpl<OpWorldTypeDto
 	public OpWorldTypeDto queryLastSuperWorldType() {
 		return querySuperWorldType(-1);
 	}
+
+	@Override
+	public List<OpWorldTypeDto> queryWeightSuperb() {
+		return getRedisTemplate().boundListOps(CacheKeies.OP_SUPERB_TYPE_WEIGHT)
+				.range(0, -1);
+	}
 	
 }

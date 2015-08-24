@@ -48,4 +48,11 @@ public interface OpWorldTypeDto2CacheDao extends BaseCacheDao {
 	 * @return
 	 */
 	public OpWorldTypeDto queryLastSuperWorldType();
+	
+	/**
+	 * 查询置顶精选
+	 * 
+	 * @return
+	 */
+	public List<OpWorldTypeDto> queryWeightSuperb();
 }

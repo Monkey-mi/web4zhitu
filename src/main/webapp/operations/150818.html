@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="description" content="七夕，给你一个爱的熊抱！">
+<title>七夕，给你一个爱的熊抱！</title>
+<style type="text/css">
+body {
+	margin: 0 auto 0 auto;
+	padding: 0;
+	text-align: center;
+	font-size:0px;
+	font-family:"微软雅黑",Arial, Helvetica, sans-serif;
+	background:#f3f4f6;
+}
+
+img {
+	width: 100%;
+	border: 0;
+	padding: 0;
+	margin: 0;
+}
+
+a {
+	text-decoration: none;
+	color: #ffffff;
+}
+
+#main {
+	display:inline-block;
+	width: 100%;
+	max-width:750px;
+}
+
+.opt-btn {
+	width:308px;
+	height:100px;
+	line-height:100px;
+	position:absolute;
+	background:#f2a5b7;
+   	left: 50%;
+	margin: 940px 0 0 -154px;
+	text-align:center;
+	-moz-border-radius: 30px;
+	-webkit-border-radius: 30px;
+	border-radius: 30px;
+	border:10px solid #d95297;
+	color:#000000;
+	font-weight:900;
+	font-size:48px;
+	display: none;
+}
+
+.opt-btn img {
+	width:100%;
+	height:auto;
+}
+
+#opt-btn-bg {
+	float:left;
+}
+
+#download-wrap {
+	width:100%;
+	text-align:center;
+	position:fixed;
+	bottom:0;
+	height:60px;
+	display:none;
+	text-align:center;
+	z-index:99999;
+}
+
+#download-btn {
+	height:100%;
+	width:100%;
+	display:inline-block;
+	color:#ffffff;
+}
+
+#download-bg {
+	width:100%;
+	height:100%;
+	position:absolute;
+	left:0px;
+}
+
+#download-logo {
+	width:auto;
+	height:44px;
+	position:absolute;
+	left:0px;
+	margin-top:8px;
+	margin-left:12px;
+	
+}
+
+#download-close {
+	width:15px;
+	height:15px;
+	position:absolute;
+	right:0;
+	display:inline;
+	cursor:pointer;
+}
+
+#download-tip {
+	background:#3a97d0;
+	width: 100px;
+	height:36px;
+	right:0;
+	color:#ffffff;
+	-moz-border-radius: 4px;   
+	-webkit-border-radius: 4px;
+    border-radius: 4px;
+    margin:12px 18px 0 0;
+    line-height:36px;
+    text-align:center;
+    position:absolute;
+    font-size:14px;
+}
+</style>
+</head>
+<body>
+<div id='wx_pic' style="display:none;">
+	<img src='http://static.imzhitu.com/op/sticker/150818/thumbnail.jpg' />
+</div>
+<div id="main">
+
+<img alt="" src="http://static.imzhitu.com/op/sticker/150818/01.jpg" />
+<img alt="" src="http://static.imzhitu.com/op/sticker/150818/02.jpg" />
+<img alt="" src="http://static.imzhitu.com/op/sticker/150818/03.jpg" />
+<img alt="" src="http://static.imzhitu.com/op/sticker/150818/04.jpg" />
+<img alt="" src="http://static.imzhitu.com/op/sticker/150818/05.jpg" />
+<img alt="" src="http://static.imzhitu.com/op/sticker/150818/06.jpg" />
+
+<div id="opt-btn-wrap">
+<img id="opt-btn-bg" alt="" src="http://static.imzhitu.com/op/sticker/150818/07.jpg" />
+<a id="use-btn" class="opt-btn" href="imzhitu://useSticker?actname=%E4%B8%83%E5%A4%95%E7%BB%87%E7%88%B1%E4%BD%A0&sticker=%7B%22fill%22%3A0%2C%22hasLock%22%3A0%2C%22id%22%3A690%2C%22labelId%22%3A66487%2C%22labelName%22%3A%22%22%2C%22recommendId%22%3A11615%2C%22setId%22%3A%22%22%2C%22sharePath%22%3A%22%22%2C%22stickerDemoPath%22%3A%22%22%2C%22stickerDesc%22%3A%22%22%2C%22stickerId%22%3A690%2C%22stickerName%22%3A%22%E4%B8%83%E5%A4%95%22%2C%22stickerPath%22%3A%22http%3A%2F%2Fstatic.imzhitu.com%2Fworld%2Fsticker%2F1439625355000.png%22%2C%22stickerThumbPath%22%3A%22http%3A%2F%2Fstatic.imzhitu.com%2Fworld%2Fsticker%2F1439625357000.png%22%2C%22typeId%22%3A1%2C%22unlock%22%3A0%7D
+">立即参加</a>
+</div>
+</div>
+</div>
+
+<div id="download-wrap">
+<a id="download-btn" title="点击下载" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.htshuo.htsg">
+	<img id="download-bg" alt="" src="/staticres/base/images/down-bg.jpg">
+	<img id="download-logo" alt="" src="/staticres/base/images/down-logo.png">
+	<span id="download-tip">点击下载</span>
+</a>
+<img id="download-close"　title="隐藏" onclick="javascript:hideDownloadBtn();" alt="" src="/staticres/base/images/down-close.jpg">
+</div>
+
+<script type="text/javascript" src="/staticres/base/js/callapp2.js"></script>
+<script type="text/javascript" src="/staticres/base/js/jquery/jquery-1.8.2.min.js"></script>
+<script type="text/javascript">
+
+var inapp = 0;
+$(document).ready(function() {
+	inapp = callAppInit();
+	initLayout();
+	
+	if(inapp != 1) {
+		$("#main").css({"margin-bottom":"60px"});
+		$("#download-wrap").show();
+	}
+	document.getElementById("use-btn").addEventListener('click',openclient,false);
+});
+
+function initLayout() {
+	var maxW = 750;
+	var winWidth = $(window).width();
+	
+	winWidth = winWidth > maxW ? maxW : winWidth;
+
+	var scale = 1,
+		
+		spbtnW = 308,
+		spbtnH = 100,
+		spbtnMarginTop = 960,
+		spbtnBorder = 10,
+		spbtnRadius = 30,
+		spbtnFontSize = 48,
+		
+		scale = winWidth / maxW;
+	
+	
+	spbtnW = spbtnW * scale;
+	spbtnH = spbtnH * scale;
+	spbtnMarginTop = spbtnMarginTop * scale;
+	spbtnBorder = spbtnBorder * scale;
+	spbtnRadius = spbtnRadius * scale;
+	spbtnFontSize = spbtnFontSize * scale;
+		
+	$(".opt-btn").css({
+		"width":spbtnW + "px",
+		"height":spbtnH + "px",
+		"line-height":spbtnH + "px",
+		"margin-top":spbtnMarginTop + "px",
+		"margin-left":-(spbtnW/2) + "px",
+		"border-width":spbtnBorder + "px",
+		"-moz-border-radius":spbtnRadius + "px",
+		"-webkit-border-radius":spbtnRadius + "px",
+		"border-radius":spbtnRadius + "px",
+		"font-size":spbtnFontSize + "px"
+		});
+		
+	$(".opt-btn").show();
+		
+}
+
+function hideDownloadBtn() {
+	$("#download-wrap").hide();
+	$("#main").css({"margin-bottom":"0px"});
+}
+
+</script>
+<div style="display:none;">
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1255868073'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1255868073' type='text/javascript'%3E%3C/script%3E"));</script>
+</div>
+</body>
+</html>

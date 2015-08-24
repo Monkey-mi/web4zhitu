@@ -50,15 +50,6 @@ public class SquarePushDaoImpl extends BaseDaoImpl implements SquarePushDao {
 			+ "hw.type_id as rec_type_id,hw.review";
 	
 	/**
-	 * 织图索引
-	 */
-	private static final String SQUARE_INDEX = " h.id, h.short_link, h.author_id, h.click_count,"
-			+ " h.like_count, h.comment_count, h.world_label, h.world_type, h.type_id, h.world_desc,"
-			+ " h.title_path,h.bg_path, h.title_thumb_path, u.user_name, u.user_avatar, u.user_avatar_l,"
-			+ " u.star,u.platform_verify, hw.superb, hw.type_id as rec_type_id, hw.serial, hw.review, "
-			+ " hw.date_modify as rec_date_modify";
-	
-	/**
 	 * 查询广场织图SQL头部
 	 */
 	private static final String QUERY_SQUARE_HEAD = "select "+SUPERB_INFO+", h.*," + U0_INFO + " from " 
@@ -214,52 +205,14 @@ public class SquarePushDaoImpl extends BaseDaoImpl implements SquarePushDao {
 			+ " where h.id=hw.world_id"
 			+ " and h.author_id=u0.id and hw.valid=1";
 	
-	/**
-	 * 查询广场精品织图分类SQL头部
-	 */
-	private static final String QUERY_SUPERB_SQUARE_INDEX_HEAD = "select " + SQUARE_INDEX + " from " 
-			+ HTS.USER_INFO + " as u,"+ HTS.HTWORLD_HTWORLD +" as h, " + table 
-			+ " as hw where h.id=hw.world_id and h.author_id=u.id"
-			+ " and h.valid=? and h.shield=? and hw.valid=? and hw.superb=?";
 	
-	/**
-	 * 从主库查询精品织图
-	 */
-	private static final String QUERY_SUPERB_SQUARE_INDEX_FROM_MASTER = QUERY_SUPERB_SQUARE_INDEX_HEAD 
-			+ ORDER_BY_HW_SERIAL_DESC + " limit ?,?";
-	
-	/**
-	 * 查询精品织图分类索引
-	 */
-	private static final String QUERY_SUPERB_SQUARE_INDEX = QUERY_SUPERB_SQUARE_INDEX_HEAD 
-			+ ORDER_BY_HW_SERIAL_DESC;
-	
-	/**
-	 * 根据最大序号查询精品织图分类索引
-	 */
-	private static final String QUERY_SUPERB_SQUARE_INDEX_BY_MAX_SERIAL = QUERY_SUPERB_SQUARE_INDEX_HEAD 
-			+ " and hw.serial<=?" + ORDER_BY_HW_SERIAL_DESC;
-	
-	
-	private static final String QUERY_SUPERB_INDEX_BY_WID = "select " + SQUARE_INDEX + " from " 
-			+ HTS.USER_INFO + " as u,"+ HTS.HTWORLD_HTWORLD +" as h, " + table 
-			+ " as hw where h.id=hw.world_id and h.author_id=u.id"
+	private static final String QUERY_SUPERB_BY_WID = "select " + SUPERB_INFO + ", h.*," + U0_INFO 
+			+ " from " + HTS.USER_INFO + " as u0,"+ HTS.HTWORLD_HTWORLD +" as h, " + table 
+			+ " as hw where h.id=hw.world_id and h.author_id=u0.id"
 			+ " and hw.valid=1 and hw.world_id=?";
 	
 	
-	/**
-	 * 查询广场分类索引SQL头部
-	 */
-	private static final String QUERY_SQUARE_INDEX_HEAD = "select " + SQUARE_INDEX + " from " 
-			+ HTS.HTWORLD_HTWORLD + " as h," + HTS.USER_INFO + " as u, (";
-
-	/**
-	 * 查询广场分类索引SQL尾部
-	 */
-	private static final String QUERY_SQUARE_INDEX_FOOT = " ) as hw where h.id=hw.world_id and h.author_id=u.id ";
-	
-	
-	private static final String QUERY_SUPERB_V4 = "select " + SUPERB_INFO + ", h.*," + U0_INFO 
+	private static final String QUERY_SUPERB_V4 = "select " + SUPERB_INFO + ", h.*," + U0_INFO
 			+ " from " + HTS.HTWORLD_HTWORLD +" as h, " + table + " as hw, " + HTS.USER_INFO + " as u0"
 			+ " where h.id=hw.world_id and h.author_id=u0.id and hw.valid=1"
 			+ " order by hw.serial desc limit ?,?";
@@ -279,7 +232,12 @@ public class SquarePushDaoImpl extends BaseDaoImpl implements SquarePushDao {
 	private static final String QUERY_TYPE_SUPERB_BY_MAX_ID_V4 = "select " + SUPERB_INFO + ", h.*," + U0_INFO 
 			+ " from " + HTS.HTWORLD_HTWORLD +" as h, " + table + " as hw, " + HTS.USER_INFO + " as u0"
 			+ " where h.id=hw.world_id and h.author_id=u0.id and hw.valid=1 and hw.type_id=? and hw.serial<=?"
-			+ " order by hw.serial desc limit ?,?";	
+			+ " order by hw.serial desc limit ?,?";
+	
+	private static final String QUERY_WEIGHT_SUPERB_V4 = "select " + SUPERB_INFO + ", h.*," + U0_INFO
+			+ " from " + HTS.HTWORLD_HTWORLD +" as h, " + table + " as hw, " + HTS.USER_INFO + " as u0"
+			+ " where h.id=hw.world_id and h.author_id=u0.id and hw.valid=1 and hw.weight>0"
+			+ " order by hw.weight desc limit ?";
 	
 	@Autowired
 	private HTWorldDao worldDao;
@@ -676,155 +634,6 @@ public class SquarePushDaoImpl extends BaseDaoImpl implements SquarePushDao {
 	}
 
 	
-//	@Override
-//	public List<OpWorldTypeDto> querySuperbSquareIndexFromMaster(RowSelection rowSelection) {
-//		return getMasterJdbcTemplate().query(QUERY_SUPERB_SQUARE_INDEX_FROM_MASTER, 
-//				new Object[]{Tag.TRUE, Tag.FALSE, Tag.TRUE, Tag.TRUE,
-//				rowSelection.getFirstRow(), rowSelection.getLimit()}, 
-//				new RowMapper<OpWorldTypeDto>() {
-//
-//					@Override
-//					public OpWorldTypeDto mapRow(ResultSet rs, int rowNum)
-//							throws SQLException {
-//						return buildSquareIndex(rs);
-//					}
-//		});
-//	}
-	
-//	@Override
-//	public List<OpWorldTypeDto> querySuperbSquareIndex(RowSelection rowSelection) {
-//		return queryForPage(QUERY_SUPERB_SQUARE_INDEX,
-//				new Object[]{Tag.TRUE, Tag.FALSE, Tag.TRUE, Tag.TRUE}, new RowMapper<OpWorldTypeDto>() {
-//
-//			@Override
-//			public OpWorldTypeDto mapRow(ResultSet rs, int rowNum)
-//					throws SQLException {
-//				return buildSquareIndex(rs);
-//			}
-//		}, rowSelection);
-//	}
-	
-//	@Override
-//	public List<OpWorldTypeDto> querySuperbSquareIndex(Integer maxSerial, RowSelection rowSelection) {
-//		return queryForPage(QUERY_SUPERB_SQUARE_INDEX_BY_MAX_SERIAL,
-//				new Object[]{Tag.TRUE, Tag.FALSE, Tag.TRUE, Tag.TRUE, maxSerial}, new RowMapper<OpWorldTypeDto>() {
-//
-//			@Override
-//			public OpWorldTypeDto mapRow(ResultSet rs, int rowNum)
-//					throws SQLException {
-//				return buildSquareIndex(rs);
-//			}
-//		}, rowSelection);
-//	}
-	
-	
-//	@Override
-//	public List<OpWorldTypeDto> querySquarePushIndex(int limit,int superbLimit, List<OpWorldType> labels) {
-//		StringBuilder sqlBuilder = new StringBuilder(QUERY_SQUARE_INDEX_HEAD);
-//		sqlBuilder.append(" (select world_id,superb,type_id,serial,review,date_modify from " 
-//				+ table + " where superb=? and valid=? ORDER BY weight, serial desc limit ?)");
-//		Object[] args = new Object[labels.size() * 3 + 3];
-//		args[0] = Tag.TRUE;
-//		args[1] = Tag.TRUE;
-//		args[2] = superbLimit;
-//		for(int i = 0; i < labels.size(); i++) {
-//			sqlBuilder.append(" UNION ALL (select world_id,superb,type_id,serial,review,date_modify from ")
-//			.append(table)
-//			.append(" where type_id=")
-//			.append(labels.get(i).getId()).append(" and superb=? and valid=? ORDER BY weight, serial desc limit ?)");
-//			int k = (i + 1) * 3; 
-//			args[k] = Tag.FALSE;
-//			args[k+1] = Tag.TRUE;
-//			args[k+2] = limit;
-//		}
-//		sqlBuilder.append(QUERY_SQUARE_INDEX_FOOT);
-//		return getJdbcTemplate().query(sqlBuilder.toString(), args, new RowMapper<OpWorldTypeDto>(){
-//
-//			@Override
-//			public OpWorldTypeDto mapRow(ResultSet rs, int rowNum)
-//					throws SQLException {
-//				return buildSquareIndex(rs);
-//			}
-//			
-//		});
-//	}
-	
-//	@Override
-//	public List<OpWorldTypeDto> querySquarePushIndex(int limit,List<OpWorldType> labels) {
-//		StringBuilder sqlBuilder = new StringBuilder(QUERY_SQUARE_INDEX_HEAD);
-//		Object[] args = new Object[labels.size() * 3];
-//		for(int i = 0; i < labels.size(); i++) {
-//			if(i != 0) {
-//				sqlBuilder.append(" UNION ALL");
-//			}
-//			sqlBuilder.append(" (select world_id,superb,type_id,serial,review,date_modify from ")
-//			.append(table)
-//			.append(" where type_id=")
-//			.append(labels.get(i).getId()).append(" and superb=? and valid=? ORDER BY weight, serial desc limit ?)");
-//			int k = i * 3;
-//			args[k] = Tag.FALSE;
-//			args[k+1] = Tag.TRUE;
-//			args[k+2] = limit;
-//		}
-//		sqlBuilder.append(QUERY_SQUARE_INDEX_FOOT);
-//		return getJdbcTemplate().query(sqlBuilder.toString(), args, new RowMapper<OpWorldTypeDto>(){
-//
-//			@Override
-//			public OpWorldTypeDto mapRow(ResultSet rs, int rowNum)
-//					throws SQLException {
-//				return buildSquareIndex(rs);
-//			}
-//			
-//		});
-//	}
-	
-	/**
-	 * 从结果集构建广场分类标签索引
-	 * @param rs
-	 * @return
-	 * @throws SQLException
-	 */
-//	public OpWorldTypeDto buildSquareIndex(ResultSet rs) throws SQLException {
-//		OpWorldTypeDto dto =  new OpWorldTypeDto(
-//					rs.getInt("serial"),
-//					rs.getInt("rec_type_id"),
-//					(Date)rs.getObject("rec_date_modify"),
-//					rs.getInt("id"),
-//					rs.getString("short_link"),
-//					rs.getInt("author_id"),
-//					rs.getString("world_desc"),
-//					rs.getString("title_path"),
-//					rs.getString("bg_path"),
-//					rs.getString("title_thumb_path"),
-//					rs.getInt("click_count"),
-//					rs.getInt("like_count"),
-//					rs.getInt("comment_count"),
-//					rs.getString("world_label"),
-//					rs.getString("world_type"),
-//					rs.getInt("type_id"),
-//					rs.getInt("superb"),
-//					rs.getInt("type_id"),
-//					rs.getString("review"));
-//		
-//		UserInfoDto userInfo = new UserInfoDto();
-//		userInfo.setId(rs.getInt("author_id"));
-//		userInfo.setUserName(rs.getString("user_name"));
-//		userInfo.setUserAvatar(rs.getString("user_avatar"));
-//		userInfo.setUserAvatarL(rs.getString("user_avatar_l"));
-//		userInfo.setStar(rs.getInt("star"));
-//		userInfo.setPlatformVerify(rs.getInt("platform_verify"));
-//		dto.setUserInfo(userInfo);
-//		
-//		if(urlPrefix != null) {
-//			if(dto.getShortLink() != null) {
-//				dto.setWorldURL(urlPrefix + dto.getShortLink()); 
-//			} else {
-//				dto.setWorldURL(urlPrefix + dto.getId());
-//			}
-//		}
-//		return dto;
-//	}
-
 	/**
 	 * 构建OpSquareDto
 	 * 
@@ -886,21 +695,39 @@ public class SquarePushDaoImpl extends BaseDaoImpl implements SquarePushDao {
 		return dto;
 	}
 
-//	@Override
-//	public OpWorldTypeDto querySuperbWorldTypeByWID(int wid) {
-//		try {
-//			return getJdbcTemplate().queryForObject(QUERY_SUPERB_INDEX_BY_WID,
-//					new Object[]{wid}, new RowMapper<OpWorldTypeDto>() {
-//	
-//				@Override
-//				public OpWorldTypeDto mapRow(ResultSet rs, int rowNum)
-//						throws SQLException {
-//					return buildSquareIndex(rs);
-//				}
-//			});
-//		} catch(EmptyResultDataAccessException e) {
-//			return null;
-//		}
-//	}
+	@Override
+	public OpWorldTypeDto querySuperByWID(int wid) {
+		try {
+			return getJdbcTemplate().queryForObject(QUERY_SUPERB_BY_WID,
+					new Object[]{wid}, new RowMapper<OpWorldTypeDto>() {
+	
+				@Override
+				public OpWorldTypeDto mapRow(ResultSet rs, int rowNum)
+						throws SQLException {
+					OpWorldTypeDto dto = buildSquareDto(rs);
+					dto.setUserInfo(UserInfoDaoImpl.buildUserInfoDtoByResult(dto.getAuthorId(), rs));
+					return dto;
+				}
+			});
+		} catch(EmptyResultDataAccessException e) {
+			return null;
+		}
+	}
+
+	@Override
+	public List<OpWorldTypeDto> queryWeightSuperbFromMaster(int limit) {
+		return getJdbcTemplate().query(QUERY_WEIGHT_SUPERB_V4,
+				new Object[]{limit}, new RowMapper<OpWorldTypeDto>() {
+
+					@Override
+					public OpWorldTypeDto mapRow(ResultSet rs, int rowNum) throws SQLException {
+						OpWorldTypeDto dto = buildSquareDto(rs);
+						dto.setUserInfo(UserInfoDaoImpl.buildUserInfoDtoByResult(dto.getAuthorId(), rs));
+						return dto;
+					}
+
+					
+		});
+	}
 
 }

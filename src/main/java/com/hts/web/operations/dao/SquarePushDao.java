@@ -74,6 +74,13 @@ public interface SquarePushDao extends BaseDao {
 	public List<OpWorldTypeDto> querySuperbFromMaster(RowSelection rowSelection);
 	
 	/**
+	 * 从主库查询置顶精选
+	 * 
+	 * @return
+	 */
+	public List<OpWorldTypeDto> queryWeightSuperbFromMaster(int limit);
+	
+	/**
 	 * 查询广场织图
 	 * 
 	 * @param typeId
@@ -266,49 +273,8 @@ public interface SquarePushDao extends BaseDao {
 	 */
 	public Integer queryMaxSquareSerial();
 	
-	/**
-	 * 从主库查询广场精品
-	 * 
-	 * @param rowSelection
-	 * @return
-	 */
-//	public List<OpWorldTypeDto> querySuperbSquareIndexFromMaster(RowSelection rowSelection);
 	
-	/**
-	 * 查询广场精品分类索引
-	 * 
-	 * @param rowSelection
-	 * @return
-	 */
-//	public List<OpWorldTypeDto> querySuperbSquareIndex(RowSelection rowSelection);
-	
-//	/**
-//	 * 查询广场精品分类索引
-//	 * 
-//	 * @param maxSerial
-//	 * @param rowSelection
-//	 * @return
-//	 */
-//	public List<OpWorldTypeDto> querySuperbSquareIndex(Integer maxSerial, RowSelection rowSelection);
-	
-	/**
-	 * 查询广场分类索引
-	 * 
-	 * @param limit
-	 * @param superbLimit
-	 * @param labels
-	 * @return
-	 */
-//	public List<OpWorldTypeDto> querySquarePushIndex(int limit,int superbLimit,List<OpWorldType> labels);
-//	
-//	/**
-//	 * 查询广场分类索引
-//	 * 
-//	 * @param limit
-//	 * @param labels
-//	 * @return
-//	 */
-//	public List<OpWorldTypeDto> querySquarePushIndex(int limit,List<OpWorldType> labels);
+	public OpWorldTypeDto querySuperByWID(int wid);
 	
 	/**
 	 * 构建OpWorldTypeDto
@@ -319,7 +285,6 @@ public interface SquarePushDao extends BaseDao {
 	 */
 	public OpWorldTypeDto buildSquareDto(ResultSet rs) throws SQLException;
 	
-//	public OpWorldTypeDto querySuperbWorldTypeByWID(int wid);
 	
 }
 

@@ -653,7 +653,12 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 						if(typeId == 0) { // 加载全部精选
 							
 							if(completeLimit == 0) {
-								list = opWorldTypeDto2CacheDao.querySuperbWorldType(0, limit-1);
+								List<OpWorldTypeDto> weightList = opWorldTypeDto2CacheDao.queryWeightSuperb();
+								int weightSize = weightList.size();
+								list = opWorldTypeDto2CacheDao.querySuperbWorldType(0, limit-weightSize-1);
+								if(weightSize > 0) {
+									list.addAll(0, weightList);
+								}
 							} else {
 								list = squarePushDao.querySuperbV4(rowSelection);
 							}
@@ -723,9 +728,16 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 		List<OpWorldTypeDto> list = null;
 		// 查询首页（循环加载缓存中的分页）
 		if(maxId == 0) { 
-			List<OpWorldTypeDto> tempList = opWorldTypeDto2CacheDao.querySuperbWorldType(0, superbRandomLimit-1);
-			list = opWorldTypeDto2CacheDao.querySuperbWorldType(superbRandomLimit, limit-1);
+			List<OpWorldTypeDto> weightList = opWorldTypeDto2CacheDao.queryWeightSuperb();
+			int randomLimit = superbRandomLimit - weightList.size();
+			List<OpWorldTypeDto> tempList = opWorldTypeDto2CacheDao.querySuperbWorldType(0, randomLimit-1);
+			list = opWorldTypeDto2CacheDao.querySuperbWorldType(randomLimit, limit-1);
 			randomList(tempList, list, true); // 打乱队列顺序
+
+			if(!weightList.isEmpty()) {
+				list.addAll(0, weightList);
+			}
+			
 		
 		// 从库中查询下一页
 		} else {

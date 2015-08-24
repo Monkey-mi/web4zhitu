@@ -1,5 +1,6 @@
 package com.hts.web.operations;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.hts.web.base.StrutsKey;
@@ -29,6 +30,8 @@ public class ZTWorldOperationsAction extends BaseAction {
 	 * 
 	 */
 	private static final long serialVersionUID = 3538307829445161930L;
+	
+	private static Logger logger = Logger.getLogger(ZTWorldOperationsAction.class);
 	
 	private Boolean isRandom = false;  // 是否随机获取
 	private Integer squareLabel = Tag.SQUARE_LABEL_TRAVEL; // 广场分类标签代号

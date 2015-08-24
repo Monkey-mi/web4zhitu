@@ -133,6 +133,11 @@ public class CacheKeies {
 	public static final String OP_SUPERB_TYPE = MODULE_OP + "type:superb";
 	
 	/**
+	 * 运营：置顶精品分类
+	 */
+	public static final String OP_SUPERB_TYPE_WEIGHT = MODULE_OP + "type:superb:weight";
+	
+	/**
 	 * 运营：用户认证
 	 */
 	public static final String OP_USER_VERIFY = MODULE_OP + "user:verify";
