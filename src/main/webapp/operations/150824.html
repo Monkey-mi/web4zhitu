@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="description" content="你的最美闺蜜照  ">
+<title>你的最美闺蜜照 </title>
+<style type="text/css">
+body {
+	margin: 0 auto 0 auto;
+	padding: 0;
+	text-align: center;
+	font-size: 0;
+	font-family: "微软雅黑", Arial, Helvetica, sans-serif;
+	background: #eeeeee;
+}
+
+img {
+	width: 100%;
+	border: 0;
+	padding: 0;
+	margin: 0;
+}
+
+a {
+	text-decoration: none;
+	color: #313139;
+}
+
+#main {
+	display: inline-block;
+	width: 100%;
+	max-width: 750px;
+	margin-bottom: 60px;
+}
+
+.user-wrap {
+	display: inline-block;
+}
+
+.user-wrap img {
+	float: left;
+}
+
+.share-wrap img {
+	float: left;
+}
+
+.concern-btn {
+	display: inline-block;
+	width: 180px;
+	height: 74px;
+	position: absolute;
+	left: 50%;
+	margin: 294px 0 0 145px;
+	-moz-border-radius: 0px;
+	-webkit-border-radius: 0px;
+	border-radius: 0px;
+	font-size: 30px;
+	line-height: 74px;
+	cursor: pointer;
+	background: #ffd451;
+	display: none;
+}
+
+.concerned {
+	border-color: #02fb3d;
+}
+
+#share-btn-wrap {
+	display: inline-block;
+	width: 360px;
+	height: 100px;
+	position: absolute;
+	left: 50%;
+	margin: 260px 0 0 -200px;
+	-moz-border-radius: 0px;
+	-webkit-border-radius: 0px;
+	border-radius: 0px;
+	font-size: 52px;
+	line-height: 140px;
+	background: #ffd451;
+	display: none;
+}
+
+#share-btn-wrap a {
+	display: inline-block;
+	border: 10px solid #000000;
+	-moz-border-radius: 0px;
+	-webkit-border-radius: 0px;
+	border-radius: 0px;
+	color: #000000;
+	font-weight: 900;
+	width: 340px;
+	height: 80px;
+	line-height: 80px;
+}
+
+#sticker-btn-wrap {
+	display: inline-block;
+	width: 340px;
+	height: 100px;
+	position: absolute;
+	left: 50%;
+	margin: 300px 0 0 -200px;
+	-moz-border-radius: 0px;
+	-webkit-border-radius: 0px;
+	border-radius: 0px;
+	font-size: 52px;
+	line-height: 140px;
+	background: #ffd451;
+	display: none;
+}
+
+#sticker-btn-wrap a {
+	display: inline-block;
+	border: 10px solid #000000;
+	-moz-border-radius: 0px;
+	-webkit-border-radius: 0px;
+	border-radius: 0px;
+	color: #000000;
+	font-weight: 900;
+	width: 340px;
+	height: 80px;
+	line-height: 80px;
+}
+
+#download-wrap {
+	width: 100%;
+	text-align: center;
+	position: fixed;
+	bottom: 0;
+	height: 60px;
+	display: none;
+	text-align: center;
+	z-index: 99999;
+}
+
+#download-btn {
+	height: 100%;
+	width: 100%;
+	display: inline-block;
+	color: #ffffff;
+}
+
+#download-bg {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	left: 0px;
+}
+
+#download-logo {
+	width: auto;
+	height: 44px;
+	position: absolute;
+	left: 0px;
+	margin-top: 8px;
+	margin-left: 12px;
+}
+
+#download-close {
+	width: 15px;
+	height: 15px;
+	position: absolute;
+	right: 0;
+	display: inline;
+	cursor: pointer;
+}
+
+#download-tip {
+	background: #3a97d0;
+	width: 100px;
+	height: 36px;
+	right: 0;
+	color: #ffffff;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	margin: 12px 18px 0 0;
+	line-height: 36px;
+	text-align: center;
+	position: absolute;
+	font-size: 14px;
+}
+</style>
+</head>
+<body>
+<div id='wx_pic' style="display:none;">
+	<img src='http://static.imzhitu.com/op/sticker/150824/banner.jpg' />
+</div>
+<div id="main">
+<div id="header">
+<img alt="" src="http://static.imzhitu.com/op/sticker/150824/01.jpg" /> 
+</div>
+<div class="user-wrap">
+<img alt="" src="http://static.imzhitu.com/op/sticker/150824/02.jpg" /> 
+<a id="concern-2159175" class="concern-btn concern" name="imzhitu-callapp" href="imzhitu://concern?uid=2159175">+关注</a>
+<a class="concern-btn concerned">已关注</a>
+</div>
+<div class="user-wrap">
+<img alt="" src="http://static.imzhitu.com/op/sticker/150824/03.jpg" />
+<a id="concern-872953" class="concern-btn concern" name="imzhitu-callapp" href="imzhitu://concern?uid=872953">+关注</a>
+<a class="concern-btn concerned">已关注</a>
+</div>
+
+<div class="user-wrap">
+<img alt="" src="http://static.imzhitu.com/op/sticker/150824/04.jpg" /> 
+<a id="concern-24804" class="concern-btn concern" name="imzhitu-callapp" href="imzhitu://concern?uid=24804">+关注</a>
+<a class="concern-btn concerned">已关注</a>
+</div>
+
+<div class="user-wrap">
+<img alt="" src="http://static.imzhitu.com/op/sticker/150824/05.jpg" /> 
+</div>
+
+<div class="user-wrap">
+<img alt="" src="http://static.imzhitu.com/op/sticker/150824/06.jpg" /> 
+<a id="concern-855014" class="concern-btn concern" name="imzhitu-callapp" href="imzhitu://concern?uid=855014">+关注</a>
+<a class="concern-btn concerned">已关注</a>
+</div>
+
+<div class="user-wrap">
+<img alt="" src="http://static.imzhitu.com/op/sticker/150824/07.jpg" />
+<a id="concern-769387" class="concern-btn concern" name="imzhitu-callapp" href="imzhitu://concern?uid=769387">+关注</a>
+<a class="concern-btn concerned">已关注</a>
+</div>
+
+<div class="user-wrap">
+<img alt="" src="http://static.imzhitu.com/op/sticker/150824/08.jpg" />
+<a id="concern-427187" class="concern-btn concern" name="imzhitu-callapp" href="imzhitu://concern?uid=427187">+关注</a>
+<a class="concern-btn concerned">已关注</a>
+</div>
+
+<div class="user-wrap">
+<img alt="" src="http://static.imzhitu.com/op/sticker/150824/09.jpg" />
+</div>
+
+<div class="user-wrap">
+<img alt="" src="http://static.imzhitu.com/op/sticker/150824/10.jpg" />
+<a id="concern-1038089" class="concern-btn concern" name="imzhitu-callapp" href="imzhitu://concern?uid=1038089">+关注</a>
+<a class="concern-btn concerned">已关注</a>
+</div>
+
+<div class="user-wrap">
+<img alt="" src="http://static.imzhitu.com/op/sticker/150824/11.jpg" />
+<a id="concern-1053765" class="concern-btn concern" name="imzhitu-callapp" href="imzhitu://concern?uid=1053765">+关注</a>
+<a class="concern-btn concerned">已关注</a>
+</div>
+
+<div class="user-wrap">
+<img alt="" src="http://static.imzhitu.com/op/sticker/150824/12.jpg" />
+<a id="concern-2268911" class="concern-btn concern" name="imzhitu-callapp" href="imzhitu://concern?uid=2268911">+关注</a>
+<a class="concern-btn concerned">已关注</a>
+</div>
+<div class="share-wrap">
+<img alt="" src="http://static.imzhitu.com/op/sticker/150824/13.jpg" /> 
+<div id="sticker-btn-wrap">
+<a id="sticker-btn"  href="imzhitu://useSticker" style="display:block">我也来晒</a>
+</div>
+<div id="share-btn-wrap">
+<a id="share-btn"  href="imzhitu://sharePage" style="display:block">分享粗去</a>
+</div>
+</div>
+</div>
+
+<div id="download-wrap">
+<a id="download-btn" title="点击下载" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.htshuo.htsg">
+	<img id="download-bg" alt="" src="/staticres/base/images/down-bg.jpg">
+	<img id="download-logo" alt="" src="/staticres/base/images/down-logo.png">
+	<span id="download-tip">点击下载</span>
+</a>
+<img id="download-close" title="隐藏" onclick="javascript:hideDownloadBtn();" alt="" src="/staticres/base/images/down-close.jpg">
+</div>
+
+<script type="text/javascript" src="../staticres/base/js/callapp2.js"></script> 
+<script type="text/javascript" src="../staticres/base/js/jquery/jquery-1.8.2.min.js"></script>
+<script type="text/javascript">
+var inapp = 0;
+ $(document).ready(function() {
+	inapp = callAppInit();
+	
+	initLayout();
+	
+	if(inapp == 1) {
+		var reg = new RegExp("(^|&)uid=([^&]*)(&|$)", "i"),
+			r = window.location.search.substr(1).match(reg);
+			
+		if(r == null || r == undefined) {
+			bindAllBtnClick2Callapp();
+		} else {
+			uid = unescape(r[2]);
+			fetchConcernStatus(uid);
+		}
+	} else {
+		$("#download-wrap").show();
+		bindAllBtnClick2Callapp();
+	}
+	document.getElementById("share-btn").addEventListener('click',openclient,false);
+});
+
+function initLayout() {
+	var maxW = 750;
+	var winWidth = $(window).width();
+	
+	winWidth = winWidth > maxW ? maxW : winWidth;
+
+	var scale = 1,
+		headerH = 1147,
+		
+		btnW = 180,
+		btnH = 74,		
+		btnMarginTop = 294,
+		btnMarginLeft = 145,
+		btnFontSize = 30,
+ 		btnRadius = 0, 
+ 		
+		pbtnW = 360,
+		pbtnH = 100,		
+		pbtnMarginTop = 600,
+		pbtnMarginLeft = -185,
+		pbtnFontSize = 38,
+		pbtnRadius = 100;
+	
+		pbtnMarginTopSticker = 470,
+		
+		spbtnW = 340,
+		spbtnH = 80,
+		spborderW = 10,
+		spbtnLineH = 80
+		
+	scale = winWidth / maxW;
+	
+	btnW = btnW * scale;
+	btnH = btnH * scale;
+	btnMarginTop = btnMarginTop * scale;
+	btnMarginLeft = btnMarginLeft * scale;
+	btnFontSize = btnFontSize * scale;
+ 	btnRadius = btnRadius * scale; 
+	
+	pbtnW = pbtnW * scale;
+	pbtnH = pbtnH * scale;
+	pbtnMarginTop = pbtnMarginTop * scale;
+	pbtnMarginLeft = pbtnMarginLeft * scale;
+	pbtnFontSize = pbtnFontSize * scale;
+	pbtnRadius = pbtnRadius * scale;
+	 
+	pbtnMarginTopSticker = pbtnMarginTopSticker * scale;
+	
+	spbtnW = spbtnW * scale;
+	spbtnH = spbtnH * scale;
+	spborderW = spborderW * scale;
+	
+	$("#header").height(scale * headerH + 'px');
+	
+	$(".concern-btn").css({
+		"width":btnW + "px",
+		"height":btnH + "px",
+		"margin-top":btnMarginTop + "px",
+		"margin-left":btnMarginLeft + "px",
+		"font-size":btnFontSize + "px",
+		"line-height":btnH + "px",
+ 		"-moz-border-radius":btnRadius + "px",
+		"-webkit-border-radius":btnRadius + "px",
+		"border-radius":btnRadius + "px"}); 
+		
+	$(".concern").show();
+	
+	$("#share-btn").css({
+		"width":spbtnW + "px",
+		"height":spbtnH + "px",
+		"line-height":spbtnH + "px",
+		"border-width":spborderW + "px"});
+		
+	$("#share-btn-wrap").css({
+		"width":pbtnW + "px",
+		"height":pbtnH + "px",
+		"margin-top":pbtnMarginTop + "px",
+		"margin-left":pbtnMarginLeft + "px",
+		"font-size":pbtnFontSize + "px",
+		"line-height":pbtnH + "px"})
+		.show();
+	
+	$("#sticker-btn-wrap").css({
+		"width":pbtnW + "px",
+		"height":pbtnH + "px",
+		"margin-top":pbtnMarginTopSticker + "px",
+		"margin-left":pbtnMarginLeft + "px",
+		"font-size":pbtnFontSize + "px",
+		"line-height":pbtnH + "px"})
+		.show();
+	
+		if(inapp==1) {
+			$("#main").css({"margin-bottom":"0px"});
+		}
+}
+
+function bindConcern(uid, status) {
+	var $btn = $("#concern-" + uid);
+	switch(status) {
+	case 0:
+		$btn.hide().siblings(".concerned:eq(0)").show();
+		break;
+	case 1:
+		$btn.hide().siblings(".concerned:eq(0)").text("相互关注").show();
+		break;
+	default:
+		$btn.click(function() {
+			$this = $(this);
+			$this.hide().siblings(".concerned:eq(0)").show();
+		});
+		break;
+	}
+}
+
+function fetchConcernStatus(uid) {
+	$.post("./user_queryConcernStatus",{
+		"userId":uid,
+		"concernIds":"2268911,1053765,1038089,427187,769387,855014,24804,872953,2159175",
+	},function(data){
+		if(data['result'] == 0) {
+			var status = data['concerns'];
+			for(var i = 0; i < status.length; i++) {
+				bindConcern(status[i]['userId'], status[i]['isMututal']);
+			}
+		} else {
+			bindAllBtnClick2Callapp();
+		}
+	}, "json");
+}
+
+function bindAllBtnClick2Callapp() {
+	var $callapp = document.getElementsByName("imzhitu-callapp");
+   	if($callapp.length) {
+   		for(var i = 0; i < $callapp.length; i++) {
+   			$callapp[i].addEventListener('click',openclient,false);
+   		}
+   	}
+} 
+
+function hideDownloadBtn() {
+	$("#download-wrap").hide();
+	$("#main").css({"margin-bottom":"0px"});
+}
+</script>
+<div style="display:none;">
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1255868073'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1255868073' type='text/javascript'%3E%3C/script%3E"));</script>
+</div>
+</body>
+</html>
