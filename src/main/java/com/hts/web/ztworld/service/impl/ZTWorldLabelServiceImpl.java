@@ -143,6 +143,7 @@ public class ZTWorldLabelServiceImpl extends BaseServiceImpl implements
 	public void buildLabelWorld(boolean isOrderBySerial, String labelName, boolean trimValid, Integer joinId, int maxId,
 			int start, int limit, Map<String, Object> jsonMap, boolean trimTotal, boolean trimExtras, 
 			int commentLimit, int likedLimit) throws Exception {
+		labelName = labelName.trim();
 		final HTWorldLabel label = worldLabelDao.queryLabelByName(labelName);
 		if(label == null) {
 			throw new HTSException("无效标签", 1);
@@ -234,6 +235,7 @@ public class ZTWorldLabelServiceImpl extends BaseServiceImpl implements
 	@Override
 	public void buildLabel(String labelName, Map<String, Object> jsonMap)
 			throws Exception {
+		labelName = labelName.trim();
 		final HTWorldLabel label = worldLabelDao.queryLabelByName(labelName);
 		if(label == null) {
 			throw new HTSException("无效标签", 1);

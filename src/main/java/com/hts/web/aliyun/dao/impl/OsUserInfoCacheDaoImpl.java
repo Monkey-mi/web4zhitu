@@ -89,7 +89,7 @@ public class OsUserInfoCacheDaoImpl extends BaseOsCacheDaoImpl implements
 	public void popOpts(int limit) {
 		BoundListOperations<String, String> op = 
 				getRedisKeyTemplate().boundListOps(CacheKeies.OS_USER_INFO);
-		List<String> list = op.range(0, limit);
+		List<String> list = op.range(0, limit-1);
 		if(list == null || list.size() == 0) {
 			return;
 		}
@@ -102,7 +102,7 @@ public class OsUserInfoCacheDaoImpl extends BaseOsCacheDaoImpl implements
 			return;
 		}
 		// 清空已生效的操作缓存
-		op.trim(list.size() - 1, -1);
+		op.trim(list.size(), -1);
 	}
 
 }

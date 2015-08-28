@@ -36,12 +36,11 @@ import com.hts.web.plat.service.PlatService;
 import com.hts.web.plat.service.SinaWeiboService;
 import com.hts.web.push.service.PushService;
 import com.hts.web.push.service.impl.PushServiceImpl.PushFailedCallback;
-import com.hts.web.security.service.UserLoginPersistentService;
+import com.hts.web.stat.dao.StatUserRegisterCacheDao;
 import com.hts.web.userinfo.dao.SocialAccountDao;
 import com.hts.web.userinfo.dao.UserConcernDao;
 import com.hts.web.userinfo.dao.UserInfoDao;
 import com.hts.web.userinfo.dao.UserLabelDao;
-import com.hts.web.userinfo.dao.UserRemarkDao;
 import com.hts.web.userinfo.dao.UserVerifyCacheDao;
 import com.hts.web.userinfo.service.UserInfoService;
 import com.hts.web.userinfo.service.UserInteractService;
@@ -162,9 +161,6 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 	private KeyGenService keyGenService;
 	
 	@Autowired
-	private UserLoginPersistentService userLoginPersistentService;
-	
-	@Autowired
 	@Qualifier("HTSUserLoginPersistentDao")
 	private PersistentTokenRepository tokenRepository;
 	
@@ -190,9 +186,6 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 	private SinaWeiboService sinaWeiboService;
 	
 	@Autowired
-	private UserRemarkDao userRemarkDao;
-
-	@Autowired
 	private UserInteractService userInteractService;
 	
 	@Autowired
@@ -203,6 +196,9 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 	
 	@Autowired
 	private PlatService platService;
+	
+	@Autowired
+	private StatUserRegisterCacheDao statUserRegisterCacheDao;
 	
 	public Integer getOfficialId() {
 		return officialId;
@@ -270,6 +266,8 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 			registerLogger.warn("concern offical error:" + e.getMessage());
 		}
 		
+		statUserRegisterCacheDao.saveRegisterStat(id, phoneCode, new Date());
+		
 		return userInfo;
 	}
 
@@ -301,8 +299,8 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 		} catch(Exception e) {
 			registerBySocialLogger.warn("concern offical error:" + e.getMessage());
 		}
-		
-//		pushRecommandUser(loginCode, platformToken, userInfo.getId(), userName);
+
+		statUserRegisterCacheDao.saveRegisterStat(id, phoneCode, new Date());
 		
 		return userInfo;
 	}

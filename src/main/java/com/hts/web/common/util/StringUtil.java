@@ -315,5 +315,17 @@ public class StringUtil {
 		return path;
 	}
 	
+	/**
+	 * 过滤字符数组空格
+	 * 
+	 * @param strs
+	 */
+	public static void trimStrArray(String[] strs) {
+		if(strs != null && strs.length > 0) {
+			for(int i = 0; i < strs.length; i++) {
+				strs[i] = strs[i].trim();
+			}
+		}
+	}
 	
 }

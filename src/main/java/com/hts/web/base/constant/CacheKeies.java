@@ -217,6 +217,11 @@ public class CacheKeies {
 	 */
 	public static final String OS_USER_LOGIN = MODULE_OS + "userLogin";
 	
+	/**
+	 * OpenSearch world
+	 */
+	public static final String OS_WORLD = MODULE_OS + "world";
+	
 	
 	/**
 	 * 第三方社交模块
@@ -239,6 +244,16 @@ public class CacheKeies {
 	 */
 	public static final String OP_STAR_RECOMMEND = "starRecommend";
 
+	
+	/**
+	 * 数据统计模块
+	 */
+	private static final String MODULE_STAT = "stat:";
+	
+	/**
+	 * 用户注册数据统计
+	 */
+	public static final String STAT_USER_REGISTER = MODULE_STAT + "userRegister";
 	
 	
 }

@@ -9,4 +9,6 @@ public class OpenSearch {
 	public static final String CHANNEL = "channel";
 	
 	public static final String MISHU = "xiaomishuAutoResponse";
+	
+	public static final String WORLD = "world";
 }
