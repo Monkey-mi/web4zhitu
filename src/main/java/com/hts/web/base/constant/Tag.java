@@ -248,6 +248,11 @@ public class Tag {
 	public static final int USER_MSG_STAR_RECOMMEND = 10;
 	
 	/**
+	 * 频道织图加精通知
+	 */
+	public static final int USER_MSG_CHANNEL_SUPERB = 11;
+	
+	/**
 	 * 本地标记
 	 */
 	public static final int STATE_LOCAL = 0;
