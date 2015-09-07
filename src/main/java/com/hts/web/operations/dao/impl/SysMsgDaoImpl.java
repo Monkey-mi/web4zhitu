@@ -37,7 +37,7 @@ public class SysMsgDaoImpl extends BaseDaoImpl implements SysMsgDao {
 	 * 查询接收到的私信
 	 */
 	private static final String QUERY_SYS_MSG = QUERY_MSG_HEAD 
-			+ " order by weight desc, id desc";
+			+ " order by id desc";
 	
 	/**
 	 * 根据最大id查询接收到的私信 
