@@ -92,7 +92,7 @@ public class AdOperationsServiceImpl extends BaseServiceImpl implements
 
 			@Override
 			public long getTotalByMaxId(int maxId) {
-				return appLinkDao.queryAppLinkCount(maxId, Tag.FALSE, phoneCode);
+				return 0l;
 			}
 		}, OptResult.JSON_KEY_APP, OptResult.JSON_KEY_TOTAL_COUNT);
 	}

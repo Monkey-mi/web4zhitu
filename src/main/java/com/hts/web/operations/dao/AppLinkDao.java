@@ -19,13 +19,6 @@ import com.hts.web.common.pojo.OpAdAppLinkDto;
 public interface AppLinkDao extends BaseDao {
 
 	/**
-	 * 保存链接
-	 * 
-	 * @param link
-	 */
-	public void saveAppLink(OpAdAppLink link);
-	
-	/**
 	 * 查询App链接列表
 	 * 
 	 * @param rowSelection
@@ -43,37 +36,11 @@ public interface AppLinkDao extends BaseDao {
 	public List<OpAdAppLinkDto> queryAppLinkDto(Integer maxSerial, Integer open, Integer phoneCode, RowSelection rowSelection);
 	
 	/**
-	 * 查询链接列表
-	 * 
-	 * @param rowSelection
-	 * @return
-	 */
-	public List<OpAdAppLink> queryAppLink(Integer open, Integer phoneCode, RowSelection rowSelection);
-	
-	/**
-	 * 查询链接列表
-	 * 
-	 * @param maxSerial
-	 * @param rowSelection
-	 * @return
-	 */
-	public List<OpAdAppLink> queryAppLink(Integer maxSerial, Integer open, Integer phoneCode, RowSelection rowSelection);
-	
-	/**
 	 * 添加点击次数
 	 * 
 	 * @param id
 	 */
 	public void addClickCount(Integer id);
-	
-	
-	/**
-	 * 查询链接总数
-	 * 
-	 * @param maxSerial
-	 * @return
-	 */
-	public long queryAppLinkCount(Integer maxSerial, Integer open, Integer phoneCode);
 	
 	/**
 	 * 根据短链查询链接
@@ -82,18 +49,4 @@ public interface AppLinkDao extends BaseDao {
 	 * @return
 	 */
 	public OpAdAppLink queryIdByShortLink(String shortLink);
-	
-	/**
-	 * 更新排序
-	 * @param id
-	 * @param serial
-	 */
-	public void updateSerial(Integer id, Integer serial);
-	
-	/**
-	 * 更新链接
-	 * 
-	 * @param link
-	 */
-	public void updateAppLink(OpAdAppLink link);
 }

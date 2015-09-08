@@ -166,6 +166,14 @@ public interface UserRecommendDao extends BaseDao {
 	
 	public List<OpUser> queryWeightVerifyRec(Integer userId, Integer verifyId, Integer limit);
 	
+	/**
+	 * 根据用户id查询推荐用户
+	 * 
+	 * @param userId
+	 * @param verifyId
+	 * @return
+	 */
+	public OpUser queryVerifyRecByUID(Integer userId, Integer verifyId);
 	
 	/**
 	 * 查询推荐总数

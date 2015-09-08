@@ -90,7 +90,7 @@ public class UserRecommendDaoImpl extends BaseDaoImpl implements
 	private static final String QUERY_RECOMMEND_USER_ORDER_BY_ACT = "select " + UR_INFO +"," + U_INFO 
 			+ " from " + table + " ur, " + HTS.USER_INFO + " as u"
 			+ " where ur.user_id=u.id and ur.user_accept=1 and ur.sys_accept=1 and ur.weight=0"
-			+ " and NOT EXISTS (select concern_id from " + HTS.USER_CONCERN + " where ur.user_id=concern_id and valid=1 and user_id=?)" 
+//			+ " and NOT EXISTS (select concern_id from " + HTS.USER_CONCERN + " where ur.user_id=concern_id and valid=1 and user_id=?)" 
 			+ " ORDER BY ur.serial desc limit ?,?";
 
 	
@@ -100,7 +100,7 @@ public class UserRecommendDaoImpl extends BaseDaoImpl implements
 	private static final String QUERY_RECOMMEND_USER_ORDER_BY_ACT_BY_MAX_ID = "select " + UR_INFO +"," + U_INFO 
 			+ " from " + table + " ur, " + HTS.USER_INFO + " as u"
 			+ " where ur.user_id=u.id and ur.user_accept=1 and ur.sys_accept=1 and ur.weight=0 and ur.serial<=?"
-			+ " and NOT EXISTS (select concern_id from " + HTS.USER_CONCERN + " where ur.user_id=concern_id and valid=1 and user_id=?)" 
+//			+ " and NOT EXISTS (select concern_id from " + HTS.USER_CONCERN + " where ur.user_id=concern_id and valid=1 and user_id=?)" 
 			+ " ORDER BY ur.serial desc limit ?,?";
 	
 	/**
@@ -109,7 +109,7 @@ public class UserRecommendDaoImpl extends BaseDaoImpl implements
 	private static final String QUERY_WEIGHT_REC = "select " + UR_INFO +"," + U_INFO 
 			+ " from " + table + " ur, " + HTS.USER_INFO + " as u"
 			+ " where ur.user_id=u.id and ur.user_accept=1 and ur.sys_accept=1 and ur.weight > 0"
-			+ " and NOT EXISTS (select concern_id from " + HTS.USER_CONCERN + " where ur.user_id=concern_id and valid=1 and user_id=?)" 
+//			+ " and NOT EXISTS (select concern_id from " + HTS.USER_CONCERN + " where ur.user_id=concern_id and valid=1 and user_id=?)" 
 			+ " ORDER BY ur.weight desc limit ?";
 	
 	/** 
@@ -118,7 +118,7 @@ public class UserRecommendDaoImpl extends BaseDaoImpl implements
 	private static final String QUERY_VERIFY_RECOMMEND_USER_ORDER_BY_ACT = "select " + UR_INFO +"," + U_INFO 
 			+ " from " + table + " ur, " + HTS.USER_INFO + " as u"
 			+ " where ur.user_id=u.id and ur.user_accept=1 and ur.sys_accept=1 and ur.weight=0 and ur.verify_id=?"
-			+ " and NOT EXISTS (select concern_id from " + HTS.USER_CONCERN + " where ur.user_id=concern_id and valid=1 and user_id=?)" 
+//			+ " and NOT EXISTS (select concern_id from " + HTS.USER_CONCERN + " where ur.user_id=concern_id and valid=1 and user_id=?)" 
 			+ " ORDER BY ur.serial desc limit ?,?";
 	
 	
@@ -128,7 +128,7 @@ public class UserRecommendDaoImpl extends BaseDaoImpl implements
 	private static final String QUERY_VERIFY_RECOMMEND_USER_ORDER_BY_ACT_MAX_ID = "select " + UR_INFO +"," + U_INFO 
 			+ " from " + table + " ur, " + HTS.USER_INFO + " as u"
 			+ " where ur.user_id=u.id and ur.user_accept=1 and ur.sys_accept=1 and ur.weight=0 and ur.verify_id=? and ur.serial<=?"
-			+ " and NOT EXISTS (select concern_id from " + HTS.USER_CONCERN + " where ur.user_id=concern_id and valid=1 and user_id=?)" 
+//			+ " and NOT EXISTS (select concern_id from " + HTS.USER_CONCERN + " where ur.user_id=concern_id and valid=1 and user_id=?)" 
 			+ " ORDER BY ur.serial desc limit ?,?";
 	
 	/**
@@ -137,8 +137,15 @@ public class UserRecommendDaoImpl extends BaseDaoImpl implements
 	private static final String QUERY_WEIGHT_VERIFY_REC = "select " + UR_INFO +"," + U_INFO 
 			+ " from " + table + " ur, " + HTS.USER_INFO + " as u"
 			+ " where ur.user_id=u.id and ur.user_accept=1 and ur.sys_accept=1 and ur.weight > 0 and ur.verify_id=?"
-			+ " and NOT EXISTS (select concern_id from " + HTS.USER_CONCERN + " where ur.user_id=concern_id and valid=1 and user_id=?)" 
+//			+ " and NOT EXISTS (select concern_id from " + HTS.USER_CONCERN + " where ur.user_id=concern_id and valid=1 and user_id=?)" 
 			+ " ORDER BY ur.weight desc limit ?";
+	
+	/**
+	 * 查询置顶分榜推荐用户
+	 */
+	private static final String QUERY_VERIFY_REC_BY_UID = "select " + UR_INFO +"," + U_INFO 
+			+ " from " + table + " ur, " + HTS.USER_INFO + " as u"
+			+ " where ur.user_id=u.id and ur.user_accept=1 and ur.sys_accept=1 and ur.user_id=? and ur.verify_id=?";
 	
 	/** 
 	 * 查询社交平台推荐用户SQL头部 
@@ -244,15 +251,6 @@ public class UserRecommendDaoImpl extends BaseDaoImpl implements
 	private static final String QUERY_WEIGHT_LABEL_RECOMMEND = "select ur.id, ur.recommend_desc," + U_LABEL_INFO + " from " 
 			+ table + " ur, " + HTS.USER_INFO + " u where u.id=ur.user_id and ur.weight>0 order by ur.weight desc";
 	
-	
-//	/**
-//	 * 查询信息流推荐的用户信息
-//	 */
-//	private static final String QUERY_WORLD_RECOMMEND = "select " + WORLD_RECOMMEND_INFO + " from " 
-//			+ HTS.OPERATIONS_USER_RECOMMEND + " as ur0, " + HTS.USER_INFO + " as u0"
-//			+ " where ur0.user_id=u0.id and ur0.user_accept=1 and ur0.sys_accept=1 and ur0.user_id!=? and NOT EXISTS"
-//			+ " (select concern_id from " + HTS.USER_CONCERN + " where u0.id=concern_id and valid=1 and user_id=?) "
-//					+ "ORDER BY u0.activity desc, ur0.id desc limit ?,?";
 	
 	@Autowired
 	private UserVerifyDao userVerifyDao;
@@ -432,10 +430,10 @@ public class UserRecommendDaoImpl extends BaseDaoImpl implements
 	}
 	
 	@Override
-	public List<OpUser> queryRecommendUserOrderByAct(Integer joinId,
+	public List<OpUser> queryRecommendUserOrderByAct(Integer userId,
 			RowSelection rowSelection) {
 		return getJdbcTemplate().query(QUERY_RECOMMEND_USER_ORDER_BY_ACT,
-				new Object[]{joinId, rowSelection.getFirstRow(), rowSelection.getLimit()}, 
+				new Object[]{rowSelection.getFirstRow(), rowSelection.getLimit()}, 
 				new RowMapper<OpUser>() {
 
 			@Override
@@ -453,9 +451,9 @@ public class UserRecommendDaoImpl extends BaseDaoImpl implements
 
 	@Override
 	public List<OpUser> queryRecommendUserOrderByAct(Integer maxId,
-			Integer joinId, RowSelection rowSelection) {
+			Integer userId, RowSelection rowSelection) {
 		return getJdbcTemplate().query(QUERY_RECOMMEND_USER_ORDER_BY_ACT_BY_MAX_ID,
-				new Object[]{maxId, joinId, rowSelection.getFirstRow(), rowSelection.getLimit()}, 
+				new Object[]{maxId, rowSelection.getFirstRow(), rowSelection.getLimit()}, 
 				new RowMapper<OpUser>() {
 
 			@Override
@@ -475,7 +473,7 @@ public class UserRecommendDaoImpl extends BaseDaoImpl implements
 	public List<OpUser> queryVerifyRecommendUserOrderByAct(Integer userId, Integer verifyId,
 			RowSelection rowSelection) {
 		return getJdbcTemplate().query(QUERY_VERIFY_RECOMMEND_USER_ORDER_BY_ACT,
-				new Object[]{verifyId, userId, rowSelection.getFirstRow(), rowSelection.getLimit()}, 
+				new Object[]{verifyId, rowSelection.getFirstRow(), rowSelection.getLimit()}, 
 				new RowMapper<OpUser>() {
 
 			@Override
@@ -495,7 +493,7 @@ public class UserRecommendDaoImpl extends BaseDaoImpl implements
 	public List<OpUser> queryVerifyRecommendUserOrderByAct(Integer maxId, Integer userId, 
 			Integer verifyId, RowSelection rowSelection) {
 		return getJdbcTemplate().query(QUERY_VERIFY_RECOMMEND_USER_ORDER_BY_ACT_MAX_ID,
-				new Object[]{verifyId, maxId, userId, rowSelection.getFirstRow(), rowSelection.getLimit()},
+				new Object[]{verifyId, maxId, rowSelection.getFirstRow(), rowSelection.getLimit()},
 				new RowMapper<OpUser>() {
 
 			@Override
@@ -514,7 +512,7 @@ public class UserRecommendDaoImpl extends BaseDaoImpl implements
 	@Override
 	public List<OpUser> queryWeightRec(Integer userId, Integer limit) {
 		return getJdbcTemplate().query(QUERY_WEIGHT_REC,
-				new Object[]{userId, limit}, new RowMapper<OpUser>() {
+				new Object[]{limit}, new RowMapper<OpUser>() {
 
 			@Override
 			public OpUser mapRow(ResultSet rs, int rowNum)
@@ -532,7 +530,7 @@ public class UserRecommendDaoImpl extends BaseDaoImpl implements
 	public List<OpUser> queryWeightVerifyRec(Integer userId, Integer verifyId,
 			Integer limit) {
 		return getJdbcTemplate().query(QUERY_WEIGHT_VERIFY_REC,
-				new Object[]{verifyId, userId, limit}, new RowMapper<OpUser>() {
+				new Object[]{verifyId, limit}, new RowMapper<OpUser>() {
 
 			@Override
 			public OpUser mapRow(ResultSet rs, int rowNum)
@@ -544,6 +542,27 @@ public class UserRecommendDaoImpl extends BaseDaoImpl implements
 				return user;
 			}
 		});
+	}
+	
+	@Override
+	public OpUser queryVerifyRecByUID(Integer userId, Integer verifyId) {
+		try {
+			return getJdbcTemplate().queryForObject(QUERY_VERIFY_REC_BY_UID,
+					new Object[]{userId, verifyId}, new RowMapper<OpUser>() {
+		
+				@Override
+				public OpUser mapRow(ResultSet rs, int rowNum)
+						throws SQLException {
+					OpUser user = buildOpUser(rs);
+					user.setCurrPos(rs.getInt("curr_pos"));
+					user.setCurrVerifyPos(rs.getInt("curr_verify_pos"));
+					user.setActivity(Integer.MAX_VALUE);
+					return user;
+				}
+			});
+		} catch(DataAccessException e) {
+			return null;
+		}
 	}
 	
 	@Override

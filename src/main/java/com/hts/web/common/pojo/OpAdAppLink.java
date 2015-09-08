@@ -21,6 +21,7 @@ public class OpAdAppLink implements Serializable {
 	private Integer id;
 	private String appName;
 	private String appIcon;
+	private String appIconL;
 	private String appDesc;
 	private String appLink;
 	private String shortLink;
@@ -35,12 +36,14 @@ public class OpAdAppLink implements Serializable {
 	}
 
 	public OpAdAppLink(Integer id, String appName, String appIcon, 
-			String appDesc, String appLink, String shortLink, Integer phoneCode,
+			String appIconL, String appDesc, String appLink,
+			String shortLink, Integer phoneCode,
 			Integer clickCount, Integer serial, Integer open) {
 		super();
 		this.id = id;
 		this.appName = appName;
 		this.appIcon = appIcon;
+		this.appIconL = appIconL;
 		this.appDesc = appDesc;
 		this.appLink = appLink;
 		this.shortLink = shortLink;
@@ -137,8 +140,13 @@ public class OpAdAppLink implements Serializable {
 	public void setUrl(String url) {
 		this.url = url;
 	}
-	
-	
-	
 
+	public String getAppIconL() {
+		return appIconL;
+	}
+
+	public void setAppIconL(String appIconL) {
+		this.appIconL = appIconL;
+	}
+	
 }

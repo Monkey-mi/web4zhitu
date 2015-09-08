@@ -40,6 +40,7 @@ import com.hts.web.operations.dao.UserZombieDao;
 import com.hts.web.operations.service.UserOperationsService;
 import com.hts.web.userinfo.dao.SocialAccountDao;
 import com.hts.web.userinfo.dao.UserInfoDao;
+import com.hts.web.userinfo.service.UserConcernService;
 import com.hts.web.userinfo.service.UserInfoService;
 import com.hts.web.userinfo.service.UserInteractService;
 import com.hts.web.ztworld.dao.HTWorldDao;
@@ -129,6 +130,9 @@ public class UserOperationsServiceImpl extends BaseServiceImpl implements
 	
 	@Autowired
 	private UserZombieDao zombieDao;
+	
+	@Autowired
+	private UserConcernService userConcernService;
 	
 	@Value("${op.squareRecommendUserLimit}")
 	private Integer squareRecommendUserLimit = 6;
@@ -536,6 +540,7 @@ public class UserOperationsServiceImpl extends BaseServiceImpl implements
 					RowSelection rowSelection) {
 				List<OpUser> userList = null;
 				List<OpUser> weightList = null;
+				OpUser me = null;
 				if(verifyId == 0) {
 					
 					List<OpUserVerifyDto> verifyList = opUserVerifyDtoCacheDao.queryVerify();
@@ -551,6 +556,26 @@ public class UserOperationsServiceImpl extends BaseServiceImpl implements
 					}
 					
 					userList = userRecommendDao.queryVerifyRecommendUserOrderByAct(userId, verifyId, rowSelection);
+					/*
+					 * 置顶自己
+					 * 1.队列中包含，则直接置顶
+					 * 2.队列中未包含，查询数据库再置顶
+					 */
+					for(int i = 0; i < userList.size(); i++) {
+						if(userList.get(i).getId().equals(userId)) {
+							me = userList.get(i);
+							userList.remove(i);
+							userList.add(0, me);
+							break;
+						}
+					}
+					if(me == null) {
+						me = userRecommendDao.queryVerifyRecByUID(userId, verifyId);
+						if(me != null) {
+							userList.add(0, me);
+						}
+					}
+					
 					if(checkHasWeight(verifyId)) {
 						weightList = userRecommendDao.queryWeightVerifyRec(userId, verifyId, weightLimit);
 					}
@@ -561,6 +586,8 @@ public class UserOperationsServiceImpl extends BaseServiceImpl implements
 				if(worldLimit > 0) {
 					extractHTWorldThumbUser(worldLimit,userList);
 				}
+				
+				userConcernService.extractIsMututal(userId, userList);
 				userInfoService.extractVerify(userList);
 				
 				return userList;
@@ -578,6 +605,8 @@ public class UserOperationsServiceImpl extends BaseServiceImpl implements
 				if(worldLimit > 0) {
 					extractHTWorldThumbUser(worldLimit,userList);
 				}
+				
+				userConcernService.extractIsMututal(userId, userList);
 				userInfoService.extractVerify(userList);
 				return userList;
 			}

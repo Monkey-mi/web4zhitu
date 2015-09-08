@@ -11,6 +11,7 @@ public class OpAdAppLinkDto implements Serializable {
 	private Integer id;
 	private String appName;
 	private String appIcon;
+	private String appIconL;
 	private String appDesc;
 	private String url;
 
@@ -18,12 +19,13 @@ public class OpAdAppLinkDto implements Serializable {
 		super();
 	}
 
-	public OpAdAppLinkDto(Integer id, String appName, String appIcon,
-			String appDesc, String url) {
+	public OpAdAppLinkDto(Integer id, String appName, String appIcon, 
+			String appIconL, String appDesc, String url) {
 		super();
 		this.id = id;
 		this.appName = appName;
 		this.appIcon = appIcon;
+		this.appIconL = appIconL;
 		this.appDesc = appDesc;
 		this.url = url;
 	}
@@ -51,11 +53,19 @@ public class OpAdAppLinkDto implements Serializable {
 	public void setAppIcon(String appIcon) {
 		this.appIcon = appIcon;
 	}
+	
+	public String getAppIconL() {
+		return appIconL;
+	}
+
+	public void setAppIconL(String appIconL) {
+		this.appIconL = appIconL;
+	}
 
 	public String getAppDesc() {
 		return appDesc;
 	}
-
+	
 	public void setAppDesc(String appDesc) {
 		this.appDesc = appDesc;
 	}

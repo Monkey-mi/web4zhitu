@@ -19,7 +19,7 @@ import com.hts.web.base.constant.Tag;
  * 
  */
 public class OpUser implements UserWithWorld, ObjectWithUserVerify,
-		ObjectWithUserRemark {
+		ObjectWithUserRemark,ObjectWithIsMututal {
 
 	/**
 	 * 
@@ -331,6 +331,7 @@ public class OpUser implements UserWithWorld, ObjectWithUserVerify,
 		return isMututal;
 	}
 
+	@Override
 	public void setIsMututal(Integer isMututal) {
 		this.isMututal = isMututal;
 	}
@@ -498,6 +499,11 @@ public class OpUser implements UserWithWorld, ObjectWithUserVerify,
 
 	public void setPlatformReason(String platformReason) {
 		this.platformReason = platformReason;
+	}
+
+	@Override
+	public Integer getUserId() {
+		return id;
 	}
 
 }
