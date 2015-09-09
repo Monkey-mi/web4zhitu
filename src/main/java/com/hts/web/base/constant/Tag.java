@@ -448,4 +448,10 @@ public class Tag {
 	public static final int LIKE_ME_RELATE_PROVINCE = 4;
 	
 	
+	/**
+	 * 娱乐明星认证标记
+	 */
+	public static final int VERIFY_SUPER_STAR_ID = 10030;
+	
+	
 }

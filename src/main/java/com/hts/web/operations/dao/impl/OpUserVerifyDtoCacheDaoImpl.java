@@ -24,13 +24,19 @@ public class OpUserVerifyDtoCacheDaoImpl extends BaseCacheDaoImpl<OpUserVerifyDt
 	public OpUserVerifyDto queryRandomVerify() {
 		BoundListOperations<String, OpUserVerifyDto> ops = 
 				getRedisTemplate().boundListOps(CacheKeies.OP_USER_VERIFY);
-		Long size = ops.size();
-		if(size != null && size > 0) {
-			int idx = NumberUtil.getRandomIndex(size.intValue());
-			return ops.index(idx);
+		Long realSize = ops.size();
+		
+		if(realSize != null && realSize > 0) {
+			int size = realSize.intValue() + 1;
+			int idx = NumberUtil.getRandomIndex(size);
+			
+			if(idx < realSize) {
+				return ops.index(idx);
+			} else {
+				return new OpUserVerifyDto(0, "推荐", "推荐达人", null);
+			}
 		}
 		return null;
 	}
-	
 	
 }

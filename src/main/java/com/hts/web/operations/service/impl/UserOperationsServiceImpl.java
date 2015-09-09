@@ -544,14 +544,19 @@ public class UserOperationsServiceImpl extends BaseServiceImpl implements
 				if(verifyId == 0) {
 					
 					List<OpUserVerifyDto> verifyList = opUserVerifyDtoCacheDao.queryVerify();
+//					removeSuperStarVerify(verifyList);
 					jsonMap.put(OptResult.JSON_KEY_VERIFY, verifyList);
 					
 					userList = userRecommendDao.queryRecommendUserOrderByAct(userId, rowSelection);
 					weightList = userRecommendDao.queryWeightRec(userId, weightLimit);
+					List<OpUser> starList = userRecommendDao.queryVerifyRecommendUserOrderByAct(userId, 
+							Tag.VERIFY_SUPER_STAR_ID, rowSelection);
+					weightList.addAll(0, starList);
 				} else {
 					
 					if(hasVerify) {
 						List<OpUserVerifyDto> verifyList = opUserVerifyDtoCacheDao.queryVerify();
+//						removeSuperStarVerify(verifyList);
 						jsonMap.put(OptResult.JSON_KEY_VERIFY, verifyList);
 					}
 					
@@ -583,6 +588,7 @@ public class UserOperationsServiceImpl extends BaseServiceImpl implements
 				if(weightList != null && !weightList.isEmpty()) {
 					userList.addAll(0, weightList);
 				}
+				
 				if(worldLimit > 0) {
 					extractHTWorldThumbUser(worldLimit,userList);
 				}
@@ -616,6 +622,15 @@ public class UserOperationsServiceImpl extends BaseServiceImpl implements
 				return 0;
 			}
 		}, OptResult.JSON_KEY_USER_INFO, null);
+	}
+	
+	private void removeSuperStarVerify(List<OpUserVerifyDto> verifyList) {
+		for(int i = 0; i < verifyList.size(); i++) {
+			if(verifyList.get(i).getId().equals(Tag.VERIFY_SUPER_STAR_ID)) {
+				verifyList.remove(i);
+				break;
+			}
+		}
 	}
 	
 	/**

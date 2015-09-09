@@ -81,13 +81,13 @@ public class AdOperationsServiceImpl extends BaseServiceImpl implements
 			@Override
 			public List<OpAdAppLinkDto> getSerializables(
 					RowSelection rowSelection) {
-				return appLinkDao.queryAppLinkDto(Tag.FALSE, phoneCode, rowSelection);
+				return appLinkDao.queryAppLinkDto(Tag.TRUE, phoneCode, rowSelection);
 			}
 
 			@Override
 			public List<OpAdAppLinkDto> getSerializableByMaxId(int maxId,
 					RowSelection rowSelection) {
-				return appLinkDao.queryAppLinkDto(maxId, Tag.FALSE, phoneCode, rowSelection);
+				return appLinkDao.queryAppLinkDto(maxId, Tag.TRUE, phoneCode, rowSelection);
 			}
 
 			@Override
@@ -96,5 +96,4 @@ public class AdOperationsServiceImpl extends BaseServiceImpl implements
 			}
 		}, OptResult.JSON_KEY_APP, OptResult.JSON_KEY_TOTAL_COUNT);
 	}
-	
 }

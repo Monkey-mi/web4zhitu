@@ -672,7 +672,7 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 							list = squarePushDao.querySuperbByTypeIdV4(typeId, rowSelection);
 						}
 						
-						// 每次刷新都加载明星
+						// 每次刷新都加载置顶
 						jsonMap.put(OptResult.JSON_KEY_STARS, 
 								userVerifyRecCacheDao.queryUserByVerifyIdWithTop(verify.getId(), 10));
 						

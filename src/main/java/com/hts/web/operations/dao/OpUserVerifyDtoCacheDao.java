@@ -25,4 +25,6 @@ public interface OpUserVerifyDtoCacheDao extends BaseCacheDao {
 	 */
 	public OpUserVerifyDto queryRandomVerify();
 	
+	
+	
 }
