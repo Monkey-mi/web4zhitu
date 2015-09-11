@@ -440,7 +440,7 @@ public class UserOperationsServiceImpl extends BaseServiceImpl implements
 	}
 	
 	@Override
-	public void updateRecommendUserAccept(Integer userId, Boolean accepted) throws Exception {
+	public void updateRecommendUserAccept(Integer userId, Boolean accepted, Boolean deleteRecMsg) throws Exception {
 		Date date = new Date();
 		if(!accepted) // 拒绝推荐
 			userRecommendDao.updateUserAcceptByUID(userId, USER_RECOMMEND_REJECT, date);
@@ -449,7 +449,9 @@ public class UserOperationsServiceImpl extends BaseServiceImpl implements
 			userRecommendDao.updateUserAcceptByUID(userId, USER_RECOMMEND_ACCEPT, date);
 			userInfoDao.updateStartById(userId, recommend.getVerifyId());
 		}
-		sysMsgDao.updateRecipientValid(userId, Tag.USER_MSG_USER_RECOMMEND, Tag.FALSE);
+		if(deleteRecMsg) {
+			sysMsgDao.updateRecipientValid(userId, Tag.USER_MSG_USER_RECOMMEND, Tag.FALSE);
+		}
 	}
 
 	@Override
@@ -468,6 +470,16 @@ public class UserOperationsServiceImpl extends BaseServiceImpl implements
 			}
 		}
 		return state;
+	}
+	
+	@Override
+	public void getUserAccpetState(Integer userId, Map<String, Object> jsonMap) throws Exception {
+		com.hts.web.common.pojo.UserInfo userInfo = userInfoDao.queryUserInfoById(userId);
+		OpUserRecommend recommend = userRecommendDao.queryRecommendUserByUID(userId);
+		jsonMap.put(OptResult.JSON_KEY_STATE, recommend);
+		Map<Integer, UserVerify> verify = userInfoService.getVerify();
+		jsonMap.put(OptResult.JSON_KEY_VERIFY, verify.get(recommend.getVerifyId()));
+		jsonMap.put(OptResult.JSON_KEY_USER_INFO, userInfo);
 	}
 	
 	@Override

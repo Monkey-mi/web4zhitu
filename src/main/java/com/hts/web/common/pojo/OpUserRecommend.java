@@ -29,6 +29,8 @@ public class OpUserRecommend implements Serializable {
 	private Date dateModified;
 	private Integer userAccept;
 	private Integer sysAccept;
+	private Integer currVerifyPos;
+	private Integer lastVerifyPos;
 
 	public OpUserRecommend() {
 		super();
@@ -121,6 +123,22 @@ public class OpUserRecommend implements Serializable {
 
 	public void setSysAccept(Integer sysAccept) {
 		this.sysAccept = sysAccept;
+	}
+
+	public Integer getCurrVerifyPos() {
+		return currVerifyPos;
+	}
+
+	public void setCurrVerifyPos(Integer currVerifyPos) {
+		this.currVerifyPos = currVerifyPos;
+	}
+
+	public Integer getLastVerifyPos() {
+		return lastVerifyPos;
+	}
+
+	public void setLastVerifyPos(Integer lastVerifyPos) {
+		this.lastVerifyPos = lastVerifyPos;
 	}
 
 }

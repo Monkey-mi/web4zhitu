@@ -391,7 +391,10 @@ public class UserRecommendDaoImpl extends BaseDaoImpl implements
 
 			@Override
 			public OpUserRecommend mapRow(ResultSet rs, int num) throws SQLException {
-				return buildUserRecommend(rs);
+				OpUserRecommend ur = buildUserRecommend(rs);
+				ur.setCurrVerifyPos(rs.getInt("curr_verify_pos"));
+				ur.setLastVerifyPos(rs.getInt("last_verify_pos"));
+				return ur;
 			}
 		});
 	}

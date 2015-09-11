@@ -11,13 +11,12 @@ body {
 	margin: 0 auto 0 auto;
 	padding: 0;
 	text-align: center;
-	font-size:0;
+	font-size:14;
 	font-family:"微软雅黑",Arial, Helvetica, sans-serif;
-	background:#eeeff1;
+	background:#f7f7f7;
 }
 
 img {
-	width: 100%;
 	border: 0;
 	padding: 0;
 	margin: 0;
@@ -28,27 +27,481 @@ a {
 	color: #ffffff;
 }
 
+.bg {
+	width: 100%;
+	max-width:750px;
+}
+
 #main {
 	display:inline-block;
 	width: 100%;
-	max-width:1242px;
+	max-width:750px;
+}
+
+#invite, #accept {
+	text-align:left;
+	color:#ffffff;
+}
+
+#accept {
+	display:none;
+}
+
+#invite {
+	
+}
+
+#invite-decorator,#accept-decorator {
+	position: absolute;
+	top:0;
+	left:50%;
+	margin-left:-375px;
+	display: none;
+}
+
+#accept-decorator {
+	margin-top:240px;
+}
+
+#invite-name-wrap {
+	display:inline-block;
+	position: absolute;
+	width:400px;
+	top:400px;
+	font-size:36px;
+	left:50%;
+	margin-left: -200px;
+}
+
+#invite-name {
+	display:none;
+}
+
+#invite-btn {
+	position: absolute;
+	width:146px;
+	top:700px;
+	left:50%;
+	margin-left: -73px;
+	display:none;
+}
+
+.accept-btn {
+	position: absolute;
+	width:146px;
+	top:830px;
+	left:50%;
+	margin-left: -73px;
+}
+
+#share-btn {
+	display: none;
+}
+
+#accept-user {
+	display:inline-block;
+	position: absolute;
+	width:100px;
+	height:100px;
+	top:300px;
+	left:50%;
+	margin-left: -50px;
+	text-align:center;
+	font-size:28px;
+}
+
+#accept-avatar-wrap {
+	width:100%;
+	height:100%;
+	border-radius:200px;
+	-moz-border-radius:200px;
+	-webkit-border-radius:200px;
+	border: 5px solid #ffffff;
+	overflow: none;
+}
+
+#accept-avatar-wrap img {
+	max-width:100%;
+	max-height:100%;
+	border-radius:200px;
+	-moz-border-radius:200px;
+	-webkit-border-radius:200px;
+	display:none;
+}
+
+#accept-username-wrap {
+	display:inline-block;
+	width:450px;
+	position: absolute;
+	text-align:center;
+	font-size:28px;
+	top:420px;
+	left:50%;
+	margin-left:-375px;
+}
+
+#accpet-username {
+	font-size: 32px;
+}
+
+#accept-recicon-wrap {
+	position:absolute;
+	width:40px;
+	height:40px;
+	border-radius:200px;
+	-moz-border-radius:200px;
+	-webkit-border-radius:200px;
+	overflow: none;
+	top:0;
+	margin-left:66px;
+	margin-top:66px;
+}
+
+#accept-recicon-wrap img{
+	max-width:100%;
+	max-height:100%;
+	border-radius:200px;
+	-moz-border-radius:200px;
+	-webkit-border-radius:200px;
+	display:none;
+}
+
+#accept-username {
+	margin-top:20px;
+	display:none;
+}
+
+#accept-name {
+	margin-top:20px;
+	display:none;
 }
 
 </style>
 </head>
 <body>
 <div id="main">
-<img alt="" src="http://static.imzhitu.com/op/sticker/150831/01.jpg">
-<img alt="" src="http://static.imzhitu.com/op/sticker/150831/02.jpg">
-<img alt="" src="http://static.imzhitu.com/op/sticker/150831/03.jpg">
-<img alt="" src="http://static.imzhitu.com/op/sticker/150831/04.jpg">
-<img alt="" src="http://static.imzhitu.com/op/sticker/150831/05.jpg">
+	<div id="invite">
+		<img id="invite-bg" class="bg" alt="" src="http://static.imzhitu.com/op/sticker/150910/01.jpg" />
+		<img id="invite-decorator" class="bg" src="http://static.imzhitu.com/op/sticker/150910/decorator.png" />
+		<span id="invite-name-wrap"><span id="invite-name">加载中...</span><span>:</span></span>
+		<img id="invite-btn" alt="" src="http://static.imzhitu.com/op/sticker/150910/btn-check.jpg">
+	</div>
+	
+	<div id="accept">
+		<img id="accept-bg" class="bg" alt="" src="http://static.imzhitu.com/op/sticker/150910/02.jpg" />
+		<img id="accept-decorator" class="bg" src="http://static.imzhitu.com/op/sticker/150910/decorator.png" />
+		<div id="accept-user">
+			<div id="accept-avatar-wrap">
+				<img id="user-avatar" alt="" src="" />
+			</div>
+			<div id="accept-recicon-wrap">
+				<img id="accept-recicon" alt="" src="" />
+			</div>
+		</div>
+		
+		<div id="accept-username-wrap">
+			<div id="accept-username"></div>
+			<div id="accept-name"></div>
+		</div>
+		
+		<img id="accept-btn" class="accept-btn" alt="" src="http://static.imzhitu.com/op/sticker/150910/btn-accept.jpg" />
+		<img id="share-btn" class="accept-btn" alt="" src="http://static.imzhitu.com/op/sticker/150910/btn-share.jpg" />
+	</div>
+	
 </div>
 
-<!-- 
-<div style="display:none;">
-<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1255868073'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1255868073' type='text/javascript'%3E%3C/script%3E"));</script>
-</div>
- -->
+<script type="text/javascript" src="../staticres/base/js/jquery/jquery-1.8.2.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+	var uid = 0;
+	initLayout();
+	if((uid = getuid()) != 0) {
+		ajaxQueryUserInfo(uid);
+	}
+});
+
+function initLayout() {
+	var maxW = 750;
+	var winWidth = $(window).width();
+	
+	winWidth = winWidth > maxW ? maxW : winWidth;
+
+	var scale = 1,
+		
+		inviteHeight = 891,
+		
+		inviteNameWrapTop = 400,
+		inviteNameWrapFontSize = 36,
+		inviteNameWrapWidth = 400,
+		
+		inviteBtnWidth = 146,
+		inviteBtnTop = 700,
+		inviteBtnMarginLeft = 303,
+		
+		acceptBtnWidth = 146,
+		acceptBtnTop = 830,
+		acceptBtnMarginLeft = 303,
+
+		acceptUserWidth = 100,
+		acceptUserTop = 300,
+		acceptUserFontSize = 26,
+		
+		acceptAvatarBorder = 5,
+		
+		acceptUsernameWrapTop = 420,
+		
+		acceptReciconWidth = 40,
+		acceptReciconMarginLeft = 66,
+		
+		acceptUserNameMarginTop = 20,
+		
+		acceptDecoratorMarginTop = 240,
+		
+		acceptUserNameWrapWidth = 460,
+		
+		acceptUserNameFontSize = 32,
+		
+	scale = winWidth / maxW;
+	
+	inviteHeight = inviteHeight * scale;
+	
+	inviteNameWrapTop = inviteNameWrapTop * scale;
+	inviteNameWrapFontSize = inviteNameWrapFontSize * scale;
+	inviteNameWrapWidth = inviteNameWrapWidth * scale;
+	
+	inviteBtnWidth = inviteBtnWidth * scale;
+	inviteBtnTop = inviteBtnTop * scale;
+	inviteBtnMarginLeft = inviteBtnMarginLeft * scale;
+	
+	acceptBtnWidth = acceptBtnWidth * scale;
+	acceptBtnTop = acceptBtnTop * scale;
+	acceptBtnMarginLeft = acceptBtnMarginLeft * scale;
+	
+	acceptUserWidth = acceptUserWidth * scale;
+	acceptUserTop = acceptUserTop * scale;
+	acceptUserFontSize = acceptUserFontSize * scale;
+	
+	acceptAvatarBorder = acceptAvatarBorder * scale;
+	
+	acceptUsernameWrapTop = acceptUsernameWrapTop * scale;
+	
+	acceptReciconWidth = acceptReciconWidth * scale;
+	acceptReciconMarginLeft = acceptReciconMarginLeft * scale;
+	
+	acceptUserNameMarginTop = acceptUserNameMarginTop * scale;
+	
+	acceptDecoratorMarginTop = acceptDecoratorMarginTop * scale;
+	
+	acceptUserNameWrapWidth = acceptUserNameWrapWidth * scale;
+	acceptUserNameFontSize = acceptUserNameFontSize * scale;
+	
+	$("#invite-decorator, #accept-decorator").css({
+		"margin-left":-winWidth/2
+	});
+	
+	$("#invite").css({
+		"height":inviteHeight
+	});
+	
+	$("#invite-name-wrap").css({
+		"width":inviteNameWrapWidth,
+		"top":inviteNameWrapTop,
+		"font-size":inviteNameWrapFontSize,
+		"margin-left":-inviteNameWrapWidth/2
+	});
+	
+	$("#invite-name").show();
+	
+	$("#invite-btn").css({
+		"top":inviteBtnTop,
+		"margin-left":-inviteBtnWidth/2,
+		"width":inviteBtnWidth
+	});
+	
+	$(".accept-btn").css({
+		"top":acceptBtnTop,
+		"margin-left":-acceptBtnWidth/2,
+		"width":acceptBtnWidth
+	});
+	
+	$("#accept-user").css({
+		"width":acceptUserWidth,
+		"height":acceptUserWidth,
+		"top":acceptUserTop,
+		"margin-left":-acceptUserWidth/2,
+	});
+	
+	$("#accept-avatar-wrap").css({
+		"border-width": acceptAvatarBorder	
+	});
+	
+	$("#accept-recicon-wrap").css({
+		"width":acceptReciconWidth,
+		"height":acceptReciconWidth,
+		"margin-left":acceptReciconMarginLeft,
+		"margin-top":acceptReciconMarginLeft,
+	});
+	
+	$("#accept-username-wrap").css({
+		"width":acceptUserNameWrapWidth,
+		"margin-left":-acceptUserNameWrapWidth/2,
+		"top":acceptUsernameWrapTop,
+		"font-size":acceptUserFontSize
+	});
+	
+	$("#accept-username, #accept-name").css({
+		"margin-top":acceptUserNameMarginTop,
+	});
+
+	$("#accept-username").css({
+		"font-size":acceptUserNameFontSize
+	});
+	
+	$("#accept-decorator").css({
+		"margin-top":acceptDecoratorMarginTop		
+	});
+	
+	$("#invite-btn").click(function() {
+		showAccept();
+	});
+}
+
+function ajaxQueryUserInfo(uid) {
+	$.post("./user_queryUserAcceptState", {
+		"userId":uid
+	}, function(data) {
+		if(data['result'] == 0) {
+			var rectype, recname, recicon, username, userAvatar;
+			rectype = data['state']['verifyId'];
+			recname = data['verify']['verifyName'];
+			recicon = data['verify']['verifyIcon'];
+			username = data['userInfo']['userName'];
+			userAvatar = data['userInfo']['userAvatarL'];
+			
+			
+			initUserInfo(rectype, recname, recicon, username, userAvatar);
+			setUserAvatarImgPos($("#user-avatar"), $("#accept-user").width());
+			showDecorator();
+			$("#accept-btn").click(function() {
+				showAcceptDecorator();
+				$.post("./user_acceptRecommend", {
+					"userId":uid
+				}, function(data) {
+					accept();
+				},'json');
+			});
+			$("#share-btn").click(function() {
+				window.location = "imzhitu://shareUserRec?verifyName=" + recname 
+						+ "&verifyIcon=" + recicon
+						+ "&userName=" + username
+						+ "&userAvatarL=" + userAvatar
+			});
+		}
+		
+	},'json');
+	
+}
+
+function setUserAvatarImgPos($img, parentSize) {
+	$img.load(function(){
+		var imgWidth,imgHeight,imgSize,scale;
+		var $this = $(this);
+		var img = new Image();
+		img.src = $this.attr("src");
+		imgWidth = img.width;
+		imgHeight = img.height;
+		if(imgWidth <= imgHeight) {
+			scale = imgWidth / parentSize;
+		} else {
+			scale = imgHeight / parentSize;
+		}
+		imgWidth = imgWidth * scale;
+		imgHeight = imgHeight * scale;
+		
+		$this.css({
+			"width":imgWidth,
+			"height":imgHeight,
+			"left":-(imgWidth-parentSize)/2,
+			"top":-(imgHeight-parentSize)/2
+		});
+	});
+}
+
+// 初始化用户信息
+function initUserInfo(rectype, recname, recicon, username, userAvatar) {
+	$("#invite-name").text(username).show();
+	$("#accept-username").text(username).show();
+	$("#accept-name").text(recname).show();
+	$("#user-avatar").attr("src", userAvatar).show();
+	$("#accept-recicon").attr("src", recicon).show();
+	$("#invite-btn").show();
+	
+	switch(rectype){
+	case 1:
+		accept();
+		break;
+	default:
+		break;
+	}
+}
+
+// 接受邀请
+function accept() {
+	$("#accept-btn").hide();
+	$("#share-btn").show();
+}
+
+// 加载烟花
+function showDecorator() {
+	var $img = $("#invite-decorator");
+	$img.load(function() {
+	}).attr( 'src', $(this).attr('src') );
+	setTimeout(function(){
+		$img.animate({
+			opacity:'show',
+			marginTop: '20px',
+		 }, 1000 );		
+	}, 100);
+}
+
+// 加载接受烟花
+function showAcceptDecorator() {
+	var $img = $("#accept-decorator");
+	$img.load(function() {
+	}).attr( 'src', $(this).attr('src') );
+	setTimeout(function(){
+		$img.animate({
+			opacity:'show',
+			marginTop: '0px',
+		 }, 1000 ).fadeOut();		
+	}, 100);
+}
+
+function showAccept() {
+	$("#invite").hide();
+	$("#accept").fadeIn();
+}
+
+function getuid() {
+	var inapp = 0,
+		uid = 0;
+	reg = new RegExp("(^|&)inapp=([^&]*)(&|$)", "i"),
+	r = window.location.search.substr(1).match(reg);
+
+	if(r == null || r == undefined) inapp = 0;
+	else inapp=unescape(r[2]);
+	
+	if(inapp == 1) {
+		var reg = new RegExp("(^|&)uid=([^&]*)(&|$)", "i"),
+			r = window.location.search.substr(1).match(reg);
+		if(r != null && r != undefined) {
+			uid = unescape(r[2]);
+		}
+	}
+	return uid;
+}
+
+</script>
+
 </body>
 </html>

@@ -100,7 +100,22 @@ public class UserOperationsAction extends BaseAction {
 	 */
 	public String updateRecommend() {
 		try {
-			userOperationsService.updateRecommendUserAccept(getCurrentLoginUserId(), accepted);
+			userOperationsService.updateRecommendUserAccept(getCurrentLoginUserId(), accepted, true);
+			JSONUtil.optSuccess(OptResult.UPDATE_SUCCESS, jsonMap);
+		} catch (Exception e) {
+			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+		}
+		return StrutsKey.JSON;
+	}
+
+	/**
+	 * 接受推荐
+	 * 
+	 * @return
+	 */
+	public String acceptRecommend() {
+		try {
+			userOperationsService.updateRecommendUserAccept(userId, true, false);
 			JSONUtil.optSuccess(OptResult.UPDATE_SUCCESS, jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
@@ -129,6 +144,24 @@ public class UserOperationsAction extends BaseAction {
 		return StrutsKey.JSON;
 	}
 	
+	/**
+	 * 查询用户接受状态
+	 * 
+	 * @return
+	 * @version 3.0.0
+	 */
+	public String queryUserAcceptState() {
+		try {
+			if(userId == null || userId.equals(-1)) {
+				userId = getCurrentLoginUserId();
+			}
+			userOperationsService.getUserAccpetState(userId, jsonMap);
+			JSONUtil.optSuccess(jsonMap);
+		} catch (Exception e) {
+			JSONUtil.optFailed(userId, e.getMessage(), e, jsonMap);
+		}
+		return StrutsKey.JSON;
+	}
 	
 	/**
 	 * 邀请用户

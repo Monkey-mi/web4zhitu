@@ -46,7 +46,7 @@ public class UserOperationsServiceTest extends BaseTest {
 	
 	@Test
 	public void testUpdateRecommend() throws Exception {
-		service.updateRecommendUserAccept(381, false);
+		service.updateRecommendUserAccept(381, false, true);
 	}
 	
 	@Test

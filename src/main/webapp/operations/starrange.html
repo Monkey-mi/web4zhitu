@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="description" content="织图推荐用户排名！ ">
+<title>织图推荐用户排名！ </title>
+<style type="text/css">
+body {
+	margin: 0 auto 0 auto;
+	padding: 0;
+	text-align: center;
+	font-size:14;
+	font-family:"微软雅黑",Arial, Helvetica, sans-serif;
+	background:#f7f7f7;
+}
+
+img {
+	border: 0;
+	padding: 0;
+	margin: 0;
+}
+
+a {
+	text-decoration: none;
+	color: #ffffff;
+}
+
+.bg {
+	width: 100%;
+	max-width:750px;
+	vertical-align:bottom;
+}
+
+#main {
+	display:inline-block;
+	width: 100%;
+	max-width:750px;
+}
+
+#range-bg {
+	position: absolute;
+	z-index:-1;
+}
+
+#range-wrap {
+	width:750px;
+	height:341px;
+	text-align:left;
+}
+
+#user-wrap {
+	position:absolute;
+	display: inline-block;
+	width:340px;
+	height:150px;
+	top:0px;
+	margin-top:95px;
+	margin-left:300px;
+	color:#2296cf;
+	font-weight: 700;
+	font-size:34px;
+	line-height:45px;
+	display: none;
+}
+
+#range-desc {
+	margin-top:6px;
+	display:none;
+}
+
+#range-name {
+	text-align:center;
+	display:inline-block;
+	display:none;
+}
+
+#range-pos {
+	text-align:center;
+	display:inline-block;
+	display:none;
+}
+
+.range-arrow {
+	width:60px;
+	vertical-align: top;
+	display:inline-block;
+	position:absolute;
+	margin-left:164px;
+	margin-top:170px;
+	display:none;
+}
+
+#range-icon {
+	width:35px;
+	vertical-align: text-top;
+	display:none;
+}
+
+.res-btn {
+	width:380px;
+	height:80px;
+	display:inline-block;
+	position: absolute;
+	top:910px;
+	left:50%;
+	margin-left:-190px;
+	display:none;
+}
+	
+
+</style>
+</head>
+<body>
+<div id="main">
+	<div id="range-wrap">
+		<img  id="range-bg" class="bg" alt="" src="http://static.imzhitu.com/op/sticker/150911/41.jpg" />
+		<div id="user-wrap">
+			<div id="range-type">
+				<div>当前排名</div>
+				<div>
+				<span id="range-name">旅行家</span>
+				<span><img id="range-icon" alt="" src="http://imzhitu.qiniudn.com/user/verify/1438243277000.png"></span>
+				<span id="range-pos">487</span>
+				</div>
+			</div>
+			<div id="range-desc"></div>
+		</div>
+		<img id="range-arrow-up" class="range-arrow" alt="" src="http://static.imzhitu.com/op/sticker/150911/arrow-up.png">
+		<img id="range-arrow-down" class="range-arrow" alt="" src="http://static.imzhitu.com/op/sticker/150911/arrow-down.png">
+	</div>
+	<div>
+		<img id="res-bg" class="bg" src="http://static.imzhitu.com/op/sticker/150911/42.jpg"/>
+		<a id="share-btn" class="res-btn" href="http://www.baidu.com"></a>
+		<a id="sticker-btn" class="res-btn" href="imzhitu://userSticker"></a>
+	</div>
+	<div>
+		<img class="bg" src="http://static.imzhitu.com/op/sticker/150911/44.jpg"/>
+	</div>
+</div>
+
+<script type="text/javascript" src="../staticres/base/js/jquery/jquery-1.8.2.min.js"></script>
+<script type="text/javascript">
+var arrowUp = "http://static.imzhitu.com/op/sticker/150911/42.jpg",
+	arrowDown = "http://static.imzhitu.com/op/sticker/150911/43.jpg",
+	arrow,
+	rangeDesc,
+	subPos;
+$(document).ready(function() {
+	var uid = 0;
+	initLayout();
+	if((uid = getuid()) != 0) {
+		ajaxQueryUserInfo(uid);
+	}
+});
+
+function initLayout() {
+	var maxW = 750;
+	var winWidth = $(window).width();
+	
+	winWidth = winWidth > maxW ? maxW : winWidth;
+
+	var scale = 1,
+		scale = winWidth / maxW,
+		
+		rangeWrap = {
+			"width":winWidth,
+			"height":341 * scale
+		},
+		
+		userWrap = {
+			"width":340 * scale,
+			"height":150 * scale,
+			"margin-top":75 * scale,
+			"margin-left":300 * scale,
+			"font-size":34 * scale,
+			"line-height":45 * scale + 'px'
+		},
+		
+		rangeDesc = {
+			"margin-top":6 * scale,
+		},
+		
+		rangeIcon = {
+			"width":35 * scale
+		},
+		
+		rangeArrow = {
+			"width":60 * scale,
+			"margin-left":164 * scale,
+			"margin-top":155 * scale
+		},
+		
+		resBtn = {
+			"width":380 * scale,
+			"height":80 * scale,
+			"top":935 * scale,
+			"margin-left":-190 * scale
+		};
+		
+	$("#range-wrap").css(rangeWrap);
+	$("#range-desc").css(rangeDesc);
+	$(".range-arrow").css(rangeArrow);
+	$("#range-icon").css(rangeIcon);
+	$("#user-wrap").css(userWrap).show();
+	$(".res-btn").css(resBtn).show();
+	
+}
+
+function ajaxQueryUserInfo(uid) {
+	$.post("./user_queryUserAcceptState", {
+		"userId":uid
+	}, function(data) {
+		if(data['result'] == 0) {
+			var currPos, lastPos, rangeName, rangeIcon;
+			currPos = data['state']['currVerifyPos'];
+			lastPos = data['state']['lastVerifyPos'];
+			rangeName = data['verify']['verifyName'];
+			rangeIcon = data['verify']['verifyIcon'];
+			
+			subPos = lastPos - currPos;
+			
+			if(subPos > 0) {
+				arrow = arrowUp;
+				rangeDesc = "比昨天上升" + subPos + "位";
+			} else if(subPos < 0) {
+				arrow = arrowDown;
+				rangeDesc = "比昨天下降" + -subPos + "位";
+			} else {
+				rangeDesc = "和昨天排名一样";
+			}
+			
+			initRange(currPos, lastPos, rangeName, rangeIcon);
+			
+			$("#share-btn").click(function() {
+				window.location = "imzhitu://shareUserRecRange?verifyName=" + recname 
+						+ "&verifyIcon=" + recicon
+						+ "&currVerifyPos=" + currPos
+						+ "&rangeDesc=" + rangeDesc
+						+ "&rangeArrow=" + arrow
+			});
+		}
+		
+	},'json');
+	
+	
+}
+
+// 初始化用户信息
+function initRange(currPos, lastPos, rangeName, rangeIcon) {
+	$("#range-name").text(rangeName).show();
+	$("#range-pos").text(currPos).show();
+	$("#range-icon").attr("src", rangeIcon).show();
+
+	if(subPos > 0) {
+		$("#range-arrow-up").show();
+		$("#res-bg").attr("src", arrowUp).show();
+		$("#share-btn").show();
+		
+	} else if(subPos < 0) {
+		$("#range-arrow-down").show();
+		$("#res-bg").attr("src", arrowDown).show();
+		$("#sticker-btn").show();
+	} else {
+		$("#sticker-btn").show();
+	}
+	
+	$("#range-desc").text(rangeDesc).show();
+}
+
+// 获取用户id
+function getuid() {
+	var inapp = 0,
+		uid = 0;
+	reg = new RegExp("(^|&)inapp=([^&]*)(&|$)", "i"),
+	r = window.location.search.substr(1).match(reg);
+
+	if(r == null || r == undefined) inapp = 0;
+	else inapp=unescape(r[2]);
+	
+	if(inapp == 1) {
+		var reg = new RegExp("(^|&)uid=([^&]*)(&|$)", "i"),
+			r = window.location.search.substr(1).match(reg);
+		if(r != null && r != undefined) {
+			uid = unescape(r[2]);
+		}
+	}
+	return uid;
+}
+
+</script>
+
+</body>
+</html>

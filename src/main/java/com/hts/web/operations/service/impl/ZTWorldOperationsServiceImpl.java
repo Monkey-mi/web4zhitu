@@ -1,6 +1,7 @@
 package com.hts.web.operations.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -645,10 +646,8 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 					@Override
 					public List<OpWorldTypeDto> getSerializables(
 							RowSelection rowSelection) {
+						int shuffleLen = 8;
 						List<OpWorldTypeDto> list = null;
-						
-						
-						OpUserVerifyDto verify = opUserVerifyDtoCacheDao.queryRandomVerify();
 						
 						if(typeId == 0) { // 加载全部精选
 							
@@ -656,6 +655,7 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 								List<OpWorldTypeDto> weightList = opWorldTypeDto2CacheDao.queryWeightSuperb();
 								int weightSize = weightList.size();
 								list = opWorldTypeDto2CacheDao.querySuperbWorldType(0, limit-weightSize-1);
+								shuffelSuperb(list, shuffleLen);
 								if(weightSize > 0) {
 									list.addAll(0, weightList);
 								}
@@ -665,16 +665,16 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 							
 							// 加载所有下拉菜单
 							jsonMap.put(OptResult.JSON_KEY_RECOMMEND_TYPE, worldTypeCacheDao.queryType());
-							// 随机加载一种达人
-							jsonMap.put(OptResult.JSON_KEY_VERIFY, verify);
 							
 						} else { // 加载指定分类精选
 							list = squarePushDao.querySuperbByTypeIdV4(typeId, rowSelection);
+							shuffelSuperb(list, shuffleLen);
 						}
 						
-						// 每次刷新都加载置顶
+						OpUserVerifyDto verify = opUserVerifyDtoCacheDao.queryRandomVerify(); // 随机加载一种达人
+						jsonMap.put(OptResult.JSON_KEY_VERIFY, verify);
 						jsonMap.put(OptResult.JSON_KEY_STARS, 
-								userVerifyRecCacheDao.queryUserByVerifyIdWithTop(verify.getId(), 10));
+								userVerifyRecCacheDao.queryUserByVerifyIdWithTop(verify.getId(), 10));// 每次刷新都加载置顶
 						
 						extractSuperbLikedAndCount(joinId, list);
 						userInfoService.extractVerify(list);
@@ -720,6 +720,25 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 					}
 					
 		},OptResult.JSON_KEY_HTWORLD, null);
+	}
+	
+	/**
+	 * 打乱精选
+	 * 
+	 * @param list 指定列表
+	 * @param shuffleLen 限定长度
+	 */
+	private void shuffelSuperb(List<OpWorldTypeDto> list, int shuffleLen) {
+		if(list.size() >= shuffleLen) {
+			List<OpWorldTypeDto> tmpList = new ArrayList<OpWorldTypeDto>();
+			for(int i = 0; i < shuffleLen; i++) {
+				OpWorldTypeDto dto = list.get(0);
+				list.remove(0);
+				tmpList.add(dto);
+			}
+			Collections.shuffle(tmpList);
+			list.addAll(0, tmpList);
+		}
 	}
 
 	@Override

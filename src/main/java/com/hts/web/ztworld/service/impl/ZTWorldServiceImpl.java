@@ -156,8 +156,8 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 	 */
 	private static final int[] REC_TYPES = new int[]{
 			Tag.BULLETIN_ACT,
-			Tag.BULLETIN_CHANNEL,
 			Tag.BULLETIN_USER,
+			Tag.BULLETIN_CHANNEL,
 			Tag.BULLETIN_PAGE};
 	
 	
@@ -911,7 +911,8 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 		List<? extends Serializable> recList = null;
 		String recMsg = null;
 		int idx = recPage - 1;
-		int recIdx = recPage % 2 != 0 ? 3 : 6;
+//		int recIdx = recPage % 2 != 0 ? 3 : 6;
+		int recIdx = 3;
 		int type = REC_TYPES[idx];
 		
 		switch(type) {
@@ -926,7 +927,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 			break;
 			
 		case Tag.BULLETIN_USER:
-			recMsg = "推荐用户";
+			recMsg = "可能感兴趣的人";
 			recList = recUser(userId);
 			break;
 			

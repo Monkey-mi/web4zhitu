@@ -120,7 +120,7 @@ public interface UserOperationsService extends BaseService {
 	 * @param accepted
 	 * @throws Exception
 	 */
-	public void updateRecommendUserAccept(Integer userId, Boolean accepted) throws Exception;
+	public void updateRecommendUserAccept(Integer userId, Boolean accepted, Boolean deleteRecMsg) throws Exception;
 	
 	/**
 	 * 查询用户被推荐状态<br />
@@ -133,6 +133,15 @@ public interface UserOperationsService extends BaseService {
 	 * @throws Exception
 	 */
 	public Integer getRecommendState(Integer userId) throws Exception;
+	
+	/**
+	 * 获取用户接受状态
+	 * 
+	 * @param userId
+	 * @param jsonMap
+	 * @throws Exception
+	 */
+	public void getUserAccpetState(Integer userId, Map<String, Object> jsonMap) throws Exception;
 	
 	/**
 	 * 查询用户被推荐状态<br />
