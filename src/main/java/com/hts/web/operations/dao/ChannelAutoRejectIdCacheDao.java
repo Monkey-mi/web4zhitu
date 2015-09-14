@@ -9,7 +9,7 @@ import com.hts.web.common.dao.BaseCacheDao;
  * @author lynch
  *
  */
-public interface ChannelAutoPassIdCacheDao extends BaseCacheDao {
+public interface ChannelAutoRejectIdCacheDao extends BaseCacheDao {
 
 	/**
 	 * 判断是否为自动通过的id
@@ -19,5 +19,5 @@ public interface ChannelAutoPassIdCacheDao extends BaseCacheDao {
 	 * 
 	 * @author lynch 2015-09-14
 	 */
-	public boolean isAutoPass(Integer id);
+	public boolean isAutoReject(Integer id);
 }

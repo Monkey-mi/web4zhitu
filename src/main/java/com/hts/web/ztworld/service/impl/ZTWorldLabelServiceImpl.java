@@ -225,6 +225,47 @@ public class ZTWorldLabelServiceImpl extends BaseServiceImpl implements
 				}, OptResult.JSON_KEY_HTWORLD, totalKey);
 	}
 	
+//	@Override
+	public void buildLabelSuperbWorld(final Integer labelId, final Integer joinId, int maxId,
+			int start, int limit, Map<String, Object> jsonMap,
+			final boolean trimTotal, final boolean trimExtras, final int commentLimit,
+			final int likedLimit) throws Exception {
+		String getIdMethod = "getInteractId";
+		
+		buildSerializables(getIdMethod, maxId, start, limit, jsonMap,
+				new SerializableListAdapter<HTWorldInteractDto>() {
+
+					@Override
+					public List<HTWorldInteractDto> getSerializables(
+							RowSelection rowSelection) {
+						List<HTWorldInteractDto> worldList = null;
+						worldList = worldLabelWorldDao.queryLabelWorldV2(joinId, labelId, rowSelection);
+						worldService.extractExtraInfo(true, false, joinId, trimExtras, commentLimit, likedLimit, worldList.size(),
+								worldList);
+						userInfoService.extractVerify(worldList);
+						userInteractService.extractRemark(joinId, worldList);
+						return worldList;
+					}
+
+					@Override
+					public List<HTWorldInteractDto> getSerializableByMaxId(
+							int maxId, RowSelection rowSelection) {
+						List<HTWorldInteractDto> worldList = null;
+						worldList = worldLabelWorldDao.queryLabelWorldV2(maxId, joinId, labelId, rowSelection);
+						worldService.extractExtraInfo(true, false, joinId, trimExtras, commentLimit, likedLimit, worldList.size(),
+								worldList);
+						userInfoService.extractVerify(worldList);
+						userInteractService.extractRemark(joinId, worldList);
+						return worldList;
+					}
+
+					@Override
+					public long getTotalByMaxId(int maxId) {
+						return 0l;
+					}
+
+				}, OptResult.JSON_KEY_HTWORLD, null);
+	}
 
 	@Override
 	public void buildLabel(String labelName, Map<String, Object> jsonMap)

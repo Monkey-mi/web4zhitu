@@ -59,7 +59,7 @@ import com.hts.web.common.util.MD5Encrypt;
 import com.hts.web.common.util.NumberUtil;
 import com.hts.web.common.util.StringUtil;
 import com.hts.web.operations.dao.BulletinCacheDao;
-import com.hts.web.operations.dao.ChannelAutoPassIdCacheDao;
+import com.hts.web.operations.dao.ChannelAutoRejectIdCacheDao;
 import com.hts.web.operations.dao.ChannelCacheDao;
 import com.hts.web.operations.dao.OpUserVerifyDtoCacheDao;
 import com.hts.web.operations.dao.UserVerifyRecCacheDao;
@@ -253,7 +253,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 	private UserVerifyRecCacheDao userVerifyRecCacheDao;
 
 	@Autowired
-	private ChannelAutoPassIdCacheDao channelAutoPassIdCacheDao;
+	private ChannelAutoRejectIdCacheDao channelAutoPassIdCacheDao;
 	
 	private String baseThumbPathAixin = "http://static.imzhitu.com/world/thumbs/1403056393000.png";
 	private String baseThumbPathXing = "http://static.imzhitu.com/world/thumbs/1403057093000.png";
@@ -427,7 +427,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 					String channelName = channelService.queryChannelNameById(cid);
 					if(!StringUtil.checkIsNULL(channelName)) {
 						world.getChannelNames().add(new HTWorldChannelName(cid, channelName));
-						Integer valid = (channelAutoPassIdCacheDao.isAutoPass(cid) && trust >= Tag.TRUE) ? Tag.TRUE : Tag.FALSE;
+						Integer valid = (!channelAutoPassIdCacheDao.isAutoReject(cid) && trust >= Tag.TRUE) ? Tag.TRUE : Tag.FALSE;
 						channelService.saveChannelWorld(cid, worldId, authorId, worldChildCount, valid);
 					}
 				}

@@ -8,11 +8,11 @@ import com.hts.web.base.BaseTest;
 public class ChannelAutoPassIdCacheDaoTest extends BaseTest {
 	
 	@Autowired
-	private ChannelAutoPassIdCacheDao dao;
+	private ChannelAutoRejectIdCacheDao dao;
 
 	@Test
 	public void isAutoPassTest() throws Exception {
-		Boolean flag = dao.isAutoPass(12);
+		Boolean flag = dao.isAutoReject(12);
 	}
 	
 

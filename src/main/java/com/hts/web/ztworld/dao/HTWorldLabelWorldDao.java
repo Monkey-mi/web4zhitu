@@ -88,6 +88,29 @@ public interface HTWorldLabelWorldDao extends BaseDao {
 			Integer labelId, RowSelection rowSelection);
 
 	/**
+	 * 查询标签精品织图
+	 * 
+	 * @param labelId
+	 * @param rowSelection
+	 * @return
+	 * @author lynch 2015-09-14
+	 */
+	public List<HTWorldInteractDto> queryLabelSuperbWorld(Integer labelId,
+			RowSelection rowSelection);
+	
+	/**
+	 * 查询标签精品织图
+	 * 
+	 * @param maxSerial
+	 * @param labelId
+	 * @param rowSelection
+	 * @return
+	 * @author lynch 2015-09-14
+	 */
+	public List<HTWorldInteractDto> queryLabelSuperbWorld(Integer maxSerial, Integer labelId,
+			RowSelection rowSelection);
+	
+	/**
 	 * 查询标签织图
 	 * 
 	 * @param maxSerial

@@ -107,6 +107,31 @@ public class HTWorldLabelWorldDaoImpl extends BaseDaoImpl implements
 			+ " left join (select * from " + HTS.HTWORLD_LIKED + " hl0 where hl0.valid=1 and hl0.user_id=?) as hl on h.id = hl.world_id"
 			+ " left join (select * from " + HTS.HTWORLD_KEEP + "  hk0 where hk0.valid=1 and hk0.user_id=?) as hk on h.id = hk.world_id";
 	
+	
+	/**
+	 * 查询标签织图,根据标签serial排序
+	 */
+	private static final String QUERY_LABEL_SUPERB_WORLD = "select lb0.serial,h0.*," + U0_INFO + " from " 
+			+ HTS.USER_INFO + " as u0," + HTS.HTWORLD_HTWORLD + " as h0," + table + " as lb0"
+			+ " where h0.author_id=u0.id and h0.id=lb0.world_id and lb0.valid=1 and lb0.superb=1"
+			+ " and h0.valid=1 and h0.shield=0"
+			+ " order by lb0.serial desc";
+	
+	public static void main(String[] args) {
+		System.out.println(QUERY_LABEL_SUPERB_WORLD);
+	}
+	
+	/**
+	 * 根据最大id查询标签织图,根据标签serial排序
+	 */
+	private static final String QUERY_LABEL_SUPERB_WORLD_BY_MAX_ID = "select h.*, 1-ISNULL(hl.user_id) as liked, 1-ISNULL(hk.user_id) as keep from "
+			+ "(select lb0.serial,h0.*," + U0_INFO + " from " + HTS.USER_INFO + " as u0," + HTS.HTWORLD_HTWORLD + " as h0,"
+			+ "(select serial,world_id from " + table + " where label_id=? and (valid=1 or (valid=0 and user_id=?)) and serial<=?"
+			+ " order by serial desc,weight desc LIMIT ?,? ) as lb0"
+			+ " where h0.author_id=u0.id and h0.id=lb0.world_id and h0.valid=1 and h0.shield=0) as h"
+			+ " left join (select * from " + HTS.HTWORLD_LIKED + " hl0 where hl0.valid=1 and hl0.user_id=?) as hl on h.id = hl.world_id"
+			+ " left join (select * from " + HTS.HTWORLD_KEEP + "  hk0 where hk0.valid=1 and hk0.user_id=?) as hk on h.id = hk.world_id";
+	
 	/**
 	 * 根据最大id查询标签织图总数,根据标签serial排序
 	 */
@@ -242,6 +267,20 @@ public class HTWorldLabelWorldDaoImpl extends BaseDaoImpl implements
 					}
 		});
 	}
+	
+	
+	@Override
+	public List<HTWorldInteractDto> queryLabelSuperbWorld(Integer labelId, RowSelection rowSelection) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<HTWorldInteractDto> queryLabelSuperbWorld(Integer maxSerial, Integer labelId,
+			RowSelection rowSelection) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	@Override
 	public long queryLabelWorldCountV2(int maxSerial, Integer labelId) {
@@ -328,4 +367,5 @@ public class HTWorldLabelWorldDaoImpl extends BaseDaoImpl implements
 				rs.getInt("star"),
 				rs.getInt("platform_verify"));
 	}
+
 }
