@@ -195,7 +195,7 @@ public class CacheKeies {
 	/**
 	 * 频道发图自动通过频道id set
 	 */
-	public static final String OP_CHANNEL_AUTO_PASS_ID = MODULE_OP + "channel:autoPassId";
+	public static final String OP_CHANNEL_AUTO_REJECT_ID = MODULE_OP + "channel:autoRejectId";
 	
 	/**
 	 * 用户模块
