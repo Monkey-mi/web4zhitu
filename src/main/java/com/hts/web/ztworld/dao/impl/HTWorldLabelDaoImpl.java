@@ -39,7 +39,7 @@ public class HTWorldLabelDaoImpl extends BaseDaoImpl implements HTWorldLabelDao 
 	 * 保存标签
 	 */
 	private static final String SAVE_LABEL = "insert into " + table 
-			+ " (id,label_name,label_pinyin,world_count, superb_count,"
+			+ " (id,label_name,label_pinyin,world_count,"
 			+ " superb_count,date_added, label_state,valid,serial,weight)"
 			+ " values (?,?,?,?,?,?,?,?,?,?)";
 	
