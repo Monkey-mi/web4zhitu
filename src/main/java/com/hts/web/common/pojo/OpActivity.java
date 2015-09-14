@@ -43,6 +43,7 @@ public class OpActivity implements Serializable {
 	private Integer serial;
 
 	private Integer worldCount = 0;
+	private Integer superbCount = 0;
 	private Integer winnerId = 0;
 
 	private List<OpActivitySponsor> sponsors = new ArrayList<OpActivitySponsor>();
@@ -298,6 +299,14 @@ public class OpActivity implements Serializable {
 
 	public void setSticker(HTWorldStickerDto sticker) {
 		this.sticker = sticker;
+	}
+
+	public Integer getSuperbCount() {
+		return superbCount;
+	}
+
+	public void setSuperbCount(Integer superbCount) {
+		this.superbCount = superbCount;
 	}
 	
 }

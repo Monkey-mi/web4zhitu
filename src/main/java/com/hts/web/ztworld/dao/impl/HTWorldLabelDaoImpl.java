@@ -38,9 +38,10 @@ public class HTWorldLabelDaoImpl extends BaseDaoImpl implements HTWorldLabelDao 
 	/**
 	 * 保存标签
 	 */
-	private static final String SAVE_LABEL = "insert into " 
-			+ table + " (id,label_name,label_pinyin,world_count, date_added, label_state,valid,serial,weight)"
-			+ " values (?,?,?,?,?,?,?,?,?)";
+	private static final String SAVE_LABEL = "insert into " + table 
+			+ " (id,label_name,label_pinyin,world_count, superb_count,"
+			+ " superb_count,date_added, label_state,valid,serial,weight)"
+			+ " values (?,?,?,?,?,?,?,?,?,?)";
 	
 	/**
 	 * 根据名字查询标签
@@ -85,6 +86,7 @@ public class HTWorldLabelDaoImpl extends BaseDaoImpl implements HTWorldLabelDao 
 			label.getLabelName(),
 			label.getLabelPinyin(),
 			label.getWorldCount(),
+			label.getSuperbCount(),
 			label.getDateAdded(),
 			label.getLabelState(),
 			label.getValid(),
@@ -165,6 +167,7 @@ public class HTWorldLabelDaoImpl extends BaseDaoImpl implements HTWorldLabelDao 
 				rs.getString("label_name"),
 				rs.getString("label_pinyin"),
 				rs.getInt("world_count"),
+				rs.getInt("superb_count"),
 				(Date)rs.getObject("date_added"),
 				rs.getInt("label_state"),
 				rs.getInt("valid"),

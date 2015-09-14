@@ -148,6 +148,25 @@ public class ZTWorldLabelAction extends BaseAction {
 		}
 		return StrutsKey.JSON;
 	}
+	
+	/**
+	 * 查询标签精选织图
+	 * 
+	 * @return
+	 */
+	public String queryLabelSuperbWorld() {
+		try {
+			worldLabelService.buildLabelWorld(true, labelName, trimValid, 
+					getCurrentLoginUserId(), maxId, start, limit, jsonMap, 
+					trimTotal, trimExtras, commentLimit, likedLimit);
+			JSONUtil.optSuccess(jsonMap);
+		} catch (HTSException e){
+			JSONUtil.optFailed(e.getErrorCode(), e.getMessage(), jsonMap);
+		} catch(Exception e) {
+			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+		}
+		return StrutsKey.JSON;
+	}
 
 
 	/**

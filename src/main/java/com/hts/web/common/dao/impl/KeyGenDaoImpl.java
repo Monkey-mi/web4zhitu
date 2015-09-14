@@ -40,36 +40,6 @@ public class KeyGenDaoImpl extends BaseDaoImpl implements KeyGenDao{
 
 	public static String table = HTS.KEYGEN;
 	
-	/**
-	 * 更新最大id
-	 */
-	private static final String UPDATE_MAX_ID = "UPDATE " + table + " set max_id=? where id=?";
-	
-	/**
-	 * 查询最大id和步长
-	 */
-	private static final String QUERY_MAX_ID_FOR_UPDATE = "select max_id,step from " + table 
-			+ " where id=? for update";
-	
-	@Override
-	public Integer[] queryMaxIdAndStepForUpdate(Integer keyId) {
-		Integer[] meta = getJdbcTemplate().queryForObject(QUERY_MAX_ID_FOR_UPDATE, new Object[]{keyId}, new RowMapper<Integer[]>() {
-
-			@Override
-			public Integer[] mapRow(ResultSet rs, int num)
-					throws SQLException {
-				return new Integer[]{rs.getInt("max_id"),
-						rs.getInt("step")};
-			}
-		});
-		return meta;
-	}
-	
-	@Override
-	public void updateMaxId(int keyId, int maxId) {
-		getMasterJdbcTemplate().update(UPDATE_MAX_ID, new Object[]{maxId, keyId}); //更新最大id
-	}
-	
 	@Override
 	public Integer nextId(String keyId) {
 		return nextId(keyId, 1);

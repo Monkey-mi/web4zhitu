@@ -59,6 +59,7 @@ import com.hts.web.common.util.MD5Encrypt;
 import com.hts.web.common.util.NumberUtil;
 import com.hts.web.common.util.StringUtil;
 import com.hts.web.operations.dao.BulletinCacheDao;
+import com.hts.web.operations.dao.ChannelAutoPassIdCacheDao;
 import com.hts.web.operations.dao.ChannelCacheDao;
 import com.hts.web.operations.dao.OpUserVerifyDtoCacheDao;
 import com.hts.web.operations.dao.UserVerifyRecCacheDao;
@@ -167,24 +168,9 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 	private static final int REC_MIN_SIZE = 2;
 	
 	/**
-	 * 推荐用户信息，系统推荐
-	 */
-	private static final String USER_REC_MSG_SYS_REC = "推荐用户";
-	
-	/**
 	 * 最新索引size
 	 */
 	private static final int LATEST_INDEX_SIZE = 4;
-	
-	/**
-	 * 系统推荐用户限制
-	 */
-	private Integer sysRecLimit = 6;
-	
-	/**
-	 * 系统推荐起始位置
-	 */
-	private Integer sysRecStart = 200;
 	
 	/**
 	 * 官方频道id
@@ -265,6 +251,9 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 	
 	@Autowired
 	private UserVerifyRecCacheDao userVerifyRecCacheDao;
+
+	@Autowired
+	private ChannelAutoPassIdCacheDao channelAutoPassIdCacheDao;
 	
 	private String baseThumbPathAixin = "http://static.imzhitu.com/world/thumbs/1403056393000.png";
 	private String baseThumbPathXing = "http://static.imzhitu.com/world/thumbs/1403057093000.png";
@@ -397,7 +386,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 					if(label == null) {
 						labelId = keyGenService.generateId(KeyGenServiceImpl.HTWORLD_LABEL_ID);
 						String pinyin = StringUtil.getPinYin(name);
-						label = new HTWorldLabel(labelId, name, pinyin, 0, new Date(), Tag.FALSE, Tag.TRUE, 0, 0);
+						label = new HTWorldLabel(labelId, name, pinyin, 0, 0, new Date(), Tag.FALSE, Tag.TRUE, 0, 0);
 						worldLabelDao.saveLabel(label);
 					} else {
 						labelId = label.getId();
@@ -438,7 +427,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 					String channelName = channelService.queryChannelNameById(cid);
 					if(!StringUtil.checkIsNULL(channelName)) {
 						world.getChannelNames().add(new HTWorldChannelName(cid, channelName));
-						Integer valid = (cid > oldChannelMaxId && trust >= Tag.TRUE) ? Tag.TRUE : Tag.FALSE;
+						Integer valid = (channelAutoPassIdCacheDao.isAutoPass(cid) && trust >= Tag.TRUE) ? Tag.TRUE : Tag.FALSE;
 						channelService.saveChannelWorld(cid, worldId, authorId, worldChildCount, valid);
 					}
 				}

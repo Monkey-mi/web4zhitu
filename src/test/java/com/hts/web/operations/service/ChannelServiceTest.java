@@ -1,5 +1,7 @@
 package com.hts.web.operations.service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,6 +68,12 @@ public class ChannelServiceTest extends BaseTest {
 			}
 			
 		});
+	}
+	
+	public static void main(String[] args) {
+		SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
+		Date d = new Date(1431383891429l);
+		System.out.println(fm.format(d));
 	}
 	
 	@Test

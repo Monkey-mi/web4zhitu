@@ -26,6 +26,7 @@ public class HTWorldLabel implements Serializable {
 	private String labelName;
 	private String labelPinyin;
 	private Integer worldCount;
+	private Integer superbCount;
 	private Date dateAdded;
 	private Integer labelState;
 	private Integer valid;
@@ -37,13 +38,15 @@ public class HTWorldLabel implements Serializable {
 	}
 
 	public HTWorldLabel(Integer id, String labelName, String labelPinyin,
-			Integer worldCount, Date dateAdded, Integer labelState, Integer valid, Integer serial,
+			Integer worldCount, Integer superbCount, Date dateAdded, 
+			Integer labelState, Integer valid, Integer serial,
 			Integer weight) {
 		super();
 		this.id = id;
 		this.labelName = labelName;
 		this.labelPinyin = labelPinyin;
 		this.worldCount = worldCount;
+		this.superbCount = superbCount;
 		this.dateAdded = dateAdded;
 		this.labelState = labelState;
 		this.valid = valid;
@@ -81,6 +84,14 @@ public class HTWorldLabel implements Serializable {
 
 	public void setWorldCount(Integer worldCount) {
 		this.worldCount = worldCount;
+	}
+	
+	public Integer getSuperbCount() {
+		return superbCount;
+	}
+
+	public void setSuperbCount(Integer superbCount) {
+		this.superbCount = superbCount;
 	}
 
 	@JSON(format="yyyy-MM-dd HH:mm:ss")

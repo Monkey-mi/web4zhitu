@@ -674,7 +674,7 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 						OpUserVerifyDto verify = opUserVerifyDtoCacheDao.queryRandomVerify(); // 随机加载一种达人
 						jsonMap.put(OptResult.JSON_KEY_VERIFY, verify);
 						jsonMap.put(OptResult.JSON_KEY_STARS, 
-								userVerifyRecCacheDao.queryUserByVerifyIdWithTop(verify.getId(), 10));// 每次刷新都加载置顶
+								userVerifyRecCacheDao.queryUserByVerifyIdWithTop(verify.getId(), 15));// 每次刷新都加载置顶
 						
 						extractSuperbLikedAndCount(joinId, list);
 						userInfoService.extractVerify(list);

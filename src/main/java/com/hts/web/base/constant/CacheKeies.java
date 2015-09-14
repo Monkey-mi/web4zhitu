@@ -193,6 +193,11 @@ public class CacheKeies {
 	public static final String OP_CHANNEL_PV = MODULE_OP + "channel:pv";
 	
 	/**
+	 * 频道发图自动通过频道id set
+	 */
+	public static final String OP_CHANNEL_AUTO_PASS_ID = MODULE_OP + "channel:autoPassId";
+	
+	/**
 	 * 用户模块
 	 */
 	private static final String MODULE_USER = "ztworld:";

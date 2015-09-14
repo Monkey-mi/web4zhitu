@@ -111,7 +111,7 @@ public class ZTWorldLabelServiceImpl extends BaseServiceImpl implements
 		if(label == null) {
 			Integer labelId = keyGenService.generateId(KeyGenServiceImpl.HTWORLD_LABEL_ID);
 			String pinyin = StringUtil.getPinYin(name);
-			label = new HTWorldLabel(labelId, name, pinyin, 0, new Date(), Tag.FALSE, Tag.TRUE, 0, 0);
+			label = new HTWorldLabel(labelId, name, pinyin, 0, 0, new Date(), Tag.FALSE, Tag.TRUE, 0, 0);
 			worldLabelDao.saveLabel(label);
 		}
 		return label;
@@ -219,13 +219,7 @@ public class ZTWorldLabelServiceImpl extends BaseServiceImpl implements
 
 					@Override
 					public long getTotalByMaxId(int maxId) {
-						long count = 0L;
-						if(!isOrderBySerial) {
-							worldLabelWorldDao.queryLabelWorldCount(maxId, labelId);
-						} else {
-							worldLabelWorldDao.queryLabelWorldCountV2(maxId, labelId);
-						}
-						return count;
+						return 0l;
 					}
 
 				}, OptResult.JSON_KEY_HTWORLD, totalKey);
@@ -268,6 +262,7 @@ public class ZTWorldLabelServiceImpl extends BaseServiceImpl implements
 				activity.setActivityName(labelName);
 			}
 			activity.setWorldCount(label.getWorldCount());
+			activity.setSuperbCount(label.getSuperbCount());
 			activity.setWinnerId(activityWinnerDao.queryMaxWinnerId(activity.getId()));
 			jsonMap.put(OptResult.JSON_KEY_ACTIVITY, activity);
 		}

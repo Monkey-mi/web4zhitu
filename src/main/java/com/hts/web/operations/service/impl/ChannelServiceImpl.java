@@ -43,7 +43,6 @@ import com.hts.web.common.util.StringUtil;
 import com.hts.web.operations.dao.ActivityCacheDao;
 import com.hts.web.operations.dao.ChannelCacheDao;
 import com.hts.web.operations.dao.ChannelCountBaseDao;
-import com.hts.web.operations.dao.ChannelCoverCacheDao;
 import com.hts.web.operations.dao.ChannelDanmuReadDao;
 import com.hts.web.operations.dao.ChannelDao;
 import com.hts.web.operations.dao.ChannelLinkDao;
@@ -534,7 +533,7 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 				if(label == null) {
 					labelId = keyGenService.generateId(KeyGenServiceImpl.HTWORLD_LABEL_ID);
 					String pinyin = StringUtil.getPinYin(name);
-					label = new HTWorldLabel(labelId, name, pinyin, 0, new Date(), Tag.FALSE, Tag.TRUE, 0, 0);
+					label = new HTWorldLabel(labelId, name, pinyin, 0, 0, new Date(), Tag.FALSE, Tag.TRUE, 0, 0);
 					labelDao.saveLabel(label);
 				} else {
 					labelId = label.getId();
