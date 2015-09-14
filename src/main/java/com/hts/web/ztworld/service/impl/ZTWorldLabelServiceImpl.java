@@ -152,14 +152,14 @@ public class ZTWorldLabelServiceImpl extends BaseServiceImpl implements
 		Integer state = label.getLabelState();
 		switch (state) {
 		case Tag.WORLD_LABEL_ACTIVITY:
-			if(!trimValid) {
-				OpActivity activity = activityDao.queryActivityById(label.getId());
-				if(activity.getValid().equals(Tag.FALSE)) { // 活动已经失效
-					worldOperationsService.buildActivityWinner(isOrderBySerial, label.getId(), joinId, maxId,
-							start, limit, jsonMap, trimTotal, trimExtras, commentLimit, likedLimit);
-					break;
-				}
-			}
+//			if(!trimValid) {
+//				OpActivity activity = activityDao.queryActivityById(label.getId());
+//				if(activity.getValid().equals(Tag.FALSE)) { // 活动已经失效
+//					worldOperationsService.buildActivityWinner(isOrderBySerial, label.getId(), joinId, maxId,
+//							start, limit, jsonMap, trimTotal, trimExtras, commentLimit, likedLimit);
+//					break;
+//				}
+//			}
 			buildLabelWorld(isOrderBySerial, label.getId(), joinId, maxId, start, limit, jsonMap, 
 					trimTotal, trimExtras, commentLimit, likedLimit);
 			if(maxId == 0)
