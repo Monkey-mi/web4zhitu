@@ -63,7 +63,7 @@ public class HTWorldLikedDaoImpl extends BaseDaoImpl implements HTWorldLikedDao{
 	 */
 	private static final String LIKE_ME_INFO_BY_GROUP = "l0.id,l0.liked_date,l0.user_id,"
 			+ "u0.user_name,u0.user_avatar,"
-			+ "u0.user_avatar_l,u0.star,u0.platform_verify";
+			+ "u0.user_avatar_l,u0.star,u0.platform_verify,u0.province,u0.city";
 	
 	/**
 	 * 喜欢我的用户织图信息
