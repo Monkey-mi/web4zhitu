@@ -99,6 +99,28 @@ public interface ZTWorldLabelService extends BaseService {
 			boolean trimExtras, int commentLimit, int likedLimit) throws Exception;
 	
 	/**
+	 * 构建精选织图
+	 * 
+	 * @param labelName
+	 * @param joinId
+	 * @param maxId
+	 * @param start
+	 * @param limit
+	 * @param jsonMap
+	 * @param trimTotal
+	 * @param trimExtras
+	 * @param commentLimit
+	 * @param likedLimit
+	 * @throws Exception
+	 * 
+	 * @author lynch 2015-09-14
+	 */
+	public void buildLabelSuperbWorld(String labelName, final Integer joinId, int maxId,
+			int start, int limit, Map<String, Object> jsonMap,
+			final boolean trimTotal, final boolean trimExtras, final int commentLimit,
+			final int likedLimit) throws Exception;
+	
+	/**
 	 * 构建标签织图用户列表
 	 * 
 	 * @param labelId

@@ -156,7 +156,7 @@ public class ZTWorldLabelAction extends BaseAction {
 	 */
 	public String queryLabelSuperbWorld() {
 		try {
-			worldLabelService.buildLabelWorld(true, labelName, trimValid, 
+			worldLabelService.buildLabelSuperbWorld(labelName, 
 					getCurrentLoginUserId(), maxId, start, limit, jsonMap, 
 					trimTotal, trimExtras, commentLimit, likedLimit);
 			JSONUtil.optSuccess(jsonMap);

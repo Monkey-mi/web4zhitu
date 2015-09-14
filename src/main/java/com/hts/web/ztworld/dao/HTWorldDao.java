@@ -372,6 +372,15 @@ public interface HTWorldDao extends BaseDao {
 	public HTWorldInteractDto buildHTWorldInteractDtoByResultSet(ResultSet rs) throws SQLException;
 	
 	/**
+	 * 根据结果集构建关注的织图数据传输对象, without liked and keep
+	 * 
+	 * @param rs
+	 * @return
+	 * @throws SQLException
+	 */
+	public HTWorldInteractDto buildHTWorldInteractDto(ResultSet rs) throws SQLException;
+	
+	/**
 	 * 根据结果集构建HTWorldDto
 	 * 
 	 * @param rs

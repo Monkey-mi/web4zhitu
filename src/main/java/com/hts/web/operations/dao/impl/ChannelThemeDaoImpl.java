@@ -21,7 +21,7 @@ public class ChannelThemeDaoImpl extends BaseDaoImpl implements ChannelThemeDao 
 	private static final String THEME_INFO = "t0.id,t0.theme_name";
 	
 	private static final String QUERY_ALL_THEME = "select " + THEME_INFO
-			+ " from " + table + " t0 order by t0.serial desc";
+			+ " from " + table + " t0 where t0.valid=1 order by t0.serial desc";
 
 	@Override
 	public List<OpChannelTheme> queryAllTheme() {

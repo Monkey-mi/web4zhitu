@@ -61,23 +61,20 @@ public class HTWorldLabelWorldDaoImpl extends BaseDaoImpl implements
 	/**
 	 * 查询标签织图,根据织图id排序
 	 */
-	private static final String QUERY_LABEL_WORLD = "select h.*, 1-ISNULL(hl.user_id) as liked, 1-ISNULL(hk.user_id) as keep from "
-			+ "(select h0.*," + U0_INFO + " from " + table + " as lb0," + HTS.USER_INFO + " as u0," + HTS.HTWORLD_HTWORLD + " as h0"
-			+ " where h0.author_id=u0.id and h0.id=lb0.world_id and h0.valid=1 and h0.shield=0 and lb0.valid=1 and lb0.label_id=?"
-			+ " order by h0.id desc,lb0.weight desc LIMIT ?,?) as h"
-			+ " left join (select * from " + HTS.HTWORLD_LIKED + " hl0 where hl0.valid=1 and hl0.user_id=?) as hl on h.id = hl.world_id"
-			+ " left join (select * from " + HTS.HTWORLD_KEEP + "  hk0 where hk0.valid=1 and hk0.user_id=?) as hk on h.id = hk.world_id";
+	private static final String QUERY_LABEL_WORLD = "select lb0.serial,h0.*," + U0_INFO + " from " 
+			+ HTS.USER_INFO + " as u0," + HTS.HTWORLD_HTWORLD + " as h0," + table + " as lb0"
+			+ " where h0.author_id=u0.id and h0.id=lb0.world_id and lb0.id=? and lb0.valid=1"
+			+ " and h0.valid=1 and h0.shield=0"
+			+ " order by lb0.id desc limit ?,?";
 	
 	/**
 	 * 根据最大id查询标签织图,根据织图id排序
 	 */
-	private static final String QUERY_LABEL_WORLD_BY_MAX_ID = "select h.*, 1-ISNULL(hl.user_id) as liked, 1-ISNULL(hk.user_id) as keep from "
-			+ "(select h0.*," + U0_INFO + " from " + table + " as lb0," + HTS.USER_INFO + " as u0," + HTS.HTWORLD_HTWORLD + " as h0"
-			+ " where h0.author_id=u0.id and h0.id=lb0.world_id and h0.valid=1 and h0.shield=0 and lb0.valid=1 and lb0.label_id=? and h0.id<=?"
-			+ " order by h0.id desc,lb0.weight desc LIMIT ?,?) as h"
-			+ " left join (select * from " + HTS.HTWORLD_LIKED + " hl0 where hl0.valid=1 and hl0.user_id=? and hl0.world_id<=?) as hl on h.id = hl.world_id"
-			+ " left join (select * from " + HTS.HTWORLD_KEEP + "  hk0 where hk0.valid=1 and hk0.user_id=? and hk0.world_id<=?) as hk on h.id = hk.world_id";
-	
+	private static final String QUERY_LABEL_WORLD_BY_MAX_ID = "select lb0.serial,h0.*," + U0_INFO + " from " 
+			+ HTS.USER_INFO + " as u0," + HTS.HTWORLD_HTWORLD + " as h0," + table + " as lb0"
+			+ " where h0.author_id=u0.id and h0.id=lb0.world_id and lb0.id=? and lb0.valid=1"
+			+ " and h0.valid=1 and h0.shield=0 and lb0.id<=?"
+			+ " order by lb0.id desc limit ?,?";
 	/**
 	 * 根据最大id查询标签织图总数,根据织图id排序
 	 */
@@ -88,49 +85,39 @@ public class HTWorldLabelWorldDaoImpl extends BaseDaoImpl implements
 	/**
 	 * 查询标签织图,根据标签serial排序
 	 */
-	private static final String QUERY_LABEL_WORLD_V2 = "select h.*, 1-ISNULL(hl.user_id) as liked, 1-ISNULL(hk.user_id) as keep from "
-			+ "(select lb0.serial,h0.*," + U0_INFO + " from " + HTS.USER_INFO + " as u0," + HTS.HTWORLD_HTWORLD + " as h0,"
-			+ "(select serial,world_id from " + table + " where label_id=? and (valid=1 or (valid=0 and user_id=?))"
-			+ " order by serial desc,weight desc LIMIT ?,? ) as lb0"
-			+ " where h0.author_id=u0.id and h0.id=lb0.world_id and h0.valid=1 and h0.shield=0) as h"
-			+ " left join (select * from " + HTS.HTWORLD_LIKED + " hl0 where hl0.valid=1 and hl0.user_id=?) as hl on h.id = hl.world_id"
-			+ " left join (select * from " + HTS.HTWORLD_KEEP + "  hk0 where hk0.valid=1 and hk0.user_id=?) as hk on h.id = hk.world_id";
+	private static final String QUERY_LABEL_WORLD_V2 = "select lb0.serial,h0.*," + U0_INFO + " from " 
+			+ HTS.USER_INFO + " as u0," + HTS.HTWORLD_HTWORLD + " as h0," + table + " as lb0"
+			+ " where h0.author_id=u0.id and h0.id=lb0.world_id and lb0.id=? and lb0.valid=1"
+			+ " and h0.valid=1 and h0.shield=0"
+			+ " order by lb0.serial desc limit ?,?";
 	
 	/**
 	 * 根据最大id查询标签织图,根据标签serial排序
 	 */
-	private static final String QUERY_LABEL_WORLD_BY_MAX_ID_V2 = "select h.*, 1-ISNULL(hl.user_id) as liked, 1-ISNULL(hk.user_id) as keep from "
-			+ "(select lb0.serial,h0.*," + U0_INFO + " from " + HTS.USER_INFO + " as u0," + HTS.HTWORLD_HTWORLD + " as h0,"
-			+ "(select serial,world_id from " + table + " where label_id=? and (valid=1 or (valid=0 and user_id=?)) and serial<=?"
-			+ " order by serial desc,weight desc LIMIT ?,? ) as lb0"
-			+ " where h0.author_id=u0.id and h0.id=lb0.world_id and h0.valid=1 and h0.shield=0) as h"
-			+ " left join (select * from " + HTS.HTWORLD_LIKED + " hl0 where hl0.valid=1 and hl0.user_id=?) as hl on h.id = hl.world_id"
-			+ " left join (select * from " + HTS.HTWORLD_KEEP + "  hk0 where hk0.valid=1 and hk0.user_id=?) as hk on h.id = hk.world_id";
+	private static final String QUERY_LABEL_WORLD_BY_MAX_ID_V2 = "select lb0.serial,h0.*," + U0_INFO + " from " 
+			+ HTS.USER_INFO + " as u0," + HTS.HTWORLD_HTWORLD + " as h0," + table + " as lb0"
+			+ " where h0.author_id=u0.id and h0.id=lb0.world_id and lb0.id=? and lb0.valid=1"
+			+ " and h0.valid=1 and h0.shield=0 and lb0.serial<=?"
+			+ " order by lb0.serial desc limit ?,?";
 	
 	
 	/**
-	 * 查询标签织图,根据标签serial排序
+	 * 查询精品织图,根据标签serial排序
 	 */
 	private static final String QUERY_LABEL_SUPERB_WORLD = "select lb0.serial,h0.*," + U0_INFO + " from " 
 			+ HTS.USER_INFO + " as u0," + HTS.HTWORLD_HTWORLD + " as h0," + table + " as lb0"
-			+ " where h0.author_id=u0.id and h0.id=lb0.world_id and lb0.valid=1 and lb0.superb=1"
+			+ " where h0.author_id=u0.id and h0.id=lb0.world_id and lb0.id=? and lb0.valid=1 and lb0.superb=1"
 			+ " and h0.valid=1 and h0.shield=0"
-			+ " order by lb0.serial desc";
-	
-	public static void main(String[] args) {
-		System.out.println(QUERY_LABEL_SUPERB_WORLD);
-	}
+			+ " order by lb0.serial desc limit ?,?";
 	
 	/**
-	 * 根据最大id查询标签织图,根据标签serial排序
+	 * 根据最大id查询精品织图,根据标签serial排序
 	 */
-	private static final String QUERY_LABEL_SUPERB_WORLD_BY_MAX_ID = "select h.*, 1-ISNULL(hl.user_id) as liked, 1-ISNULL(hk.user_id) as keep from "
-			+ "(select lb0.serial,h0.*," + U0_INFO + " from " + HTS.USER_INFO + " as u0," + HTS.HTWORLD_HTWORLD + " as h0,"
-			+ "(select serial,world_id from " + table + " where label_id=? and (valid=1 or (valid=0 and user_id=?)) and serial<=?"
-			+ " order by serial desc,weight desc LIMIT ?,? ) as lb0"
-			+ " where h0.author_id=u0.id and h0.id=lb0.world_id and h0.valid=1 and h0.shield=0) as h"
-			+ " left join (select * from " + HTS.HTWORLD_LIKED + " hl0 where hl0.valid=1 and hl0.user_id=?) as hl on h.id = hl.world_id"
-			+ " left join (select * from " + HTS.HTWORLD_KEEP + "  hk0 where hk0.valid=1 and hk0.user_id=?) as hk on h.id = hk.world_id";
+	private static final String QUERY_LABEL_SUPERB_WORLD_BY_MAX_ID = "select lb0.serial,h0.*," + U0_INFO + " from " 
+			+ HTS.USER_INFO + " as u0," + HTS.HTWORLD_HTWORLD + " as h0," + table + " as lb0"
+			+ " where h0.author_id=u0.id and h0.id=lb0.world_id and lb0.id=? and lb0.valid=1 and lb0.superb=1"
+			+ " and h0.valid=1 and h0.shield=0 and lb0.serial<=?"
+			+ " order by lb0.serial desc limit ?,?";
 	
 	/**
 	 * 根据最大id查询标签织图总数,根据标签serial排序
@@ -203,13 +190,13 @@ public class HTWorldLabelWorldDaoImpl extends BaseDaoImpl implements
 	public List<HTWorldInteractDto> queryLabelWorld(Integer joinId,
 			Integer labelId, RowSelection rowSelection) {
 		return getJdbcTemplate().query(QUERY_LABEL_WORLD, 
-				new Object[]{labelId, rowSelection.getFirstRow(), rowSelection.getLimit(), joinId, joinId},
+				new Object[]{labelId, rowSelection.getFirstRow(), rowSelection.getLimit()},
 				new RowMapper<HTWorldInteractDto>() {
 
 					@Override
 					public HTWorldInteractDto mapRow(ResultSet rs, int rowNum)
 							throws SQLException {
-						return worldDao.buildHTWorldInteractDtoByResultSet(rs);
+						return worldDao.buildHTWorldInteractDto(rs);
 					}
 		});
 	}
@@ -218,13 +205,13 @@ public class HTWorldLabelWorldDaoImpl extends BaseDaoImpl implements
 	public List<HTWorldInteractDto> queryLabelWorld(int maxId, Integer joinId,
 			Integer labelId, RowSelection rowSelection) {
 		return getJdbcTemplate().query(QUERY_LABEL_WORLD_BY_MAX_ID, 
-				new Object[]{labelId, maxId, rowSelection.getFirstRow(), rowSelection.getLimit(), joinId, maxId, joinId, maxId},
+				new Object[]{labelId, maxId, rowSelection.getFirstRow(), rowSelection.getLimit()},
 				new RowMapper<HTWorldInteractDto>() {
 
 					@Override
 					public HTWorldInteractDto mapRow(ResultSet rs, int rowNum)
 							throws SQLException {
-						return worldDao.buildHTWorldInteractDtoByResultSet(rs);
+						return worldDao.buildHTWorldInteractDto(rs);
 					}
 		});
 	}
@@ -238,13 +225,13 @@ public class HTWorldLabelWorldDaoImpl extends BaseDaoImpl implements
 	public List<HTWorldInteractDto> queryLabelWorldV2(Integer joinId,
 			Integer labelId, RowSelection rowSelection) {
 		return getJdbcTemplate().query(QUERY_LABEL_WORLD_V2, 
-				new Object[]{labelId, joinId, rowSelection.getFirstRow(), rowSelection.getLimit(), joinId, joinId},
+				new Object[]{labelId, rowSelection.getFirstRow(), rowSelection.getLimit()},
 				new RowMapper<HTWorldInteractDto>() {
 
 					@Override
 					public HTWorldInteractDto mapRow(ResultSet rs, int rowNum)
 							throws SQLException {
-						HTWorldInteractDto dto = worldDao.buildHTWorldInteractDtoByResultSet(rs);
+						HTWorldInteractDto dto = worldDao.buildHTWorldInteractDto(rs);
 						dto.setInteractId(rs.getInt("serial"));
 						return dto;
 					}
@@ -255,13 +242,13 @@ public class HTWorldLabelWorldDaoImpl extends BaseDaoImpl implements
 	public List<HTWorldInteractDto> queryLabelWorldV2(int maxSerial, Integer joinId,
 			Integer labelId, RowSelection rowSelection) {
 		return getJdbcTemplate().query(QUERY_LABEL_WORLD_BY_MAX_ID_V2, 
-				new Object[]{labelId,joinId, maxSerial, rowSelection.getFirstRow(), rowSelection.getLimit(), joinId, joinId},
+				new Object[]{labelId, maxSerial, rowSelection.getFirstRow(), rowSelection.getLimit()},
 				new RowMapper<HTWorldInteractDto>() {
 
 					@Override
 					public HTWorldInteractDto mapRow(ResultSet rs, int rowNum)
 							throws SQLException {
-						HTWorldInteractDto dto = worldDao.buildHTWorldInteractDtoByResultSet(rs);
+						HTWorldInteractDto dto = worldDao.buildHTWorldInteractDto(rs);
 						dto.setInteractId(rs.getInt("serial"));
 						return dto;
 					}
@@ -271,15 +258,35 @@ public class HTWorldLabelWorldDaoImpl extends BaseDaoImpl implements
 	
 	@Override
 	public List<HTWorldInteractDto> queryLabelSuperbWorld(Integer labelId, RowSelection rowSelection) {
-		// TODO Auto-generated method stub
-		return null;
+		return getJdbcTemplate().query(QUERY_LABEL_SUPERB_WORLD,
+				new Object[]{labelId, rowSelection.getFirstRow(), rowSelection.getLimit()},
+				new RowMapper<HTWorldInteractDto>() {
+
+					@Override
+					public HTWorldInteractDto mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						HTWorldInteractDto dto = worldDao.buildHTWorldInteractDto(rs);
+						dto.setInteractId(rs.getInt("serial"));
+						return dto;
+					}
+		});
 	}
 
 	@Override
 	public List<HTWorldInteractDto> queryLabelSuperbWorld(Integer maxSerial, Integer labelId,
 			RowSelection rowSelection) {
-		// TODO Auto-generated method stub
-		return null;
+		return getJdbcTemplate().query(QUERY_LABEL_SUPERB_WORLD_BY_MAX_ID,
+				new Object[]{labelId, maxSerial, rowSelection.getFirstRow(), rowSelection.getLimit()},
+				new RowMapper<HTWorldInteractDto>() {
+
+					@Override
+					public HTWorldInteractDto mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						HTWorldInteractDto dto = worldDao.buildHTWorldInteractDto(rs);
+						dto.setInteractId(rs.getInt("serial"));
+						return dto;
+					}
+		});
 	}
 
 	@Override

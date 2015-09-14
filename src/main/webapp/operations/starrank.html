@@ -39,12 +39,12 @@ a {
 	max-width:750px;
 }
 
-#range-bg {
+#rank-bg {
 	position: absolute;
 	z-index:-1;
 }
 
-#range-wrap {
+#rank-wrap {
 	width:750px;
 	height:341px;
 	text-align:left;
@@ -65,24 +65,24 @@ a {
 	display: none;
 }
 
-#range-desc {
+#rank-desc {
 	margin-top:6px;
 	display:none;
 }
 
-#range-name {
+#rank-name {
 	text-align:center;
 	display:inline-block;
 	display:none;
 }
 
-#range-pos {
+#rank-pos {
 	text-align:center;
 	display:inline-block;
 	display:none;
 }
 
-.range-arrow {
+.rank-arrow {
 	width:60px;
 	vertical-align: top;
 	display:inline-block;
@@ -92,7 +92,7 @@ a {
 	display:none;
 }
 
-#range-icon {
+#rank-icon {
 	width:35px;
 	vertical-align: text-top;
 	display:none;
@@ -114,26 +114,26 @@ a {
 </head>
 <body>
 <div id="main">
-	<div id="range-wrap">
-		<img  id="range-bg" class="bg" alt="" src="http://static.imzhitu.com/op/sticker/150911/41.jpg" />
+	<div id="rank-wrap">
+		<img  id="rank-bg" class="bg" alt="" src="http://static.imzhitu.com/op/sticker/150911/41.jpg" />
 		<div id="user-wrap">
-			<div id="range-type">
+			<div id="rank-type">
 				<div>当前排名</div>
 				<div>
-				<span id="range-name">旅行家</span>
-				<span><img id="range-icon" alt="" src="http://imzhitu.qiniudn.com/user/verify/1438243277000.png"></span>
-				<span id="range-pos">487</span>
+				<span id="rank-name">旅行家</span>
+				<span><img id="rank-icon" alt="" src="http://imzhitu.qiniudn.com/user/verify/1438243277000.png"></span>
+				<span id="rank-pos">487</span>
 				</div>
 			</div>
-			<div id="range-desc"></div>
+			<div id="rank-desc"></div>
 		</div>
-		<img id="range-arrow-up" class="range-arrow" alt="" src="http://static.imzhitu.com/op/sticker/150911/arrow-up.png">
-		<img id="range-arrow-down" class="range-arrow" alt="" src="http://static.imzhitu.com/op/sticker/150911/arrow-down.png">
+		<img id="rank-arrow-up" class="rank-arrow" alt="" src="http://static.imzhitu.com/op/sticker/150911/arrow-up.png">
+		<img id="rank-arrow-down" class="rank-arrow" alt="" src="http://static.imzhitu.com/op/sticker/150911/arrow-down.png">
 	</div>
 	<div>
 		<img id="res-bg" class="bg" src="http://static.imzhitu.com/op/sticker/150911/42.jpg"/>
 		<a id="share-btn" class="res-btn" href="http://www.baidu.com"></a>
-		<a id="sticker-btn" class="res-btn" href="imzhitu://userSticker"></a>
+		<a id="sticker-btn" class="res-btn" href="imzhitu://useSticker"></a>
 	</div>
 	<div>
 		<img class="bg" src="http://static.imzhitu.com/op/sticker/150911/44.jpg"/>
@@ -145,7 +145,7 @@ a {
 var arrowUp = "http://static.imzhitu.com/op/sticker/150911/42.jpg",
 	arrowDown = "http://static.imzhitu.com/op/sticker/150911/43.jpg",
 	arrow,
-	rangeDesc,
+	rankDesc,
 	subPos;
 $(document).ready(function() {
 	var uid = 0;
@@ -164,7 +164,7 @@ function initLayout() {
 	var scale = 1,
 		scale = winWidth / maxW,
 		
-		rangeWrap = {
+		rankWrap = {
 			"width":winWidth,
 			"height":341 * scale
 		},
@@ -178,15 +178,15 @@ function initLayout() {
 			"line-height":45 * scale + 'px'
 		},
 		
-		rangeDesc = {
+		rankDesc = {
 			"margin-top":6 * scale,
 		},
 		
-		rangeIcon = {
+		rankIcon = {
 			"width":35 * scale
 		},
 		
-		rangeArrow = {
+		rankArrow = {
 			"width":60 * scale,
 			"margin-left":164 * scale,
 			"margin-top":155 * scale
@@ -199,10 +199,10 @@ function initLayout() {
 			"margin-left":-190 * scale
 		};
 		
-	$("#range-wrap").css(rangeWrap);
-	$("#range-desc").css(rangeDesc);
-	$(".range-arrow").css(rangeArrow);
-	$("#range-icon").css(rangeIcon);
+	$("#rank-wrap").css(rankWrap);
+	$("#rank-desc").css(rankDesc);
+	$(".rank-arrow").css(rankArrow);
+	$("#rank-icon").css(rankIcon);
 	$("#user-wrap").css(userWrap).show();
 	$(".res-btn").css(resBtn).show();
 	
@@ -213,32 +213,31 @@ function ajaxQueryUserInfo(uid) {
 		"userId":uid
 	}, function(data) {
 		if(data['result'] == 0) {
-			var currPos, lastPos, rangeName, rangeIcon;
+			var currPos, lastPos, rankName, rankIcon;
 			currPos = data['state']['currVerifyPos'];
 			lastPos = data['state']['lastVerifyPos'];
-			rangeName = data['verify']['verifyName'];
-			rangeIcon = data['verify']['verifyIcon'];
+			rankName = data['verify']['verifyName'];
+			rankIcon = data['verify']['verifyIcon'];
 			
 			subPos = lastPos - currPos;
 			
 			if(subPos > 0) {
 				arrow = arrowUp;
-				rangeDesc = "比昨天上升" + subPos + "位";
+				rankDesc = "比昨天上升" + subPos + "位";
 			} else if(subPos < 0) {
 				arrow = arrowDown;
-				rangeDesc = "比昨天下降" + -subPos + "位";
+				rankDesc = "比昨天下降" + -subPos + "位";
 			} else {
-				rangeDesc = "和昨天排名一样";
+				rankDesc = "和昨天排名一样";
 			}
 			
-			initRange(currPos, lastPos, rangeName, rangeIcon);
+			initRank(currPos, lastPos, rankName, rankIcon);
 			
 			$("#share-btn").click(function() {
-				window.location = "imzhitu://shareUserRecRange?verifyName=" + recname 
+				window.location = "imzhitu://shareUserRecRank?verifyName=" + recname 
 						+ "&verifyIcon=" + recicon
 						+ "&currVerifyPos=" + currPos
-						+ "&rangeDesc=" + rangeDesc
-						+ "&rangeArrow=" + arrow
+						+ "&rankDesc=" + rankDesc
 			});
 		}
 		
@@ -248,25 +247,25 @@ function ajaxQueryUserInfo(uid) {
 }
 
 // 初始化用户信息
-function initRange(currPos, lastPos, rangeName, rangeIcon) {
-	$("#range-name").text(rangeName).show();
-	$("#range-pos").text(currPos).show();
-	$("#range-icon").attr("src", rangeIcon).show();
+function initRank(currPos, lastPos, rankName, rankIcon) {
+	$("#rank-name").text(rankName).show();
+	$("#rank-pos").text(currPos).show();
+	$("#rank-icon").attr("src", rankIcon).show();
 
 	if(subPos > 0) {
-		$("#range-arrow-up").show();
+		$("#rank-arrow-up").show();
 		$("#res-bg").attr("src", arrowUp).show();
 		$("#share-btn").show();
 		
 	} else if(subPos < 0) {
-		$("#range-arrow-down").show();
+		$("#rank-arrow-down").show();
 		$("#res-bg").attr("src", arrowDown).show();
 		$("#sticker-btn").show();
 	} else {
 		$("#sticker-btn").show();
 	}
 	
-	$("#range-desc").text(rangeDesc).show();
+	$("#rank-desc").text(rankDesc).show();
 }
 
 // 获取用户id
