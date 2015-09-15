@@ -132,7 +132,7 @@ a {
 	</div>
 	<div>
 		<img id="res-bg" class="bg" src="http://static.imzhitu.com/op/sticker/150911/42.jpg"/>
-		<a id="share-btn" class="res-btn" href="http://www.baidu.com"></a>
+		<a id="share-btn" class="res-btn" href="javascript:void(0);"></a>
 		<a id="sticker-btn" class="res-btn" href="imzhitu://useSticker"></a>
 	</div>
 	<div>
@@ -204,7 +204,7 @@ function initLayout() {
 	$(".rank-arrow").css(rankArrow);
 	$("#rank-icon").css(rankIcon);
 	$("#user-wrap").css(userWrap).show();
-	$(".res-btn").css(resBtn).show();
+	$(".res-btn").css(resBtn);
 	
 }
 
@@ -231,14 +231,13 @@ function ajaxQueryUserInfo(uid) {
 				rankDesc = "和昨天排名一样";
 			}
 			
+			$("#share-btn").attr("href", "imzhitu://shareUserRecRank?verifyName=" + rankName 
+					+ "&verifyIcon=" + rankIcon
+					+ "&currVerifyPos=" + currPos
+					+ "&rankDesc=" + rankDesc);
+			
 			initRank(currPos, lastPos, rankName, rankIcon);
 			
-			$("#share-btn").click(function() {
-				window.location = "imzhitu://shareUserRecRank?verifyName=" + recname 
-						+ "&verifyIcon=" + recicon
-						+ "&currVerifyPos=" + currPos
-						+ "&rankDesc=" + rankDesc
-			});
 		}
 		
 	},'json');
@@ -256,7 +255,6 @@ function initRank(currPos, lastPos, rankName, rankIcon) {
 		$("#rank-arrow-up").show();
 		$("#res-bg").attr("src", arrowUp).show();
 		$("#share-btn").show();
-		
 	} else if(subPos < 0) {
 		$("#rank-arrow-down").show();
 		$("#res-bg").attr("src", arrowDown).show();

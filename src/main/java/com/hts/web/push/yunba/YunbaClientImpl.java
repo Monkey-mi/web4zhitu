@@ -72,10 +72,6 @@ public class YunbaClientImpl implements YunbaClient {
 	private static final int MAX_ROUTE = 40; //目标主机的最大连接数
 	private static final int MAX_PER_ROUTE = 20; //每个路由基础的连接
 	
-	public static void main(String[] args) {
-		System.out.println(CONNECT_URL);
-	}
-	
 	private PoolingHttpClientConnectionManager connManager;
 	private RequestConfig defaultRequestConfig;
 	private RequestConfig commonTopicRequestConfig;

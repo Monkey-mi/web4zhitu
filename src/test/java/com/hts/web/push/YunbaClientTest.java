@@ -35,6 +35,8 @@ public class YunbaClientTest extends BaseTest {
 //			apnJSON.put("aps", aps);
 //			apnJSON.put("a", Tag.PUSH_ACTION_SYS);
 //			List<Integer> uids = new ArrayList<Integer>();
+//			uids.add(-11000);
+//			uids.add(4);
 //			uids.add(2035);
 //			JSONArray toAliasBatch = JSONArray.fromObject(uids);
 //			client.publishToAliasBatch(toAliasBatch, 
