@@ -63,7 +63,7 @@ public class HTWorldLabelWorldDaoImpl extends BaseDaoImpl implements
 	 */
 	private static final String QUERY_LABEL_WORLD = "select lb0.serial,h0.*," + U0_INFO + " from " 
 			+ HTS.USER_INFO + " as u0," + HTS.HTWORLD_HTWORLD + " as h0," + table + " as lb0"
-			+ " where h0.author_id=u0.id and h0.id=lb0.world_id and lb0.id=? and lb0.valid=1"
+			+ " where h0.author_id=u0.id and h0.id=lb0.world_id and lb0.label_id=? and lb0.valid=1"
 			+ " and h0.valid=1 and h0.shield=0"
 			+ " order by lb0.id desc limit ?,?";
 	
@@ -72,7 +72,7 @@ public class HTWorldLabelWorldDaoImpl extends BaseDaoImpl implements
 	 */
 	private static final String QUERY_LABEL_WORLD_BY_MAX_ID = "select lb0.serial,h0.*," + U0_INFO + " from " 
 			+ HTS.USER_INFO + " as u0," + HTS.HTWORLD_HTWORLD + " as h0," + table + " as lb0"
-			+ " where h0.author_id=u0.id and h0.id=lb0.world_id and lb0.id=? and lb0.valid=1"
+			+ " where h0.author_id=u0.id and h0.id=lb0.world_id and lb0.label_id=? and lb0.valid=1"
 			+ " and h0.valid=1 and h0.shield=0 and lb0.id<=?"
 			+ " order by lb0.id desc limit ?,?";
 	/**
@@ -87,16 +87,16 @@ public class HTWorldLabelWorldDaoImpl extends BaseDaoImpl implements
 	 */
 	private static final String QUERY_LABEL_WORLD_V2 = "select lb0.serial,h0.*," + U0_INFO + " from " 
 			+ HTS.USER_INFO + " as u0," + HTS.HTWORLD_HTWORLD + " as h0," + table + " as lb0"
-			+ " where h0.author_id=u0.id and h0.id=lb0.world_id and lb0.id=? and lb0.valid=1"
+			+ " where h0.author_id=u0.id and h0.id=lb0.world_id and lb0.label_id=? and lb0.valid=1"
 			+ " and h0.valid=1 and h0.shield=0"
 			+ " order by lb0.serial desc limit ?,?";
-	
+
 	/**
 	 * 根据最大id查询标签织图,根据标签serial排序
 	 */
 	private static final String QUERY_LABEL_WORLD_BY_MAX_ID_V2 = "select lb0.serial,h0.*," + U0_INFO + " from " 
 			+ HTS.USER_INFO + " as u0," + HTS.HTWORLD_HTWORLD + " as h0," + table + " as lb0"
-			+ " where h0.author_id=u0.id and h0.id=lb0.world_id and lb0.id=? and lb0.valid=1"
+			+ " where h0.author_id=u0.id and h0.id=lb0.world_id and lb0.label_id=? and lb0.valid=1"
 			+ " and h0.valid=1 and h0.shield=0 and lb0.serial<=?"
 			+ " order by lb0.serial desc limit ?,?";
 	
@@ -106,7 +106,7 @@ public class HTWorldLabelWorldDaoImpl extends BaseDaoImpl implements
 	 */
 	private static final String QUERY_LABEL_SUPERB_WORLD = "select lb0.serial,h0.*," + U0_INFO + " from " 
 			+ HTS.USER_INFO + " as u0," + HTS.HTWORLD_HTWORLD + " as h0," + table + " as lb0"
-			+ " where h0.author_id=u0.id and h0.id=lb0.world_id and lb0.id=? and lb0.valid=1 and lb0.superb=1"
+			+ " where h0.author_id=u0.id and h0.id=lb0.world_id and lb0.label_id=? and lb0.valid=1 and lb0.superb=1"
 			+ " and h0.valid=1 and h0.shield=0"
 			+ " order by lb0.serial desc limit ?,?";
 	
@@ -115,7 +115,7 @@ public class HTWorldLabelWorldDaoImpl extends BaseDaoImpl implements
 	 */
 	private static final String QUERY_LABEL_SUPERB_WORLD_BY_MAX_ID = "select lb0.serial,h0.*," + U0_INFO + " from " 
 			+ HTS.USER_INFO + " as u0," + HTS.HTWORLD_HTWORLD + " as h0," + table + " as lb0"
-			+ " where h0.author_id=u0.id and h0.id=lb0.world_id and lb0.id=? and lb0.valid=1 and lb0.superb=1"
+			+ " where h0.author_id=u0.id and h0.id=lb0.world_id and lb0.label_id=? and lb0.valid=1 and lb0.superb=1"
 			+ " and h0.valid=1 and h0.shield=0 and lb0.serial<=?"
 			+ " order by lb0.serial desc limit ?,?";
 	
