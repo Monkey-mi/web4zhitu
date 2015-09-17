@@ -221,6 +221,11 @@ public class KeyGenServiceImpl extends BaseServiceImpl implements KeyGenService{
 	 */
 	public static final Integer OP_CHANNEL_STAR_SERIAL = 41;
 	
+	/**
+	 * 频道织图精选排序
+	 */
+	public static final Integer OP_CHANNEL_WORLD_SUPERB_SERIAL = 42;
+	
 	@Autowired
 	private KeyGenDao keyGenDao;
 	
