@@ -89,4 +89,13 @@ public interface ChannelMemberDao extends BaseDao {
 	 */
 	public Integer queryDegree(Integer channelId, Integer userId);
 	
+	/**
+	 * 是否为频道成员
+	 * 
+	 * @param channelId
+	 * @param userId
+	 * @return
+	 */
+	public boolean ismember(Integer channelId, Integer userId);
+	
 }

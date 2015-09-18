@@ -29,7 +29,7 @@ public interface UserInfoService extends BaseService {
 	 * @return
 	 * @throws HTSException 
 	 */
-	public boolean checkLoginCodeExists(String loginCode) throws Exception;
+	public Integer checkLoginCodeExists(String loginCode, Integer platformCode) throws Exception;
 	
 	/**
 	 * 检测用户名是否存在

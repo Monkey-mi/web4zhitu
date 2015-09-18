@@ -147,12 +147,8 @@ public class UserInfoAction extends BaseAction {
 	 */
 	public String checkLoginCodeExists() {
 		try {
-			boolean isExists = userInfoService.checkLoginCodeExists(loginCode);
-			if(isExists) {
-				JSONUtil.optResult(Tag.EXIST, UserInfoServiceImpl.TIP_LOGIN_CODE_EXIST, jsonMap);
-			} else {
-				JSONUtil.optResult(Tag.NOT_EXIST, UserInfoServiceImpl.TIP_LOGIN_CODE_NOT_EXIST, jsonMap);
-			}
+			Integer isExists = userInfoService.checkLoginCodeExists(loginCode, platformCode);
+			JSONUtil.optResult(OptResult.OPT_SUCCESS, isExists, OptResult.JSON_KEY_USER_INFO, jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
 		}
@@ -620,6 +616,7 @@ public class UserInfoAction extends BaseAction {
 		}
 		return StrutsKey.JSON;
 	}
+	
 	
 	public Integer getId() {
 		return id;

@@ -57,6 +57,9 @@ public class ChannelMemberDaoImpl extends BaseDaoImpl implements
 	private static final String QUERY_MEMBER_DEGREE = "select degree from " 
 			+ table + " where channel_id=? and user_id=?";
 	
+	private static final String QUERY_IS_MEMBER = "select user_id from " 
+			+ table + " where channel_id=? and user_id=?";
+	
 	public OpChannelMemberThumb buildThumb(ResultSet rs) throws SQLException {
 		return new OpChannelMemberThumb(
 				rs.getInt("id"),
@@ -158,6 +161,22 @@ public class ChannelMemberDaoImpl extends BaseDaoImpl implements
 		} catch(DataAccessException e) {
 			return -1;
 		}
+	}
+
+
+	@Override
+	public boolean ismember(Integer channelId, Integer userId) {
+		Integer uid;
+		try {
+			uid = getJdbcTemplate().queryForInt(QUERY_IS_MEMBER, 
+					new Object[]{channelId, userId});
+			if(uid != null && uid > 0) {
+				return true;
+			}
+		} catch(DataAccessException e) {
+			return false;
+		}
+		return false;
 	}
 	
 }

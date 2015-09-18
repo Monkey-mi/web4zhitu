@@ -168,14 +168,15 @@ public interface ChannelService extends BaseService{
 			Map<String, Object> jsonMap) throws Exception;
 	
 	/**
-	 * 保存频道织图
+	 * 保存频道织图,并自动关注该频道
 	 * 
 	 * @param channelId
 	 * @param worldId
 	 * @param userId
+	 * @author lynch 2015-09-16
 	 */
 	public void saveChannelWorld(Integer channelId, Integer worldId, 
-			Integer authorId, Integer addChildCount, Integer valid);
+			Integer authorId, Integer addChildCount, Integer valid) throws Exception;
 	
 	/**
 	 * 根据id查询频道名称

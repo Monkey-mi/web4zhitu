@@ -59,7 +59,6 @@ import com.hts.web.operations.service.ChannelService;
 import com.hts.web.userinfo.service.UserConcernService;
 import com.hts.web.userinfo.service.UserInfoService;
 import com.hts.web.userinfo.service.UserInteractService;
-import com.hts.web.ztworld.dao.HTWorldDao;
 import com.hts.web.ztworld.dao.HTWorldLabelDao;
 import com.hts.web.ztworld.service.ZTWorldService;
 
@@ -486,13 +485,18 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 
 	@Override
 	public void saveChannelWorld(Integer channelId, Integer worldId,
-			Integer authorId, Integer addChildCount, Integer valid) {
+			Integer authorId, Integer addChildCount, Integer valid) throws Exception {
 		Integer id = keyGenService.generateId(KeyGenServiceImpl.OP_CHANNEL_WORLD_ID);
 		OpChannelWorld world = new OpChannelWorld(id, channelId,
 				worldId, authorId, new Date(), valid, Tag.TRUE, Tag.FALSE, id);
 		channelWorldDao.saveChannelWorld(world);
 		if(valid.equals(Tag.TRUE)) {
 			addWorldCountAndChildCount(channelId, addChildCount);
+		}
+		
+		// 发图进频道自动关注该频道
+		if(!memberDao.ismember(channelId, authorId)) {
+			saveMember(channelId, authorId);
 		}
 	}
 

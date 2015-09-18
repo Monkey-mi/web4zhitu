@@ -475,12 +475,13 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 	}
 	
 	@Override
-	public boolean checkLoginCodeExists(String loginCode, Integer platformCode) {
-		long count = getJdbcTemplate().queryForLong(QUERY_USER_COUNT_BY_LOGIN_CODE, new Object[]{loginCode, platformCode});
+	public Integer checkLoginCodeExists(String loginCode, Integer platformCode) {
+		long count = getJdbcTemplate().queryForLong(QUERY_USER_COUNT_BY_LOGIN_CODE,
+				new Object[]{loginCode, platformCode});
 		if(count > 0) {
-			return true;
+			return Tag.TRUE;
 		}
-		return false;
+		return Tag.FALSE;
 	}
 	
 	@Override

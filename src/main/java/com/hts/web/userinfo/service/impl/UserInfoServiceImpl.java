@@ -209,7 +209,10 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 	}
 
 	@Override
-	public boolean checkLoginCodeExists(String loginCode) throws Exception {
+	public Integer checkLoginCodeExists(String loginCode, Integer platformCode) throws Exception {
+		if(platformCode == null) {
+			platformCode = PlatFormCode.ZHITU;
+		}
 		return userInfoDao.checkLoginCodeExists(loginCode, PlatFormCode.ZHITU);
 	}
 	
@@ -226,7 +229,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 			Float ver) throws Exception {
 		UserInfo userInfo = null;
 		userName = StringUtil.checkIsNULL(DEFAULT_NAME) ? DEFAULT_NAME : StringUtil.filterXSS(userName);
-		if(userInfoDao.checkLoginCodeExists(loginCode, PlatFormCode.ZHITU)) { //判断账号是否存在
+		if(userInfoDao.checkLoginCodeExists(loginCode, PlatFormCode.ZHITU) == Tag.TRUE) { //判断账号是否存在
 			throw new HTSException(TIP_LOGIN_CODE_EXIST, LOGIN_CODE_EXIST);
 		}
 		

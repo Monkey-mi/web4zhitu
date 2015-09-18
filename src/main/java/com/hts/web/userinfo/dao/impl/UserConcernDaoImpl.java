@@ -315,7 +315,7 @@ public class UserConcernDaoImpl extends BaseDaoImpl implements UserConcernDao{
 	 */
 	private static final String QUERY_CONCERN_NAME = "select " + CONCERN_NAME_INFO
 			+ " from " + table + " ur0, " + HTS.USER_INFO + " as u0"
-			+ " where u0.id=ur0.concern_id and ur0.user_id=? and valid=1 limit ?,1";
+			+ " where u0.id=ur0.concern_id and ur0.user_id=? and ur0.valid=1 and u0.shield=0 limit ?,1";
 	
 	@Override
 	public UserConcern queryConcern(Integer userId, Integer concernId){
