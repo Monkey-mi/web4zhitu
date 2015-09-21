@@ -426,6 +426,11 @@ public class Tag {
 	 */
 	public static final float VERSION_2_9_88 = 2.0988f;
 	
+	/**
+	 * 3.0
+	 */
+	public static final float VERSION_3_0 = 3.0f;
+	
 	
 	/**
 	 * 喜欢关系,同城

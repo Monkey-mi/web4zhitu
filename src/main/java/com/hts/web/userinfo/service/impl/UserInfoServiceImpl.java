@@ -213,7 +213,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 		if(platformCode == null) {
 			platformCode = PlatFormCode.ZHITU;
 		}
-		return userInfoDao.checkLoginCodeExists(loginCode, PlatFormCode.ZHITU);
+		return userInfoDao.checkLoginCodeExists(loginCode, platformCode);
 	}
 	
 	@Override
