@@ -31,7 +31,7 @@ public class OsUserInfoCacheDaoImpl extends BaseOsCacheDaoImpl implements
 		Map<String, Object> fields = new HashMap<String, Object>();
 		fields.put("id", user.getId());
 		fields.put("user_name", user.getUserName());
-		fields.put("user_name_pinyin", StringUtil.getPinYin(user.getUserName()));
+		fields.put("name_short_text", user.getUserName());
 		fields.put("user_avatar", user.getUserAvatar());
 		fields.put("signature", user.getSignature());
 		fields.put("platform_sign", user.getPlatformSign());
@@ -46,7 +46,7 @@ public class OsUserInfoCacheDaoImpl extends BaseOsCacheDaoImpl implements
 		fields.put("id", user.getId());
 		if(user.getUserName() != null) {
 			fields.put("user_name", user.getUserName());
-			fields.put("user_name_pinyin", StringUtil.getPinYin(user.getUserName()));
+			fields.put("name_short_text", user.getUserName());
 		}
 		
 		if(user.getUserAvatar() != null) {
@@ -76,7 +76,7 @@ public class OsUserInfoCacheDaoImpl extends BaseOsCacheDaoImpl implements
 		Map<String, Object> fields = new HashMap<String, Object>();
 		fields.put("id", user.getId());
 		fields.put("user_name", user.getUserName());
-		fields.put("user_name_pinyin", StringUtil.getPinYin(user.getUserName()));
+		fields.put("name_short_text", user.getUserName());
 		fields.put("user_avatar", user.getUserAvatar());
 		fields.put("signature", user.getSignature());
 		fields.put("platform_sign", user.getPlatformSign());
