@@ -46,7 +46,7 @@ public class SquarePushDaoImpl extends BaseDaoImpl implements SquarePushDao {
 	/**
 	 * 精品信息
 	 */
-	private static final String SUPERB_INFO = "hw.serial,hw.world_id,hw.date_modify as rec_date_modify,"
+	private static final String SUPERB_INFO = "hw.serial,hw.world_id,hw.date_add as rec_date_add,"
 			+ "hw.type_id as rec_type_id,hw.review";
 	
 	/**
@@ -651,7 +651,7 @@ public class SquarePushDaoImpl extends BaseDaoImpl implements SquarePushDao {
 		OpWorldTypeDto dto = new OpWorldTypeDto(
 				rs.getInt("serial"),
 				rs.getInt("rec_type_id"),
-				(Date)rs.getObject("rec_date_modify"),
+				(Date)rs.getObject("rec_date_add"),
 				rs.getString("review"),
 				rs.getInt("world_id"),
 				rs.getString("short_link"),
