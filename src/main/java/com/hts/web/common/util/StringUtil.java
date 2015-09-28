@@ -8,6 +8,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.UUID;
 
+import org.apache.velocity.anakia.AnakiaElement;
+
 import net.sf.xsshtmlfilter.HTMLFilter;
 import net.sourceforge.pinyin4j.PinyinHelper;
 import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
@@ -33,6 +35,8 @@ public class StringUtil {
 	private static final String QINIU_DOMAIN = "imzhitu.qiniudn";
 	
 	private static final String ZHITU_DOMAIN = "static.imzhitu";
+	
+	private static final String ANONYMOUS = "织图用户";
 
 	/**
 	 * 将字符串转换为整数数组
@@ -326,6 +330,26 @@ public class StringUtil {
 				strs[i] = strs[i].trim();
 			}
 		}
+	}
+	
+	/**
+	 * 过滤空格字符
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public static String trimName(String name) {
+		String s;
+		if(StringUtil.checkIsNULL(name))
+			return ANONYMOUS;
+
+		s = filterXSS(name);
+		s = name.replaceAll("\\s*@*", ""); // 删除空格和@字符
+		
+		if("".equals(s))
+			s = ANONYMOUS;
+		
+		return s;
 	}
 	
 }
