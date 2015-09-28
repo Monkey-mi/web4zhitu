@@ -48,11 +48,13 @@ public class StringUtil {
 		String[] strs = idsStr.split(",");
 		Integer[] ids = new Integer[strs.length];
 		for (int i = 0; i < strs.length; i++) {
-			ids[i] = Integer.parseInt(strs[i].trim());
+			if (!"".equals(strs[i].trim())) {
+				ids[i] = Integer.parseInt(strs[i].trim());
+			}
 		}
 		return ids;
 	}
-
+	
 	/**
 	 * 将字符串转换为字符数组，并过滤空格
 	 * 
