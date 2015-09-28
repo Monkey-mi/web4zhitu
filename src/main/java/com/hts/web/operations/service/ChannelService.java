@@ -1,7 +1,9 @@
 package com.hts.web.operations.service;
 
+import java.util.List;
 import java.util.Map;
 
+import com.hts.web.common.pojo.OpStarModuleInfo;
 import com.hts.web.common.service.BaseService;
 
 public interface ChannelService extends BaseService{
@@ -319,5 +321,13 @@ public interface ChannelService extends BaseService{
 	public void deleteWorldSuperb(Integer channelId, Integer worldId,
 			Integer userId) throws Exception;
 	
+	/**
+	 * 获取达人推荐页面所需要的信息
+	 * @param topicId
+	 * @throws Exception 
+		*	2015年9月25日
+		*	mishengliang
+	 */
+	public void getStarRecommendTopicInfo(Integer topicId,Map<String, Object> jsonMap) throws Exception;
 	
 }

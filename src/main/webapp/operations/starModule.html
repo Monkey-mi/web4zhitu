@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="description" content="初秋应该这么穿  ">
+<title></title>
+<style type="text/css">
+body {
+	margin: 0 auto 0 auto;
+	padding: 0;
+	text-align: center;
+/*  	font-size: 0;  */
+	font-family: "微软雅黑", Arial, Helvetica, sans-serif;
+	background: #9fb0e0;
+}
+
+img {
+	width: 100%;
+	border: 0;
+	padding: 0;
+
+}
+
+a {
+	text-decoration: none;
+	color: #313139;
+}
+
+#main {
+	display: inline-block;
+	width: 100%;
+	max-width: 750px;
+	margin-bottom: 60px;
+	background-color:#eaebef; 
+}
+
+.user-wrap {
+	width:750px;
+ 	display: inline-block; 
+/*   	background-color:#eaebef;  */
+ 	text-align:center;
+}
+
+.user-wrap img {
+	float: center;
+}
+
+.headIntro1{
+	align:center;
+	width:670px;
+ 	border: 7px solid #87888d; 
+	margin:20px 0 0 33px;
+	backgroud-color:#ff3f0f;
+}
+
+.headIntro2 {
+	font-size:28px;
+	font-weight:400;
+	padding: 50px 60px 50px 60px;
+	background-color:#ffffff;
+	border: 10px solid #eaebef; 
+}
+
+.title1{
+	font-size:38px;
+	font-weight:400;
+	padding: 50px 0px 0px 0px;
+}
+
+.title2{
+	font-size:18px;
+	font-weight:400;
+	padding: 10px 0px 50px 0px;
+}
+
+.whriteBlock{
+ 	background-color:#ffffff;
+ 	width:714px; 
+ 	padding: 30px 0 0 0;
+    margin: 0 18px 0 18px;
+    border-bottom: 10px solid #85848a;
+}
+
+.userPic{
+	width:678px;
+	margin: 0 18px 0 18px;
+}
+
+.box-shadow{  
+  -webkit-box-shadow:0 0 10px rgba(0, 204, 204, .5);  
+  -moz-box-shadow:0 0 10px rgba(0, 204, 204, .5);  
+  box-shadow:0 0 3px #85848a;  
+}  
+
+.share-wrap img {
+	float: left;
+}
+
+.concern-btn {
+	display: inline-block; 
+	width: 230px;
+	height: 68px;
+   	position: absolute;   
+/*   	left: 50%;   */
+ 	margin: -60px 0 0 0px; 
+	-moz-border-radius: 0px;
+	-webkit-border-radius: 0px;
+	border-radius: 0px;
+	font-size: 33px;
+	font-weight: 900;
+	color : #fbfbfb;
+	line-height: 74px;
+	cursor: pointer;
+	background: #333333;
+	display: block;
+}
+
+.concerned {
+	border-color: #333333;
+}
+
+.userName {
+	font-size:200%;
+	font-family: "微软雅黑", Arial, Helvetica, sans-serif;
+	font-weight:600
+}
+
+.intro2 {
+	width:580px;
+	font-size:28px;
+	font-family: "微软雅黑", Arial, Helvetica, sans-serif;
+	font-weight:400;
+	padding: 50px 60px 50px 60px;
+}
+
+.face{
+	width:200px;
+	height:200px;
+	-moz-border-radius: 50%;
+	-webkit-border-radius: 50%;
+	border-radius: 50%;
+	overflow:hidden;
+}
+
+.share-sticker-btn{
+	width:380	px;
+	height:124px;
+	margin: 40px 185px 30px 185px;
+}
+
+/*  #share-btn-wrap {
+	display: inline-block;
+	border: 0px solid #000000;
+	width: 350px;
+	height: 90px;
+	position: absolute;
+ 	left: 50%; 
+	margin: 260px 0 0 -200px;
+	-moz-border-radius: 0px;
+	-webkit-border-radius: 0px;
+	border-radius: 0px;
+	font-size: 52px;
+	line-height: 90px;
+	background:  #ffffff;
+	display: block;
+}
+ 
+#share-btn-wrap a {
+	display: inline-block;
+	border: 0px solid #000000;
+	-moz-border-radius: 0px;
+	-webkit-border-radius: 0px;
+	border-radius: 0px;
+	color: #ffffff;	
+	font-weight: 800;
+	width: 340px;
+	height: 80px;
+	background: #000000;
+	line-height: 80px;
+}
+
+ #sticker-btn-wrap {	
+	display: inline-block;
+	border: 0px solid #000000;
+	width: 340px;
+	height: 90px;
+	position: absolute;
+	left: 50%;
+	margin: 300px 0 0 -200px;
+	-moz-border-radius: 0px;
+	-webkit-border-radius: 0px;
+	border-radius: 0px;
+	font-size: 52px;
+	line-height: 90px;
+	background:  #ffffff;
+	display: block;
+} 
+
+#sticker-btn-wrap a {
+	display: inline-block;
+	border: 0px solid #000000;
+	-moz-border-radius: 0px;
+	-webkit-border-radius: 0px;
+	border-radius: 0px;
+	color: #ffffff;
+	font-weight: 800;
+	width: 340px;
+	height: 80px;
+	background: #000000;
+	line-height: 90px;
+} */
+
+#download-wrap {
+	width: 100%;
+	text-align: center;
+	position: fixed;
+	bottom: 0;
+	height: 60px;
+	display: none;
+	text-align: center;
+	z-index: 99999;
+}
+
+#download-btn {
+	height: 100%;
+	width: 100%;
+	display: inline-block;
+	color: #ffffff;
+}
+
+#download-bg {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	left: 0px;
+}
+
+#download-logo {
+	width: auto;
+	height: 44px;
+	position: absolute;
+	left: 0px;
+	margin-top: 8px;
+	margin-left: 12px;
+}
+
+#download-close {
+	width: 15px;
+	height: 15px;
+	position: absolute;
+	right: 0;
+	display: inline;
+	cursor: pointer;
+}
+
+#download-tip {
+	background: #3a97d0;
+	width: 100px;
+	height: 36px;
+	right: 0;
+	color: #ffffff;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	margin: 12px 18px 0 0;
+	line-height: 36px;
+	text-align: center;
+	position: absolute;
+	font-size: 14px;
+}
+</style>
+</head>
+<body>
+<div id='wx_pic' style="display:none;">
+	<img src='http://static.imzhitu.com/op/sticker/150915/banner.jpg' />
+</div>
+<div id="main">
+
+<!-- <div class="share-wrap">
+<img alt="" src="http://static.imzhitu.com/op/sticker/150915/09.jpg" /> 
+<div id="sticker-btn-wrap">
+<a id="sticker-btn"  href="imzhitu://useSticker">
+<img alt="" src="http://static.imzhitu.com/op/sticker/150915/sticker.jpg">
+</a>
+</div>
+<div id="share-btn-wrap">
+<a id="share-btn"  href="imzhitu://sharePage">
+<img alt="" src="http://static.imzhitu.com/op/sticker/150915/share.jpg">
+</a>
+</div>
+</div> -->
+<!-- <div style="font-size:30px;pading">来自时尚爱美丽的织图</div> -->
+
+</div>
+
+<!--    <div id="download-wrap">
+<a id="download-btn" title="点击下载" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.htshuo.htsg">
+	<img id="download-bg" alt="" src="/staticres/base/images/down-bg.jpg">
+	<img id="download-logo" alt="" src="/staticres/base/images/down-logo.png">
+	<span id="download-tip">点击下载</span>
+</a>
+<img id="download-close" title="隐藏" onclick="javascript:hideDownloadBtn();" alt="" src="/staticres/base/images/down-close.jpg">
+</div>   -->
+
+ <script type="text/javascript" src="../staticres/base/js/callapp2.js"></script>  
+<script type="text/javascript" src="../staticres/base/js/jquery/jquery-1.8.2.min.js"></script>
+<script type="text/javascript">
+var inapp = 0;
+ $(document).ready(function() {
+
+	 	var url = window.location.search;
+	 	var topicId = url.substring(url.lastIndexOf("=")+1,url.length);
+	 //调用获取数据的函数
+ 		$.post("./operations/channel_getStarRecommendTopicInfo",{
+		"topicId":topicId,
+	},function(data){
+		if(data['result'] == 0) {
+		var	 result = data['obj'];
+			 
+			 	var headPicAndIntro = '<div class="user-wrap"><img src="http://static.imzhitu.com/op/sticker/'+result.fileName+'/HeadPic.jpg" /><div class="headIntro1"><div class="headIntro2">'+result['headIntro']+'</div></div></div>'
+				 $('title').html (result.title);
+			 	$('#main').append(headPicAndIntro); 
+			 	
+			 	for(var i = 0;i < result.starModuleInfos.length;i++){
+			 			var module = '<div class="user-wrap"><div class="title1">'+ result.starModuleInfos[i].title1 +'</div>'+
+			 			'<div class="title2">'+ result.starModuleInfos[i].title2 +'</div><div class="whriteBlock" ><table  align="center"><tr><td rowspan="2" width=200 height=200><div class="face"><img src="http://static.imzhitu.com/op/sticker/'+result.fileName+'/'+ result.starModuleInfos[i].facePic +'"/></div></td>'+
+			 			'<td align="left" width=12></td><td align="left" width=200  height=100><div class="userName">'+ result.starModuleInfos[i].userName +'</div></td></tr>'+
+			 			'<tr><td align="left" width=12></td><td><a id="concern-'+ result.starModuleInfos[i].userId +'" class="concern-btn concern" name="imzhitu-callapp" href="imzhitu://concern?uid='+ result.starModuleInfos[i].userId +'">+关注</a><a class="concern-btn concerned">已关注</a></td></tr>'+
+			 			'<tfoot><tr><td height=10  colspan="3"></td></tr></tfoot></table><div class="userPic box-shadow"><a href="imzhitu://user?uid='+ result.starModuleInfos[i].userId +'"><img  alt="" src="http://static.imzhitu.com/op/sticker/'+result.fileName+'/'+ result.starModuleInfos[i].pic +'"/> </a>'+
+			 			'</div><div  class="intro2">'+ result.starModuleInfos[i].intro2 +'</div></div></div>'
+			 		$('#main').append(module);
+				} 
+			 	$('#main').append("<div style='padding:40px 0 0 0'></div>");
+			 	$('#main').append("<div class='headIntro2'  >" + result.footIntro + "</div>");
+			 	$('#main').append(' <div class="share-sticker-btn" ><a href="imzhitu://useSticker"><img   alt="" src="http://static.imzhitu.com/op/sticker/'+result.fileName+'/sticker.jpg"></a></div><div class="share-sticker-btn" ><a href="imzhitu://sharePage"><img  alt="" src="http://static.imzhitu.com/op/sticker/'+result.fileName+'/share.jpg"></a></div>');
+				$('#main').append("<div style='font-size:25px;padding:45px 0 25px 0;'>"+ result.foot +"</div>");
+		} else {
+		alert('You are wrong');
+		}
+	}, "json"); 
+	 
+	 
+/*  测试的基本数据格式
+var starInfo = [{pic:"testUserPic01.jpg",userName:"小花",title1:"夏秋混穿",title2:"Where there is a shell",intro2:"的富士康拉风多卡拉谁"},
+ 	                {pic:"testUserPic02.jpg",userName:"Shailene",title1:"壳子毛体",title2:"there is a way",intro2:"减肥的开始拉放得开垃圾袋"},
+ 	                {pic:"testUserPic03.jpg",userName:"涉及M",title1:"夏秋第三",title2:"LionDoor",intro2:"积分看电视好久开了打"},
+ 	                {pic:"testUserPic04.jpg",userName:"wan山",title1:"解放东路",title2:"Length",intro2:"就赶快国家发亏大了"},
+ 	                {pic:"testUserPic05.jpg",userName:"小A",title1:"夏放到穿",title2:"Hua Brother",intro2:"后放大会阿罗汉回到是皇帝杀ufidohidsao附件打开"},
+ 	                {pic:"testUserPic06.jpg",userName:"Woodley",title1:"发动更改",title2:"this is Demo",intro2:"号房间的开始啦好了减肥的开始拉合家欢乐丰筋多力"},
+ 	                {pic:"testUserPic07.jpg",userName:"YouKu",title1:"夏方式看",title2:"Woodley",intro2:"合肥大进口及哦啊hi哦哈放假啊就带宽速率合法就算了"}];
+ 	
+ 	var result = {title:"盛夏初秋",headIntro:"全世界人民大团结万岁fd将放开的拉萨fdjskla;fdj及打开都卡死了",
+ 							bannerPic:'banner.jpg',headPic:'testHeadPic.jpg',moduleInfo:starInfo,foot:'来自时尚爱美丽的织图',
+ 							footIntro: "放假开始拉方巾fjdksl;afjdl将放开的拉萨；附件打开快疯了；倒萨阔服拉萨"}; */
+ 	
+	
+});
+
+function initLayout() {
+	var maxW = 750;
+	var winWidth = $(window).width();
+	
+	winWidth = winWidth > maxW ? maxW : winWidth;
+
+	var scale = 1,
+		headerH = 650,
+		
+		btnW = 230,
+		btnH = 68,		
+		btnMarginTop = 240,
+		btnMarginLeft = -10,
+		btnFontSize = 33,
+ 		btnRadius = 0, 
+ 		
+		pbtnW = 340,
+		pbtnH = 80,		
+		pbtnBorderW = 0,
+		pbtnMarginTop = 490,
+		pbtnMarginLeft = -190,
+		pbtnFontSize = 38,
+		pbtnRadius = 100;
+	
+		pbtnMarginTopSticker = 320,
+		
+		spbtnW = 380,
+		spbtnH = 80,
+		spborderW = 0,
+		spbtnLineH = 85,
+ 		spbtnMarginTop = 0,
+		spbtnMarginLeft = 0, 
+		
+	scale = winWidth / maxW;
+	
+	btnW = btnW * scale;
+	btnH = btnH * scale;
+	btnMarginTop = btnMarginTop * scale;
+	btnMarginLeft = btnMarginLeft * scale;
+	btnFontSize = btnFontSize * scale;
+ 	btnRadius = btnRadius * scale; 
+	
+	pbtnW = pbtnW * scale;
+	pbtnH = pbtnH * scale;
+	pbtnBorderW = pbtnBorderW ;
+	pbtnMarginTop = pbtnMarginTop * scale;
+	pbtnMarginLeft = pbtnMarginLeft * scale;
+	pbtnFontSize = pbtnFontSize * scale;
+	pbtnRadius = pbtnRadius * scale;
+	 
+	pbtnMarginTopSticker = pbtnMarginTopSticker * scale;
+	
+	spbtnW = spbtnW * scale;
+	spbtnH = spbtnH * scale;
+	spborderW = spborderW * scale;
+	spbtnLineH = spbtnLineH * scale;
+	spbtnMarginTop = spbtnMarginTop * scale;
+	spbtnMarginLeft = spbtnMarginLeft * scale;
+	
+	$("#header").height(scale * headerH + 'px');
+	
+	$(".concern-btn").css({
+		"width":btnW + "px",
+		"height":btnH + "px",
+		"margin-top":btnMarginTop + "px",
+		"margin-left":btnMarginLeft + "px",
+		"font-size":btnFontSize + "px",
+		"line-height":btnH + "px",
+ 		"-moz-border-radius":btnRadius + "px",
+		"-webkit-border-radius":btnRadius + "px",
+		"border-radius":btnRadius + "px"}); 
+		
+	$(".concern").show();
+	
+	$("#share-btn").css({
+		"width":spbtnW + "px",
+		"height":spbtnH + "px",
+  		"margin-top":spbtnMarginTop + "px",
+		"margin-left":spbtnMarginLeft + "px",  
+		"line-height":spbtnLineH + "px",
+		"border-width":spborderW + "px"});
+		
+	$("#sticker-btn").css({
+		"width":spbtnW + "px",
+		"height":spbtnH + "px",
+ 		"margin-top":spbtnMarginTop + "px",
+		"margin-left":spbtnMarginLeft + "px", 
+		"line-height":spbtnLineH + "px",
+		"border-width":spborderW + "px"});
+	
+	$("#share-btn-wrap").css({
+		"width":pbtnW + "px",
+		"height":pbtnH + "px",
+		"margin-top":pbtnMarginTop + "px",
+		"margin-left":pbtnMarginLeft + "px",
+		"font-size":pbtnFontSize + "px",
+		"line-height":pbtnH + "px",
+		"border-width":pbtnBorderW + "px"})
+ 		.show(); 
+	
+	$("#sticker-btn-wrap").css({
+		"width":pbtnW + "px",
+		"height":pbtnH + "px",
+		"margin-top":pbtnMarginTopSticker + "px",
+		"margin-left":pbtnMarginLeft + "px",
+		"font-size":pbtnFontSize + "px",
+		"line-height":pbtnH + "px",
+		"border-width":pbtnBorderW + "px"})
+ 		.show(); 
+	
+		if(inapp==1) {
+			$("#main").css({"margin-bottom":"0px"});
+		}
+}
+
+function bindConcern(uid, status) {
+	var $btn = $("#concern-" + uid);
+	switch(status) {
+	case 0:
+		$btn.hide().siblings(".concerned:eq(0)").show();
+		break;
+	case 1:
+		$btn.hide().siblings(".concerned:eq(0)").text("相互关注").show();
+		break;
+	default:
+		$btn.click(function() {
+			$this = $(this);
+			$this.hide().siblings(".concerned:eq(0)").show();
+		});
+		break;
+	}
+}
+
+function fetchConcernStatus(uid) {
+	$.post("./user_queryConcernStatus",{
+		"userId":uid,
+		"concernIds":"1637121,96303,2508045,476439,2066708,760357,1353065",
+	},function(data){http://localhost:8080/operations/starModule.html
+		if(data['result'] == 0) {
+			var status = data['concerns'];
+			for(var i = 0; i < status.length; i++) {
+				bindConcern(status[i]['userId'], status[i]['isMututal']);
+			}
+		} else {
+			bindAllBtnClick2Callapp();
+		}
+	}, "json");
+}
+
+function bindAllBtnClick2Callapp() {
+	var $callapp = document.getElementsByName("imzhitu-callapp");
+   	if($callapp.length) {
+   		for(var i = 0; i < $callapp.length; i++) {
+   			$callapp[i].addEventListener('click',openclient,false);
+   		}
+   	}
+} 
+
+
+function getStarRecommendTopicInfo(topicId) {
+	$.post("./channel_getStarRecommendTopicInfo",{
+		"topicId":topicId,
+	},function(data){
+		if(data['result'] == 0) {
+			result = data['info'];
+		} else {
+		/* 	window.message(data.message); */
+		alert('You are wrong');
+		}
+	}, "json");
+}
+
+</script>
+ <div style="display:none;">
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1255868073'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1255868073' type='text/javascript'%3E%3C/script%3E"));</script>
+</div>  
+</body>
+</html>

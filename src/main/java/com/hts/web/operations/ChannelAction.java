@@ -35,6 +35,7 @@ public class ChannelAction extends BaseAction {
 	private Integer worldId;
 	private Boolean hasChannelStar = false;
 	private Integer channelStarLimit = 10;
+	private Integer topicId;
 	
 	/**
 	 * 查询已经订阅的频道
@@ -305,7 +306,7 @@ public class ChannelAction extends BaseAction {
 		}
 		return StrutsKey.JSON;
 	}
-	
+
 	/**
 	 * 取消织图加精
 	 * 
@@ -322,6 +323,24 @@ public class ChannelAction extends BaseAction {
 		}
 		return StrutsKey.JSON;
 	}
+	
+	
+	/**
+	 * 获取达人推广页面信息
+	 * @return 
+		*	2015年9月27日(mid-autumn-festival)
+		*	mishengliang
+	 */
+	public String getStarRecommendTopicInfo(){
+		try {
+			channelService.getStarRecommendTopicInfo(topicId,jsonMap);
+			JSONUtil.optSuccess(jsonMap);
+		} catch(Exception e) {
+			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+		}
+		return StrutsKey.JSON;
+	}
+	
 	
 	public Integer getChannelId() {
 		return channelId;
@@ -386,5 +405,15 @@ public class ChannelAction extends BaseAction {
 	public void setChannelStarLimit(Integer channelStarLimit) {
 		this.channelStarLimit = channelStarLimit;
 	}
+
+	public Integer getTopicId() {
+		return topicId;
+	}
+
+	public void setTopicId(Integer topicId) {
+		this.topicId = topicId;
+	}
+	
+	
 	
 }
