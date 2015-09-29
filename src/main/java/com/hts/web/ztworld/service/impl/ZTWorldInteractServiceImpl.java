@@ -458,11 +458,11 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 	 * @param content
 	 */
 	private static String replaceAt2Reply(String content) {
-		if(content != null) {
-			if(content.charAt(1) == '@') {
-				return content.replaceFirst("@", "回复");
-			}
-		}
+//		if(content != null) {
+//			if(content.charAt(1) == '@') {
+//				return content.replaceFirst("@", "回复");
+//			}
+//		}
 		return content;
 	}
 	
