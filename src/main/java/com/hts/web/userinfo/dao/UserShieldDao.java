@@ -2,10 +2,10 @@ package com.hts.web.userinfo.dao;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import com.hts.web.base.database.RowSelection;
 import com.hts.web.common.dao.BaseDao;
-import com.hts.web.common.pojo.UserInfoDto;
 import com.hts.web.common.pojo.UserShieldInfo;
 
 public interface UserShieldDao extends BaseDao {
@@ -63,4 +63,14 @@ public interface UserShieldDao extends BaseDao {
 	 * @return
 	 */
 	public List<Integer> queryShieldIds(Integer userId);
+	
+	/**
+	 * 查询谁屏蔽了我
+	 * 
+	 * @param otherIds
+	 * @param myId
+	 * @return
+	 */
+	public Set<Integer> queryWhoShieldMe(Integer[] otherIds, Integer myId);
+	
 }

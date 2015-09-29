@@ -8,6 +8,7 @@ import com.hts.web.base.database.RowCallback;
 import com.hts.web.base.database.RowSelection;
 import com.hts.web.common.dao.BaseDao;
 import com.hts.web.common.pojo.UserConcern;
+import com.hts.web.common.pojo.UserConcernAvatar;
 import com.hts.web.common.pojo.UserConcernDto;
 import com.hts.web.common.pojo.UserConcernName;
 import com.hts.web.common.pojo.UserFollowDto;
@@ -248,14 +249,6 @@ public interface UserConcernDao extends BaseDao {
 	public void updateConcernCK(Integer concernId);
 	
 	/**
-	 * 更新未阅读的粉丝标记
-	 * 
-	 * @param userId
-	 * @param concernId
-	 */
-//	public void updateConcernCK(Integer userId, Integer concernId);
-
-	/**
 	 * 更新推送标记
 	 * 
 	 * @param id
@@ -287,7 +280,8 @@ public interface UserConcernDao extends BaseDao {
 	 * @param rowSelection
 	 * @return
 	 */
-	public List<UserConcernDto> queryConcernByName(String userName, Integer userId, RowSelection rowSelection);
+	public List<UserConcernDto> queryConcernByName(String userName, Integer userId, 
+			RowSelection rowSelection);
 	
 	/**
 	 * 根据用户名模糊查询关注
@@ -298,7 +292,8 @@ public interface UserConcernDao extends BaseDao {
 	 * @param rowSelection
 	 * @return
 	 */
-	public List<UserConcernDto> queryConcernByName(Integer maxId, String userName, Integer userId, RowSelection rowSelection);
+	public List<UserConcernDto> queryConcernByName(Integer maxId, String userName, 
+			Integer userId, RowSelection rowSelection);
 	
 	/**
 	 * 查询指定用户的关注ids列表
@@ -354,7 +349,8 @@ public interface UserConcernDao extends BaseDao {
 	 * @param rowSelection
 	 * @return
 	 */
-	public List<UserFollowDto> queryNewFollow(Integer concernId, RowSelection rowSelection);
+	public List<UserFollowDto> queryNewFollow(Integer concernId,
+			RowSelection rowSelection);
 	
 	/**
 	 * 查询最新粉丝
@@ -364,7 +360,8 @@ public interface UserConcernDao extends BaseDao {
 	 * @param rowSelection
 	 * @return
 	 */
-	public List<UserFollowDto> queryNewFollow(Integer maxId, Integer concernId, RowSelection rowSelection);
+	public List<UserFollowDto> queryNewFollow(Integer maxId, Integer concernId, 
+			RowSelection rowSelection);
 	
 	/**
 	 * 更新新粉丝标记
@@ -381,4 +378,13 @@ public interface UserConcernDao extends BaseDao {
 	 * @return
 	 */
 	public UserConcernName queryConcernName(Integer userId, Integer start);
+	
+	/**
+	 * 查询关注列表
+	 * 
+	 * @param userId
+	 * @param limit
+	 * @return
+	 */
+	public List<UserConcernAvatar> queryConcernAvatar(Integer userId, Integer limit);
 }

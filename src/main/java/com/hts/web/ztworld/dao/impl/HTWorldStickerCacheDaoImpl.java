@@ -13,11 +13,6 @@ import com.hts.web.ztworld.dao.HTWorldStickerCacheDao;
 public class HTWorldStickerCacheDaoImpl extends BaseCacheDaoImpl<HTWorldStickerDto> implements
 		HTWorldStickerCacheDao {
 
-//	@Override
-//	public List<HTWorldStickerDto> queryTopSticker() {
-//		return getRedisTemplate().opsForList().range(CacheKeies.ZTWORLD_STICKER_TOP, 0, -1);
-//	}
-
 	@Override
 	public List<HTWorldStickerDto> queryRecommendSticker() {
 		return getRedisTemplate().opsForList().range(CacheKeies.ZTWORLD_STICKER_RECOMMEND, 0, -1);
@@ -28,9 +23,5 @@ public class HTWorldStickerCacheDaoImpl extends BaseCacheDaoImpl<HTWorldStickerD
 		return getRedisTemplate().opsForList().index(CacheKeies.ZTWORLD_STICKER_RECOMMEND, 0);
 	}
 
-//	@Override
-//	public List<HTWorldStickerDto> queryHotSticker() {
-//		return getRedisTemplate().opsForList().range(CacheKeies.ZTWORLD_STICKER_HOT, 0, -1);
-//	}
 
 }

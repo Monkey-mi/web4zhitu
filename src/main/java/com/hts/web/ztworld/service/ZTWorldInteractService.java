@@ -48,8 +48,9 @@ public interface ZTWorldInteractService extends BaseService {
 	 * @return
 	 * @throws Exception
 	 */
-	public PushStatus saveComment(Boolean im, Integer worldId, Integer worldAuthorId,
-			Integer authorId, String content) throws Exception;
+	public void saveComment(Boolean im, Integer worldId, Integer worldAuthorId,
+			Integer authorId, String content, String atIdsStr, String atNamesStr,
+			Map<String, Object> jsonMap) throws Exception;
 
 	/**
 	 * 保存评论回复
@@ -63,8 +64,9 @@ public interface ZTWorldInteractService extends BaseService {
 	 * @return
 	 * @throws Exception
 	 */
-	public PushStatus saveReply(Boolean im, Integer worldId, Integer worldAuthorId,
-			Integer authorId, String content, Integer reId, Integer reAuthorId) throws Exception;
+	public void saveReply(Boolean im, Integer worldId, Integer worldAuthorId,
+			Integer authorId, String content, Integer reId, Integer reAuthorId,
+			String atIdsStr, String atNamesStr, Map<String, Object> jsonMap) throws Exception;
 
 	/**
 	 * 删除评论

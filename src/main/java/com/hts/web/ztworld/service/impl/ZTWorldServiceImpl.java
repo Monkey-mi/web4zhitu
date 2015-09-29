@@ -375,7 +375,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 				Set<String> nameSet = new LinkedHashSet<String>();
 				Map<String, HTWorldLabel> labelMap = worldLabelDao.queryLabelByNames(names);
 				for(String name : names) {
-					name = StringUtil.filterXSS(name);
+					name = StringUtil.trimLabel(name);
 					if(StringUtil.checkIsNULL(name) || name.trim().equals("") || nameSet.contains(name)) {
 						continue;
 					}

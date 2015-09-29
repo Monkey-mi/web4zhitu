@@ -12,6 +12,7 @@ import com.hts.web.common.pojo.HTWorldComment;
 import com.hts.web.common.pojo.HTWorldCommentDto;
 import com.hts.web.common.pojo.HTWorldCommentReId;
 import com.hts.web.common.pojo.HTWorldCommentUser;
+import com.hts.web.common.pojo.MsgCommentDto;
 
 /**
  * <p>
@@ -272,5 +273,30 @@ public interface HTWorldCommentDao extends BaseDao {
 	 * @return
 	 */
 	public Integer queryValid(Integer id);
+	
+	/**
+	 * 查询评论消息列表
+	 * 
+	 * @param authorId
+	 * @param rowSelection
+	 * @return
+	 * 
+	 * @version 3.0.5
+	 * @author lynch 2015-09-28
+	 */
+	public List<MsgCommentDto> queryMsg(Integer authorId, RowSelection rowSelection);
+	
+	/**
+	 * 查询评论消息列表
+	 * 
+	 * @param maxId
+	 * @param authorId
+	 * @param rowSelection
+	 * @return
+	 * 
+	 * @version 3.0.5
+	 * @author lynch 2015-09-28
+	 */
+	public List<MsgCommentDto> queryMsg(Integer maxId, Integer authorId, RowSelection rowSelection);
 	
 }

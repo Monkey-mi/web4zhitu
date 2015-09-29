@@ -450,6 +450,24 @@ public class UserInteractAction extends BaseAction {
 		return StrutsKey.JSON;
 	}
 	
+	/**
+	 * 查询所有关注列表
+	 * 
+	 * @return
+	 * 
+	 * @version 3.0.5
+	 * @author lynch 2015-09-22
+	 */
+	public String queryAllConcern() {
+		try {
+			userInteractService.queryAllConcern(getCurrentLoginUserId(), jsonMap);
+			JSONUtil.optSuccess(jsonMap);
+		} catch(Exception e) {
+			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+		}
+		return StrutsKey.JSON;
+	}
+	
 	public UserInteractService getUserInteractService() {
 		return userInteractService;
 	}

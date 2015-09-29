@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,7 @@ import com.hts.web.userinfo.dao.UserLabelDao;
 import com.hts.web.userinfo.dao.UserVerifyCacheDao;
 import com.hts.web.userinfo.service.UserInfoService;
 import com.hts.web.userinfo.service.UserInteractService;
+import com.hts.web.userinfo.service.UserMsgService;
 
 /**
  * <p>
@@ -102,6 +104,11 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 	public static final int UN_BIND_LOGIN_PLATFORM = 8;
 	
 	/**
+	 * 用户名不存在错误
+	 */
+	public static final int USER_NAME_NOT_EXITS_ERROR = 9;
+	
+	/**
 	 * 账号错误提示
 	 */
 	public static final String TIP_LOGIN_CODE_ERROR = "账号错误";
@@ -149,7 +156,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 	
 	private static final float VER_MAX = 999.99f;
 	
-	private static final String DEFAULT_NAME = "该用户未设置名字";
+//	private static final String DEFAULT_NAME = "该用户未设置名字";
 	
 	private static final String DEFAULT_AVATAR_L = "http://static.imzhitu.com/avatar/m/no-avatar-l.png";
 	
@@ -200,6 +207,9 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 	@Autowired
 	private StatUserRegisterCacheDao statUserRegisterCacheDao;
 	
+	@Autowired
+	private UserMsgService userMsgService;
+	
 	public Integer getOfficialId() {
 		return officialId;
 	}
@@ -228,7 +238,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 			String job, String pushToken, Integer phoneCode, String phoneSys, String phoneVer,
 			Float ver) throws Exception {
 		UserInfo userInfo = null;
-		userName = StringUtil.checkIsNULL(DEFAULT_NAME) ? DEFAULT_NAME : StringUtil.filterXSS(userName);
+		userName = StringUtil.trimName(userName);
 		if(userInfoDao.checkLoginCodeExists(loginCode, PlatFormCode.ZHITU) == Tag.TRUE) { //判断账号是否存在
 			throw new HTSException(TIP_LOGIN_CODE_EXIST, LOGIN_CODE_EXIST);
 		}
@@ -370,7 +380,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 			Integer phoneCode, String phoneSys, String phoneVer, Float ver, String platformUnionId) throws Exception {
 		userAvatar = StringUtil.checkIsNULL(userAvatar) ? DEFAULT_AVATAR_S : userAvatar;
 		userAvatarL = filterUserAvatarL(userAvatarL, userAvatar);
-		userName = StringUtil.checkIsNULL(userName) ? DEFAULT_NAME : StringUtil.filterXSS(userName);
+		userName = StringUtil.trimName(userName);
 		pushToken = StringUtil.checkIsNULL(pushToken) ? null : pushToken;
 		platformReason = platformReason != null && platformReason.length() > PLATFORM_REASON_MAX_LENGTH 
 				? platformReason.substring(0, PLATFORM_REASON_MAX_LENGTH) : platformReason;
@@ -603,10 +613,27 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 	
 	
 	@Override
-	public UserInfo getUserInfoById(Integer userId, Integer joinId, boolean trimSocialAccount,
-			boolean trimSocialAccountInfo) throws HTSException {
+	public UserInfo getUserInfoById(Integer userId, Integer joinId,
+			boolean trimSocialAccount, boolean trimSocialAccountInfo,
+			Integer atIndex, String atName, Integer objType, Integer objId) throws Exception {
 		UserInfo userInfo = null;
-		userInfo = userInfoDao.queryUserInfoById(userId);
+		
+		// 从at入口查询用户信息
+		if(atIndex != null) {
+			userId = userMsgService.queryAtId(objType, objId, atIndex, atName);
+			if(userId == 0)
+				throw new HTSException(TIP_USER_NAME_NOT_EXIST, USER_NAME_NOT_EXITS_ERROR);
+			else { 
+				userInfo = userInfoDao.queryUserInfoById(userId);
+				if(!userInfo.getUserName().equals(atName)) // 用户改名,提示找不到用户
+					throw new HTSException(TIP_USER_NAME_NOT_EXIST, USER_NAME_NOT_EXITS_ERROR);
+			}
+				
+			
+		} else {
+			userInfo = userInfoDao.queryUserInfoById(userId);
+		}
+		
 		if(joinId != 0 && !userId.equals(joinId)) {
 			userInfo.setIsMututal(userConcernDao.queryIsMututal(joinId, userId));
 			userInfo.setPlatformToken(null);
@@ -638,7 +665,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 			Integer sex, String email, String address, Date birthday, String province, 
 			String city, Double longitude, Double latitude, String oriPassword, String password) throws Exception {
 		UserInfo userInfo = userInfoDao.queryUserInfoWithPassById(userId);
-		userName = StringUtil.filterXSS(userName);
+		userName = StringUtil.trimName(userName);
 		address = StringUtil.filterXSS(address);
 		province = StringUtil.filterXSS(province);
 		city = StringUtil.filterXSS(city);
@@ -701,10 +728,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 		
 		userAvatarL = StringUtil.replaceQiniuDomain(userAvatarL);
 		userAvatar = StringUtil.replaceQiniuDomain(userAvatar);
-		
-		// 过滤空字符串
-		if(!StringUtil.checkIsNULL(userName))
-			userInfo.setUserName(userName);
+		userName = StringUtil.trimName(userName);
 		
 		if(!StringUtil.checkIsNULL(address))
 		{
@@ -719,6 +743,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 		if(!StringUtil.checkIsNULL(city))
 			userInfo.setCity(city);
 		
+		userInfo.setUserName(userName);
 		userInfo.setUserAvatar(userAvatar);
 		userInfo.setUserAvatarL(userAvatarL);
 		userInfo.setSex(sex);
@@ -788,7 +813,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 	@Override
 	public void updateUserName(Integer userId, String userName)
 			throws Exception {
-		userName = StringUtil.filterXSS(userName);
+		userName = StringUtil.trimName(userName);
 		osUserService.updateUserWithoutNULL(userId, userName, null, null, null, null, null);
 		userInfoDao.updateUserName(userId, userName);
 	}
@@ -968,5 +993,6 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 		}
 		jsonMap.put(OptResult.JSON_KEY_USER_INFO, avatar);
 	}
+
 
 }

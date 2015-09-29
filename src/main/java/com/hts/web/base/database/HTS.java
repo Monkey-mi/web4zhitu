@@ -341,4 +341,20 @@ public class HTS {
 	 */
 	public static final String OPERATIONS_CHANNEL_LINK = DB + "operations_channel_link";
 	
+
+	/**
+	 * AT消息表
+	 */
+	public static final String USER_MSG_AT = DB + "user_msg_at";
+	
+	/**
+	 * 织图AT消息表
+	 */
+	public static final String USER_MSG_AT_WORLD = DB + "user_msg_at_world";
+	
+	/**
+	 * 评论AT消息表
+	 */
+	public static final String USER_MSG_AT_COMMENT = DB + "user_msg_at_comment";
+	
 }

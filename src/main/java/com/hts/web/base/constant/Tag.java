@@ -459,4 +459,14 @@ public class Tag {
 	public static final int VERIFY_SUPER_STAR_ID = 10030;
 	
 	
+	/**
+	 * AT类型:织图
+	 */
+	public static final int AT_TYPE_WORLD = 1;
+	
+	/**
+	 * AT类型:评论
+	 */
+	public static final int AT_TYPE_COMMENT = 2;
+	
 }

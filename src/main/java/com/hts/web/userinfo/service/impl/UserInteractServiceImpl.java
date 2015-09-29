@@ -20,6 +20,7 @@ import com.hts.web.common.SerializableSinceIdListAdapter;
 import com.hts.web.common.pojo.ObjectWithUserRemark;
 import com.hts.web.common.pojo.PushStatus;
 import com.hts.web.common.pojo.UserConcern;
+import com.hts.web.common.pojo.UserConcernAvatar;
 import com.hts.web.common.pojo.UserConcernDto;
 import com.hts.web.common.pojo.UserConcernType;
 import com.hts.web.common.pojo.UserFollowDto;
@@ -110,6 +111,11 @@ public class UserInteractServiceImpl extends BaseServiceImpl implements UserInte
 	
 	@Autowired
 	private UserConcernService userConcernService;
+	
+	/**
+	 * 关注最大数量
+	 */
+	private static final int MAX_CONCERN_LIMIT = 2000;
 	
 	@Override
 	public List<PushStatus> batchSaveConcern(Boolean im, Integer userId, String concernIdsStr) throws Exception {
@@ -723,6 +729,12 @@ public class UserInteractServiceImpl extends BaseServiceImpl implements UserInte
 		}
 		userConcernService.extractIsMututal(userId, list);
 		jsonMap.put(OptResult.JSON_KEY_IS_MUTUTAL, list);
+	}
+
+	@Override
+	public void queryAllConcern(Integer userId, Map<String, Object> jsonMap) throws Exception {
+		jsonMap.put(OptResult.JSON_KEY_CONCERNS,
+				userConcernDao.queryConcernAvatar(userId, MAX_CONCERN_LIMIT));
 	}
 
 }

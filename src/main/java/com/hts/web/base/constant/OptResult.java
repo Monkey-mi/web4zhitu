@@ -543,6 +543,10 @@ public class OptResult {
 	 */
 	public static final String JSON_KEY_REC_MSG = "recMsg";
 	
+	/**
+	 * atPushStatus
+	 */
+	public static final String JSON_KEY_AT_PUSH_STATUS = "atPushStatus";
 	
 }
 

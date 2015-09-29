@@ -21,6 +21,7 @@ import com.hts.web.base.database.RowSelection;
 import com.hts.web.base.database.SQLUtil;
 import com.hts.web.common.dao.impl.BaseDaoImpl;
 import com.hts.web.common.pojo.UserConcern;
+import com.hts.web.common.pojo.UserConcernAvatar;
 import com.hts.web.common.pojo.UserConcernDto;
 import com.hts.web.common.pojo.UserConcernName;
 import com.hts.web.common.pojo.UserFollowDto;
@@ -49,6 +50,11 @@ public class UserConcernDaoImpl extends BaseDaoImpl implements UserConcernDao{
 	public static final String CONCERN_USER_INFO = "u.user_name,u.user_avatar,"
 			+ "u.user_avatar_l,u.sex,u.user_label,u.address,u.province,u.city,"
 			+ "u.signature,u.platform_sign,u.star,u.online,u.platform_verify";
+	
+	/**
+	 * 关注头像信息
+	 */
+	private static final String CONCERN_AVATAR = "u0.id,u0.user_name,u0.user_avatar";
 	
 	/**
 	 * 关注人用户名信息
@@ -317,6 +323,110 @@ public class UserConcernDaoImpl extends BaseDaoImpl implements UserConcernDao{
 			+ " from " + table + " ur0, " + HTS.USER_INFO + " as u0"
 			+ " where u0.id=ur0.concern_id and ur0.user_id=? and ur0.valid=1 and u0.shield=0 limit ?,1";
 	
+	
+	private static final String QUERY_CONCERN_AVATAR = "select " + CONCERN_AVATAR
+			+ " from " + table + " ur0," + HTS.USER_INFO + " u0"
+			+ " where ur0.concern_id=u0.id and ur0.valid=1 and ur0.user_id=?"
+			+ " order by ur0.id desc limit ?";
+	
+	
+	/**
+	 * 从结果集构建UserConcern对象
+	 * @param res
+	 * @return
+	 * @throws SQLException 
+	 */
+	public static UserConcern buildUserConcernByResult(ResultSet rs) throws SQLException {
+		return new UserConcern(
+				rs.getInt("id"),
+				rs.getInt("user_id"),
+				rs.getInt("concern_id"),
+				rs.getInt("is_mututal"), 
+				(Date)rs.getObject("concern_date"),
+				rs.getInt("ck"), 
+				rs.getInt("valid"));
+	}
+	
+	/**
+	 * 从结果集构建UserConcernDto对象
+	 * @param res
+	 * @return
+	 * @throws SQLException 
+	 */
+	public static UserConcernDto buildUserConcernDtoByResultSet(ResultSet rs) throws SQLException {
+		UserConcernDto dto = new UserConcernDto(
+				rs.getInt("id"),
+				rs.getInt("user_id"),
+				rs.getInt("concern_id"),
+				getIsMututal(rs),
+				(Date)rs.getObject("concern_date"),
+				rs.getInt("ck"),
+				rs.getString("user_name"),
+				rs.getInt("sex"),
+				rs.getString("user_avatar"),
+				rs.getString("user_avatar_l"),
+				rs.getString("user_label"),
+				rs.getString("address"),
+				rs.getString("province"),
+				rs.getString("city"),
+				rs.getString("signature"),
+				rs.getString("platform_sign"),
+				rs.getInt("star"),
+				rs.getInt("online"),
+				rs.getInt("platform_verify"));
+		return dto;
+	}
+	
+	public static UserFollowDto buildUserFollowDtoByResultSet(ResultSet rs) throws SQLException {
+		UserFollowDto dto = new UserFollowDto(
+				rs.getInt("id"),
+				rs.getInt("user_id"),
+				rs.getInt("concern_id"),
+				getIsMututal(rs),
+				(Date)rs.getObject("concern_date"),
+				rs.getInt("ck"),
+				rs.getInt("is_new"),
+				rs.getString("user_name"),
+				rs.getInt("sex"),
+				rs.getString("user_avatar"),
+				rs.getString("user_avatar_l"),
+				rs.getString("user_label"),
+				rs.getString("address"),
+				rs.getString("province"),
+				rs.getString("city"),
+				rs.getString("signature"),
+				rs.getString("platform_sign"),
+				rs.getInt("star"),
+				rs.getInt("online"),
+				rs.getInt("platform_verify"));
+		return dto;
+	}
+	
+	/**
+	 * 获取用户关联关系
+	 * @param rs
+	 * @return
+	 * @throws SQLException
+	 */
+	public static int getIsMututal(ResultSet rs) throws SQLException {
+		Object isMutualObj = rs.getObject("is_mututal");
+		int isMututal = Tag.UN_CONCERN;
+		if(isMutualObj != null) {
+			isMututal = (Integer)isMutualObj;
+		}
+		
+		return isMututal;
+	}
+	
+	public UserConcernAvatar buildAvatar(ResultSet rs) throws SQLException {
+		UserConcernAvatar avatar = new UserConcernAvatar();
+		avatar.setId(rs.getInt("id"));
+		avatar.setUserName(rs.getString("user_name"));
+		avatar.setUserAvatar(rs.getString("user_avatar"));
+		return avatar;
+	}
+
+	
 	@Override
 	public UserConcern queryConcern(Integer userId, Integer concernId){
 		return queryForObjectWithNULL(QUERY_CONCERN_WITH_LOCK, new RowMapper<UserConcern>(){
@@ -559,13 +669,6 @@ public class UserConcernDaoImpl extends BaseDaoImpl implements UserConcernDao{
 				new Object[]{concernId});
 	}
 	
-//	@Override
-//	public void updateConcernCK(Integer userId, Integer concernId){
-//		getMasterJdbcTemplate().update(UPDATE_CONCERN_CK_BY_UID, new Object[]{
-//			Tag.TRUE, userId, concernId, Tag.FALSE
-//		});
-//	}
-	
 	@Override
 	public void updatePushed(Integer id, Integer valid) {
 		getMasterJdbcTemplate().update(UPDATE_PUSHED, new Object[]{valid,id});
@@ -742,94 +845,6 @@ public class UserConcernDaoImpl extends BaseDaoImpl implements UserConcernDao{
 		getMasterJdbcTemplate().update(UPDATE_IS_NEW, concernId);
 	}
 	
-	/**
-	 * 从结果集构建UserConcern对象
-	 * @param res
-	 * @return
-	 * @throws SQLException 
-	 */
-	public static UserConcern buildUserConcernByResult(ResultSet rs) throws SQLException {
-		return new UserConcern(
-				rs.getInt("id"),
-				rs.getInt("user_id"),
-				rs.getInt("concern_id"),
-				rs.getInt("is_mututal"), 
-				(Date)rs.getObject("concern_date"),
-				rs.getInt("ck"), 
-				rs.getInt("valid"));
-	}
-	
-	/**
-	 * 从结果集构建UserConcernDto对象
-	 * @param res
-	 * @return
-	 * @throws SQLException 
-	 */
-	public static UserConcernDto buildUserConcernDtoByResultSet(ResultSet rs) throws SQLException {
-		UserConcernDto dto = new UserConcernDto(
-				rs.getInt("id"),
-				rs.getInt("user_id"),
-				rs.getInt("concern_id"),
-				getIsMututal(rs),
-				(Date)rs.getObject("concern_date"),
-				rs.getInt("ck"),
-				rs.getString("user_name"),
-				rs.getInt("sex"),
-				rs.getString("user_avatar"),
-				rs.getString("user_avatar_l"),
-				rs.getString("user_label"),
-				rs.getString("address"),
-				rs.getString("province"),
-				rs.getString("city"),
-				rs.getString("signature"),
-				rs.getString("platform_sign"),
-				rs.getInt("star"),
-				rs.getInt("online"),
-				rs.getInt("platform_verify"));
-		return dto;
-	}
-	
-	public static UserFollowDto buildUserFollowDtoByResultSet(ResultSet rs) throws SQLException {
-		UserFollowDto dto = new UserFollowDto(
-				rs.getInt("id"),
-				rs.getInt("user_id"),
-				rs.getInt("concern_id"),
-				getIsMututal(rs),
-				(Date)rs.getObject("concern_date"),
-				rs.getInt("ck"),
-				rs.getInt("is_new"),
-				rs.getString("user_name"),
-				rs.getInt("sex"),
-				rs.getString("user_avatar"),
-				rs.getString("user_avatar_l"),
-				rs.getString("user_label"),
-				rs.getString("address"),
-				rs.getString("province"),
-				rs.getString("city"),
-				rs.getString("signature"),
-				rs.getString("platform_sign"),
-				rs.getInt("star"),
-				rs.getInt("online"),
-				rs.getInt("platform_verify"));
-		return dto;
-	}
-	
-	/**
-	 * 获取用户关联关系
-	 * @param rs
-	 * @return
-	 * @throws SQLException
-	 */
-	public static int getIsMututal(ResultSet rs) throws SQLException {
-		Object isMutualObj = rs.getObject("is_mututal");
-		int isMututal = Tag.UN_CONCERN;
-		if(isMutualObj != null) {
-			isMututal = (Integer)isMutualObj;
-		}
-		
-		return isMututal;
-	}
-
 	@Override
 	public UserConcernName queryConcernName(Integer userId, Integer start) {
 		try {
@@ -849,6 +864,20 @@ public class UserConcernDaoImpl extends BaseDaoImpl implements UserConcernDao{
 		} catch(EmptyResultDataAccessException e) {
 			return null;
 		}
+	}
+
+	@Override
+	public List<UserConcernAvatar> queryConcernAvatar(Integer userId, Integer limit) {
+		return getJdbcTemplate().query(QUERY_CONCERN_AVATAR, 
+				new Object[]{userId, limit}, 
+				new RowMapper<UserConcernAvatar>() {
+
+					@Override
+					public UserConcernAvatar mapRow(ResultSet rs, int rowNum) throws SQLException {
+						return buildAvatar(rs);
+					}
+			
+		});
 	}
 
 

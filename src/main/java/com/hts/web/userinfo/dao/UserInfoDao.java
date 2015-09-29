@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.hts.web.base.database.RowSelection;
 import com.hts.web.common.dao.BaseDao;
@@ -634,5 +635,14 @@ public interface UserInfoDao extends BaseDao {
 	public List<Integer> queryUID();
 	
 	public void updateShortLink(Integer uid, String shortLink);
+	
+	/**
+	 * 查询不接受at的用户ids
+	 * 
+	 * @param uids
+	 * @return
+	 * @throws Exception
+	 */
+	public Set<Integer> queryNotAcceptAtUIds(Integer[] uids) throws Exception;
 	
 }

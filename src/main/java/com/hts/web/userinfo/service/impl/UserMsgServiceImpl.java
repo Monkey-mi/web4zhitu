@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +32,13 @@ import com.hts.web.common.pojo.HTWorldLikeMe;
 import com.hts.web.common.pojo.HTWorldLikeMeRelate;
 import com.hts.web.common.pojo.HTWorldLikeMeThumb;
 import com.hts.web.common.pojo.HTWorldLiked;
+import com.hts.web.common.pojo.MsgAt;
+import com.hts.web.common.pojo.MsgAtDto;
+import com.hts.web.common.pojo.MsgAtId;
+import com.hts.web.common.pojo.MsgCommentDto;
 import com.hts.web.common.pojo.OpSysMsg;
 import com.hts.web.common.pojo.OpSysMsgDto;
+import com.hts.web.common.pojo.PushStatus;
 import com.hts.web.common.pojo.UserInfoAvatar;
 import com.hts.web.common.pojo.UserInfoDto;
 import com.hts.web.common.pojo.UserIsMututal;
@@ -54,6 +60,9 @@ import com.hts.web.common.util.UserInfoUtil;
 import com.hts.web.operations.dao.SysMsgDao;
 import com.hts.web.push.service.PushService;
 import com.hts.web.push.service.impl.PushServiceImpl.PushFailedCallback;
+import com.hts.web.userinfo.dao.MsgAtCommentDao;
+import com.hts.web.userinfo.dao.MsgAtDao;
+import com.hts.web.userinfo.dao.MsgAtWorldDao;
 import com.hts.web.userinfo.dao.UserConcernDao;
 import com.hts.web.userinfo.dao.UserInfoDao;
 import com.hts.web.userinfo.dao.UserMsgDao;
@@ -141,6 +150,18 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 	
 	@Autowired
 	private OpenSearchService openSearchService;
+	
+	@Autowired
+	private MsgAtDao atDao;
+	
+	@Autowired
+	private MsgAtWorldDao atWorldDao;
+	
+	@Autowired
+	private MsgAtCommentDao atCommentDao;
+	
+	@Autowired
+	private HTWorldCommentDao commentDao;
 	
 	@Value("${msg.squareRuleMsg}")
 	private String squareRuleMsg ;
@@ -964,6 +985,163 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 					}
 			
 		});
+	}
+	
+	@Override
+	public List<PushStatus> saveAtMsgs(Integer userId, Integer objType, Integer objId, Integer worldId,
+			String content, String atIdsStr, String atNamesStr) throws Exception {
+		List<PushStatus> statusList;
+		Integer[] atIds;
+		String[] atNames;
+		MsgAt[] msgs;
+		Set<Integer> shieldSet;
+		Set<Integer> noAcceptAtSet;
+
+		if(StringUtil.checkIsNULL(atIdsStr) || StringUtil.checkIsNULL(atNamesStr)) {
+			return null;
+		}
+		
+		atIds = StringUtil.convertStringToIds(atIdsStr);
+		atNames = StringUtil.convertStringToStrs(atNamesStr);
+		shieldSet = userShieldDao.queryWhoShieldMe(atIds, userId);
+		noAcceptAtSet = userInfoDao.queryNotAcceptAtUIds(atIds);
+		
+		if(atIds.length != atNames.length) {
+			throw new HTSException("at ids length must be equals at names length");
+		}
+		
+		statusList = new ArrayList<PushStatus>();
+		msgs = new MsgAt[atIds.length];
+		
+		for(int i = 0; i < atIds.length;i++) {
+			Integer id;
+			MsgAt msg;
+			PushStatus status;
+			int accept;
+			int shield;
+			
+			id = keyGenService.generateId(KeyGenServiceImpl.MSG_AT_ID);
+			msg = new MsgAt();
+			
+			msg.setId(id);
+			msg.setUserId(userId);
+			msg.setAtId(atIds[i]);
+			msg.setObjId(objId);
+			msg.setObjType(objType);
+			msg.setWorldId(worldId);
+			msg.setAtName(atNames[i]);
+			msg.setContent(content);
+			msgs[i] = msg;
+			
+			status = new PushStatus();
+			accept = noAcceptAtSet.contains(atIds[i]) ? Tag.FALSE : Tag.TRUE;
+			shield = shieldSet.contains(atIds[i]) ? Tag.TRUE : Tag.FALSE;
+			
+			status.setId(objId);
+			status.setAccept(accept);
+			status.setUserId(atIds[i]);
+			status.setShield(shield);
+			statusList.add(status);
+		}
+		
+		switch (objType) {
+		case Tag.AT_TYPE_WORLD:
+			atWorldDao.saveAtMsgs(msgs);
+			break;
+			
+		case Tag.AT_TYPE_COMMENT:
+			atCommentDao.saveAtMsgs(msgs);
+			break;
+			
+		default:
+			break;
+		}
+		
+		atDao.saveAtMsgs(msgs);
+		
+		return statusList;
+		
+	}
+
+	@Override
+	public Integer queryAtId(Integer objType, Integer objId, Integer index, 
+			String atName) throws Exception {
+		Integer atId;
+		MsgAtId msg;
+		
+		atId = 0;
+		msg = null;
+		
+		switch (objType) {
+		case Tag.AT_TYPE_WORLD:
+			msg = atWorldDao.queryAtId(objId, index);
+			break;
+		case Tag.AT_TYPE_COMMENT:
+			msg = atCommentDao.queryAtId(objId, index);
+			break;
+		default:
+			break;
+		}
+		
+		if(msg != null && atName != null && atName.equals(msg.getAtName()))
+			atId = msg.getAtId();
+		
+		return atId;
+	}
+
+	@Override
+	public Integer queryUnReadAtCount(Integer atId) throws Exception {
+		return atDao.queryUnCheckCount(atId).intValue();
+	}
+
+	@Override
+	public void updateAtCK(Integer atId) throws Exception {
+		atDao.updateCK(atId);
+	}
+	
+	@Override
+	public void buildAtMsg(final Integer atId, Integer maxId, Integer start, Integer limit,
+			Map<String, Object> jsonMap) throws Exception {
+		buildSerializables(maxId, start, limit, jsonMap, new SerializableListAdapter<MsgAtDto>() {
+
+			@Override
+			public List<MsgAtDto> getSerializables(RowSelection rowSelection) throws Exception {
+				return atDao.queryMsg(atId, rowSelection);
+			}
+
+			@Override
+			public List<MsgAtDto> getSerializableByMaxId(int maxId, RowSelection rowSelection) {
+				return atDao.queryMsg(maxId, atId, rowSelection);
+			}
+
+			@Override
+			public long getTotalByMaxId(int maxId) throws Exception {
+				return 0;
+			}
+		}, OptResult.JSON_KEY_MSG, null);
+	}
+	
+	@Override
+	public void buildCommentMsg(final Integer worldAuthorId, Integer maxId, 
+			Integer start, Integer limit, Map<String, Object> jsonMap) throws Exception {
+		buildSerializables(maxId, start, limit, jsonMap, new SerializableListAdapter<MsgCommentDto>() {
+
+			@Override
+			public List<MsgCommentDto> getSerializables(RowSelection rowSelection) throws Exception {
+				return commentDao.queryMsg(worldAuthorId, rowSelection);
+			}
+
+			@Override
+			public List<MsgCommentDto> getSerializableByMaxId(int maxId, RowSelection rowSelection) {
+				return commentDao.queryMsg(maxId, worldAuthorId, rowSelection);
+			}
+
+			@Override
+			public long getTotalByMaxId(int maxId) throws Exception {
+				return 0;
+			}
+			
+		}, OptResult.JSON_KEY_MSG, null);
 	}
 
 }

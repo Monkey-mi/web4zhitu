@@ -39,9 +39,10 @@ public class ZTWorldInteractServiceTest extends BaseTest {
 	
 	@Test
 	public void testSaveComment() throws Exception {
-		PushStatus status = service.saveComment(false, 14316, 1550, 1549, "呵呵光圈" + new Date().getTime());
-		JSONObject jsObj = JSONObject.fromObject(status);
-		logger.debug(jsObj);
+		Map<String, Object> jsonMap = new HashMap<String, Object>();
+		service.saveComment(false, 14316, 1550, 1549, 
+				"呵呵光圈" + new Date().getTime(), null, null, jsonMap);
+		logger.debug(jsonMap);
 	}
 	
 	@Test
@@ -53,9 +54,10 @@ public class ZTWorldInteractServiceTest extends BaseTest {
 	
 	@Test
 	public void saveReply() throws Exception {
-		PushStatus status = service.saveReply(true, 14316, null, 1591, "@朱天杰 : zt666", 22919,485);
-		JSONObject jsObj = JSONObject.fromObject(status);
-		logger.debug(jsObj);
+		Map<String, Object> jsonMap = new HashMap<String, Object>();
+		service.saveReply(true, 14316, null, 1591,
+				" @朱天杰 : zt666", 22919,485, null,null,jsonMap);
+		logger.debug(jsonMap);
 	}
 	
 	@Test

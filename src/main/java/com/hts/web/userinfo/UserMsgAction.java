@@ -428,6 +428,44 @@ public class UserMsgAction extends BaseAction {
 		return StrutsKey.JSON;
 	}
 	
+	/**
+	 * 查询AT消息列表
+	 * 
+	 * @return
+	 * 
+	 * @version 3.0.5
+	 * @author lynch 2015-09-28
+	 */
+	public String queryAtMsg() {
+		try {
+			userMsgService.buildAtMsg(getCurrentLoginUserId(),
+					maxId, start, limit, jsonMap);
+			JSONUtil.optSuccess(jsonMap);
+		} catch (Exception e) {
+			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+		}
+		return StrutsKey.JSON;
+	}
+
+	/**
+	 * 查询评论消息列表
+	 * 
+	 * @return
+	 * 
+	 * @version 3.0.5
+	 * @author lynch 2015-09-28
+	 */
+	public String queryCommentMsg() {
+		try {
+			userMsgService.buildCommentMsg(getCurrentLoginUserId(),
+					maxId, start, limit, jsonMap);
+			JSONUtil.optSuccess(jsonMap);
+		} catch (Exception e) {
+			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+		}
+		return StrutsKey.JSON;
+	}
+	
 	public Integer getId() {
 		return id;
 	}

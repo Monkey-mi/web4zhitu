@@ -196,4 +196,33 @@ public class UserMsgServiceTest extends BaseTest {
 			}
 		});
 	}
+	
+	@Test
+	public void saveMsgsTest() throws Exception {
+//		service.saveAtMsgs(485, Tag.AT_TYPE_WORLD, 28226,
+//				28226, "哈哈哈你好@'''lynch @tom", "1939,1595", "'''lynch,tom");
+	}
+	
+	@Test
+	public void buildAtMsgTest() throws Exception {
+		logNumberList(log, new NumberListAdapter() {
+			
+			@Override
+			public void buildNumberList(Map<String, Object> jsonMap) throws Exception {
+				service.buildAtMsg(1939, 100, 1, 10, jsonMap);
+			}
+		});
+	}
+	
+	@Test
+	public void buildCommentMsgTest() throws Exception {
+		logNumberList(log, new NumberListAdapter() {
+			
+			@Override
+			public void buildNumberList(Map<String, Object> jsonMap) throws Exception {
+				service.buildCommentMsg(485, 0, 1, 10, jsonMap);
+			}
+		});
+	}
+	
 }

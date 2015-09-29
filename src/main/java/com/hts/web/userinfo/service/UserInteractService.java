@@ -327,5 +327,19 @@ public interface UserInteractService extends BaseService {
 	public void buildIsMututal(Integer userId, String cidstr, 
 			Map<String, Object> jsonMap) throws Exception;
 	
+	
+	/**
+	 * 查询所有关注列表
+	 * 
+	 * @param userId
+	 * @param limit
+	 * @throws Exception
+	 * 
+	 * @Version 3.0.5
+	 * @author lynch 2015-09-22
+	 * 
+	 */
+	public void queryAllConcern(Integer userId, Map<String, Object> jsonMap) throws Exception;
+	
 
 }

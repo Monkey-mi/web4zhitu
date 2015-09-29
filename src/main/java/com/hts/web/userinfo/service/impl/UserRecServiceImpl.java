@@ -59,19 +59,23 @@ public class UserRecServiceImpl extends BaseServiceImpl implements
 		if(loginCodes != null) {
 			String[] codes = loginCodes.split(",");
 			if(codes.length > 0) {
+				List<Integer> cids = new ArrayList<Integer>();
 				for(String c : codes) {
 					try {
 						Integer cid = userInfoDao.queryUIDByLoginCode(c, PlatFormCode.SINA);
 						if(cid != null && cid != 0) {
 							Integer cidExist = platConcernDao.queryCid(userId, cid);
 							if(cidExist == null || cidExist == 0) {
-								platConcernDao.savePlatConcern(userId, cid);
+								cids.add(cidExist);
 							}
 						}
 					} catch(Exception e) {
 						log.warn("save platform concern error:" 
 								+ "uid=" + userId + ",logincode=" + c + "plat=" + PlatFormCode.SINA);
 					}
+				}
+				if(!cids.isEmpty()) {
+					platConcernDao.savePlatConcern(userId, cids);
 				}
 			}
 		}

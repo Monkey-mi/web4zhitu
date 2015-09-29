@@ -3,6 +3,7 @@ package com.hts.web.userinfo.service;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.hts.web.base.HTSException;
 import com.hts.web.common.pojo.ObjectWithUserVerify;
@@ -210,11 +211,16 @@ public interface UserInfoService extends BaseService {
 	 * @param joinId
 	 * @param trimSocialAccount
 	 * @param trimSocialAccountInfo
+	 * @param atIndex
+	 * @param atName
+	 * @param objType
+	 * @param objId
 	 * @return
-	 * @throws HTSException 
+	 * @throws Exception
 	 */
 	public UserInfo getUserInfoById(Integer userId, Integer joinId, 
-			boolean trimSocialAccount, boolean trimSocialAccountInfo) throws Exception;
+			boolean trimSocialAccount, boolean trimSocialAccountInfo, 
+			Integer atIndex, String atName, Integer objType, Integer objId) throws Exception;
 	
 	/**
 	 * 更新个人资料
@@ -441,16 +447,6 @@ public interface UserInfoService extends BaseService {
 	public void pushRecommandUser(String platformId, String platformToken, Integer userId, String userName) throws Exception;
 	
 	/**
-	 * 更新登录状态
-	 * 
-	 * @param pushToken
-	 * @param exceptId
-	 * @param online
-	 * @throws Exception
-	 */
-//	public void updateOnlineByPushToken(String pushToken, Integer exceptId, Integer online) throws Exception;
-	
-	/**
 	 * 构建用户头像信息
 	 * 
 	 * @param id
@@ -459,4 +455,5 @@ public interface UserInfoService extends BaseService {
 	public void buildUserAvatarLite(Integer id, 
 			Map<String, Object> jsonMap) throws Exception;
 	
+
 }

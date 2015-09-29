@@ -13,6 +13,7 @@ import com.hts.web.common.BaseAction;
 import com.hts.web.common.pojo.HTWorldGeo;
 import com.hts.web.common.pojo.PushStatus;
 import com.hts.web.common.util.JSONUtil;
+import com.hts.web.operations.service.UserOperationsService;
 import com.hts.web.ztworld.service.ZTWorldInteractService;
 import com.hts.web.ztworld.service.ZTWorldService;
 
@@ -51,12 +52,17 @@ public class ZTWorldInteractAction extends BaseAction {
 	private Integer reAuthorId;
 	private Boolean im = false;
 	private String ids;
+	private String atIds;
+	private String atNames;
 	
 	@Autowired
 	private ZTWorldInteractService worldInteractService;
 	
 	@Autowired
 	private ZTWorldService worldService;
+	
+	@Autowired
+	private UserOperationsService userOptService;
 	
 	/*
 	 * 评论子模块
@@ -84,16 +90,30 @@ public class ZTWorldInteractAction extends BaseAction {
 	 */
 	public String addComment() {
 		try {
-			PushStatus status = worldInteractService.saveComment(im, worldId, worldAuthorId, 
-					getCurrentLoginUserId(), content);
-			
-			jsonMap.put(OptResult.JSON_KEY_COMMENT, status.getInteractRes());
-			jsonMap.put(OptResult.JSON_KEY_PHONE, status.getPhone());
-			jsonMap.put(OptResult.JSON_KEY_ACCEPT, status.getAccept());
-			jsonMap.put(OptResult.JSON_KEY_SHIELD, status.getShield());
-			jsonMap.put(OptResult.JSON_KEY_IS_MUTUTAL, status.getIsMututal());
-			jsonMap.put(OptResult.JSON_KEY_USER_ID, status.getUserId());
-			jsonMap.put(OptResult.JSON_KEY_REMARK_ME, status.getRemarkMe());
+			worldInteractService.saveComment(im, worldId, worldAuthorId, 
+					getCurrentLoginUserId(), content, atIds, atNames, jsonMap);
+			JSONUtil.optSuccess(jsonMap);
+		} catch(HTSException e) {
+			JSONUtil.optFailed(e.getErrorCode(), e.getMessage(), jsonMap);
+		} catch (Exception e) {
+			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+		}
+		return StrutsKey.JSON;
+	}
+
+	/**
+	 * 马甲发评论
+	 * 
+	 * @return
+	 * 
+	 * @version 3.0.5
+	 * @author lynch
+	 */
+	public String addComment4Zombie() {
+		try {
+			Integer zombieId = userOptService.getRandomZombieId();
+			worldInteractService.saveComment(false, worldId, worldAuthorId, 
+					zombieId, content, atIds, atNames, jsonMap);
 			JSONUtil.optSuccess(jsonMap);
 		} catch(HTSException e) {
 			JSONUtil.optFailed(e.getErrorCode(), e.getMessage(), jsonMap);
@@ -110,16 +130,9 @@ public class ZTWorldInteractAction extends BaseAction {
 	 */
 	public String replyComment() {
 		try {
-			PushStatus status = worldInteractService.saveReply(im, worldId, worldAuthorId, 
-					getCurrentLoginUserId(), content, reId, reAuthorId);
-			
-			jsonMap.put(OptResult.JSON_KEY_COMMENT, status.getInteractRes());
-			jsonMap.put(OptResult.JSON_KEY_PHONE, status.getPhone());
-			jsonMap.put(OptResult.JSON_KEY_ACCEPT, status.getAccept());
-			jsonMap.put(OptResult.JSON_KEY_SHIELD, status.getShield());
-			jsonMap.put(OptResult.JSON_KEY_IS_MUTUTAL, status.getIsMututal());
-			jsonMap.put(OptResult.JSON_KEY_USER_ID, status.getUserId());
-			jsonMap.put(OptResult.JSON_KEY_REMARK_ME, status.getRemarkMe());
+			worldInteractService.saveReply(im, worldId, worldAuthorId, 
+					getCurrentLoginUserId(), content, reId, reAuthorId, 
+					atIds, atNames, jsonMap);
 			JSONUtil.optSuccess(jsonMap);
 		} catch(HTSException e) {
 			JSONUtil.optFailed(e.getErrorCode(), e.getMessage(), jsonMap);
@@ -568,6 +581,22 @@ public class ZTWorldInteractAction extends BaseAction {
 
 	public void setIds(String ids) {
 		this.ids = ids;
+	}
+
+	public String getAtIds() {
+		return atIds;
+	}
+
+	public void setAtIds(String atIds) {
+		this.atIds = atIds;
+	}
+
+	public String getAtNames() {
+		return atNames;
+	}
+
+	public void setAtNames(String atNames) {
+		this.atNames = atNames;
 	}
 	
 }

@@ -1,7 +1,9 @@
 package com.hts.web.userinfo.service;
 
+import java.util.List;
 import java.util.Map;
 
+import com.hts.web.common.pojo.PushStatus;
 import com.hts.web.common.pojo.UserMsgStatus;
 import com.hts.web.common.service.BaseService;
 
@@ -341,6 +343,94 @@ public interface UserMsgService extends BaseService {
 	 */
 	public void buildThumbnail(String userIdStr, String worldIdStr, Integer userId,
 			Integer likeOtherUID, Integer likeMeUID, Map<String, Object> jsonMap) throws Exception;
+	
+	
+	/**
+	 * 保存at消息
+	 * 
+	 * @param userId
+	 * @param objType
+	 * @param objId
+	 * @param worldId
+	 * @param atIdsStr
+	 * @param atNamesStr
+	 * 
+	 * @version 3.0.5
+	 * @author lynch 2015-09-22
+	 */
+	public List<PushStatus> saveAtMsgs(Integer userId, Integer objType, Integer objId, Integer worldId,
+			String content, String atIdsStr, String atNamesStr) throws Exception;
+	
+	
+	/**
+	 * 查询atid
+	 * @param objType
+	 * @param objId
+	 * @param atName
+	 * @param index
+	 * @return 0表示异常
+	 * @throws Exception
+	 * 
+	 * @version 3.0.5
+	 * @author lynch 2015-09-22
+	 */
+	public Integer queryAtId(Integer objType, Integer objId, Integer index,
+			String atName) throws Exception;
+	
+	/**
+	 * 查询未读消息数量
+	 * 
+	 * @param atId
+	 * @return
+	 * @throws Exception
+	 * 
+	 * @version 3.0.5
+	 * @author lynch 2015-09-22
+	 * 
+	 */
+	public Integer queryUnReadAtCount(Integer atId) throws Exception;
+
+	
+	/**
+	 * 更新AT数量
+	 * 
+	 * @param atId
+	 * @return
+	 * @throws Exception
+	 * 
+	 * @version 3.0.5
+	 * @author lynch 2015-09-22
+	 */
+	public void updateAtCK(Integer atId) throws Exception;
+	
+	/**
+	 * 构建AT消息
+	 * 
+	 * @param atId
+	 * @param maxId
+	 * @param start
+	 * @param limit
+	 * @param jsonMap
+	 * @throws Exception
+	 */
+	public void buildAtMsg(Integer atId, Integer maxId, Integer start, Integer limit,
+			Map<String, Object> jsonMap) throws Exception;
+	
+	/**
+	 * 构建评论消息列表
+	 * 
+	 * @param worldAuthorId
+	 * @param maxId
+	 * @param start
+	 * @param limit
+	 * @param jsonMap
+	 * @throws Exception
+	 * 
+	 * @version 3.0.5
+	 * @author lynch 2015-09-28
+	 */
+	public void buildCommentMsg(final Integer worldAuthorId, Integer maxId, Integer start, Integer limit,
+			Map<String, Object> jsonMap) throws Exception;
 	
 	
 }

@@ -133,6 +133,7 @@ public class ZTWorldStickerServiceImpl extends BaseServiceImpl implements
 			id = dto.getId();
 		}
 		jsonMap.put(OptResult.JSON_KEY_MAX_ID, id);
+		jsonMap.put(OptResult.JSON_KEY_STICKER, dto);
 	}
 
 	@Override

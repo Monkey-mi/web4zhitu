@@ -335,7 +335,7 @@ public class StringUtil {
 	}
 	
 	/**
-	 * 过滤空格字符
+	 * 过滤空格字符,@,和逗号
 	 * 
 	 * @param name
 	 * @return
@@ -346,10 +346,27 @@ public class StringUtil {
 			return ANONYMOUS;
 
 		s = filterXSS(name);
-		s = name.replaceAll("\\s*@*", ""); // 删除空格和@字符
+		s = name.replaceAll("\\s*@*,*", ""); // 删除空格和@字符
 		
 		if("".equals(s))
 			s = ANONYMOUS;
+		
+		return s;
+	}
+	
+	/**
+	 * 标签过滤空格和逗号
+	 * 
+	 * @param label
+	 * @return
+	 */
+	public static String trimLabel(String label) {
+		String s;
+		if(StringUtil.checkIsNULL(label))
+			return null;
+
+		s = filterXSS(label);
+		s = label.replaceAll("\\s*,*", ""); // 删除空格和@字符
 		
 		return s;
 	}

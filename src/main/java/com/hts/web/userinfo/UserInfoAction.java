@@ -91,6 +91,10 @@ public class UserInfoAction extends BaseAction {
 	// 为了兼容2.9.88微信登录ios和android使用了不同的字段
 	private String platformUnionId; 
 	
+	private Integer atIndex;
+	private String atName;
+	private Integer objType;
+	private Integer objId;
 	
 	@Autowired
 	private UserInfoService userInfoService;
@@ -330,8 +334,11 @@ public class UserInfoAction extends BaseAction {
 	public String queryProfile() {
 		try {
 			UserInfo userInfo = userInfoService.getUserInfoById(userId, 
-					getCurrentLoginUserId(), trimSocialAccount, trimSocialAccountInfo);
+					getCurrentLoginUserId(), trimSocialAccount,trimSocialAccountInfo,
+					atIndex, atName, objType, objId);
 			JSONUtil.optResult(OptResult.OPT_SUCCESS, userInfo, OptResult.JSON_KEY_USER_INFO, jsonMap);
+		} catch(HTSException e) {
+			JSONUtil.optFailed(e.getErrorCode(), e.getMessage(), jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
 		}
@@ -952,5 +959,37 @@ public class UserInfoAction extends BaseAction {
 	public void setPlatformUnionId(String platformUnionId) {
 		this.platformUnionId = platformUnionId;
 	}
-	
+
+	public Integer getAtIndex() {
+		return atIndex;
+	}
+
+	public void setAtIndex(Integer atIndex) {
+		this.atIndex = atIndex;
+	}
+
+	public String getAtName() {
+		return atName;
+	}
+
+	public void setAtName(String atName) {
+		this.atName = atName;
+	}
+
+	public Integer getObjType() {
+		return objType;
+	}
+
+	public void setObjType(Integer objType) {
+		this.objType = objType;
+	}
+
+	public Integer getObjId() {
+		return objId;
+	}
+
+	public void setObjId(Integer objId) {
+		this.objId = objId;
+	}
+
 }

@@ -3,13 +3,17 @@ package com.hts.web.userinfo.dao.impl;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.hts.web.base.database.HTS;
 import com.hts.web.base.database.RowSelection;
+import com.hts.web.base.database.SQLUtil;
 import com.hts.web.common.dao.impl.BaseDaoImpl;
 import com.hts.web.common.pojo.UserShieldInfo;
 import com.hts.web.userinfo.dao.UserShieldDao;
@@ -69,6 +73,21 @@ public class UserShieldDaoImpl extends BaseDaoImpl implements UserShieldDao {
 	private static final String QUERY_SHIELD_IDS = "select shield_id from "
 			+ table + " where user_id=?";
 	
+	private static final String QUERY_SHIELD_ME_ID = "select user_id from "
+			+ table + " where shield_id=? and user_id in";
+	
+	public UserShieldInfo buildShieldInfo(ResultSet rs) throws SQLException {
+		return new UserShieldInfo(
+				rs.getInt("id"), 
+				rs.getInt("shield_id"), 
+				rs.getString("user_name"),
+				rs.getString("user_avatar"), 
+				rs.getString("user_avatar_l"), 
+				rs.getString("address"),
+				rs.getString("province"),
+				rs.getString("city"));
+	}
+	
 	@Override
 	public Integer queryShieldId(Integer userId, Integer shieldId) {
 		return queryForObjectWithNULL(QUERY_SHIELD_ID, new Object[]{userId, shieldId},
@@ -121,16 +140,32 @@ public class UserShieldDaoImpl extends BaseDaoImpl implements UserShieldDao {
 				Integer.class, userId);
 	}
 
-	public UserShieldInfo buildShieldInfo(ResultSet rs) throws SQLException {
-		return new UserShieldInfo(
-				rs.getInt("id"), 
-				rs.getInt("shield_id"), 
-				rs.getString("user_name"),
-				rs.getString("user_avatar"), 
-				rs.getString("user_avatar_l"), 
-				rs.getString("address"),
-				rs.getString("province"),
-				rs.getString("city"));
+	@Override
+	public Set<Integer> queryWhoShieldMe(Integer[] otherIds, Integer myId) {
+		final Set<Integer> set;
+		Object[] args;
+		String sql;
+		String inSelection;
+		
+		set = new HashSet<Integer>();
+		if(otherIds == null || otherIds.length == 0) {
+			return set;
+		}
+		
+		args = SQLUtil.getArgsByInCondition(otherIds, new Object[]{myId}, true);
+		inSelection = SQLUtil.buildInSelection(otherIds);
+		sql = QUERY_SHIELD_ME_ID + inSelection;
+		
+		
+		getJdbcTemplate().query(sql, args, new RowCallbackHandler() {
+			
+			@Override
+			public void processRow(ResultSet rs) throws SQLException {
+				set.add(rs.getInt("user_id"));
+			}
+		});
+		
+		return set;
 	}
 
 }

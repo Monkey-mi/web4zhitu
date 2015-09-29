@@ -116,7 +116,8 @@ public class UserInfoServiceTest extends BaseTest {
 	
 	@Test
 	public void testQueryUserInfo() throws Exception {
-		UserInfo userInfo = service.getUserInfoById(114, 527, true, false);
+		UserInfo userInfo = service.getUserInfoById(114, 527, true, false, 
+				null, null,null,null);
 		logObj(userInfo);
 	}
 	

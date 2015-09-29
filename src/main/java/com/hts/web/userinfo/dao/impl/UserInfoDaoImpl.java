@@ -3,11 +3,14 @@ package com.hts.web.userinfo.dao.impl;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
@@ -421,9 +424,8 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 	private static final String QUERY_USER_AVATAR_LITE = "select u0.id,u0.user_name,u0.user_avatar" 
 			+ " from " + table + " u0 where u0.id=?";
 	
-	
-	@Autowired
-	private UserRecommendDao userRecommendDao;
+	private static final String QUERY_NOT_ACCEPT_AT_UID = "select id from " + table
+			+ " where accept_at_push=0 and id in";
 	
 	@Override
 	public UserInfoDto buildUserInfoDto(Integer userId, ResultSet rs) throws SQLException {
@@ -1310,6 +1312,31 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 	public void updateShortLink(Integer uid, String shortLink) {
 		getMasterJdbcTemplate().update("update user_info set short_link=? where id=?",
 				new Object[]{shortLink, uid});
+	}
+
+	@Override
+	public Set<Integer> queryNotAcceptAtUIds(Integer[] uids) throws Exception {
+		final Set<Integer> set;
+		String sql;
+		String inSelection;
+		
+		set = new HashSet<Integer>();
+		if(uids == null || uids.length == 0) {
+			return set;
+		}
+		
+		inSelection = SQLUtil.buildInSelection(uids);
+		sql = QUERY_NOT_ACCEPT_AT_UID + inSelection;
+		
+		getJdbcTemplate().query(sql, uids, new RowCallbackHandler() {
+			
+			@Override
+			public void processRow(ResultSet rs) throws SQLException {
+				set.add(rs.getInt("id"));
+			}
+		});
+		
+		return set;
 	}
 
 }
