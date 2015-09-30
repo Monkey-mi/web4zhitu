@@ -73,6 +73,7 @@ img {
 	font-size:18px;
 	font-weight:400;
 	padding: 10px 0px 50px 0px;
+	color: #797a7f;
 }
 
 .whriteBlock{
@@ -145,17 +146,24 @@ img {
 }
 
 .share-sticker-btn {
-	width:380	px;
-	height:124px;
-	margin: 40px 185px 30px 185px;
+	width:400	px;
+	height:100px;
 	border: 10px solid #ffffff; 
 	background-color:#000000;
-	line-height:124px;
-	font-size:60px;
+	line-height:100px;
+	font-size:48px;
+	font-weight:800;
 }
 
 .share-sticker-btn a {
 color:#ffffff;
+}
+
+.share-sticker-btn-out{
+		width:420px;
+		height:120px;
+		margin: 60px 155px 30px 155px;
+		border: 10px solid #000000; 
 }
 
 .share-sticker{
@@ -351,8 +359,8 @@ var inapp = 0;
 				} 
 			 	$('#main').append("<div style='padding:40px 0 0 0'></div>");
 			 	$('#main').append("<div class='headIntro2'  >" + result.footIntro + "</div>");
-			 	$('#main').append(' <div class="share-sticker-btn" ><a href="imzhitu://useSticker">'+ result.stickerButton +'</a></div><div class="share-sticker-btn" ><a href="imzhitu://sharePage">'+ result.shareButton +'</a></div>');
-				$('#main').append("<div style='font-size:25px;padding:45px 0 25px 0;'>"+ result.foot +"</div>");
+			 	$('#main').append(' <div class="share-sticker-btn-out"><div class="share-sticker-btn" ><a href="imzhitu://useSticker">'+ result.stickerButton +'</a></div></div><div class="share-sticker-btn-out"><div class="share-sticker-btn" ><a href="imzhitu://sharePage">'+ result.shareButton +'</a></div></div>');
+				$('#main').append("<div style='font-size:25px;padding:45px 0 25px 0;color: #797a7f;'>"+ result.foot +"</div>");
 		} else {
 		alert('You are wrong');
 		}
