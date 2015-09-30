@@ -16,12 +16,12 @@ public class OpStarModuleInfo implements Serializable {
 	
 	
 
-	public OpStarModuleInfo(Integer id, String title1, String title2, Integer userId, String facePic, String userName,
+	public OpStarModuleInfo(Integer id, String title, String subtitle, Integer userId, String facePic, String userName,
 			String pic, String intro2, Integer topicId) {
 		super();
 		this.id = id;
-		this.title1 = title1;
-		this.title2 = title2;
+		this.title = title;
+		this.subtitle = subtitle;
 		this.userId = userId;
 		this.facePic = facePic;
 		this.userName = userName;
@@ -35,8 +35,8 @@ public class OpStarModuleInfo implements Serializable {
 	}
 	
 	private Integer  id;   //ID
-	private String  title1;//小标题
-	private String title2;//小副标题
+	private String  title;//小标题
+	private String subtitle;//小副标题
 	private Integer userId;//用户ID
 	private String facePic;//头像链接
 	private String  userName;//用户昵称
@@ -51,18 +51,23 @@ public class OpStarModuleInfo implements Serializable {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public String getTitle1() {
-		return title1;
+	
+	public String getTitle() {
+		return title;
 	}
-	public void setTitle1(String title1) {
-		this.title1 = title1;
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
-	public String getTitle2() {
-		return title2;
+
+	public String getSubtitle() {
+		return subtitle;
 	}
-	public void setTitle2(String title2) {
-		this.title2 = title2;
+
+	public void setSubtitle(String subtitle) {
+		this.subtitle = subtitle;
 	}
+
 	public Integer getUserId() {
 		return userId;
 	}
@@ -101,7 +106,7 @@ public class OpStarModuleInfo implements Serializable {
 	}
 	@Override
 	public String toString() {
-		return "OpStarModuleInfo [id=" + id + ", title1=" + title1 + ", title2=" + title2 + ", userId=" + userId
+		return "OpStarModuleInfo [id=" + id + ", title=" + title + ", subtitle=" + subtitle + ", userId=" + userId
 				+ ", facePic=" + facePic + ", userName=" + userName + ", pic=" + pic + ", intro2=" + intro2
 				+ ", topicId=" + topicId + "]";
 	}

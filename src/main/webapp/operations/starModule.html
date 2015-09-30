@@ -13,7 +13,7 @@ body {
 	text-align: center;
 /*  	font-size: 0;  */
 	font-family: "微软雅黑", Arial, Helvetica, sans-serif;
-	background: #9fb0e0;
+	background: #ffffff;
 }
 
 img {
@@ -105,7 +105,7 @@ img {
 	height: 68px;
    	position: absolute;   
 /*   	left: 50%;   */
- 	margin: -60px 0 0 0px; 
+ 	margin: -60px 0 0 -100px; 
 	-moz-border-radius: 0px;
 	-webkit-border-radius: 0px;
 	border-radius: 0px;
@@ -115,7 +115,7 @@ img {
 	line-height: 74px;
 	cursor: pointer;
 	background: #333333;
-	display: block;
+	display: none;
 }
 
 .concerned {
@@ -136,13 +136,24 @@ img {
 	padding: 50px 60px 50px 60px;
 }
 
-.face{
-	width:200px;
-	height:200px;
+.face-out{
+	width:170px;
+	height:170px;
 	-moz-border-radius: 50%;
 	-webkit-border-radius: 50%;
 	border-radius: 50%;
 	overflow:hidden;
+	border:8px solid #000000;
+}
+
+.face{
+	width:150px;
+	height:150px;
+	-moz-border-radius: 50%;
+	-webkit-border-radius: 50%;
+	border-radius: 50%;
+	overflow:hidden;
+	border:10px solid #ffffff;
 }
 
 .share-sticker-btn {
@@ -164,6 +175,7 @@ color:#ffffff;
 		height:120px;
 		margin: 60px 155px 30px 155px;
 		border: 10px solid #000000; 
+		display:none;
 }
 
 .share-sticker{
@@ -174,68 +186,6 @@ color:#ffffff;
 	border: 10px solid #ffffff; 
 	line-height: 104px;
 }
-
-  #share-btn-wrap {
-	display: inline-block;
-	border: 0px solid #000000;
-	width: 350px;
-	height: 90px;
-	position: absolute;
- 	left: 50%; 
-	margin: 260px 0 0 -200px;
-	-moz-border-radius: 0px;
-	-webkit-border-radius: 0px;
-	border-radius: 0px;
-	font-size: 52px;
-	line-height: 90px;
-	background:  #ffffff;
-	display: block;
-}
- 
-#share-btn-wrap a {
-	display: inline-block;
-	border: 0px solid #000000;
-	-moz-border-radius: 0px;
-	-webkit-border-radius: 0px;
-	border-radius: 0px;
-	color: #ffffff;	
-	font-weight: 800;
-	width: 340px;
-	height: 80px;
-	background: #000000;
-	line-height: 80px;
-}
-
- #sticker-btn-wrap {	
-	display: inline-block;
-	border: 0px solid #000000;
-	width: 340px;
-	height: 90px;
-	position: absolute;
-	left: 50%;
-	margin: 300px 0 0 -200px;
-	-moz-border-radius: 0px;
-	-webkit-border-radius: 0px;
-	border-radius: 0px;
-	font-size: 52px;
-	line-height: 90px;
-	background:  #ffffff;
-	display: block;
-} 
-
-#sticker-btn-wrap a {
-	display: inline-block;
-	border: 0px solid #000000;
-	-moz-border-radius: 0px;
-	-webkit-border-radius: 0px;
-	border-radius: 0px;
-	color: #ffffff;
-	font-weight: 800;
-	width: 340px;
-	height: 80px;
-	background: #000000;
-	line-height: 90px;
-} 
 
 #download-wrap {
 	width: 100%;
@@ -320,14 +270,14 @@ color:#ffffff;
 
 </div>
 
-<!--    <div id="download-wrap">
+    <div id="download-wrap">
 <a id="download-btn" title="点击下载" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.htshuo.htsg">
 	<img id="download-bg" alt="" src="/staticres/base/images/down-bg.jpg">
 	<img id="download-logo" alt="" src="/staticres/base/images/down-logo.png">
 	<span id="download-tip">点击下载</span>
 </a>
 <img id="download-close" title="隐藏" onclick="javascript:hideDownloadBtn();" alt="" src="/staticres/base/images/down-close.jpg">
-</div>   -->
+</div>  
 
  <script type="text/javascript" src="../staticres/base/js/callapp2.js"></script>  
 <script type="text/javascript" src="../staticres/base/js/jquery/jquery-1.8.2.min.js"></script>
@@ -343,14 +293,13 @@ var inapp = 0;
 	},function(data){
 		if(data['result'] == 0) {
 		var	 result = data['obj'];
-			 
 			 	var headPicAndIntro = '<div class="user-wrap"><img src="http://static.imzhitu.com/op/sticker/'+result.fileName+'/HeadPic.jpg" /><div class="headIntro1"><div class="headIntro2">'+result['headIntro']+'</div></div></div>'
 				 $('title').html (result.title);
 			 	$('#main').append(headPicAndIntro); 
 			 	
 			 	for(var i = 0;i < result.starModuleInfos.length;i++){
-			 			var module = '<div class="user-wrap"><div class="title1">'+ result.starModuleInfos[i].title1 +'</div>'+
-			 			'<div class="title2">'+ result.starModuleInfos[i].title2 +'</div><div class="whriteBlock" ><table  align="center"><tr><td rowspan="2" width=200 height=200><div class="face"><img src="http://static.imzhitu.com/op/sticker/'+result.fileName+'/'+ result.starModuleInfos[i].facePic +'"/></div></td>'+
+			 			var module = '<div class="user-wrap"><div class="title1">'+ result.starModuleInfos[i].title +'</div>'+
+			 			'<div class="title2">'+ result.starModuleInfos[i].subtitle +'</div><div class="whriteBlock" ><table  align="center"><tr><td rowspan="2" width=200 height=200><div class="face-out"><div class="face"><img src="'+ result.starModuleInfos[i].facePic +'"/></div></div></td>'+
 			 			'<td align="left" width=12></td><td align="left" width=200  height=100><div class="userName">'+ result.starModuleInfos[i].userName +'</div></td></tr>'+
 			 			'<tr><td align="left" width=12></td><td><a id="concern-'+ result.starModuleInfos[i].userId +'" class="concern-btn concern" name="imzhitu-callapp" href="imzhitu://concern?uid='+ result.starModuleInfos[i].userId +'">+关注</a><a class="concern-btn concerned">已关注</a></td></tr>'+
 			 			'<tfoot><tr><td height=10  colspan="3"></td></tr></tfoot></table><div class="userPic box-shadow"><a href="imzhitu://user?uid='+ result.starModuleInfos[i].userId +'"><img  alt="" src="http://static.imzhitu.com/op/sticker/'+result.fileName+'/'+ result.starModuleInfos[i].pic +'"/> </a>'+
@@ -361,6 +310,8 @@ var inapp = 0;
 			 	$('#main').append("<div class='headIntro2'  >" + result.footIntro + "</div>");
 			 	$('#main').append(' <div class="share-sticker-btn-out"><div class="share-sticker-btn" ><a href="imzhitu://useSticker">'+ result.stickerButton +'</a></div></div><div class="share-sticker-btn-out"><div class="share-sticker-btn" ><a href="imzhitu://sharePage">'+ result.shareButton +'</a></div></div>');
 				$('#main').append("<div style='font-size:25px;padding:45px 0 25px 0;color: #797a7f;'>"+ result.foot +"</div>");
+				
+				initLayout();
 		} else {
 		alert('You are wrong');
 		}
@@ -380,7 +331,25 @@ var starInfo = [{pic:"testUserPic01.jpg",userName:"小花",title1:"夏秋混穿"
  							bannerPic:'banner.jpg',headPic:'testHeadPic.jpg',moduleInfo:starInfo,foot:'来自时尚爱美丽的织图',
  							footIntro: "放假开始拉方巾fjdksl;afjdl将放开的拉萨；附件打开快疯了；倒萨阔服拉萨"}; */
  	
-	
+ 							
+		inapp = callAppInit();
+		
+		if(inapp == 1) {
+			var reg = new RegExp("(^|&)uid=([^&]*)(&|$)", "i"),
+				r = window.location.search.substr(1).match(reg);
+				
+			if(r == null || r == undefined) {
+				bindAllBtnClick2Callapp();
+			} else {
+				uid = unescape(r[2]);
+				fetchConcernStatus(uid);
+			}
+		} else {
+			$("#download-wrap").show();
+			bindAllBtnClick2Callapp();
+		}
+		document.getElementById("share-btn").addEventListener('click',openclient,false);
+	 	document.getElementById("sticker-btn").addEventListener('click',openclient,false); 				
 });
 
 function initLayout() {
@@ -442,9 +411,9 @@ function initLayout() {
 	spbtnMarginTop = spbtnMarginTop * scale;
 	spbtnMarginLeft = spbtnMarginLeft * scale;
 	
-	$("#header").height(scale * headerH + 'px');
+/* 	$("#header").height(scale * headerH + 'px'); */
 	
-	$(".concern-btn").css({
+/* 	$(".concern-btn").css({
 		"width":btnW + "px",
 		"height":btnH + "px",
 		"margin-top":btnMarginTop + "px",
@@ -453,11 +422,11 @@ function initLayout() {
 		"line-height":btnH + "px",
  		"-moz-border-radius":btnRadius + "px",
 		"-webkit-border-radius":btnRadius + "px",
-		"border-radius":btnRadius + "px"}); 
+		"border-radius":btnRadius + "px"});  */
 		
 	$(".concern").show();
 	
-	$("#share-btn").css({
+/* 	$("#share-btn").css({
 		"width":spbtnW + "px",
 		"height":spbtnH + "px",
   		"margin-top":spbtnMarginTop + "px",
@@ -491,7 +460,9 @@ function initLayout() {
 		"font-size":pbtnFontSize + "px",
 		"line-height":pbtnH + "px",
 		"border-width":pbtnBorderW + "px"})
- 		.show(); 
+ 		.show();  */
+	
+	$('.share-sticker-btn-out').show();
 	
 		if(inapp==1) {
 			$("#main").css({"margin-bottom":"0px"});
@@ -542,18 +513,6 @@ function bindAllBtnClick2Callapp() {
 } 
 
 
-function getStarRecommendTopicInfo(topicId) {
-	$.post("./channel_getStarRecommendTopicInfo",{
-		"topicId":topicId,
-	},function(data){
-		if(data['result'] == 0) {
-			result = data['info'];
-		} else {
-		/* 	window.message(data.message); */
-		alert('You are wrong');
-		}
-	}, "json");
-}
 
 </script>
  <div style="display:none;">
