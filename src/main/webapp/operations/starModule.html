@@ -4,7 +4,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<meta name="description" content="初秋应该这么穿  ">
+<meta name="description" content="通用模板">
 <title></title>
 <style type="text/css">
 body {
@@ -90,9 +90,9 @@ img {
 }
 
 .box-shadow{  
-  -webkit-box-shadow:0 0 10px rgba(0, 204, 204, .5);  
-  -moz-box-shadow:0 0 10px rgba(0, 204, 204, .5);  
-  box-shadow:0 0 3px #85848a;  
+  -webkit-box-shadow:0 0 1px #85848a;  
+  -moz-box-shadow:0 0 1px #85848a;  
+  box-shadow:0 0 1px #85848a;  
 }  
 
 .share-wrap img {
@@ -122,6 +122,28 @@ img {
 	border-color: #333333;
 }
 
+.table04{
+	width:678px;
+	 height:678px;
+}
+
+.table03{
+	width:678px;
+}
+
+.table02{
+	width:678px;
+	height:339px;
+}
+
+.tr24{
+	height:339px;
+}					
+
+.td3{
+	width:450px;
+}
+
 .userName {
 	font-size:50px;
 	font-family: "微软雅黑", Arial, Helvetica, sans-serif;
@@ -132,14 +154,14 @@ img {
 	width:580px;
 	font-size:28px;
 	font-family: "微软雅黑", Arial, Helvetica, sans-serif;
-	font-weight:400;
+	font-weight:400;678
 	padding: 50px 60px 50px 60px;
 }
 
-.tableFace{
+ .tableFace{
 	width:200px;
 	height:200px;
-}
+} 
 
 .tableMiddleSpace{
 	width:12px;
@@ -169,6 +191,7 @@ img {
 	overflow:hidden;
 	border:10px solid #ffffff;
 }
+
 
 .share-sticker-btn {
 	width:400	px;
@@ -242,7 +265,7 @@ color:#ffffff;
 	position: absolute;
 	right: 0;
 	display: inline;
-	cursor: pointer;
+	cursor: pointer;height=339
 	margin:-63px 0 0 0 ;
 }
 
@@ -316,14 +339,26 @@ var userIds = "";
 			 	
 			 	for(var i = 0;i < result.starModuleInfos.length;i++){
 			 		userIds += result.starModuleInfos[i].userId + ",";
-			 			var module = '<div class="user-wrap"><div class="title1">'+ result.starModuleInfos[i].title +'</div>'+
-			 			'<div class="title2">'+ result.starModuleInfos[i].subtitle +'</div><div class="whriteBlock" ><table  align="center"><tr><td rowspan="2"  class="tableFace" ><div class="face-out"><div class="face"><a href="imzhitu://user?uid='+ result.starModuleInfos[i].userId +'"><img src="'+ result.starModuleInfos[i].facePic +'"/></a></div></div></td>'+
-			 			'<td align="left" class="tableMiddleSpace"></td><td align="left" class="tableUserName"><div class="userName">'+ result.starModuleInfos[i].userName +'</div></td></tr>'+
-			 			'<tr><td align="left" class="tableMiddleSpace"></td><td><a id="concern-'+ result.starModuleInfos[i].userId +'" class="concern-btn concern" name="imzhitu-callapp" href="imzhitu://concern?uid='+ result.starModuleInfos[i].userId +'">+关注</a><a class="concern-btn concerned">已关注</a></td></tr>'+
-			 			'<tfoot><tr><td height=10  colspan="3"></td></tr></tfoot></table><div class="userPic box-shadow"><img  alt="" src="'+ result.starModuleInfos[i].pic +'"/> '+
-			 			'</div><div  class="intro2">'+ result.starModuleInfos[i].intro2 +'</div></div></div>';
+			 		 var tablePic = '<div class="userPic box-shadow"><img  alt="" src="'+ result.starModuleInfos[i].pic +'"/></div>'; 
+			 		 
+			 		 //判断对应几张图，并将其显示为对应的模式
+					if( result.starModuleInfos[i].pic04 != ""){
+						tablePic = '<table  align="center"  class="table04"><tr class="tr24"><td width=50%><div class="box-shadow"><img  alt="" src="'+ result.starModuleInfos[i].pic +'"/></div></td><td width=50%><div class="box-shadow"><img  alt="" src="'+ result.starModuleInfos[i].pic02 +'"/></div></td></tr><tr><td><div class="box-shadow"><img  alt="" src="'+ result.starModuleInfos[i].pic03 +'"/></div></td><td><div class="box-shadow"><img  alt="" src="'+ result.starModuleInfos[i].pic04 +'"/></div></td></tr></table>'; 
+					}else if( result.starModuleInfos[i].pic03 != ""){
+						tablePic = '<table  align="center" class="table03" ><tr><td rowspan=2   class="td3"><div class="box-shadow"><img  alt="" src="'+ result.starModuleInfos[i].pic +'"/></div></td><td><div class="box-shadow"><img  alt="" src="'+ result.starModuleInfos[i].pic02 +'"/></div></td></tr><tr><td><div class="box-shadow"><img  alt="" src="'+ result.starModuleInfos[i].pic03 +'"/></div></td></tr></table>'; 
+					}else if( result.starModuleInfos[i].pic02 != ""){
+						var tablePic = '<table  align="center"  class="table02" ><tr  class="tr24"><td width=50%><div class="box-shadow"><img  alt="" src="'+ result.starModuleInfos[i].pic +'"/></div></td><td width=50%><div class="box-shadow"><img  alt="" src="'+ result.starModuleInfos[i].pic02 +'"/></div></td></tr></table>';
+					}
+			 		 
+			 		var intro2 = '<div  class="intro2">'+ result.starModuleInfos[i].intro2 +'</div></div></div>';
+				 	var module = '<div class="user-wrap"><div class="title1">'+ result.starModuleInfos[i].title +'</div>'+
+					 	'<div class="title2">'+ result.starModuleInfos[i].subtitle +'</div><div class="whriteBlock" ><table  align="center"><tr><td rowspan="2"  class="tableFace" ><div class="face-out"><div class="face"><a href="imzhitu://user?uid='+ result.starModuleInfos[i].userId +'"><img src="'+ result.starModuleInfos[i].facePic +'"/></a></div></div></td>'+
+					 	'<td align="left" class="tableMiddleSpace"></td><td align="left" class="tableUserName"><div class="userName">'+ result.starModuleInfos[i].userName +'</div></td></tr>'+
+					 	'<tr><td align="left" class="tableMiddleSpace"></td><td><a id="concern-'+ result.starModuleInfos[i].userId +'" class="concern-btn concern" name="imzhitu-callapp" href="imzhitu://concern?uid='+ result.starModuleInfos[i].userId +'">+关注</a><a class="concern-btn concerned">已关注</a></td></tr>'+
+					 	'<tfoot><tr><td height=10  colspan="3"></td></tr></tfoot></table>' + tablePic + intro2;
 			 		$('#main').append(module);
 				} 
+			 	
 			 	$('#main').append("<div class='space' style='padding:40px 0 0 0'></div>");
 			 	$('#main').append("<div class='headIntro2'  >" + result.footIntro + "</div>");
 			 	$('#main').append(' <div class="share-sticker-btn-out"><div id="sticker-btn" class="share-sticker-btn" ><a href="imzhitu://useSticker">'+ result.stickerButton +'</a></div></div><div class="share-sticker-btn-out"><div id="share-btn" class="share-sticker-btn" ><a href="imzhitu://sharePage">'+ result.shareButton +'</a></div></div>');
@@ -334,23 +369,6 @@ var userIds = "";
 		alert('You are wrong');
 		}
 	}, "json"); 
-	 
-	 
-/*  测试的基本数据格式
-var starInfo = [{pic:"testUserPic01.jpg",userName:"小花",title1:"夏秋混穿",title2:"Where there is a shell",intro2:"的富士康拉风多卡拉谁"},
- 	                {pic:"testUserPic02.jpg",userName:"Shailene",title1:"壳子毛体",title2:"there is a way",intro2:"减肥的开始拉放得开垃圾袋"},
- 	                {pic:"testUserPic03.jpg",userName:"涉及M",title1:"夏秋第三",title2:"LionDoor",intro2:"积分看电视好久开了打"},
- 	                {pic:"testUserPic04.jpg",userName:"wan山",title1:"解放东路",title2:"Length",intro2:"就赶快国家发亏大了"},
- 	                {pic:"testUserPic05.jpg",userName:"小A",title1:"夏放到穿",title2:"Hua Brother",intro2:"后放大会阿罗汉回到是皇帝杀ufidohidsao附件打开"},
- 	                {pic:"testUserPic06.jpg",userName:"Woodley",title1:"发动更改",title2:"this is Demo",intro2:"号房间的开始啦好了减肥的开始拉合家欢乐丰筋多力"},
- 	                {pic:"testUserPic07.jpg",userName:"YouKu",title1:"夏方式看",title2:"Woodley",intro2:"合肥大进口及哦啊hi哦哈放假啊就带宽速率合法就算了"}];
- 	
- 	var result = {title:"盛夏初秋",headIntro:"全世界人民大团结万岁fd将放开的拉萨fdjskla;fdj及打开都卡死了",
- 							bannerPic:'banner.jpg',headPic:'testHeadPic.jpg',moduleInfo:starInfo,foot:'来自时尚爱美丽的织图',
- 							footIntro: "放假开始拉方巾fjdksl;afjdl将放开的拉萨；附件打开快疯了；倒萨阔服拉萨"}; */
- 	
- 							
-			
 });
 
 function initLayout() {
@@ -425,6 +443,45 @@ function initLayout() {
 		userPicWidth = 678,
 		userPicMarginRight = 18,
 		userpicMarginLeft = 18,
+		
+/* 		.table04{
+			width:678px;
+			 height:678px;
+		}
+
+		.table03{
+			width:678px;
+		}
+
+		.table02{
+			width:678px;
+			height:339px;
+		}
+
+		.tr24{
+			height:339px;
+		}					
+
+		.td3{
+			width:450px;
+		} */
+		
+		//用户4图table长宽
+		table04width = 678,
+		table04height = 678,
+		
+		//用户3图宽
+		table03width = 678,
+		
+		//用户2图长宽
+		table02width = 678,
+		table02height = 339,
+		
+		//用户24图行高
+		tr24height = 339,
+		
+		//用户3图大图宽
+		td3width = 450,
 
 		//关注按钮
 		concernButtonWidth = 230,
@@ -480,19 +537,19 @@ function initLayout() {
 		
 	scale = winWidth / maxW;
 
-	//headIntro前介绍宽度限制
-	head1width = head1width * scale;
-	head1broder = head1broder * scale;
-	head1marginTop = head1marginTop * scale;
-	head1marginLeft = head1marginLeft * scale;
-	
-	head2fontSize = head2fontSize * scale;
-	head2fontWeight = head2fontWeight * scale;
-	head2paddingTop = head2paddingTop * scale;
-	head2paddingBottom = head2paddingBottom * scale;
-	head2paddingLeft = head2paddingLeft * scale;
-	head2paddingRight = head2paddingRight * scale;
-	head2border = head2border * scale;
+		//headIntro前介绍宽度限制
+		head1width = head1width * scale;
+		head1broder = head1broder * scale;
+		head1marginTop = head1marginTop * scale;
+		head1marginLeft = head1marginLeft * scale;
+		
+		head2fontSize = head2fontSize * scale;
+		head2fontWeight = head2fontWeight * scale;
+		head2paddingTop = head2paddingTop * scale;
+		head2paddingBottom = head2paddingBottom * scale;
+		head2paddingLeft = head2paddingLeft * scale;
+		head2paddingRight = head2paddingRight * scale;
+		head2border = head2border * scale;
 
 		//小标题
 		title1fontSize = title1fontSize * scale;
@@ -527,6 +584,23 @@ function initLayout() {
 		userPicWidth = userPicWidth * scale;
 		userPicMarginRight = userPicMarginRight * scale;
 		userpicMarginLeft = userpicMarginLeft * scale;
+		
+		//用户4图table长宽
+		table04width = table04width * scale;
+		table04height = table04height * scale;
+		
+		//用户3图宽
+		table03width = table03width * scale;
+		
+		//用户2图长宽
+		table02width = table02width * scale;
+		table02height = table02height * scale;
+		
+		//用户24图行高
+		tr24height = tr24height * scale;
+		
+		//用户3图大图宽
+		td3width = td3width * scale;
 
 		//关注按钮
 		concernButtonWidth = concernButtonWidth * scale;
@@ -639,6 +713,28 @@ function initLayout() {
  	 			"width":userPicWidth + "px",
  	 			"margin-left":userpicMarginLeft + "px",
  	 			"margin-right":userPicMarginRight + "px"}); 
+ 			
+ 	 		//用户4图table长宽
+ 	 		$(".table04").css({
+ 	 			"width":table04width + "px",
+ 	 			"height":table04height + "px"}); 
+ 	 		
+ 	 		//用户3图宽
+ 	 		$(".table03").css({
+ 	 			"width":table03width + "px"}); 
+ 			
+ 	 		//用户2图长宽
+ 	 		$(".table02").css({
+ 	 			"width":table02width + "px",
+ 	 			"height":table02height + "px"}); 
+ 	 		
+ 	 		//用户24图行高
+ 	 		$(".tr24").css({
+ 	 			"height":tr24height + "px"}); 
+ 	 		
+ 	 		//用户3图大图宽
+ 	 		$(".td3").css({
+ 	 			"width":td3width + "px"}); 
 
  			//关注按钮
  	 		$(".concern-btn").css({
