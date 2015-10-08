@@ -327,7 +327,7 @@ var userIds = "";
 			 	$('#main').append("<div class='space' style='padding:40px 0 0 0'></div>");
 			 	$('#main').append("<div class='headIntro2'  >" + result.footIntro + "</div>");
 			 	$('#main').append(' <div class="share-sticker-btn-out"><div id="sticker-btn" class="share-sticker-btn" ><a href="imzhitu://useSticker">'+ result.stickerButton +'</a></div></div><div class="share-sticker-btn-out"><div id="share-btn" class="share-sticker-btn" ><a href="imzhitu://sharePage">'+ result.shareButton +'</a></div></div>');
-				$('#main').append("<div calss='foot' style='color: #797a7f;'>"+ result.foot +"</div>");
+				$('#main').append("<div class='foot' style='color: #797a7f;'>"+ result.foot +"</div>");
 				
 				initLayout();
 		} else {
@@ -514,14 +514,14 @@ function initLayout() {
 		whriteBorderBottom = whriteBorderBottom * scale;
 		
 	
-	//用户头像
-	tableFaceWidth = tableFaceWidth * scale;
-	tableFaceHeight = tableFaceHeight * scale;
-	
-	//用户名
-	userNameFontSize = userNameFontSize * scale;
-	tableUserNameWidth = tableUserNameWidth * scale;
-	tableUserNameHeight = tableUserNameHeight * scale;
+		//用户头像
+		tableFaceWidth = tableFaceWidth * scale;
+		tableFaceHeight = tableFaceHeight * scale;
+		
+		//用户名
+		userNameFontSize = userNameFontSize * scale;
+		tableUserNameWidth = tableUserNameWidth * scale;
+		tableUserNameHeight = tableUserNameHeight * scale;
 		
 		//用户图片
 		userPicWidth = userPicWidth * scale;
@@ -582,7 +582,7 @@ function initLayout() {
 	footPaddingTop = footPaddingTop * scale;
 	footPaddingButtom = footPaddingButtom * scale;
 		
-	$(".concern").show();
+		$(".concern").show();
 	
  		//headIntro前介绍宽度限制
  		$(".headIntro1").css({
