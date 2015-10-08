@@ -36,7 +36,7 @@ public class ChannelStarRecommendTopicInfoDaoImpl extends BaseDaoImpl implements
 	public OpStarRecommendTopicInfo buildOpStarRecommendTopicInfo(ResultSet rs) throws SQLException{
 		OpStarRecommendTopicInfo starRecommendTopicInfo = new OpStarRecommendTopicInfo();
 		starRecommendTopicInfo.setTitle(rs.getString("title"));
-		starRecommendTopicInfo.setFileName(rs.getString("file_name"));
+		starRecommendTopicInfo.setBannerPic(rs.getString("banner_pic"));
 		starRecommendTopicInfo.setHeadIntro(rs.getString("introduce_head"));
 		starRecommendTopicInfo.setFootIntro(rs.getString("introduce_foot"));
 		starRecommendTopicInfo.setStickerButton(rs.getString("sticker_button"));

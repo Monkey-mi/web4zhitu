@@ -23,7 +23,7 @@ public class OpStarRecommendTopicInfo implements Serializable{
 	private Integer topicId;             //主题ID
 	 private String title;                     //主题标题 
 	private String headIntro;          //分享介绍
-	private String  fileName;           //主题资源所放文件名
+	private String  bannerPic;           //第一张展示的图banner
 	private List<OpStarModuleInfo> starModuleInfos;//达人模块信息
 	private String footIntro;          //结尾总结
 	private String stickerButton;  //发图按钮文本
@@ -49,11 +49,11 @@ public class OpStarRecommendTopicInfo implements Serializable{
 	public void setHeadIntro(String headIntro) {
 		this.headIntro = headIntro;
 	}
-	public String getFileName() {
-		return fileName;
+	public String getBannerPic() {
+		return bannerPic;
 	}
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
+	public void setBannerPic(String bannerPic) {
+		this.bannerPic = bannerPic;
 	}
 	public List<OpStarModuleInfo> getStarModuleInfos() {
 		return starModuleInfos;

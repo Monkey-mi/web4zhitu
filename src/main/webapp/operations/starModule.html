@@ -30,14 +30,14 @@ img {
 
 #main {
 	display: inline-block;
-	width: 100%;
+/* 	width: 100%; */
 	max-width: 750px;
 	margin-bottom: 60px;
 	background-color:#eaebef; 
 }
 
 .user-wrap {
-	width:750px;
+/* 	width:750px; */
  	display: inline-block; 
 /*   	background-color:#eaebef;  */
  	text-align:center;
@@ -123,7 +123,7 @@ img {
 }
 
 .userName {
-	font-size:200%;
+	font-size:50px;
 	font-family: "微软雅黑", Arial, Helvetica, sans-serif;
 	font-weight:600
 }
@@ -134,6 +134,20 @@ img {
 	font-family: "微软雅黑", Arial, Helvetica, sans-serif;
 	font-weight:400;
 	padding: 50px 60px 50px 60px;
+}
+
+.tableFace{
+	width:200px;
+	height:200px;
+}
+
+.tableMiddleSpace{
+	width:12px;
+}
+
+.tableUserName{
+	width:200px;
+	height:100px;
 }
 
 .face-out{
@@ -166,9 +180,9 @@ img {
 	font-weight:800;
 }
 
-.share-sticker-btn a {
+ .share-sticker-btn a {
 color:#ffffff;
-}
+} 
 
 .share-sticker-btn-out{
 		width:420px;
@@ -178,13 +192,14 @@ color:#ffffff;
 		display:none;
 }
 
-.share-sticker{
-	width:360	px;
-	height:104px;
-	background-color:#000000;
-/* 	margin: 40px 185px 30px 185px; */
-	border: 10px solid #ffffff; 
-	line-height: 104px;
+.space{
+	padding:40px 0 0 0 ;
+}
+
+.foot{
+	font-size:25px;
+	padding:45px 0 25px 0 ;
+	color: #797a7f;
 }
 
 #download-wrap {
@@ -228,6 +243,7 @@ color:#ffffff;
 	right: 0;
 	display: inline;
 	cursor: pointer;
+	margin:-63px 0 0 0 ;
 }
 
 #download-tip {
@@ -283,6 +299,7 @@ color:#ffffff;
 <script type="text/javascript" src="../staticres/base/js/jquery/jquery-1.8.2.min.js"></script>
 <script type="text/javascript">
 var inapp = 0;
+var userIds = "";
  $(document).ready(function() {
 
 	 	var url = window.location.search;
@@ -293,23 +310,24 @@ var inapp = 0;
 	},function(data){
 		if(data['result'] == 0) {
 		var	 result = data['obj'];
-			 	var headPicAndIntro = '<div class="user-wrap"><img src="http://static.imzhitu.com/op/sticker/'+result.fileName+'/HeadPic.jpg" /><div class="headIntro1"><div class="headIntro2">'+result['headIntro']+'</div></div></div>'
+			 	var headPicAndIntro = '<div class="user-wrap"><img src="'+result.bannerPic+'" /><div class="headIntro1"><div class="headIntro2">'+result['headIntro']+'</div></div></div>';
 				 $('title').html (result.title);
 			 	$('#main').append(headPicAndIntro); 
 			 	
 			 	for(var i = 0;i < result.starModuleInfos.length;i++){
+			 		userIds += result.starModuleInfos[i].userId + ",";
 			 			var module = '<div class="user-wrap"><div class="title1">'+ result.starModuleInfos[i].title +'</div>'+
-			 			'<div class="title2">'+ result.starModuleInfos[i].subtitle +'</div><div class="whriteBlock" ><table  align="center"><tr><td rowspan="2" width=200 height=200><div class="face-out"><div class="face"><img src="'+ result.starModuleInfos[i].facePic +'"/></div></div></td>'+
-			 			'<td align="left" width=12></td><td align="left" width=200  height=100><div class="userName">'+ result.starModuleInfos[i].userName +'</div></td></tr>'+
-			 			'<tr><td align="left" width=12></td><td><a id="concern-'+ result.starModuleInfos[i].userId +'" class="concern-btn concern" name="imzhitu-callapp" href="imzhitu://concern?uid='+ result.starModuleInfos[i].userId +'">+关注</a><a class="concern-btn concerned">已关注</a></td></tr>'+
-			 			'<tfoot><tr><td height=10  colspan="3"></td></tr></tfoot></table><div class="userPic box-shadow"><a href="imzhitu://user?uid='+ result.starModuleInfos[i].userId +'"><img  alt="" src="http://static.imzhitu.com/op/sticker/'+result.fileName+'/'+ result.starModuleInfos[i].pic +'"/> </a>'+
-			 			'</div><div  class="intro2">'+ result.starModuleInfos[i].intro2 +'</div></div></div>'
+			 			'<div class="title2">'+ result.starModuleInfos[i].subtitle +'</div><div class="whriteBlock" ><table  align="center"><tr><td rowspan="2"  class="tableFace" ><div class="face-out"><div class="face"><a href="imzhitu://user?uid='+ result.starModuleInfos[i].userId +'"><img src="'+ result.starModuleInfos[i].facePic +'"/></a></div></div></td>'+
+			 			'<td align="left" class="tableMiddleSpace"></td><td align="left" class="tableUserName"><div class="userName">'+ result.starModuleInfos[i].userName +'</div></td></tr>'+
+			 			'<tr><td align="left" class="tableMiddleSpace"></td><td><a id="concern-'+ result.starModuleInfos[i].userId +'" class="concern-btn concern" name="imzhitu-callapp" href="imzhitu://concern?uid='+ result.starModuleInfos[i].userId +'">+关注</a><a class="concern-btn concerned">已关注</a></td></tr>'+
+			 			'<tfoot><tr><td height=10  colspan="3"></td></tr></tfoot></table><div class="userPic box-shadow"><img  alt="" src="'+ result.starModuleInfos[i].pic +'"/> '+
+			 			'</div><div  class="intro2">'+ result.starModuleInfos[i].intro2 +'</div></div></div>';
 			 		$('#main').append(module);
 				} 
-			 	$('#main').append("<div style='padding:40px 0 0 0'></div>");
+			 	$('#main').append("<div class='space' style='padding:40px 0 0 0'></div>");
 			 	$('#main').append("<div class='headIntro2'  >" + result.footIntro + "</div>");
-			 	$('#main').append(' <div class="share-sticker-btn-out"><div class="share-sticker-btn" ><a href="imzhitu://useSticker">'+ result.stickerButton +'</a></div></div><div class="share-sticker-btn-out"><div class="share-sticker-btn" ><a href="imzhitu://sharePage">'+ result.shareButton +'</a></div></div>');
-				$('#main').append("<div style='font-size:25px;padding:45px 0 25px 0;color: #797a7f;'>"+ result.foot +"</div>");
+			 	$('#main').append(' <div class="share-sticker-btn-out"><div id="sticker-btn" class="share-sticker-btn" ><a href="imzhitu://useSticker">'+ result.stickerButton +'</a></div></div><div class="share-sticker-btn-out"><div id="share-btn" class="share-sticker-btn" ><a href="imzhitu://sharePage">'+ result.shareButton +'</a></div></div>');
+				$('#main').append("<div calss='foot' style='color: #797a7f;'>"+ result.foot +"</div>");
 				
 				initLayout();
 		} else {
@@ -332,138 +350,362 @@ var starInfo = [{pic:"testUserPic01.jpg",userName:"小花",title1:"夏秋混穿"
  							footIntro: "放假开始拉方巾fjdksl;afjdl将放开的拉萨；附件打开快疯了；倒萨阔服拉萨"}; */
  	
  							
-		inapp = callAppInit();
-		
-		if(inapp == 1) {
-			var reg = new RegExp("(^|&)uid=([^&]*)(&|$)", "i"),
-				r = window.location.search.substr(1).match(reg);
-				
-			if(r == null || r == undefined) {
-				bindAllBtnClick2Callapp();
-			} else {
-				uid = unescape(r[2]);
-				fetchConcernStatus(uid);
-			}
-		} else {
-			$("#download-wrap").show();
-			bindAllBtnClick2Callapp();
-		}
-		document.getElementById("share-btn").addEventListener('click',openclient,false);
-	 	document.getElementById("sticker-btn").addEventListener('click',openclient,false); 				
+			
 });
 
 function initLayout() {
+	
+	inapp = callAppInit();
+	if(inapp == 1) {
+		var reg = new RegExp("(^|&)uid=([^&]*)(&|$)", "i"),
+			r = window.location.search.substr(1).match(reg);
+			
+		if(r == null || r == undefined) {
+			bindAllBtnClick2Callapp();
+		} else {
+			uid = unescape(r[2]);
+			fetchConcernStatus(uid);
+		}
+	} else {
+		$("#download-wrap").show();
+		bindAllBtnClick2Callapp();
+	}
+	document.getElementById("share-btn").addEventListener('click',openclient,false);
+ 	document.getElementById("sticker-btn").addEventListener('click',openclient,false); 	
+	
+	
 	var maxW = 750;
 	var winWidth = $(window).width();
-	
 	winWidth = winWidth > maxW ? maxW : winWidth;
-
 	var scale = 1,
-		headerH = 650,
 		
-		btnW = 230,
-		btnH = 68,		
-		btnMarginTop = 240,
-		btnMarginLeft = -10,
-		btnFontSize = 33,
- 		btnRadius = 0, 
- 		
-		pbtnW = 340,
-		pbtnH = 80,		
-		pbtnBorderW = 0,
-		pbtnMarginTop = 490,
-		pbtnMarginLeft = -190,
-		pbtnFontSize = 38,
-		pbtnRadius = 100;
+	//headIntro前介绍宽度限制
+	head1width = 670,
+	head1broder = 7,
+	head1marginTop = 20,
+	head1marginLeft = 33,
 	
-		pbtnMarginTopSticker = 320,
+	head2fontSize = 28,
+	head2fontWeight = 400,
+	head2paddingTop = 50,
+	head2paddingBottom = 50,
+	head2paddingLeft = 60,
+	head2paddingRight = 60,
+	head2border = 10,
+
+		//小标题
+		title1fontSize = 38,
+		title1fontWeight = 400,
+		title1paddingTop = 50,
 		
-		spbtnW = 380,
-		spbtnH = 80,
-		spborderW = 0,
-		spbtnLineH = 85,
- 		spbtnMarginTop = 0,
-		spbtnMarginLeft = 0, 
+		//小副标题
+		title2fontSize = 18,
+		title2fontWeight = 400,
+		title2paddingTop = 10,
+		title2paddingBottom = 50,
+
+		//白色模块底
+		whriteWidth = 714,
+		whritePaddingTop = 30,
+		whriteMarginRight = 18,
+		whriteMarginLeft = 18,
+		whriteBorderBottom = 10,
+		
+		
+		//用户头像
+		tableFaceWidth = 200,
+		tableFaceHeight = 200,
+		
+		//用户名
+		userNameFontSize = 50,
+		tableUserNameWidth = 200,
+		tableUserNameHeight = 100,
+		
+		//用户图片
+		userPicWidth = 678,
+		userPicMarginRight = 18,
+		userpicMarginLeft = 18,
+
+		//关注按钮
+		concernButtonWidth = 230,
+		concernButtonHeight = 68,
+		concernButtonMarginTop = -33,
+		concernButtonMarginLeft = -100,
+		concernButtonFontSize = 33,
+		concernButtonFontWeight = 900,
+		concernButtonFontLineHeight = 74,
+
+		//小模块介绍
+		intro2width = 580,
+		intro2fontSize = 28,
+		intro2fontWeight = 400,
+		intro2paddingTop = 50,
+		intro2paddingBottom = 50,
+		intro2paddingLeft = 60,
+		intro2paddingRight = 60,
+
+		//头像外边框显示
+		faceoutWidth = 170,
+		faceoutHeight = 170,
+		faceoutBorder = 8,
+		
+		//头像边框显示
+		faceWidth = 150,
+		faceHeight = 150,
+		faceBorder = 10,
+		
+		//分享按钮
+		shareButtonWidth = 400,
+		shareButtonHeight = 100,
+		shareButtonBorder = 10,
+		shareButtonLineHeight = 100,
+		shareButtonFontSize = 48,
+		
+		//分享按钮外边框
+		shareoutWidth = 420,
+		shareoutHeight = 120,
+		shareoutMarginTop = 60,
+		shareoutMarginButtom = 30,
+		shareoutMarginRight = 155,
+		shareoutMarginLeft = 155,
+		shareoutBorder = 10,
+		
+		//后介绍上面的空格
+		sapcePaddingTop = 40,
+		
+		//来自织图
+		footFontSize = 25,
+		footPaddingTop = 45,
+		footPaddingButtom = 25,
 		
 	scale = winWidth / maxW;
+
+	//headIntro前介绍宽度限制
+	head1width = head1width * scale;
+	head1broder = head1broder * scale;
+	head1marginTop = head1marginTop * scale;
+	head1marginLeft = head1marginLeft * scale;
 	
-	btnW = btnW * scale;
-	btnH = btnH * scale;
-	btnMarginTop = btnMarginTop * scale;
-	btnMarginLeft = btnMarginLeft * scale;
-	btnFontSize = btnFontSize * scale;
- 	btnRadius = btnRadius * scale; 
+	head2fontSize = head2fontSize * scale;
+	head2fontWeight = head2fontWeight * scale;
+	head2paddingTop = head2paddingTop * scale;
+	head2paddingBottom = head2paddingBottom * scale;
+	head2paddingLeft = head2paddingLeft * scale;
+	head2paddingRight = head2paddingRight * scale;
+	head2border = head2border * scale;
+
+		//小标题
+		title1fontSize = title1fontSize * scale;
+		title1fontWeight = title1fontWeight * scale;
+		title1paddingTop = title1paddingTop * scale;
+		
+		//小副标题
+		title2fontSize = title2fontSize * scale;
+		title2fontWeight = title2fontWeight * scale;
+		title2paddingTop = title2paddingTop * scale;
+		title2paddingBottom = title2paddingBottom * scale;
+
+
+		//白色模块底
+		whriteWidth = whriteWidth * scale;
+		whritePaddingTop = whritePaddingTop * scale;
+		whriteMarginRight = whriteMarginRight * scale;
+		whriteMarginLeft = whriteMarginLeft * scale;
+		whriteBorderBottom = whriteBorderBottom * scale;
+		
 	
-	pbtnW = pbtnW * scale;
-	pbtnH = pbtnH * scale;
-	pbtnBorderW = pbtnBorderW ;
-	pbtnMarginTop = pbtnMarginTop * scale;
-	pbtnMarginLeft = pbtnMarginLeft * scale;
-	pbtnFontSize = pbtnFontSize * scale;
-	pbtnRadius = pbtnRadius * scale;
-	 
-	pbtnMarginTopSticker = pbtnMarginTopSticker * scale;
+	//用户头像
+	tableFaceWidth = tableFaceWidth * scale;
+	tableFaceHeight = tableFaceHeight * scale;
 	
-	spbtnW = spbtnW * scale;
-	spbtnH = spbtnH * scale;
-	spborderW = spborderW * scale;
-	spbtnLineH = spbtnLineH * scale;
-	spbtnMarginTop = spbtnMarginTop * scale;
-	spbtnMarginLeft = spbtnMarginLeft * scale;
+	//用户名
+	userNameFontSize = userNameFontSize * scale;
+	tableUserNameWidth = tableUserNameWidth * scale;
+	tableUserNameHeight = tableUserNameHeight * scale;
+		
+		//用户图片
+		userPicWidth = userPicWidth * scale;
+		userPicMarginRight = userPicMarginRight * scale;
+		userpicMarginLeft = userpicMarginLeft * scale;
+
+		//关注按钮
+		concernButtonWidth = concernButtonWidth * scale;
+		concernButtonHeight = concernButtonHeight * scale;
+		concernButtonMarginTop = concernButtonMarginTop * scale;
+		concernButtonMarginLeft = concernButtonMarginLeft * scale;
+		concernButtonFontSize = concernButtonFontSize * scale;
+		concernButtonFontWeight = concernButtonFontWeight * scale;
+		concernButtonFontLineHeight = concernButtonFontLineHeight * scale;
+
+
+		//小模块介绍
+		intro2width = intro2width * scale;
+		intro2fontSize = intro2fontSize * scale;
+		intro2fontWeight = intro2fontWeight * scale;
+		intro2paddingTop = intro2paddingTop * scale;
+		intro2paddingBottom = intro2paddingBottom * scale;
+		intro2paddingLeft = intro2paddingLeft * scale;
+		intro2paddingRight = intro2paddingRight * scale;
+
+		//头像外边框显示
+		faceoutWidth = faceoutWidth * scale;
+		faceoutHeight = faceoutHeight * scale;
+		faceoutBorder = faceoutBorder * scale;
+		
+		//头像边框显示
+		faceWidth = faceWidth * scale;
+		faceHeight = faceHeight * scale;
+		faceBorder = faceBorder * scale;
+		
+		//分享按钮
+		shareButtonWidth = shareButtonWidth * scale;
+		shareButtonHeight = shareButtonHeight * scale;
+		shareButtonBorder = shareButtonBorder * scale;
+		shareButtonLineHeight = shareButtonLineHeight * scale;
+		shareButtonFontSize = shareButtonFontSize * scale;
+		
+		//分享按钮外边框
+		shareoutWidth = shareoutWidth * scale;
+		shareoutHeight = shareoutHeight * scale;
+		shareoutMarginTop = shareoutMarginTop * scale;
+		shareoutMarginButtom = shareoutMarginButtom * scale;
+		shareoutMarginRight = shareoutMarginRight * scale;
+		shareoutMarginLeft = shareoutMarginLeft * scale;
+		shareoutBorder = shareoutBorder * scale;
+
 	
-/* 	$("#header").height(scale * headerH + 'px'); */
+	//后介绍上面的空格
+	sapcePaddingTop = sapcePaddingTop * scale;
 	
-/* 	$(".concern-btn").css({
-		"width":btnW + "px",
-		"height":btnH + "px",
-		"margin-top":btnMarginTop + "px",
-		"margin-left":btnMarginLeft + "px",
-		"font-size":btnFontSize + "px",
-		"line-height":btnH + "px",
- 		"-moz-border-radius":btnRadius + "px",
-		"-webkit-border-radius":btnRadius + "px",
-		"border-radius":btnRadius + "px"});  */
+	//来自织图
+	footFontSize = footFontSize * scale;
+	footPaddingTop = footPaddingTop * scale;
+	footPaddingButtom = footPaddingButtom * scale;
 		
 	$(".concern").show();
 	
-/* 	$("#share-btn").css({
-		"width":spbtnW + "px",
-		"height":spbtnH + "px",
-  		"margin-top":spbtnMarginTop + "px",
-		"margin-left":spbtnMarginLeft + "px",  
-		"line-height":spbtnLineH + "px",
-		"border-width":spborderW + "px"});
-		
-	$("#sticker-btn").css({
-		"width":spbtnW + "px",
-		"height":spbtnH + "px",
- 		"margin-top":spbtnMarginTop + "px",
-		"margin-left":spbtnMarginLeft + "px", 
-		"line-height":spbtnLineH + "px",
-		"border-width":spborderW + "px"});
-	
-	$("#share-btn-wrap").css({
-		"width":pbtnW + "px",
-		"height":pbtnH + "px",
-		"margin-top":pbtnMarginTop + "px",
-		"margin-left":pbtnMarginLeft + "px",
-		"font-size":pbtnFontSize + "px",
-		"line-height":pbtnH + "px",
-		"border-width":pbtnBorderW + "px"})
- 		.show(); 
-	
-	$("#sticker-btn-wrap").css({
-		"width":pbtnW + "px",
-		"height":pbtnH + "px",
-		"margin-top":pbtnMarginTopSticker + "px",
-		"margin-left":pbtnMarginLeft + "px",
-		"font-size":pbtnFontSize + "px",
-		"line-height":pbtnH + "px",
-		"border-width":pbtnBorderW + "px"})
- 		.show();  */
-	
-	$('.share-sticker-btn-out').show();
-	
+ 		//headIntro前介绍宽度限制
+ 		$(".headIntro1").css({
+ 			"width":head1width + "px",
+ 			"border-width":head1broder + "px",
+ 			"margin-top":head1marginTop + "px",
+ 			"margin-left":head1marginLeft + "px",
+ 		});
+
+ 		$(".headIntro2").css({
+ 			"padding-top":head2paddingTop + "px",
+ 			"padding-left":head2paddingLeft + "px",
+ 			"padding-right":head2paddingRight + "px",
+ 			"padding-bottom":head2paddingBottom + "px",
+ 			"font-size":head2fontSize + "px",
+ 			"border-width":head2border + "px"}); 
+
+ 	 		$(".title1").css({
+ 	 			"padding-top":title1paddingTop + "px",
+ 	 			"font-size":title1fontSize + "px"}); 
+ 	 		
+ 	 		$(".title2").css({
+ 	 			"padding-top":title2paddingTop + "px",
+ 	 			"padding-bottom":title2paddingBottom + "px",
+ 	 			"font-size":title2fontSize + "px"}); 
+
+ 			//白色模块底
+ 	 		$(".whriteBlock").css({
+ 				"width":whriteWidth + "px",
+ 	 			"padding-top":whritePaddingTop + "px",
+ 	 			"margin-left":whriteMarginLeft + "px",
+ 	 			"margin-right":whriteMarginRight + "px",
+ 	 			"border-width":whriteBorderBottom + "px"}); 
+
+ 			//用户头像
+	 		$(".tableFace").css({
+ 				"width":tableFaceWidth + "px",
+ 				"height":tableFaceHeight + "px"
+ 	 		}); 
+ 			
+			//用户名
+	 		$(".tableUserName").css({
+					"width":tableUserNameWidth + "px",
+					"height":tableUserNameHeight + "px"
+		 		}); 
+			
+			//用户名字体大小
+			$(".userName").css({
+					"font-size":userNameFontSize + "px"
+		 		}); 
+ 			
+ 			//用户图片
+ 	 		$(".userPic").css({
+ 	 			"width":userPicWidth + "px",
+ 	 			"margin-left":userpicMarginLeft + "px",
+ 	 			"margin-right":userPicMarginRight + "px"}); 
+
+ 			//关注按钮
+ 	 		$(".concern-btn").css({
+ 	 			"width":concernButtonWidth + "px",
+ 	 			"height":concernButtonHeight + "px",
+ 	 			"margin-top":concernButtonMarginTop + "px",
+ 	 			"margin-left":concernButtonMarginLeft + "px",
+ 	 			"font-size":concernButtonFontSize + "px",
+ 	 			"line-height":concernButtonFontLineHeight + "px"}); 
+
+ 			//小模块介绍
+ 	 		$(".intro2").css({
+ 	 			"padding-top":intro2paddingTop + "px",
+ 	 			"padding-left":intro2paddingLeft + "px",
+ 	 			"padding-right":intro2paddingRight + "px",
+ 	 			"padding-bottom":intro2paddingBottom + "px",
+ 	 			"font-size":intro2fontSize + "px",
+ 	 			"width":intro2width + "px"}); 
+ 			
+
+ 			//头像外边框显示
+	 		$(".face-out").css({
+				"width":faceoutWidth + "px",
+				"height":faceoutHeight + "px",
+				"border-width":faceoutBorder + "px"
+	 		}); 
+	 		
+ 			//头像边框显示
+	 		$(".face").css({
+				"width":faceWidth + "px",
+				"height":faceHeight + "px",
+				"border-width":faceBorder + "px"
+	 		}); 
+ 			
+
+ 			
+			//分享按钮
+ 	 		$(".share-sticker-btn").css({
+ 	 			"width":shareButtonWidth + "px",
+ 	 			"height":shareButtonHeight + "px",
+ 	 			"border-width":shareButtonBorder + "px",
+ 	 			"font-size":shareButtonFontSize + "px",
+ 	 			"line-height":shareButtonLineHeight + "px"}); 
+			
+ 			//分享按钮外边框
+ 	 		$(".share-sticker-btn-out").css({
+ 	 			"width":shareoutWidth + "px",
+ 	 			"height":shareoutHeight + "px",
+ 	 			"margin-top":shareoutMarginTop + "px",
+ 	 			"margin-bottom":shareoutMarginButtom + "px",
+ 	 			"margin-right":shareoutMarginRight + "px",
+ 	 			"margin-left":shareoutMarginLeft + "px",
+ 	 			"border-width":shareoutBorder + "px"}); 
+ 	 		$('.share-sticker-btn-out').show();
+
+ 	 		//后介绍上面的空格
+ 	 		$(".space").css({
+ 	 			"padding-top":sapcePaddingTop + "px"
+ 	 			}); 
+ 	 		
+ 			//来自织图
+ 	 		$(".foot").css({
+ 	 			"font-size":footFontSize + "px",
+ 	 			"padding-top":footPaddingTop + "px",
+ 	 			"padding-bottom":footPaddingButtom + "px"
+ 	 			});
+ 		
 		if(inapp==1) {
 			$("#main").css({"margin-bottom":"0px"});
 		}
@@ -490,7 +732,7 @@ function bindConcern(uid, status) {
 function fetchConcernStatus(uid) {
 	$.post("./user_queryConcernStatus",{
 		"userId":uid,
-		"concernIds":"1637121,96303,2508045,476439,2066708,760357,1353065",
+		"concernIds":userIds.substring(0,userIds.lastIndexOf(",")),
 	},function(data){http://localhost:8080/operations/starModule.html
 		if(data['result'] == 0) {
 			var status = data['concerns'];
@@ -512,7 +754,10 @@ function bindAllBtnClick2Callapp() {
    	}
 } 
 
-
+function hideDownloadBtn() {
+	$("#download-wrap").hide();
+	$("#main").css({"margin-bottom":"0px"});
+}
 
 </script>
  <div style="display:none;">
