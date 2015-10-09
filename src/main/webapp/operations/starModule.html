@@ -90,9 +90,9 @@ img {
 }
 
 .box-shadow{  
-  -webkit-box-shadow:0 0 1px #85848a;  
-  -moz-box-shadow:0 0 1px #85848a;  
-  box-shadow:0 0 1px #85848a;  
+   -webkit-box-shadow:0 0 1px  #85848a;  
+  -moz-box-shadow:0 0 1px  #85848a;  
+  box-shadow:0 0 1px  #85848a;   
 }  
 
 .share-wrap img {
@@ -124,7 +124,7 @@ img {
 
 .table04{
 	width:678px;
-	 height:678px;
+	 height:640px;
 }
 
 .table03{
@@ -137,11 +137,11 @@ img {
 }
 
 .tr24{
-	height:339px;
+	height:320px;
 }					
 
 .td3{
-	width:450px;
+	width:448px;
 }
 
 .userName {
@@ -324,13 +324,14 @@ var userIds = "";
 			 	
 			 	for(var i = 0;i < result.starModuleInfos.length;i++){
 			 		userIds += result.starModuleInfos[i].userId + ",";
+			 		//一张图时的默认显示
 			 		 var tablePic = '<div class="userPic box-shadow"><img  alt="" src="'+ result.starModuleInfos[i].pic +'"/></div>'; 
 			 		 
 			 		 //判断对应几张图，并将其显示为对应的模式
 					if( result.starModuleInfos[i].pic04 != ""){
-						tablePic = '<table  align="center"  class="table04"><tr class="tr24"><td width=50%><div class="box-shadow"><img  alt="" src="'+ result.starModuleInfos[i].pic +'"/></div></td><td width=50%><div class="box-shadow"><img  alt="" src="'+ result.starModuleInfos[i].pic02 +'"/></div></td></tr><tr><td><div class="box-shadow"><img  alt="" src="'+ result.starModuleInfos[i].pic03 +'"/></div></td><td><div class="box-shadow"><img  alt="" src="'+ result.starModuleInfos[i].pic04 +'"/></div></td></tr></table>'; 
+						tablePic = '<table  align="center" border="0" class="table04"><tr class="tr24"><td width=50%><div class="box-shadow"><img  alt="" src="'+ result.starModuleInfos[i].pic +'"/></div></td><td width=50%><div class="box-shadow"><img  alt="" src="'+ result.starModuleInfos[i].pic02 +'"/></div></td></tr><tr><td><div class="box-shadow"><img  alt="" src="'+ result.starModuleInfos[i].pic03 +'"/></div></td><td><div class="box-shadow"><img  alt="" src="'+ result.starModuleInfos[i].pic04 +'"/></div></td></tr></table>'; 
 					}else if( result.starModuleInfos[i].pic03 != ""){
-						tablePic = '<table  align="center" class="table03" ><tr><td rowspan=2   class="td3"><div class="box-shadow"><img  alt="" src="'+ result.starModuleInfos[i].pic +'"/></div></td><td><div class="box-shadow"><img  alt="" src="'+ result.starModuleInfos[i].pic02 +'"/></div></td></tr><tr><td><div class="box-shadow"><img  alt="" src="'+ result.starModuleInfos[i].pic03 +'"/></div></td></tr></table>'; 
+						tablePic = '<table  align="center" border="0" class="table03" ><tr><td rowspan=2   class="td3"><div class="box-shadow"><img  alt="" src="'+ result.starModuleInfos[i].pic +'"/></div></td><td><div class="box-shadow"><img  alt="" src="'+ result.starModuleInfos[i].pic02 +'"/></div></td></tr><tr><td><div class="box-shadow"><img  alt="" src="'+ result.starModuleInfos[i].pic03 +'"/></div></td></tr></table>'; 
 					}else if( result.starModuleInfos[i].pic02 != ""){
 						var tablePic = '<table  align="center"  class="table02" ><tr  class="tr24"><td width=50%><div class="box-shadow"><img  alt="" src="'+ result.starModuleInfos[i].pic +'"/></div></td><td width=50%><div class="box-shadow"><img  alt="" src="'+ result.starModuleInfos[i].pic02 +'"/></div></td></tr></table>';
 					}
@@ -377,24 +378,24 @@ function initLayout() {
  	document.getElementById("sticker-btn").addEventListener('click',openclient,false); 	
 	
 	
-	var maxW = 750;
-	var winWidth = $(window).width();
-	winWidth = winWidth > maxW ? maxW : winWidth;
-	var scale = 1,
+		var maxW = 750;
+		var winWidth = $(window).width();
+		winWidth = winWidth > maxW ? maxW : winWidth;
+		var scale = 1,
 		
-	//headIntro前介绍宽度限制
-	head1width = 670,
-	head1broder = 7,
-	head1marginTop = 20,
-	head1marginLeft = 33,
-	
-	head2fontSize = 28,
-	head2fontWeight = 400,
-	head2paddingTop = 50,
-	head2paddingBottom = 50,
-	head2paddingLeft = 60,
-	head2paddingRight = 60,
-	head2border = 10,
+		//headIntro前介绍宽度限制
+		head1width = 670,
+		head1broder = 7,
+		head1marginTop = 20,
+		head1marginLeft = 33,
+		
+		head2fontSize = 28,
+		head2fontWeight = 400,
+		head2paddingTop = 50,
+		head2paddingBottom = 50,
+		head2paddingLeft = 60,
+		head2paddingRight = 60,
+		head2border = 10,
 
 		//小标题
 		title1fontSize = 38,
@@ -431,7 +432,7 @@ function initLayout() {
 		
 		//用户4图table长宽
 		table04width = 678,
-		table04height = 678,
+		table04height = 640,
 		
 		//用户3图宽
 		table03width = 678,
@@ -441,10 +442,10 @@ function initLayout() {
 		table02height = 339,
 		
 		//用户24图行高
-		tr24height = 339,
+		tr24height = 320,
 		
 		//用户3图大图宽
-		td3width = 450,
+		td3width = 448,
 
 		//关注按钮
 		concernButtonWidth = 230,
