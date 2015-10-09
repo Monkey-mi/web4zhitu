@@ -24,7 +24,7 @@ public class MsgAtCommentDaoImpl extends BaseDaoImpl implements MsgAtCommentDao 
 	private static final int SAVE_MSG_VALUES_LEN = 4;
 	
 	private static final String QUERY_AT_ID = "select at_id,at_name from "
-			+ table + " where world_id=? order by id asc limit ?,1";
+			+ table + " where comment_id=? order by id asc limit ?,1";
 	
 	@Override
 	public void saveAtMsgs(MsgAt[] msgs) {
@@ -50,7 +50,7 @@ public class MsgAtCommentDaoImpl extends BaseDaoImpl implements MsgAtCommentDao 
 	}
 
 	@Override
-	public MsgAtId queryAtId(Integer worldId, Integer index) {
+	public MsgAtId queryAtId(Integer commentId, Integer index) {
 		try {
 			return getJdbcTemplate().queryForObject(QUERY_AT_ID, new RowMapper<MsgAtId>() {
 	
@@ -62,7 +62,7 @@ public class MsgAtCommentDaoImpl extends BaseDaoImpl implements MsgAtCommentDao 
 					return msg;
 				}
 				
-			}, worldId, index);
+			}, commentId, index);
 		} catch(DataAccessException e) {
 			return null;
 		}

@@ -71,7 +71,7 @@ public class MsgAtDaoImpl extends BaseDaoImpl implements MsgAtDao {
 			args[k+5] = msgs[i].getObjId();
 			args[k+6] = msgs[i].getContent();
 		}
-		getJdbcTemplate().update(sb.toString(), args);
+		getMasterJdbcTemplate().update(sb.toString(), args);
 	}
 
 	@Override
@@ -81,7 +81,7 @@ public class MsgAtDaoImpl extends BaseDaoImpl implements MsgAtDao {
 
 	@Override
 	public void updateCK(Integer atId) {
-		getJdbcTemplate().update(UPDATE_CK, atId);
+		getMasterJdbcTemplate().update(UPDATE_CK, atId);
 	}
 
 	@Override
@@ -119,6 +119,7 @@ public class MsgAtDaoImpl extends BaseDaoImpl implements MsgAtDao {
 		msg.setObjId(rs.getInt("obj_id"));
 		msg.setWorldId(rs.getInt("world_id"));
 		msg.setAtTime((Date)rs.getObject("at_time"));
+		msg.setContent(rs.getString("content"));
 		
 		MsgAtUserDto user = new MsgAtUserDto();
 		user.setId(rs.getInt("user_id"));

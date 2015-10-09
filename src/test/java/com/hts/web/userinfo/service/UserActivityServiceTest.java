@@ -13,10 +13,7 @@ public class UserActivityServiceTest extends BaseTest {
 	
 	@Test
 	public void addActivityScoreTest()throws Exception{
-		for(int i=0; i<30;i++){
-			service.addActivityScore(Tag.ACT_TYPE_LIKE, 1111);
-		}
-		
+		service.addActivityScore(Tag.ACT_TYPE_LIKE, 1111);
 	}
 	
 }

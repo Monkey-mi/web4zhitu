@@ -25,6 +25,7 @@ public class HTWorldCommentDto implements Serializable, ObjectWithUserVerify, Ob
 	private Integer id;
 	private Integer authorId; // 作者id
 	private Integer reId; // 被回复评论id
+	private Integer reAuthorId; //　被回复作者id
 	private String content; // 内容
 	private Date commentDate; // 评论时间
 	private Integer worldId; // 世界ID
@@ -36,12 +37,14 @@ public class HTWorldCommentDto implements Serializable, ObjectWithUserVerify, Ob
 		super();
 	}
 
-	public HTWorldCommentDto(Integer id, Integer authorId, Integer reId, String content,
+	public HTWorldCommentDto(Integer id, Integer authorId, 
+			Integer reId, Integer reAuthorId, String content,
 			Date commentDate, Integer worldId, Integer worldAuthorId) {
 		super();
 		this.id = id;
 		this.authorId = authorId;
 		this.reId = reId;
+		this.reAuthorId = reAuthorId;
 		this.content = content;
 		this.commentDate = commentDate;
 		this.worldId = worldId;
@@ -144,6 +147,14 @@ public class HTWorldCommentDto implements Serializable, ObjectWithUserVerify, Ob
 	@Override
 	public void setRemark(String remark) {
 		userInfo.setRemark(remark);
+	}
+
+	public Integer getReAuthorId() {
+		return reAuthorId;
+	}
+
+	public void setReAuthorId(Integer reAuthorId) {
+		this.reAuthorId = reAuthorId;
 	}
 	
 }

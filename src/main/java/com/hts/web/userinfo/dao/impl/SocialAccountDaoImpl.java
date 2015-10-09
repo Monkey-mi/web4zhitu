@@ -93,6 +93,9 @@ public class SocialAccountDaoImpl extends BaseDaoImpl implements SocialAccountDa
 	 */
 	private static final String UPDATE_PLATFORM_ID_BY_UID = "update " + table
 			+ " set platform_id=? where user_id=? and platform_code=?";
+	
+	private static final String QUERY_EXIST_BY_PLAT_ID = "select 1 from " + table
+			+ " where platform_id=? limit 1";
 
 
 	@Override
@@ -276,6 +279,16 @@ public class SocialAccountDaoImpl extends BaseDaoImpl implements SocialAccountDa
 			String platformId) {
 		getMasterJdbcTemplate().update(UPDATE_PLATFORM_ID_BY_UID, 
 				new Object[]{userId, platformCode, platformId});
+	}
+
+	@Override
+	public boolean queryPlatformIdExist(String platformId) {
+		try {
+			getJdbcTemplate().queryForInt(QUERY_EXIST_BY_PLAT_ID,platformId);
+			return true;
+		} catch(EmptyResultDataAccessException e) {
+			return false;
+		}
 	}
 
 }

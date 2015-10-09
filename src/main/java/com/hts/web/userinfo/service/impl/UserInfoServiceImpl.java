@@ -220,10 +220,17 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 
 	@Override
 	public Integer checkLoginCodeExists(String loginCode, Integer platformCode) throws Exception {
+		boolean flag;
 		if(platformCode == null) {
 			platformCode = PlatFormCode.ZHITU;
 		}
-		return userInfoDao.checkLoginCodeExists(loginCode, platformCode);
+		
+		flag = userInfoDao.checkLoginCodeExists(loginCode, platformCode);
+		if(!flag) {
+			flag = socialAccountDao.queryPlatformIdExist(loginCode);
+		}
+		
+		return flag ? Tag.TRUE : Tag.FALSE;
 	}
 	
 	@Override
@@ -239,7 +246,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 			Float ver) throws Exception {
 		UserInfo userInfo = null;
 		userName = StringUtil.trimName(userName);
-		if(userInfoDao.checkLoginCodeExists(loginCode, PlatFormCode.ZHITU) == Tag.TRUE) { //判断账号是否存在
+		if(userInfoDao.checkLoginCodeExists(loginCode, PlatFormCode.ZHITU)) { //判断账号是否存在
 			throw new HTSException(TIP_LOGIN_CODE_EXIST, LOGIN_CODE_EXIST);
 		}
 		
@@ -390,7 +397,8 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 				? phoneVer.substring(0, PHONE_VER_MAX_LENGTH) : phoneVer;
 		ver = ver > VER_MAX ? VER_MAX : ver;
 		if(StringUtil.checkIsNULL(loginCode)) {
-			loginBySocialLogger.warn("loginBySocialAccount logincode error,loginCode=" + loginCode
+			loginBySocialLogger.warn("loginBySocialAccount logincode error,platformCode=" + platformCode 
+					+ "loginCode=" + loginCode
 					+ ",phoneCode=" + phoneCode + ",phoneSys=" + phoneSys 
 					+ ",phoneVer=" + phoneVer + ",ver=" + ver);
 			throw new HTSException(TIP_LOGIN_CODE_ERROR, LOGIN_CODE_ERROR);

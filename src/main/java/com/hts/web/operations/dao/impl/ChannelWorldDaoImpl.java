@@ -40,14 +40,6 @@ public class ChannelWorldDaoImpl extends BaseDaoImpl implements ChannelWorldDao 
 			+ " order by serial desc limit ?)"
 			+ " ) as o0 order by o0.recommend_id desc limit ?";
 	
-	
-	
-//	private static final String QUERY_WORLD_BY_MAX_ID = "SELECT oc0.serial as recommend_id, " + H0_INFO + ", " + U0_INFO 
-//			+ " from " + table + " as oc0, " + HTS.HTWORLD_HTWORLD + " as h0, " + HTS.USER_INFO + " as u0"
-//			+ " where oc0.world_id=h0.id and h0.author_id = u0.id "
-//			+ " and oc0.valid=1 and h0.valid=1 and h0.shield=0 and oc0.channel_id=? and oc0.serial<=?"
-//			+ " order by oc0.serial desc limit ?,?";
-	
 	private static final String QUERY_WORLD_BY_MAX_ID = "select distinct * from ("
 			+ " (SELECT oc0.serial as recommend_id, oc0.superb," + H0_INFO + ", " + U0_INFO 
 			+ " from " + table + " as oc0, " + HTS.HTWORLD_HTWORLD + " as h0, " + HTS.USER_INFO + " as u0"
@@ -75,17 +67,17 @@ public class ChannelWorldDaoImpl extends BaseDaoImpl implements ChannelWorldDao 
 			+ " order by oc0.serial desc limit ?,?";
 	
 	
-	private static final String QUERY_SUPERB_WORLD = "SELECT oc0.serial as recommend_id, oc0.superb," + H0_INFO + ", " + U0_INFO 
+	private static final String QUERY_SUPERB_WORLD = "SELECT oc0.superb_serial as recommend_id, oc0.superb," + H0_INFO + ", " + U0_INFO 
 			+ " from " + table + " as oc0, " + HTS.HTWORLD_HTWORLD + " as h0, " + HTS.USER_INFO + " as u0"
 			+ " where oc0.world_id=h0.id and h0.author_id = u0.id "
 			+ " and oc0.valid=1 and h0.valid=1 and h0.shield=0 and oc0.superb=1 and oc0.channel_id=?"
-			+ " order by oc0.serial desc limit ?,?";
+			+ " order by oc0.superb_serial desc limit ?,?";
 	
-	private static final String QUERY_SUPERB_WORLD_BY_MAX_ID = "SELECT oc0.serial as recommend_id, oc0.superb," + H0_INFO + ", " + U0_INFO 
+	private static final String QUERY_SUPERB_WORLD_BY_MAX_ID = "SELECT oc0.superb_serial as recommend_id, oc0.superb," + H0_INFO + ", " + U0_INFO 
 			+ " from " + table + " as oc0, " + HTS.HTWORLD_HTWORLD + " as h0, " + HTS.USER_INFO + " as u0"
 			+ " where oc0.world_id=h0.id and h0.author_id = u0.id "
-			+ " and oc0.valid=1 and h0.valid=1 and h0.shield=0 and oc0.superb=1 and oc0.channel_id=? and oc0.serial<=?"
-			+ " order by oc0.serial desc limit ?,?";
+			+ " and oc0.valid=1 and h0.valid=1 and h0.shield=0 and oc0.superb=1 and oc0.channel_id=? and oc0.superb_serial<=?"
+			+ " order by oc0.superb_serial desc limit ?,?";
 	
 	private static final String QUERY_UNVALID_WORLD = "SELECT oc0.serial as recommend_id, oc0.superb," + H0_INFO + ", " + U0_INFO 
 			+ " from " + table + " as oc0, " + HTS.HTWORLD_HTWORLD + " as h0, " + HTS.USER_INFO + " as u0"
@@ -188,7 +180,7 @@ public class ChannelWorldDaoImpl extends BaseDaoImpl implements ChannelWorldDao 
 	@Override
 	public List<OpChannelWorldDto> queryChannelWorld(Integer maxId,
 			Integer channelId, RowSelection rowSelection, Integer userId) {
-		return getJdbcTemplate().query(QUERY_WORLD_BY_MAX_ID, 
+		return getJdbcTemplate().query(QUERY_WORLD_BY_MAX_ID,
 				new Object[]{channelId, maxId, rowSelection.getLimit(), channelId, userId, maxId,
 				rowSelection.getLimit(), rowSelection.getLimit()}, 
 				new RowMapper<OpChannelWorldDto>() {

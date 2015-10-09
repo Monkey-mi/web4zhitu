@@ -3,9 +3,7 @@ package com.hts.web.ztworld.service;
 import java.util.List;
 import java.util.Map;
 
-import com.hts.web.base.constant.Tag;
 import com.hts.web.common.pojo.HTWorldGeo;
-import com.hts.web.common.pojo.HTWorldInteractDto;
 import com.hts.web.common.pojo.ObjectWithLiked;
 import com.hts.web.common.pojo.PushStatus;
 import com.hts.web.common.service.BaseService;
@@ -63,9 +61,30 @@ public interface ZTWorldInteractService extends BaseService {
 	 * @param jsonMap
 	 * @return
 	 * @throws Exception
+	 * 被{@link saveReplyWithAt}替代
 	 */
+//	@Deprecated 
 	public void saveReply(Boolean im, Integer worldId, Integer worldAuthorId,
 			Integer authorId, String content, Integer reId, Integer reAuthorId,
+			String atIdsStr, String atNamesStr, Map<String, Object> jsonMap) throws Exception;
+	
+	/**
+	 * 回复评论
+	 * 
+	 * @param im
+	 * @param worldId
+	 * @param worldAuthorId
+	 * @param authorId
+	 * @param content
+	 * @param reId
+	 * @param reAuthorId
+	 * @param atIdsStr
+	 * @param atNamesStr
+	 * @param jsonMap
+	 * @throws Exception
+	 */
+	public void saveReplyWithAt(Boolean im, Integer worldId, Integer worldAuthorId,
+			Integer authorId,  String content, Integer reId, Integer reAuthorId, 
 			String atIdsStr, String atNamesStr, Map<String, Object> jsonMap) throws Exception;
 
 	/**
@@ -246,5 +265,18 @@ public interface ZTWorldInteractService extends BaseService {
 	 * @return
 	 */
 	public boolean checkCommentValid(Integer commentId);
+	
+	/**
+	 * 过滤评论开头的' : '
+	 * @param content
+	 * @return
+	 */
+	public String trimColon2Comment(String content);
+	
+	/**
+	 * 将@替换为回复
+	 * @param content
+	 */
+	public String replaceAt2Reply(String content);
 	
 }

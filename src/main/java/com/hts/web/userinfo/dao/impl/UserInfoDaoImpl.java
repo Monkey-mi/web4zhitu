@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
@@ -95,11 +96,8 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 	private static final String QUERY_USER_COUNT_BY_USER_NAME = "select count(*) from " + table 
 			+ " where user_name=?";
 	
-	/**
-	 * 根据账号查询用户总数
-	 */
-	private static final String QUERY_USER_COUNT_BY_LOGIN_CODE = "select count(*) from " + table 
-			+ " where login_code=? and platform_code=?";
+	private static final String QUERY_EXIST_BY_LOGIN_CODE = "select 1 from " + table 
+			+ " where login_code=? and platform_code=? limit 1";
 	
 	/**
 	 * 根据id查询用户信息
@@ -477,13 +475,14 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 	}
 	
 	@Override
-	public Integer checkLoginCodeExists(String loginCode, Integer platformCode) {
-		long count = getJdbcTemplate().queryForLong(QUERY_USER_COUNT_BY_LOGIN_CODE,
+	public boolean checkLoginCodeExists(String loginCode, Integer platformCode) {
+		try {
+			getJdbcTemplate().queryForInt(QUERY_EXIST_BY_LOGIN_CODE,
 				new Object[]{loginCode, platformCode});
-		if(count > 0) {
-			return Tag.TRUE;
+			return true;
+		} catch(EmptyResultDataAccessException e) {
+			return false;
 		}
-		return Tag.FALSE;
 	}
 	
 	@Override

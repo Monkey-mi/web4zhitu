@@ -53,6 +53,12 @@ public class UserInfoServiceTest extends BaseTest {
 	}
 	
 	@Test
+	public void checkLoginCodeExistsTest() throws Exception {
+		Integer flag = service.checkLoginCodeExists("1778767453", PlatFormCode.SINA);
+		Log.debug(flag);
+	}
+	
+	@Test
 	public void testLogin() throws Exception {
 		UserInfo userInfo = service.login("12s346213563.673693967015", "123451s6", 
 				"1111",PhoneType.PHONE_TYPE_ANDROID, null, "4.01", 2.084f);
@@ -139,7 +145,7 @@ public class UserInfoServiceTest extends BaseTest {
 	@Test
 	public void testUpdateUserName() throws Exception {
 		int i = new Random().nextInt(1000000);
-		service.updateUserName(485, "天杰1"+i);
+		service.updateUserName(485, "天杰1");
 	}
 	
 	@Test
@@ -183,5 +189,11 @@ public class UserInfoServiceTest extends BaseTest {
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
 		service.buildUserAvatarLite(485, jsonMap);
 		logObj(jsonMap);
+	}
+	
+	@Test
+	public void queryProfileTest() throws Exception {
+		UserInfo u = service.getUserInfoById(485, 485, true, true, 6, "汐小沫", 2, 23901);
+		logObj(u);
 	}
 }

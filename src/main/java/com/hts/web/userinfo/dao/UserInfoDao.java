@@ -61,7 +61,7 @@ public interface UserInfoDao extends BaseDao {
 	 * @param platformCode
 	 * @return
 	 */
-	public Integer checkLoginCodeExists(String loginCode, Integer platformCode);
+	public boolean checkLoginCodeExists(String loginCode, Integer platformCode);
 	
 	/**
 	 * 查询用户信息

@@ -354,6 +354,10 @@ public class StringUtil {
 		return s;
 	}
 	
+	public static void main(String[] args) {
+		System.out.println(trimName("苏 尛 夏💋"));
+	}
+	
 	/**
 	 * 标签过滤空格和逗号
 	 * 

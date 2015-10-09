@@ -128,9 +128,28 @@ public class ZTWorldInteractAction extends BaseAction {
 	 * 
 	 * @return
 	 */
+	@Deprecated
 	public String replyComment() {
 		try {
-			worldInteractService.saveReply(im, worldId, worldAuthorId, 
+			worldInteractService.saveReply(im, worldId, worldAuthorId,
+					getCurrentLoginUserId(), content, reId, reAuthorId, 
+					atIds, atNames, jsonMap);
+			JSONUtil.optSuccess(jsonMap);
+		} catch(HTSException e) {
+			JSONUtil.optFailed(e.getErrorCode(), e.getMessage(), jsonMap);
+		} catch (Exception e) {
+			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+		}
+		return StrutsKey.JSON;
+	}
+	
+	/**
+	 * 回复评论
+	 * @return
+	 */
+	public String replyWithAt() {
+		try {
+			worldInteractService.saveReplyWithAt(im, worldId, worldAuthorId,
 					getCurrentLoginUserId(), content, reId, reAuthorId, 
 					atIds, atNames, jsonMap);
 			JSONUtil.optSuccess(jsonMap);

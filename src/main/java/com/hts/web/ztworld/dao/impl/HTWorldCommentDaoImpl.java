@@ -328,6 +328,7 @@ public class HTWorldCommentDaoImpl extends BaseDaoImpl implements
 				rs.getInt("id"),
 				rs.getInt("author_id"),
 				rs.getInt("re_id"),
+				rs.getInt("re_author_id"),
 				rs.getString("content"),
 				(Date)rs.getObject("comment_date"),
 				rs.getInt("world_id"),
