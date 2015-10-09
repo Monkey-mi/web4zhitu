@@ -28,7 +28,7 @@ public class UserInfoDaoTest extends BaseTest {
 	
 	@Test
 	public void testQueryUserInfoById() {
-		UserInfo userInfo = dao.queryUserInfoById(116);
+		UserInfo userInfo = dao.queryUserInfoById(114);
 		Assert.assertNotNull(userInfo);
 	}
 	
