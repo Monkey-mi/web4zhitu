@@ -20,7 +20,7 @@ img {
 	width: 100%;
 	border: 0;
 	padding: 0;
-
+	display:block;
 }
 
  a {
@@ -35,6 +35,7 @@ img {
 	margin-bottom: 60px;
 	background-color:#eaebef; 
 }
+
 
 .user-wrap {
 /* 	width:750px; */
@@ -89,10 +90,10 @@ img {
 	margin: 0 18px 0 18px;
 }
 
-.box-shadow{  
-   -webkit-box-shadow:0 0 1px  #85848a;  
+img.box-shadow{  
+    -webkit-box-shadow:0 0 1px  #85848a;  
   -moz-box-shadow:0 0 1px  #85848a;  
-  box-shadow:0 0 1px  #85848a;   
+  box-shadow:0 0 1px  #85848a;  
 }  
 
 .share-wrap img {
@@ -124,7 +125,7 @@ img {
 
 .table04{
 	width:678px;
-	 height:640px;
+	 height:636px;
 }
 
 .table03{
@@ -137,15 +138,15 @@ img {
 }
 
 .tr24{
-	height:320px;
+	height:318px;
 }					
 
 .td3{
-	width:448px;
+	width:445px;
 }
 
 .userName {
-	font-size:50px;
+	font-size:35px;
 	font-family: "微软雅黑", Arial, Helvetica, sans-serif;
 	font-weight:600
 }
@@ -167,6 +168,10 @@ img {
 	width:12px;
 }
 
+.tfootHeight{
+	height:10px;
+}
+
 .tableUserName{
 	width:200px;
 	height:100px;
@@ -185,6 +190,7 @@ img {
 .face{
 	width:150px;
 	height:150px;
+	align:center;
 	-moz-border-radius: 50%;
 	-webkit-border-radius: 50%;
 	border-radius: 50%;
@@ -196,6 +202,7 @@ img {
 .share-sticker-btn {
 	width:400	px;
 	height:100px;
+	align:center;
 	border: 10px solid #ffffff; 
 	background-color:#000000;
 	line-height:100px;
@@ -204,7 +211,7 @@ img {
 }
 
  .share-sticker-btn a {
-color:#ffffff;
+	color:#ffffff;
 } 
 
 .share-sticker-btn-out{
@@ -216,7 +223,7 @@ color:#ffffff;
 }
 
 .space{
-	padding:40px 0 0 0 ;
+	padding:80px 0 0 0 ;
 }
 
 .foot{
@@ -325,23 +332,26 @@ var userIds = "";
 			 	for(var i = 0;i < result.starModuleInfos.length;i++){
 			 		userIds += result.starModuleInfos[i].userId + ",";
 			 		//一张图时的默认显示
-			 		 var tablePic = '<div class="userPic box-shadow"><img  alt="" src="'+ result.starModuleInfos[i].pic +'"/></div>'; 
+			 		 var tablePic = '<div class="userPic"><img  alt="" class="box-shadow" src="'+ result.starModuleInfos[i].pic +'"/></div>'; 
 			 		 
 			 		 //判断对应几张图，并将其显示为对应的模式
 					if( result.starModuleInfos[i].pic04 != ""){
-						tablePic = '<table  align="center" border="0" class="table04"><tr class="tr24"><td width=50%><div class="box-shadow"><img  alt="" src="'+ result.starModuleInfos[i].pic +'"/></div></td><td width=50%><div class="box-shadow"><img  alt="" src="'+ result.starModuleInfos[i].pic02 +'"/></div></td></tr><tr><td><div class="box-shadow"><img  alt="" src="'+ result.starModuleInfos[i].pic03 +'"/></div></td><td><div class="box-shadow"><img  alt="" src="'+ result.starModuleInfos[i].pic04 +'"/></div></td></tr></table>'; 
+						tablePic = '<table  align="center" border="0" cellspacing="4" class="table04"><tr class="tr24"><td width=50%><img  alt="" class="box-shadow" src="'+ result.starModuleInfos[i].pic +'"/></td><td width=50%><img  alt="" class="box-shadow" src="'+ result.starModuleInfos[i].pic02 +'"/></td></tr><tr><td><img  alt="" class="box-shadow" src="'+ result.starModuleInfos[i].pic03 +'"/></td><td><img  alt="" class="box-shadow" src="'+ result.starModuleInfos[i].pic04 +'"/></td></tr></table>'; 
 					}else if( result.starModuleInfos[i].pic03 != ""){
-						tablePic = '<table  align="center" border="0" class="table03" ><tr><td rowspan=2   class="td3"><div class="box-shadow"><img  alt="" src="'+ result.starModuleInfos[i].pic +'"/></div></td><td><div class="box-shadow"><img  alt="" src="'+ result.starModuleInfos[i].pic02 +'"/></div></td></tr><tr><td><div class="box-shadow"><img  alt="" src="'+ result.starModuleInfos[i].pic03 +'"/></div></td></tr></table>'; 
+						tablePic = '<table  align="center" border="0" class="table03" ><tr><td rowspan=2   class="td3"><img  alt=""  class="box-shadow" src="'+ result.starModuleInfos[i].pic +'"/></td><td><img  alt=""  class="box-shadow" src="'+ result.starModuleInfos[i].pic02 +'"/></td></tr><tr><td><img  alt=""  class="box-shadow" src="'+ result.starModuleInfos[i].pic03 +'"/></td></tr></table>'; 
 					}else if( result.starModuleInfos[i].pic02 != ""){
-						var tablePic = '<table  align="center"  class="table02" ><tr  class="tr24"><td width=50%><div class="box-shadow"><img  alt="" src="'+ result.starModuleInfos[i].pic +'"/></div></td><td width=50%><div class="box-shadow"><img  alt="" src="'+ result.starModuleInfos[i].pic02 +'"/></div></td></tr></table>';
+						var tablePic = '<table  align="center" border="0" class="table02" ><tr  class="tr24"><td width=50%><img  alt="" class="box-shadow"  src="'+ result.starModuleInfos[i].pic +'"/></td><td width=50%><img  alt="" class="box-shadow"  src="'+ result.starModuleInfos[i].pic02 +'"/></td></tr></table>';
 					}
 			 		 
+			 		 //小模块介绍
 			 		var intro2 = '<div  class="intro2">'+ result.starModuleInfos[i].intro2 +'</div></div></div>';
+			 		
+			 		//单元模块
 				 	var module = '<div class="user-wrap"><div class="title1">'+ result.starModuleInfos[i].title +'</div>'+
-					 	'<div class="title2">'+ result.starModuleInfos[i].subtitle +'</div><div class="whriteBlock" ><table  align="center"><tr><td rowspan="2"  class="tableFace" ><div class="face-out"><div class="face"><a href="imzhitu://user?uid='+ result.starModuleInfos[i].userId +'"><img src="'+ result.starModuleInfos[i].facePic +'"/></a></div></div></td>'+
+					 	'<div class="title2">'+ result.starModuleInfos[i].subtitle +'</div><div class="whriteBlock" ><table border="0" align="center"><tr><td rowspan="2"  class="tableFace" ><div class="face-out"><div class="face"><a href="imzhitu://user?uid='+ result.starModuleInfos[i].userId +'"><img src="'+ result.starModuleInfos[i].facePic +'"/></a></div></div></td>'+
 					 	'<td align="left" class="tableMiddleSpace"></td><td align="left" class="tableUserName"><div class="userName">'+ result.starModuleInfos[i].userName +'</div></td></tr>'+
 					 	'<tr><td align="left" class="tableMiddleSpace"></td><td><a id="concern-'+ result.starModuleInfos[i].userId +'" class="concern-btn concern" name="imzhitu-callapp" href="imzhitu://concern?uid='+ result.starModuleInfos[i].userId +'">+关注</a><a class="concern-btn concerned">已关注</a></td></tr>'+
-					 	'<tfoot><tr><td height=10  colspan="3"></td></tr></tfoot></table>' + tablePic + intro2;
+					 	'<tfoot><tr><td height=10  class="tfootHeight" colspan="3"></td></tr></tfoot></table>' + tablePic + intro2;
 			 		$('#main').append(module);
 				} 
 			 	
@@ -376,7 +386,6 @@ function initLayout() {
 	}
 	document.getElementById("share-btn").addEventListener('click',openclient,false);
  	document.getElementById("sticker-btn").addEventListener('click',openclient,false); 	
-	
 	
 		var maxW = 750;
 		var winWidth = $(window).width();
@@ -421,7 +430,7 @@ function initLayout() {
 		tableFaceHeight = 200,
 		
 		//用户名
-		userNameFontSize = 50,
+		userNameFontSize = 35,
 		tableUserNameWidth = 200,
 		tableUserNameHeight = 100,
 		
@@ -432,7 +441,7 @@ function initLayout() {
 		
 		//用户4图table长宽
 		table04width = 678,
-		table04height = 640,
+		table04height = 626,
 		
 		//用户3图宽
 		table03width = 678,
@@ -442,15 +451,15 @@ function initLayout() {
 		table02height = 339,
 		
 		//用户24图行高
-		tr24height = 320,
+		tr24height = 313,
 		
 		//用户3图大图宽
-		td3width = 448,
+		td3width = 445,
 
 		//关注按钮
 		concernButtonWidth = 230,
 		concernButtonHeight = 68,
-		concernButtonMarginTop = -33,
+		concernButtonMarginTop = -60,
 		concernButtonMarginLeft = -100,
 		concernButtonFontSize = 33,
 		concernButtonFontWeight = 900,
@@ -475,9 +484,16 @@ function initLayout() {
 		faceHeight = 150,
 		faceBorder = 10,
 		
+
+		//头像用户名之间间距
+		tableMiddleSpaceWidth = 12,
+		
+		//用户表tfoot 设置与用户图片之间的间距
+		tfootHeigh = 10,
+		
 		//分享按钮
-		shareButtonWidth = 400,
-		shareButtonHeight = 100,
+ 		shareButtonWidth = 400,
+		shareButtonHeight = 100, 
 		shareButtonBorder = 10,
 		shareButtonLineHeight = 100,
 		shareButtonFontSize = 48,
@@ -492,133 +508,138 @@ function initLayout() {
 		shareoutBorder = 10,
 		
 		//后介绍上面的空格
-		sapcePaddingTop = 40,
+		sapcePaddingTop = 80,
 		
 		//来自织图
 		footFontSize = 25,
 		footPaddingTop = 45,
 		footPaddingButtom = 25,
 		
-	scale = winWidth / maxW;
-
+	scale = winWidth / maxW * 100;
+	
 		//headIntro前介绍宽度限制
-		head1width = head1width * scale;
-		head1broder = head1broder * scale;
-		head1marginTop = head1marginTop * scale;
-		head1marginLeft = head1marginLeft * scale;
+		head1width = head1width * scale / 100;
+		head1broder = head1broder * scale / 100;
+		head1marginTop = head1marginTop  * scale / 100;
+		head1marginLeft = head1marginLeft * scale / 100;
 		
-		head2fontSize = head2fontSize * scale;
-		head2fontWeight = head2fontWeight * scale;
-		head2paddingTop = head2paddingTop * scale;
-		head2paddingBottom = head2paddingBottom * scale;
-		head2paddingLeft = head2paddingLeft * scale;
-		head2paddingRight = head2paddingRight * scale;
-		head2border = head2border * scale;
+		head2fontSize = head2fontSize  * scale / 100;
+		head2fontWeight = head2fontWeight * scale / 100;
+		head2paddingTop = head2paddingTop * scale / 100;
+		head2paddingBottom = head2paddingBottom * scale / 100;
+		head2paddingLeft = head2paddingLeft * scale / 100;
+		head2paddingRight = head2paddingRight * scale / 100;
+		head2border = head2border * scale / 100;
 
 		//小标题
-		title1fontSize = title1fontSize * scale;
-		title1fontWeight = title1fontWeight * scale;
-		title1paddingTop = title1paddingTop * scale;
+		title1fontSize = title1fontSize  * scale / 100;
+		title1fontWeight = title1fontWeight  * scale / 100;
+		title1paddingTop = title1paddingTop * scale / 100;
 		
 		//小副标题
-		title2fontSize = title2fontSize * scale;
-		title2fontWeight = title2fontWeight * scale;
-		title2paddingTop = title2paddingTop * scale;
-		title2paddingBottom = title2paddingBottom * scale;
+		title2fontSize = title2fontSize * scale / 100;
+		title2fontWeight = title2fontWeight * scale / 100;
+		title2paddingTop = title2paddingTop * scale / 100;
+		title2paddingBottom = title2paddingBottom * scale / 100;
 
 
 		//白色模块底
-		whriteWidth = whriteWidth * scale;
-		whritePaddingTop = whritePaddingTop * scale;
-		whriteMarginRight = whriteMarginRight * scale;
-		whriteMarginLeft = whriteMarginLeft * scale;
-		whriteBorderBottom = whriteBorderBottom * scale;
+		whriteWidth = whriteWidth * scale / 100;
+		whritePaddingTop = whritePaddingTop * scale / 100;
+		whriteMarginRight = whriteMarginRight * scale / 100;
+		whriteMarginLeft = whriteMarginLeft * scale / 100;
+		whriteBorderBottom = whriteBorderBottom * scale / 100;
 		
 	
 		//用户头像
-		tableFaceWidth = tableFaceWidth * scale;
-		tableFaceHeight = tableFaceHeight * scale;
+		tableFaceWidth = tableFaceWidth * scale / 100;
+		tableFaceHeight = tableFaceHeight * scale / 100;
 		
 		//用户名
-		userNameFontSize = userNameFontSize * scale;
-		tableUserNameWidth = tableUserNameWidth * scale;
-		tableUserNameHeight = tableUserNameHeight * scale;
+		userNameFontSize = userNameFontSize * scale / 100;
+		tableUserNameWidth = tableUserNameWidth * scale / 100;
+		tableUserNameHeight = tableUserNameHeight * scale / 100;
 		
 		//用户图片
-		userPicWidth = userPicWidth * scale;
-		userPicMarginRight = userPicMarginRight * scale;
-		userpicMarginLeft = userpicMarginLeft * scale;
+		userPicWidth = userPicWidth * scale / 100;
+		userPicMarginRight = userPicMarginRight * scale / 100;
+		userpicMarginLeft = userpicMarginLeft * scale / 100;
 		
 		//用户4图table长宽
-		table04width = table04width * scale;
-		table04height = table04height * scale;
+		table04width = table04width * scale / 100;
+		table04height = table04height * scale / 100;
 		
 		//用户3图宽
-		table03width = table03width * scale;
+		table03width = table03width * scale / 100;
 		
 		//用户2图长宽
-		table02width = table02width * scale;
-		table02height = table02height * scale;
+		table02width = table02width * scale / 100;
+		table02height = table02height  * scale / 100;
 		
 		//用户24图行高
-		tr24height = tr24height * scale;
+		tr24height = tr24height * scale / 100;
 		
 		//用户3图大图宽
-		td3width = td3width * scale;
+		td3width = td3width * scale / 100;
 
 		//关注按钮
-		concernButtonWidth = concernButtonWidth * scale;
-		concernButtonHeight = concernButtonHeight * scale;
-		concernButtonMarginTop = concernButtonMarginTop * scale;
-		concernButtonMarginLeft = concernButtonMarginLeft * scale;
-		concernButtonFontSize = concernButtonFontSize * scale;
-		concernButtonFontWeight = concernButtonFontWeight * scale;
-		concernButtonFontLineHeight = concernButtonFontLineHeight * scale;
+		concernButtonWidth = concernButtonWidth * scale / 100;
+		concernButtonHeight = concernButtonHeight * scale / 100;
+		concernButtonMarginTop = concernButtonMarginTop * scale / 100;
+		concernButtonMarginLeft = concernButtonMarginLeft * scale / 100;
+		concernButtonFontSize = concernButtonFontSize * scale / 100;
+		concernButtonFontWeight = concernButtonFontWeight * scale / 100;
+		concernButtonFontLineHeight = concernButtonFontLineHeight * scale / 100;
 
 
 		//小模块介绍
-		intro2width = intro2width * scale;
-		intro2fontSize = intro2fontSize * scale;
-		intro2fontWeight = intro2fontWeight * scale;
-		intro2paddingTop = intro2paddingTop * scale;
-		intro2paddingBottom = intro2paddingBottom * scale;
-		intro2paddingLeft = intro2paddingLeft * scale;
-		intro2paddingRight = intro2paddingRight * scale;
+		intro2width = intro2width * scale / 100;
+		intro2fontSize = intro2fontSize * scale / 100;
+		intro2fontWeight = intro2fontWeight * scale / 100;
+		intro2paddingTop = intro2paddingTop * scale / 100;
+		intro2paddingBottom = intro2paddingBottom * scale / 100;
+		intro2paddingLeft = intro2paddingLeft * scale / 100;
+		intro2paddingRight = intro2paddingRight * scale / 100;
 
 		//头像外边框显示
-		faceoutWidth = faceoutWidth * scale;
-		faceoutHeight = faceoutHeight * scale;
-		faceoutBorder = faceoutBorder * scale;
+		faceoutWidth = faceoutWidth * scale / 100;
+		faceoutHeight = faceoutHeight * scale / 100;
+		faceoutBorder = faceoutBorder * scale / 100;
 		
 		//头像边框显示
-		faceWidth = faceWidth * scale;
-		faceHeight = faceHeight * scale;
-		faceBorder = faceBorder * scale;
+		faceWidth = faceWidth * scale / 100;
+		faceHeight = faceHeight * scale / 100;
+		faceBorder = faceBorder * scale / 100;
+		
+		//头像用户名之间间距
+		tableMiddleSpaceWidth = tableMiddleSpaceWidth  * scale / 100;
+		
+		//用户表tfoot 设置与用户图片之间的间距
+		tfootHeigh = tfootHeigh  * scale / 100;
 		
 		//分享按钮
-		shareButtonWidth = shareButtonWidth * scale;
-		shareButtonHeight = shareButtonHeight * scale;
-		shareButtonBorder = shareButtonBorder * scale;
-		shareButtonLineHeight = shareButtonLineHeight * scale;
-		shareButtonFontSize = shareButtonFontSize * scale;
+ 		shareButtonWidth = shareButtonWidth * scale / 100;
+		shareButtonHeight = shareButtonHeight * scale / 100; 
+		shareButtonBorder = shareButtonBorder * scale / 100;
+		shareButtonLineHeight = shareButtonLineHeight * scale / 100;
+		shareButtonFontSize = shareButtonFontSize * scale / 100;
 		
 		//分享按钮外边框
-		shareoutWidth = shareoutWidth * scale;
-		shareoutHeight = shareoutHeight * scale;
-		shareoutMarginTop = shareoutMarginTop * scale;
-		shareoutMarginButtom = shareoutMarginButtom * scale;
-		shareoutMarginRight = shareoutMarginRight * scale;
-		shareoutMarginLeft = shareoutMarginLeft * scale;
-		shareoutBorder = shareoutBorder * scale;
-
+		shareoutWidth = shareoutWidth * scale / 100;
+		shareoutHeight = shareoutHeight * scale / 100;
+		shareoutMarginTop = shareoutMarginTop * scale / 100;
+		shareoutMarginButtom = shareoutMarginButtom * scale / 100;
+		shareoutMarginRight = shareoutMarginRight * scale / 100;
+		shareoutMarginLeft = shareoutMarginLeft * scale / 100;
+		shareoutBorder = shareoutBorder * scale / 100;
 	
 	//后介绍上面的空格
-	sapcePaddingTop = sapcePaddingTop * scale;
+	sapcePaddingTop = sapcePaddingTop * scale / 100;
 	
 	//来自织图
-	footFontSize = footFontSize * scale;
-	footPaddingTop = footPaddingTop * scale;
-	footPaddingButtom = footPaddingButtom * scale;
+	footFontSize = footFontSize * scale / 100;
+	footPaddingTop = footPaddingTop * scale / 100;
+	footPaddingButtom = footPaddingButtom * scale / 100;
 		
 		$(".concern").show();
 	
@@ -730,16 +751,24 @@ function initLayout() {
 	 		$(".face").css({
 				"width":faceWidth + "px",
 				"height":faceHeight + "px",
-				"border-width":faceBorder + "px"
+				"border-width":Math.round(faceBorder) + "px"
 	 		}); 
  			
-
+		//头像用户名之间间距
+ 		$(".tableMiddleSpace").css({
+			"width":tableMiddleSpaceWidth + "px"
+ 		}); 
+		
+		//用户表tfoot 设置与用户图片之间的间距
+ 		$(".tfootHeight").css({
+			"height":tfootHeigh + "px"
+ 		}); 
  			
 			//分享按钮
  	 		$(".share-sticker-btn").css({
- 	 			"width":shareButtonWidth + "px",
- 	 			"height":shareButtonHeight + "px",
- 	 			"border-width":shareButtonBorder + "px",
+		 	 	"width":shareButtonWidth + "px",
+		 	 	"height":shareButtonHeight + "px", 
+ 	 			"border-width":Math.round(shareButtonBorder) + "px", 
  	 			"font-size":shareButtonFontSize + "px",
  	 			"line-height":shareButtonLineHeight + "px"}); 
 			
