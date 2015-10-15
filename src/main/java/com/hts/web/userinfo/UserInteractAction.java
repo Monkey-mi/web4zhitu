@@ -123,6 +123,7 @@ public class UserInteractAction extends BaseAction {
 				jsonMap.put(OptResult.JSON_KEY_IS_MUTUTAL, status.getIsMututal());
 				jsonMap.put(OptResult.JSON_KEY_USER_ID, status.getUserId());
 				jsonMap.put(OptResult.JSON_KEY_REMARK_ME, status.getRemarkMe());
+				jsonMap.put(OptResult.JSON_KEY_INTERACT_RES, status.getInteractRes());
 				JSONUtil.optSuccess(jsonMap);
 			}
 		} catch (HTSException e) {

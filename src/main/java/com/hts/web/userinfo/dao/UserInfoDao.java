@@ -409,6 +409,14 @@ public interface UserInfoDao extends BaseDao {
 	public Map<String, Object> queryTagById(Integer userId);
 	
 	/**
+	 * 查询用户id
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	public Integer queryShield(Integer userId);
+	
+	/**
 	 * 更新用户标签
 	 * @param userId
 	 * @param userLabel

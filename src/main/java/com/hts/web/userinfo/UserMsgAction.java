@@ -142,11 +142,18 @@ public class UserMsgAction extends BaseAction {
 	
 	/**
 	 * 获取未读消息总数V2
+	 * 
+	 * <p>
+	 * 2015-10-15:合并v1,v2
+	 * </p>
+	 * 
 	 * @return
+	 * 
+	 * @author lynch 2015-10-15
 	 */
 	public String queryUnreadMsgCountV2() {
 		try {
-			userMsgService.buildUnreadSysMsgCountV2(getCurrentLoginUserId(), jsonMap);
+			userMsgService.buildUnreadSysMsgCount(getCurrentLoginUserId(), jsonMap);
 			JSONUtil.optSuccess(jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);

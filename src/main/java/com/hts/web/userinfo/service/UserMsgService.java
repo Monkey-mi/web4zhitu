@@ -348,6 +348,7 @@ public interface UserMsgService extends BaseService {
 	/**
 	 * 保存at消息
 	 * 
+	 * @param push 系统是否发送推送
 	 * @param userId
 	 * @param objType
 	 * @param objId
@@ -358,8 +359,8 @@ public interface UserMsgService extends BaseService {
 	 * @version 3.0.5
 	 * @author lynch 2015-09-22
 	 */
-	public List<PushStatus> saveAtMsgs(Integer userId, Integer objType, Integer objId, Integer worldId,
-			String content, String atIdsStr, String atNamesStr) throws Exception;
+	public List<PushStatus> saveAtMsgs(Boolean push, Integer userId, Integer objType, Integer objId,
+			Integer worldId, String content, String atIdsStr, String atNamesStr) throws Exception;
 	
 	
 	/**

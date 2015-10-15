@@ -291,20 +291,20 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 			
 			// 添加AT信息
 			if(!StringUtil.checkIsNULL(atIdsStr)) {
-				atPushStatus = userMsgService.saveAtMsgs(authorId,
+				atPushStatus = userMsgService.saveAtMsgs(!im, authorId,
 						Tag.AT_TYPE_COMMENT, id, worldId, content, atIdsStr, atNamesStr);
 				jsonMap.put(OptResult.JSON_KEY_AT_PUSH_STATUS, atPushStatus);
 			}
+			
+			// 保存评论
+			userActivityService.addActivityScore(Tag.ACT_TYPE_COMMENT, authorId);
 		}
-		
-		userActivityService.addActivityScore(Tag.ACT_TYPE_COMMENT, authorId);
 		
 		dto = new HTWorldCommentDto(id, authorId, id, 0, content, comment.getCommentDate(),
 				worldId, wauthorId);
 		udto = userInfoDao.queryUserInfoDtoById(authorId);
 		dto.setUserInfo(udto);
 		pushStatus.setInteractRes(dto);
-		
 		userInfoService.extractVerify(dto);
 		
 		jsonMap.put(OptResult.JSON_KEY_COMMENT, pushStatus.getInteractRes());
@@ -352,7 +352,7 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 	@Override
 	public void saveReply(Boolean im, Integer worldId, Integer worldAuthorId, 
 			Integer authorId,  String content, Integer reId, Integer reAuthorId, 
-			String atIdsStr, String atNamesStr, Map<String, Object> jsonMap) throws Exception {
+			Map<String, Object> jsonMap) throws Exception {
 		
 		if(!checkWorldValid(worldId)) {
 			throw new HTSException(ERROR_MSG_INVALID, ERROR_CODE_INVALID);
@@ -441,14 +441,8 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 				}
 			}
 			
-			// 保存AT消息
-			if(!StringUtil.checkIsNULL(atIdsStr)) {
-				List<PushStatus> atPushStatus = userMsgService.saveAtMsgs(authorId, 
-						Tag.AT_TYPE_COMMENT, id, worldId, content, atIdsStr, atNamesStr);
-				jsonMap.put(OptResult.JSON_KEY_AT_PUSH_STATUS, atPushStatus);
-			}
 		}
-		HTWorldCommentDto dto = new HTWorldCommentDto(id, authorId, reId, reAuthorId, content, 
+		HTWorldCommentDto dto = new HTWorldCommentDto(id, authorId, reId, rAuthorId, content, 
 				comment.getCommentDate(), worldId, 0);
 		UserInfoDto udto = userInfoDao.queryUserInfoDtoById(authorId);
 		dto.setUserInfo(udto);
@@ -467,30 +461,124 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 	}
 	
 
-//	@Override
-//	public void saveReply(Boolean im, Integer worldId, Integer worldAuthorId,
-//			Integer authorId,  String content, Integer reId, Integer reAuthorId, 
-//			String atIdsStr, String atNamesStr, Map<String, Object> jsonMap) throws Exception {
-//
-//		PushStatus pushStatus;
-//		HTWorldCommentDto dto;
-//		UserInfoDto udto;
-//		
-//		pushStatus = new PushStatus(0, Tag.IOS, Tag.UN_CONCERN,
-//				Tag.FALSE, Tag.TRUE, null);
-//		dto = new HTWorldCommentDto(1, authorId, reId, reAuthorId, "不好意思，回复失败，请升级至最新版本织图才能回复～", 
-//				new Date(), worldId, 0);
-//		udto = userInfoDao.queryUserInfoDtoById(authorId);
-//		dto.setUserInfo(udto);
-//		
-//		jsonMap.put(OptResult.JSON_KEY_COMMENT, dto);
-//		jsonMap.put(OptResult.JSON_KEY_PHONE, pushStatus.getPhone());
-//		jsonMap.put(OptResult.JSON_KEY_ACCEPT, pushStatus.getAccept());
-//		jsonMap.put(OptResult.JSON_KEY_SHIELD, pushStatus.getShield());
-//		jsonMap.put(OptResult.JSON_KEY_IS_MUTUTAL, pushStatus.getIsMututal());
-//		jsonMap.put(OptResult.JSON_KEY_USER_ID, pushStatus.getUserId());
-//		jsonMap.put(OptResult.JSON_KEY_REMARK_ME, pushStatus.getRemarkMe());
-//	}
+	/*
+	@Override
+	public void saveReply(Boolean im, Integer worldId, Integer worldAuthorId,
+			Integer authorId,  String content, Integer reId, Integer reAuthorId, 
+			Map<String, Object> jsonMap) throws Exception {
+		
+		if(!checkWorldValid(worldId)) {
+			throw new HTSException(ERROR_MSG_INVALID, ERROR_CODE_INVALID);
+		} else if(!checkCommentValid(reId)){
+			throw new HTSException(ERROR_MSG_COMMENT_INVALID, ERROR_CODE_INVALID);
+		}
+		
+		// 暗号检查
+		PushStatus cypherStatus = replyCypherCheck(authorId, reId, reAuthorId, content, worldId);
+		if(cypherStatus != null) {
+			jsonMap.put(OptResult.JSON_KEY_COMMENT, cypherStatus.getInteractRes());
+			jsonMap.put(OptResult.JSON_KEY_PHONE, cypherStatus.getPhone());
+			jsonMap.put(OptResult.JSON_KEY_ACCEPT, cypherStatus.getAccept());
+			jsonMap.put(OptResult.JSON_KEY_SHIELD, cypherStatus.getShield());
+			jsonMap.put(OptResult.JSON_KEY_IS_MUTUTAL, cypherStatus.getIsMututal());
+			jsonMap.put(OptResult.JSON_KEY_USER_ID, cypherStatus.getUserId());
+			jsonMap.put(OptResult.JSON_KEY_REMARK_ME, cypherStatus.getRemarkMe());
+			return;
+		}
+		
+		
+		Integer ck = Tag.TRUE;
+		Integer shield = Tag.FALSE;
+		Integer valid = Tag.TRUE;
+		Integer rAuthorId = reAuthorId;
+		UserPushInfo userPushInfo = null;
+		content = StringUtil.filterXSS(
+				replaceAt2Reply(content));
+		boolean isad = false;
+		
+		userPushInfo = userInfoDao.queryUserPushInfoByCommentId(reId);
+		if(userPushInfo == null)
+			throw new HTSException("用户不存在", ERROR_CODE_INVALID);
+		
+		Integer wauthorId = worldDao.queryAuthorId(worldId);
+		rAuthorId = userPushInfo.getId();
+		
+		String remark = userRemarkDao.queryRemark(rAuthorId, authorId);
+		PushStatus pushStatus = new PushStatus(rAuthorId, Tag.IOS, Tag.UN_CONCERN,
+				Tag.FALSE, Tag.TRUE, remark);
+		
+		// 获取已读状态
+		ck = rAuthorId.equals(authorId) ? Tag.TRUE : Tag.FALSE;
+		
+		// 过滤广告
+		isad = commentFilterService.isad(content);
+		if(isad) {
+			shield = Tag.TRUE;
+			valid = Tag.FALSE;
+			commentFilterService.insertADCommentToRedis(worldId, authorId, content, new Date());
+		} else {
+			Map<String, Object> tags = userInfoDao.queryTagById(authorId);
+			shield = ((Integer)tags.get("shield")).equals(Tag.TRUE) ? Tag.TRUE : Tag.FALSE;
+		}
+		
+		Integer id = keyGenService.generateId(KeyGenServiceImpl.HTWORLD_COMMENT_ID);
+		HTWorldComment comment = new HTWorldComment(id, authorId, content, new Date(), worldId,
+				wauthorId, reId, userPushInfo.getId(), ck, valid, shield);
+		worldCommentDao.saveWorldComment(comment);
+		
+		if(shield.equals(Tag.FALSE)) {
+			// 更新评论总数
+			Long count = worldCommentDao.queryCommentCount(worldId);
+			worldDao.updateCommentCount(worldId, count.intValue());
+			
+			if(ck.equals(Tag.FALSE)) { // 不是自己发给自己
+				
+				boolean otherAt = UserInfoUtil.checkIsAtVersion(userPushInfo.getVer());
+				// 旧版全部调整为系统发送消息
+				if(otherAt) {
+					String atName = userInfoDao.queryUserNameById(rAuthorId);
+					userMsgService.saveAtMsgs(true, authorId, 
+							Tag.AT_TYPE_COMMENT, id, worldId, content, rAuthorId.toString(), atName);
+				} else {
+					Integer shieldUser = userShieldDao.queryShieldId(rAuthorId, authorId) == null 
+							? Tag.FALSE : Tag.TRUE;
+					pushService.pushReply(id, authorId, worldId, comment.getWorldAuthorId(), 
+							reId, content, userPushInfo, shieldUser);
+				}
+			} else { // 自己发送给自己的时候只保存at消息不推送
+				String atName = userInfoDao.queryUserNameById(rAuthorId);
+				userMsgService.saveAtMsgs(false, authorId, 
+						Tag.AT_TYPE_COMMENT, id, worldId, content, String.valueOf(rAuthorId), atName);
+			}
+			
+			// 给织图作者发送消息
+			if(authorId != wauthorId && rAuthorId != wauthorId) {
+				UserPushInfo wauthorPushInfo = userInfoDao.queryUserPushInfoById(wauthorId);
+				Integer shieldComment = userShieldDao.queryShieldId(wauthorId, authorId) == null 
+						? Tag.FALSE : Tag.TRUE;
+				pushService.pushComment(id, authorId, worldId, wauthorId,
+						content, wauthorPushInfo, shieldComment); // 推送评论
+			}
+			
+		}
+		
+		// 保存评论
+		HTWorldCommentDto dto = new HTWorldCommentDto(id, authorId, reId, rAuthorId, content, 
+				comment.getCommentDate(), worldId, 0);
+		UserInfoDto udto = userInfoDao.queryUserInfoDtoById(authorId);
+		dto.setUserInfo(udto);
+		userInfoService.extractVerify(dto);
+		pushStatus.setInteractRes(dto);
+		
+		jsonMap.put(OptResult.JSON_KEY_COMMENT, pushStatus.getInteractRes());
+		jsonMap.put(OptResult.JSON_KEY_PHONE, pushStatus.getPhone());
+		jsonMap.put(OptResult.JSON_KEY_ACCEPT, pushStatus.getAccept());
+		jsonMap.put(OptResult.JSON_KEY_SHIELD, pushStatus.getShield());
+		jsonMap.put(OptResult.JSON_KEY_IS_MUTUTAL, pushStatus.getIsMututal());
+		jsonMap.put(OptResult.JSON_KEY_USER_ID, pushStatus.getUserId());
+		jsonMap.put(OptResult.JSON_KEY_REMARK_ME, pushStatus.getRemarkMe());
+	}
+	*/
 	
 	@Override
 	public void saveReplyWithAt(Boolean im, Integer worldId, Integer worldAuthorId,
@@ -501,7 +589,6 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 		Integer ck;
 		Integer shield;
 		Integer valid;
-		Integer wauthorId;
 		String remark;
 		UserPushInfo userPushInfo;
 		boolean isad = false;
@@ -538,7 +625,7 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 		shield = Tag.FALSE;
 		valid = Tag.TRUE;
 		isad = false;
-		content = StringUtil.filterXSS(replaceAt2Reply(content));
+		content = StringUtil.filterXSS(content);
 		
 		// 旧版没有传worldAuthorId
 		userPushInfo = userInfoDao.queryUserPushInfoById(worldAuthorId);
@@ -546,11 +633,10 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 		if(userPushInfo == null)
 			throw new HTSException("用户不存在", ERROR_CODE_INVALID);
 		
-		wauthorId = userPushInfo.getId();
-		remark = userRemarkDao.queryRemark(wauthorId, authorId);
-		pushStatus = new PushStatus(wauthorId, Tag.IOS, Tag.UN_CONCERN,
+		remark = userRemarkDao.queryRemark(worldAuthorId, authorId);
+		pushStatus = new PushStatus(worldAuthorId, Tag.IOS, Tag.UN_CONCERN,
 				Tag.FALSE, Tag.TRUE, remark);
-		ck = reAuthorId.equals(authorId) ? Tag.TRUE : Tag.FALSE;// 获取已读状态
+		ck = worldAuthorId.equals(authorId) ? Tag.TRUE : Tag.FALSE;// 获取已读状态
 		isad = commentFilterService.isad(content); // 过滤广告
 		id = keyGenService.generateId(KeyGenServiceImpl.HTWORLD_COMMENT_ID);
 		
@@ -564,7 +650,7 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 		}
 		
 		comment = new HTWorldComment(id, authorId, content, new Date(), worldId,
-				wauthorId, reId, reAuthorId, ck, valid, shield);
+				worldAuthorId, reId, reAuthorId, ck, valid, shield);
 		worldCommentDao.saveWorldComment(comment);
 		
 		if(shield.equals(Tag.FALSE)) {
@@ -575,34 +661,36 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 			if(ck.equals(Tag.FALSE)) { // 不是自己发给自己
 
 				boolean otherIm = UserInfoUtil.checkIsImVersion(userPushInfo.getVer());
-				Integer shieldUser = userShieldDao.queryShieldId(wauthorId, authorId) == null ? Tag.FALSE : Tag.TRUE;
+				Integer shieldUser = userShieldDao.queryShieldId(worldAuthorId, authorId) == null ? Tag.FALSE : Tag.TRUE;
 				
 				if(im) { // 我已经开通IM
 					if(otherIm) { // 对方已开通IM
-						Integer mut = userConcernDao.queryIsMututal(wauthorId, authorId);
+						Integer mut = userConcernDao.queryIsMututal(worldAuthorId, authorId);
 						Integer isMutual = (mut != null ? mut : Tag.UN_CONCERN);
 						pushStatus.setPhone(userPushInfo.getPhoneCode());
 						pushStatus.setAccept(userPushInfo.getAcceptReplyPush());
 						pushStatus.setShield(shieldUser);
-						pushStatus.setUserId(wauthorId);
+						pushStatus.setUserId(worldAuthorId);
 						pushStatus.setIsMututal(isMutual);
 					} else {
-						pushService.pushComment(id, authorId, worldId, wauthorId,
+						pushService.pushComment(id, authorId, worldId, worldAuthorId,
 								content, userPushInfo, shieldUser); // 推送评论
 					}
 				} else {
-					pushService.pushComment(id, authorId, worldId, wauthorId,
+					pushService.pushComment(id, authorId, worldId, worldAuthorId,
 							content, userPushInfo, shieldUser); // 推送评论
 				}
 			}
 			
 			// 保存AT消息
 			if(!StringUtil.checkIsNULL(atIdsStr)) {
-				List<PushStatus> atPushStatus = userMsgService.saveAtMsgs(authorId, 
+				List<PushStatus> atPushStatus = userMsgService.saveAtMsgs(!im, authorId, 
 						Tag.AT_TYPE_COMMENT, id, worldId, content, atIdsStr, atNamesStr);
 				jsonMap.put(OptResult.JSON_KEY_AT_PUSH_STATUS, atPushStatus);
 			}
+			
 		}
+		
 		dto = new HTWorldCommentDto(id, authorId, reId,reAuthorId, content, 
 				comment.getCommentDate(), worldId, 0);
 		udto = userInfoDao.queryUserInfoDtoById(authorId);
@@ -610,6 +698,7 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 		pushStatus.setInteractRes(dto);
 		
 		userInfoService.extractVerify(dto);
+		
 		
 		jsonMap.put(OptResult.JSON_KEY_COMMENT, pushStatus.getInteractRes());
 		jsonMap.put(OptResult.JSON_KEY_PHONE, pushStatus.getPhone());
@@ -623,10 +712,9 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 	
 	@Override
 	public String replaceAt2Reply(String content) {
-		// TODO 新版删除注释
 //		if(content != null && content.length() > 1) {
 //			if(content.charAt(1) == '@') {
-//				return content.replaceFirst(" @", "回复");
+//				return content.replaceFirst(" ", "").replaceFirst(" :", "");
 //			}
 //		}
 		return content;
@@ -634,12 +722,11 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 	
 	@Override
 	public String trimColon2Comment(String content) {
-		// TODO 新版删除注释
-//		if(content != null && content.length() > 1) {
-//			if(content.charAt(1) == ':') {
-//				return content.replaceFirst(" : ", "");
-//			}
-//		}
+		if(content != null && content.length() > 1) {
+			if(content.charAt(1) == ':') {
+				return content.replaceFirst(" : ", "");
+			}
+		}
 		return content;
 	}
 	

@@ -50,6 +50,7 @@ import com.hts.web.common.pojo.OpChannel;
 import com.hts.web.common.pojo.OpMsgBulletin;
 import com.hts.web.common.pojo.OpUser;
 import com.hts.web.common.pojo.OpUserVerifyDto;
+import com.hts.web.common.pojo.PushStatus;
 import com.hts.web.common.pojo.UserVerify;
 import com.hts.web.common.service.KeyGenService;
 import com.hts.web.common.service.impl.BaseServiceImpl;
@@ -70,6 +71,7 @@ import com.hts.web.userinfo.dao.UserRecDao;
 import com.hts.web.userinfo.service.UserActivityService;
 import com.hts.web.userinfo.service.UserInfoService;
 import com.hts.web.userinfo.service.UserInteractService;
+import com.hts.web.userinfo.service.UserMsgService;
 import com.hts.web.ztworld.dao.HTWorldCacheDao;
 import com.hts.web.ztworld.dao.HTWorldChildWorldDao;
 import com.hts.web.ztworld.dao.HTWorldChildWorldTypeCacheDao;
@@ -181,11 +183,6 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 	 */
 	private Integer officialChannelOwnerId = 2063;
 	
-	/**
-	 * 旧版频道最大id
-	 */
-	private Integer oldChannelMaxId = 10;
-	
 	@Autowired
 	private KeyGenService keyGenService;
 	
@@ -235,9 +232,6 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 	private UserInteractService userInteractService;
 	
 	@Autowired
-	private UserRecDao userRecDao;
-
-	@Autowired
 	private ChannelService channelService;
 	
 	@Autowired
@@ -254,6 +248,9 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 
 	@Autowired
 	private ChannelAutoRejectIdCacheDao channelAutoPassIdCacheDao;
+	
+	@Autowired
+	private UserMsgService userMsgService;
 	
 	private String baseThumbPathAixin = "http://static.imzhitu.com/world/thumbs/1403056393000.png";
 	private String baseThumbPathXing = "http://static.imzhitu.com/world/thumbs/1403057093000.png";
@@ -304,14 +301,15 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public HTWorld saveWorld(String childsJSON, Integer titleId,
+	public void saveWorld(String childsJSON, Integer titleId,
 			Integer phoneCode, Integer id, Integer authorId, String worldName,
 			String worldDesc, String worldLabel, String labelIds, String worldType, 
 			Integer typeId, String coverPath, String titlePath, String bgPath,
 			String titleThumbPath, Double longitude, Double latitude, String locationDesc,
 			String locationAddr, String province, String city, Integer size,
 			String activityIds, Integer ver, String channelIds, Integer tp, 
-			String color, Integer mask) throws Exception {
+			String color, Integer mask, String atIdsStr, String atNamesStr,
+			Map<String, Object> jsonMap) throws Exception {
 
 		// 将七牛域名强制转换成织图域名
 		coverPath = StringUtil.replaceQiniuDomain(coverPath);
@@ -406,8 +404,11 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 						count = labelWorldCount.intValue();
 						worldLabelDao.updateWorldCount(labelId, count);
 					} else if(shield.equals(Tag.FALSE) && !trust.equals(Tag.FALSE)) {
+						Long labelWorldCount = worldLabelWorldDao.queryWorldCountByLabelId(labelId);
+						int addend = getActivityAddNum(labelWorldCount);
 						count = worldLabelDao.queryWorldCount(labelId);
-						worldLabelDao.updateWorldCount(labelId, ++count);
+						count += addend;
+						worldLabelDao.updateWorldCount(labelId, count);
 					}
 				}
 				String[] labelArray = new String[nameSet.size()];
@@ -445,7 +446,24 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 		
 		userActivityService.addActivityScore(Tag.ACT_TYPE_WORLD, authorId);
 		
-		return world;
+		jsonMap.put(OptResult.JSON_KEY_HTWORLD, world);
+		
+		// 添加AT信息
+		if(!StringUtil.checkIsNULL(atIdsStr)) {
+			List<PushStatus> atPushStatus = userMsgService.saveAtMsgs(true, authorId,
+					Tag.ACT_TYPE_WORLD, worldId, worldId, worldDesc, atIdsStr, atNamesStr);
+			jsonMap.put(OptResult.JSON_KEY_AT_PUSH_STATUS, atPushStatus);
+		}
+		
+	}
+	
+	private int getActivityAddNum(Long realCount) {
+		if(realCount > 30) {
+			return NumberUtil.getRandomNum(3, 10);
+		} else if(realCount > 200){
+			return NumberUtil.getRandomNum(20, 30);
+		}
+		return 1;
 	}
 	
 	/**

@@ -46,7 +46,7 @@ public class MsgAtCommentDaoImpl extends BaseDaoImpl implements MsgAtCommentDao 
 			args[k+2] = msgs[i].getAtId();
 			args[k+3] = msgs[i].getAtName();
 		}
-		getJdbcTemplate().update(sb.toString(), args);
+		getMasterJdbcTemplate().update(sb.toString(), args);
 	}
 
 	@Override

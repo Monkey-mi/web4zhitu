@@ -94,6 +94,8 @@ public class ZTWorldAction extends BaseAction {
 	private Integer mask = Tag.FALSE;
 	private Integer recType = 0; // 关注信息流推荐类型
 	private Integer recPage = 1; // 关注信息页码
+	private String atIds;
+	private String atNames;
 	
 	@Autowired
 	private ZTWorldService worldService;
@@ -167,12 +169,13 @@ public class ZTWorldAction extends BaseAction {
 	 */
 	public String shareWorld() {
 		try {
-			HTWorld world = worldService.saveWorld(childs, titleId, phoneCode,
+			worldService.saveWorld(childs, titleId, phoneCode,
 					id, getCurrentLoginUserId(), worldName,worldDesc, worldLabel, 
 					labelIds, worldType, typeId, coverPath, titlePath, bgPath, titleThumbPath, 
 					longitude, latitude, locationDesc, locationAddr, province, 
-					city, size, activityIds, ver, channelIds, Tag.WORLD_TYPE_DEFAULT, color, mask);
-			JSONUtil.optResult(OptResult.OPT_SUCCESS, world, OptResult.JSON_KEY_HTWORLD, jsonMap);
+					city, size, activityIds, ver, channelIds, Tag.WORLD_TYPE_DEFAULT, color, mask,
+					atIds, atNames, jsonMap);
+			JSONUtil.optSuccess(jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed2(getCurrentLoginUserId(), e, jsonMap, worldLogger);
 		}
@@ -190,12 +193,13 @@ public class ZTWorldAction extends BaseAction {
 			if(uid == null || uid == 0) {
 				uid = getCurrentLoginUserId();
 			}
-			HTWorld world = worldService.saveWorld(childs, titleId, phoneCode,
+			worldService.saveWorld(childs, titleId, phoneCode,
 					id, uid, worldName,worldDesc, worldLabel, 
 					labelIds, worldType, typeId, coverPath, titlePath, bgPath, titleThumbPath, 
 					longitude, latitude, locationDesc, locationAddr, province, 
-					city, size, activityIds, ver, channelIds, Tag.WORLD_TYPE_DEFAULT, color, mask);
-			JSONUtil.optResult(OptResult.OPT_SUCCESS, world, OptResult.JSON_KEY_HTWORLD, jsonMap);
+					city, size, activityIds, ver, channelIds, Tag.WORLD_TYPE_DEFAULT, color, mask,
+					atIds, atNames, jsonMap);
+			JSONUtil.optSuccess(jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed2(getCurrentLoginUserId(), e, jsonMap, worldLogger);
 		}
@@ -209,12 +213,13 @@ public class ZTWorldAction extends BaseAction {
 	 */
 	public String shareText() {
 		try {
-			HTWorld world = worldService.saveWorld(null, 0, phoneCode,
+			worldService.saveWorld(null, 0, phoneCode,
 					id, getCurrentLoginUserId(), worldName,worldDesc, worldLabel, 
 					labelIds, worldType, typeId, coverPath, titlePath, bgPath, titleThumbPath, 
 					longitude, latitude, locationDesc, locationAddr, province, 
-					city, size, activityIds, ver, channelIds, Tag.WORLD_TYPE_TEXT, color, mask);
-			JSONUtil.optResult(OptResult.OPT_SUCCESS, world, OptResult.JSON_KEY_HTWORLD, jsonMap);
+					city, size, activityIds, ver, channelIds, Tag.WORLD_TYPE_TEXT, color, mask,
+					atIds, atNames, jsonMap);
+			JSONUtil.optSuccess(jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed2(getCurrentLoginUserId(), e, jsonMap, textLogger);
 		}
@@ -232,12 +237,13 @@ public class ZTWorldAction extends BaseAction {
 			if(uid == null || uid == 0) {
 				uid = getCurrentLoginUserId();
 			}
-			HTWorld world = worldService.saveWorld(null, 0, phoneCode,
+			worldService.saveWorld(null, 0, phoneCode,
 					id, uid, worldName,worldDesc, worldLabel, 
 					labelIds, worldType, typeId, coverPath, titlePath, bgPath, titleThumbPath, 
 					longitude, latitude, locationDesc, locationAddr, province, 
-					city, size, activityIds, ver, channelIds, Tag.WORLD_TYPE_TEXT, color, mask);
-			JSONUtil.optResult(OptResult.OPT_SUCCESS, world, OptResult.JSON_KEY_HTWORLD, jsonMap);
+					city, size, activityIds, ver, channelIds, Tag.WORLD_TYPE_TEXT, color, mask,
+					atIds, atNames, jsonMap);
+			JSONUtil.optSuccess(jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed2(getCurrentLoginUserId(), e, jsonMap, textLogger);
 		}
@@ -250,12 +256,13 @@ public class ZTWorldAction extends BaseAction {
 	 */
 	public String shareWorldDirect() {
 		try {
-			HTWorld world = worldService.saveWorld(childs, titleId, phoneCode,
+			worldService.saveWorld(childs, titleId, phoneCode,
 					id, authorId, worldName,worldDesc, worldLabel, 
 					labelIds, worldType, typeId, coverPath, titlePath, bgPath, titleThumbPath, 
 					longitude, latitude, locationDesc, locationAddr, province, 
-					city, size, activityIds, ver, channelIds, Tag.WORLD_TYPE_DEFAULT, color, mask);
-			JSONUtil.optResult(OptResult.OPT_SUCCESS, world, OptResult.JSON_KEY_HTWORLD, jsonMap);
+					city, size, activityIds, ver, channelIds, Tag.WORLD_TYPE_DEFAULT, color, mask,
+					atIds, atNames, jsonMap);
+			JSONUtil.optSuccess(jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed2(getCurrentLoginUserId(), e, jsonMap, worldLogger);
 		}
@@ -1004,5 +1011,22 @@ public class ZTWorldAction extends BaseAction {
 	public void setRecPage(Integer recPage) {
 		this.recPage = recPage;
 	}
+
+	public String getAtIds() {
+		return atIds;
+	}
+
+	public void setAtIds(String atIds) {
+		this.atIds = atIds;
+	}
+
+	public String getAtNames() {
+		return atNames;
+	}
+
+	public void setAtNames(String atNames) {
+		this.atNames = atNames;
+	}
+	
 	
 }

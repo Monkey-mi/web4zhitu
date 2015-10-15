@@ -387,4 +387,12 @@ public interface UserConcernDao extends BaseDao {
 	 * @return
 	 */
 	public List<UserConcernAvatar> queryConcernAvatar(Integer userId, Integer limit);
+	
+	/**
+	 * 查询关注头像
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	public UserConcernAvatar queryConcernAvatar(Integer userId);
 }

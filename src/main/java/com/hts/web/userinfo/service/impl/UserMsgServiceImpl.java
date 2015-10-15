@@ -323,7 +323,6 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 
 			@Override
 			public long getTotalByMaxId(Serializable maxSerializable) {
-//				return worldInteractDao.queryInteractCount((Date)maxSerializable, userId);
 				return 0l;
 			}
 		}, OptResult.JSON_KEY_INTERACT, OptResult.JSON_KEY_TOTAL_COUNT, new BaseOnBuildSerializableListener() {
@@ -342,7 +341,6 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 		});
 	}
 
-
 	@Override
 	public void buildUnreadSysMsgCount(Integer userId, Map<String, Object> jsonMap) {
 		long followCount = userConcernDao.queryUnCheckFollowCount(userId);
@@ -350,11 +348,13 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 		long commentCount = worldCommentDao.queryUnCheckUserCommentCount(userId);
 		long msgCount = sysMsgDao.queryUnCheckSysMsgCount(userId);
 		long userMsgCount = userMsgRecipientBoxDao.queryUnReadMsgCount(userId);
+		long atMsgCount = atDao.queryUnCheckCount(userId);
 		jsonMap.put(OptResult.JSON_KEY_FOLLOW_COUNT, followCount);
 		jsonMap.put(OptResult.JSON_KEY_LIKED_COUNT, likedCount);
 		jsonMap.put(OptResult.JSON_KEY_COMMENT_COUNT, commentCount);
 		jsonMap.put(OptResult.JSON_KEY_MSG_COUNT, msgCount);
 		jsonMap.put(OptResult.JSON_KEY_USER_MSG_COUNT, userMsgCount);
+		jsonMap.put(OptResult.JSON_KEY_AT_MSG_COUNT, atMsgCount);
 	}
 	
 	public void buildUnreadSysMsgCountV2(Integer userId, Map<String, Object> jsonMap) {
@@ -670,6 +670,9 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 			throw new HTSException("用户不存在", 1);
 		} else {
 			Integer shield = userShieldDao.queryShieldId(userId, joinId) == null ? Tag.FALSE : Tag.TRUE;
+			if(shield.equals(Tag.FALSE)) { // 我没屏蔽它的时候查询这个用户是否被屏蔽
+				shield = userInfoDao.queryShield(joinId);
+			}
 			Integer ishield = userShieldDao.queryShieldId(joinId, userId) == null ? Tag.FALSE : Tag.TRUE;
 			Integer isMutual = userConcernDao.queryIsMututal(userId, joinId);
 			Integer iisMututal = userConcernDao.queryIsMututal(joinId, userId);
@@ -988,12 +991,13 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 	}
 	
 	@Override
-	public List<PushStatus> saveAtMsgs(Integer userId, Integer objType, Integer objId, Integer worldId,
+	public List<PushStatus> saveAtMsgs(Boolean push, Integer userId, Integer objType, Integer objId, Integer worldId,
 			String content, String atIdsStr, String atNamesStr) throws Exception {
 		List<PushStatus> statusList;
 		Integer[] atIds;
 		String[] atNames;
-		MsgAt[] msgs;
+		MsgAt[] msgIdxs;
+		List<MsgAt> msgs;
 		Set<Integer> shieldSet;
 		Set<Integer> noAcceptAtSet;
 
@@ -1011,14 +1015,18 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 		}
 		
 		statusList = new ArrayList<PushStatus>();
-		msgs = new MsgAt[atIds.length];
+		msgIdxs = new MsgAt[atIds.length];
+		msgs = new ArrayList<MsgAt>();
+		
 		
 		for(int i = 0; i < atIds.length;i++) {
+			
 			Integer id;
 			MsgAt msg;
 			PushStatus status;
 			int accept;
 			int shield;
+			
 			
 			id = keyGenService.generateId(KeyGenServiceImpl.MSG_AT_ID);
 			msg = new MsgAt();
@@ -1031,26 +1039,29 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 			msg.setWorldId(worldId);
 			msg.setAtName(atNames[i]);
 			msg.setContent(content);
-			msgs[i] = msg;
+			msgIdxs[i] = msg;
 			
-			status = new PushStatus();
-			accept = noAcceptAtSet.contains(atIds[i]) ? Tag.FALSE : Tag.TRUE;
-			shield = shieldSet.contains(atIds[i]) ? Tag.TRUE : Tag.FALSE;
-			
-			status.setId(objId);
-			status.setAccept(accept);
-			status.setUserId(atIds[i]);
-			status.setShield(shield);
-			statusList.add(status);
+			if(!userId.equals(atIds[i])) { // 不能自己at自己
+				status = new PushStatus();
+				accept = noAcceptAtSet.contains(atIds[i]) ? Tag.FALSE : Tag.TRUE;
+				shield = shieldSet.contains(atIds[i]) ? Tag.TRUE : Tag.FALSE;
+				
+				status.setId(objId);
+				status.setAccept(accept);
+				status.setUserId(atIds[i]);
+				status.setShield(shield);
+				statusList.add(status);
+				msgs.add(msg);
+			}
 		}
 		
 		switch (objType) {
 		case Tag.AT_TYPE_WORLD:
-			atWorldDao.saveAtMsgs(msgs);
+			atWorldDao.saveAtMsgs(msgIdxs);
 			break;
 			
 		case Tag.AT_TYPE_COMMENT:
-			atCommentDao.saveAtMsgs(msgs);
+			atCommentDao.saveAtMsgs(msgIdxs);
 			break;
 			
 		default:
@@ -1058,6 +1069,13 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 		}
 		
 		atDao.saveAtMsgs(msgs);
+		
+		if(push && statusList != null) {
+			for(PushStatus status : statusList) {
+				pushService.pushAtMsg(userId, status.getId(),
+						content,status.getAccept(), status.getShield());
+			}
+		}
 		
 		return statusList;
 		

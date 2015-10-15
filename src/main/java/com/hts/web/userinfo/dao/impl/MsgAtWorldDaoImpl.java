@@ -46,7 +46,7 @@ private static String table = HTS.USER_MSG_AT_WORLD;
 			args[k+2] = msgs[i].getAtId();
 			args[k+3] = msgs[i].getAtName();
 		}
-		getJdbcTemplate().update(sb.toString(), args);
+		getMasterJdbcTemplate().update(sb.toString(), args);
 	}
 
 	@Override

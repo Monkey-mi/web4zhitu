@@ -51,13 +51,14 @@ public interface ZTWorldService extends BaseService {
 	 * @return
 	 * @throws Exception
 	 */
-	public HTWorld saveWorld(String childsJSON, Integer titleId,Integer phoneCode, 
+	public void saveWorld(String childsJSON, Integer titleId,Integer phoneCode, 
 			Integer id, Integer authorId, String worldName, String worldDesc, String worldLabel,
 			String labelIds, String worldType, Integer typeId, String coverPath, String titlePath,
 			String bgPath, String titleThumbPath, Double longitude, Double latitude, 
 			String locationDesc, String locationAddr,String province, String city, Integer size, 
 			String activityIds, Integer ver, String channelIds, Integer tp, String color, 
-			Integer mask) throws Exception;
+			Integer mask, String atIdsStr, String atNamesStr,
+			Map<String, Object> jsonMap) throws Exception;
 
 	/**
 	 * 删除织图

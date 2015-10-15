@@ -1,16 +1,14 @@
 package com.hts.web.push;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.hts.web.base.BaseTest;
-import com.hts.web.base.constant.Tag;
-import com.hts.web.common.pojo.UserPushInfo;
+import com.hts.web.common.util.NumberUtil;
 import com.hts.web.push.service.PushService;
-import com.hts.web.push.service.impl.PushServiceImpl.PushFailedCallback;
 
 /**
  * <p>
@@ -30,6 +28,8 @@ public class PushServiceTest extends BaseTest {
 	public void apnsPushTest() throws Exception {
 //		service.apnsPushTest("581344d5fa048084e6acaefd54e12e7f014b0085eced6c4491a7d76285ca4a4c");
 //		while(true) {}
+//		service.pushAtMsg(1, 4, 40671, Tag.TRUE, Tag.FALSE);
+//		while(true){}
 	}
 	
 }

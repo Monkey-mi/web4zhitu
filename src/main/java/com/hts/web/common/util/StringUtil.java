@@ -8,7 +8,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.UUID;
 
-import org.apache.velocity.anakia.AnakiaElement;
+import com.hts.web.base.HTSException;
 
 import net.sf.xsshtmlfilter.HTMLFilter;
 import net.sourceforge.pinyin4j.PinyinHelper;
@@ -17,8 +17,6 @@ import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
 import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinVCharType;
 import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
-
-import com.hts.web.base.HTSException;
 
 /**
  * <p>
@@ -343,19 +341,20 @@ public class StringUtil {
 	public static String trimName(String name) {
 		String s;
 		if(StringUtil.checkIsNULL(name))
-			return ANONYMOUS;
+			return getRandomUserName();
 
 		s = filterXSS(name);
 		s = name.replaceAll("\\s*@*,*", ""); // 删除空格和@字符
 		
 		if("".equals(s))
-			s = ANONYMOUS;
+			s = getRandomUserName();
 		
 		return s;
 	}
 	
-	public static void main(String[] args) {
-		System.out.println(trimName("苏 尛 夏💋"));
+	
+	public static String getRandomUserName() {
+		return String.valueOf(new Date().getTime());
 	}
 	
 	/**
@@ -371,8 +370,6 @@ public class StringUtil {
 
 		s = filterXSS(label);
 		s = label.replaceAll("\\s*,*", ""); // 删除空格和@字符
-		
 		return s;
 	}
-	
 }

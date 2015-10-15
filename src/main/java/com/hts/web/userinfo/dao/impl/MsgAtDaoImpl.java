@@ -33,7 +33,7 @@ public class MsgAtDaoImpl extends BaseDaoImpl implements MsgAtDao {
 	private static final int SAVE_MSG_VALUES_LEN = 7;
 	
 	private static final String QUERY_UN_CK_COUNT = "select count(*) from " + table
-			+ " where at_id=? an ck=0";
+			+ " where at_id=? and ck=0";
 	
 	private static final String UPDATE_CK = "update " + table
 			+ " set ck=1 where at_id=? and ck=0";
@@ -49,27 +49,27 @@ public class MsgAtDaoImpl extends BaseDaoImpl implements MsgAtDao {
 			+ " order by m0.id desc limit ?,?";
 			
 	@Override
-	public void saveAtMsgs(MsgAt[] msgs) {
-		if(msgs == null || msgs.length == 0) 
+	public void saveAtMsgs(List<MsgAt> msgs) {
+		if(msgs == null || msgs.size() == 0) 
 			return;
 		
 		Object[] args;
-		args = new Object[msgs.length * SAVE_MSG_VALUES_LEN];
+		args = new Object[msgs.size() * SAVE_MSG_VALUES_LEN];
 		
 		StringBuilder sb = new StringBuilder(SAVE_MSG);
-		for(int i = 0; i < msgs.length; i++) {
+		for(int i = 0; i < msgs.size(); i++) {
 			int k = i * SAVE_MSG_VALUES_LEN;
 			if(i > 0) {
 				sb.append(",");
 			}
 			sb.append(SAVE_MSG_VALUES);
-			args[k+0] = msgs[i].getId();
-			args[k+1] = msgs[i].getUserId();
-			args[k+2] = msgs[i].getAtId();
-			args[k+3] = msgs[i].getWorldId();
-			args[k+4] = msgs[i].getObjType();
-			args[k+5] = msgs[i].getObjId();
-			args[k+6] = msgs[i].getContent();
+			args[k+0] = msgs.get(i).getId();
+			args[k+1] = msgs.get(i).getUserId();
+			args[k+2] = msgs.get(i).getAtId();
+			args[k+3] = msgs.get(i).getWorldId();
+			args[k+4] = msgs.get(i).getObjType();
+			args[k+5] = msgs.get(i).getObjId();
+			args[k+6] = msgs.get(i).getContent();
 		}
 		getMasterJdbcTemplate().update(sb.toString(), args);
 	}

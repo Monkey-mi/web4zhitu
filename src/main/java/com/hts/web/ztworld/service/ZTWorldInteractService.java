@@ -66,7 +66,7 @@ public interface ZTWorldInteractService extends BaseService {
 //	@Deprecated 
 	public void saveReply(Boolean im, Integer worldId, Integer worldAuthorId,
 			Integer authorId, String content, Integer reId, Integer reAuthorId,
-			String atIdsStr, String atNamesStr, Map<String, Object> jsonMap) throws Exception;
+			Map<String, Object> jsonMap) throws Exception;
 	
 	/**
 	 * 回复评论

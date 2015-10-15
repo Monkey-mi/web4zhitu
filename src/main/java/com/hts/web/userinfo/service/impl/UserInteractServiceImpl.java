@@ -141,6 +141,7 @@ public class UserInteractServiceImpl extends BaseServiceImpl implements UserInte
 			} else {
 				continue; // 跳过已经关注过的用户
 			}
+			result.setInteractRes(userConcernDao.queryConcernAvatar(concernId));
 			resultList.add(result);
 			Long followCount = userConcernDao.queryFollowCount(concernId);
 			userInfoDao.updateFollowCount(concernId, followCount.intValue());
@@ -184,6 +185,10 @@ public class UserInteractServiceImpl extends BaseServiceImpl implements UserInte
 			concernCount = concernNum.intValue();
 		}
 		userInfoDao.updateConcernCount(userId, concernCount.intValue());
+		
+		UserConcernAvatar avatar = userConcernDao.queryConcernAvatar(concernId);
+		result.setInteractRes(avatar);
+		
 		return result;
 	}
 	

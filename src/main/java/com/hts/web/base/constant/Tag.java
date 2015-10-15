@@ -161,6 +161,16 @@ public class Tag {
 	public static final int PUSH_ACTION_USER_REC_MSG = 14;
 	
 	/**
+	 * 频道消息推送
+	 */
+	public static final int PUSH_ACTION_CHANNEL_MSG = 15;
+	
+	/**
+	 * at消息推送
+	 */
+	public static final int PUSH_ACTION_AT = 16;
+	
+	/**
 	 * 旅行广场分类标签
 	 */
 	public static final int SQUARE_LABEL_TRAVEL = 1;
@@ -427,9 +437,14 @@ public class Tag {
 	public static final float VERSION_2_9_88 = 2.0988f;
 	
 	/**
-	 * 3.0
+	 * 3.0.0
 	 */
 	public static final float VERSION_3_0 = 3.0f;
+	
+	/**
+	 * 3.0.5
+	 */
+	public static final float VERSION_3_0_5 = 3.0005f;
 	
 	
 	/**

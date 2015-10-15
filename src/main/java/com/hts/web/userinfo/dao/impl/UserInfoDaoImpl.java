@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowCallbackHandler;
@@ -29,7 +28,6 @@ import com.hts.web.common.pojo.UserPushInfo;
 import com.hts.web.common.pojo.UserRecInfo;
 import com.hts.web.common.pojo.UserSearchInfo;
 import com.hts.web.common.pojo.UserWorldBase;
-import com.hts.web.operations.dao.UserRecommendDao;
 import com.hts.web.userinfo.dao.UserInfoDao;
 
 /**
@@ -90,11 +88,8 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 	private static final String QUERY_BY_LOGIN_CODE = "select distinct * from " + table 
 			+ " where login_code=? and platform_code=?";
 
-	/**
-	 * 根据用户名查询用户总数
-	 */
-	private static final String QUERY_USER_COUNT_BY_USER_NAME = "select count(*) from " + table 
-			+ " where user_name=?";
+	private static final String QUERY_USER_NAME_EXISTS = "select 1 from " + table
+			+ " where user_name=? limit 1";
 	
 	private static final String QUERY_EXIST_BY_LOGIN_CODE = "select 1 from " + table 
 			+ " where login_code=? and platform_code=? limit 1";
@@ -425,6 +420,9 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 	private static final String QUERY_NOT_ACCEPT_AT_UID = "select id from " + table
 			+ " where accept_at_push=0 and id in";
 	
+	private static final String QUERY_SHIELD = "select shield from " + table
+			+ " where id=?";
+	
 	@Override
 	public UserInfoDto buildUserInfoDto(Integer userId, ResultSet rs) throws SQLException {
 		return buildUserInfoDtoByResult(userId, rs);
@@ -467,11 +465,12 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 	
 	@Override
 	public boolean checkUserNameExists(String userName) {
-		long count = getJdbcTemplate().queryForLong(QUERY_USER_COUNT_BY_USER_NAME, new Object[]{userName});
-		if(count > 0) {
+		try {
+			getJdbcTemplate().queryForInt(QUERY_USER_NAME_EXISTS, userName);
 			return true;
+		} catch (DataAccessException e) {
+			return false;
 		}
-		return false;
 	}
 	
 	@Override
@@ -1336,6 +1335,15 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 		});
 		
 		return set;
+	}
+
+	@Override
+	public Integer queryShield(Integer userId) {
+		try {
+			return getJdbcTemplate().queryForInt(QUERY_SHIELD, userId);
+		}catch(EmptyResultDataAccessException e) {
+			return 0;
+		}
 	}
 
 }

@@ -329,6 +329,8 @@ public class UserConcernDaoImpl extends BaseDaoImpl implements UserConcernDao{
 			+ " where ur0.concern_id=u0.id and ur0.valid=1 and ur0.user_id=?"
 			+ " order by ur0.id desc limit ?";
 	
+	private static final String QUERY_CONCERN_AVATAR_BY_ID = "select " + CONCERN_AVATAR
+			+ " from " + HTS.USER_INFO + " u0 " + " where u0.id=?"; 
 	
 	/**
 	 * 从结果集构建UserConcern对象
@@ -876,9 +878,20 @@ public class UserConcernDaoImpl extends BaseDaoImpl implements UserConcernDao{
 					public UserConcernAvatar mapRow(ResultSet rs, int rowNum) throws SQLException {
 						return buildAvatar(rs);
 					}
-			
 		});
 	}
 
+	@Override
+	public UserConcernAvatar queryConcernAvatar(Integer userId) {
+		return getJdbcTemplate().queryForObject(QUERY_CONCERN_AVATAR_BY_ID, 
+				new Object[]{userId},
+				new RowMapper<UserConcernAvatar>() {
+
+					@Override
+					public UserConcernAvatar mapRow(ResultSet rs, int num) throws SQLException {
+						return buildAvatar(rs);
+					}
+		});
+	}
 
 }

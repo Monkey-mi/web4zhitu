@@ -31,7 +31,7 @@ public interface HTWorldCommentDao extends BaseDao {
 	 * @param worldId
 	 * @return
 	 */
-	public HTWorldComment queryCommentById(Integer worldId);
+	public HTWorldComment queryCommentById(Integer id);
 	
 	/**
 	 * 根据id查询评论数据传输信息（包含用户信息）
@@ -299,4 +299,11 @@ public interface HTWorldCommentDao extends BaseDao {
 	 */
 	public List<MsgCommentDto> queryMsg(Integer maxId, Integer authorId, RowSelection rowSelection);
 	
+	/**
+	 * 查询作者id
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Integer queryAuthorId(Integer id);
 }

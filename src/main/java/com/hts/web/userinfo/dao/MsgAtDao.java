@@ -25,7 +25,7 @@ public interface MsgAtDao extends BaseDao {
 	 * @version 3.0.5
 	 * @author lynch 2015-09-22
 	 */
-	public void saveAtMsgs(MsgAt[] msgs);
+	public void saveAtMsgs(List<MsgAt> msgs);
 	
 	/**
 	 * 查询未读数量

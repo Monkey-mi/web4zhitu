@@ -133,7 +133,7 @@ public class ZTWorldInteractAction extends BaseAction {
 		try {
 			worldInteractService.saveReply(im, worldId, worldAuthorId,
 					getCurrentLoginUserId(), content, reId, reAuthorId, 
-					atIds, atNames, jsonMap);
+					jsonMap);
 			JSONUtil.optSuccess(jsonMap);
 		} catch(HTSException e) {
 			JSONUtil.optFailed(e.getErrorCode(), e.getMessage(), jsonMap);

@@ -277,6 +277,9 @@ public class HTWorldCommentDaoImpl extends BaseDaoImpl implements
 			+ " where m0.world_author_id=u0.id and m0.world_id=h0.id and m0.valid=1 and m0.world_author_id=? and m0.id<=?"
 			+ " order by m0.id desc limit ?,?";
 	
+	private static final String QUERY_AUTHOR_ID = "select author_id from " + table
+			+ " where id=?";
+	
 	@Autowired
 	private HTWorldDao worldDao;
 	
@@ -761,6 +764,16 @@ public class HTWorldCommentDaoImpl extends BaseDaoImpl implements
 			return getJdbcTemplate().queryForInt(QUERY_VALID, id);
 		} catch(EmptyResultDataAccessException e) {
 			return Tag.FALSE;
+		}
+	}
+
+
+	@Override
+	public Integer queryAuthorId(Integer id) {
+		try {
+			return getJdbcTemplate().queryForInt(QUERY_AUTHOR_ID, id);
+		} catch(EmptyResultDataAccessException e) {
+			return 0;
 		}
 	}
 }

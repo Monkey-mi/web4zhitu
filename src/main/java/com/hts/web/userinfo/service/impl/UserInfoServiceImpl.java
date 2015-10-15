@@ -549,7 +549,6 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 	@Override
 	public void updatePushToken(Integer userId, String pushToken, Integer phoneCode) throws Exception {
 		userInfoDao.updatePushTokenByUserId(userId, pushToken, phoneCode);
-//		updateOnlineByPushToken(pushToken, userId, Tag.FALSE);// 更新其他账号的登录状态
 	}
 	
 	@Override

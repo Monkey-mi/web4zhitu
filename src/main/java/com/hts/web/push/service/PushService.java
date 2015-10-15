@@ -72,6 +72,19 @@ public interface PushService {
 	public void pushConcern(Integer id, Integer userId, Integer concernId,
 			UserPushInfo userPushInfo, Integer shield);
 
+	
+	/**
+	 * at推送
+	 * 
+	 * @param userId
+	 * @param toUid
+	 * @param content
+	 * @param accept
+	 * @param shield
+	 */
+	public void pushAtMsg(Integer userId, Integer toUid, String content,
+			Integer accept, Integer shield);
+	
 	/**
 	 * 用户私信推送
 	 * 

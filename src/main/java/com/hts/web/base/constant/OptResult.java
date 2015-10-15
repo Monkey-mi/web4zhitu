@@ -248,6 +248,11 @@ public class OptResult {
 	public static final String JSON_KEY_USER_MSG_COUNT = "userMsgCount";
 	
 	/**
+	 * atMsgCount
+	 */
+	public static final String JSON_KEY_AT_MSG_COUNT = "atMsgCount";
+	
+	/**
 	 * 返回结果KEY：successCount
 	 */
 	public static final String JSON_KEY_SUCCESS_COUNT = "successCount";
@@ -342,6 +347,11 @@ public class OptResult {
 	 * 返回结果KEY：interact
 	 */
 	public static final String JSON_KEY_INTERACT = "interact";
+	
+	/**
+	 * interactRes
+	 */
+	public static final String JSON_KEY_INTERACT_RES = "interactRes";
 	
 	/**
 	 * 返回结果KEY：token

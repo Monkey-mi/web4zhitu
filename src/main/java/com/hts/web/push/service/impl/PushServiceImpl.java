@@ -23,6 +23,7 @@ import com.gexin.rp.sdk.http.IGtPush;
 import com.gexin.rp.sdk.template.TransmissionTemplate;
 import com.hts.web.base.HTSException;
 import com.hts.web.base.constant.LoggerKeies;
+import com.hts.web.base.constant.PhoneType;
 import com.hts.web.base.constant.Tag;
 import com.hts.web.common.pojo.PushIM;
 import com.hts.web.common.pojo.PushMsg;
@@ -53,24 +54,12 @@ public class PushServiceImpl implements PushService {
 	private static final String TIP_CONCERN = "关注了你";
 	private static final String TIP_LIKED = "赞了你的织图";
 	private static final String TIP_MSG = "你收到1条私信";
-	
+	private static final String TIP_AT = " @了你";
 	private static Logger imLog = Logger.getLogger(LoggerKeies.PUSH_IM);
 	
 	
 	@Autowired
 	private UserInfoDao userInfoDao;
-	
-	@Autowired
-	private HTWorldCommentDao worldCommentDao;
-	
-	@Autowired
-	private HTWorldLikedDao worldLikedDao;
-	
-	@Autowired
-	private HTWorldKeepDao worldKeepDao;
-	
-	@Autowired
-	private UserConcernDao userConcernDao;
 	
 	@Autowired
 	private UserRemarkDao userRemarkDao;
@@ -247,7 +236,7 @@ public class PushServiceImpl implements PushService {
 							}
 							pushIMMessage(userPushInfo.getId(), new PushWorldIM(Tag.PUSH_ACTION_COMMENT, fullName, 
 									comment, authorId, userPushInfo.getId(), worldId, wauthorId, 0, id), 
-									fullName + ": " + comment, userPushInfo.getPhoneCode(), userPushInfo.getAcceptCommentPush(), shield, callback);
+									fullName + ":" + comment, userPushInfo.getPhoneCode(), userPushInfo.getAcceptCommentPush(), shield, callback);
 						
 						// 对方未开通IM使用个推
 						} else if(userPushInfo.getOnline() == Tag.TRUE 
@@ -302,7 +291,7 @@ public class PushServiceImpl implements PushService {
 							}
 							pushIMMessage(userPushInfo.getId(), new PushWorldIM(Tag.PUSH_ACTION_REPLY, 
 									fullName, reply, authorId, userPushInfo.getId(), worldId, wauthorId, reId, id), 
-									fullName + ": " + reply, userPushInfo.getPhoneCode(), userPushInfo.getAcceptReplyPush(), shield, callback);
+									fullName + ":" + reply, userPushInfo.getPhoneCode(), userPushInfo.getAcceptReplyPush(), shield, callback);
 							
 						// 对方未开通IM使用个推
 						} else if(userPushInfo.getOnline() == Tag.TRUE 
@@ -407,6 +396,31 @@ public class PushServiceImpl implements PushService {
 							pushInteractMessage(title, Tag.PUSH_ACTION_CONCERN, userPushInfo.getPhoneCode(), userPushInfo.getPushToken(), userPushInfo.getVer(),
 									new PushMsg(Tag.PUSH_ACTION_CONCERN, name, ""), callback);
 						}
+					}
+			});
+		}
+	}
+	
+	@Override
+	public void pushAtMsg(final Integer uid, final Integer touid,
+			final String content, final Integer accept, final Integer shield) {
+		if(uid != touid && shield.equals(Tag.FALSE)) {
+			pushExecutor.execute(new Runnable() {
+	
+				@Override
+				public void run() {
+						// 推送失败回调
+						PushFailedCallback callback = new PushFailedCallback() {
+							
+							@Override
+							public void onPushFailed(Exception e) {
+							}
+						};
+						
+						String fullName = userInfoDao.queryUserNameById(uid);
+						pushIMMessage(touid, new PushIM(Tag.PUSH_ACTION_AT, fullName, content, uid, touid), 
+								fullName + " " + content, Tag.IOS, accept, shield, callback);
+						
 					}
 			});
 		}

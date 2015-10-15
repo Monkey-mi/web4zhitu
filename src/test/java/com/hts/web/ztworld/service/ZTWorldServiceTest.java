@@ -27,7 +27,8 @@ public class ZTWorldServiceTest extends BaseTest {
 
 	@Test
 	public void testSaveWorld() throws Exception {
-		
+		Map<String, Object> jsonMap;
+		Integer userId;
 		String json = "{"
 				+ " '1012805956' : ["
 				+ "   	{"
@@ -37,15 +38,20 @@ public class ZTWorldServiceTest extends BaseTest {
 				+ "   	}"
 				+ "   ]"
 				+ "   }";
-		HTWorld world = service.saveWorld(json, 1012805956, Tag.ANDROID, 0, 485, "worldName",
+		
+		userId = 485;
+		jsonMap= new HashMap<String, Object>();
+		
+		service.saveWorld(json, 1012805956, Tag.ANDROID, 0, 485, "worldName",
 				"织图描述...", "自拍情结", "1,2","自拍情节", 4, 
 				"http://static.imzhitu.com/ios/image/2014/3/26/21/c5a9e4e8b41011e3a9a712bf1fbc47a9_8.jpg",
 				"http://static.imzhitu.com/ios/image/2014/3/26/21/c5a9e4e8b41011e3a9a712bf1fbc47a9_8.jpg",
 				null,
 				"http://static.imzhitu.com/ios/image/2014/3/26/21/c5a9e4e8b41011e3a9a712bf1fbc47a9_8.jpg",
 				0.1d, 0.1d, "locationDesc", "locationAddr", "province", "city", null, "18", 1, 
-				null, Tag.WORLD_TYPE_DEFAULT, null, 0);
-		logObj(world);
+				null, Tag.WORLD_TYPE_DEFAULT, null, 0, null, null, jsonMap);
+		HTWorld world = (HTWorld) jsonMap.get(OptResult.JSON_KEY_HTWORLD);
+		service.deleteWorld(world.getId(), userId);
 	}
 	
 	@Test
@@ -120,25 +126,25 @@ public class ZTWorldServiceTest extends BaseTest {
 	
 	@Test
 	public void testDeleteWorld() throws Exception {
-		String json = "{"
-				+ " '1012805956' : ["
-				+ "   	{"
-				+ "   	'width' : 640,"
-				+ "       'path' : 'http://static.imzhitu.com/ios/image/2014/3/26/21/c5a9e4e8b41011e3a9a712bf1fbc47a9_8.jpg',"
-				+ "     'height' : 640,'angle':90,'type':1"
-				+ "   	}"
-				+ "   ]"
-				+ "   }";
-		HTWorld world = service.saveWorld(json, 1012805956, Tag.ANDROID, 0, 485, "worldName",
-				"worldDesc", "街景,路线", "1,2","故事", 4, 
-				"http://static.imzhitu.com/ios/image/2014/3/26/21/c5a9e4e8b41011e3a9a712bf1fbc47a9_8.jpg",
-				"http://static.imzhitu.com/ios/image/2014/3/26/21/c5a9e4e8b41011e3a9a712bf1fbc47a9_8.jpg",
-				null,
-				"http://static.imzhitu.com/ios/image/2014/3/26/21/c5a9e4e8b41011e3a9a712bf1fbc47a9_8.jpg",
-				0.1d, 0.1d, "locationDesc", "locationAddr", "province", "city", null, "18", 1, 
-				null, Tag.WORLD_TYPE_DEFAULT, null, 0);
-		logObj(world);
-		service.deleteWorld(world.getId(),485);
+//		String json = "{"
+//				+ " '1012805956' : ["
+//				+ "   	{"
+//				+ "   	'width' : 640,"
+//				+ "       'path' : 'http://static.imzhitu.com/ios/image/2014/3/26/21/c5a9e4e8b41011e3a9a712bf1fbc47a9_8.jpg',"
+//				+ "     'height' : 640,'angle':90,'type':1"
+//				+ "   	}"
+//				+ "   ]"
+//				+ "   }";
+//		HTWorld world = service.saveWorld(json, 1012805956, Tag.ANDROID, 0, 485, "worldName",
+//				"worldDesc", "街景,路线", "1,2","故事", 4, 
+//				"http://static.imzhitu.com/ios/image/2014/3/26/21/c5a9e4e8b41011e3a9a712bf1fbc47a9_8.jpg",
+//				"http://static.imzhitu.com/ios/image/2014/3/26/21/c5a9e4e8b41011e3a9a712bf1fbc47a9_8.jpg",
+//				null,
+//				"http://static.imzhitu.com/ios/image/2014/3/26/21/c5a9e4e8b41011e3a9a712bf1fbc47a9_8.jpg",
+//				0.1d, 0.1d, "locationDesc", "locationAddr", "province", "city", null, "18", 1, 
+//				null, Tag.WORLD_TYPE_DEFAULT, null, 0, null, null, new HashMap<String, Object>());
+//		logObj(world);
+//		service.deleteWorld(world.getId(),485);
 	}
 	
 	@Test

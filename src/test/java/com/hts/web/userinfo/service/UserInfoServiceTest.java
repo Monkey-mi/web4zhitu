@@ -193,7 +193,7 @@ public class UserInfoServiceTest extends BaseTest {
 	
 	@Test
 	public void queryProfileTest() throws Exception {
-		UserInfo u = service.getUserInfoById(485, 485, true, true, 6, "汐小沫", 2, 23901);
+		UserInfo u = service.getUserInfoById(485, 485, true, true, 0, "董苗", 2, 24139);
 		logObj(u);
 	}
 }
