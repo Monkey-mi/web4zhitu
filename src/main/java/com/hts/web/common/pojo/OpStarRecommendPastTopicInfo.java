@@ -10,7 +10,7 @@ import javax.management.loading.PrivateClassLoader;
  * @author mishengliang
  *
  */
-public class OpStarRecommendTopicInfo implements Serializable{
+public class OpStarRecommendPastTopicInfo implements Serializable{
 
 	/**
 	 *  
@@ -18,7 +18,7 @@ public class OpStarRecommendTopicInfo implements Serializable{
 	private static final long serialVersionUID = -9213079401185374183L;
 	
 	
-	public OpStarRecommendTopicInfo() {
+	public OpStarRecommendPastTopicInfo() {
 		super();
 	}
 	
@@ -32,7 +32,6 @@ public class OpStarRecommendTopicInfo implements Serializable{
 	private String stickerButton;  //发图按钮文本
 	private String shareButton;   //分享按钮文本
 	private String foot;                    //来自***织图
-	private List<OpStarRecommendPastTopicInfo> pastTopics; //往期信息
 	
 	
 	public Integer getTopicId() {
@@ -99,12 +98,6 @@ public class OpStarRecommendTopicInfo implements Serializable{
 	}
 	public void setFoot(String foot) {
 		this.foot = foot;
-	}
-	public List<OpStarRecommendPastTopicInfo> getPastTopics() {
-		return pastTopics;
-	}
-	public void setPastTopics(List<OpStarRecommendPastTopicInfo> pastTopics) {
-		this.pastTopics = pastTopics;
 	}
 	
 }

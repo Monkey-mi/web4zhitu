@@ -36,6 +36,7 @@ import com.hts.web.common.pojo.OpChannelTopOneTitle;
 import com.hts.web.common.pojo.OpChannelWorld;
 import com.hts.web.common.pojo.OpChannelWorldDto;
 import com.hts.web.common.pojo.OpStarModuleInfo;
+import com.hts.web.common.pojo.OpStarRecommendPastTopicInfo;
 import com.hts.web.common.pojo.OpStarRecommendTopicInfo;
 import com.hts.web.common.pojo.UserInfoDto;
 import com.hts.web.common.service.KeyGenService;
@@ -814,7 +815,7 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 		
 		// 获取指定主题下的各个达人的详细信息
 		List<OpStarModuleInfo> list  = channelStarModuleInfoDao.getOpStarModuleInfo(topicId);
-		
+		List<OpStarRecommendPastTopicInfo>pastTopics = channelStarRecommendTopicInfoDao.getPastTopicInfo(topicId);
 		
 //		List<OpStarModuleInfo> list  = new ArrayList<OpStarModuleInfo>();
 //		OpStarModuleInfo opStarModuleInfo1 = new OpStarModuleInfo(1, "夏秋混穿", "Where there is a shell", 4589755, "http://www.baidu.com", "小花", "testUserPic01.jpg", "的富士康拉风多卡拉谁", topicId);
@@ -826,6 +827,7 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 //		OpStarRecommendTopicInfo opStarRecommendTopicInfo =  new OpStarRecommendTopicInfo(topicId, "盛夏初秋", "全世界人民大团结万岁fd将放开的拉萨fdjskla;fdj及打开都卡死了", "150928", list, "放假开始拉方巾fjdksl;afjdl将放开的拉萨；附件打开快疯了；倒萨阔服拉萨", "来自时尚爱美丽的织图");
 		
 	    opStarRecommendTopicInfo.setStarModuleInfos(list);
+	    opStarRecommendTopicInfo.setPastTopics(pastTopics);
 		jsonMap.put(OptResult.JSON_KEY_OBJ, opStarRecommendTopicInfo);
 	}
 

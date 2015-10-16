@@ -204,6 +204,6 @@ public class ChannelServiceTest extends BaseTest {
 	@Test
 	public void  getStarRecommendTopicInfoTest() throws Exception{
 		Map<String, Object> jsonMap = new HashMap<String,Object>();
-//		service.getStarRecommendTopicInfo(1,  jsonMap);
+		/*service.getStarRecommendTopicInfo(3,  jsonMap);*/
 	}
 }

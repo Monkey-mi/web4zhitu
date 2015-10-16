@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 
 import com.hts.web.common.dao.impl.BaseDaoImpl;
+import com.hts.web.common.pojo.OpStarRecommendPastTopicInfo;
 import com.hts.web.common.pojo.OpStarRecommendTopicInfo;
 import com.hts.web.operations.dao.ChannelStarRecommendTopicInfoDao;
 
@@ -17,6 +18,7 @@ public class ChannelStarRecommendTopicInfoDaoImpl extends BaseDaoImpl implements
 	
 	private static String table  = "hts.operations_channel_topic";
 	private String QUERY_STARTOPICINFO_BY_TOPICID = "select * from "+table+" where id = ?";
+	private String QUERY_PAST_TOPICINFO_BY_TOPICID = "SELECT * FROM " +table+ " WHERE id < ? order by id desc limit 0,3; ";
 
 	@Override
 	public List<OpStarRecommendTopicInfo> getInfo(Integer topicId) {
@@ -35,7 +37,9 @@ public class ChannelStarRecommendTopicInfoDaoImpl extends BaseDaoImpl implements
 
 	public OpStarRecommendTopicInfo buildOpStarRecommendTopicInfo(ResultSet rs) throws SQLException{
 		OpStarRecommendTopicInfo starRecommendTopicInfo = new OpStarRecommendTopicInfo();
+		starRecommendTopicInfo.setTopicId(rs.getInt("id"));
 		starRecommendTopicInfo.setTitle(rs.getString("title"));
+		starRecommendTopicInfo.setTopicType(rs.getInt("topic_type"));
 		starRecommendTopicInfo.setBannerPic(rs.getString("banner_pic"));
 		starRecommendTopicInfo.setHeadIntro(rs.getString("introduce_head"));
 		starRecommendTopicInfo.setFootIntro(rs.getString("introduce_foot"));
@@ -43,5 +47,34 @@ public class ChannelStarRecommendTopicInfoDaoImpl extends BaseDaoImpl implements
 		starRecommendTopicInfo.setShareButton(rs.getString("share_button"));
 		starRecommendTopicInfo.setFoot(rs.getString("foot"));
 		return starRecommendTopicInfo;
+	}
+
+	@Override
+	public List<OpStarRecommendPastTopicInfo> getPastTopicInfo(Integer topicId) {
+		return	  getJdbcTemplate().query(QUERY_PAST_TOPICINFO_BY_TOPICID, 
+				new Object[]{topicId}, 
+				new RowMapper<OpStarRecommendPastTopicInfo>() {
+
+			@Override
+			public OpStarRecommendPastTopicInfo mapRow(ResultSet rs, int rowNum)
+					throws SQLException {
+				return buildOpStarRecommendPastTopicInfo(rs);
+			}
+		}
+		);
+	}
+	
+	public OpStarRecommendPastTopicInfo buildOpStarRecommendPastTopicInfo(ResultSet rs) throws SQLException{
+		OpStarRecommendPastTopicInfo starRecommendPastTopicInfo = new OpStarRecommendPastTopicInfo();
+		starRecommendPastTopicInfo.setTopicId(rs.getInt("id"));
+		starRecommendPastTopicInfo.setTitle(rs.getString("title"));
+		starRecommendPastTopicInfo.setTopicType(rs.getInt("topic_type"));
+		starRecommendPastTopicInfo.setBannerPic(rs.getString("banner_pic"));
+		starRecommendPastTopicInfo.setHeadIntro(rs.getString("introduce_head"));
+		starRecommendPastTopicInfo.setFootIntro(rs.getString("introduce_foot"));
+		starRecommendPastTopicInfo.setStickerButton(rs.getString("sticker_button"));
+		starRecommendPastTopicInfo.setShareButton(rs.getString("share_button"));
+		starRecommendPastTopicInfo.setFoot(rs.getString("foot"));
+		return starRecommendPastTopicInfo;
 	}
 }

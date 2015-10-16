@@ -222,6 +222,17 @@ img.box-shadow{
 		display:none;
 }
 
+.footIntro{
+	margin:auto;
+	width:550px;
+	font-size:28px;
+	font-weight:400px;
+	padding:50px 60px 50px 60px;
+	background-color:#ffffff;
+	border-left:8px solid #87888d;
+	border-right:8px solid #87888d;
+}
+
 .space{
 	padding:80px 0 0 0 ;
 }
@@ -229,7 +240,50 @@ img.box-shadow{
 .foot{
 	font-size:25px;
 	padding:45px 0 25px 0 ;
-	color: #797a7f;
+	color: #ADADAD;
+}
+
+ .footButtonAndPast{
+	 display:inline-block;
+	 width:750px;
+	 background-color:#EAEBEF;
+	 padding-top:20px
+ }
+ 
+.twoButton{
+	width:650px;
+	font-size:20px;
+	background-color:#EAEBEF;
+	margin:auto;
+}
+
+.footButton{
+	height:140px;
+	width:300px;
+	margin:auto;
+}
+
+.pastTopic{
+	width:650px;
+	font-size:20px;
+	background-color:#EAEBEF;
+	margin:auto;
+}
+
+.pastFont{
+	font-size:20px;
+	padding-bottom:20px;
+	padding-top:15px;
+	color:#ADADAD;
+}
+
+.pastPic{
+	padding-bottom:10px;
+}
+
+.hrStyle{
+	border-top:1px solid #ADADAD;
+	border-left:0px;
 }
 
 #download-wrap {
@@ -315,8 +369,31 @@ img.box-shadow{
 <script type="text/javascript">
 var inapp = 0;
 var userIds = "";
- $(document).ready(function() {
 
+var footButtonAndPast = '<div class="footButtonAndPast" ><div id="twoButton" class="twoButton" ></div><div id="pastTopic" class="pastTopic" ><hr class="hrStyle">' + 
+													'<div id="pastFont" class="pastFont">- 上期专题 -</div></div></div>';
+var downloadButton = '<div class="footButton"><a  href="http://a.app.qq.com/o/simple.jsp?pkgname=com.htshuo.htsg"><img style="" alt="" src="http://static.imzhitu.com/op/sticker/151013/download.png"></a></div>';
+var shareButton = ' <div class="footButton" ><a id="share-btn"  href="imzhitu://sharePage"><img style="" alt="" src="http://static.imzhitu.com/op/sticker/151013/share.png"></a></div> ';
+var isInApp = '?inapp=1';
+
+//往期链接 需要改过来 TODO
+var topicHref = 'http://imzhitu.com/operations/'; 
+/* var topicHref = 'http://192.168.1.103:8080/operations/'; */
+
+//往期主题ID
+var pastTopicId = "?topicId=";
+
+//图片头
+var pastTopicPicHead = '"><img alt="" src="';
+
+//图片尾
+var pastTopicPicFoot = '"></a></div>';
+
+//往期整体链接模块
+var pastTopicHead = '<div class="pastPic" ><a href="';
+var pastTopicPicFoot = '"></a></div>';
+
+ $(document).ready(function() {
 	 	var url = window.location.search;
 	 	var topicId = url.substring(url.lastIndexOf("=")+1,url.length);
 	 //调用获取数据的函数
@@ -355,19 +432,44 @@ var userIds = "";
 			 		$('#main').append(module);
 				} 
 			 	
+			 	//介绍空格
 			 	$('#main').append("<div class='space' style='padding:40px 0 0 0'></div>");
-			 	$('#main').append("<div class='headIntro2'  >" + result.footIntro + "</div>");
+			 	//后介绍
+			 	if(result.footIntro != ""){
+			 	$('#main').append("<div class='footIntro'>" + result.footIntro + "</div>");
+			 	}
+			 	//发图分享按钮
 			 	$('#main').append(' <div class="share-sticker-btn-out"><div id="sticker-btn" class="share-sticker-btn" ><a href="imzhitu://useSticker">'+ result.stickerButton +'</a></div></div><div class="share-sticker-btn-out"><div id="share-btn" class="share-sticker-btn" ><a href="imzhitu://sharePage">'+ result.shareButton +'</a></div></div>');
-				$('#main').append("<div class='foot' style='color: #797a7f;'>"+ result.foot +"</div>");
+			 	/* $('#main').append("<div class='foot' style='color: #797a7f;'>"+ result.foot +"</div>"); */
 				
-				initLayout();
+			 	if(result.pastTopics[0] != undefined){
+			 		$('#main').append(footButtonAndPast);
+			 	}
+				
+				initLayout(result);
 		} else {
 		alert('You are wrong');
 		}
 	}, "json"); 
 });
 
-function initLayout() {
+function initLayout(result) {
+ 	//初始化数据
+ 	if(result.pastTopics[0] != undefined && result.pastTopics[0].topicType == 1){
+ 		topicTypeWhat01 = "starModule.html"  ;
+ 	}else{
+ 		topicTypeWhat01 = "readingEditionStarModule.html"  
+ 	}
+ 	if(result.pastTopics[1] != undefined && result.pastTopics[1].topicType == 1){
+ 		topicTypeWhat02 = "starModule.html"  ;
+ 	}else{
+ 		topicTypeWhat02 = "readingEditionStarModule.html"  
+ 	}
+ 	if(result.pastTopics[2] != undefined && result.pastTopics[2].topicType == 1){
+ 		topicTypeWhat03 = "starModule.html"  ;
+ 	}else{
+ 		topicTypeWhat03 = "readingEditionStarModule.html"  
+ 	}
 	
 	inapp = callAppInit();
 	if(inapp == 1) {
@@ -380,12 +482,44 @@ function initLayout() {
 			uid = unescape(r[2]);
 			fetchConcernStatus(uid);
 		}
+		
+	/* 	$("#twoButton").append(shareButton); */
+		if(result.pastTopics[0] != undefined){
+			var topicHref01 = topicHref + topicTypeWhat01 +  isInApp + pastTopicId + result.pastTopics[0].topicId;
+			var topicPic = pastTopicPicHead + result.pastTopics[0].bannerPic + pastTopicPicFoot;
+			var pastTopic01 = pastTopicHead +  topicHref01 + topicPic;
+			$("#pastTopic").append(pastTopic01);
+		}
 	} else {
 		$("#download-wrap").show();
 		bindAllBtnClick2Callapp();
+		
+		//非app展示需要增加下载按钮、替换文字、两期回顾
+		$("#pastFont").text("- 往期回顾 -");
+		
+		if(result.pastTopics[0] != undefined){
+		var topicHref01 = topicHref + topicTypeWhat01 + pastTopicId + result.pastTopics[0].topicId;
+		var topicPic = pastTopicPicHead + result.pastTopics[0].bannerPic + pastTopicPicFoot;
+		var pastTopic01 = pastTopicHead +  topicHref01 + topicPic;
+		$("#pastTopic").append(pastTopic01);
+		}
+		
+		if(result.pastTopics[1] != undefined){
+			var topicHref02 = topicHref + topicTypeWhat02 + pastTopicId + result.pastTopics[1].topicId;
+			var topicPic = pastTopicPicHead + result.pastTopics[1].bannerPic + pastTopicPicFoot;
+			var pastTopic02 = pastTopicHead +  topicHref02 + topicPic;
+			$("#pastTopic").append(pastTopic02);
+		}
+		
+		if(result.pastTopics[2] != undefined){
+			var topicHref03 = topicHref + topicTypeWhat03 + pastTopicId + result.pastTopics[2].topicId;
+			var topicPic = pastTopicPicHead + result.pastTopics[2].bannerPic + pastTopicPicFoot;
+			var pastTopic03 = pastTopicHead +  topicHref03 + topicPic;
+			$("#pastTopic").append(pastTopic03);
+		}
 	}
-	document.getElementById("share-btn").addEventListener('click',openclient,false);
- 	document.getElementById("sticker-btn").addEventListener('click',openclient,false); 	
+/* 	document.getElementById("share-btn").addEventListener('click',openclient,false);
+ 	document.getElementById("sticker-btn").addEventListener('click',openclient,false); 	 */
 	
 		var maxW = 750;
 		var winWidth = $(window).width();
@@ -491,6 +625,12 @@ function initLayout() {
 		//用户表tfoot 设置与用户图片之间的间距
 		tfootHeigh = 10,
 		
+		//后介绍模块
+		footIntroWidth = 550,
+		footIntroFontSize = 28,
+		footIntroBorderLeft = 8,
+		footIntroBorderRight = 8,
+		
 		//分享按钮
  		shareButtonWidth = 400,
 		shareButtonHeight = 100, 
@@ -514,6 +654,30 @@ function initLayout() {
 		footFontSize = 25,
 		footPaddingTop = 45,
 		footPaddingButtom = 25,
+		
+		//footButton 和 往期推荐模块
+		footButtonAndPastWidth = 750,
+		footButtonAndPastPaddingTop = 20,
+		
+		//两个button模块
+		twoButtonWidth = 650,
+		twoButtonFontSize = 20,
+		
+		//button本身属性
+		footButtonHeight = 140,
+		footButtonWidth = 300,
+		
+		//往期专题模块
+		pastTopicWidth = 650,
+		pastTopicFontSize = 13,
+		
+		//往期字体
+		pastFontFontSize = 28,
+		pastFontPaddingBottom = 20,
+		pastFontPaddingTop = 15,
+		
+		//往期banner图
+		pastPicPaddingBottom = 10,
 		
 	scale = winWidth / maxW * 100;
 	
@@ -617,6 +781,12 @@ function initLayout() {
 		//用户表tfoot 设置与用户图片之间的间距
 		tfootHeigh = tfootHeigh  * scale / 100;
 		
+	//后介绍模块
+	footIntroWidth = footIntroWidth * scale / 100;
+	footIntroFontSize = footIntroFontSize * scale / 100;
+	footIntroBorderLeft = footIntroBorderLeft * scale / 100;
+	footIntroBorderRight = footIntroBorderRight * scale / 100;
+		
 		//分享按钮
  		shareButtonWidth = shareButtonWidth * scale / 100;
 		shareButtonHeight = shareButtonHeight * scale / 100; 
@@ -640,6 +810,30 @@ function initLayout() {
 	footFontSize = footFontSize * scale / 100;
 	footPaddingTop = footPaddingTop * scale / 100;
 	footPaddingButtom = footPaddingButtom * scale / 100;
+	
+	//footButton 和 往期推荐模块
+	footButtonAndPastWidth = footButtonAndPastWidth * scale/ 100;
+	footButtonAndPastPaddingTop = footButtonAndPastPaddingTop * scale/ 100;
+	
+	//两个button模块
+	twoButtonWidth = twoButtonWidth * scale/ 100;
+	twoButtonFontSize = twoButtonFontSize * scale/ 100;
+	
+	//button本身属性
+	footButtonHeight = footButtonHeight * scale/ 100;
+	footButtonWidth = footButtonWidth * scale/ 100;
+	
+	//往期专题模块
+	pastTopicWidth = pastTopicWidth * scale/ 100;
+	pastTopicFontSize = pastTopicFontSize * scale/ 100;
+	
+	//往期字体
+	pastFontFontSize = pastFontFontSize * scale/ 100;
+	pastFontPaddingBottom = pastFontPaddingBottom * scale/ 100;
+	pastFontPaddingTop = pastFontPaddingTop * scale/ 100;
+	
+	//往期banner图
+	pastPicPaddingBottom = pastPicPaddingBottom * scale/ 100;
 		
 		$(".concern").show();
 	
@@ -763,6 +957,28 @@ function initLayout() {
  		$(".tfootHeight").css({
 			"height":tfootHeigh + "px"
  		}); 
+		
+		/* 		.footIntro{
+		margin:auto;
+		width:550px;
+		font-size:28px;
+		font-weight:400px;
+		padding:50px 60px 50px 60px;
+		background-color:#ffffff;
+		border-left:8px solid #000000;
+		border-right:8px solid #000000;
+	} */
+	
+		//后介绍模块
+		$(".footIntro").css({
+		 	 	"width":footIntroWidth + "px",
+	 			"padding-top":head2paddingTop + "px",
+	 			"padding-left":head2paddingLeft + "px",
+	 			"padding-right":head2paddingRight + "px",
+	 			"padding-bottom":head2paddingBottom + "px",
+	 			"border-left-width":footIntroBorderLeft + "px", 
+	 			"border-right-width":footIntroBorderRight + "px",
+	 			"font-size":footIntroFontSize + "px"}); 
  			
 			//分享按钮
  	 		$(".share-sticker-btn").css({
@@ -794,6 +1010,36 @@ function initLayout() {
  	 			"padding-top":footPaddingTop + "px",
  	 			"padding-bottom":footPaddingButtom + "px"
  	 			});
+ 			
+ 	 		//footButton 和 往期推荐模块
+ 	 		$(".footButtonAndPast").css({
+ 	 			"width":footButtonAndPastWidth + "px",
+ 	 			"padding-top":footButtonAndPastPaddingTop + "px"});
+ 	 		
+ 	 		//两个button模块
+ 	 		$(".twoButton").css({
+ 	 			"width":twoButtonWidth + "px",
+ 	 			"font-size":twoButtonFontSize + "px"});
+ 	 		
+ 	 		//button本身属性
+ 	 		$(".footButton").css({
+ 	 			"width":footButtonWidth + "px",
+ 	 			"height":footButtonHeight + "px"});
+ 	 		
+ 	 		//往期专题模块
+ 	 		$(".pastTopic").css({
+ 	 			"width":pastTopicWidth + "px",
+ 	 			"font-size":pastTopicFontSize + "px"});
+ 	 		
+ 	 		//往期字体
+ 	 		$(".pastFont").css({
+ 	 			"padding-bottom":pastFontPaddingBottom + "px",
+ 	 			"padding-top":pastFontPaddingTop + "px",
+ 	 			"font-size":pastFontFontSize + "px"});
+ 	 		
+ 	 		//往期banner图
+ 	 		$(".pastPic").css({
+ 	 			"padding-bottom":pastPicPaddingBottom + "px"});
  		
 		if(inapp==1) {
 			$("#main").css({"margin-bottom":"0px"});
