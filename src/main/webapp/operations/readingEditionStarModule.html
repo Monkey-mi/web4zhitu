@@ -30,7 +30,7 @@ img {
 
 #main {
 	display: inline-block;
-/* 	width: 100%; */
+ 	width: 100%; 
 	max-width: 750px;
 	margin-bottom: 60px;
 	background-color:#eaebef; 
@@ -485,9 +485,9 @@ function initLayout(result) {
 		bindAllBtnClick2Callapp();
 		
 		//非app展示需要增加下载按钮、替换文字、两期回顾
-		$("#pastFont").text("- 往期回顾 -");
 		
 		if(result.pastTopics[0] != undefined){
+		$("#pastFont").text("- 往期回顾 -");
 		var topicHref01 = topicHref + topicTypeWhat01 + pastTopicId + result.pastTopics[0].topicId;
 		var topicPic = pastTopicPicHead + result.pastTopics[0].bannerPic + pastTopicPicFoot;
 		var pastTopic01 = pastTopicHead +  topicHref01 + topicPic;
