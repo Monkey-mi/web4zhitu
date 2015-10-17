@@ -357,4 +357,9 @@ public class HTS {
 	 */
 	public static final String USER_MSG_AT_COMMENT = DB + "user_msg_at_comment";
 	
+	/**
+	 * 评论消息表
+	 */
+	public static final String USER_MSG_COMMENT = DB + "user_msg_comment";
+	
 }

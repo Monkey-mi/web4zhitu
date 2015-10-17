@@ -32,6 +32,7 @@ import com.hts.web.common.pojo.HTWorldKeep;
 import com.hts.web.common.pojo.HTWorldLiked;
 import com.hts.web.common.pojo.HTWorldReport;
 import com.hts.web.common.pojo.HTWorldThumbnail;
+import com.hts.web.common.pojo.MsgComment;
 import com.hts.web.common.pojo.ObjectWithLiked;
 import com.hts.web.common.pojo.OpChannel;
 import com.hts.web.common.pojo.PushStatus;
@@ -45,6 +46,7 @@ import com.hts.web.common.util.StringUtil;
 import com.hts.web.common.util.UserInfoUtil;
 import com.hts.web.operations.dao.ChannelDao;
 import com.hts.web.push.service.PushService;
+import com.hts.web.userinfo.dao.MsgCommentDao;
 import com.hts.web.userinfo.dao.UserAdminDao;
 import com.hts.web.userinfo.dao.UserConcernDao;
 import com.hts.web.userinfo.dao.UserInfoDao;
@@ -112,6 +114,9 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 	
 	@Autowired
 	private HTWorldCommentDao worldCommentDao;
+	
+	@Autowired
+	private MsgCommentDao msgCommentDao;
 	
 	@Autowired
 	private HTWorldDao worldDao;
@@ -267,6 +272,7 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 			worldDao.updateCommentCount(worldId, count.intValue());
 			
 			if(ck.equals(Tag.FALSE)) { // 不是自己发给自己
+				msgCommentDao.saveMsgComment(new MsgComment(id, authorId, wauthorId, worldId));
 
 				boolean otherIm = UserInfoUtil.checkIsImVersion(userPushInfo.getVer());
 				Integer shieldUser = userShieldDao.queryShieldId(wauthorId, authorId) == null ? Tag.FALSE : Tag.TRUE;
@@ -349,6 +355,7 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 		return null;
 	}
 	
+	/*
 	@Override
 	public void saveReply(Boolean im, Integer worldId, Integer worldAuthorId, 
 			Integer authorId,  String content, Integer reId, Integer reAuthorId, 
@@ -387,7 +394,7 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 		if(userPushInfo == null)
 			throw new HTSException("用户不存在", ERROR_CODE_INVALID);
 		
-		Integer wauthor = worldDao.queryAuthorId(worldId);
+		Integer wauthorId = worldDao.queryAuthorId(worldId);
 		rAuthorId = userPushInfo.getId();
 		
 		String remark = userRemarkDao.queryRemark(rAuthorId, authorId);
@@ -411,7 +418,7 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 		
 		Integer id = keyGenService.generateId(KeyGenServiceImpl.HTWORLD_COMMENT_ID);
 		HTWorldComment comment = new HTWorldComment(id, authorId, content, new Date(), worldId,
-				wauthor, reId, userPushInfo.getId(), ck, valid, shield);
+				wauthorId, reId, userPushInfo.getId(), ck, valid, shield);
 		worldCommentDao.saveWorldComment(comment);
 		
 		if(shield.equals(Tag.FALSE)) {
@@ -420,7 +427,9 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 			worldDao.updateCommentCount(worldId, count.intValue());
 			
 			if(ck.equals(Tag.FALSE)) { // 不是自己发给自己
-
+				// 保存评论消息
+				msgCommentDao.saveMsgComment(new MsgComment(id, authorId, wauthorId, worldId));
+				
 				boolean otherIm = UserInfoUtil.checkIsImVersion(userPushInfo.getVer());
 				Integer shieldUser = userShieldDao.queryShieldId(rAuthorId, authorId) == null ? Tag.FALSE : Tag.TRUE;
 				
@@ -459,9 +468,9 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 		jsonMap.put(OptResult.JSON_KEY_REMARK_ME, pushStatus.getRemarkMe());
 		
 	}
+	*/
 	
 
-	/*
 	@Override
 	public void saveReply(Boolean im, Integer worldId, Integer worldAuthorId,
 			Integer authorId,  String content, Integer reId, Integer reAuthorId, 
@@ -537,8 +546,8 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 				// 旧版全部调整为系统发送消息
 				if(otherAt) {
 					String atName = userInfoDao.queryUserNameById(rAuthorId);
-					userMsgService.saveAtMsgs(true, authorId, 
-							Tag.AT_TYPE_COMMENT, id, worldId, content, rAuthorId.toString(), atName);
+					userMsgService.saveAtMsgs(true, authorId,
+							Tag.AT_TYPE_COMMENT, id, worldId, content, String.valueOf(rAuthorId), atName);
 				} else {
 					Integer shieldUser = userShieldDao.queryShieldId(rAuthorId, authorId) == null 
 							? Tag.FALSE : Tag.TRUE;
@@ -552,7 +561,8 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 			}
 			
 			// 给织图作者发送消息
-			if(authorId != wauthorId && rAuthorId != wauthorId) {
+			if(!authorId.equals(wauthorId) && !rAuthorId.equals(wauthorId)) {
+				msgCommentDao.saveMsgComment(new MsgComment(id, authorId, wauthorId, worldId));
 				UserPushInfo wauthorPushInfo = userInfoDao.queryUserPushInfoById(wauthorId);
 				Integer shieldComment = userShieldDao.queryShieldId(wauthorId, authorId) == null 
 						? Tag.FALSE : Tag.TRUE;
@@ -578,7 +588,6 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 		jsonMap.put(OptResult.JSON_KEY_USER_ID, pushStatus.getUserId());
 		jsonMap.put(OptResult.JSON_KEY_REMARK_ME, pushStatus.getRemarkMe());
 	}
-	*/
 	
 	@Override
 	public void saveReplyWithAt(Boolean im, Integer worldId, Integer worldAuthorId,
@@ -659,6 +668,8 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 			worldDao.updateCommentCount(worldId, count.intValue());
 			
 			if(ck.equals(Tag.FALSE)) { // 不是自己发给自己
+				// 保存评论消息
+				msgCommentDao.saveMsgComment(new MsgComment(id, authorId, worldAuthorId, worldId));
 
 				boolean otherIm = UserInfoUtil.checkIsImVersion(userPushInfo.getVer());
 				Integer shieldUser = userShieldDao.queryShieldId(worldAuthorId, authorId) == null ? Tag.FALSE : Tag.TRUE;
@@ -738,8 +749,10 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 			if(comment.getAuthorId().equals(userId) 
 					|| worldDao.queryAuthorId(comment.getWorldId()).equals(userId)) {
 				worldCommentDao.validRecord(HTS.HTWORLD_COMMENT, Tag.FALSE, id);
+				msgCommentDao.deleteByCommentId(id);
 				Long count = worldCommentDao.queryCommentCount(comment.getWorldId());
 				worldDao.updateCommentCount(comment.getWorldId(), count.intValue());
+				
 			}
 		} else {
 			throw new HTSException(ERROR_MSG_INVALID, ERROR_CODE_REPEAT_OPT);

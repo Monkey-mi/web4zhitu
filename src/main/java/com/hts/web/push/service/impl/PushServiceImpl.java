@@ -54,7 +54,6 @@ public class PushServiceImpl implements PushService {
 	private static final String TIP_CONCERN = "关注了你";
 	private static final String TIP_LIKED = "赞了你的织图";
 	private static final String TIP_MSG = "你收到1条私信";
-	private static final String TIP_AT = " @了你";
 	private static Logger imLog = Logger.getLogger(LoggerKeies.PUSH_IM);
 	
 	
@@ -419,7 +418,7 @@ public class PushServiceImpl implements PushService {
 						
 						String fullName = userInfoDao.queryUserNameById(uid);
 						pushIMMessage(touid, new PushIM(Tag.PUSH_ACTION_AT, fullName, content, uid, touid), 
-								fullName + " " + content, Tag.IOS, accept, shield, callback);
+								fullName + ":" + content, Tag.IOS, accept, shield, callback);
 						
 					}
 			});

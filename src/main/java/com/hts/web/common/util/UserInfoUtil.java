@@ -24,7 +24,7 @@ public class UserInfoUtil {
 	 * @return
 	 */
 	public static Boolean checkIsAtVersion(Float ver) {
-		if(ver != null && ver >= Tag.VERSION_3_0_5) {
+		if(ver != null && ver >= Tag.VERSION_3_0_2) {
 			return true;
 		}
 		return false;

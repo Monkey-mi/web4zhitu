@@ -176,13 +176,13 @@ public interface HTWorldCommentDao extends BaseDao {
 	 */
 	public List<HTWorldCommentDto> queryUserCommentByMinId(Integer userId, Integer minId, RowSelection rowSelection);
 	
-	/**
-	 * 查询未读用户评论总数
-	 * 
-	 * @param userId
-	 * @return
-	 */
-	public long queryUnCheckUserCommentCount(Integer userId);
+//	/**
+//	 * 查询未读用户评论总数
+//	 * 
+//	 * @param userId
+//	 * @return
+//	 */
+//	public long queryUnCheckUserCommentCount(Integer userId);
 	
 	/**
 	 * 根据最大id查询指定用户的评论消息总数
@@ -274,30 +274,30 @@ public interface HTWorldCommentDao extends BaseDao {
 	 */
 	public Integer queryValid(Integer id);
 	
-	/**
-	 * 查询评论消息列表
-	 * 
-	 * @param authorId
-	 * @param rowSelection
-	 * @return
-	 * 
-	 * @version 3.0.5
-	 * @author lynch 2015-09-28
-	 */
-	public List<MsgCommentDto> queryMsg(Integer authorId, RowSelection rowSelection);
-	
-	/**
-	 * 查询评论消息列表
-	 * 
-	 * @param maxId
-	 * @param authorId
-	 * @param rowSelection
-	 * @return
-	 * 
-	 * @version 3.0.5
-	 * @author lynch 2015-09-28
-	 */
-	public List<MsgCommentDto> queryMsg(Integer maxId, Integer authorId, RowSelection rowSelection);
+//	/**
+//	 * 查询评论消息列表
+//	 * 
+//	 * @param authorId
+//	 * @param rowSelection
+//	 * @return
+//	 * 
+//	 * @version 3.0.5
+//	 * @author lynch 2015-09-28
+//	 */
+//	public List<MsgCommentDto> queryMsg(Integer authorId, RowSelection rowSelection);
+//	
+//	/**
+//	 * 查询评论消息列表
+//	 * 
+//	 * @param maxId
+//	 * @param authorId
+//	 * @param rowSelection
+//	 * @return
+//	 * 
+//	 * @version 3.0.5
+//	 * @author lynch 2015-09-28
+//	 */
+//	public List<MsgCommentDto> queryMsg(Integer maxId, Integer authorId, RowSelection rowSelection);
 	
 	/**
 	 * 查询作者id

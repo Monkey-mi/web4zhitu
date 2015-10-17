@@ -63,6 +63,7 @@ import com.hts.web.push.service.impl.PushServiceImpl.PushFailedCallback;
 import com.hts.web.userinfo.dao.MsgAtCommentDao;
 import com.hts.web.userinfo.dao.MsgAtDao;
 import com.hts.web.userinfo.dao.MsgAtWorldDao;
+import com.hts.web.userinfo.dao.MsgCommentDao;
 import com.hts.web.userinfo.dao.UserConcernDao;
 import com.hts.web.userinfo.dao.UserInfoDao;
 import com.hts.web.userinfo.dao.UserMsgDao;
@@ -162,6 +163,9 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 	
 	@Autowired
 	private HTWorldCommentDao commentDao;
+	
+	@Autowired
+	private MsgCommentDao msgCommentDao;
 	
 	@Value("${msg.squareRuleMsg}")
 	private String squareRuleMsg ;
@@ -345,7 +349,7 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 	public void buildUnreadSysMsgCount(Integer userId, Map<String, Object> jsonMap) {
 		long followCount = userConcernDao.queryUnCheckFollowCount(userId);
 		long likedCount = worldLikedDao.queryUnCheckUserLikedCount(userId);
-		long commentCount = worldCommentDao.queryUnCheckUserCommentCount(userId);
+		long commentCount = msgCommentDao.queryUnCkCount(userId);
 		long msgCount = sysMsgDao.queryUnCheckSysMsgCount(userId);
 		long userMsgCount = userMsgRecipientBoxDao.queryUnReadMsgCount(userId);
 		long atMsgCount = atDao.queryUnCheckCount(userId);
@@ -1072,7 +1076,7 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 		
 		if(push && statusList != null) {
 			for(PushStatus status : statusList) {
-				pushService.pushAtMsg(userId, status.getId(),
+				pushService.pushAtMsg(userId, status.getUserId(),
 						content,status.getAccept(), status.getShield());
 			}
 		}
@@ -1146,12 +1150,13 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 
 			@Override
 			public List<MsgCommentDto> getSerializables(RowSelection rowSelection) throws Exception {
-				return commentDao.queryMsg(worldAuthorId, rowSelection);
+				msgCommentDao.updateCK(worldAuthorId);
+				return msgCommentDao.queryMsg(worldAuthorId, rowSelection);
 			}
 
 			@Override
 			public List<MsgCommentDto> getSerializableByMaxId(int maxId, RowSelection rowSelection) {
-				return commentDao.queryMsg(maxId, worldAuthorId, rowSelection);
+				return msgCommentDao.queryMsg(maxId, worldAuthorId, rowSelection);
 			}
 
 			@Override

@@ -442,9 +442,9 @@ public class Tag {
 	public static final float VERSION_3_0 = 3.0f;
 	
 	/**
-	 * 3.0.5
+	 * 3.0.2
 	 */
-	public static final float VERSION_3_0_5 = 3.0005f;
+	public static final float VERSION_3_0_2 = 3.0002f;
 	
 	
 	/**

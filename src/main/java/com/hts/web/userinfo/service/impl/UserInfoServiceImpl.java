@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +30,7 @@ import com.hts.web.common.service.KeyGenService;
 import com.hts.web.common.service.impl.BaseServiceImpl;
 import com.hts.web.common.service.impl.KeyGenServiceImpl;
 import com.hts.web.common.util.MD5Encrypt;
+import com.hts.web.common.util.NumberUtil;
 import com.hts.web.common.util.PushUtil;
 import com.hts.web.common.util.StringUtil;
 import com.hts.web.plat.service.PlatService;
@@ -297,12 +297,14 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 			Integer platformVerify, String platformReason, String loginCode, String userName,
 			String userAvatar, String userAvatarL, Integer sex, String pushToken, 
 			Integer phoneCode, String phoneSys, String phoneVer, Float ver) throws Exception {
-//		if(platformCode.equals(PlatFormCode.QQ) && ver >= Tag.VERSION_2_9_88) { //　不允许新qq用户注册
-//			throw new HTSException("该QQ帐号未注册织图，请更换其他登录方式", PLATFORM_OFF_ERROR);
-//		}
 		userAvatar = StringUtil.checkIsNULL(userAvatar) ? DEFAULT_AVATAR_S : userAvatar;
 		userAvatarL = filterUserAvatarL(userAvatarL, userAvatar);
+		userName = StringUtil.trimName(userName);
 		UserInfo userInfo = null;
+		
+		if(userInfoDao.checkUserNameExists(userName)) {
+			userName = userName + StringUtil.getRandomUserName();
+		}
 
 		Integer id = keyGenService.generateId(KeyGenServiceImpl.USER_ID);
 		userInfo = new UserInfo(id, platformCode, platformToken, platformTokenExpires, 
@@ -387,7 +389,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 			Integer phoneCode, String phoneSys, String phoneVer, Float ver, String platformUnionId) throws Exception {
 		userAvatar = StringUtil.checkIsNULL(userAvatar) ? DEFAULT_AVATAR_S : userAvatar;
 		userAvatarL = filterUserAvatarL(userAvatarL, userAvatar);
-		userName = StringUtil.trimName(userName);
+		
 		pushToken = StringUtil.checkIsNULL(pushToken) ? null : pushToken;
 		platformReason = platformReason != null && platformReason.length() > PLATFORM_REASON_MAX_LENGTH 
 				? platformReason.substring(0, PLATFORM_REASON_MAX_LENGTH) : platformReason;

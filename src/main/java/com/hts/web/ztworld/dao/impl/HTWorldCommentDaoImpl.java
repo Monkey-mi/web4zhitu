@@ -642,11 +642,11 @@ public class HTWorldCommentDaoImpl extends BaseDaoImpl implements
 		}, rowSelection);
 	}
 	
-	@Override
-	public long queryUnCheckUserCommentCount(Integer userId) {
-		return getJdbcTemplate().queryForLong(QUERY_UNCHECK_USER_COMMENT_COUNT, 
-				new Object[]{Tag.TRUE, Tag.FALSE, Tag.FALSE, userId, userId});
-	}
+//	@Override
+//	public long queryUnCheckUserCommentCount(Integer userId) {
+//		return getJdbcTemplate().queryForLong(QUERY_UNCHECK_USER_COMMENT_COUNT, 
+//				new Object[]{Tag.TRUE, Tag.FALSE, Tag.FALSE, userId, userId});
+//	}
 	
 	@Override
 	public long queryUserCommentCountByMaxId(Integer userId, Integer maxId) {
@@ -714,33 +714,33 @@ public class HTWorldCommentDaoImpl extends BaseDaoImpl implements
 		getMasterJdbcTemplate().update(UPDATE_CONTENT_BY_ID, content,id);
 	}
 	
-	@Override
-	public List<MsgCommentDto> queryMsg(Integer worldAuthorId, RowSelection rowSelection) {
-		return getJdbcTemplate().query(QUERY_COMMENT_MSG,
-				new Object[]{worldAuthorId, rowSelection.getFirstRow(), rowSelection.getLimit()},
-				new RowMapper<MsgCommentDto>() {
+//	@Override
+//	public List<MsgCommentDto> queryMsg(Integer worldAuthorId, RowSelection rowSelection) {
+//		return getJdbcTemplate().query(QUERY_COMMENT_MSG,
+//				new Object[]{worldAuthorId, rowSelection.getFirstRow(), rowSelection.getLimit()},
+//				new RowMapper<MsgCommentDto>() {
+//
+//			@Override
+//			public MsgCommentDto mapRow(ResultSet rs, int rowNum) throws SQLException {
+//				return buildMsgDto(rs);
+//			}
+//			
+//		});
+//	}
 
-			@Override
-			public MsgCommentDto mapRow(ResultSet rs, int rowNum) throws SQLException {
-				return buildMsgDto(rs);
-			}
-			
-		});
-	}
-
-	@Override
-	public List<MsgCommentDto> queryMsg(Integer maxId, Integer worldAuthorId, RowSelection rowSelection) {
-		return getJdbcTemplate().query(QUERY_COMMENT_MSG_BY_MAX_ID,
-				new Object[]{worldAuthorId,maxId,rowSelection.getFirstRow(), rowSelection.getLimit()},
-				new RowMapper<MsgCommentDto>() {
-
-			@Override
-			public MsgCommentDto mapRow(ResultSet rs, int rowNum) throws SQLException {
-				return buildMsgDto(rs);
-			}
-		});
-	}
-	
+//	@Override
+//	public List<MsgCommentDto> queryMsg(Integer maxId, Integer worldAuthorId, RowSelection rowSelection) {
+//		return getJdbcTemplate().query(QUERY_COMMENT_MSG_BY_MAX_ID,
+//				new Object[]{worldAuthorId,maxId,rowSelection.getFirstRow(), rowSelection.getLimit()},
+//				new RowMapper<MsgCommentDto>() {
+//
+//			@Override
+//			public MsgCommentDto mapRow(ResultSet rs, int rowNum) throws SQLException {
+//				return buildMsgDto(rs);
+//			}
+//		});
+//	}
+//	
 	@Override
 	public List<HTWorldCommentReId> queryReId(Integer[] ids) {
 		String inSelection = SQLUtil.buildInSelection(ids);

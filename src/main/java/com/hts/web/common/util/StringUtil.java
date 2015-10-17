@@ -352,9 +352,8 @@ public class StringUtil {
 		return s;
 	}
 	
-	
 	public static String getRandomUserName() {
-		return String.valueOf(new Date().getTime());
+		return String.valueOf(NumberUtil.getRandomNum(100000000, 999999999));
 	}
 	
 	/**
