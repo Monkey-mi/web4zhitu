@@ -71,16 +71,16 @@ public interface ZTWorldInteractService extends BaseService {
 	/**
 	 * 回复评论
 	 * 
-	 * @param im
-	 * @param worldId
-	 * @param worldAuthorId
-	 * @param authorId
-	 * @param content
-	 * @param reId
-	 * @param reAuthorId
-	 * @param atIdsStr
-	 * @param atNamesStr
-	 * @param jsonMap
+	 * @param im 					是否开通im, 如果是马甲，设置为false
+	 * @param worldId 				织图id
+	 * @param worldAuthorId 		织图作者id
+	 * @param authorId　				评论作者id
+	 * @param content 				回复内容
+	 * @param reId 					回复的评论id
+	 * @param reAuthorId 			回复的评论的作者id
+	 * @param atIdsStr 				at的用户id
+	 * @param atNamesStr 			at的用户名
+	 * @param jsonMap　				结果map
 	 * @throws Exception
 	 */
 	public void saveReplyWithAt(Boolean im, Integer worldId, Integer worldAuthorId,

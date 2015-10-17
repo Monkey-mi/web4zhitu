@@ -12,7 +12,6 @@ import com.hts.web.common.pojo.HTWorldComment;
 import com.hts.web.common.pojo.HTWorldCommentDto;
 import com.hts.web.common.pojo.HTWorldCommentReId;
 import com.hts.web.common.pojo.HTWorldCommentUser;
-import com.hts.web.common.pojo.MsgCommentDto;
 
 /**
  * <p>
