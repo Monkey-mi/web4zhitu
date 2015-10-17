@@ -33,7 +33,7 @@ img {
 /* 	width: 100%; */
 	max-width: 750px;
 	margin-bottom: 60px;
-	background-color:#eaebef; 
+	background-color:#edeff1; 
 }
 
 
@@ -51,7 +51,7 @@ img {
 .headIntro1{
 	align:center;
 	width:670px;
- 	border: 7px solid #87888d; 
+ 	border: 7px solid #88858a; 
 	margin:20px 0 0 33px;
 	backgroud-color:#ff3f0f;
 }
@@ -59,22 +59,30 @@ img {
 .headIntro2 {
 	font-size:28px;
 	font-weight:400;
+	line-height:44px;
+	color:#373e46;
 	padding: 50px 60px 50px 60px;
 	background-color:#ffffff;
 	border: 10px solid #eaebef; 
 }
 
 .title1{
-	font-size:38px;
-	font-weight:400;
-	padding: 50px 0px 0px 0px;
+	font-size:35px;
+	font-weight:600;
+ 	width:750px;
+	color:373e46;
+	position:absolute;
+	margin:-106px 0 0 0;
 }
 
 .title2{
-	font-size:18px;
-	font-weight:400;
-	padding: 10px 0px 50px 0px;
-	color: #797a7f;
+	font-size:26px;
+	font-weight:600;
+	color:#7C7A7F;
+	width:750px;
+	/* height:160px; */
+	position:absolute;
+	margin:-50px 0px 0 0;
 }
 
 .whriteBlock{
@@ -83,6 +91,10 @@ img {
  	padding: 30px 0 0 0;
     margin: 0 18px 0 18px;
     border-bottom: 10px solid #85848a;
+}
+
+.tableLeft{
+	margin-left:144px;
 }
 
 .userPic{
@@ -154,9 +166,16 @@ img.box-shadow{
 .intro2 {
 	width:580px;
 	font-size:28px;
+	line-height:44px;
 	font-family: "微软雅黑", Arial, Helvetica, sans-serif;
 	font-weight:400;678
 	padding: 50px 60px 50px 60px;
+}
+
+.moduleHr{
+	border:1px solid #ADADAD;
+	margin:80px auto 80px auto;
+	width:500px;
 }
 
  .tableFace{
@@ -225,6 +244,8 @@ img.box-shadow{
 .footIntro{
 	margin:auto;
 	width:550px;
+	color:#373e46;
+	line-height:44px;
 	font-size:28px;
 	font-weight:400px;
 	padding:50px 60px 50px 60px;
@@ -377,8 +398,8 @@ var shareButton = ' <div class="footButton" ><a id="share-btn"  href="imzhitu://
 var isInApp = '?inapp=1';
 
 //往期链接 需要改过来 TODO
-var topicHref = 'http://imzhitu.com/operations/'; 
-/* var topicHref = 'http://192.168.1.103:8080/operations/'; */
+var topicHref = 'http://imzhitu.com/operations/';  
+/*   var topicHref = 'http://192.168.1.103:8080/operations/';   */
 
 //往期主题ID
 var pastTopicId = "?topicId=";
@@ -423,12 +444,17 @@ var pastTopicPicFoot = '"></a></div>';
 			 		 //小模块介绍
 			 		var intro2 = '<div  class="intro2">'+ result.starModuleInfos[i].intro2 +'</div></div></div>';
 			 		
-			 		//单元模块
-				 	var module = '<div class="user-wrap"><div class="title1">'+ result.starModuleInfos[i].title +'</div>'+
-					 	'<div class="title2">'+ result.starModuleInfos[i].subtitle +'</div><div class="whriteBlock" ><table border="0" align="center"><tr><td rowspan="2"  class="tableFace" ><div class="face-out"><div class="face"><a href="imzhitu://user?uid='+ result.starModuleInfos[i].userId +'"><img src="'+ result.starModuleInfos[i].facePic +'"/></a></div></div></td>'+
-					 	'<td align="left" class="tableMiddleSpace"></td><td align="left" class="tableUserName"><div class="userName">'+ result.starModuleInfos[i].userName +'</div></td></tr>'+
-					 	'<tr><td align="left" class="tableMiddleSpace"></td><td><a id="concern-'+ result.starModuleInfos[i].userId +'" class="concern-btn concern" name="imzhitu-callapp" href="imzhitu://concern?uid='+ result.starModuleInfos[i].userId +'">+关注</a><a class="concern-btn concerned">已关注</a></td></tr>'+
-					 	'<tfoot><tr><td height=10  class="tfootHeight" colspan="3"></td></tr></tfoot></table>' + tablePic + intro2;
+			 		//模块专题
+					 	var title1Module = '<div class="title1" ><span style="background-color:#edeff1;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + result.starModuleInfos[i].title + '&nbsp;&nbsp;&nbsp&nbsp;&nbsp;</span></div>';
+					 	if(result.starModuleInfos[i].title == ''){
+					 		title1Module = '';
+					 	}
+					 	var module = '<div class="user-wrap"><hr class="moduleHr">'+ title1Module + '<div class="title2">'+ result.starModuleInfos[i].subtitle +'</div><div class="whriteBlock" ><table border="0" class="tableLeft"><tr>' + 
+					 								'<td rowspan="2"  class="tableFace" ><div class="face-out"><div class="face"><a href="imzhitu://user?uid='+ result.starModuleInfos[i].userId +'"><img src="'+ result.starModuleInfos[i].facePic +'"/></a></div></div></td>'+
+					 								'<td align="left" class="tableMiddleSpace"></td><td align="left" class="tableUserName"><div class="userName">'+ result.starModuleInfos[i].userName +'</div></td></tr>'+
+					 								'<tr><td align="left" class="tableMiddleSpace"></td><td><a id="concern-'+ result.starModuleInfos[i].userId +'" class="concern-btn concern" name="imzhitu-callapp" href="imzhitu://concern?uid='+ result.starModuleInfos[i].userId +'">+关注</a><a class="concern-btn concerned">已关注</a></td></tr>'+
+					 								'<tfoot><tr><td height=10  class="tfootHeight" colspan="3"></td></tr></tfoot></table>' + tablePic + intro2;
+					 	
 			 		$('#main').append(module);
 				} 
 			 	
@@ -518,8 +544,8 @@ function initLayout(result) {
 			$("#pastTopic").append(pastTopic03);
 		}
 	}
-/* 	document.getElementById("share-btn").addEventListener('click',openclient,false);
- 	document.getElementById("sticker-btn").addEventListener('click',openclient,false); 	 */
+ 	document.getElementById("share-btn").addEventListener('click',openclient,false);
+ 	document.getElementById("sticker-btn").addEventListener('click',openclient,false); 	 
 	
 		var maxW = 750;
 		var winWidth = $(window).width();
@@ -528,28 +554,28 @@ function initLayout(result) {
 		
 		//headIntro前介绍宽度限制
 		head1width = 670,
-		head1broder = 7,
-		head1marginTop = 20,
+		head1broder = 8,
+		head1marginTop = 30,
 		head1marginLeft = 33,
 		
 		head2fontSize = 28,
+		head2lineHeight = 44,
 		head2fontWeight = 400,
-		head2paddingTop = 50,
-		head2paddingBottom = 50,
+		head2paddingTop = 32,
+		head2paddingBottom = 32,
 		head2paddingLeft = 60,
 		head2paddingRight = 60,
 		head2border = 10,
 
 		//小标题
-		title1fontSize = 38,
-		title1fontWeight = 400,
-		title1paddingTop = 50,
+		title1fontSize = 35,
+		title1width = 750,
+		title1marginTop = -106,  
 		
 		//小副标题
-		title2fontSize = 18,
-		title2fontWeight = 400,
-		title2paddingTop = 10,
-		title2paddingBottom = 50,
+		title2fontSize = 26,
+		title2width = 750,
+		title2marginTop = -50,
 
 		//白色模块底
 		whriteWidth = 714,
@@ -558,14 +584,16 @@ function initLayout(result) {
 		whriteMarginLeft = 18,
 		whriteBorderBottom = 10,
 		
+		//用户信息+关注按钮模块table位置
+		tableLeftMarginLeft = 144,		
 		
 		//用户头像
 		tableFaceWidth = 200,
 		tableFaceHeight = 200,
 		
 		//用户名
-		userNameFontSize = 35,
-		tableUserNameWidth = 200,
+		userNameFontSize = 32,
+		tableUserNameWidth = 300,
 		tableUserNameHeight = 100,
 		
 		//用户图片
@@ -591,11 +619,11 @@ function initLayout(result) {
 		td3width = 445,
 
 		//关注按钮
-		concernButtonWidth = 230,
+		concernButtonWidth = 240,
 		concernButtonHeight = 68,
 		concernButtonMarginTop = -60,
-		concernButtonMarginLeft = -100,
-		concernButtonFontSize = 33,
+		concernButtonMarginLeft = -150,
+		concernButtonFontSize = 32,
 		concernButtonFontWeight = 900,
 		concernButtonFontLineHeight = 74,
 
@@ -603,14 +631,20 @@ function initLayout(result) {
 		intro2width = 580,
 		intro2fontSize = 28,
 		intro2fontWeight = 400,
-		intro2paddingTop = 50,
-		intro2paddingBottom = 50,
+		intro2paddingTop = 40,
+		intro2paddingBottom = 40,
 		intro2paddingLeft = 60,
 		intro2paddingRight = 60,
+		
+		
+		//模块分割线
+		moduleHrMarginTop = 80,
+		moduleHrMarginBottom = 80,
+		moduleHrWidth = 558,
 
 		//头像外边框显示
-		faceoutWidth = 170,
-		faceoutHeight = 170,
+		faceoutWidth = 172,
+		faceoutHeight = 172,
 		faceoutBorder = 8,
 		
 		//头像边框显示
@@ -620,10 +654,10 @@ function initLayout(result) {
 		
 
 		//头像用户名之间间距
-		tableMiddleSpaceWidth = 12,
+		tableMiddleSpaceWidth = 4,
 		
 		//用户表tfoot 设置与用户图片之间的间距
-		tfootHeigh = 10,
+		tfootHeigh = 6,
 		
 		//后介绍模块
 		footIntroWidth = 550,
@@ -688,6 +722,7 @@ function initLayout(result) {
 		head1marginLeft = head1marginLeft * scale / 100;
 		
 		head2fontSize = head2fontSize  * scale / 100;
+		head2lineHeight = head2lineHeight  * scale / 100;
 		head2fontWeight = head2fontWeight * scale / 100;
 		head2paddingTop = head2paddingTop * scale / 100;
 		head2paddingBottom = head2paddingBottom * scale / 100;
@@ -696,15 +731,14 @@ function initLayout(result) {
 		head2border = head2border * scale / 100;
 
 		//小标题
-		title1fontSize = title1fontSize  * scale / 100;
-		title1fontWeight = title1fontWeight  * scale / 100;
-		title1paddingTop = title1paddingTop * scale / 100;
+		title1fontSize = title1fontSize * scale / 100;
+		title1width = title1width * scale / 100;
+		title1marginTop = title1marginTop  * scale / 100;
 		
 		//小副标题
 		title2fontSize = title2fontSize * scale / 100;
-		title2fontWeight = title2fontWeight * scale / 100;
-		title2paddingTop = title2paddingTop * scale / 100;
-		title2paddingBottom = title2paddingBottom * scale / 100;
+		title2width = title2width * scale / 100;
+		title2marginTop = title2marginTop  * scale / 100;
 
 
 		//白色模块底
@@ -714,7 +748,8 @@ function initLayout(result) {
 		whriteMarginLeft = whriteMarginLeft * scale / 100;
 		whriteBorderBottom = whriteBorderBottom * scale / 100;
 		
-	
+		tableLeftMarginLeft = tableLeftMarginLeft * scale / 100;		
+		
 		//用户头像
 		tableFaceWidth = tableFaceWidth * scale / 100;
 		tableFaceHeight = tableFaceHeight * scale / 100;
@@ -764,6 +799,11 @@ function initLayout(result) {
 		intro2paddingBottom = intro2paddingBottom * scale / 100;
 		intro2paddingLeft = intro2paddingLeft * scale / 100;
 		intro2paddingRight = intro2paddingRight * scale / 100;
+		
+		//模块分割线
+		moduleHrMarginTop = moduleHrMarginTop * scale / 100;
+		moduleHrMarginBottom = moduleHrMarginBottom * scale / 100;
+		moduleHrWidth = moduleHrWidth * scale / 100;
 
 		//头像外边框显示
 		faceoutWidth = faceoutWidth * scale / 100;
@@ -781,11 +821,11 @@ function initLayout(result) {
 		//用户表tfoot 设置与用户图片之间的间距
 		tfootHeigh = tfootHeigh  * scale / 100;
 		
-	//后介绍模块
-	footIntroWidth = footIntroWidth * scale / 100;
-	footIntroFontSize = footIntroFontSize * scale / 100;
-	footIntroBorderLeft = footIntroBorderLeft * scale / 100;
-	footIntroBorderRight = footIntroBorderRight * scale / 100;
+		//后介绍模块
+		footIntroWidth = footIntroWidth * scale / 100;
+		footIntroFontSize = footIntroFontSize * scale / 100;
+		footIntroBorderLeft = footIntroBorderLeft * scale / 100;
+		footIntroBorderRight = footIntroBorderRight * scale / 100;
 		
 		//分享按钮
  		shareButtonWidth = shareButtonWidth * scale / 100;
@@ -851,16 +891,20 @@ function initLayout(result) {
  			"padding-right":head2paddingRight + "px",
  			"padding-bottom":head2paddingBottom + "px",
  			"font-size":head2fontSize + "px",
+ 			"line-height":head2lineHeight + "px",
  			"border-width":head2border + "px"}); 
 
- 	 		$(".title1").css({
- 	 			"padding-top":title1paddingTop + "px",
- 	 			"font-size":title1fontSize + "px"}); 
+  	 		$(".title1").css({
+ 	 			"width":title1width + "px",
+ 	 			"font-size":title1fontSize + "px",
+ 	 			"margin-top":title1marginTop + "px"
+ 	 			});  
  	 		
- 	 		$(".title2").css({
- 	 			"padding-top":title2paddingTop + "px",
- 	 			"padding-bottom":title2paddingBottom + "px",
- 	 			"font-size":title2fontSize + "px"}); 
+  	 		$(".title2").css({
+ 	 			"width":title2width + "px",
+ 	 			"font-size":title2fontSize + "px",
+ 	 			"margin-top":title2marginTop + "px"
+ 	 			});  
 
  			//白色模块底
  	 		$(".whriteBlock").css({
@@ -869,6 +913,10 @@ function initLayout(result) {
  	 			"margin-left":whriteMarginLeft + "px",
  	 			"margin-right":whriteMarginRight + "px",
  	 			"border-width":whriteBorderBottom + "px"}); 
+ 			
+	 		$(".tableLeft").css({
+	 			"margin-left":tableLeftMarginLeft + "px"
+	 		});
 
  			//用户头像
 	 		$(".tableFace").css({
@@ -931,9 +979,15 @@ function initLayout(result) {
  	 			"padding-right":intro2paddingRight + "px",
  	 			"padding-bottom":intro2paddingBottom + "px",
  	 			"font-size":intro2fontSize + "px",
+ 	 			"line-height":head2lineHeight + "px",
  	 			"width":intro2width + "px"}); 
  			
-
+		//模块分割线
+  		$(".moduleHr").css({
+ 	 			"margin-top":moduleHrMarginTop + "px",
+ 	 			"margin-bottom":moduleHrMarginBottom + "px",
+ 	 			"width":moduleHrWidth + "px"});  
+		
  			//头像外边框显示
 	 		$(".face-out").css({
 				"width":faceoutWidth + "px",
@@ -958,20 +1012,10 @@ function initLayout(result) {
 			"height":tfootHeigh + "px"
  		}); 
 		
-		/* 		.footIntro{
-		margin:auto;
-		width:550px;
-		font-size:28px;
-		font-weight:400px;
-		padding:50px 60px 50px 60px;
-		background-color:#ffffff;
-		border-left:8px solid #000000;
-		border-right:8px solid #000000;
-	} */
-	
 		//后介绍模块
 		$(".footIntro").css({
 		 	 	"width":footIntroWidth + "px",
+	 			"line-height":head2lineHeight + "px",
 	 			"padding-top":head2paddingTop + "px",
 	 			"padding-left":head2paddingLeft + "px",
 	 			"padding-right":head2paddingRight + "px",
