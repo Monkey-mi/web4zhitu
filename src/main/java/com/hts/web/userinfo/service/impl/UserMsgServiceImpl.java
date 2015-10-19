@@ -1128,6 +1128,7 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 
 			@Override
 			public List<MsgAtDto> getSerializables(RowSelection rowSelection) throws Exception {
+				atDao.updateCK(atId);
 				return atDao.queryMsg(atId, rowSelection);
 			}
 
