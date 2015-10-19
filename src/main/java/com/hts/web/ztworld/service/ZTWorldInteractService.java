@@ -88,6 +88,17 @@ public interface ZTWorldInteractService extends BaseService {
 			String atIdsStr, String atNamesStr, Map<String, Object> jsonMap) throws Exception;
 
 	/**
+	 * 保存评论消息
+	 * 
+	 * @param commentId
+	 * @param authorId
+	 * @param worldAuthorId
+	 * @param worldId
+	 */
+	public void saveMsgComment(Integer commentId, Integer authorId, 
+			Integer worldAuthorId, Integer worldId);
+	
+	/**
 	 * 删除评论
 	 * 
 	 * @param id

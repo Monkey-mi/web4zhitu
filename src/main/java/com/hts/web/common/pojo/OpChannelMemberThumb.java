@@ -21,25 +21,26 @@ public class OpChannelMemberThumb implements Serializable {
 	 */
 	private static final long serialVersionUID = 5105003103102410832L;
 
+	private Integer recommendId;
 	private Integer id;
 	private Integer channelId;
-	private Integer userId;
 	private String userName;
 	private String userAvatar;
 	private String userAvatarL;
 	private Integer platformVerify = Tag.VERIFY_NONE;
 	private Integer star = Tag.FALSE; // 明星标记
-	
+
 	private String verifyName;
 	private String verifyIcon;
 
-	public OpChannelMemberThumb(Integer id, Integer channelId, Integer userId,
-			String userName, String userAvatar, String userAvatarL,
-			Integer platformVerify, Integer star) {
+	public OpChannelMemberThumb(Integer recommendId, 
+			Integer id, Integer channelId, String userName,
+			String userAvatar, String userAvatarL, Integer platformVerify, 
+			Integer star) {
 		super();
+		this.recommendId = recommendId;
 		this.id = id;
 		this.channelId = channelId;
-		this.userId = userId;
 		this.userName = userName;
 		this.userAvatar = userAvatar;
 		this.userAvatarL = userAvatarL;
@@ -62,12 +63,12 @@ public class OpChannelMemberThumb implements Serializable {
 		this.channelId = channelId;
 	}
 
-	public Integer getUserId() {
-		return userId;
+	public Integer getRecommendId() {
+		return recommendId;
 	}
 
-	public void setUserId(Integer userId) {
-		this.userId = userId;
+	public void setRecommendId(Integer recommendId) {
+		this.recommendId = recommendId;
 	}
 
 	public String getUserName() {

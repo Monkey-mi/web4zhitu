@@ -81,7 +81,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 	/**
 	 * 用户名已经存在
 	 */
-//	public static final int USER_NAME_EXIST = 4;
+	public static final int USER_NAME_EXIST = 4;
 	
 	/**
 	 * 推送Token错误
@@ -822,6 +822,9 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 	@Override
 	public void updateUserName(Integer userId, String userName)
 			throws Exception {
+		if(checkUserNameExists(userName)) {
+			throw new HTSException(TIP_USER_NAME_EXIST, USER_NAME_EXIST);
+		}
 		userName = StringUtil.trimName(userName);
 		osUserService.updateUserWithoutNULL(userId, userName, null, null, null, null, null);
 		userInfoDao.updateUserName(userId, userName);

@@ -63,8 +63,8 @@ public class ChannelMemberDaoImpl extends BaseDaoImpl implements
 	public OpChannelMemberThumb buildThumb(ResultSet rs) throws SQLException {
 		return new OpChannelMemberThumb(
 				rs.getInt("id"),
-				rs.getInt("channel_id"),
 				rs.getInt("user_id"),
+				rs.getInt("channel_id"),
 				rs.getString("user_name"),
 				rs.getString("user_avatar"),
 				rs.getString("user_avatar_l"),
