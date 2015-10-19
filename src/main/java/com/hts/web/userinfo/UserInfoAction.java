@@ -166,12 +166,8 @@ public class UserInfoAction extends BaseAction {
 	 */
 	public String checkUserNameExists() {
 		try {
-			boolean isExists = userInfoService.checkUserNameExists(userName);
-			if(isExists) {
-				JSONUtil.optResult(Tag.EXIST, UserInfoServiceImpl.TIP_USER_NAME_EXIST, jsonMap);
-			} else {
-				JSONUtil.optResult(Tag.NOT_EXIST, UserInfoServiceImpl.TIP_USER_NAME_NOT_EXIST, jsonMap);
-			}
+			Integer isExists = userInfoService.checkUserNameExists(userName);
+			JSONUtil.optResult(OptResult.OPT_SUCCESS, isExists, OptResult.JSON_KEY_USER_INFO, jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
 		}

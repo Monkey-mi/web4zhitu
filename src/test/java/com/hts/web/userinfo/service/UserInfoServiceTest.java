@@ -48,7 +48,7 @@ public class UserInfoServiceTest extends BaseTest {
 	
 	@Test
 	public void testCheckUserNameExists() throws Exception {
-		boolean flag = service.checkUserNameExists("_天杰2");
+		Integer flag = service.checkUserNameExists("_天杰2");
 		Log.debug(flag);
 	}
 	
@@ -144,8 +144,8 @@ public class UserInfoServiceTest extends BaseTest {
 	
 	@Test
 	public void testUpdateUserName() throws Exception {
-		int i = new Random().nextInt(1000000);
-		service.updateUserName(485, "天杰1");
+		service.updateUserName(485, "天杰1" + 1);
+		service.updateUserName(485, "天杰");
 	}
 	
 	@Test

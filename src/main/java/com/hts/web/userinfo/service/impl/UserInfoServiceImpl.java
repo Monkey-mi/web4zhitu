@@ -30,7 +30,6 @@ import com.hts.web.common.service.KeyGenService;
 import com.hts.web.common.service.impl.BaseServiceImpl;
 import com.hts.web.common.service.impl.KeyGenServiceImpl;
 import com.hts.web.common.util.MD5Encrypt;
-import com.hts.web.common.util.NumberUtil;
 import com.hts.web.common.util.PushUtil;
 import com.hts.web.common.util.StringUtil;
 import com.hts.web.plat.service.PlatService;
@@ -234,8 +233,9 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 	}
 	
 	@Override
-	public boolean checkUserNameExists(String userName) throws Exception {
-		return userInfoDao.checkUserNameExists(userName);
+	public Integer checkUserNameExists(String userName) throws Exception {
+		boolean flag = userInfoDao.checkUserNameExists(userName);
+		return flag ? Tag.TRUE : Tag.FALSE;
 	}
 
 	@Override
@@ -433,7 +433,6 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 					platformTokenExpires, platformSign, platformVerify, platformReason, pushToken, phoneCode, 
 					phoneSys, phoneVer, onlineStatus, ver);
 			userInfo.setPushToken(pushToken);
-			userInfo.setPlatformCode(platformCode);
 			userInfo.setPlatformSign(platformSign);
 			userInfo.setPlatformVerify(platformVerify);
 			userInfo.setPlatformReason(platformReason);
@@ -822,10 +821,10 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 	@Override
 	public void updateUserName(Integer userId, String userName)
 			throws Exception {
-		if(checkUserNameExists(userName)) {
+		userName = StringUtil.trimName(userName);
+		if(userInfoDao.checkUserNameExists(userName)) {
 			throw new HTSException(TIP_USER_NAME_EXIST, USER_NAME_EXIST);
 		}
-		userName = StringUtil.trimName(userName);
 		osUserService.updateUserWithoutNULL(userId, userName, null, null, null, null, null);
 		userInfoDao.updateUserName(userId, userName);
 	}

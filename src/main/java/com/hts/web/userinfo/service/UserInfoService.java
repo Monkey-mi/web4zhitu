@@ -39,7 +39,7 @@ public interface UserInfoService extends BaseService {
 	 * @return
 	 * @throws HTSException
 	 */
-	public boolean checkUserNameExists(String userName) throws Exception;
+	public Integer checkUserNameExists(String userName) throws Exception;
 	
 	/**
 	 * 保存用户信息

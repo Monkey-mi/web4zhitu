@@ -344,13 +344,23 @@ public class StringUtil {
 			return getRandomUserName();
 
 		s = filterXSS(name);
-		s = name.replaceAll("\\s*@*,*", ""); // 删除空格和@字符
+		s = name.replaceAll("\\s*@*", ""); // 删除空格和@字符
 		
 		if("".equals(s))
 			s = getRandomUserName();
 		
 		return s;
 	}
+	
+//	public static Integer checkNameFormat(String name) {
+//		if(StringUtil.checkIsNULL(name)) {
+//			return 1;
+//		}
+//		
+//		name.matches(regex)
+//		
+//		return 0;
+//	}
 	
 	public static String getRandomUserName() {
 		return String.valueOf(NumberUtil.getRandomNum(100000000, 999999999));
