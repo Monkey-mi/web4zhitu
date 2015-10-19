@@ -385,8 +385,8 @@ img.box-shadow{
 <img id="download-close" title="隐藏" onclick="javascript:hideDownloadBtn();" alt="" src="/staticres/base/images/down-close.jpg">
 </div>  
 
- <script type="text/javascript" src="../staticres/base/js/callapp2.js"></script>  
-<script type="text/javascript" src="../staticres/base/js/jquery/jquery-1.8.2.min.js"></script>
+ <script type="text/javascript" src="/staticres/base/js/callapp2.js"></script>  
+<script type="text/javascript" src="/staticres/base/js/jquery/jquery-1.8.2.min.js"></script>
 <script type="text/javascript">
 var inapp = 0;
 var userIds = "";
@@ -398,8 +398,8 @@ var shareButton = ' <div class="footButton" ><a id="share-btn"  href="imzhitu://
 var isInApp = '?inapp=1';
 
 //往期链接 需要改过来 TODO
- var topicHref = 'http://imzhitu.com/operations/'; 
-/*   var topicHref = 'http://192.168.1.103:8080/operations/';    */
+var topicHref = 'http://imzhitu.com/operations/';  
+/*   var topicHref = 'http://192.168.1.103:8080/operations/';   */
 
 //往期主题ID
 var pastTopicId = "?topicId=";
@@ -487,23 +487,22 @@ var pastTopicPicFoot = '"></a></div>';
 function initLayout(result) {
  	//初始化数据
  	if(result.pastTopics[0] != undefined && result.pastTopics[0].topicType == 1){
- 		topicTypeWhat01 = "starModule.html"  ;
+ 		topicTypeWhat01 = "star/index.html"  ;
  	}else{
- 		topicTypeWhat01 = "readingEditionStarModule.html"  
+ 		topicTypeWhat01 = "read/index.html"  
  	}
  	if(result.pastTopics[1] != undefined && result.pastTopics[1].topicType == 1){
- 		topicTypeWhat02 = "starModule.html"  ;
+ 		topicTypeWhat02 = "star/index.html"  ;
  	}else{
- 		topicTypeWhat02 = "readingEditionStarModule.html"  
+ 		topicTypeWhat02 = "read/index.html"  
  	}
  	if(result.pastTopics[2] != undefined && result.pastTopics[2].topicType == 1){
- 		topicTypeWhat03 = "starModule.html"  ;
+ 		topicTypeWhat03 = "star/index.html"  ;
  	}else{
- 		topicTypeWhat03 = "readingEditionStarModule.html"  
+ 		topicTypeWhat03 = "read/index.html"  
  	}
 	
 	inapp = callAppInit();
-	inapp =1;
 	if(inapp == 1) {
 		var reg = new RegExp("(^|&)uid=([^&]*)(&|$)", "i"),
 			r = window.location.search.substr(1).match(reg);
@@ -517,7 +516,7 @@ function initLayout(result) {
 		
 	/* 	$("#twoButton").append(shareButton); */
 		if(result.pastTopics[0] != undefined){
-			var topicHref01 = topicHref + topicTypeWhat01  + pastTopicId + result.pastTopics[0].topicId;
+			var topicHref01 = topicHref + topicTypeWhat01 +  isInApp + pastTopicId + result.pastTopics[0].topicId;
 			var topicPic = pastTopicPicHead + result.pastTopics[0].bannerPic + pastTopicPicFoot;
 			var pastTopic01 = pastTopicHead +  topicHref01 + topicPic;
 			$("#pastTopic").append(pastTopic01);
