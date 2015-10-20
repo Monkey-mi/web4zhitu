@@ -369,9 +369,7 @@ img.box-shadow{
 </style>
 </head>
 <body>
-<div id='wx_pic' style="display:none;">
-	<img src='http://static.imzhitu.com/op/sticker/test/iconBanner.png' />
-</div>
+
 <div id="main">
 
 </div>
@@ -429,10 +427,10 @@ var pastTopicPicFoot = '"></a></div>';
 		if(data['result'] == 0) {
 		var	 result = data['obj'];
 			 	var headPicAndIntro = '<div class="user-wrap"><img src="'+result.bannerPic+'" /><div class="headIntro1"><div class="headIntro2">'+result['headIntro']+'</div></div></div>';
-/* 			 	var meta = document.getElementsByTagName("meta");
-			 	meta.setAttribute('content',result.title);  */
+			 	var shareBannerPic = '<div id="wx_pic" style="display:none;"><img src="' + result.shareBanner + '" /></div>';
 				 $('title').html (result.title);
-			 	$('#main').append(headPicAndIntro); 
+				 $('body').append(shareBannerPic);
+			 	 $('#main').append(headPicAndIntro); 
 			 	
 			 	for(var i = 0;i < result.starModuleInfos.length;i++){
 			 		userIds += result.starModuleInfos[i].userId + ",";

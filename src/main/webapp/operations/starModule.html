@@ -397,7 +397,7 @@ var isInApp = '?inapp=1';
 
 //往期链接 需要改过来 TODO
  var topicHref = 'http://imzhitu.com/operations/'; 
-/*   var topicHref = 'http://192.168.1.103:8080/operations/';    */
+ var topicHref = 'http://192.168.1.103:8080/operations/';   
 
 //往期主题ID
 var pastTopicId = "?topicId=";
@@ -427,8 +427,9 @@ var pastTopicPicFoot = '"></a></div>';
 		if(data['result'] == 0) {
 		var	 result = data['obj'];
 			 	var headPicAndIntro = '<div class="user-wrap"><img src="'+result.bannerPic+'" /><div class="headIntro1"><div class="headIntro2">'+result['headIntro']+'</div></div></div>';
+			 	var shareBannerPic = '<div id="wx_pic" style="display:none;"><img src="' + result.shareBanner + '" /></div>';
 				 $('title').html (result.title);
-				/*  $('body').append(shareBannerPic); */
+				  $('body').append(shareBannerPic);
 			 	$('#main').append(headPicAndIntro); 
 			 	
 			 	for(var i = 0;i < result.starModuleInfos.length;i++){
