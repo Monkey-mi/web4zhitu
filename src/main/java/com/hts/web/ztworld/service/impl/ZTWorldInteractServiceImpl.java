@@ -274,7 +274,7 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 			Long count = worldCommentDao.queryCommentCount(worldId);// 更新评论总数
 			worldDao.updateCommentCount(worldId, count.intValue());
 			
-			if(ck.equals(Tag.FALSE)) { // 不是自己发给自己
+			if(ck.equals(Tag.FALSE) && !atWorldAuthorByComment(wauthorId, atIdsStr)) { // 不是自己发给自己, 并且不是通过评论at织图作者
 				saveMsgComment(id, authorId, wauthorId, worldId);
 
 				boolean otherIm = UserInfoUtil.checkIsImVersion(userPushInfo.getVer());
@@ -323,6 +323,24 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 		jsonMap.put(OptResult.JSON_KEY_IS_MUTUTAL, pushStatus.getIsMututal());
 		jsonMap.put(OptResult.JSON_KEY_USER_ID, pushStatus.getUserId());
 		jsonMap.put(OptResult.JSON_KEY_REMARK_ME, pushStatus.getRemarkMe());
+	}
+	
+	/**
+	 * 是否在评论里面at了织图作者
+	 * 
+	 * @param worldAuthorId
+	 * @param atIdsStr
+	 * @return
+	 */
+	private boolean atWorldAuthorByComment(Integer worldAuthorId, String atIdsStr) {
+		if(!StringUtil.checkIsNULL(atIdsStr)) {
+			Integer[] atIds = StringUtil.convertStringToIds(atIdsStr);
+			for(int i : atIds) {
+				if(worldAuthorId.equals(i))
+					return true;
+			}
+		}
+		return false;
 	}
 	
 	/**
