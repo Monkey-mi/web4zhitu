@@ -117,7 +117,7 @@ img.box-shadow{
 	width: 230px;
 	height: 68px;
    	position: absolute;   
-/*   	left: 50%;   */
+   	left: 50%;  
  	margin: -60px 0 0 -100px; 
 	-moz-border-radius: 0px;
 	-webkit-border-radius: 0px;
@@ -369,9 +369,7 @@ img.box-shadow{
 </style>
 </head>
 <body>
-<div id='wx_pic' style="display:none;">
-	<img src='http://static.imzhitu.com/op/sticker/test/iconBanner.png' />
-</div>
+
 <div id="main">
 
 </div>
@@ -430,6 +428,7 @@ var pastTopicPicFoot = '"></a></div>';
 		var	 result = data['obj'];
 			 	var headPicAndIntro = '<div class="user-wrap"><img src="'+result.bannerPic+'" /><div class="headIntro1"><div class="headIntro2">'+result['headIntro']+'</div></div></div>';
 				 $('title').html (result.title);
+				/*  $('body').append(shareBannerPic); */
 			 	$('#main').append(headPicAndIntro); 
 			 	
 			 	for(var i = 0;i < result.starModuleInfos.length;i++){
@@ -628,7 +627,7 @@ function initLayout(result) {
 		concernButtonWidth = 240,
 		concernButtonHeight = 68,
 		concernButtonMarginTop = -60,
-		concernButtonMarginLeft = -150,
+		concernButtonMarginLeft = 0,
 		concernButtonFontSize = 32,
 		concernButtonFontWeight = 900,
 		concernButtonFontLineHeight = 74,

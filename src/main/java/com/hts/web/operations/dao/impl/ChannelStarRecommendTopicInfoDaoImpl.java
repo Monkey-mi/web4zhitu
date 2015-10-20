@@ -40,12 +40,12 @@ public class ChannelStarRecommendTopicInfoDaoImpl extends BaseDaoImpl implements
 		starRecommendTopicInfo.setTopicId(rs.getInt("id"));
 		starRecommendTopicInfo.setTitle(rs.getString("title"));
 		starRecommendTopicInfo.setTopicType(rs.getInt("topic_type"));
+		starRecommendTopicInfo.setShareBanner(rs.getString("share_banner"));
 		starRecommendTopicInfo.setBannerPic(rs.getString("banner_pic"));
 		starRecommendTopicInfo.setHeadIntro(rs.getString("introduce_head"));
 		starRecommendTopicInfo.setFootIntro(rs.getString("introduce_foot"));
 		starRecommendTopicInfo.setStickerButton(rs.getString("sticker_button"));
 		starRecommendTopicInfo.setShareButton(rs.getString("share_button"));
-		starRecommendTopicInfo.setFoot(rs.getString("foot"));
 		return starRecommendTopicInfo;
 	}
 
@@ -74,7 +74,6 @@ public class ChannelStarRecommendTopicInfoDaoImpl extends BaseDaoImpl implements
 		starRecommendPastTopicInfo.setFootIntro(rs.getString("introduce_foot"));
 		starRecommendPastTopicInfo.setStickerButton(rs.getString("sticker_button"));
 		starRecommendPastTopicInfo.setShareButton(rs.getString("share_button"));
-		starRecommendPastTopicInfo.setFoot(rs.getString("foot"));
 		return starRecommendPastTopicInfo;
 	}
 }

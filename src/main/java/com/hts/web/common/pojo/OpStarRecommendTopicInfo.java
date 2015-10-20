@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.management.loading.PrivateClassLoader;
 
+import org.aspectj.weaver.AjAttribute.PrivilegedAttribute;
+
 /**
  * 达人推荐主题信息
  * @author mishengliang
@@ -26,6 +28,7 @@ public class OpStarRecommendTopicInfo implements Serializable{
 	private Integer topicType;        //文章类型
 	 private String title;                     //主题标题 
 	private String headIntro;          //分享介绍
+	private String shareBanner;    //分享出去显示图
 	private String  bannerPic;           //第一张展示的图banner
 	private List<OpStarModuleInfo> starModuleInfos;//达人模块信息
 	private String footIntro;          //结尾总结
@@ -58,6 +61,12 @@ public class OpStarRecommendTopicInfo implements Serializable{
 	}
 	public void setHeadIntro(String headIntro) {
 		this.headIntro = headIntro;
+	}
+	public String getShareBanner() {
+		return shareBanner;
+	}
+	public void setShareBanner(String shareBanner) {
+		this.shareBanner = shareBanner;
 	}
 	public String getBannerPic() {
 		return bannerPic;
