@@ -396,7 +396,7 @@ var shareButton = ' <div class="footButton" ><a id="share-btn"  href="imzhitu://
 var isInApp = '?inapp=1';
 
 //往期链接 需要改过来 TODO
- var topicHref = 'http://imzhitu.com/operations/'; 
+/*  var topicHref = 'http://imzhitu.com/operations/';  */
  var topicHref = 'http://192.168.1.103:8080/operations/';   
 
 //往期主题ID
@@ -420,12 +420,20 @@ var pastTopicPicFoot = '"></a></div>';
 	 		end = topicId1.indexOf("?");
 	 	}
 	 	var topicId = topicId1.substring(0,end);
+	 	alert(topicId);
 	 //调用获取数据的函数
  		$.post("./operations/channel_getStarRecommendTopicInfo",{
 		"topicId":topicId,
 	},function(data){
 		if(data['result'] == 0) {
 		var	 result = data['obj'];
+		
+				//修改文件描述
+				 var oMeta = document.getElementsByTagName('meta')[3];
+				 oMeta.content = result.title;
+				 var oMeta1 = document.getElementsByTagName('meta')[3];
+				alert(oMeta1.content);
+				 
 			 	var headPicAndIntro = '<div class="user-wrap"><img src="'+result.bannerPic+'" /><div class="headIntro1"><div class="headIntro2">'+result['headIntro']+'</div></div></div>';
 			 	var shareBannerPic = '<div id="wx_pic" style="display:none;"><img src="' + result.shareBanner + '" /></div>';
 				 $('title').html (result.title);
