@@ -346,13 +346,8 @@ img.box-shadow{
 </style>
 </head>
 <body>
-
-	<div id='wx_pic' style="display:none;">
-		<img src='http://static.imzhitu.com/op/sticker/150915/banner.jpg' />
-	</div>
-
+	<div id="shareBanner"></div>
 	<div id="main"></div>
-
     <div id="download-wrap">
 		<a id="download-btn" title="点击下载" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.htshuo.htsg">
 			<img id="download-bg" alt="" src="/staticres/base/images/down-bg.jpg">
@@ -362,8 +357,8 @@ img.box-shadow{
 		<img id="download-close" title="隐藏" onclick="javascript:hideDownloadBtn();" alt="" src="/staticres/base/images/down-close.jpg">
 	</div>  
 
- <script type="text/javascript" src="../staticres/base/js/callapp2.js"></script>  
-<script type="text/javascript" src="../staticres/base/js/jquery/jquery-1.8.2.min.js"></script>
+ <script type="text/javascript" src="/staticres/base/js/callapp2.js"></script>  
+<script type="text/javascript" src="/staticres/base/js/jquery/jquery-1.8.2.min.js"></script>
 <script type="text/javascript">
 var inapp = 0;
 var userIds = '';
@@ -391,8 +386,13 @@ var pastTopicHead = '<div class="pastPic" ><a href="';
 var pastTopicPicFoot = '"></a></div>';
 
  $(document).ready(function() {
-	 	var url = window.location.search;
-	 	var topicId = url.substring(url.lastIndexOf("=")+1,url.length);
+	 	var url = window.location.href;
+	 	var topicId1 = url.substring(url.lastIndexOf("/")+1,url.length);
+	 	var end = topicId1.length;
+	 	if(topicId1.indexOf("?") != -1){
+	 		end = topicId1.indexOf("?");
+	 	}
+	 	var topicId = topicId1.substring(0,end);
 	 //调用获取数据的函数
  		$.post("./operations/channel_getStarRecommendTopicInfo",{
 		"topicId":topicId,
@@ -401,8 +401,9 @@ var pastTopicPicFoot = '"></a></div>';
 		var	 result = data['obj'];
  			 	var headPic = '<div class="user-wrap"><img  src="'+result.bannerPic+'" /></div>'; 
 			 	var titleAndheadIntro = '<div class="headBlock">'+ headPic + '<div  class="titleAndheadIntro" > <div  class="title">'+ result.title +'</div><hr class="hrStyle"> <div class="headIntro" >'+result.headIntro+'</div></div></div>';
+			 	var shareBannerPic = '<div id="wx_pic" style="display:none;"><img src="' + result.shareBanner + '" /></div>';
 				 $('title').html (result.title);
-			 	 /* $('#main').append(headPic);  */
+				 $('#shareBanner').append(shareBannerPic);
 			 	$('#main').append(titleAndheadIntro);
 			 	
 			 	for(var i = 0;i < result.starModuleInfos.length;i++){
@@ -475,7 +476,7 @@ function initLayout(result) {
 		
 		$("#twoButton").append(shareButton);
 		if(result.pastTopics[0] != undefined){
-			var topicHref01 = topicHref + topicTypeWhat01 +  isInApp + pastTopicId + result.pastTopics[0].topicId;
+			var topicHref01 = topicHref + topicTypeWhat01 + pastTopicId + result.pastTopics[0].topicId;
 			var topicPic = pastTopicPicHead + result.pastTopics[0].bannerPic + pastTopicPicFoot;
 			var pastTopic01 = pastTopicHead +  topicHref01 + topicPic;
 			$("#pastTopic").append(pastTopic01);
