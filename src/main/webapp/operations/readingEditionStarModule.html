@@ -127,7 +127,7 @@ img.box-shadow{
 	border-color:#3a98ce;
 }
 
-.table04{
+/* .table04{
 	width:678px;
 	 height:636px;
 }
@@ -147,7 +147,7 @@ img.box-shadow{
 
 .td3{
 	width:445px;
-}
+} */
 
 .userName {
 	font-size:20px;
@@ -343,16 +343,32 @@ img.box-shadow{
 	position: absolute;
 	font-size: 14px;
 }
+
+.superb {
+	width: 714px;
+	height: 714px;
+	display: none;
+	position: relative;
+}
+
+.zt-container {
+	width: 100% !important;
+	height: 100% !important;
+	background: #edeff1 !important;
+}
+
+.zt-loading-bg {
+	background: none !important;
+}
+
+.zt-loading, .zt-desc-hide, .zt-desc-hide {
+	z-index: 99998 !important;
+}
 </style>
 </head>
 <body>
-
-	<div id='wx_pic' style="display:none;">
-		<img src='http://static.imzhitu.com/op/sticker/150915/banner.jpg' />
-	</div>
-
+	<div id="shareBanner"></div>
 	<div id="main"></div>
-
     <div id="download-wrap">
 		<a id="download-btn" title="点击下载" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.htshuo.htsg">
 			<img id="download-bg" alt="" src="/staticres/base/images/down-bg.jpg">
@@ -362,8 +378,11 @@ img.box-shadow{
 		<img id="download-close" title="隐藏" onclick="javascript:hideDownloadBtn();" alt="" src="/staticres/base/images/down-close.jpg">
 	</div>  
 
- <script type="text/javascript" src="../staticres/base/js/callapp2.js"></script>  
-<script type="text/javascript" src="../staticres/base/js/jquery/jquery-1.8.2.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/staticres/htworld/phonev2/css/htszoomtour2013122801.css" />
+ <script type="text/javascript" src="/staticres/base/js/callapp2.js"></script>  
+<script type="text/javascript" src="/staticres/base/js/jquery/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="/staticres/base/js/baseTools.js"></script>
+<script type="text/javascript" src="/staticres/htworld/common/js/jquery.htszoomtourV3.js"></script>
 <script type="text/javascript">
 var inapp = 0;
 var userIds = '';
@@ -378,7 +397,7 @@ var isInApp = '?inapp=1';
 /* var topicHref = 'http://192.168.1.103:8080/operations/'; */
 
 //往期主题ID
-var pastTopicId = "?topicId=";
+/* var pastTopicId = "?topicId="; */
 
 //图片头
 var pastTopicPicHead = '"><img alt="" src="';
@@ -391,23 +410,31 @@ var pastTopicHead = '<div class="pastPic" ><a href="';
 var pastTopicPicFoot = '"></a></div>';
 
  $(document).ready(function() {
-	 	var url = window.location.search;
-	 	var topicId = url.substring(url.lastIndexOf("=")+1,url.length);
+	 	var url = window.location.href;
+	 	var topicId1 = url.substring(url.lastIndexOf("?")+1,url.length);
+	 	var end = topicId1.length;
+	 	if(topicId1.indexOf("?") != -1){
+	 		end = topicId1.indexOf("?");
+	 	}
+	 	var topicId = topicId1.substring(topicId1.indexOf("=")+1);
+	 	alert(topicId);
 	 //调用获取数据的函数
- 		$.post("./operations/channel_getStarRecommendTopicInfo",{
+ 		$.post("./operations/channel_getStarWorldRecommendTopicInfo",{
 		"topicId":topicId,
 	},function(data){
 		if(data['result'] == 0) {
 		var	 result = data['obj'];
  			 	var headPic = '<div class="user-wrap"><img  src="'+result.bannerPic+'" /></div>'; 
 			 	var titleAndheadIntro = '<div class="headBlock">'+ headPic + '<div  class="titleAndheadIntro" > <div  class="title">'+ result.title +'</div><hr class="hrStyle"> <div class="headIntro" >'+result.headIntro+'</div></div></div>';
+			 	var shareBannerPic = '<div id="wx_pic" style="display:none;"><img src="' + result.shareBanner + '" /></div>';
 				 $('title').html (result.title);
-			 	 /* $('#main').append(headPic);  */
+				 $('#shareBanner').append(shareBannerPic);
 			 	$('#main').append(titleAndheadIntro);
+			 	alert(result.starModuleInfos.length);
 			 	
 			 	for(var i = 0;i < result.starModuleInfos.length;i++){
 			 		userIds += result.starModuleInfos[i].userId + ",";
-			 		//一张图时的默认显示
+/* 			 		//一张图时的默认显示
 			 		 var tablePic = '<div class="userPic"><img  alt="" class="box-shadow" src="'+ result.starModuleInfos[i].pic +'"/></div>'; 
 			 		 
 			 		 //判断对应几张图，并将其显示为对应的模式
@@ -417,7 +444,14 @@ var pastTopicPicFoot = '"></a></div>';
 							tablePic = '<table  align="center" border="0" class="table03" ><tr><td rowspan=2   class="td3"><img  alt=""  class="box-shadow" src="'+ result.starModuleInfos[i].pic +'"/></td><td><img  alt=""  class="box-shadow" src="'+ result.starModuleInfos[i].pic02 +'"/></td></tr><tr><td><img  alt=""  class="box-shadow" src="'+ result.starModuleInfos[i].pic03 +'"/></td></tr></table>'; 
 						}else if( result.starModuleInfos[i].pic02 != ""){
 							var tablePic = '<table  align="center" border="0" class="table02" ><tr  class="tr24"><td width=50%><img  alt="" class="box-shadow"  src="'+ result.starModuleInfos[i].pic +'"/></td><td width=50%><img  alt="" class="box-shadow"  src="'+ result.starModuleInfos[i].pic02 +'"/></td></tr></table>';
-						}
+						} */
+			 		 
+				 		 //展示织图模块
+				 		var worldModule = '<div class="superb"><div class="zt-container" data-wid="' + result.starModuleInfos[i].worldId + '"><div class="zt-title"><img alt=""></div><div class="zt-desc-hide" title="隐藏描述"></div>' + 
+				 											   '<div class="zt-desc-show" title="显示描述"></div><div class="zt-desc"><div class="zt-desc-text"></div><div class="zt-desc-bg"></div></div>' + 
+				 											   '<div class="zt-loading"><div class="zt-loading-bg"></div><div class="zt-loading-icon"></div><div><span>加载中...</span><span id="zt-progress">0</span>' + 
+				 											   '<span>%</span></div></div></div></div>';
+				 		alert(worldModule)			
 			 		 
 			 		 //小模块介绍
 			 		var intro2 = '<div  class="intro2">'+ result.starModuleInfos[i].intro2 +'</div></div>';
@@ -428,7 +462,7 @@ var pastTopicPicFoot = '"></a></div>';
 			 																								'<a id="concern-'+ result.starModuleInfos[i].userId +'" class="concern-btn concern" name="imzhitu-callapp" href="imzhitu://concern?uid='+ result.starModuleInfos[i].userId +'">+关注</a><a class="concern-btn concerned">已关注</a></div>';
 			 		
 			 		//单元模块
-					 var module = faceAnduserNameAndconcernButton + tablePic + intro2; 	
+					 var module = faceAnduserNameAndconcernButton + worldModule + intro2; 	
 			 		$('#main').append(module);
 				} 
 			 	
@@ -445,20 +479,32 @@ var pastTopicPicFoot = '"></a></div>';
 
 function initLayout(result) {
  	//初始化数据
- 	if(result.pastTopics[0] != undefined && result.pastTopics[0].topicType == 1){
- 		topicTypeWhat01 = "starModule.html"  ;
- 	}else{
- 		topicTypeWhat01 = "readingEditionStarModule.html"  
+ 	if(result.pastTopics[0] != undefined && result.pastTopics[0].topicType == 1 && result.pastTopics[0].isWorld == 0){
+ 		topicTypeWhat01 = "star/"  ;
+ 	}else if(result.pastTopics[0] != undefined && result.pastTopics[0].topicType == 1 && result.pastTopics[0].isWorld == 1){
+ 		topicTypeWhat01 = "starWorld/"  
+ 	}else if(result.pastTopics[0] != undefined && result.pastTopics[0].topicType == 2 && result.pastTopics[0].isWorld == 0){
+ 		topicTypeWhat01 = "read/"  
+ 	}else if(result.pastTopics[0] != undefined && result.pastTopics[0].topicType == 2 && result.pastTopics[0].isWorld == 1){
+ 		topicTypeWhat01 = "readWorld/" 
  	}
- 	if(result.pastTopics[1] != undefined && result.pastTopics[1].topicType == 1){
- 		topicTypeWhat02 = "starModule.html"  ;
- 	}else{
- 		topicTypeWhat02 = "readingEditionStarModule.html"  
+ 	if(result.pastTopics[1] != undefined && result.pastTopics[1].topicType == 1 && result.pastTopics[1].isWorld == 0){
+ 		topicTypeWhat02 = "star/"  ;
+ 	}else if(result.pastTopics[1] != undefined && result.pastTopics[1].topicType == 1 && result.pastTopics[1].isWorld == 1){
+ 		topicTypeWhat02 = "starWorld/"  
+ 	}else if(result.pastTopics[1] != undefined && result.pastTopics[1].topicType == 2 && result.pastTopics[1].isWorld == 0){
+ 		topicTypeWhat02 = "read/"  
+ 	}else if(result.pastTopics[1] != undefined && result.pastTopics[1].topicType == 2 && result.pastTopics[1].isWorld == 1){
+ 		topicTypeWhat02 = "readWorld/" 
  	}
- 	if(result.pastTopics[2] != undefined && result.pastTopics[2].topicType == 1){
- 		topicTypeWhat03 = "starModule.html"  ;
- 	}else{
- 		topicTypeWhat03 = "readingEditionStarModule.html"  
+ 	if(result.pastTopics[2] != undefined && result.pastTopics[2].topicType == 1 && result.pastTopics[2].isWorld == 0){
+ 		topicTypeWhat03 = "star/"  ;
+ 	}else if(result.pastTopics[2] != undefined && result.pastTopics[2].topicType == 1 && result.pastTopics[2].isWorld == 1){
+ 		topicTypeWhat03 = "starWorld/"  
+ 	}else if(result.pastTopics[2] != undefined && result.pastTopics[2].topicType == 2 && result.pastTopics[2].isWorld == 0){
+ 		topicTypeWhat03 = "read/"  
+ 	}else if(result.pastTopics[2] != undefined && result.pastTopics[2].topicType == 2 && result.pastTopics[2].isWorld == 1){
+ 		topicTypeWhat03 = "readWorld/" 
  	}
 	
 	inapp = callAppInit();
@@ -475,7 +521,7 @@ function initLayout(result) {
 		
 		$("#twoButton").append(shareButton);
 		if(result.pastTopics[0] != undefined){
-			var topicHref01 = topicHref + topicTypeWhat01 +  isInApp + pastTopicId + result.pastTopics[0].topicId;
+			var topicHref01 = topicHref + topicTypeWhat01 + result.pastTopics[0].topicId;
 			var topicPic = pastTopicPicHead + result.pastTopics[0].bannerPic + pastTopicPicFoot;
 			var pastTopic01 = pastTopicHead +  topicHref01 + topicPic;
 			$("#pastTopic").append(pastTopic01);
@@ -488,21 +534,21 @@ function initLayout(result) {
 		
 		if(result.pastTopics[0] != undefined){
 		$("#pastFont").text("- 往期回顾 -");
-		var topicHref01 = topicHref + topicTypeWhat01 + pastTopicId + result.pastTopics[0].topicId;
+		var topicHref01 = topicHref + topicTypeWhat01  + result.pastTopics[0].topicId;
 		var topicPic = pastTopicPicHead + result.pastTopics[0].bannerPic + pastTopicPicFoot;
 		var pastTopic01 = pastTopicHead +  topicHref01 + topicPic;
 		$("#pastTopic").append(pastTopic01);
 		}
 		
 		if(result.pastTopics[1] != undefined){
-			var topicHref02 = topicHref + topicTypeWhat02 + pastTopicId + result.pastTopics[1].topicId;
+			var topicHref02 = topicHref + topicTypeWhat02 + result.pastTopics[1].topicId;
 			var topicPic = pastTopicPicHead + result.pastTopics[1].bannerPic + pastTopicPicFoot;
 			var pastTopic02 = pastTopicHead +  topicHref02 + topicPic;
 			$("#pastTopic").append(pastTopic02);
 		}
 		
 		if(result.pastTopics[2] != undefined){
-			var topicHref03 = topicHref + topicTypeWhat03 + pastTopicId + result.pastTopics[2].topicId;
+			var topicHref03 = topicHref + topicTypeWhat03 + result.pastTopics[2].topicId;
 			var topicPic = pastTopicPicHead + result.pastTopics[2].bannerPic + pastTopicPicFoot;
 			var pastTopic03 = pastTopicHead +  topicHref03 + topicPic;
 			$("#pastTopic").append(pastTopic03);
@@ -515,6 +561,8 @@ function initLayout(result) {
 		var winWidth = $(window).width();
 		winWidth = winWidth > maxW ? maxW : winWidth;
 		var scale = 1,
+		
+		superbWidth = 716;
 		
 		//headIntro前介绍宽度限制
 		head1width = 670,
@@ -686,6 +734,8 @@ function initLayout(result) {
 		
 	scale = winWidth / maxW * 100;
 	
+		superbWidth  = superbWidth  * scale / 100;
+		
 		//标题和前介绍模块
 		titleAndHeadIntroWidth = titleAndHeadIntroWidth* scale / 100;
 		titleAndHeadIntroMarginLeft = titleAndHeadIntroMarginLeft* scale / 100;
@@ -958,9 +1008,49 @@ function initLayout(result) {
  	 		$(".pastPic").css({
  	 			"padding-bottom":pastPicPaddingBottom + "px"});
  	 		
+ 	 		$(".superb").css({
+ 	 			"width":superbWidth + "px",
+ 	 			"height":superbWidth + "px"
+ 	 		}).show();
+ 	 		
 		if(inapp==1) {
 			$("#main").css({"margin-bottom":"0px"});
 		}
+		
+		var scale = superbWidth / 640,
+		width = superbWidth,
+		height = superbWidth,
+		radiu = parseInt(40 * scale),
+		config = {w:width,h:height,r:radiu,s:scale,key:"zhangjiaxin"},
+		worldSettings = {
+		adminKey			: config.key,
+		worldId 			: 15388, // 浏览的世界ID
+		scale 				: config.s, // 缩放比例
+		width 				: config.w, // 显示框宽度
+		height 				: config.h, // 显示宽长度
+		radius				: config.r,	//圆圈半径
+		limit 				: 5, // 每页查询条数
+		url 				: '../ztworld/ztworld_queryTitleChildWorldPage', // 数据获取地址
+		loadMoreURL			: '../ztworld/ztworld_queryChildWorldPage', // 加载更多子世界地址
+		inZoomfactor 		: 5, // 背景图渐变过程中放大的倍数
+		inSpeedfactor 		: 650, // 渐变速度
+		inImgdelayfactor 	: 3, // 渐变延迟时间
+		outZoomfactor 		: 3, // 背景图渐变过程中放大的倍数
+		outSpeedfactor 		: 650, // 渐变速度
+		tagTopPadding		: 1.5*scale,
+		outImgdelayfactor 	: 0,
+		ver					: 1,
+		multiple			: true
+		};
+
+
+		//图片渲染 循环渲染
+		$(".zt-container").each(function() {
+		var $this = $(this);
+		var wid = $this.data("wid");
+		worldSettings.worldId = wid;
+		$this.data('init', false).htszoomtour(worldSettings);
+		});
 }
 
 function bindConcern(uid, status) {
