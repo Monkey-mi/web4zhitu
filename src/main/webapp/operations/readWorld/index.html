@@ -127,28 +127,6 @@ img.box-shadow{
 	border-color:#3a98ce;
 }
 
-/* .table04{
-	width:678px;
-	 height:636px;
-}
-
-.table03{
-	width:678px;
-}
-
-.table02{
-	width:678px;
-	height:339px;
-}
-
-.tr24{
-	height:318px;
-}					
-
-.td3{
-	width:445px;
-} */
-
 .userName {
 	font-size:20px;
 	font-family: "微软雅黑", Arial, Helvetica, sans-serif;
@@ -433,17 +411,6 @@ var pastTopicPicFoot = '"></a></div>';
 			 	
 			 	for(var i = 0;i < result.starModuleInfos.length;i++){
 			 		userIds += result.starModuleInfos[i].userId + ",";
-/* 			 		//一张图时的默认显示
-			 		 var tablePic = '<div class="userPic"><img  alt="" class="box-shadow" src="'+ result.starModuleInfos[i].pic +'"/></div>'; 
-			 		 
-			 		 //判断对应几张图，并将其显示为对应的模式
-						if( result.starModuleInfos[i].pic04 != ""){
-							tablePic = '<table  align="center" border="0" cellspacing="4" class="table04"><tr class="tr24"><td width=50%><img  alt="" class="box-shadow" src="'+ result.starModuleInfos[i].pic +'"/></td><td width=50%><img  alt="" class="box-shadow" src="'+ result.starModuleInfos[i].pic02 +'"/></td></tr><tr><td><img  alt="" class="box-shadow" src="'+ result.starModuleInfos[i].pic03 +'"/></td><td><img  alt="" class="box-shadow" src="'+ result.starModuleInfos[i].pic04 +'"/></td></tr></table>'; 
-						}else if( result.starModuleInfos[i].pic03 != ""){
-							tablePic = '<table  align="center" border="0" class="table03" ><tr><td rowspan=2   class="td3"><img  alt=""  class="box-shadow" src="'+ result.starModuleInfos[i].pic +'"/></td><td><img  alt=""  class="box-shadow" src="'+ result.starModuleInfos[i].pic02 +'"/></td></tr><tr><td><img  alt=""  class="box-shadow" src="'+ result.starModuleInfos[i].pic03 +'"/></td></tr></table>'; 
-						}else if( result.starModuleInfos[i].pic02 != ""){
-							var tablePic = '<table  align="center" border="0" class="table02" ><tr  class="tr24"><td width=50%><img  alt="" class="box-shadow"  src="'+ result.starModuleInfos[i].pic +'"/></td><td width=50%><img  alt="" class="box-shadow"  src="'+ result.starModuleInfos[i].pic02 +'"/></td></tr></table>';
-						} */
 			 		 
 				 		 //展示织图模块
 				 		var worldModule = '<div class="superb"><div class="zt-container" data-wid="' + result.starModuleInfos[i].worldId + '"><div class="zt-title"><img alt=""></div><div class="zt-desc-hide" title="隐藏描述"></div>' + 
@@ -553,8 +520,6 @@ function initLayout(result) {
 			$("#pastTopic").append(pastTopic03);
 		}
 	}
-/* 	document.getElementById("share-btn").addEventListener('click',openclient,false);
- 	document.getElementById("sticker-btn").addEventListener('click',openclient,false); 	 */
 
  		var maxW = 750;
 		var winWidth = $(window).width();
@@ -892,28 +857,6 @@ function initLayout(result) {
 					"margin-left":userNameMarginLeft + "px",
 		 		}); 
 			
- 	 		//用户4图table长宽
- 	 		$(".table04").css({
- 	 			"width":table04width + "px",
- 	 			"height":table04height + "px"}); 
- 	 		
- 	 		//用户3图宽
- 	 		$(".table03").css({
- 	 			"width":table03width + "px"}); 
- 			
- 	 		//用户2图长宽
- 	 		$(".table02").css({
- 	 			"width":table02width + "px",
- 	 			"height":table02height + "px"}); 
- 	 		
- 	 		//用户24图行高
- 	 		$(".tr24").css({
- 	 			"height":tr24height + "px"}); 
- 	 		
- 	 		//用户3图大图宽
- 	 		$(".td3").css({
- 	 			"width":td3width + "px"}); 
- 			
  			//关注按钮
   	 		$(".concern-btn").css({
  	 			"width":concernButtonWidth + "px",
