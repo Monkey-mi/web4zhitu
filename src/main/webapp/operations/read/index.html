@@ -373,7 +373,7 @@ var isInApp = '?inapp=1';
 /* var topicHref = 'http://192.168.1.103:8080/operations/'; */
 
 //往期主题ID
-var pastTopicId = "?topicId=";
+/* var pastTopicId = "?topicId="; */
 
 //图片头
 var pastTopicPicHead = '"><img alt="" src="';
@@ -447,19 +447,19 @@ var pastTopicPicFoot = '"></a></div>';
 function initLayout(result) {
  	//初始化数据
  	if(result.pastTopics[0] != undefined && result.pastTopics[0].topicType == 1){
- 		topicTypeWhat01 = "starModule.html"  ;
+ 		topicTypeWhat01 = "star/"  ;
  	}else{
- 		topicTypeWhat01 = "readingEditionStarModule.html"  
+ 		topicTypeWhat01 = "read/"  
  	}
  	if(result.pastTopics[1] != undefined && result.pastTopics[1].topicType == 1){
- 		topicTypeWhat02 = "starModule.html"  ;
+ 		topicTypeWhat02 = "star/"  ;
  	}else{
- 		topicTypeWhat02 = "readingEditionStarModule.html"  
+ 		topicTypeWhat02 = "read/"  
  	}
  	if(result.pastTopics[2] != undefined && result.pastTopics[2].topicType == 1){
- 		topicTypeWhat03 = "starModule.html"  ;
+ 		topicTypeWhat03 = "star/"  ;
  	}else{
- 		topicTypeWhat03 = "readingEditionStarModule.html"  
+ 		topicTypeWhat03 = "read/"  
  	}
 	
 	inapp = callAppInit();
@@ -476,7 +476,7 @@ function initLayout(result) {
 		
 		$("#twoButton").append(shareButton);
 		if(result.pastTopics[0] != undefined){
-			var topicHref01 = topicHref + topicTypeWhat01 + pastTopicId + result.pastTopics[0].topicId;
+			var topicHref01 = topicHref + topicTypeWhat01 + result.pastTopics[0].topicId;
 			var topicPic = pastTopicPicHead + result.pastTopics[0].bannerPic + pastTopicPicFoot;
 			var pastTopic01 = pastTopicHead +  topicHref01 + topicPic;
 			$("#pastTopic").append(pastTopic01);
@@ -489,21 +489,21 @@ function initLayout(result) {
 		
 		if(result.pastTopics[0] != undefined){
 		$("#pastFont").text("- 往期回顾 -");
-		var topicHref01 = topicHref + topicTypeWhat01 + pastTopicId + result.pastTopics[0].topicId;
+		var topicHref01 = topicHref + topicTypeWhat01  + result.pastTopics[0].topicId;
 		var topicPic = pastTopicPicHead + result.pastTopics[0].bannerPic + pastTopicPicFoot;
 		var pastTopic01 = pastTopicHead +  topicHref01 + topicPic;
 		$("#pastTopic").append(pastTopic01);
 		}
 		
 		if(result.pastTopics[1] != undefined){
-			var topicHref02 = topicHref + topicTypeWhat02 + pastTopicId + result.pastTopics[1].topicId;
+			var topicHref02 = topicHref + topicTypeWhat02 + result.pastTopics[1].topicId;
 			var topicPic = pastTopicPicHead + result.pastTopics[1].bannerPic + pastTopicPicFoot;
 			var pastTopic02 = pastTopicHead +  topicHref02 + topicPic;
 			$("#pastTopic").append(pastTopic02);
 		}
 		
 		if(result.pastTopics[2] != undefined){
-			var topicHref03 = topicHref + topicTypeWhat03 + pastTopicId + result.pastTopics[2].topicId;
+			var topicHref03 = topicHref + topicTypeWhat03 + result.pastTopics[2].topicId;
 			var topicPic = pastTopicPicHead + result.pastTopics[2].bannerPic + pastTopicPicFoot;
 			var pastTopic03 = pastTopicHead +  topicHref03 + topicPic;
 			$("#pastTopic").append(pastTopic03);
