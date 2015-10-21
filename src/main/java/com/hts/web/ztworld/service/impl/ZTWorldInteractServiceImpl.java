@@ -770,8 +770,8 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 					+commentId+"authorId=" + authorId + ",worldAuthorId=" + worldAuthorId);
 			return;
 		}
-		msgCommentDao.saveMsgComment(new MsgComment(commentId, 
-				authorId, worldAuthorId, worldId));
+//		msgCommentDao.saveMsgComment(new MsgComment(commentId, 
+//				authorId, worldAuthorId, worldId));
 	}
 	
 	@Override
