@@ -515,20 +515,32 @@ var pastTopicPicFoot = '"></a></div>';
 
 function initLayout(result) {
  	//初始化数据
- 	if(result.pastTopics[0] != undefined && result.pastTopics[0].topicType == 1){
+ 	if(result.pastTopics[0] != undefined && result.pastTopics[0].topicType == 1 && result.pastTopics[0].isWorld == 0){
  		topicTypeWhat01 = "star/"  ;
- 	}else{
+ 	}else if(result.pastTopics[0] != undefined && result.pastTopics[0].topicType == 1 && result.pastTopics[0].isWorld == 1){
+ 		topicTypeWhat01 = "starWorld/"  
+ 	}else if(result.pastTopics[0] != undefined && result.pastTopics[0].topicType == 2 && result.pastTopics[0].isWorld == 0){
  		topicTypeWhat01 = "read/"  
+ 	}else if(result.pastTopics[0] != undefined && result.pastTopics[0].topicType == 2 && result.pastTopics[0].isWorld == 1){
+ 		topicTypeWhat01 = "readWorld/" 
  	}
- 	if(result.pastTopics[1] != undefined && result.pastTopics[1].topicType == 1){
+ 	if(result.pastTopics[1] != undefined && result.pastTopics[1].topicType == 1 && result.pastTopics[1].isWorld == 0){
  		topicTypeWhat02 = "star/"  ;
- 	}else{
+ 	}else if(result.pastTopics[1] != undefined && result.pastTopics[1].topicType == 1 && result.pastTopics[1].isWorld == 1){
+ 		topicTypeWhat02 = "starWorld/"  
+ 	}else if(result.pastTopics[1] != undefined && result.pastTopics[1].topicType == 2 && result.pastTopics[1].isWorld == 0){
  		topicTypeWhat02 = "read/"  
+ 	}else if(result.pastTopics[1] != undefined && result.pastTopics[1].topicType == 2 && result.pastTopics[1].isWorld == 1){
+ 		topicTypeWhat02 = "readWorld/" 
  	}
- 	if(result.pastTopics[2] != undefined && result.pastTopics[2].topicType == 1){
+ 	if(result.pastTopics[2] != undefined && result.pastTopics[2.topicType == 1 && result.pastTopics[2].isWorld == 0){
  		topicTypeWhat03 = "star/"  ;
- 	}else{
+ 	}else if(result.pastTopics[2] != undefined && result.pastTopics[2].topicType == 1 && result.pastTopics[2].isWorld == 1){
+ 		topicTypeWhat03 = "starWorld/"  
+ 	}else if(result.pastTopics[2] != undefined && result.pastTopics[2].topicType == 2 && result.pastTopics[2].isWorld == 0){
  		topicTypeWhat03 = "read/"  
+ 	}else if(result.pastTopics[2] != undefined && result.pastTopics[2].topicType == 2 && result.pastTopics[2].isWorld == 1){
+ 		topicTypeWhat03 = "readWorld/" 
  	}
 	
 	inapp = callAppInit();

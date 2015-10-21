@@ -40,6 +40,7 @@ public class ChannelStarRecommendTopicInfoDaoImpl extends BaseDaoImpl implements
 		starRecommendTopicInfo.setTopicId(rs.getInt("id"));
 		starRecommendTopicInfo.setTitle(rs.getString("title"));
 		starRecommendTopicInfo.setTopicType(rs.getInt("topic_type"));
+		starRecommendTopicInfo.setIsWorld(rs.getInt("is_world"));
 		starRecommendTopicInfo.setShareBanner(rs.getString("share_banner"));
 		starRecommendTopicInfo.setBannerPic(rs.getString("banner_pic"));
 		starRecommendTopicInfo.setHeadIntro(rs.getString("introduce_head"));
@@ -69,6 +70,7 @@ public class ChannelStarRecommendTopicInfoDaoImpl extends BaseDaoImpl implements
 		starRecommendPastTopicInfo.setTopicId(rs.getInt("id"));
 		starRecommendPastTopicInfo.setTitle(rs.getString("title"));
 		starRecommendPastTopicInfo.setTopicType(rs.getInt("topic_type"));
+		starRecommendPastTopicInfo.setIsWorld(rs.getInt("is_world"));
 		starRecommendPastTopicInfo.setBannerPic(rs.getString("banner_pic"));
 		starRecommendPastTopicInfo.setHeadIntro(rs.getString("introduce_head"));
 		starRecommendPastTopicInfo.setFootIntro(rs.getString("introduce_foot"));
