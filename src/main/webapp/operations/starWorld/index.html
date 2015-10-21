@@ -432,7 +432,7 @@ var pastTopicPicFoot = '"></a></div>';
 
  $(document).ready(function() {
 	 	var url = window.location.href;
-	 	var topicId1 = url.substring(url.lastIndexOf("?")+1,url.length);
+	 	var topicId1 = url.substring(url.lastIndexOf("/")+1,url.length);
 	 	var end = topicId1.length;
 	 	if(topicId1.indexOf("?") != -1){
 	 		end = topicId1.indexOf("?");
@@ -1157,7 +1157,6 @@ function initLayout(result) {
 		worldSettings.worldId = wid;
 		$this.data('init', false).htszoomtour(worldSettings);
 		});
-		
 }
 
 function bindConcern(uid, status) {

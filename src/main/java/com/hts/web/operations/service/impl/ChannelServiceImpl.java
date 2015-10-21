@@ -817,19 +817,21 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 		List<OpStarModuleInfo> list  = channelStarModuleInfoDao.getOpStarModuleInfo(topicId);
 		List<OpStarRecommendPastTopicInfo>pastTopics = channelStarRecommendTopicInfoDao.getPastTopicInfo(topicId);
 		
-//		List<OpStarModuleInfo> list  = new ArrayList<OpStarModuleInfo>();
-//		OpStarModuleInfo opStarModuleInfo1 = new OpStarModuleInfo(1, "夏秋混穿", "Where there is a shell", 4589755, "http://www.baidu.com", "小花", "testUserPic01.jpg", "的富士康拉风多卡拉谁", topicId);
-//		OpStarModuleInfo opStarModuleInfo2 = new OpStarModuleInfo(2, "壳子毛体", "there is a way", 4589756, "http://www.163.com", "涉及M", "testUserPic02.jpg", "减肥的开始拉放得开垃圾袋", topicId);
-//		list.add(opStarModuleInfo1);
-//		list.add(opStarModuleInfo2);
-//		JSONArray jsonArray = JSONArray.fromObject(list);
-//		System.out.println(jsonArray.toString());
-//		OpStarRecommendTopicInfo opStarRecommendTopicInfo =  new OpStarRecommendTopicInfo(topicId, "盛夏初秋", "全世界人民大团结万岁fd将放开的拉萨fdjskla;fdj及打开都卡死了", "150928", list, "放假开始拉方巾fjdksl;afjdl将放开的拉萨；附件打开快疯了；倒萨阔服拉萨", "来自时尚爱美丽的织图");
+	    opStarRecommendTopicInfo.setStarModuleInfos(list);
+	    opStarRecommendTopicInfo.setPastTopics(pastTopics);
+		jsonMap.put(OptResult.JSON_KEY_OBJ, opStarRecommendTopicInfo);
+	}
+	
+	@Override
+	public void getStarWorldRecommendTopicInfo(Integer topicId,Map<String, Object> jsonMap) throws Exception {
+		OpStarRecommendTopicInfo opStarRecommendTopicInfo = channelStarRecommendTopicInfoDao.getInfo(topicId).get(0);
+		
+		// 获取指定主题下的各个达人的详细信息
+		List<OpStarModuleInfo> list  = channelStarModuleInfoDao.getOpStarWorldModuleInfo(topicId);
+		List<OpStarRecommendPastTopicInfo>pastTopics = channelStarRecommendTopicInfoDao.getPastTopicInfo(topicId);
 		
 	    opStarRecommendTopicInfo.setStarModuleInfos(list);
 	    opStarRecommendTopicInfo.setPastTopics(pastTopics);
 		jsonMap.put(OptResult.JSON_KEY_OBJ, opStarRecommendTopicInfo);
 	}
-
-	
 }

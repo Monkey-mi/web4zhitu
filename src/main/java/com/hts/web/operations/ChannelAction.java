@@ -326,7 +326,7 @@ public class ChannelAction extends BaseAction {
 	
 	
 	/**
-	 * 获取达人推广页面信息
+	 * 获取达人图片推广页面信息
 	 * @return 
 		*	2015年9月27日(mid-autumn-festival)
 		*	mishengliang
@@ -341,6 +341,21 @@ public class ChannelAction extends BaseAction {
 		return StrutsKey.JSON;
 	}
 	
+	/**
+	 * 获取达人织图推广页面信息
+	 * @return 
+		*	2015年10月21日
+		*	mishengliang
+	 */
+	public String getStarWorldRecommendTopicInfo(){
+		try {
+			channelService.getStarWorldRecommendTopicInfo(topicId,jsonMap);
+			JSONUtil.optSuccess(jsonMap);
+		} catch(Exception e) {
+			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+		}
+		return StrutsKey.JSON;
+	}
 	
 	public Integer getChannelId() {
 		return channelId;

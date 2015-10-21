@@ -330,4 +330,6 @@ public interface ChannelService extends BaseService{
 	 */
 	public void getStarRecommendTopicInfo(Integer topicId,Map<String, Object> jsonMap) throws Exception;
 	
+	public void getStarWorldRecommendTopicInfo(Integer topicId,Map<String, Object> jsonMap) throws Exception;
+	
 }

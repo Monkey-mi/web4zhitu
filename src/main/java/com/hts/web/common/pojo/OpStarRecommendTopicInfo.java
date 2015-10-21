@@ -26,6 +26,7 @@ public class OpStarRecommendTopicInfo implements Serializable{
 	
 	private Integer topicId;             //主题ID
 	private Integer topicType;        //文章类型
+	private Integer isWorld;             //是否织图模板
 	 private String title;                     //主题标题 
 	private String headIntro;          //分享介绍
 	private String shareBanner;    //分享出去显示图
@@ -49,6 +50,12 @@ public class OpStarRecommendTopicInfo implements Serializable{
 	}
 	public void setTopicType(Integer topicType) {
 		this.topicType = topicType;
+	}
+	public Integer getIsWorld() {
+		return isWorld;
+	}
+	public void setIsWorld(Integer isWorld) {
+		this.isWorld = isWorld;
 	}
 	public String getTitle() {
 		return title;

@@ -40,6 +40,7 @@ public class OpStarModuleInfo implements Serializable {
 	private Integer  id;   //ID
 	private String  title;//小标题
 	private String subtitle;//小副标题
+	private Integer worldId;//织图ID
 	private Integer userId;//用户ID
 	private String facePic;//头像链接
 	private String  userName;//用户昵称
@@ -72,6 +73,14 @@ public class OpStarModuleInfo implements Serializable {
 
 	public void setSubtitle(String subtitle) {
 		this.subtitle = subtitle;
+	}
+
+	public Integer getWorldId() {
+		return worldId;
+	}
+
+	public void setWorldId(Integer worldId) {
+		this.worldId = worldId;
 	}
 
 	public Integer getUserId() {
