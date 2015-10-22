@@ -346,8 +346,8 @@ img.box-shadow{
 }
 
 .superb {
-	width: 750px;
-	height: 750px;
+	width: 714px;
+	height: 714px;
 	display: none;
 	position: relative;
 }
@@ -398,9 +398,6 @@ var shareButton = ' <div class="footButton" ><a id="share-btn"  href="imzhitu://
 var topicHref = 'http://imzhitu.com/operations/';  
 /*   var topicHref = 'http://192.168.1.103:8080/operations/';   */
 
-//往期主题ID
-/* var pastTopicId = "?topicId="; */
-
 //图片头
 var pastTopicPicHead = '"><img alt="" src="';
 
@@ -412,13 +409,13 @@ var pastTopicHead = '<div class="pastPic" ><a href="';
 var pastTopicPicFoot = '"></a></div>';
 
  $(document).ready(function() {
-	 	var url = window.location.href;
+	  	var url = window.location.href;
 	 	var topicId1 = url.substring(url.lastIndexOf("/")+1,url.length);
 	 	var end = topicId1.length;
 	 	if(topicId1.indexOf("?") != -1){
 	 		end = topicId1.indexOf("?");
 	 	}
-	 	var topicId = topicId1.substring(0,end);
+	 	var topicId = topicId1.substring(0,end); 
 	 //调用获取数据的函数
  		$.post("./operations/channel_getStarWorldRecommendTopicInfo",{
 		"topicId":topicId,
@@ -568,7 +565,6 @@ function initLayout(result) {
 		winWidth = winWidth > maxW ? maxW : winWidth;
 		var scale = 1,
 		
-		//织图宽高
 		superbWidth = 714;
 		
 		//headIntro前介绍宽度限制
@@ -614,7 +610,7 @@ function initLayout(result) {
 		userNameFontSize = 32,
 		tableUserNameWidth = 300,
 		tableUserNameHeight = 100,
-		
+
 		//关注按钮
 		concernButtonWidth = 240,
 		concernButtonHeight = 68,
@@ -711,9 +707,9 @@ function initLayout(result) {
 		pastPicPaddingBottom = 10,
 		
 	scale = winWidth / maxW * 100;
-	
-		superbWidth = superbWidth * scale / 100;
 		
+		superbWidth  = superbWidth  * scale / 100;
+	
 		//headIntro前介绍宽度限制
 		head1width = head1width * scale / 100;
 		head1broder = head1broder * scale / 100;
@@ -757,7 +753,7 @@ function initLayout(result) {
 		userNameFontSize = userNameFontSize * scale / 100;
 		tableUserNameWidth = tableUserNameWidth * scale / 100;
 		tableUserNameHeight = tableUserNameHeight * scale / 100;
-		
+
 		//关注按钮
 		concernButtonWidth = concernButtonWidth * scale / 100;
 		concernButtonHeight = concernButtonHeight * scale / 100;
@@ -911,7 +907,7 @@ function initLayout(result) {
 			$(".userName").css({
 					"font-size":userNameFontSize + "px"
 		 		}); 
- 			
+
  			//关注按钮
  	 		$(".concern-btn").css({
  	 			"width":concernButtonWidth + "px",
@@ -1056,8 +1052,8 @@ function initLayout(result) {
 		height 				: config.h, // 显示宽长度
 		radius				: config.r,	//圆圈半径
 		limit 				: 5, // 每页查询条数
-		url 				: '../ztworld/ztworld_queryTitleChildWorldPage', // 数据获取地址
-		loadMoreURL			: '../ztworld/ztworld_queryChildWorldPage', // 加载更多子世界地址
+		url 				: '/ztworld/ztworld_queryTitleChildWorldPage', // 数据获取地址
+		loadMoreURL			: '/ztworld/ztworld_queryChildWorldPage', // 加载更多子世界地址
 		inZoomfactor 		: 5, // 背景图渐变过程中放大的倍数
 		inSpeedfactor 		: 650, // 渐变速度
 		inImgdelayfactor 	: 3, // 渐变延迟时间
@@ -1101,7 +1097,7 @@ function fetchConcernStatus(uid) {
 	$.post("./user_queryConcernStatus",{
 		"userId":uid,
 		"concernIds":userIds.substring(0,userIds.lastIndexOf(",")),
-	},function(data){http://localhost:8080/operations/starModule.html
+	},function(data){
 		if(data['result'] == 0) {
 			var status = data['concerns'];
 			for(var i = 0; i < status.length; i++) {

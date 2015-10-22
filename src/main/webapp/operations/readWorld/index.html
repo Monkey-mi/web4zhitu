@@ -127,6 +127,7 @@ img.box-shadow{
 	border-color:#3a98ce;
 }
 
+
 .userName {
 	font-size:20px;
 	font-family: "微软雅黑", Arial, Helvetica, sans-serif;
@@ -374,9 +375,6 @@ var isInApp = '?inapp=1';
  var topicHref = 'http://imzhitu.com/operations/'; 
 /* var topicHref = 'http://192.168.1.103:8080/operations/'; */
 
-//往期主题ID
-/* var pastTopicId = "?topicId="; */
-
 //图片头
 var pastTopicPicHead = '"><img alt="" src="';
 
@@ -388,13 +386,13 @@ var pastTopicHead = '<div class="pastPic" ><a href="';
 var pastTopicPicFoot = '"></a></div>';
 
  $(document).ready(function() {
-	 	var url = window.location.href;
+	  	var url = window.location.href;
 	 	var topicId1 = url.substring(url.lastIndexOf("/")+1,url.length);
 	 	var end = topicId1.length;
 	 	if(topicId1.indexOf("?") != -1){
 	 		end = topicId1.indexOf("?");
 	 	}
-	 	var topicId = topicId1.substring(0,end);
+	 	var topicId = topicId1.substring(0,end); 
 	 //调用获取数据的函数
  		$.post("./operations/channel_getStarWorldRecommendTopicInfo",{
 		"topicId":topicId,
@@ -407,7 +405,6 @@ var pastTopicPicFoot = '"></a></div>';
 				 $('title').html (result.title);
 				 $('#shareBanner').append(shareBannerPic);
 			 	$('#main').append(titleAndheadIntro);
-			 	alert(result.starModuleInfos.length);
 			 	
 			 	for(var i = 0;i < result.starModuleInfos.length;i++){
 			 		userIds += result.starModuleInfos[i].userId + ",";
@@ -417,7 +414,6 @@ var pastTopicPicFoot = '"></a></div>';
 				 											   '<div class="zt-desc-show" title="显示描述"></div><div class="zt-desc"><div class="zt-desc-text"></div><div class="zt-desc-bg"></div></div>' + 
 				 											   '<div class="zt-loading"><div class="zt-loading-bg"></div><div class="zt-loading-icon"></div><div><span>加载中...</span><span id="zt-progress">0</span>' + 
 				 											   '<span>%</span></div></div></div></div>';
-				 		alert(worldModule)			
 			 		 
 			 		 //小模块介绍
 			 		var intro2 = '<div  class="intro2">'+ result.starModuleInfos[i].intro2 +'</div></div>';
@@ -735,27 +731,6 @@ function initLayout(result) {
 		userNameMarginBottom = userNameMarginBottom * scale / 100;
 		userNameMarginLeft = userNameMarginLeft * scale / 100;
 		
-		//用户图片
-		userPicWidth = userPicWidth * scale / 100;
-		userPicMarginRight = userPicMarginRight * scale / 100;
-		userpicMarginLeft = userpicMarginLeft * scale / 100;
-		
-		//用户4图table长宽
-		table04width = table04width * scale / 100;
-		table04height = table04height * scale / 100;
-		
-		//用户3图宽
-		table03width = table03width * scale / 100;
-		
-		//用户2图长宽
-		table02width = table02width * scale / 100;
-		table02height = table02height  * scale / 100;
-		
-		//用户24图行高
-		tr24height = tr24height * scale / 100;
-		
-		//用户3图大图宽
-		td3width = td3width * scale / 100;
 		
 		//关注按钮
 		concernButtonWidth = concernButtonWidth * scale / 100;
@@ -812,8 +787,6 @@ function initLayout(result) {
 		//标题和前介绍模块
 		$(".titleAndheadIntro").css({
 			"width":titleAndHeadIntroWidth + "px",
-/* 			"margin-left":titleAndHeadIntroMarginLeft + "px",
-			"margin-right":titleAndHeadIntroMarginRight + "px", */
 			"padding-bottom":titleAndHeadIntroPaddingBottm + "px"}); 
 	
 		//主题
@@ -856,7 +829,7 @@ function initLayout(result) {
 					"margin-bottom":userNameMarginBottom + "px",
 					"margin-left":userNameMarginLeft + "px",
 		 		}); 
-			
+ 			
  			//关注按钮
   	 		$(".concern-btn").css({
  	 			"width":concernButtonWidth + "px",
@@ -972,8 +945,8 @@ function initLayout(result) {
 		height 				: config.h, // 显示宽长度
 		radius				: config.r,	//圆圈半径
 		limit 				: 5, // 每页查询条数
-		url 				: '../ztworld/ztworld_queryTitleChildWorldPage', // 数据获取地址
-		loadMoreURL			: '../ztworld/ztworld_queryChildWorldPage', // 加载更多子世界地址
+		url 				: '/ztworld/ztworld_queryTitleChildWorldPage', // 数据获取地址
+		loadMoreURL			: '/ztworld/ztworld_queryChildWorldPage', // 加载更多子世界地址
 		inZoomfactor 		: 5, // 背景图渐变过程中放大的倍数
 		inSpeedfactor 		: 650, // 渐变速度
 		inImgdelayfactor 	: 3, // 渐变延迟时间
