@@ -317,7 +317,7 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 	 * @param jsonMap
 	 * @throws Exception
 	 */
-	public void saveCommentMsg(List<Integer> atIds, List<String> atNames, Boolean im, 
+	private void saveCommentMsg(List<Integer> atIds, List<String> atNames, Boolean im, 
 			Integer authorId, Integer worldAuthorId, Integer worldId, String content, Integer commentId,
 			Map<String, Object> jsonMap, UserPushInfo userPushInfo) throws Exception {
 		
@@ -362,10 +362,10 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 			Integer authorId,  String content, Integer reId, Integer reAuthorId, 
 			String atIdsStr, String atNamesStr, Map<String, Object> jsonMap) throws Exception {
 		
-		if(worldAuthorId == null) {
+		if(worldAuthorId == null || worldAuthorId == 0) {
 			worldAuthorId = worldDao.queryAuthorId(worldId);
 		}
-		if(reAuthorId == null) {
+		if(reAuthorId == null || reAuthorId == 0) {
 			reAuthorId = worldCommentDao.queryReAuthorId(reId);
 		}
 		
@@ -393,6 +393,13 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 			saveAtByComment(atIds, atNames, im, reAuthorId, worldId, 
 					content, commentId, jsonMap);
 		}
+	}
+	
+	@Override
+	public void saveReply4Admin(Integer authorId, String content, 
+			Integer worldId, Integer reId) throws Exception {
+		saveReply(false, worldId, null, authorId, content, reId,
+				null, null, null, new HashMap<String, Object>());
 	}
 	
 	/**
@@ -657,20 +664,16 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 	
 	@Override
 	public String replaceAt2Reply(String content) {
-//		if(content != null && content.length() > 1) {
-//			if(content.charAt(1) == '@') {
-//				return content.replaceFirst(" ", "回复").replaceFirst(" :", "");
-//			}
-//		}
+		if(content != null && content.length() > 1 && content.charAt(1) == '@') {
+			return content.replaceFirst(" ", "回复").replaceFirst(" :", ":");
+		}
 		return content;
 	}
 	
 	@Override
 	public String trimColon2Comment(String content) {
-		if(content != null && content.length() > 1) {
-			if(content.charAt(1) == ':') {
-				return content.replaceFirst(" : ", "");
-			}
+		if(content != null && content.length() > 1 && content.charAt(1) == ':') {
+			return content.replaceFirst(" : ", "");
 		}
 		return content;
 	}
@@ -1192,4 +1195,5 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 	public boolean checkCommentValid(Integer commentId) {
 		return worldCommentDao.queryValid(commentId).equals(Tag.TRUE) ? true : false;
 	}
+
 }

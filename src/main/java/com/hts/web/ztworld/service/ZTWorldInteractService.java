@@ -53,19 +53,33 @@ public interface ZTWorldInteractService extends BaseService {
 	/**
 	 * 保存评论回复
 	 * 
-	 * @param im
+	 * @param im 运营
 	 * @param worldId
+	 * @param worldAuthorId
 	 * @param authorId
 	 * @param content
 	 * @param reId
+	 * @param reAuthorId
+	 * @param atIdsStr
+	 * @param atNamesStr
 	 * @param jsonMap
-	 * @return
 	 * @throws Exception
-	 * 被{@link saveReplyWithAt}替代
 	 */
 	public void saveReply(Boolean im, Integer worldId, Integer worldAuthorId,
 			Integer authorId, String content, Integer reId, Integer reAuthorId,
 			String atIdsStr, String atNamesStr, Map<String, Object> jsonMap) throws Exception;
+	
+	/**
+	 * 系统内部使用回复接口
+	 * 
+	 * @param authorId 评论作者id
+	 * @param content 回复内容,格式为[评论作者回复@被回复人: 回复内容],如Lulu回复@Tom: 哈哈
+	 * @param worldId 织图id
+	 * @param reId 回复的评论id
+	 * @throws Exception
+	 */
+	public void saveReply4Admin(Integer authorId, String content,
+			Integer worldId, Integer reId) throws Exception;
 	
 	/**
 	 * 保存评论消息
