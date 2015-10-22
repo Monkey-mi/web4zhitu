@@ -993,24 +993,21 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 			
 		});
 	}
-	
+
 	@Override
-	public List<PushStatus> saveAtMsgs(Boolean push, Integer userId, Integer objType, Integer objId, Integer worldId,
-			String content, String atIdsStr, String atNamesStr) throws Exception {
+	public List<PushStatus> saveAtMsgs(Integer[] atIds, String[] atNames, 
+			Boolean push, Integer userId, Integer objType, Integer objId, Integer worldId,
+			String content) throws Exception {
 		List<PushStatus> statusList;
-		Integer[] atIds;
-		String[] atNames;
 		MsgAt[] msgIdxs;
 		List<MsgAt> msgs;
 		Set<Integer> shieldSet;
 		Set<Integer> noAcceptAtSet;
 
-		if(StringUtil.checkIsNULL(atIdsStr) || StringUtil.checkIsNULL(atNamesStr)) {
+		if(atIds.length == 0 || atNames.length == 0) {
 			return null;
 		}
 		
-		atIds = StringUtil.convertStringToIds(atIdsStr);
-		atNames = StringUtil.convertStringToStrs(atNamesStr);
 		shieldSet = userShieldDao.queryWhoShieldMe(atIds, userId);
 		noAcceptAtSet = userInfoDao.queryNotAcceptAtUIds(atIds);
 		
@@ -1082,7 +1079,22 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 		}
 		
 		return statusList;
+	}
+	
+	@Override
+	public List<PushStatus> saveAtMsgs(String atIdsStr, String atNamesStr, 
+			Boolean push, Integer userId, Integer objType, Integer objId, Integer worldId,
+			String content) throws Exception {
+		Integer[] atIds;
+		String[] atNames;
+
+		if(StringUtil.checkIsNULL(atIdsStr) || StringUtil.checkIsNULL(atNamesStr)) {
+			return null;
+		}
+		atIds = StringUtil.convertStringToIds(atIdsStr);
+		atNames = StringUtil.convertStringToStrs(atNamesStr);
 		
+		return saveAtMsgs(atIds, atNames, push, userId, objType, objId, worldId, content);
 	}
 
 	@Override

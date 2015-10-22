@@ -214,7 +214,8 @@ public class HTWorldCommentDaoImpl extends BaseDaoImpl implements
 	/**
 	 * 查询最新评论SQL中部
 	 */
-	private static final String QUERY_COMMENT_USRE_INFO_MAIN = "(select id,re_id,content,comment_date,world_id,author_id from " 
+	private static final String QUERY_COMMENT_USRE_INFO_MAIN = "(select id,re_id,re_author_id,"
+			+ "content,comment_date,world_id,author_id from " 
 			+ table + " where world_id=? and valid=? and shield=? order by id desc limit ?)";
 	
 	/**
@@ -226,7 +227,7 @@ public class HTWorldCommentDaoImpl extends BaseDaoImpl implements
 	 * 根据织图id查询最新评论
 	 */
 	private static final String QUERY_COMMENT_USER_INFO_BY_WID = "select " + COMMENT_USER_INFO 
-			+ ",hc.id,hc.re_id,hc.content,hc.comment_date,hc.world_id,author_id from " 
+			+ ",hc.id,hc.re_id,hc.re_author_id,hc.content,hc.comment_date,hc.world_id,author_id from " 
 			+ table + " as hc," + HTS.USER_INFO 
 			+ " as u0 where u0.id=hc.author_id and hc.world_id=? and hc.valid=? and hc.shield=? order by id desc limit ?";
 	
@@ -267,17 +268,10 @@ public class HTWorldCommentDaoImpl extends BaseDaoImpl implements
 			+ " where id=?";
 
 	
-	private static final String QUERY_COMMENT_MSG = "select " + MSG_INFO + "," + MSG_USER_INFO + "," + MSG_WORLD_INFO
-			+ " from " + table + " m0," + HTS.USER_INFO + " u0," + HTS.HTWORLD_HTWORLD + " h0"
-			+ " where m0.world_author_id=u0.id and m0.world_id=h0.id and m0.valid=1 and m0.world_author_id=?"
-			+ " order by m0.id desc limit ?,?";
-	
-	private static final String QUERY_COMMENT_MSG_BY_MAX_ID = "select " + MSG_INFO + "," + MSG_USER_INFO + "," + MSG_WORLD_INFO
-			+ " from " + table + " m0," + HTS.USER_INFO + " u0," + HTS.HTWORLD_HTWORLD + " h0"
-			+ " where m0.world_author_id=u0.id and m0.world_id=h0.id and m0.valid=1 and m0.world_author_id=? and m0.id<=?"
-			+ " order by m0.id desc limit ?,?";
-	
 	private static final String QUERY_AUTHOR_ID = "select author_id from " + table
+			+ " where id=?";
+	
+	private static final String QUERY_RE_AUTHOR_ID = "select re_author_id from " + table
 			+ " where id=?";
 	
 	@Autowired
@@ -351,6 +345,7 @@ public class HTWorldCommentDaoImpl extends BaseDaoImpl implements
 		return new HTWorldCommentUser(
 				rs.getInt("id"),
 				rs.getInt("re_id"),
+				rs.getInt("re_author_id"),
 				rs.getString("content"),
 				(Date)rs.getObject("comment_date"),
 				rs.getInt("world_id"),
@@ -642,12 +637,6 @@ public class HTWorldCommentDaoImpl extends BaseDaoImpl implements
 		}, rowSelection);
 	}
 	
-//	@Override
-//	public long queryUnCheckUserCommentCount(Integer userId) {
-//		return getJdbcTemplate().queryForLong(QUERY_UNCHECK_USER_COMMENT_COUNT, 
-//				new Object[]{Tag.TRUE, Tag.FALSE, Tag.FALSE, userId, userId});
-//	}
-	
 	@Override
 	public long queryUserCommentCountByMaxId(Integer userId, Integer maxId) {
 		return getJdbcTemplate().queryForLong(QUERY_USER_COMMENT_COUNT_BY_MAX_ID, 
@@ -714,33 +703,6 @@ public class HTWorldCommentDaoImpl extends BaseDaoImpl implements
 		getMasterJdbcTemplate().update(UPDATE_CONTENT_BY_ID, content,id);
 	}
 	
-//	@Override
-//	public List<MsgCommentDto> queryMsg(Integer worldAuthorId, RowSelection rowSelection) {
-//		return getJdbcTemplate().query(QUERY_COMMENT_MSG,
-//				new Object[]{worldAuthorId, rowSelection.getFirstRow(), rowSelection.getLimit()},
-//				new RowMapper<MsgCommentDto>() {
-//
-//			@Override
-//			public MsgCommentDto mapRow(ResultSet rs, int rowNum) throws SQLException {
-//				return buildMsgDto(rs);
-//			}
-//			
-//		});
-//	}
-
-//	@Override
-//	public List<MsgCommentDto> queryMsg(Integer maxId, Integer worldAuthorId, RowSelection rowSelection) {
-//		return getJdbcTemplate().query(QUERY_COMMENT_MSG_BY_MAX_ID,
-//				new Object[]{worldAuthorId,maxId,rowSelection.getFirstRow(), rowSelection.getLimit()},
-//				new RowMapper<MsgCommentDto>() {
-//
-//			@Override
-//			public MsgCommentDto mapRow(ResultSet rs, int rowNum) throws SQLException {
-//				return buildMsgDto(rs);
-//			}
-//		});
-//	}
-//	
 	@Override
 	public List<HTWorldCommentReId> queryReId(Integer[] ids) {
 		String inSelection = SQLUtil.buildInSelection(ids);
@@ -772,6 +734,15 @@ public class HTWorldCommentDaoImpl extends BaseDaoImpl implements
 	public Integer queryAuthorId(Integer id) {
 		try {
 			return getJdbcTemplate().queryForInt(QUERY_AUTHOR_ID, id);
+		} catch(EmptyResultDataAccessException e) {
+			return 0;
+		}
+	}
+	
+	@Override
+	public Integer queryReAuthorId(Integer id) {
+		try {
+			return getJdbcTemplate().queryForInt(QUERY_RE_AUTHOR_ID, id);
 		} catch(EmptyResultDataAccessException e) {
 			return 0;
 		}

@@ -5,7 +5,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import com.hts.web.base.HTSException;
@@ -34,8 +36,6 @@ public class StringUtil {
 	
 	private static final String ZHITU_DOMAIN = "static.imzhitu";
 	
-	private static final String ANONYMOUS = "织图用户";
-
 	/**
 	 * 将字符串转换为整数数组
 	 * 
@@ -64,6 +64,38 @@ public class StringUtil {
 		String[] strs2 = new String[strs1.length];
 		for (int i = 0; i < strs1.length; i++) {
 			strs2[i] = strs1[i].trim();
+		}
+		return strs2;
+	}
+	
+	/**
+	 * 将字符串转换为整数数组
+	 * 
+	 * @param idsStr
+	 * @return
+	 */
+	public static List<Integer> convertStringToIntList(String idsStr) {
+		String[] strs = idsStr.split(",");
+		List<Integer> ids = new ArrayList<Integer>();
+		for (int i = 0; i < strs.length; i++) {
+			if (!"".equals(strs[i].trim())) {
+				ids.add(Integer.parseInt(strs[i].trim()));
+			}
+		}
+		return ids;
+	}
+	
+	/**
+	 * 将字符串转换为字符数组，并过滤空格
+	 * 
+	 * @param strs
+	 * @return
+	 */
+	public static List<String> convertStringToStrList(String strs) {
+		String[] strs1 = strs.split(",");
+		List<String> strs2 = new ArrayList<String>();
+		for (int i = 0; i < strs1.length; i++) {
+			strs2.add(strs1[i].trim());
 		}
 		return strs2;
 	}

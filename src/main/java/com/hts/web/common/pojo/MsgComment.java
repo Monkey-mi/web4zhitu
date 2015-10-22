@@ -18,7 +18,7 @@ public class MsgComment implements Serializable {
 	private static final long serialVersionUID = -6111760336023313396L;
 	private Integer commentId;
 	private Integer authorId;
-	private Integer worldAuthorId;
+	private Integer receiveId;
 	private Integer worldId;
 	
 	public MsgComment() {
@@ -26,11 +26,11 @@ public class MsgComment implements Serializable {
 	}
 
 	public MsgComment(Integer commentId, Integer authorId, 
-			Integer worldAuthorId, Integer worldId) {
+			Integer receiveId, Integer worldId) {
 		super();
 		this.commentId = commentId;
 		this.authorId = authorId;
-		this.worldAuthorId = worldAuthorId;
+		this.receiveId = receiveId;
 		this.worldId = worldId;
 	}
 
@@ -50,12 +50,12 @@ public class MsgComment implements Serializable {
 		this.authorId = authorId;
 	}
 
-	public Integer getWorldAuthorId() {
-		return worldAuthorId;
+	public Integer getReceiveId() {
+		return receiveId;
 	}
 
-	public void setWorldAuthorId(Integer worldAuthorId) {
-		this.worldAuthorId = worldAuthorId;
+	public void setReceiveId(Integer receiveId) {
+		this.receiveId = receiveId;
 	}
 
 	public Integer getWorldId() {

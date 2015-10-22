@@ -49,7 +49,7 @@ public interface MsgCommentDao {
 	 * 
 	 * @param commentId
 	 */
-	public void deleteByCommentId(Integer commentId);
+	public void deleteByCommentId(Integer commentId, Integer receiveId);
 
 	/**
 	 * 更新已读标记

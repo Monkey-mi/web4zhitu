@@ -450,8 +450,8 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 		
 		// 添加AT信息
 		if(!StringUtil.checkIsNULL(atIdsStr)) {
-			List<PushStatus> atPushStatus = userMsgService.saveAtMsgs(false, authorId,
-					Tag.ACT_TYPE_WORLD, worldId, worldId, worldDesc, atIdsStr, atNamesStr);
+			List<PushStatus> atPushStatus = userMsgService.saveAtMsgs(atIdsStr, atNamesStr, 
+					false, authorId, Tag.ACT_TYPE_WORLD, worldId, worldId, worldDesc);
 			jsonMap.put(OptResult.JSON_KEY_AT_PUSH_STATUS, atPushStatus);
 		}
 		

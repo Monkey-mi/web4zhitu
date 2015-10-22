@@ -63,40 +63,20 @@ public interface ZTWorldInteractService extends BaseService {
 	 * @throws Exception
 	 * 被{@link saveReplyWithAt}替代
 	 */
-//	@Deprecated 
 	public void saveReply(Boolean im, Integer worldId, Integer worldAuthorId,
 			Integer authorId, String content, Integer reId, Integer reAuthorId,
-			Map<String, Object> jsonMap) throws Exception;
-	
-	/**
-	 * 回复评论
-	 * 
-	 * @param im 					是否开通im, 如果是马甲，设置为false
-	 * @param worldId 				织图id
-	 * @param worldAuthorId 		织图作者id
-	 * @param authorId　				评论作者id
-	 * @param content 				回复内容
-	 * @param reId 					回复的评论id
-	 * @param reAuthorId 			回复的评论的作者id
-	 * @param atIdsStr 				at的用户id
-	 * @param atNamesStr 			at的用户名
-	 * @param jsonMap　				结果map
-	 * @throws Exception
-	 */
-	public void saveReplyWithAt(Boolean im, Integer worldId, Integer worldAuthorId,
-			Integer authorId,  String content, Integer reId, Integer reAuthorId, 
 			String atIdsStr, String atNamesStr, Map<String, Object> jsonMap) throws Exception;
-
+	
 	/**
 	 * 保存评论消息
 	 * 
 	 * @param commentId
 	 * @param authorId
-	 * @param worldAuthorId
+	 * @param receiveId
 	 * @param worldId
 	 */
 	public void saveMsgComment(Integer commentId, Integer authorId, 
-			Integer worldAuthorId, Integer worldId);
+			Integer receiveId, Integer worldId);
 	
 	/**
 	 * 删除评论

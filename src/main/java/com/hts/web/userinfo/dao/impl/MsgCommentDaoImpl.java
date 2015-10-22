@@ -34,27 +34,29 @@ public class MsgCommentDaoImpl extends BaseDaoImpl implements MsgCommentDao {
 			+ MSG_INFO + "," + MSG_COMMENT_INFO + "," + MSG_USER_INFO + "," + MSG_WORLD_INFO
 			+ " from " + table + " m0," + HTS.HTWORLD_COMMENT + " c0," 
 			+ HTS.USER_INFO + " u0," + HTS.HTWORLD_HTWORLD + " h0"
-			+ " where m0.comment_id=c0.id and m0.author_id=u0.id and m0.world_id=h0.id and m0.world_author_id=?"
+			+ " where m0.comment_id=c0.id and m0.world_id=c0.world_id"
+			+ " and m0.author_id=u0.id and m0.world_id=h0.id and m0.receive_id=?"
 			+ " order by m0.comment_id desc limit ?,?";
 	
 	private static final String QUERY_COMMENT_MSG_BY_MAX_ID = "select " 
 			+ MSG_INFO + "," + MSG_COMMENT_INFO + "," + MSG_USER_INFO + "," + MSG_WORLD_INFO
 			+ " from " + table + " m0," + HTS.HTWORLD_COMMENT + " c0," 
 			+ HTS.USER_INFO + " u0," + HTS.HTWORLD_HTWORLD + " h0"
-			+ " where m0.comment_id=c0.id and m0.author_id=u0.id and m0.world_id=h0.id and m0.world_author_id=? and m0.comment_id<=?"
+			+ " where m0.comment_id=c0.id and m0.world_id=c0.world_id"
+			+ " and m0.author_id=u0.id and m0.world_id=h0.id and m0.receive_id=? and m0.comment_id<=?"
 			+ " order by m0.comment_id desc limit ?,?";
 	
 	private static final String SAVE_MSG = "insert into " + table 
-			+ " (comment_id,author_id,world_author_id,world_id) values (?,?,?,?)";
+			+ " (comment_id,author_id,receive_id,world_id) values (?,?,?,?)";
 	
 	private static final String DELETE_MSG = "delete from " + table
-			+ " where id=?";
+			+ " where comment_id=? and receive_id=?";
 	
 	private static final String UPDATE_CK = "update " + table 
-			+ " set ck=1 where world_author_id=? and ck=0";
+			+ " set ck=1 where receive_id=? and ck=0";
 	
 	private static final String QUERY_UNCK_COUNT = "select count(1) from " + table
-			+ " where world_author_id=? and ck=0";
+			+ " where receive_id=? and ck=0";
 
 	/**
 	 * 构建评论消息DTO
@@ -125,14 +127,14 @@ public class MsgCommentDaoImpl extends BaseDaoImpl implements MsgCommentDao {
 		getMasterJdbcTemplate().update(SAVE_MSG, new Object[]{
 			msg.getCommentId(),
 			msg.getAuthorId(),
-			msg.getWorldAuthorId(),
+			msg.getReceiveId(),
 			msg.getWorldId()
 		});
 	}
 
 	@Override
-	public void deleteByCommentId(Integer commentId) {
-		getMasterJdbcTemplate().update(DELETE_MSG, commentId);
+	public void deleteByCommentId(Integer commentId, Integer receiveId) {
+		getMasterJdbcTemplate().update(DELETE_MSG, commentId, receiveId);
 	}
 
 	@Override

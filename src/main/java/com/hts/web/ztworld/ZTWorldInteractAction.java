@@ -127,29 +127,12 @@ public class ZTWorldInteractAction extends BaseAction {
 	 * 回复评论
 	 * 
 	 * @return
+	 * @version 3.0.5
+	 * @author lynch 2015-10-21
 	 */
-	@Deprecated
 	public String replyComment() {
 		try {
 			worldInteractService.saveReply(im, worldId, worldAuthorId,
-					getCurrentLoginUserId(), content, reId, reAuthorId, 
-					jsonMap);
-			JSONUtil.optSuccess(jsonMap);
-		} catch(HTSException e) {
-			JSONUtil.optFailed(e.getErrorCode(), e.getMessage(), jsonMap);
-		} catch (Exception e) {
-			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
-		}
-		return StrutsKey.JSON;
-	}
-	
-	/**
-	 * 回复评论
-	 * @return
-	 */
-	public String replyWithAt() {
-		try {
-			worldInteractService.saveReplyWithAt(im, worldId, worldAuthorId,
 					getCurrentLoginUserId(), content, reId, reAuthorId, 
 					atIds, atNames, jsonMap);
 			JSONUtil.optSuccess(jsonMap);
@@ -160,6 +143,24 @@ public class ZTWorldInteractAction extends BaseAction {
 		}
 		return StrutsKey.JSON;
 	}
+	
+//	/**
+//	 * 回复评论
+//	 * @return
+//	 */
+//	public String replyWithAt() {
+//		try {
+//			worldInteractService.saveReplyWithAt(im, worldId, worldAuthorId,
+//					getCurrentLoginUserId(), content, reId, reAuthorId, 
+//					atIds, atNames, jsonMap);
+//			JSONUtil.optSuccess(jsonMap);
+//		} catch(HTSException e) {
+//			JSONUtil.optFailed(e.getErrorCode(), e.getMessage(), jsonMap);
+//		} catch (Exception e) {
+//			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+//		}
+//		return StrutsKey.JSON;
+//	}
 	
 	/**
 	 * 用户删除评论

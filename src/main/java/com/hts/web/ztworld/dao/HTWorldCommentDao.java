@@ -273,31 +273,6 @@ public interface HTWorldCommentDao extends BaseDao {
 	 */
 	public Integer queryValid(Integer id);
 	
-//	/**
-//	 * 查询评论消息列表
-//	 * 
-//	 * @param authorId
-//	 * @param rowSelection
-//	 * @return
-//	 * 
-//	 * @version 3.0.5
-//	 * @author lynch 2015-09-28
-//	 */
-//	public List<MsgCommentDto> queryMsg(Integer authorId, RowSelection rowSelection);
-//	
-//	/**
-//	 * 查询评论消息列表
-//	 * 
-//	 * @param maxId
-//	 * @param authorId
-//	 * @param rowSelection
-//	 * @return
-//	 * 
-//	 * @version 3.0.5
-//	 * @author lynch 2015-09-28
-//	 */
-//	public List<MsgCommentDto> queryMsg(Integer maxId, Integer authorId, RowSelection rowSelection);
-	
 	/**
 	 * 查询作者id
 	 * 
@@ -305,4 +280,12 @@ public interface HTWorldCommentDao extends BaseDao {
 	 * @return
 	 */
 	public Integer queryAuthorId(Integer id);
+	
+	/**
+	 * 查询回复作者id
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Integer queryReAuthorId(Integer id);
 }

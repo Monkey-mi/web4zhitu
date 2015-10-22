@@ -28,7 +28,8 @@ public interface UserMsgService extends BaseService {
 	 * @param jsonMap
 	 * @throws Exception
 	 */
-	public void buildCommentMsg(Integer userId, int sinceId, int maxId, int start, int limit, Map<String, Object> jsonMap) throws Exception;
+	public void buildCommentMsg(Integer userId, int sinceId, int maxId,
+			int start, int limit, Map<String, Object> jsonMap) throws Exception;
 	
 	/**
 	 * 构建喜欢消息列表
@@ -348,20 +349,38 @@ public interface UserMsgService extends BaseService {
 	/**
 	 * 保存at消息
 	 * 
+	 * @param atIdsStr atids字符串
+	 * @param atNamesStr atnames字符串
 	 * @param push 系统是否发送推送
 	 * @param userId
 	 * @param objType
 	 * @param objId
 	 * @param worldId
-	 * @param atIdsStr
-	 * @param atNamesStr
 	 * 
 	 * @version 3.0.5
 	 * @author lynch 2015-09-22
 	 */
-	public List<PushStatus> saveAtMsgs(Boolean push, Integer userId, Integer objType, Integer objId,
-			Integer worldId, String content, String atIdsStr, String atNamesStr) throws Exception;
+	public List<PushStatus> saveAtMsgs(String atIdsStr, String atNamesStr, 
+			Boolean push, Integer userId, Integer objType, Integer objId,
+			Integer worldId, String content) throws Exception;
 	
+	/**
+	 * 保存at消息
+	 * 
+	 * @param atIds atid数组
+	 * @param atNames atname数组
+	 * @param push
+	 * @param userId
+	 * @param objType
+	 * @param objId
+	 * @param worldId
+	 * @param content
+	 * @return
+	 * @throws Exception
+	 */
+	public List<PushStatus> saveAtMsgs(Integer[] atIds, String[] atNames, 
+			Boolean push, Integer userId, Integer objType, Integer objId,
+			Integer worldId, String content) throws Exception;
 	
 	/**
 	 * 查询atid

@@ -23,6 +23,7 @@ public class HTWorldCommentUser implements Serializable, ObjectWithUserVerify, O
 	
 	private Integer id;
 	private Integer reId; // 被回复评论id
+	private Integer reAuthorId;
 	private String content; // 内容
 	private Date commentDate; // 评论时间
 	private Integer worldId; // 世界ID
@@ -36,12 +37,13 @@ public class HTWorldCommentUser implements Serializable, ObjectWithUserVerify, O
 		super();
 	}
 
-	public HTWorldCommentUser(Integer id, Integer reId, String content,
+	public HTWorldCommentUser(Integer id, Integer reId, Integer reAuthorId, String content,
 			Date commentDate, Integer worldId, Integer userId, String userName,
 			String userAvatar, String userAvatarL, Integer star, Integer platformVerify) {
 		super();
 		this.id = id;
 		this.reId = reId;
+		this.reAuthorId = reAuthorId;
 		this.content = content;
 		this.commentDate = commentDate;
 		this.worldId = worldId;
@@ -137,6 +139,14 @@ public class HTWorldCommentUser implements Serializable, ObjectWithUserVerify, O
 	@Override
 	public void setVerifyIcon(String verifyIcon) {
 		userInfo.setVerifyIcon(verifyIcon);
+	}
+
+	public Integer getReAuthorId() {
+		return reAuthorId;
+	}
+
+	public void setReAuthorId(Integer reAuthorId) {
+		this.reAuthorId = reAuthorId;
 	}
 	
 }
