@@ -373,7 +373,8 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 		List<String> atNames = null;
 		Integer commentId;
 
-		content = StringUtil.filterXSS(content); // 过滤评论
+		content = StringUtil.filterXSS(
+				replaceAt2Reply(content)); // 过滤评论
 		
 		if(atIdsStr != null && atNamesStr != null) {
 			atIds = StringUtil.convertStringToIntList(atIdsStr);
