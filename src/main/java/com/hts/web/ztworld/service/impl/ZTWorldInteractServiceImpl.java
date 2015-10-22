@@ -508,10 +508,6 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 		HTWorldCommentDto dto;
 		UserInfoDto udto;
 		
-//		if(worldId == null || worldAuthorId == null || reId == null || reAuthorId == null) {
-//			throw new HTSException("Parameters error", ERROR_CODE_INVALID);
-//		}
-		
 		if(!checkWorldValid(worldId)) {
 			throw new HTSException(ERROR_MSG_INVALID, ERROR_CODE_INVALID);
 		} else if(!checkCommentValid(reId)){
@@ -549,10 +545,11 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 		jsonMap.put(OptResult.JSON_KEY_IS_MUTUTAL, -1);
 		jsonMap.put(OptResult.JSON_KEY_USER_ID, reAuthorId);
 		
-		if(isCommentValid(content, worldId, reAuthorId)) {
+		if(isCommentValid(content, worldId, authorId)) {
+			worldCommentDao.saveWorldComment(comment);
 			Long count = worldCommentDao.queryCommentCount(worldId);
 			worldDao.updateCommentCount(worldId, count.intValue());
-			worldCommentDao.saveWorldComment(comment);
+			userActivityService.addActivityScore(Tag.ACT_TYPE_COMMENT, authorId);
 			return id;
 		}
 		
