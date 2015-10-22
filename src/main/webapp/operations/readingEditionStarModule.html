@@ -351,6 +351,12 @@ img.box-shadow{
 	position: relative;
 }
 
+.box-shadow{  
+    -webkit-box-shadow:0 0 1px  #85848a;  
+  -moz-box-shadow:0 0 1px  #85848a;  
+  box-shadow:0 0 1px  #85848a;  
+} 
+
 .zt-container {
 	width: 100% !important;
 	height: 100% !important;
@@ -447,7 +453,7 @@ var pastTopicPicFoot = '"></a></div>';
 						} */
 			 		 
 				 		 //展示织图模块
-				 		var worldModule = '<div class="superb"><div class="zt-container" data-wid="' + result.starModuleInfos[i].worldId + '"><div class="zt-title"><img alt=""></div><div class="zt-desc-hide" title="隐藏描述"></div>' + 
+				 		var worldModule = '<div class="superb box-shadow"><div class="zt-container" data-wid="' + result.starModuleInfos[i].worldId + '"><div class="zt-title"><img alt=""></div><div class="zt-desc-hide" title="隐藏描述"></div>' + 
 				 											   '<div class="zt-desc-show" title="显示描述"></div><div class="zt-desc"><div class="zt-desc-text"></div><div class="zt-desc-bg"></div></div>' + 
 				 											   '<div class="zt-loading"><div class="zt-loading-bg"></div><div class="zt-loading-icon"></div><div><span>加载中...</span><span id="zt-progress">0</span>' + 
 				 											   '<span>%</span></div></div></div></div>';
