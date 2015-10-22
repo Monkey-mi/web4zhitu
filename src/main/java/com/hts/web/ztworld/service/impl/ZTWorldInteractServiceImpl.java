@@ -338,11 +338,11 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 					}
 				} else {
 					pushService.pushComment(commentId, authorId, worldId, worldAuthorId,
-							content, userPushInfo, shieldUser); // 推送评论
+							content, userPushInfo, shieldUser, true); // 推送评论
 				}
 			} else {
 				pushService.pushComment(commentId, authorId, worldId, worldAuthorId,
-						content, userPushInfo, shieldUser); // 推送评论
+						content, userPushInfo, shieldUser, true); // 推送评论
 			}
 		}
 		
@@ -639,7 +639,8 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 			UserPushInfo userPushInfo = userInfoDao.queryUserPushInfoById(worldAuthorId);
 			Integer shield = userShieldDao.queryShieldId(worldAuthorId, authorId) == null ? Tag.FALSE : Tag.TRUE;
 			
-			pushService.pushComment(commentId, authorId, worldId, worldAuthorId, content, userPushInfo, shield);
+			pushService.pushComment(commentId, authorId, worldId, worldAuthorId,
+					content, userPushInfo, shield, false);
 		}
 		
 		// 回复了就不能评论

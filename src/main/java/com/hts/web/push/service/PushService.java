@@ -31,7 +31,7 @@ public interface PushService {
 	 * @throws Exception
 	 */
 	public void pushComment(final Integer id, Integer authorId, Integer worldId, Integer wauthorId, 
-			String content, UserPushInfo userPushInfo, Integer shield) throws Exception;
+			String content, UserPushInfo userPushInfo, Integer shield, boolean hasColon) throws Exception;
 
 	/**
 	 * 回复推送

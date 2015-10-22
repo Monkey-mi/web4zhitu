@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.json.JSONObject;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,7 +21,6 @@ import com.gexin.rp.sdk.http.IGtPush;
 import com.gexin.rp.sdk.template.TransmissionTemplate;
 import com.hts.web.base.HTSException;
 import com.hts.web.base.constant.LoggerKeies;
-import com.hts.web.base.constant.PhoneType;
 import com.hts.web.base.constant.Tag;
 import com.hts.web.common.pojo.PushIM;
 import com.hts.web.common.pojo.PushMsg;
@@ -35,17 +32,14 @@ import com.hts.web.common.util.StringUtil;
 import com.hts.web.common.util.UserInfoUtil;
 import com.hts.web.push.service.PushService;
 import com.hts.web.push.service.YunbaPushService;
-import com.hts.web.userinfo.dao.UserConcernDao;
 import com.hts.web.userinfo.dao.UserInfoDao;
-import com.hts.web.userinfo.dao.UserRemarkDao;
-import com.hts.web.ztworld.dao.HTWorldCommentDao;
-import com.hts.web.ztworld.dao.HTWorldKeepDao;
-import com.hts.web.ztworld.dao.HTWorldLikedDao;
 import com.notnoop.apns.APNS;
 import com.notnoop.apns.ApnsService;
 import com.notnoop.exceptions.InvalidSSLConfig;
 import com.notnoop.exceptions.NetworkIOException;
 import com.notnoop.exceptions.RuntimeIOException;
+
+import net.sf.json.JSONObject;
 
 public class PushServiceImpl implements PushService {
 	
@@ -60,9 +54,6 @@ public class PushServiceImpl implements PushService {
 	
 	@Autowired
 	private UserInfoDao userInfoDao;
-	
-	@Autowired
-	private UserRemarkDao userRemarkDao;
 	
 	@Autowired
 	private YunbaPushService yunbaPushService;
@@ -205,8 +196,9 @@ public class PushServiceImpl implements PushService {
 	@Override
 	public void pushComment(final Integer id, final Integer authorId, 
 			final Integer worldId, final Integer wauthorId, final String content, 
-			final UserPushInfo userPushInfo, final Integer shield) throws Exception{
+			final UserPushInfo userPushInfo, final Integer shield, final boolean hasColon) throws Exception{
 		if(userPushInfo != null && authorId != userPushInfo.getId() && shield.equals(Tag.FALSE)) {
+			final String colon = hasColon ? ": " : "";
 			pushExecutor.execute(new Runnable() {
 	
 				@Override
@@ -217,26 +209,19 @@ public class PushServiceImpl implements PushService {
 							
 							@Override
 							public void onPushFailed(Exception e) {
-								imLog.warn("comment push error (" + "id=" + id + ", authorId=" + authorId 
-										+ ", wauthorId=" + userPushInfo.getId() + ")");
+//								imLog.warn("comment push error (" + "id=" + id + ", authorId=" + authorId 
+//										+ ", wauthorId=" + userPushInfo.getId() + ")");
 							}
 						};
 						
 						
-						String fullName = userRemarkDao.queryRemark(userPushInfo.getId(), authorId);
-						if(fullName == null) {
-							fullName = userInfoDao.queryUserNameById(authorId);
-						}
+						String fullName = userInfoDao.queryUserNameById(authorId);
 						
 						// 对方已经开通了IM
 						if(UserInfoUtil.checkIsImVersion(userPushInfo.getVer())) {
-							String comment = content.trim();
-							if(comment.startsWith(":")) {
-								comment = comment.substring(1).trim();
-							}
 							pushIMMessage(userPushInfo.getId(), new PushWorldIM(Tag.PUSH_ACTION_COMMENT, fullName, 
-									comment, authorId, userPushInfo.getId(), worldId, wauthorId, 0, id), 
-									fullName + ":" + comment, userPushInfo.getPhoneCode(), userPushInfo.getAcceptCommentPush(), shield, callback);
+									content, authorId, userPushInfo.getId(), worldId, wauthorId, 0, id), 
+									fullName + colon + content, userPushInfo.getPhoneCode(), userPushInfo.getAcceptCommentPush(), shield, callback);
 						
 						// 对方未开通IM使用个推
 						} else if(userPushInfo.getOnline() == Tag.TRUE 
@@ -271,27 +256,18 @@ public class PushServiceImpl implements PushService {
 							
 							@Override
 							public void onPushFailed(Exception e) {
-								imLog.warn("reply push error (" + "id=" + id + ", authorId=" + authorId 
-										+ ", wauthorId=" + userPushInfo.getId() + ")");
-//								worldCommentDao.updatePushed(id, Tag.FALSE);
+//								imLog.warn("reply push error (" + "id=" + id + ", authorId=" + authorId 
+//										+ ", wauthorId=" + userPushInfo.getId() + ")");
 							}
 						};
 						
-						String fullName = userRemarkDao.queryRemark(userPushInfo.getId(), authorId);
-						if(fullName == null) {
-							fullName = userInfoDao.queryUserNameById(authorId);
-						}
+						String fullName = userInfoDao.queryUserNameById(authorId);
 						
 						// 对方已经开通了IM
 						if(UserInfoUtil.checkIsImVersion(userPushInfo.getVer())) {
-							String reply = content.trim();
-							if(reply.startsWith("@")) {
-								int colonIndex = reply.indexOf(":") + 1;
-								reply = reply.substring(colonIndex).trim();
-							}
 							pushIMMessage(userPushInfo.getId(), new PushWorldIM(Tag.PUSH_ACTION_REPLY, 
-									fullName, reply, authorId, userPushInfo.getId(), worldId, wauthorId, reId, id), 
-									fullName + ":" + reply, userPushInfo.getPhoneCode(), userPushInfo.getAcceptReplyPush(), shield, callback);
+									fullName, content, authorId, userPushInfo.getId(), worldId, wauthorId, reId, id), 
+									fullName + content, userPushInfo.getPhoneCode(), userPushInfo.getAcceptReplyPush(), shield, callback);
 							
 						// 对方未开通IM使用个推
 						} else if(userPushInfo.getOnline() == Tag.TRUE 
@@ -324,16 +300,12 @@ public class PushServiceImpl implements PushService {
 							
 							@Override
 							public void onPushFailed(Exception e) {
-								imLog.warn("liked push error (" + "id=" + id + ", userId=" + userId 
-										+ ", wauthorId=" + userPushInfo.getId() + ", worldId=" + worldId + ")");
-//								worldLikedDao.updatePushed(id, Tag.FALSE);
+//								imLog.warn("liked push error (" + "id=" + id + ", userId=" + userId 
+//										+ ", wauthorId=" + userPushInfo.getId() + ", worldId=" + worldId + ")");
 							}
 						};
 						
-						String fullName = userRemarkDao.queryRemark(userPushInfo.getId(), userId);
-						if(fullName == null) {
-							fullName = userInfoDao.queryUserNameById(userId);
-						}
+						String fullName = userInfoDao.queryUserNameById(userId);
 						
 						// 对方已经开通了IM, 默认屏蔽用户的提醒
 						if(UserInfoUtil.checkIsImVersion(userPushInfo.getVer())) {
@@ -371,9 +343,8 @@ public class PushServiceImpl implements PushService {
 							
 							@Override
 							public void onPushFailed(Exception e) {
-								imLog.warn("concern push error (" + "id=" + id + ", userId=" + userId 
-										+ ", concernId=" + userPushInfo.getId() + ")");
-//								userConcernDao.updatePushed(id, Tag.FALSE);
+//								imLog.warn("concern push error (" + "id=" + id + ", userId=" + userId 
+//										+ ", concernId=" + userPushInfo.getId() + ")");
 							}
 						};
 						
@@ -419,7 +390,7 @@ public class PushServiceImpl implements PushService {
 						
 						String fullName = userInfoDao.queryUserNameById(uid);
 						pushIMMessage(touid, new PushIM(Tag.PUSH_ACTION_AT, fullName, content, uid, touid), 
-								fullName + TIP_AT + ":" + content, Tag.IOS, accept, shield, callback);
+								fullName + TIP_AT + ": " + content, Tag.IOS, accept, shield, callback);
 						
 					}
 			});
