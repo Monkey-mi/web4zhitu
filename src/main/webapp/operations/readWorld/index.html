@@ -57,6 +57,7 @@ img {
 .title{
 	align:center;
 	font-size:34px;
+	font-weight:600;
 	text-align:left;
 	color:#373e46;
 	padding-top:40px;
@@ -66,7 +67,8 @@ img {
 .headIntro{
 	padding-top:10px;
 	padding-bottom:20px;
-	font-size:12px;
+	font-size:31px;
+	font-weight:600;
 	color:#62707d;
 	text-align:left;
 	line-height:46px;
@@ -132,6 +134,7 @@ img.box-shadow{
 
 .userName {
 	font-size:20px;
+	font-weight:900;
 	font-family: "微软雅黑", Arial, Helvetica, sans-serif;
 	margin: -50px 0px 30px 100px;
     text-align: left;
@@ -143,8 +146,9 @@ img.box-shadow{
 	text-align:left;
 	color:#62707d;
 	font-family: "微软雅黑", Arial, Helvetica, sans-serif;
-	line-height:130%;
-	/* font-weight:400; */
+	font-size:28px;
+	line-height:140%;
+	 font-weight:600; 
 	margin:0 18px 0 18px;
 	padding: 20px 0px 30px 0px;
 }
@@ -427,7 +431,7 @@ var pastTopicPicFoot = '"></a></div>';
 			 		var intro2 = '<div  class="intro2">'+ result.starModuleInfos[i].intro2 +'</div></div>';
 			 		
 			 		//头像 用户名 关注按钮
-			 		var faceAnduserNameAndconcernButton = '<div class="whriteBlock" ><div class="faceAnduserNameAndConcern" ><div class="face"><a href="imzhitu://user?uid='+ result.starModuleInfos[i].userId +'">' + 
+			 		var faceAnduserNameAndconcernButton = '<div class="whriteBlock" ><div class="faceAnduserNameAndConcern" ><div class="face box-shadow"><a href="imzhitu://user?uid='+ result.starModuleInfos[i].userId +'">' + 
 			 																								'<img src="'+ result.starModuleInfos[i].facePic +'"/></a></div><div class="userName" >'+ result.starModuleInfos[i].userName +'</div>' + 
 			 																								'<a id="concern-'+ result.starModuleInfos[i].userId +'" class="concern-btn concern" name="imzhitu-callapp" href="imzhitu://concern?uid='+ result.starModuleInfos[i].userId +'">+关注</a><a class="concern-btn concerned">已关注</a></div>';
 			 		
@@ -539,7 +543,7 @@ function initLayout(result) {
 		head1marginLeft = 33,
 		
 		head2fontSize = 28,
-		head2fontWeight = 400,
+		head2fontWeight = 600,
 		head2paddingTop = 50,
 		head2paddingBottom = 50,
 		head2paddingLeft = 60,
@@ -560,7 +564,7 @@ function initLayout(result) {
 		//头介绍
 		headIntroPaddingTop = 12,
 		headIntroPaddingBottom = 36,
-		headIntroFontsize = 30,
+		headIntroFontsize = 31,
 		headIntroLineHeight = 46,
 		
 		//小标题
@@ -585,11 +589,11 @@ function initLayout(result) {
 		
 		//头像 用户名 关注按钮块
 		faceAnduserNameAndConcernPaddingBottom = 22,
-		faceAnduserNameAndConcernPaddingLeft = 50,
+		faceAnduserNameAndConcernPaddingLeft = 38,
 		
 		//用户头像
-		tableFaceWidth = 86,
-		tableFaceHeight = 86,
+		tableFaceWidth = 80,
+		tableFaceHeight = 80,
 		
 		//用户名
 		userNameFontSize = 32,
@@ -600,7 +604,7 @@ function initLayout(result) {
 		//关注按钮
 		concernButtonWidth = 156,
 		concernButtonHeight = 56,
-		concernButtonMarginTop = -75,
+		concernButtonMarginTop = -80,
 		concernButtonMarginLeft = 180,
 		concernButtonFontSize = 30,
 		concernButtonFontLineHeight = 58,
@@ -613,7 +617,7 @@ function initLayout(result) {
 		intro2paddingBottom = 36,
 		intro2marginLeft = 18,
 		intro2marginRight = 18,
-		intro2FontSize = 28,
+		intro2FontSize = 31,
 		
 		//头像外边框显示
 		faceoutWidth = 170,
@@ -668,7 +672,7 @@ function initLayout(result) {
 		footButtonWidth = 300,
 		
 		//往期专题模块
-		pastTopicWidth = 650,
+		pastTopicWidth = 715,
 		pastTopicFontSize = 13,
 		
 		//往期字体
