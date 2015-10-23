@@ -278,7 +278,7 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 		id = keyGenService.generateId(KeyGenServiceImpl.HTWORLD_COMMENT_ID);
 		comment = new HTWorldComment(id, authorId, content, new Date(), worldId, worldAuthorId, 
 				id, 0, Tag.TRUE, Tag.TRUE, Tag.FALSE);
-		dto = new HTWorldCommentDto(id, authorId, id, 0, content, comment.getCommentDate(),
+		dto = new HTWorldCommentDto(id, authorId, 0, 0, content, comment.getCommentDate(),
 				worldId, worldAuthorId);
 		
 		udto = userInfoDao.queryUserInfoDtoById(authorId);
