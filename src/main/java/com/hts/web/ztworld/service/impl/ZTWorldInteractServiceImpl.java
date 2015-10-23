@@ -638,8 +638,7 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 	private void saveReplyMsg2WorldAuthor(Integer authorId, Integer reAuthorId,
 			Integer worldAuthorId, Integer commentId, Integer worldId, 
 			String content, List<Integer> atIds, List<String> atNames) throws Exception {
-		if(!worldAuthorId.equals(reAuthorId) && !authorId.equals(reAuthorId) 
-				&& !authorId.equals(worldAuthorId)) {
+		if(!worldAuthorId.equals(reAuthorId) && !authorId.equals(worldAuthorId)) {
 			
 			// 保存评论消息
 			saveMsgComment(commentId, authorId, worldAuthorId, worldId);
