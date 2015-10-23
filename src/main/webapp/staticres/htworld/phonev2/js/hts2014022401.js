@@ -139,7 +139,7 @@ var ui = {
 				if(i == 0) {
 					commentMaxId = c['id'];
 				}
-				ui.appendComment(u['userAvatar'], u['userName'], c['content'], date);
+				ui.appendComment(u['userAvatar'], u['userName'], c['content'], c['reAuthorId'], date);
 			}
 			if(commentPageStart <= commentPage) {
 				ui.appendMoreCommentTip();
@@ -161,7 +161,7 @@ var ui = {
 				var c = commentObj[i],
 					u = c['userInfo'],
 					date = baseTools.getShortDate(now, baseTools.parseDate(c['commentDate']));
-				ui.appendComment(u['userAvatar'], u['userName'], c['content'], date);
+				ui.appendComment(u['userAvatar'], u['userName'], c['content'], c['reAuthorId'], date);
 			}
 			if(commentPageStart <= commentPage) {
 				ui.appendMoreCommentTip();
@@ -173,6 +173,9 @@ var ui = {
 	},
 	
 	appendComment : function(userAvatar, userName, content, date) {
+		if(reAuthorId != 0)
+			content = ":" + content;
+		
 		var $comment = 	$('<div class="comment">'
 				+	'<img class="comment-avatar" src="'+ userAvatar + '" />'
 				+	'<div class="comment-text-wrap">'
