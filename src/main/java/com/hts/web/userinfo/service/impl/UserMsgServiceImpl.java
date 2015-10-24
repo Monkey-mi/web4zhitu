@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -995,14 +996,22 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 	}
 
 	@Override
-	public List<PushStatus> saveAtMsgs(Integer[] atIds, String[] atNames, 
-			Boolean push, Integer userId, Integer objType, Integer objId, Integer worldId,
-			String content) throws Exception {
+	public List<PushStatus> saveAtMsgs(String atIdsStr, String atNamesStr , Set<Integer> rejectIds, Boolean push,
+			Integer userId, Integer objType, Integer objId, Integer worldId, String content) throws Exception {
 		List<PushStatus> statusList;
 		MsgAt[] msgIdxs;
 		List<MsgAt> msgs;
 		Set<Integer> shieldSet;
 		Set<Integer> noAcceptAtSet;
+		Integer[] atIds;
+		String[] atNames;
+
+		if(StringUtil.checkIsNULL(atIdsStr) || StringUtil.checkIsNULL(atNamesStr)) {
+			return null;
+		}
+		
+		atIds = StringUtil.convertStringToIds(atIdsStr);
+		atNames = StringUtil.convertStringToStrs(atNamesStr);
 
 		if(atIds.length == 0 || atNames.length == 0) {
 			return null;
@@ -1018,7 +1027,6 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 		statusList = new ArrayList<PushStatus>();
 		msgIdxs = new MsgAt[atIds.length];
 		msgs = new ArrayList<MsgAt>();
-		
 		
 		for(int i = 0; i < atIds.length;i++) {
 			
@@ -1042,7 +1050,7 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 			msg.setContent(content);
 			msgIdxs[i] = msg;
 			
-			if(!userId.equals(atIds[i])) { // 不能自己at自己
+			if(!userId.equals(atIds[i]) || rejectIds.contains(atIds[i])) { // 不能自己at自己
 				status = new PushStatus();
 				accept = noAcceptAtSet.contains(atIds[i]) ? Tag.FALSE : Tag.TRUE;
 				shield = shieldSet.contains(atIds[i]) ? Tag.TRUE : Tag.FALSE;
@@ -1085,16 +1093,8 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 	public List<PushStatus> saveAtMsgs(String atIdsStr, String atNamesStr, 
 			Boolean push, Integer userId, Integer objType, Integer objId, Integer worldId,
 			String content) throws Exception {
-		Integer[] atIds;
-		String[] atNames;
-
-		if(StringUtil.checkIsNULL(atIdsStr) || StringUtil.checkIsNULL(atNamesStr)) {
-			return null;
-		}
-		atIds = StringUtil.convertStringToIds(atIdsStr);
-		atNames = StringUtil.convertStringToStrs(atNamesStr);
-		
-		return saveAtMsgs(atIds, atNames, push, userId, objType, objId, worldId, content);
+		Set<Integer> rejectIds = new HashSet<Integer>();
+		return saveAtMsgs(atIdsStr, atNamesStr, rejectIds, push, userId, objType, objId, worldId, content);
 	}
 
 	@Override
@@ -1179,6 +1179,7 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 			
 		}, OptResult.JSON_KEY_MSG, null);
 	}
+
 
 }
 

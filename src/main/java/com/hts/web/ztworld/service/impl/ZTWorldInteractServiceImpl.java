@@ -4,8 +4,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -207,7 +209,7 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 				return worldCommentDao.queryCommentCountByMinId(worldId, sinceId);
 			}
 			
-		},OptResult.JSON_KEY_COMMENTS, OptResult.JSON_KEY_TOTAL_COUNT);
+		}, OptResult.JSON_KEY_COMMENTS, OptResult.JSON_KEY_TOTAL_COUNT);
 	}
 	
 	
@@ -216,18 +218,11 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 			Integer authorId, String content, String atIdsStr, String atNamesStr,
 			Map<String, Object> jsonMap) throws Exception {
 		
-		List<Integer> atIds = null;
-		List<String> atNames = null;
 		Integer commentId;
 		UserPushInfo userPushInfo;
 
 		content = StringUtil.filterXSS(
 				trimColon2Comment(content)); // 过滤评论
-		
-		if(atIdsStr != null && atNamesStr != null) {
-			atIds = StringUtil.convertStringToIntList(atIdsStr);
-			atNames = StringUtil.convertStringToStrList(atNamesStr);
-		}
 		
 		// 旧版没有传worldAuthorId
 		if(worldAuthorId != null) {
@@ -241,11 +236,11 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 				authorId, content, atIdsStr, atNamesStr, jsonMap);
 		
 		if(commentId > 0) {
-			saveCommentMsg(atIds, atNames, im, authorId, worldAuthorId, worldId, 
+			saveCommentMsg(im, authorId, worldAuthorId, worldId, 
 					content, commentId, jsonMap, userPushInfo);
 			
-			saveAtByComment(atIds, atNames, im, worldAuthorId, worldId, 
-					content, commentId, jsonMap);
+			saveAtByComment(im, authorId, worldId, 
+					content, commentId, jsonMap, atIdsStr, atNamesStr, worldAuthorId);
 		}
 	}
 	
@@ -317,7 +312,7 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 	 * @param jsonMap
 	 * @throws Exception
 	 */
-	private void saveCommentMsg(List<Integer> atIds, List<String> atNames, Boolean im, 
+	private void saveCommentMsg(Boolean im, 
 			Integer authorId, Integer worldAuthorId, Integer worldId, String content, Integer commentId,
 			Map<String, Object> jsonMap, UserPushInfo userPushInfo) throws Exception {
 		
@@ -345,16 +340,6 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 						content, userPushInfo, shieldUser, true); // 推送评论
 			}
 		}
-		
-		if(atIds != null && atNames != null) {
-			for(int i = 0; i < atIds.size(); i++) {
-				if(atIds.get(i).equals(worldAuthorId)) {
-					atIds.remove(i);
-					atNames.remove(i);
-					break;
-				}
-			}
-		}
 	}
 
 	@Override
@@ -366,33 +351,27 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 			worldAuthorId = worldDao.queryAuthorId(worldId);
 		}
 		if(reAuthorId == null || reAuthorId == 0) {
-			reAuthorId = worldCommentDao.queryReAuthorId(reId);
+			reAuthorId = worldCommentDao.queryAuthorId(reId);
 		}
 		
-		List<Integer> atIds = null;
-		List<String> atNames = null;
 		Integer commentId;
 
 		content = StringUtil.filterXSS(
 				replaceAt2Reply(content)); // 过滤评论
 		
-		if(atIdsStr != null && atNamesStr != null) {
-			atIds = StringUtil.convertStringToIntList(atIdsStr);
-			atNames = StringUtil.convertStringToStrList(atNamesStr);
-		}
 		
 		commentId = saveReplyContent(worldId, worldAuthorId, 
 				authorId, content, reId, reAuthorId, jsonMap);
 		
 		if(commentId > 0) {
 			saveReplyMsg(im, commentId, reId, worldId, content, authorId, reAuthorId, 
-					worldAuthorId, jsonMap, atIds, atNames);
+					worldAuthorId, jsonMap);
 			
 			saveReplyMsg2WorldAuthor(authorId, reAuthorId, worldAuthorId, 
-					commentId, worldId, content, atIds, atNames);
+					commentId, worldId, content);
 			
-			saveAtByComment(atIds, atNames, im, reAuthorId, worldId, 
-					content, commentId, jsonMap);
+			saveAtByComment(im, authorId, worldId, 
+					content, commentId, jsonMap, atIdsStr, atNamesStr, reAuthorId, worldAuthorId);
 		}
 	}
 	
@@ -473,20 +452,17 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 	 * @param jsonMap
 	 * @throws Exception
 	 */
-	private void saveAtByComment(List<Integer> atIds, List<String> atNames, Boolean im, 
+	private void saveAtByComment(Boolean im, 
 			Integer authorId,  Integer worldId, String content, Integer commentId,
-			Map<String, Object> jsonMap) throws Exception {
+			Map<String, Object> jsonMap, String atIdsStr, String atNamesStr, Integer...rejectIds) throws Exception {
 		
-		if(atIds != null && atNames != null 
-				&& atIds.size() > 0 && atNames.size() > 0) {
-			
-			Integer[] atIdArray = new Integer[atIds.size()];
-			String[] atNameArray = new String[atNames.size()];
-			
-			atIds.toArray(atIdArray);
-			atNames.toArray(atNameArray);
-			
-			List<PushStatus> atPushStatus = userMsgService.saveAtMsgs(atIdArray, atNameArray, 
+		if(atIdsStr != null && atNamesStr != null) {
+
+			Set<Integer> rejectSet = new HashSet<Integer>();
+			for(Integer rid : rejectIds) {
+				rejectSet.add(rid);
+			}
+			List<PushStatus> atPushStatus = userMsgService.saveAtMsgs(atIdsStr, atIdsStr, 
 					!im, authorId, Tag.AT_TYPE_COMMENT, commentId, worldId, content);
 			jsonMap.put(OptResult.JSON_KEY_AT_PUSH_STATUS, atPushStatus);
 		}
@@ -581,7 +557,7 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 	 */
 	private void saveReplyMsg(boolean im, Integer id, Integer reId, Integer worldId, String content,
 			Integer authorId, Integer reAuthorId, Integer worldAuthorId,
-			Map<String, Object> jsonMap, List<Integer> atIds, List<String> atNames) throws Exception {
+			Map<String, Object> jsonMap) throws Exception {
 		
 		if(!reAuthorId.equals(authorId)) { // 不是自己回复自己
 			
@@ -612,16 +588,6 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 			}
 		}
 		
-		// 回复了就不能评论
-		if(atIds != null && atNames != null) {
-			for(int i = 0; i < atIds.size(); i++) {
-				if(atIds.get(i).equals(reAuthorId)) {
-					atIds.remove(i);
-					atNames.remove(i);
-					break;
-				}
-			}
-		}
 	}
 
 	/**
@@ -637,7 +603,7 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 	 */
 	private void saveReplyMsg2WorldAuthor(Integer authorId, Integer reAuthorId,
 			Integer worldAuthorId, Integer commentId, Integer worldId, 
-			String content, List<Integer> atIds, List<String> atNames) throws Exception {
+			String content) throws Exception {
 		if(!worldAuthorId.equals(reAuthorId) && !authorId.equals(worldAuthorId)) {
 			
 			// 保存评论消息
@@ -650,16 +616,6 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 					content, userPushInfo, shield, false);
 		}
 		
-		// 回复了就不能评论
-		if(atIds != null && atNames != null) {
-			for(int i = 0; i < atIds.size(); i++) {
-				if(atIds.get(i).equals(worldAuthorId)) {
-					atIds.remove(i);
-					atNames.remove(i);
-					break;
-				}
-			}
-		}
 	}
 	
 	@Override
