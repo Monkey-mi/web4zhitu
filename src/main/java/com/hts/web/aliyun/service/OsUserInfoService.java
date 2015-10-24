@@ -4,7 +4,6 @@ package com.hts.web.aliyun.service;
 public interface OsUserInfoService {
 
 	/**
-	 * test2
 	 * 保存用户
 	 * 
 	 * @param id

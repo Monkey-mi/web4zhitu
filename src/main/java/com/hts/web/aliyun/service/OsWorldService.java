@@ -12,7 +12,6 @@ package com.hts.web.aliyun.service;
 public interface OsWorldService {
 
 	/**
-	 * test
 	 * 保存织图信息
 	 * 
 	 * @param id
