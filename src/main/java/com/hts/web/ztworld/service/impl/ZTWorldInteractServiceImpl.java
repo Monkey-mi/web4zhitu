@@ -233,7 +233,7 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 		}
 		
 		commentId = saveCommentContent(worldId, worldAuthorId, 
-				authorId, content, atIdsStr, atNamesStr, jsonMap);
+				authorId, content, jsonMap);
 		
 		if(commentId > 0) {
 			saveCommentMsg(im, authorId, worldAuthorId, worldId, 
@@ -258,8 +258,7 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 	 * @throws Exception
 	 */
 	private Integer saveCommentContent(Integer worldId, Integer worldAuthorId,
-			Integer authorId, String content, String atIdsStr, String atNamesStr,
-			Map<String, Object> jsonMap) throws Exception {
+			Integer authorId, String content, Map<String, Object> jsonMap) throws Exception {
 		
 		Integer id = 0;
 		HTWorldComment comment;
@@ -462,7 +461,7 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 			for(Integer rid : rejectIds) {
 				rejectSet.add(rid);
 			}
-			List<PushStatus> atPushStatus = userMsgService.saveAtMsgs(atIdsStr, atIdsStr, 
+			List<PushStatus> atPushStatus = userMsgService.saveAtMsgs(atIdsStr, atNamesStr, 
 					!im, authorId, Tag.AT_TYPE_COMMENT, commentId, worldId, content);
 			jsonMap.put(OptResult.JSON_KEY_AT_PUSH_STATUS, atPushStatus);
 		}
