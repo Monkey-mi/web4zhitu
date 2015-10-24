@@ -61,7 +61,7 @@ public class UserMsgServiceTest extends BaseTest {
 	@Test
 	public void buildUnreadMsgCount() throws Exception {
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
-		service.buildUnreadSysMsgCount(485, jsonMap);
+		/*service.buildUnreadSysMsgCount(485, jsonMap);*/
 		logObj(jsonMap);
 	}
 	
@@ -220,7 +220,7 @@ public class UserMsgServiceTest extends BaseTest {
 			
 			@Override
 			public void buildNumberList(Map<String, Object> jsonMap) throws Exception {
-				service.buildCommentMsg(485, 0, 1, 10, jsonMap);
+				/*service.buildCommentMsg(485, 0, 1, 10, jsonMap);*/
 			}
 		});
 	}
