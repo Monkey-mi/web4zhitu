@@ -30,6 +30,7 @@ import com.hts.web.operations.dao.ActivityDao;
 import com.hts.web.operations.dao.ActivitySponsorDao;
 import com.hts.web.operations.dao.ActivityWinnerDao;
 import com.hts.web.operations.service.ZTWorldOperationsService;
+import com.hts.web.userinfo.service.UserConcernService;
 import com.hts.web.userinfo.service.UserInfoService;
 import com.hts.web.userinfo.service.UserInteractService;
 import com.hts.web.ztworld.dao.HTWorldLabelCacheDao;
@@ -94,6 +95,9 @@ public class ZTWorldLabelServiceImpl extends BaseServiceImpl implements
 	
 	@Autowired
 	private HTWorldStickerDao stickerDao;
+	
+	@Autowired
+	private UserConcernService userConcernService;
 	
 	private Integer hotLabelLimit = 10;
 	
@@ -198,6 +202,7 @@ public class ZTWorldLabelServiceImpl extends BaseServiceImpl implements
 								worldList);
 						userInfoService.extractVerify(worldList);
 						userInteractService.extractRemark(joinId, worldList);
+						userConcernService.extractConcernStatus(joinId, worldList);
 						return worldList;
 					}
 
@@ -214,6 +219,7 @@ public class ZTWorldLabelServiceImpl extends BaseServiceImpl implements
 								worldList);
 						userInfoService.extractVerify(worldList);
 						userInteractService.extractRemark(joinId, worldList);
+						userConcernService.extractConcernStatus(joinId, worldList);
 						return worldList;
 					}
 
@@ -245,6 +251,7 @@ public class ZTWorldLabelServiceImpl extends BaseServiceImpl implements
 								worldList);
 						userInfoService.extractVerify(worldList);
 						userInteractService.extractRemark(joinId, worldList);
+						userConcernService.extractConcernStatus(joinId, worldList);
 						return worldList;
 					}
 
@@ -257,6 +264,7 @@ public class ZTWorldLabelServiceImpl extends BaseServiceImpl implements
 								worldList);
 						userInfoService.extractVerify(worldList);
 						userInteractService.extractRemark(joinId, worldList);
+						userConcernService.extractConcernStatus(joinId, worldList);
 						return worldList;
 					}
 

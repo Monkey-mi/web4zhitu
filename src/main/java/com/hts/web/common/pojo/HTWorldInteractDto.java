@@ -19,7 +19,7 @@ import com.hts.web.base.constant.Tag;
  * 
  */
 
-public class HTWorldInteractDto implements HTWorldWithExtra, ObjectWithUserVerify, ObjectWithUserRemark {
+public class HTWorldInteractDto implements HTWorldWithExtra, ObjectWithUserVerify, ObjectWithUserRemark, ObjectWithConcerned {
 
 	/**
 	 * 
@@ -68,6 +68,7 @@ public class HTWorldInteractDto implements HTWorldWithExtra, ObjectWithUserVerif
 	
 	private String extra;
 	private String extra1;
+	private Integer concerned = Tag.FALSE;;
 
 	private List<HTWorldLikedUser> likes = new ArrayList<HTWorldLikedUser>(); // 喜欢的用户
 	private List<HTWorldCommentUser> comments = new ArrayList<HTWorldCommentUser>(); // 评论
@@ -495,6 +496,15 @@ public class HTWorldInteractDto implements HTWorldWithExtra, ObjectWithUserVerif
 
 	public void setChannelNames(List<HTWorldChannelName> channelNames) {
 		this.channelNames = channelNames;
+	}
+
+	@Override
+	public void setConcerned(Integer concerned) {
+		this.concerned = concerned;
+	}
+
+	public Integer getConcerned() {
+		return concerned;
 	}
 	
 }
