@@ -631,16 +631,9 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 			userId = userMsgService.queryAtId(objType, objId, atIndex, atName);
 			if(userId == 0)
 				throw new HTSException(TIP_USER_NAME_NOT_EXIST, USER_NAME_NOT_EXITS_ERROR);
-			else { 
-				userInfo = userInfoDao.queryUserInfoById(userId);
-				if(!userInfo.getUserName().equals(atName)) // 用户改名,提示找不到用户
-					throw new HTSException(TIP_USER_NAME_NOT_EXIST, USER_NAME_NOT_EXITS_ERROR);
-			}
-				
-			
-		} else {
-			userInfo = userInfoDao.queryUserInfoById(userId);
 		}
+		
+		userInfo = userInfoDao.queryUserInfoById(userId);
 		
 		if(joinId != 0 && !userId.equals(joinId)) {
 			userInfo.setIsMututal(userConcernDao.queryIsMututal(joinId, userId));

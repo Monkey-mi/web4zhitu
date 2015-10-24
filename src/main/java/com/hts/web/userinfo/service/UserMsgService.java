@@ -2,6 +2,7 @@ package com.hts.web.userinfo.service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.hts.web.common.pojo.PushStatus;
 import com.hts.web.common.pojo.UserMsgStatus;
@@ -364,11 +365,30 @@ public interface UserMsgService extends BaseService {
 			Boolean push, Integer userId, Integer objType, Integer objId,
 			Integer worldId, String content) throws Exception;
 	
+//	/**
+//	 * 保存at消息
+//	 * 
+//	 * @param atIds atid数组
+//	 * @param atNames atname数组
+//	 * @param push
+//	 * @param userId
+//	 * @param objType
+//	 * @param objId
+//	 * @param worldId
+//	 * @param content
+//	 * @return
+//	 * @throws Exception
+//	 */
+//	public List<PushStatus> saveAtMsgs(Integer[] atIds, String[] atNames, 
+//			Boolean push, Integer userId, Integer objType, Integer objId,
+//			Integer worldId, String content) throws Exception;
+	
 	/**
 	 * 保存at消息
 	 * 
-	 * @param atIds atid数组
-	 * @param atNames atname数组
+	 * @param atIds
+	 * @param atNames
+	 * @param rejectIds
 	 * @param push
 	 * @param userId
 	 * @param objType
@@ -378,7 +398,7 @@ public interface UserMsgService extends BaseService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<PushStatus> saveAtMsgs(Integer[] atIds, String[] atNames, 
+	public List<PushStatus> saveAtMsgs(String atIdsStr, String atNamesStr, Set<Integer> rejectIds, 
 			Boolean push, Integer userId, Integer objType, Integer objId,
 			Integer worldId, String content) throws Exception;
 	
