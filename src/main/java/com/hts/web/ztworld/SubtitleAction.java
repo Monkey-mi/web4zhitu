@@ -40,5 +40,6 @@ public class SubtitleAction extends BaseAction {
 		}
 		return StrutsKey.JSON;
 	}
+	
 
 }
