@@ -252,7 +252,7 @@ img.box-shadow{
 	width:650px;
 	font-size:20px;
 	background-color:#EAEBEF;
-	margin:auto;
+	margin:66px auto 66px auto;
 }
 
 .footButton{
@@ -403,10 +403,11 @@ img.box-shadow{
 <script type="text/javascript">
 var inapp = 0;
 var userIds = '';
-var footButtonAndPast = '<div class="footButtonAndPast" ><div id="twoButton" class="twoButton" ></div><div id="pastTopic" class="pastTopic" ><hr class="hrStyle">' + 
+var twoButton = '<div id="twoButton" class="twoButton" ></div>';
+var footButtonAndPast = '<div class="footButtonAndPast" ><div id="pastTopic" class="pastTopic" ><hr class="hrStyle">' + 
 													'<div id="pastFont" class="pastFont">- 上期专题 -</div></div></div>';
 var downloadButton = '<div class="footButton"><a  href="http://a.app.qq.com/o/simple.jsp?pkgname=com.htshuo.htsg"><img style="" alt="" src="http://static.imzhitu.com/op/sticker/151013/download.png"></a></div>';
-var shareButton = ' <div class="footButton" ><a id="share-btn"  href="imzhitu://sharePage"><img style="" alt="" src="http://static.imzhitu.com/op/sticker/151013/share.png"></a></div> ';
+var shareButton = ' <div class="footButton" ><a id="share-btn"  href="imzhitu://sharePage"><img style="" alt="" src="http://static.imzhitu.com/op/activityPic/readShareButton.png"></a></div> ';
 var isInApp = '?inapp=1';
 
 //往期链接 需要改过来 TODO
@@ -479,11 +480,7 @@ var pastTopicPicFoot = '"></a></div></div>';
 					 var module = faceAnduserNameAndconcernButton + worldModule + intro2; 	
 			 		$('#main').append(module);
 				} 
-			 	
-			 	if(result.pastTopics[0] != undefined){
-			 		$('#main').append(footButtonAndPast);
-			 	}
-			 	
+			 	$('#main').append(twoButton);
 				initLayout(result);
 		} else {
 		alert('You are wrong');
@@ -520,7 +517,7 @@ function initLayout(result) {
  	}else if(result.pastTopics[2] != undefined && result.pastTopics[2].topicType == 2 && result.pastTopics[2].isWorld == 1){
  		topicTypeWhat03 = "readWorld/" 
  	}
-	
+ 	
 	inapp = callAppInit();
 	if(inapp == 1) {
 		var reg = new RegExp("(^|&)uid=([^&]*)(&|$)", "i"),
@@ -545,6 +542,11 @@ function initLayout(result) {
 		bindAllBtnClick2Callapp();
 		
 		//非app展示需要增加下载按钮、替换文字、两期回顾
+	 	if(result.pastTopics[0] != undefined){
+	 		$('#main').append(footButtonAndPast);
+	 	}
+		
+	 	$('#twoButton').hide();
 		
 		if(result.pastTopics[0] != undefined){
 		$("#pastFont").text("- 往期回顾 -");
@@ -741,10 +743,12 @@ function initLayout(result) {
 		//两个button模块
 		twoButtonWidth = 650,
 		twoButtonFontSize = 20,
+		twoButtonMarginTop = 66,
+		twoButtonMarginBottom = 66,
 		
 		//button本身属性
-		footButtonHeight = 140,
-		footButtonWidth = 300,
+		footButtonHeight = 100,
+		footButtonWidth = 560,
 		
 		//往期专题模块
 		pastTopicWidth = 715,
@@ -856,6 +860,8 @@ function initLayout(result) {
 		//两个button模块
 		twoButtonWidth = twoButtonWidth * scale/ 100;
 		twoButtonFontSize = twoButtonFontSize * scale/ 100;
+		twoButtonMarginTop = twoButtonMarginTop * scale/ 100;
+		twoButtonMarginBottom = twoButtonMarginBottom * scale/ 100;
 		
 		//button本身属性
 		footButtonHeight = footButtonHeight * scale/ 100;
@@ -1032,9 +1038,10 @@ function initLayout(result) {
  	 					"margin-top":pastPicTop + "px"
  	 				});
  	 		
- 	 		
  	 		//两个button模块
  	 		$(".twoButton").css({
+ 	 			"margin-top":twoButtonMarginTop + "px",
+ 	 			"margin-bottom":twoButtonMarginBottom + "px",
  	 			"width":twoButtonWidth + "px",
  	 			"font-size":twoButtonFontSize + "px"});
  	 		

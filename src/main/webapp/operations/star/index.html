@@ -267,7 +267,7 @@ img.box-shadow{
  .footButtonAndPast{
 	 display:inline-block;
 	 width:750px;
-	 background-color:#EAEBEF;
+	 background-color:#edeff1;
 	 padding-top:20px
  }
  
@@ -396,8 +396,8 @@ img.box-shadow{
 <script type="text/javascript">
 var inapp = 0;
 var userIds = "";
-
-var footButtonAndPast = '<div class="footButtonAndPast" ><div id="twoButton" class="twoButton" ></div><div id="pastTopic" class="pastTopic" ><hr class="hrStyle">' + 
+var twoButton = '<div id="twoButton" class="twoButton" ></div>';
+var footButtonAndPast = '<div class="footButtonAndPast" ><div id="pastTopic" class="pastTopic" ><hr class="hrStyle">' + 
 													'<div id="pastFont" class="pastFont">- 上期专题 -</div></div></div>';
 var downloadButton = '<div class="footButton"><a  href="http://a.app.qq.com/o/simple.jsp?pkgname=com.htshuo.htsg"><img style="" alt="" src="http://static.imzhitu.com/op/sticker/151013/download.png"></a></div>';
 var shareButton = ' <div class="footButton" ><a id="share-btn"  href="imzhitu://sharePage"><img style="" alt="" src="http://static.imzhitu.com/op/sticker/151013/share.png"></a></div> ';
@@ -495,11 +495,8 @@ var pastTopicPicFoot = '"></a></div></div>';
 			 	//发图分享按钮
 			 	$('#main').append(' <div class="share-sticker-btn-out"><div id="sticker-btn" class="share-sticker-btn" ><a href="imzhitu://useSticker">'+ result.stickerButton +'</a></div></div><div class="share-sticker-btn-out"><div id="share-btn" class="share-sticker-btn" ><a href="imzhitu://sharePage">'+ result.shareButton +'</a></div></div>');
 			 	/* $('#main').append("<div class='foot' style='color: #797a7f;'>"+ result.foot +"</div>"); */
-				
-			 	if(result.pastTopics[0] != undefined){
-			 		$('#main').append(footButtonAndPast);
-			 	}
-				
+				$('#main').append(twoButton);
+			 	
 				initLayout(result);
 		} else {
 		alert('You are wrong');
@@ -561,6 +558,10 @@ function initLayout(result) {
 		bindAllBtnClick2Callapp();
 		
 		//非app展示需要增加下载按钮、替换文字、两期回顾
+	 	if(result.pastTopics[0] != undefined){
+	 		$('#main').append(footButtonAndPast);
+	 	}
+		
 		$("#pastFont").text("- 往期回顾 -");
 		
 		if(result.pastTopics[0] != undefined){
@@ -716,7 +717,7 @@ function initLayout(result) {
 		shareoutWidth = 420,
 		shareoutHeight = 120,
 		shareoutMarginTop = 60,
-		shareoutMarginButtom = 30,
+		shareoutMarginButtom = 60,
 		shareoutMarginRight = 155,
 		shareoutMarginLeft = 155,
 		shareoutBorder = 10,
