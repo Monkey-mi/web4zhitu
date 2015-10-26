@@ -24,13 +24,15 @@ public class UserMsgUnreadCount implements Serializable {
 	private Integer atCount;
 	private Integer sysmsgCount;
 	private Integer umsgCount;
+
+	private Integer sysmsgId;
 	
 	public UserMsgUnreadCount() {
 		super();
 	}
 
 	public UserMsgUnreadCount(Integer userId, Integer concernCount, Integer likeCount, Integer commentCount,
-			Integer atCount, Integer sysmsgCount, Integer umsgCount) {
+			Integer atCount, Integer sysmsgCount, Integer umsgCount, Integer sysmsgId) {
 		super();
 		this.userId = userId;
 		this.concernCount = concernCount;
@@ -39,6 +41,7 @@ public class UserMsgUnreadCount implements Serializable {
 		this.atCount = atCount;
 		this.sysmsgCount = sysmsgCount;
 		this.umsgCount = umsgCount;
+		this.sysmsgId = sysmsgId;
 	}
 
 	public Integer getUserId() {
@@ -96,5 +99,14 @@ public class UserMsgUnreadCount implements Serializable {
 	public void setUmsgCount(Integer umsgCount) {
 		this.umsgCount = umsgCount;
 	}
+
+	public Integer getSysmsgId() {
+		return sysmsgId;
+	}
+
+	public void setSysmsgId(Integer sysmsgId) {
+		this.sysmsgId = sysmsgId;
+	}
+	
 
 }

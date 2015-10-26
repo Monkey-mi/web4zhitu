@@ -24,13 +24,18 @@ public class SysMsgCommonCacheDaoImpl extends BaseCacheDaoImpl<OpSysMsgDto>imple
 
 	@Override
 	public List<OpSysMsgDto> queryMsg(Integer limit) {
+		if(index.isEmpty()) {
+			rebuildIndex();
+		}
 		Integer maxId = maxIdDao.queryMaxId();
 		List<OpSysMsgDto> list = getRedisTemplate().boundListOps(
 				CacheKeies.OP_MSG_COMMON_SYSMSG).range(0, limit-1);
 		
-		if(maxId != null && list != null && !list.isEmpty() 
-				&& list.get(0).getId() < maxId)
+		if(list != null && !list.isEmpty() 
+				&& list.get(0).getId() > maxId) {
+			maxIdDao.updateMaxId(list.get(0).getId());
 			rebuildIndex();
+		}
 		
 		return list;
 	}
@@ -41,11 +46,14 @@ public class SysMsgCommonCacheDaoImpl extends BaseCacheDaoImpl<OpSysMsgDto>imple
 		if(entry != null) {
 			Integer idx = entry.getValue();
 			return getRedisTemplate().boundListOps(
-					CacheKeies.OP_MSG_COMMON_SYSMSG).range(0, idx);
+					CacheKeies.OP_MSG_COMMON_SYSMSG).range(idx, idx+limit-1);
 		}
 		return new ArrayList<OpSysMsgDto>();
 	}
 	
+	/**
+	 * 重建搜索索引
+	 */
 	public void rebuildIndex() {
 		index.clear();
 		List<OpSysMsgDto> list = getRedisTemplate().boundListOps(
@@ -56,5 +64,18 @@ public class SysMsgCommonCacheDaoImpl extends BaseCacheDaoImpl<OpSysMsgDto>imple
 		list.clear();
 		list = null;
 	}
+
+	@Override
+	public Integer higherCount(Integer id) {
+		if(index.isEmpty()) {
+			rebuildIndex();
+		}
+		Entry<Integer, Integer> entry = index.higherEntry(id);
+		if(entry != null) {
+			return entry.getValue() + 1;
+		}
+		return 0;
+	}
+	
 
 }

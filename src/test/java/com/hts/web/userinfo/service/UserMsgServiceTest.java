@@ -61,29 +61,20 @@ public class UserMsgServiceTest extends BaseTest {
 	@Test
 	public void buildUnreadMsgCount() throws Exception {
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
-		/*service.buildUnreadSysMsgCount(485, jsonMap);*/
+		service.buildUnreadSysMsgCount(1549, jsonMap);
 		logObj(jsonMap);
 	}
 	
 	@Test
 	public void testBuildSysMsg() throws Exception {
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
-		service.buildSysMsg(1595, 0, 1, 10, false, false, true, jsonMap);
-		logObj(jsonMap);
-	}
-	
-	
-	@Test
-	public void testBuildUnreadMsgCount() throws Exception {
-		Map<String, Object> jsonMap = new HashMap<String, Object>();
-		service.buildUnreadSysMsgCountV2(527, jsonMap);
+		service.buildSysMsg(485, 0, 1, 10, false, false, true, jsonMap);
 		logObj(jsonMap);
 	}
 	
 	@Test
 	public void testSaveUserMsg() throws Exception {
 		service.saveUserMsg(400, 114, "怎么", Tag.USER_MSG_NORMAL);
-		Thread.sleep(10000);
 	}
 	
 	@Test

@@ -11,8 +11,19 @@ public class SysMsgCommonMaxIdCacheDaoImpl extends BaseCacheDaoImpl<Integer>impl
 
 	@Override
 	public Integer queryMaxId() {
-		return getRedisTemplate().boundValueOps(
+		Integer id;
+		id = getRedisTemplate().boundValueOps(
 				CacheKeies.OP_MSG_COMMON_SYSMSG_MAXID).get();
+		if(id == null) {
+			id = 0;
+		}
+		return id;
 	}
 
+	@Override
+	public void updateMaxId(Integer id) {
+		getRedisTemplate().boundValueOps(
+				CacheKeies.OP_MSG_COMMON_SYSMSG_MAXID).set(id);;
+	}
+	
 }

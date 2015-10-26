@@ -38,7 +38,7 @@ public class SysMsgDaoImpl extends BaseDaoImpl implements SysMsgDao {
 			+ " where recipient_id=? where obj_type=?";
 	
 	private static final String DELETE_BY_ID = "delete from " + table 
-			+ " where recipient_id=? where id=?";
+			+ " where recipient_id=? and id=?";
 	
 	public OpSysMsgDto buildMsg(ResultSet rs, Integer userId) throws SQLException {
 		OpSysMsgDto dto =  new OpSysMsgDto(

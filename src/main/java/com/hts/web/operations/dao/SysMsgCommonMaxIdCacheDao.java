@@ -14,4 +14,7 @@ public interface SysMsgCommonMaxIdCacheDao extends BaseCacheDao {
 
 	public Integer queryMaxId();
 	
+	public void updateMaxId(Integer id);
+	
+	
 }

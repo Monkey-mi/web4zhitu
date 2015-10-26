@@ -16,5 +16,14 @@ public interface SysMsgCommonCacheDao extends BaseCacheDao {
 	public List<OpSysMsgDto> queryMsg(Integer limit);
 	
 	public List<OpSysMsgDto> queryMsg(Integer maxId, Integer limit);
+	
+	/**
+	 * 查询比指定id更大的消息数量
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Integer higherCount(Integer id);
+	
 
 }

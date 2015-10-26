@@ -2,7 +2,6 @@ package com.hts.web.operations.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Set;
 
 import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.stereotype.Repository;
@@ -15,13 +14,13 @@ import com.hts.web.operations.dao.SysMsgCommonDeletedDao;
 @Repository("HTSSysMsgCommonDeletedDao")
 public class SysMsgCommonDeletedDaoImpl extends BaseDaoImpl implements SysMsgCommonDeletedDao {
 
-	private static String table = HTS.OPERATIONS_SYS_MSG_COMMON;
+	private static String table = HTS.OPERATIONS_SYS_MSG_COMMON_DELETE;
 	
 	private static final String SAVE_DELETED = "insert into " + table 
 			+ " (recipient_id, msg_id) values (?,?)";
 	
 	private static final String QUERY_MSG_ID = "select msg_id from " + table
-			+ " where recipeint_id=? where msg_id<=? order by msg_id desc";
+			+ " where recipient_id=? and msg_id<=? order by msg_id desc";
 	
 	@Override
 	public void saveDeleted(Integer recipientId, Integer msgId) {

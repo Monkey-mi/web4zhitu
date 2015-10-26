@@ -39,7 +39,6 @@ import com.hts.web.common.pojo.MsgAt;
 import com.hts.web.common.pojo.MsgAtDto;
 import com.hts.web.common.pojo.MsgAtId;
 import com.hts.web.common.pojo.MsgCommentDto;
-import com.hts.web.common.pojo.OpSysMsg;
 import com.hts.web.common.pojo.OpSysMsgDto;
 import com.hts.web.common.pojo.PushStatus;
 import com.hts.web.common.pojo.UserInfoAvatar;
@@ -52,6 +51,7 @@ import com.hts.web.common.pojo.UserMsgIndex;
 import com.hts.web.common.pojo.UserMsgLiked;
 import com.hts.web.common.pojo.UserMsgRecipientDto;
 import com.hts.web.common.pojo.UserMsgStatus;
+import com.hts.web.common.pojo.UserMsgUnreadCount;
 import com.hts.web.common.pojo.UserPushInfo;
 import com.hts.web.common.service.KeyGenService;
 import com.hts.web.common.service.impl.BaseServiceImpl;
@@ -61,6 +61,7 @@ import com.hts.web.common.util.StringUtil;
 import com.hts.web.common.util.TimeUtil;
 import com.hts.web.common.util.UserInfoUtil;
 import com.hts.web.operations.dao.SysMsgCommonCacheDao;
+import com.hts.web.operations.dao.SysMsgCommonDao;
 import com.hts.web.operations.dao.SysMsgCommonDeletedDao;
 import com.hts.web.operations.dao.SysMsgDao;
 import com.hts.web.push.service.PushService;
@@ -70,6 +71,7 @@ import com.hts.web.userinfo.dao.MsgAtDao;
 import com.hts.web.userinfo.dao.MsgAtWorldDao;
 import com.hts.web.userinfo.dao.MsgCommentDao;
 import com.hts.web.userinfo.dao.MsgUnreadDao;
+import com.hts.web.userinfo.dao.MsgUnreadDao.UnreadType;
 import com.hts.web.userinfo.dao.UserConcernDao;
 import com.hts.web.userinfo.dao.UserInfoDao;
 import com.hts.web.userinfo.dao.UserMsgDao;
@@ -79,7 +81,6 @@ import com.hts.web.userinfo.dao.UserMsgSendBoxDao;
 import com.hts.web.userinfo.dao.UserMsgShieldDao;
 import com.hts.web.userinfo.dao.UserRemarkDao;
 import com.hts.web.userinfo.dao.UserShieldDao;
-import com.hts.web.userinfo.dao.MsgUnreadDao.UnreadType;
 import com.hts.web.userinfo.service.UserInfoService;
 import com.hts.web.userinfo.service.UserInteractService;
 import com.hts.web.userinfo.service.UserMsgService;
@@ -176,6 +177,9 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 	
 	@Autowired
 	private SysMsgCommonCacheDao sysMsgCommonCacheDao;
+	
+	@Autowired
+	private SysMsgCommonDao sysMsgCommonDao;
 	
 	@Autowired
 	private MsgUnreadDao msgUnreadDao;
@@ -360,10 +364,11 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 
 	@Override
 	public void buildUnreadSysMsgCount(Integer userId, Map<String, Object> jsonMap) {
+		UserMsgUnreadCount cnt = msgUnreadDao.queryCount(userId);
 		long followCount = userConcernDao.queryUnCheckFollowCount(userId);
 		long likedCount = worldLikedDao.queryUnCheckUserLikedCount(userId);
 		long commentCount = msgCommentDao.queryUnCkCount(userId);
-		long msgCount = sysMsgDao.queryUnCheckSysMsgCount(userId);
+		long msgCount = cnt.getSysmsgCount() + sysMsgCommonCacheDao.higherCount(cnt.getSysmsgId());
 		long userMsgCount = userMsgRecipientBoxDao.queryUnReadMsgCount(userId);
 		long atMsgCount = atDao.queryUnCheckCount(userId);
 		jsonMap.put(OptResult.JSON_KEY_FOLLOW_COUNT, followCount);
@@ -372,15 +377,6 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 		jsonMap.put(OptResult.JSON_KEY_MSG_COUNT, msgCount);
 		jsonMap.put(OptResult.JSON_KEY_USER_MSG_COUNT, userMsgCount);
 		jsonMap.put(OptResult.JSON_KEY_AT_MSG_COUNT, atMsgCount);
-	}
-	
-	public void buildUnreadSysMsgCountV2(Integer userId, Map<String, Object> jsonMap) {
-		long followCount = userConcernDao.queryUnCheckFollowCount(userId);
-		long msgCount = sysMsgDao.queryUnCheckSysMsgCount2(userId);
-		long userMsgCount = userMsgRecipientBoxDao.queryUnReadMsgCount(userId);
-		jsonMap.put(OptResult.JSON_KEY_FOLLOW_COUNT, followCount);
-		jsonMap.put(OptResult.JSON_KEY_MSG_COUNT, msgCount);
-		jsonMap.put(OptResult.JSON_KEY_USER_MSG_COUNT, userMsgCount);
 	}
 	
 	
@@ -595,15 +591,15 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 		jsonMap.put(OptResult.JSON_KEY_MSG, list);
 	}
 	
-	@Override
-	public void saveSysMsg(Integer senderId, Integer recipientId,
-			String content, Integer objType, Integer objId,
-			String objMeta, String objMeta2, String thumbPath, Integer weight) throws Exception {
-//		Integer id = keyGenService.generateId(KeyGenServiceImpl.OP_SYS_MSG_ID);
-		sysMsgDao.saveMsg(new OpSysMsg(senderId, recipientId,
-				new Date(), content, objType, objId, objMeta, objMeta2, thumbPath, weight));
-//		return id;
-	}
+//	@Override
+//	public void saveSysMsg(Integer senderId, Integer recipientId,
+//			String content, Integer objType, Integer objId,
+//			String objMeta, String objMeta2, String thumbPath, Integer weight) throws Exception {
+////		Integer id = keyGenService.generateId(KeyGenServiceImpl.OP_SYS_MSG_ID);
+//		sysMsgDao.saveMsg(new OpSysMsg(senderId, recipientId,
+//				new Date(), content, objType, objId, objMeta, objMeta2, thumbPath, weight));
+////		return id;
+//	}
 	
 	@Override
 	public void buildSysMsg(final Integer userId, int maxId,
@@ -618,7 +614,9 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 				List<OpSysMsgDto> commonList = sysMsgCommonCacheDao.queryMsg(
 						rowSelection.getLimit());
 				unionSysMsg(list, commonList, userId, rowSelection.getLimit());
-				updateSysMsgReadId(userId, list);
+				updateSysMsgIsNew(userId, list);
+				if(!list.isEmpty())
+					updateSysMsgUnreadState(userId, list.get(0).getId());
 				return list;
 			}
 
@@ -629,7 +627,7 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 				List<OpSysMsgDto> commonList = sysMsgCommonCacheDao.queryMsg(maxId,
 						rowSelection.getLimit());
 				unionSysMsg(list, commonList, userId, rowSelection.getLimit());
-				updateSysMsgReadId(userId, list);
+				updateSysMsgIsNew(userId, list);
 				return list;
 			}
 
@@ -647,7 +645,7 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 	 * @param userId
 	 * @param list
 	 */
-	private void updateSysMsgReadId(Integer userId, List<OpSysMsgDto> list) {
+	private void updateSysMsgIsNew(Integer userId, List<OpSysMsgDto> list) {
 		if(list == null || list.isEmpty()) {
 			return;
 		}
@@ -657,10 +655,28 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 			if(dto.getId() > readId)
 				dto.setIsNew(Tag.TRUE);
 		}
-		msgUnreadDao.updateReadId(userId, 
-				list.get(0).getId(), UnreadType.SYSMSG);
 	}
 	
+	/**
+	 * 更新未读状态
+	 * 
+	 * @param userId
+	 * @param readId
+	 */
+	private void updateSysMsgUnreadState(Integer userId, Integer readId) {
+		msgUnreadDao.clearCount(userId, UnreadType.SYSMSG);
+		msgUnreadDao.updateReadId(userId, readId, UnreadType.SYSMSG);
+	}
+	
+	
+	/**
+	 * 合并用户收到的系统消息和公用系统消息
+	 * 
+	 * @param userList
+	 * @param commonList
+	 * @param userId
+	 * @param limit
+	 */
 	private void unionSysMsg(List<OpSysMsgDto> userList, 
 			List<OpSysMsgDto> commonList, Integer userId, Integer limit) {
 		Integer maxId;
@@ -697,44 +713,38 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 
 			@Override
 			public int compare(OpSysMsgDto o1, OpSysMsgDto o2) {
-				if(o1.getId() > o2.getId())
+				if(o1.getId() < o2.getId())
 					return 1;
-				else if(o1.getId() < o2.getId()) 
+				else if(o1.getId() > o2.getId()) 
 					return -1;
 				return 0;
 			}
-			
 		});
-	}
-	
-	public static void main(String[] args) {
-		List<Integer> l = new ArrayList<Integer>();
-		l.add(1);
-		l.add(2);
-		l.add(3);
-		l.add(3);
-		Set<Integer> set = new HashSet<Integer>(l);
-		System.out.println(set);
+		if(userList.size() > limit) {
+			for(int i = limit; i < userList.size(); i++) {
+				userList.remove(i);
+			}
+		}
 	}
 
 	
-	@Override
-	public void deleteById(Integer msgId) throws Exception {
-		sysMsgDao.deleteMsgById(msgId);
-	}
-
-	@Override
-	public Integer getValidMessageId(Integer senderId, Integer recipientId, Integer objType, 
-			Integer objId) {
-		return sysMsgDao.queryValidMessage(senderId, recipientId, objType, objId);
-	}
-	
-
-	@Override
-	public Integer getValidMessageId(Integer senderId, Integer recipientId,
-			Integer objType, Integer objId, String objMeta2) {
-		return sysMsgDao.queryValidMessage(senderId, recipientId, objType, objId, objMeta2);
-	}
+//	@Override
+//	public void deleteById(Integer msgId) throws Exception {
+//		sysMsgDao.deleteMsgById(msgId);
+//	}
+//
+//	@Override
+//	public Integer getValidMessageId(Integer senderId, Integer recipientId, Integer objType, 
+//			Integer objId) {
+//		return sysMsgDao.queryValidMessage(senderId, recipientId, objType, objId);
+//	}
+//	
+//
+//	@Override
+//	public Integer getValidMessageId(Integer senderId, Integer recipientId,
+//			Integer objType, Integer objId, String objMeta2) {
+//		return sysMsgDao.queryValidMessage(senderId, recipientId, objType, objId, objMeta2);
+//	}
 
 	@Override
 	public void saveSquareRuleMsg(Integer userId) throws Exception {
@@ -944,10 +954,15 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 	@Override
 	public void deleteSysMsg(Integer recipientId, Integer msgId)
 			throws Exception {
-		Integer mrid = sysMsgDao.queryRecipientId(msgId);
-		if(mrid != null && mrid.equals(recipientId)) {
-			sysMsgDao.deleteMsgById(msgId);
+		if(sysMsgCommonDao.queryMsgId(msgId) > 0) {
+			sysMsgCommonDeletedDao.saveDeleted(recipientId, msgId);
+		} else {
+			sysMsgDao.deleteById(recipientId, msgId);
 		}
+//		Integer mrid = sysMsgDao.queryRecipientId(msgId);
+//		if(mrid != null && mrid.equals(recipientId)) {
+//			sysMsgDao.deleteMsgById(msgId);
+//		}
 	}
 
 	@Override

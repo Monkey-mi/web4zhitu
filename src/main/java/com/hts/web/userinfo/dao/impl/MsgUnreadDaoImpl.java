@@ -18,7 +18,7 @@ public class MsgUnreadDaoImpl extends BaseDaoImpl implements MsgUnreadDao {
 	private static String table = HTS.USER_MSG_UNREAD;
 	
 	private static final String UNREAD_COUNT_INFO = "concern_count,like_count,"
-			+ "comment_count,at_count,sysmsg_count,umsg_count";
+			+ "comment_count,at_count,sysmsg_count,umsg_count, sysmsg_id";
 	
 	private static final String SAVE_UNREAD = "insert into " + table
 			+ "(user_id) values (?)";
@@ -26,8 +26,8 @@ public class MsgUnreadDaoImpl extends BaseDaoImpl implements MsgUnreadDao {
 	private static final String QUERY_COUNT = "select %s_count from " + table
 			+ " where user_id=?";
 	
-	private static final String UPDATE_COUNT = "update " + table
-			+ " set %s_count=? where user_id=?";
+	private static final String ADD_COUNT = "update " + table
+			+ " set %s_count=%s_count+1 where user_id=?";
 	
 	private static final String CLEAR_COUNT = "update " + table
 			+ " set %s_count=0 where user_id=?";
@@ -58,9 +58,9 @@ public class MsgUnreadDaoImpl extends BaseDaoImpl implements MsgUnreadDao {
 	}
 
 	@Override
-	public void updateCount(Integer userId, Integer count, UnreadType unreadType) {
+	public void addCount(Integer userId, UnreadType unreadType) {
 		getMasterJdbcTemplate().update(
-				String.format(UPDATE_COUNT, unreadType), count, userId);
+				String.format(ADD_COUNT, unreadType, unreadType), userId);
 	}
 
 	@Override
@@ -84,7 +84,8 @@ public class MsgUnreadDaoImpl extends BaseDaoImpl implements MsgUnreadDao {
 									rs.getInt("comment_count"),
 									rs.getInt("at_count"),
 									rs.getInt("sysmsg_count"),
-									rs.getInt("umsg_count"));
+									rs.getInt("umsg_count"),
+									rs.getInt("sysmsg_id"));
 						}
 			}, userId);
 		} catch(EmptyResultDataAccessException e) {

@@ -12,4 +12,12 @@ import com.hts.web.common.dao.BaseDao;
  */
 public interface SysMsgCommonDao extends BaseDao {
 
+	/**
+	 * 查询系统消息id
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Integer queryMsgId(Integer id);
+	
 }

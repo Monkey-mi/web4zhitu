@@ -31,4 +31,5 @@ public interface SysMsgCommonDeletedDao extends BaseDao {
 	 */
 	public void queryMsgId(Integer maxId, Integer recipientId,
 			RowCallback<Integer> callback);
+	
 }
