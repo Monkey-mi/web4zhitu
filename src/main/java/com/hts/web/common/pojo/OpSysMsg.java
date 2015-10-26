@@ -13,7 +13,6 @@ public class OpSysMsg implements Serializable {
 	private static final long serialVersionUID = -9035556566597253665L;
 
 	private Integer id;
-	private Integer senderId;
 	private Integer recipientId;
 	private Date msgDate;
 	private String content;
@@ -22,22 +21,16 @@ public class OpSysMsg implements Serializable {
 	private String objMeta;
 	private String objMeta2;
 	private String thumbPath;
-	private Integer ck;
-	private Integer valid;
-	private Integer recipientValid;
-	private Integer weight;
 
 	public OpSysMsg() {
 		super();
 	}
 
-	public OpSysMsg(Integer id, Integer senderId, Integer recipientId,
+	public OpSysMsg(Integer id, Integer recipientId,
 			Date msgDate, String content, Integer objType, Integer objId,
-			String objMeta, String objMeta2, String thumbPath, Integer ck, Integer valid,
-			Integer recipientValid, Integer weight) {
+			String objMeta, String objMeta2, String thumbPath) {
 		super();
 		this.id = id;
-		this.senderId = senderId;
 		this.recipientId = recipientId;
 		this.msgDate = msgDate;
 		this.content = content;
@@ -46,43 +39,14 @@ public class OpSysMsg implements Serializable {
 		this.objMeta = objMeta;
 		this.objMeta2 = objMeta2;
 		this.thumbPath = thumbPath;
-		this.ck = ck;
-		this.valid = valid;
-		this.recipientValid = recipientValid;
-		this.weight = weight;
 	}
 	
-	public OpSysMsg(Integer senderId, Integer recipientId,
-			Date msgDate, String content, Integer objType, Integer objId,
-			String objMeta, String objMeta2, String thumbPath, Integer weight) {
-		super();
-//		this.id = id;
-		this.senderId = senderId;
-		this.recipientId = recipientId;
-		this.msgDate = msgDate;
-		this.content = content;
-		this.objType = objType;
-		this.objId = objId;
-		this.objMeta = objMeta;
-		this.objMeta2 = objMeta2;
-		this.thumbPath = thumbPath;
-		this.weight = weight;
-	}
-
 	public Integer getId() {
 		return id;
 	}
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public Integer getSenderId() {
-		return senderId;
-	}
-
-	public void setSenderId(Integer senderId) {
-		this.senderId = senderId;
 	}
 
 	public Integer getRecipientId() {
@@ -149,37 +113,4 @@ public class OpSysMsg implements Serializable {
 	public void setThumbPath(String thumbPath) {
 		this.thumbPath = thumbPath;
 	}
-
-	public Integer getCk() {
-		return ck;
-	}
-
-	public void setCk(Integer ck) {
-		this.ck = ck;
-	}
-
-	public Integer getValid() {
-		return valid;
-	}
-
-	public void setValid(Integer valid) {
-		this.valid = valid;
-	}
-
-	public Integer getRecipientValid() {
-		return recipientValid;
-	}
-
-	public void setRecipientValid(Integer recipientValid) {
-		this.recipientValid = recipientValid;
-	}
-
-	public Integer getWeight() {
-		return weight;
-	}
-
-	public void setWeight(Integer weight) {
-		this.weight = weight;
-	}
-	
 }

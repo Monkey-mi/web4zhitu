@@ -450,7 +450,7 @@ public class UserOperationsServiceImpl extends BaseServiceImpl implements
 			userInfoDao.updateStartById(userId, recommend.getVerifyId());
 		}
 		if(deleteRecMsg) {
-			sysMsgDao.updateRecipientValid(userId, Tag.USER_MSG_USER_RECOMMEND, Tag.FALSE);
+			sysMsgDao.deleteByObjType(userId, Tag.USER_MSG_USER_RECOMMEND);
 		}
 	}
 

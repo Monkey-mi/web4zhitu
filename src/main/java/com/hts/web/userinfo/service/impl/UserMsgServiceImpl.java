@@ -3,6 +3,8 @@ package com.hts.web.userinfo.service.impl;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -58,6 +60,8 @@ import com.hts.web.common.util.PushUtil;
 import com.hts.web.common.util.StringUtil;
 import com.hts.web.common.util.TimeUtil;
 import com.hts.web.common.util.UserInfoUtil;
+import com.hts.web.operations.dao.SysMsgCommonCacheDao;
+import com.hts.web.operations.dao.SysMsgCommonDeletedDao;
 import com.hts.web.operations.dao.SysMsgDao;
 import com.hts.web.push.service.PushService;
 import com.hts.web.push.service.impl.PushServiceImpl.PushFailedCallback;
@@ -65,6 +69,7 @@ import com.hts.web.userinfo.dao.MsgAtCommentDao;
 import com.hts.web.userinfo.dao.MsgAtDao;
 import com.hts.web.userinfo.dao.MsgAtWorldDao;
 import com.hts.web.userinfo.dao.MsgCommentDao;
+import com.hts.web.userinfo.dao.MsgUnreadDao;
 import com.hts.web.userinfo.dao.UserConcernDao;
 import com.hts.web.userinfo.dao.UserInfoDao;
 import com.hts.web.userinfo.dao.UserMsgDao;
@@ -74,6 +79,7 @@ import com.hts.web.userinfo.dao.UserMsgSendBoxDao;
 import com.hts.web.userinfo.dao.UserMsgShieldDao;
 import com.hts.web.userinfo.dao.UserRemarkDao;
 import com.hts.web.userinfo.dao.UserShieldDao;
+import com.hts.web.userinfo.dao.MsgUnreadDao.UnreadType;
 import com.hts.web.userinfo.service.UserInfoService;
 import com.hts.web.userinfo.service.UserInteractService;
 import com.hts.web.userinfo.service.UserMsgService;
@@ -163,10 +169,16 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 	private MsgAtCommentDao atCommentDao;
 	
 	@Autowired
-	private HTWorldCommentDao commentDao;
+	private MsgCommentDao msgCommentDao;
 	
 	@Autowired
-	private MsgCommentDao msgCommentDao;
+	private SysMsgCommonDeletedDao sysMsgCommonDeletedDao;
+	
+	@Autowired
+	private SysMsgCommonCacheDao sysMsgCommonCacheDao;
+	
+	@Autowired
+	private MsgUnreadDao msgUnreadDao;
 	
 	@Value("${msg.squareRuleMsg}")
 	private String squareRuleMsg ;
@@ -602,44 +614,109 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 			@Override
 			public List<OpSysMsgDto> getSerializables(
 					RowSelection rowSelection) {
-				List<OpSysMsgDto> list = null;
-				if(!trimUserRecMsg)
-					list = sysMsgDao.querySysMsgDto(userId, rowSelection);
-				else
-					list = sysMsgDao.querySysMsgDto2(userId, rowSelection);
-				
-				sysMsgDao.updateUnreadSysMsg(userId);
-				// 更新最新标记
-				if(list.size() > 0) {
-					sysMsgDao.updateIsNew(userId, list.get(0).getId());
-				}
+				List<OpSysMsgDto> list = sysMsgDao.queryMsg(userId, rowSelection);
+				List<OpSysMsgDto> commonList = sysMsgCommonCacheDao.queryMsg(
+						rowSelection.getLimit());
+				unionSysMsg(list, commonList, userId, rowSelection.getLimit());
+				updateSysMsgReadId(userId, list);
 				return list;
 			}
 
 			@Override
 			public List<OpSysMsgDto> getSerializableByMaxId(int maxId,
 					RowSelection rowSelection) {
-				List<OpSysMsgDto> list = null;
-				if(!trimUserRecMsg)
-					list = sysMsgDao.querySysMsgDtoByMaxId(userId, maxId, rowSelection);
-				else
-					list = sysMsgDao.querySysMsgDtoByMaxId2(userId, maxId, rowSelection);
-//				// 更新最新标记
-//				if(clearUnCheck && list.size() > 0) {
-//					sysMsgDao.updateIsNew(userId, list.get(list.size()-1).getId(), 
-//							list.get(0).getId());
-//				}
+				List<OpSysMsgDto> list = sysMsgDao.queryMsg(maxId, userId, rowSelection);
+				List<OpSysMsgDto> commonList = sysMsgCommonCacheDao.queryMsg(maxId,
+						rowSelection.getLimit());
+				unionSysMsg(list, commonList, userId, rowSelection.getLimit());
+				updateSysMsgReadId(userId, list);
 				return list;
 			}
 
 			@Override
 			public long getTotalByMaxId(int maxId) {
-//				return sysMsgDao.querySysMsgCountByMaxId(userId,maxId);
 				return 0l;
 			}
 
 		}, OptResult.JSON_KEY_MSG, OptResult.JSON_KEY_TOTAL_COUNT); 
 	}
+
+	/**
+	 * 更新系统消息已读id
+	 * 
+	 * @param userId
+	 * @param list
+	 */
+	private void updateSysMsgReadId(Integer userId, List<OpSysMsgDto> list) {
+		if(list == null || list.isEmpty()) {
+			return;
+		}
+		
+		Integer readId = msgUnreadDao.queryReadId(userId, UnreadType.SYSMSG);
+		for(OpSysMsgDto dto : list) {
+			if(dto.getId() > readId)
+				dto.setIsNew(Tag.TRUE);
+		}
+		msgUnreadDao.updateReadId(userId, 
+				list.get(0).getId(), UnreadType.SYSMSG);
+	}
+	
+	private void unionSysMsg(List<OpSysMsgDto> userList, 
+			List<OpSysMsgDto> commonList, Integer userId, Integer limit) {
+		Integer maxId;
+
+		if(commonList.isEmpty()) {
+			return;
+		}
+		
+		if(userList.isEmpty()) {
+			if(commonList.isEmpty()) 
+				return;
+			else
+				maxId = commonList.get(0).getId();
+		} else {
+			maxId = userList.get(0).getId() > commonList.get(0).getId() 
+					? userList.get(0).getId() :  commonList.get(0).getId();
+		}
+		
+		final Map<Integer, OpSysMsgDto> map = new HashMap<Integer, OpSysMsgDto>();
+		for(OpSysMsgDto dto : commonList) {
+			map.put(dto.getId(), dto);
+		}
+		sysMsgCommonDeletedDao.queryMsgId(maxId, userId, new RowCallback<Integer>() {
+
+			@Override
+			public void callback(Integer t) {
+				if(map.containsKey(t)) {
+					map.remove(t);
+				}
+			}
+		});
+		userList.addAll(map.values());
+		Collections.sort(userList, new Comparator<OpSysMsgDto>() {
+
+			@Override
+			public int compare(OpSysMsgDto o1, OpSysMsgDto o2) {
+				if(o1.getId() > o2.getId())
+					return 1;
+				else if(o1.getId() < o2.getId()) 
+					return -1;
+				return 0;
+			}
+			
+		});
+	}
+	
+	public static void main(String[] args) {
+		List<Integer> l = new ArrayList<Integer>();
+		l.add(1);
+		l.add(2);
+		l.add(3);
+		l.add(3);
+		Set<Integer> set = new HashSet<Integer>(l);
+		System.out.println(set);
+	}
+
 	
 	@Override
 	public void deleteById(Integer msgId) throws Exception {
