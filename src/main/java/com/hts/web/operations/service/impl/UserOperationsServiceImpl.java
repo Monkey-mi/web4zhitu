@@ -101,6 +101,8 @@ public class UserOperationsServiceImpl extends BaseServiceImpl implements
 	
 	private Integer weightLimit = 10;
 	
+	private Integer starRecLimit = 20;
+	
 	@Autowired
 	private KeyGenService keyGenService;
 	
@@ -556,19 +558,17 @@ public class UserOperationsServiceImpl extends BaseServiceImpl implements
 				if(verifyId == 0) {
 					
 					List<OpUserVerifyDto> verifyList = opUserVerifyDtoCacheDao.queryVerify();
-//					removeSuperStarVerify(verifyList);
 					jsonMap.put(OptResult.JSON_KEY_VERIFY, verifyList);
 					
 					userList = userRecommendDao.queryRecommendUserOrderByAct(userId, rowSelection);
 					weightList = userRecommendDao.queryWeightRec(userId, weightLimit);
 					List<OpUser> starList = userRecommendDao.queryVerifyRecommendUserOrderByAct(userId, 
-							Tag.VERIFY_SUPER_STAR_ID, rowSelection);
+							Tag.VERIFY_SUPER_STAR_ID, new RowSelection(1, starRecLimit));
 					weightList.addAll(0, starList);
 				} else {
 					
 					if(hasVerify) {
 						List<OpUserVerifyDto> verifyList = opUserVerifyDtoCacheDao.queryVerify();
-//						removeSuperStarVerify(verifyList);
 						jsonMap.put(OptResult.JSON_KEY_VERIFY, verifyList);
 					}
 					
