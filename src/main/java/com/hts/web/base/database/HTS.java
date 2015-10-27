@@ -78,6 +78,12 @@ public class HTS {
 	public static final String USER_MSG_SHIELD = DB + "user_msg_shield";
 	
 	/**
+	 * 用户未读消息表
+	 * 
+	 */
+	public static final String USER_MSG_UNREAD = DB + "user_msg_unread";
+	
+	/**
 	 * 用户屏蔽表
 	 */
 	public static final String USER_SHIELD = DB + "user_shield";
@@ -278,6 +284,16 @@ public class HTS {
 	 * 系统消息表
 	 */
 	public static final String OPERATIONS_SYS_MSG = DB + "operations_sys_msg";
+	
+	/**
+	 * 公用系统消息表
+	 */
+	public static final String OPERATIONS_SYS_MSG_COMMON = DB + "operations_sys_msg_common";
+	
+	/**
+	 * 用户删除公用系统消息记录表
+	 */
+	public static final String OPERATIONS_SYS_MSG_COMMON_DELETE = DB + "operations_sys_msg_common_deleted";
 	
 	/**
 	 * 频道表

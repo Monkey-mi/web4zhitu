@@ -57,24 +57,24 @@ public interface UserMsgService extends BaseService {
 	 */
 	public void buildInteractMsg(Integer userId, String maxDateStr, int start, int limit, Map<String, Object> jsonMap) throws Exception;
 	
-	/**
-	 * 保存私信
-	 * 
-	 * @param senderId
-	 * @param recipientId
-	 * @param content
-	 * @param objType
-	 * @param objId
-	 * @param objMeta
-	 * @param objMeta2
-	 * @param thumbPath
-	 * @param weight
-	 * @return
-	 * @throws Exception
-	 */
-	public void saveSysMsg(Integer senderId, Integer recipientId, 
-			String content, Integer objType, Integer objId, 
-			String objMeta, String objMeta2, String thumbPath, Integer weight) throws Exception;
+//	/**
+//	 * 保存私信
+//	 * 
+//	 * @param senderId
+//	 * @param recipientId
+//	 * @param content
+//	 * @param objType
+//	 * @param objId
+//	 * @param objMeta
+//	 * @param objMeta2
+//	 * @param thumbPath
+//	 * @param weight
+//	 * @return
+//	 * @throws Exception
+//	 */
+//	public void saveSysMsg(Integer senderId, Integer recipientId, 
+//			String content, Integer objType, Integer objId, 
+//			String objMeta, String objMeta2, String thumbPath, Integer weight) throws Exception;
 	
 	/**
 	 * 保存普通消息
@@ -167,15 +167,6 @@ public interface UserMsgService extends BaseService {
 	public void buildUnreadSysMsgCount(Integer userId, Map<String, Object> jsonMap) throws Exception;
 	
 	/**
-	 * 构建未读消息列表
-	 * 
-	 * @param userId
-	 * @param jsonMap
-	 * @throws Exception
-	 */
-	public void buildUnreadSysMsgCountV2(Integer userId, Map<String, Object> jsonMap) throws Exception;
-	
-	/**
 	 * 删除系统消息
 	 * 
 	 * @param recipientId
@@ -185,37 +176,37 @@ public interface UserMsgService extends BaseService {
 	public void deleteSysMsg(Integer recipientId, Integer msgId) throws Exception;
 	
 	
-	/**
-	 * 根据id删除消息
-	 * @param msgId
-	 * @throws Exception
-	 */
-	public void deleteById(Integer msgId) throws Exception;
+//	/**
+//	 * 根据id删除消息
+//	 * @param msgId
+//	 * @throws Exception
+//	 */
+//	public void deleteById(Integer msgId) throws Exception;
 	
-	/**
-	 * 获取消息id
-	 * 
-	 * @param senderId
-	 * @param recipientId
-	 * @param objType
-	 * @param objId
-	 * @return
-	 */
-	public Integer getValidMessageId(Integer senderId, Integer recipientId,
-			Integer objType, Integer objId);
+//	/**
+//	 * 获取消息id
+//	 * 
+//	 * @param senderId
+//	 * @param recipientId
+//	 * @param objType
+//	 * @param objId
+//	 * @return
+//	 */
+//	public Integer getValidMessageId(Integer senderId, Integer recipientId,
+//			Integer objType, Integer objId);
 	
-	/**
-	 * 获取消息id
-	 * 
-	 * @param senderId
-	 * @param recipientId
-	 * @param objType
-	 * @param objId
-	 * @param objMeta2
-	 * @return
-	 */
-	public Integer getValidMessageId(Integer senderId, Integer recipientId,
-			Integer objType, Integer objId, String objMeta2);
+//	/**
+//	 * 获取消息id
+//	 * 
+//	 * @param senderId
+//	 * @param recipientId
+//	 * @param objType
+//	 * @param objId
+//	 * @param objMeta2
+//	 * @return
+//	 */
+//	public Integer getValidMessageId(Integer senderId, Integer recipientId,
+//			Integer objType, Integer objId, String objMeta2);
 	
 	
 	

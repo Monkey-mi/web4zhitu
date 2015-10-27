@@ -14,7 +14,6 @@ public class OpSysMsgDto implements Serializable {
 	 */
 	private static final long serialVersionUID = 3691368561321495623L;
 	private Integer id;
-	private Integer senderId;
 	private Integer recipientId;
 	private Date msgDate;
 	private String content;
@@ -24,22 +23,23 @@ public class OpSysMsgDto implements Serializable {
 	private String objMeta2;
 	private String thumbPath;
 	private Integer isNew = Tag.FALSE;
-	
-	@Deprecated
-	private UserInfoDto senderInfo = new UserInfoDto(); // 发送者信息
-	@Deprecated
-	private UserInfoDto recipientInfo = new UserInfoDto(); // 接受者信息
+
+	private Integer senderId = 2063;
+	private UserInfoAvatar senderInfo = new UserInfoAvatar(
+			2063, 
+			"织图", 
+			"http://imzhitu.qiniudn.com/avatar/m/2015/04/08/11/3326b4c5912036ff6637404642c9cfbd.jpg.thumbnail",
+			null, null, null, null, null);
 	
 	public OpSysMsgDto() {
 		super();
 	}
 
-	public OpSysMsgDto(Integer id, Integer senderId, Integer recipientId,
+	public OpSysMsgDto(Integer id, Integer recipientId,
 			Date msgDate, String content, Integer objType, Integer objId,
-			String objMeta, String objMeta2, String thumbPath, Integer isNew) {
+			String objMeta, String objMeta2, String thumbPath) {
 		super();
 		this.id = id;
-		this.senderId = senderId;
 		this.recipientId = recipientId;
 		this.msgDate = msgDate;
 		this.content = content;
@@ -48,7 +48,6 @@ public class OpSysMsgDto implements Serializable {
 		this.objMeta = objMeta;
 		this.objMeta2 = objMeta2;
 		this.thumbPath = thumbPath;
-		this.isNew = isNew;
 	}
 
 	public Integer getId() {
@@ -57,14 +56,6 @@ public class OpSysMsgDto implements Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public Integer getSenderId() {
-		return senderId;
-	}
-
-	public void setSenderId(Integer senderId) {
-		this.senderId = senderId;
 	}
 
 	public Integer getRecipientId() {
@@ -140,20 +131,20 @@ public class OpSysMsgDto implements Serializable {
 		this.isNew = isNew;
 	}
 
-	public UserInfoDto getSenderInfo() {
+	public UserInfoAvatar getSenderInfo() {
 		return senderInfo;
 	}
 
-	public void setSenderInfo(UserInfoDto senderInfo) {
+	public void setSenderInfo(UserInfoAvatar senderInfo) {
 		this.senderInfo = senderInfo;
 	}
 
-	public UserInfoDto getRecipientInfo() {
-		return recipientInfo;
+	public Integer getSenderId() {
+		return senderId;
 	}
 
-	public void setRecipientInfo(UserInfoDto recipientInfo) {
-		this.recipientInfo = recipientInfo;
+	public void setSenderId(Integer senderId) {
+		this.senderId = senderId;
 	}
-	
+
 }

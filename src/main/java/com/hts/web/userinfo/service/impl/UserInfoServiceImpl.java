@@ -37,6 +37,7 @@ import com.hts.web.plat.service.SinaWeiboService;
 import com.hts.web.push.service.PushService;
 import com.hts.web.push.service.impl.PushServiceImpl.PushFailedCallback;
 import com.hts.web.stat.dao.StatUserRegisterCacheDao;
+import com.hts.web.userinfo.dao.MsgUnreadDao;
 import com.hts.web.userinfo.dao.SocialAccountDao;
 import com.hts.web.userinfo.dao.UserConcernDao;
 import com.hts.web.userinfo.dao.UserInfoDao;
@@ -209,6 +210,9 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 	@Autowired
 	private UserMsgService userMsgService;
 	
+	@Autowired
+	private MsgUnreadDao msgUnReadDao;
+	
 	public Integer getOfficialId() {
 		return officialId;
 	}
@@ -238,6 +242,16 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 		return flag ? Tag.TRUE : Tag.FALSE;
 	}
 
+	/**
+	 * 注册附属用户信息
+	 * 
+	 * @param userId
+	 * @return 成功为0
+	 */
+	private void registerExtra(Integer userId) throws Exception{
+		msgUnReadDao.saveUnRead(userId);
+	}
+	
 	@Override
 	public UserInfo register(String loginCode,String password, String userName,
 			String userAvatar, String userAvatarL,  Integer sex, String signature, String address, 
@@ -273,10 +287,12 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 		initNewUserInfo(userInfo);
 		byte[] passwordEncrypt = null;
 		passwordEncrypt = MD5Encrypt.encryptByMD5(password);
-		osUserService.saveUser(id, userName, userAvatar, signature, null, 0, 0); // 保存用户索引
-		userInfoDao.saveUserInfo(userInfo, passwordEncrypt);
-		userInfo.setIsNewAdded(Tag.TRUE);
 		
+		registerExtra(userInfo.getId());
+		userInfoDao.saveUserInfo(userInfo, passwordEncrypt);
+		osUserService.saveUser(id, userName, userAvatar, signature, null, 0, 0); // 保存用户索引
+		
+		userInfo.setIsNewAdded(Tag.TRUE);
 		extractVerify(userInfo);
 		
 		// 默认关注织图官方账号
@@ -311,8 +327,11 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 				platformSign, platformVerify, platformReason, loginCode, userName,userAvatar, userAvatarL, 
 				sex, null, null, null, null, null, null, new Date(),0,null, pushToken, phoneCode, phoneSys, 
 				phoneVer, Tag.ONLINE, ver);
-		osUserService.saveUser(id, userName, userAvatar, null, platformSign, 0, 0);
+		
+		registerExtra(userInfo.getId());
 		userInfoDao.saveUserInfo(userInfo, null);
+		osUserService.saveUser(id, userName, userAvatar, null, platformSign, 0, 0);
+		
 		userInfo.setIsNewAdded(Tag.TRUE);
 		
 		// 默认关注织图官方账号

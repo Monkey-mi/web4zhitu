@@ -37,7 +37,7 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 		OpNotice notice = noticeCacheDao.queryNotice(phoneCode);
 		jsonMap.put(OptResult.MSG, notice);
 		
-		OpSysMsgDto userRecMsg = sysMsgDao.querySysMsgByObjType(userId, Tag.USER_MSG_USER_RECOMMEND);
+		OpSysMsgDto userRecMsg = sysMsgDao.queryMsgByObjType(userId, Tag.USER_MSG_USER_RECOMMEND);
 		if(userRecMsg != null) {
 			jsonMap.put(OptResult.JSON_KEY_USER_REC_MSG, userRecMsg);
 		}

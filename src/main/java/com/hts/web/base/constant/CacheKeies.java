@@ -128,6 +128,16 @@ public class CacheKeies {
 	public static final String OP_MSG_USER_THEME = MODULE_OP + "msg:userTheme";
 	
 	/**
+	 * 公用系统消息列表
+	 */
+	public static final String OP_MSG_COMMON_SYSMSG = MODULE_OP + "msg:commonSysMsg";
+	
+	/**
+	 * 最大公用系统消息id
+	 */
+	public static final String OP_MSG_COMMON_SYSMSG_MAXID = MODULE_OP + "msg:commonSysMsg:maxId";
+	
+	/**
 	 * 运营：精品分类
 	 */
 	public static final String OP_SUPERB_TYPE = MODULE_OP + "type:superb";
