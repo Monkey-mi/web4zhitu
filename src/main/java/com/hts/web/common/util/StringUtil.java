@@ -410,7 +410,8 @@ public class StringUtil {
 			return null;
 
 		s = filterXSS(label);
-		s = label.replaceAll("\\s*,*", ""); // 删除空格和@字符
+		s = label.replaceAll(",*", ""); // 删除空格和@字符
 		return s;
 	}
+	
 }

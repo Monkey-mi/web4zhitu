@@ -741,25 +741,6 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 		}
 	}
 
-	
-//	@Override
-//	public void deleteById(Integer msgId) throws Exception {
-//		sysMsgDao.deleteMsgById(msgId);
-//	}
-//
-//	@Override
-//	public Integer getValidMessageId(Integer senderId, Integer recipientId, Integer objType, 
-//			Integer objId) {
-//		return sysMsgDao.queryValidMessage(senderId, recipientId, objType, objId);
-//	}
-//	
-//
-//	@Override
-//	public Integer getValidMessageId(Integer senderId, Integer recipientId,
-//			Integer objType, Integer objId, String objMeta2) {
-//		return sysMsgDao.queryValidMessage(senderId, recipientId, objType, objId, objMeta2);
-//	}
-
 	@Override
 	public void saveSquareRuleMsg(Integer userId) throws Exception {
 		Integer sid = userMsgDao.querySenderId(customerServiceId, userId, Tag.USER_MSG_SQUARE_RULE);
@@ -973,10 +954,6 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 		} else {
 			sysMsgDao.deleteById(recipientId, msgId);
 		}
-//		Integer mrid = sysMsgDao.queryRecipientId(msgId);
-//		if(mrid != null && mrid.equals(recipientId)) {
-//			sysMsgDao.deleteMsgById(msgId);
-//		}
 	}
 
 	@Override
@@ -1156,7 +1133,7 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 			msg.setContent(content);
 			msgIdxs[i] = msg;
 			
-			if(!userId.equals(atIds[i]) || rejectIds.contains(atIds[i])) { // 不能自己at自己
+			if(!userId.equals(atIds[i]) && !rejectIds.contains(atIds[i])) { // 不能自己和被拒绝的人不能被at
 				status = new PushStatus();
 				accept = noAcceptAtSet.contains(atIds[i]) ? Tag.FALSE : Tag.TRUE;
 				shield = shieldSet.contains(atIds[i]) ? Tag.TRUE : Tag.FALSE;

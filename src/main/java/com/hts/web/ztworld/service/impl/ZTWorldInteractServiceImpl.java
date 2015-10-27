@@ -104,6 +104,11 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 	 */
 	public static final String ERROR_MSG_COMMENT_INVALID = "此评论已经被删除，无法回复";
 	
+	/**
+	 * 错误提示:
+	 */
+	public static final String ERROR_MSG_PRIVILEGE = "操作失败";
+	
 	@Autowired
 	private KeyGenService keyGenService;
 	
@@ -406,6 +411,19 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 	}
 	
 	/**
+	 * 检测用户是否有效
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	private boolean isUserValid(Integer userId) {
+		boolean valid = true;
+		Map<String, Object> tags = userInfoDao.queryTagById(userId);
+		valid = (tags.get("shield")).equals(Tag.TRUE) ? false : true;
+		return valid;
+	}
+	
+	/**
 	 * 回复暗号检查，如果回复暗号并且拥有权限可以直接删除评论
 	 * 
 	 * @param authorId
@@ -466,6 +484,7 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 			jsonMap.put(OptResult.JSON_KEY_AT_PUSH_STATUS, atPushStatus);
 		}
 	}
+	
 	
 	/**
 	 * 保存评论内容
@@ -676,6 +695,10 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 	@Override
 	public PushStatus saveLiked(Boolean im, Integer userId, Integer worldId,
 			Integer worldAuthorId) throws Exception, HTSException {
+		
+		if(!isUserValid(userId)) {
+			throw new HTSException(ERROR_MSG_PRIVILEGE, ERROR_CODE_INVALID);
+		}
 		
 		if(!checkWorldValid(worldId)) {
 			throw new HTSException(ERROR_MSG_INVALID, ERROR_CODE_INVALID);

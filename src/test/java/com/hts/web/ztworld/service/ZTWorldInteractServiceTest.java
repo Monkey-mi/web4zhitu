@@ -70,13 +70,13 @@ public class ZTWorldInteractServiceTest extends BaseTest {
 	
 	@Test
 	public void testSaveLiked() throws Exception {
-		PushStatus status = service.saveLiked(false, 189037, 14527, 1549);
+		PushStatus status = service.saveLiked(false, 485, 14527, 1549);
 		logObj(status);
 	}
 	
 	@Test
 	public void testCancelLiked() throws Exception {
-		service.cancelLiked(189037, 14527);
+		service.cancelLiked(485, 14527);
 	}
 	
 	@Test

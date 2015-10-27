@@ -67,7 +67,6 @@ import com.hts.web.operations.dao.UserVerifyRecCacheDao;
 import com.hts.web.operations.service.ChannelService;
 import com.hts.web.userinfo.dao.UserConcernDao;
 import com.hts.web.userinfo.dao.UserInfoDao;
-import com.hts.web.userinfo.dao.UserRecDao;
 import com.hts.web.userinfo.service.UserActivityService;
 import com.hts.web.userinfo.service.UserInfoService;
 import com.hts.web.userinfo.service.UserInteractService;
@@ -322,6 +321,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 		Integer worldId = keyGenService.generateId(KeyGenServiceImpl.HTWORLD_HTWORLD_ID);
 		Map<String, Object> tags = userInfoDao.queryTagById(authorId);
 		Integer shield = ((Integer)tags.get("shield")).equals(Tag.TRUE) ? Tag.TRUE : Tag.FALSE;
+		Integer valid = shield.equals(Tag.TRUE) ? Tag.FALSE : Tag.TRUE;
 		Integer trust = shield.equals(Tag.FALSE) && ((Integer)tags.get("trust")).equals(Tag.TRUE)
 				? worldId : Tag.FALSE;
 		Float userVer = (Float)tags.get("ver");
@@ -360,7 +360,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 		world = new HTWorld(worldId, shortLink, authorId, worldName, worldDesc, 
 				null, null,  null, date, date, coverPath, titlePath, bgPath,
 				titleThumbPath,channelNames, longitude, latitude, locationDesc, locationAddr, 
-				phoneCode, province, city, size, worldChildCount, ver, tp, Tag.TRUE, 
+				phoneCode, province, city, size, worldChildCount, ver, tp, valid, 
 				trust, shield, textStyle);
 		
 		world.setWorldURL(worldDao.getUrlPrefix() + shortLink);
@@ -380,7 +380,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 					nameSet.add(name);
 					HTWorldLabel label = labelMap.get(name);
 					Integer labelId = 0;
-					Integer valid = Tag.TRUE;
+					Integer lwvalid = Tag.TRUE;
 					if(label == null) {
 						labelId = keyGenService.generateId(KeyGenServiceImpl.HTWORLD_LABEL_ID);
 						String pinyin = StringUtil.getPinYin(name);
@@ -389,15 +389,12 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 					} else {
 						labelId = label.getId();
 						if(shield.equals(Tag.TRUE) || trust.equals(Tag.FALSE)) {
-							valid = Tag.FALSE;
+							lwvalid = Tag.FALSE;
 						}
-	//					if(label.getLabelState().equals(Tag.WORLD_LABEL_ACTIVITY)) {
-	//						valid = Tag.FALSE;
-	//					}
 					}
 					Integer lwid = keyGenService.generateId(KeyGenServiceImpl.HTWORLD_LABEL_WORLD_ID);
 					worldLabelWorldDao.saveLabelWorld(new HTWorldLabelWorld(lwid, worldId, authorId, 
-							labelId, valid, lwid, 0));
+							labelId, lwvalid, lwid, 0));
 					int count = 0;
 					if(label.getLabelState().equals(Tag.WORLD_LABEL_NORMAL)) { // 普通标签算真实总数，其他标签等审核
 						Long labelWorldCount = worldLabelWorldDao.queryWorldCountByLabelId(labelId);
@@ -428,8 +425,8 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 					String channelName = channelService.queryChannelNameById(cid);
 					if(!StringUtil.checkIsNULL(channelName)) {
 						world.getChannelNames().add(new HTWorldChannelName(cid, channelName));
-						Integer valid = (!channelAutoPassIdCacheDao.isAutoReject(cid) && trust >= Tag.TRUE) ? Tag.TRUE : Tag.FALSE;
-						channelService.saveChannelWorld(cid, worldId, authorId, worldChildCount, valid);
+						Integer cwvalid = (!channelAutoPassIdCacheDao.isAutoReject(cid) && trust >= Tag.TRUE) ? Tag.TRUE : Tag.FALSE;
+						channelService.saveChannelWorld(cid, worldId, authorId, worldChildCount, cwvalid);
 					}
 				}
 			}
