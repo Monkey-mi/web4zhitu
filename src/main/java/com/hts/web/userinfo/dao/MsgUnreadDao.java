@@ -53,15 +53,6 @@ public interface MsgUnreadDao extends BaseDao {
 	 */
 	public Integer queryCount(Integer userId, UnreadType unreadType);
 
-//	/**
-//	 * 更新未读消息数
-//	 * 
-//	 * @param userId
-//	 * @param count
-//	 * @param unreadType
-//	 */
-//	public void updateCount(Integer userId, Integer count, UnreadType unreadType);
-
 	/**
 	 * 清空未读消息数量
 	 * 

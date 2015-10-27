@@ -461,7 +461,7 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 			for(Integer rid : rejectIds) {
 				rejectSet.add(rid);
 			}
-			List<PushStatus> atPushStatus = userMsgService.saveAtMsgs(atIdsStr, atNamesStr, 
+			List<PushStatus> atPushStatus = userMsgService.saveAtMsgs(atIdsStr, atNamesStr, rejectSet, 
 					!im, authorId, Tag.AT_TYPE_COMMENT, commentId, worldId, content);
 			jsonMap.put(OptResult.JSON_KEY_AT_PUSH_STATUS, atPushStatus);
 		}

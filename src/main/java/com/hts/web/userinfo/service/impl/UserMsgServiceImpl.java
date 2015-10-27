@@ -364,7 +364,7 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 
 	@Override
 	public void buildUnreadSysMsgCount(Integer userId, Map<String, Object> jsonMap) {
-		UserMsgUnreadCount cnt = msgUnreadDao.queryCount(userId);
+		UserMsgUnreadCount cnt = queryUnreadCountInfo(userId);
 		long followCount = userConcernDao.queryUnCheckFollowCount(userId);
 		long likedCount = worldLikedDao.queryUnCheckUserLikedCount(userId);
 		long commentCount = msgCommentDao.queryUnCkCount(userId);
@@ -379,6 +379,20 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 		jsonMap.put(OptResult.JSON_KEY_AT_MSG_COUNT, atMsgCount);
 	}
 	
+	/**
+	 * 获取未读消息数量信息
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	private UserMsgUnreadCount queryUnreadCountInfo(Integer userId) {
+		UserMsgUnreadCount cnt = msgUnreadDao.queryCount(userId);
+		if(cnt == null) {
+			msgUnreadDao.saveUnRead(userId);
+			cnt = new UserMsgUnreadCount(userId, 0, 0, 0, 0, 0, 0, 0);
+		}
+		return cnt;
+	}
 	
 	@Override
 	public Integer saveUserMsg(Integer senderId, Integer recipientId,

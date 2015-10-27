@@ -57,25 +57,6 @@ public interface UserMsgService extends BaseService {
 	 */
 	public void buildInteractMsg(Integer userId, String maxDateStr, int start, int limit, Map<String, Object> jsonMap) throws Exception;
 	
-//	/**
-//	 * 保存私信
-//	 * 
-//	 * @param senderId
-//	 * @param recipientId
-//	 * @param content
-//	 * @param objType
-//	 * @param objId
-//	 * @param objMeta
-//	 * @param objMeta2
-//	 * @param thumbPath
-//	 * @param weight
-//	 * @return
-//	 * @throws Exception
-//	 */
-//	public void saveSysMsg(Integer senderId, Integer recipientId, 
-//			String content, Integer objType, Integer objId, 
-//			String objMeta, String objMeta2, String thumbPath, Integer weight) throws Exception;
-	
 	/**
 	 * 保存普通消息
 	 * 
@@ -355,24 +336,6 @@ public interface UserMsgService extends BaseService {
 	public List<PushStatus> saveAtMsgs(String atIdsStr, String atNamesStr, 
 			Boolean push, Integer userId, Integer objType, Integer objId,
 			Integer worldId, String content) throws Exception;
-	
-//	/**
-//	 * 保存at消息
-//	 * 
-//	 * @param atIds atid数组
-//	 * @param atNames atname数组
-//	 * @param push
-//	 * @param userId
-//	 * @param objType
-//	 * @param objId
-//	 * @param worldId
-//	 * @param content
-//	 * @return
-//	 * @throws Exception
-//	 */
-//	public List<PushStatus> saveAtMsgs(Integer[] atIds, String[] atNames, 
-//			Boolean push, Integer userId, Integer objType, Integer objId,
-//			Integer worldId, String content) throws Exception;
 	
 	/**
 	 * 保存at消息
