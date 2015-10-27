@@ -61,7 +61,7 @@ public class UserMsgServiceTest extends BaseTest {
 	@Test
 	public void buildUnreadMsgCount() throws Exception {
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
-		service.buildUnreadSysMsgCount(1549, jsonMap);
+		service.buildUnreadSysMsgCount(485, jsonMap);
 		logObj(jsonMap);
 	}
 	

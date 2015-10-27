@@ -23,7 +23,13 @@ public class OpSysMsgDto implements Serializable {
 	private String objMeta2;
 	private String thumbPath;
 	private Integer isNew = Tag.FALSE;
-	
+
+	private Integer senderId = 2063;
+	private UserInfoAvatar senderInfo = new UserInfoAvatar(
+			2063, 
+			"织图", 
+			"http://imzhitu.qiniudn.com/avatar/m/2015/04/08/11/3326b4c5912036ff6637404642c9cfbd.jpg.thumbnail",
+			null, null, null, null, null);
 	
 	public OpSysMsgDto() {
 		super();
@@ -34,7 +40,6 @@ public class OpSysMsgDto implements Serializable {
 			String objMeta, String objMeta2, String thumbPath) {
 		super();
 		this.id = id;
-//		this.senderId = senderId;
 		this.recipientId = recipientId;
 		this.msgDate = msgDate;
 		this.content = content;
@@ -43,7 +48,6 @@ public class OpSysMsgDto implements Serializable {
 		this.objMeta = objMeta;
 		this.objMeta2 = objMeta2;
 		this.thumbPath = thumbPath;
-		this.isNew = isNew;
 	}
 
 	public Integer getId() {
@@ -53,14 +57,6 @@ public class OpSysMsgDto implements Serializable {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
-//	public Integer getSenderId() {
-//		return senderId;
-//	}
-//
-//	public void setSenderId(Integer senderId) {
-//		this.senderId = senderId;
-//	}
 
 	public Integer getRecipientId() {
 		return recipientId;
@@ -135,20 +131,20 @@ public class OpSysMsgDto implements Serializable {
 		this.isNew = isNew;
 	}
 
-//	public UserInfoDto getSenderInfo() {
-//		return senderInfo;
-//	}
-//
-//	public void setSenderInfo(UserInfoDto senderInfo) {
-//		this.senderInfo = senderInfo;
-//	}
-//
-//	public UserInfoDto getRecipientInfo() {
-//		return recipientInfo;
-//	}
-//
-//	public void setRecipientInfo(UserInfoDto recipientInfo) {
-//		this.recipientInfo = recipientInfo;
-//	}
-	
+	public UserInfoAvatar getSenderInfo() {
+		return senderInfo;
+	}
+
+	public void setSenderInfo(UserInfoAvatar senderInfo) {
+		this.senderInfo = senderInfo;
+	}
+
+	public Integer getSenderId() {
+		return senderId;
+	}
+
+	public void setSenderId(Integer senderId) {
+		this.senderId = senderId;
+	}
+
 }

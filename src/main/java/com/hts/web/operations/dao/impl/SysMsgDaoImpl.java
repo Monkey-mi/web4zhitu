@@ -35,7 +35,7 @@ public class SysMsgDaoImpl extends BaseDaoImpl implements SysMsgDao {
 			+ " from " + table + " where recipient_id=? and obj_type=? limit 1";
 	
 	private static final String DELETE_BY_OBJ_TYPE = "delete from " + table
-			+ " where recipient_id=? where obj_type=?";
+			+ " where recipient_id=? and obj_type=?";
 	
 	private static final String DELETE_BY_ID = "delete from " + table 
 			+ " where recipient_id=? and id=?";

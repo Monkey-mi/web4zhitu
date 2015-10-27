@@ -12,6 +12,6 @@ public class UserUnreadDaoTest extends BaseTest {
 	
 	@Test
 	public void test() {
-		dao.saveUnRead(1595);
+//		dao.saveUnRead(1595);
 	}
 }
