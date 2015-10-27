@@ -55,8 +55,8 @@ img {
 }
 
 .title{
-	align:center;
-	font-size:34px;
+	align:left;
+	font-size:26pt;
 	color:#373e46;
 	padding-top:40px;
 	padding-bottom:10px;
@@ -66,9 +66,9 @@ img {
 	padding-top:10px;
 	padding-bottom:20px;
 	font-size:12px;
-	color:62707d;
-	text-align:left;
-	line-height:200%;
+	color:#62707d;
+	text-align:justify;
+	line-height:46px;
 }
 
 .headBlock{
@@ -150,20 +150,22 @@ img.box-shadow{
 }
 
 .userName {
-	font-size:20px;
+	font-size:26pt;
+/* 	font-weight:900; */
 	font-family: "微软雅黑", Arial, Helvetica, sans-serif;
 	margin: -50px 0px 30px 100px;
     text-align: left;
-    color:#9A9797;
+    color:#373e46;
 }
 
 .intro2 {
 	width:678px;
-	text-align:left;
+	text-align:justify;
 	color:#62707d;
 	font-family: "微软雅黑", Arial, Helvetica, sans-serif;
-	line-height:130%;
-	/* font-weight:400; */
+	font-size:25pt;
+	line-height:46px;
+/* 	 font-weight:600;  */
 	margin:0 18px 0 18px;
 	padding: 20px 0px 30px 0px;
 }
@@ -252,12 +254,12 @@ img.box-shadow{
 	width:650px;
 	font-size:20px;
 	background-color:#EAEBEF;
-	margin:auto;
+	margin: 66px auto 66px auto;
 }
 
 .footButton{
-	height:140px;
-	width:300px;
+	height:100px;
+	width:560px;
 	margin:auto;
 }
 
@@ -275,8 +277,19 @@ img.box-shadow{
 	color:#ADADAD;
 }
 
+/*  服务切往期主题图的样式*/
+.onePastPic{
+	margin-bottom:25px;
+}
+
+	.pastPicTop{
+	margin-top:-65px;
+}
+
 .pastPic{
-	padding-bottom:10px;
+ 	overflow:hidden;
+ 	 height:238px; 
+/* 	padding-bottom:10px; */
 }
 
 .hrStyle{
@@ -362,7 +375,8 @@ img.box-shadow{
 <script type="text/javascript">
 var inapp = 0;
 var userIds = '';
-var footButtonAndPast = '<div class="footButtonAndPast" ><div id="twoButton" class="twoButton" ></div><div id="pastTopic" class="pastTopic" ><hr class="hrStyle">' + 
+var twoButton = '<div id="twoButton" class="twoButton" ></div>';
+var footButtonAndPast = '<div class="footButtonAndPast" ><div id="pastTopic" class="pastTopic" ><hr class="hrStyle">' + 
 													'<div id="pastFont" class="pastFont">- 上期专题 -</div></div></div>';
 var downloadButton = '<div class="footButton"><a  href="http://a.app.qq.com/o/simple.jsp?pkgname=com.htshuo.htsg"><img style="" alt="" src="http://static.imzhitu.com/op/sticker/151013/download.png"></a></div>';
 var shareButton = ' <div class="footButton" ><a id="share-btn"  href="imzhitu://sharePage"><img style="" alt="" src="http://static.imzhitu.com/op/activityPic/readShareButton.png"></a></div> ';
@@ -376,29 +390,34 @@ var isInApp = '?inapp=1';
 /* var pastTopicId = "?topicId="; */
 
 //图片头
-var pastTopicPicHead = '"><img alt="" src="';
+var pastTopicPicHead = '"><img alt="" class="pastPicTop" src="';
 
 //图片尾
 var pastTopicPicFoot = '"></a></div>';
 
 //往期整体链接模块
-var pastTopicHead = '<div class="pastPic" ><a href="';
-var pastTopicPicFoot = '"></a></div>';
+var pastTopicHead = '<div class="onePastPic"><div class="pastPic" ><a href="';
+var pastTopicPicFoot = '"></a></div></div>';
 
  $(document).ready(function() {
-	 	var url = window.location.href;
+	  	var url = window.location.href;
 	 	var topicId1 = url.substring(url.lastIndexOf("/")+1,url.length);
 	 	var end = topicId1.length;
 	 	if(topicId1.indexOf("?") != -1){
 	 		end = topicId1.indexOf("?");
 	 	}
-	 	var topicId = topicId1.substring(0,end);
+	 	var topicId = topicId1.substring(0,end); 
 	 //调用获取数据的函数
  		$.post("./operations/channel_getStarRecommendTopicInfo",{
 		"topicId":topicId,
 	},function(data){
 		if(data['result'] == 0) {
 		var	 result = data['obj'];
+		
+				//修改文件描述
+				 var oMeta = document.getElementsByTagName('meta')[3];
+				 oMeta.content = result.title;
+		
  			 	var headPic = '<div class="user-wrap"><img  src="'+result.bannerPic+'" /></div>'; 
 			 	var titleAndheadIntro = '<div class="headBlock">'+ headPic + '<div  class="titleAndheadIntro" > <div  class="title">'+ result.title +'</div><hr class="hrStyle"> <div class="headIntro" >'+result.headIntro+'</div></div></div>';
 			 	var shareBannerPic = '<div id="wx_pic" style="display:none;"><img src="' + result.shareBanner + '" /></div>';
@@ -424,7 +443,7 @@ var pastTopicPicFoot = '"></a></div>';
 			 		var intro2 = '<div  class="intro2">'+ result.starModuleInfos[i].intro2 +'</div></div>';
 			 		
 			 		//头像 用户名 关注按钮
-			 		var faceAnduserNameAndconcernButton = '<div class="whriteBlock" ><div class="faceAnduserNameAndConcern" ><div class="face"><a href="imzhitu://user?uid='+ result.starModuleInfos[i].userId +'">' + 
+			 		var faceAnduserNameAndconcernButton = '<div class="whriteBlock" ><div class="faceAnduserNameAndConcern" ><div class="face box-shadow"><a href="imzhitu://user?uid='+ result.starModuleInfos[i].userId +'">' + 
 			 																								'<img src="'+ result.starModuleInfos[i].facePic +'"/></a></div><div class="userName" >'+ result.starModuleInfos[i].userName +'</div>' + 
 			 																								'<a id="concern-'+ result.starModuleInfos[i].userId +'" class="concern-btn concern" name="imzhitu-callapp" href="imzhitu://concern?uid='+ result.starModuleInfos[i].userId +'">+关注</a><a class="concern-btn concerned">已关注</a></div>';
 			 		
@@ -433,10 +452,7 @@ var pastTopicPicFoot = '"></a></div>';
 			 		$('#main').append(module);
 				} 
 			 	
-			 	if(result.pastTopics[0] != undefined){
-			 		$('#main').append(footButtonAndPast);
-			 	}
-			 	
+			 	$('#main').append(twoButton);
 				initLayout(result);
 		} else {
 		alert('You are wrong');
@@ -464,7 +480,7 @@ function initLayout(result) {
  	}else if(result.pastTopics[1] != undefined && result.pastTopics[1].topicType == 2 && result.pastTopics[1].isWorld == 1){
  		topicTypeWhat02 = "readWorld/" 
  	}
- 	if(result.pastTopics[2] != undefined && result.pastTopics[2.topicType == 1 && result.pastTopics[2].isWorld == 0){
+ 	if(result.pastTopics[2] != undefined && result.pastTopics[2].topicType == 1 && result.pastTopics[2].isWorld == 0){
  		topicTypeWhat03 = "star/"  ;
  	}else if(result.pastTopics[2] != undefined && result.pastTopics[2].topicType == 1 && result.pastTopics[2].isWorld == 1){
  		topicTypeWhat03 = "starWorld/"  
@@ -498,6 +514,11 @@ function initLayout(result) {
 		bindAllBtnClick2Callapp();
 		
 		//非app展示需要增加下载按钮、替换文字、两期回顾
+	 	if(result.pastTopics[0] != undefined){
+	 		$('#main').append(footButtonAndPast);
+	 	}
+		
+	 	$('#twoButton').hide();
 		
 		if(result.pastTopics[0] != undefined){
 		$("#pastFont").text("- 往期回顾 -");
@@ -547,17 +568,18 @@ function initLayout(result) {
 		titleAndHeadIntroWidth = 640,
 		titleAndHeadIntroMarginLeft = 36,
 		titleAndHeadIntroMarginRight = 36,
-		titleAndHeadIntroPaddingBottm = 20,
+		titleAndHeadIntroPaddingBottm = 4,
 		
 		//主题
-		titleFontSize = 35,
-		titlePaddingTop = 30,
-		titleBottom = 15,
+		titleFontSize = 30,
+		titlePaddingTop = 20,
+		titleBottom = 12,
 		
 		//头介绍
-		headIntroPaddingTop = 15,
+		headIntroPaddingTop = 12,
 		headIntroPaddingBottom = 36,
-		headIntroFontsize = 30,
+		headIntroFontsize = 23,
+		headIntroLineHeight = 52,
 		
 		//小标题
 		title1fontSize = 38,
@@ -588,10 +610,10 @@ function initLayout(result) {
 		tableFaceHeight = 86,
 		
 		//用户名
-		userNameFontSize = 32,
+		userNameFontSize = 28,
 		userNameMarginTop = -75,
 		userNameMarginBottom = 30,
-		userNameMarginLeft = 140,
+		userNameMarginLeft = 120,
 		
 		//用户图片
 		userPicWidth = 678,
@@ -626,12 +648,13 @@ function initLayout(result) {
 		concernButtonBorderRadius = 5,
 		
 		//小模块介绍
-		intro2width = 678,
-		intro2paddingTop = 20,
-		intro2paddingBottom = 30,
-		intro2marginLeft = 18,
-		intro2marginRight = 18,
-		intro2FontSize = 28,
+		intro2width = 640,
+		intro2paddingTop = 34,
+		intro2paddingBottom = 36,
+		intro2marginLeft = 38,
+		intro2marginRight = 38,
+		intro2FontSize = 23,
+		intro2LineHeight = 52,
 		
 		//头像外边框显示
 		faceoutWidth = 170,
@@ -639,8 +662,8 @@ function initLayout(result) {
 		faceoutBorder = 8,
 		
 		//头像显示
-		faceWidth = 120,
-		faceHeight = 120,
+		faceWidth = 100,
+		faceHeight = 100,
 		faceBorder = 10,
 		
 		//头像用户名之间间距
@@ -677,16 +700,21 @@ function initLayout(result) {
 		footButtonAndPastWidth = 750,
 		footButtonAndPastPaddingTop = 20,
 		
+		onePastPicMarginBottom = 15,
+		pastPicTop = -65,
+		
 		//两个button模块
 		twoButtonWidth = 650,
 		twoButtonFontSize = 20,
+		towButtonMarginTop = 66,
+		towButtonMarginBottom = 66,
 		
 		//button本身属性
-		footButtonHeight = 140,
-		footButtonWidth = 300,
+		footButtonHeight = 100,
+		footButtonWidth = 560,
 		
 		//往期专题模块
-		pastTopicWidth = 650,
+		pastTopicWidth = 715,
 		pastTopicFontSize = 13,
 		
 		//往期字体
@@ -713,7 +741,8 @@ function initLayout(result) {
 		//头介绍
 		headIntroPaddingTop = headIntroPaddingTop* scale / 100;
 		headIntroPaddingBottom = headIntroPaddingBottom* scale / 100;
-		headIntroFontsize = headIntroFontsize* scale / 100;;
+		headIntroFontsize = headIntroFontsize * scale / 100;
+		headIntroLineHeight = headIntroLineHeight* scale / 100;
 
 		//白色模块底
 		whriteWidth = whriteWidth * scale / 100;
@@ -766,7 +795,6 @@ function initLayout(result) {
 		concernButtonBorderWidth = concernButtonBorderWidth * scale / 100;
 		concernButtonBorderRadius = concernButtonBorderRadius * scale / 100;
 
-
 		//小模块介绍
 		intro2width = intro2width * scale / 100;
 		intro2paddingTop = intro2paddingTop * scale / 100;
@@ -774,6 +802,7 @@ function initLayout(result) {
 		intro2marginLeft = intro2marginLeft * scale / 100;
 		intro2marginRight = intro2marginRight * scale / 100;
 		intro2FontSize = intro2FontSize * scale / 100;
+		intro2LineHeight = intro2LineHeight * scale / 100;
 		
 		//头像边框显示
 		faceWidth = faceWidth * scale / 100;
@@ -786,8 +815,13 @@ function initLayout(result) {
 		footButtonAndPastWidth = footButtonAndPastWidth * scale/ 100;
 		footButtonAndPastPaddingTop = footButtonAndPastPaddingTop * scale/ 100;
 		
+		onePastPicMarginBottom = onePastPicMarginBottom * scale/ 100;
+		pastPicTop = pastPicTop * scale/ 100;
+		
 		//两个button模块
 		twoButtonWidth = twoButtonWidth * scale/ 100;
+		towButtonMarginTop = towButtonMarginTop * scale/ 100;
+		towButtonMarginBottom = towButtonMarginBottom  * scale/ 100;
 		twoButtonFontSize = twoButtonFontSize * scale/ 100;
 		
 		//button本身属性
@@ -817,14 +851,15 @@ function initLayout(result) {
 	
 		//主题
 		$(".title").css({
-			"font-size":titleFontSize + "px",
+			"font-size":titleFontSize + "pt",
 			"padding-top":titlePaddingTop + "px",
 			"padding-bottom":titleBottom + "px"}); 
 		
 		//前介绍
 		$(".headIntro").css({
 			"padding-top":headIntroPaddingTop + "px",
-			"font-size":headIntroFontsize + "px",
+			"font-size":headIntroFontsize + "pt",
+			"line-height":headIntroLineHeight + "px",
 			"padding-bottom":headIntroPaddingBottom + "px"}); 
 		
 			//头模块底
@@ -850,7 +885,7 @@ function initLayout(result) {
  			
 			//用户名字体大小
 			$(".userName").css({
-					"font-size":userNameFontSize + "px",
+					"font-size":userNameFontSize + "pt",
 					"margin-top":userNameMarginTop + "px",
 					"margin-bottom":userNameMarginBottom + "px",
 					"margin-left":userNameMarginLeft + "px",
@@ -898,7 +933,8 @@ function initLayout(result) {
  	 			"padding-bottom":intro2paddingBottom + "px",
  	 			"margin-left":intro2marginLeft + "px",
  	 			"margin-right":intro2marginRight + "px",
- 	 			"font-size":intro2FontSize + "px",
+ 	 			"font-size":intro2FontSize + "pt",
+ 	 			"line-height":intro2LineHeight + "px",
  	 			"width":intro2width + "px"});  
  			
  			//头像边框显示
@@ -946,9 +982,19 @@ function initLayout(result) {
  	 			"width":footButtonAndPastWidth + "px",
  	 			"padding-top":footButtonAndPastPaddingTop + "px"});
  	 		
+			$(".onePastPic").css({
+					"margin-bottom":onePastPicMarginBottom + "px"
+				});
+				
+			$(".pastPicTop").css({
+					"margin-top":pastPicTop + "px"
+				});
+ 	 		
  	 		//两个button模块
  	 		$(".twoButton").css({
  	 			"width":twoButtonWidth + "px",
+ 	 			"margin-top":towButtonMarginTop + "px",
+ 	 			"margin-bottom":towButtonMarginBottom + "px",
  	 			"font-size":twoButtonFontSize + "px"});
  	 		
  	 		//button本身属性
