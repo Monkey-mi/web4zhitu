@@ -662,6 +662,7 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 		if(userList.size() > limit) {
 			for(int i = limit; i < userList.size(); i++) {
 				userList.remove(i);
+				i--;
 			}
 		}
 	}
