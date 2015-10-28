@@ -70,31 +70,6 @@ public interface UserMsgService extends BaseService {
 			String content, Integer msgType) throws Exception;
 	
 	/**
-	 * 构建关注私信列表
-	 * 
-	 * @param userId
-	 * @param maxId
-	 * @param start
-	 * @param limit
-	 * @param jsonMap
-	 * @throws Exception
-	 */
-	public void buildUserConcernMsgIndex(Integer userId, int maxId, int start, int limit, Map<String, Object> jsonMap) throws Exception;
-	
-	/**
-	 * 构建陌生人私信列表
-	 * 
-	 * @param userId
-	 * @param maxId
-	 * @param start
-	 * @param limit
-	 * @param jsonMap
-	 * @throws Exception
-	 */
-	public void buildUserUnConcernMsgIndex(Integer userId, int maxId, int start,
-			int limit, Map<String, Object> jsonMap) throws Exception;
-	
-	/**
 	 * 构建和指定用户的私信列表
 	 * 
 	 * @param userId
@@ -122,15 +97,6 @@ public interface UserMsgService extends BaseService {
 	public void buildSysMsg(Integer userId, int maxId, int start, int limit,
 			Boolean trimTotal, Boolean trimUserRecMsg, Boolean clearUnCheck, 
 			Map<String, Object> jsonMap) throws Exception;
-	
-	/**
-	 * 更新对话有效性
-	 * 
-	 * @param maxId
-	 * @param userId
-	 * @param otherId
-	 */
-	public void updateChatValid(Integer maxId, Integer userId, Integer otherId) throws Exception;
 	
 	/**
 	 * 更新消息有效性
@@ -217,8 +183,8 @@ public interface UserMsgService extends BaseService {
 	 * @param jsonMap
 	 * @throws Exception
 	 */
-	public void buildReceiveMsg(Integer minId, Integer userId, Integer otherId, 
-			Map<String, Object> jsonMap) throws Exception;
+//	public void buildReceiveMsg(Integer minId, Integer userId, Integer otherId, 
+//			Map<String, Object> jsonMap) throws Exception;
 	
 	
 	/**

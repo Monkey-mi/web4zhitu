@@ -7,8 +7,7 @@ import java.io.Serializable;
  * 私信收件/发件箱POJO
  * </p>
  * 
- * 创建时间：2013-11-28
- * @author ztj
+ * @author ztj 2013-11-28 2015-10-25
  *
  */
 public class UserMsgBox implements Serializable {
@@ -17,42 +16,21 @@ public class UserMsgBox implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -779119487155559778L;
-	
-	private Integer id;
+
+	private Integer contentId;
 	private Integer senderId;
 	private Integer recipientId;
-	private Integer contentId;
-	private Integer ck;
-	private Integer chatValid;
-	
+
 	public UserMsgBox() {
 		super();
 	}
 
-	public UserMsgBox(Integer id, Integer senderId, Integer recipientId,
-			Integer contentId, Integer ck, Integer chatValid) {
-		this.id = id;
-		this.senderId = senderId;
-		this.recipientId = recipientId;
-		this.contentId = contentId;
-		this.ck = ck;
-		this.chatValid = chatValid;
-	}
-	
-	public UserMsgBox(Integer id, Integer senderId, Integer recipientId,
-			Integer contentId) {
-		this.id = id;
-		this.senderId = senderId;
-		this.recipientId = recipientId;
-		this.contentId = contentId;
+	public Integer getContentId() {
+		return contentId;
 	}
 
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
+	public void setContentId(Integer contentId) {
+		this.contentId = contentId;
 	}
 
 	public Integer getSenderId() {
@@ -70,32 +48,5 @@ public class UserMsgBox implements Serializable {
 	public void setRecipientId(Integer recipientId) {
 		this.recipientId = recipientId;
 	}
-
-	public Integer getContentId() {
-		return contentId;
-	}
-
-	public void setContentId(Integer contentId) {
-		this.contentId = contentId;
-	}
-
-	public Integer getCk() {
-		return ck;
-	}
-
-	public void setCk(Integer ck) {
-		this.ck = ck;
-	}
-
-	public Integer getChatValid() {
-		return chatValid;
-	}
-
-	public void setChatValid(Integer chatValid) {
-		this.chatValid = chatValid;
-	}
-	
-	
-	
 
 }

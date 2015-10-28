@@ -457,77 +457,7 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 		});
 	}
 	
-	@Override
-	public void buildUserConcernMsgIndex(final Integer userId, int maxId, int start,
-			int limit, final Map<String, Object> jsonMap) throws Exception {
-		buildSerializables(maxId, start, limit, jsonMap, new SerializableListAdapter<UserMsgIndex>() {
 
-			@Override
-			public List<UserMsgIndex> getSerializables(RowSelection rowSelection) {
-				Integer currentMaxId = userMsgDao.queryMaxMsgId();
-				jsonMap.put(OptResult.JSON_KEY_MAX_ID, currentMaxId);
-				return userMsgDao.queryConcernMsgIndex(currentMaxId, userId, rowSelection);
-			}
-
-			@Override
-			public List<UserMsgIndex> getSerializableByMaxId(int maxId,
-					RowSelection rowSelection) {
-				return userMsgDao.queryConcernMsgIndex(maxId, userId, rowSelection);
-			}
-
-			@Override
-			public long getTotalByMaxId(int maxId) {
-				Long[] l = userMsgDao.queryConcernMsgIndexCount(maxId, userId);
-				jsonMap.put("unreadTotal", l[1]);
-				return l[0];
-			}
-			
-		}, OptResult.JSON_KEY_MSG, OptResult.JSON_KEY_TOTAL_COUNT, new OnBuildSerializableListener() {
-
-			@Override
-			public void onBuild(List<? extends Serializable> list, int maxId, long total) {
-				// 查询陌生私信数量
-				long uneadTotal = (Long) jsonMap.get("unreadTotal");
-				jsonMap.remove("unreadTotal");
-				int maxMsgId = (Integer) jsonMap.get(OptResult.JSON_KEY_MAX_ID);
-				long allUneadCount = userMsgDao.queryUnReadCount(maxMsgId, userId);
-				jsonMap.put(OptResult.JSON_KEY_STRANGER_MSG_TOTAL, allUneadCount - uneadTotal);
-				
-			}
-
-			@Override
-			public void onBuildByMaxId(List<? extends Serializable> list, int maxId,
-					long total) {
-				jsonMap.put(OptResult.JSON_KEY_STRANGER_MSG_TOTAL, 0);
-			}
-			
-		});
-	}
-
-	@Override
-	public void buildUserUnConcernMsgIndex(final Integer userId, int maxId, int start,
-			int limit, final Map<String, Object> jsonMap) throws Exception {
-		buildSerializables(maxId, start, limit, jsonMap, new SerializableListAdapter<UserMsgIndex>() {
-
-			@Override
-			public List<UserMsgIndex> getSerializables(RowSelection rowSelection) {
-				return userMsgDao.queryUnConcernMsgIndex(userId, rowSelection);
-			}
-
-			@Override
-			public List<UserMsgIndex> getSerializableByMaxId(int maxId,
-					RowSelection rowSelection) {
-				return userMsgDao.queryUnConcernMsgIndex(maxId, userId, rowSelection);
-			}
-
-			@Override
-			public long getTotalByMaxId(int maxId) {
-				return userMsgDao.queryUnConcernMsgIndexCount(maxId, userId);
-			}
-			
-		}, OptResult.JSON_KEY_MSG, OptResult.JSON_KEY_TOTAL_COUNT);
-	}
-	
 	@Override
 	public void buildUserMsg(final Integer userId, final Integer otherId, int maxId,
 			int start, int limit, Map<String, Object> jsonMap) throws Exception {
@@ -550,18 +480,13 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 
 			@Override
 			public long getTotalByMaxId(int maxId) {
-				return userMsgDao.queryUserMsgCount(maxId, userId, otherId);
+//				return userMsgDao.queryUserMsgCount(maxId, userId, otherId);
+				return 0l;
 			}
 			
 		}, OptResult.JSON_KEY_MSG, OptResult.JSON_KEY_TOTAL_COUNT);
 	}
 	
-	@Override
-	public void updateChatValid(Integer maxId, Integer userId, Integer otherId) throws Exception {
-		userMsgSendBoxDao.updateChatUnValid(maxId, userId, otherId);
-		userMsgRecipientBoxDao.updateChatUnValid(maxId, otherId, userId);
-	}
-
 	@Override
 	public void updateUserMsgValid(Integer contentId, Integer userId) throws Exception {
 		Boolean isSender = false;
@@ -594,16 +519,16 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 	}
 	
 	
-	@Override
-	public void buildReceiveMsg(Integer minId, Integer userId, Integer otherId, Map<String, Object> jsonMap)
-			throws Exception {
-		List<UserMsgRecipientDto> list = userMsgDao.queryRecipientMsg(minId, otherId, userId);
-		if(list.size() > 0) {
-			Integer maxId = list.get(0).getId();
-			userMsgRecipientBoxDao.updateRecipientCK(maxId, otherId, userId);
-		}
-		jsonMap.put(OptResult.JSON_KEY_MSG, list);
-	}
+//	@Override
+//	public void buildReceiveMsg(Integer minId, Integer userId, Integer otherId, Map<String, Object> jsonMap)
+//			throws Exception {
+//		List<UserMsgRecipientDto> list = userMsgDao.queryRecipientMsg(minId, otherId, userId);
+//		if(list.size() > 0) {
+//			Integer maxId = list.get(0).getId();
+//			userMsgRecipientBoxDao.updateRecipientCK(maxId, otherId, userId);
+//		}
+//		jsonMap.put(OptResult.JSON_KEY_MSG, list);
+//	}
 	
 //	@Override
 //	public void saveSysMsg(Integer senderId, Integer recipientId,
@@ -740,6 +665,7 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 			}
 		}
 	}
+	
 
 	@Override
 	public void saveSquareRuleMsg(Integer userId) throws Exception {

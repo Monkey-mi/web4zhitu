@@ -2,16 +2,18 @@ package com.hts.web.userinfo.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
+import java.util.List;
 
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.hts.web.base.constant.Tag;
 import com.hts.web.base.database.HTS;
-import com.hts.web.base.database.SQLUtil;
+import com.hts.web.base.database.RowSelection;
 import com.hts.web.common.dao.impl.BaseDaoImpl;
+import com.hts.web.common.pojo.UserAvatar;
 import com.hts.web.common.pojo.UserMsgBox;
+import com.hts.web.common.pojo.UserMsgDto;
 import com.hts.web.userinfo.dao.UserMsgRecipientBoxDao;
 
 @Repository("HTSUserMsgRecipientBoxDao")
@@ -20,107 +22,104 @@ public class UserMsgRecipientBoxDaoImpl extends BaseDaoImpl implements
 
 	private static String table = HTS.USER_MSG_RECIPIENT_BOX;
 	
+	private static final String MSG_INFO = 
+			"u0.user_name,u0.user_avatar,u0.user_avatar_l,"
+			+ "m0.id,m0.content,m0.msg_date,"
+			+ "b0.sender_id";
+	
 	private static final String SAVE_RECIPIENT_MSG = "insert into " + table
-			+ " (id,sender_id,recipient_id,content_id,ck) values (?,?,?,?,?)";
+			+ " (sender_id,recipient_id,content_id) values (?,?,?)";
 	
-	/** 
-	 * 更新收件箱未读标记 
-	 */
-	private static final String UPDATE_RECIPIENT_CK = "update " + HTS.USER_MSG_RECIPIENT_BOX 
-			+ " set ck=? where sender_id=? and recipient_id=? and valid=? and chat_valid=? and ck=? and id<=?";
+	private static final String DELETE_RECIPIENT_MSG = "delete from " + table
+			+ " where recipient_id=? and content_id=?";
 	
-	/** 
-	 * 更新对话有效性
-	 */
-	private static final String UPDATE_CHAT_UNVALID_BY_MAX_CONTENT_ID = "update " + table
-			+ " set chat_valid=? where sender_id=? and recipient_id=? and chat_valid=? and id<=?";
+	private static final String QUERY_MSG = "select " + MSG_INFO + " from " 
+			+ table + " b0," + HTS.USER_INFO + " u0," + HTS.USER_MSG + " m0"
+			+ " where b0.content_id=m0.id and b0.sender_id=u0.id and b0.recipient_id=?"
+			+ " order by b0.id desc limit ?,?";
+	
+	private static final String QUERY_MSG_MSG_ID = "select " + MSG_INFO + " from " 
+			+ table + " b0," + HTS.USER_INFO + " u0," + HTS.USER_MSG + " m0"
+			+ " where b0.content_id=m0.id and b0.sender_id=u0.id and b0.recipient_id=?"
+			+ " and b0.id<=?"
+			+ " order by b0.id desc limit ?,?";
 
-	/** 
-	 * 更新收件有效性
-	 */
-	private static final String UPDATE_UNVALID_BY_CONTENT_ID = "update " + table
-			+ " set valid=?, chat_valid=? where id=? and valid=?";
-	
 	/**
-	 * 根据私信id查询发送者
+	 * 构建消息POJO
+	 * 
+	 * @param rs
+	 * @param recipientId
+	 * @return
+	 * @throws SQLException
 	 */
-	private static final String QUERY_SENDER_ID_BY_CONTENT_ID = "select sender_id,recipient_id from " + table
-			+ " where id=?";
-	
-	/** 
-	 * 查询未读消息总数
-	 */
-	private static final String QUERY_UN_READ_MSG_COUNT = "select count(*) from " + table + " where recipient_id=? and ck=?";
-	
-	/**
-	 * 设置和指定用户的收件无效
-	 */
-	private static final String UPDATE_RECIPIENT_UN_VALID_BY_SIDS = "update " + table + " set valid=0"
-			+ " where valid=1 and recipient_id=? and sender_id in ";
+	public UserMsgDto buildMstDto(ResultSet rs, Integer recipientId) throws SQLException {
+		UserMsgDto dto = new UserMsgDto();
+		UserAvatar sender = new UserAvatar();
+		UserAvatar recipient = new UserAvatar();
+		
+		dto.setId(rs.getInt("id"));
+		dto.setSenderId(rs.getInt("senderId"));
+		dto.setRecipientId(rs.getInt("recipientId"));
+		dto.setMsgDate((Date)rs.getObject("msg_date"));
+		dto.setContent(rs.getString("content"));
+		
+		sender.setId(rs.getInt("sender_id"));
+		sender.setUserName(rs.getString("user_name"));
+		sender.setUserAvatar(rs.getString("user_avatar"));
+		sender.setUserAvatarL(rs.getString("user_avatar_l"));
+		
+		recipient.setId(recipientId);
+		
+		dto.setSenderInfo(sender);
+		dto.setRecipientInfo(recipient);
+
+		return dto;
+	}
 	
 	@Override
-	public void saveRecipientBox(UserMsgBox box) {
-		getMasterJdbcTemplate().update(SAVE_RECIPIENT_MSG, new Object[]{
-			box.getId(),
-			box.getSenderId(),
-			box.getRecipientId(),
-			box.getContentId(),
-			box.getCk()
+	public void saveRecipientMsg(UserMsgBox msgBox) {
+		getMasterJdbcTemplate().update(SAVE_RECIPIENT_MSG,
+				new Object[]{
+					msgBox.getSenderId(),
+					msgBox.getRecipientId(),
+					msgBox.getContentId()
+				});
+	}
+
+	@Override
+	public void deleteRecipientMsg(Integer recipientId, Integer contentId) {
+		getMasterJdbcTemplate().update(DELETE_RECIPIENT_MSG, 
+				new Object[]{recipientId, contentId});
+	}
+
+	@Override
+	public List<UserMsgDto> queryRecipientMsg(final Integer recipientId, 
+			RowSelection rowSelection) {
+		return getJdbcTemplate().query(QUERY_MSG, 
+				new Object[]{recipientId, rowSelection.getFirstRow(), rowSelection.getLimit()}, 
+				new RowMapper<UserMsgDto>() {
+
+					@Override
+					public UserMsgDto mapRow(ResultSet rs, int rowNum) throws SQLException {
+						return buildMstDto(rs, recipientId);
+					}
+			
 		});
 	}
 
 	@Override
-	public void updateRecipientCK(Integer maxId, Integer userId, Integer otherId) {
-		getMasterJdbcTemplate().update(UPDATE_RECIPIENT_CK, 
-				new Object[]{Tag.TRUE, userId, otherId, Tag.TRUE, Tag.TRUE, Tag.FALSE, maxId});
-	}
+	public List<UserMsgDto> queryRecipientMsg(Integer maxId, final Integer recipientId, 
+			RowSelection rowSelection) {
+		return getJdbcTemplate().query(QUERY_MSG_MSG_ID, 
+				new Object[]{recipientId, maxId, rowSelection.getFirstRow(), rowSelection.getLimit()}, 
+				new RowMapper<UserMsgDto>() {
 
-	@Override
-	public void updateChatUnValid(Integer maxContentId, Integer senderId,
-			Integer recipientId) {
-		getMasterJdbcTemplate().update(UPDATE_CHAT_UNVALID_BY_MAX_CONTENT_ID, 
-				new Object[]{Tag.FALSE, senderId, recipientId, Tag.TRUE, maxContentId});
-	}
-
-	@Override
-	public void updateUnValid(Integer contentId) {
-		getMasterJdbcTemplate().update(UPDATE_UNVALID_BY_CONTENT_ID,
-				new Object[]{Tag.FALSE, Tag.FALSE, contentId, Tag.TRUE});
-	}
-
-	@Override
-	public Integer[] querySenderIdByContentId(Integer contentId) {
-		try {
-			return getJdbcTemplate().queryForObject(QUERY_SENDER_ID_BY_CONTENT_ID, new Object[]{contentId}, new RowMapper<Integer[]>(){
-
-				@Override
-				public Integer[] mapRow(ResultSet rs, int rowNum)
-						throws SQLException {
-					Integer[] i = new Integer[2];
-					i[0] = rs.getInt("sender_id");
-					i[1] = rs.getInt("recipient_id");
-					return i;
-				}
-				
-			});
-		} catch(EmptyResultDataAccessException e) {
+					@Override
+					public UserMsgDto mapRow(ResultSet rs, int rowNum) throws SQLException {
+						return buildMstDto(rs, recipientId);
+					}
 			
-		}
-		return null;
-		
-	}
-
-	@Override
-	public long queryUnReadMsgCount(Integer userId) {
-		return getJdbcTemplate().queryForLong(QUERY_UN_READ_MSG_COUNT, new Object[]{userId, Tag.FALSE});
-	}
-
-	@Override
-	public void updateRecipientUnValid(Integer[] senderIds, Integer recipientId) {
-		String selection = SQLUtil.buildInSelection(senderIds);
-		String sql = UPDATE_RECIPIENT_UN_VALID_BY_SIDS + selection;
-		Object[] args = SQLUtil.getArgsByInCondition(senderIds, new Object[]{recipientId}, true);
-		getMasterJdbcTemplate().update(sql, args);
+		});
 	}
 	
 	

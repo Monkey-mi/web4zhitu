@@ -17,15 +17,6 @@ public class UserAvatar implements Serializable {
 		super();
 	}
 
-//	public UserAvatar(Integer id, String userName, String userAvatar,
-//			String userAvatarL) {
-//		super();
-//		this.id = id;
-//		this.userName = userName;
-//		this.userAvatar = userAvatar;
-//		this.userAvatarL = userAvatarL;
-//	}
-
 	public Integer getId() {
 		return id;
 	}

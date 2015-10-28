@@ -196,49 +196,6 @@ public class UserMsgAction extends BaseAction {
 	}
 	
 	/**
-	 * 查询和关注对象的对话列表
-	 * @return
-	 */
-	public String queryConcernChat() {
-		try {
-			userMsgService.buildUserConcernMsgIndex(getCurrentLoginUserId(), maxId, start, limit, jsonMap);
-			JSONUtil.optSuccess(jsonMap);
-		} catch (Exception e) {
-			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
-		}
-		return StrutsKey.JSON;
-	}
-	
-	/**
-	 * 查询和陌生人的对话列表
-	 * 
-	 * @return
-	 */
-	public String queryStrangerChat() {
-		try {
-			userMsgService.buildUserUnConcernMsgIndex(getCurrentLoginUserId(), maxId, start, limit, jsonMap);
-			JSONUtil.optSuccess(jsonMap);
-		} catch (Exception e) {
-			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
-		}
-		return StrutsKey.JSON;
-	}
-	
-	/**
-	 * 删除和指定用户的对话
-	 * @return
-	 */
-	public String deleteChat() {
-		try {
-			userMsgService.updateChatValid(maxId, getCurrentLoginUserId(), otherId);
-			JSONUtil.optSuccess(OptResult.DELETE_SUCCESS, jsonMap);
-		} catch (Exception e) {
-			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
-		}
-		return StrutsKey.JSON;
-	}
-	
-	/**
 	 * 查询和指定用户的私信列表
 	 * @return
 	 */
@@ -304,15 +261,15 @@ public class UserMsgAction extends BaseAction {
 	 * 
 	 * @return
 	 */
-	public String queryReceiveMsg() {
-		try {
-			userMsgService.buildReceiveMsg(sinceId, getCurrentLoginUserId(), otherId, jsonMap);
-			JSONUtil.optSuccess(jsonMap);
-		} catch(Exception e) {
-			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
-		}
-		return StrutsKey.JSON;
-	}
+//	public String queryReceiveMsg() {
+//		try {
+//			userMsgService.buildReceiveMsg(sinceId, getCurrentLoginUserId(), otherId, jsonMap);
+//			JSONUtil.optSuccess(jsonMap);
+//		} catch(Exception e) {
+//			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+//		}
+//		return StrutsKey.JSON;
+//	}
 	
 	
 	/**
