@@ -622,9 +622,13 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 			
 			userMsgRecipientBoxDao.saveRecipientMsg(new UserMsgBox(welcomeMsgId,
 					customerServiceId, userId));
-			UserPushInfo pushInfo = userInfoDao.queryUserPushInfoById(userId);
-			pushService.pushMiShuMessage(customerServiceId, welcomeMsg, pushInfo);
 		}
+	}
+	
+	@Override
+	public void pushWelcomeMsg(Integer userId) throws Exception {
+		UserPushInfo pushInfo = userInfoDao.queryUserPushInfoById(userId);
+		pushService.pushMiShuMessage(customerServiceId, welcomeMsg, pushInfo);
 	}
 	
 	@Override

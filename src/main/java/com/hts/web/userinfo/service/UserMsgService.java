@@ -137,6 +137,14 @@ public interface UserMsgService extends BaseService {
 	public void saveUserWelcomeMsg(Integer userId) throws Exception;
 	
 	/**
+	 * 推送欢迎私信
+	 * 
+	 * @param userId
+	 * @throws Exception
+	 */
+	public void pushWelcomeMsg(Integer userId) throws Exception;
+	
+	/**
 	 * 构建未读消息列表
 	 * 
 	 * @param userId

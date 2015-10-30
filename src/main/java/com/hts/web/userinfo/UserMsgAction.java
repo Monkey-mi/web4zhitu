@@ -278,7 +278,7 @@ public class UserMsgAction extends BaseAction {
 	 */
 	public String requestSquareRuleMsg() {
 		try {
-			userMsgService.saveUserWelcomeMsg(getCurrentLoginUserId());
+			userMsgService.pushWelcomeMsg(getCurrentLoginUserId());
 			JSONUtil.optSuccess(OptResult.ADD_SUCCESS, jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);

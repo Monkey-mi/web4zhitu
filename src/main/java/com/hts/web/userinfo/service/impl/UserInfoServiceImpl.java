@@ -250,6 +250,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 	 */
 	private void registerExtra(Integer userId) throws Exception{
 		msgUnReadDao.saveUnRead(userId);
+		userMsgService.saveUserWelcomeMsg(userId);
 	}
 	
 	@Override
