@@ -27,7 +27,7 @@ public class UserMsgConversationDaoImpl extends BaseDaoImpl implements UserMsgCo
 	
 	@Override
 	public void saveConver(UserMsgConver conver) {
-		getJdbcTemplate().update(SAVE_CONVER, 
+		getMasterJdbcTemplate().update(SAVE_CONVER, 
 				conver.getUserId(),
 				conver.getOtherId(),
 				conver.getContentId(),
@@ -38,20 +38,20 @@ public class UserMsgConversationDaoImpl extends BaseDaoImpl implements UserMsgCo
 	@Override
 	public Integer sendMsg(Integer userId, 
 			Integer otherId, Integer contentId) {
-		return getJdbcTemplate().update(SEND_MSG, 
+		return getMasterJdbcTemplate().update(SEND_MSG, 
 				contentId, userId, otherId);
 	}
 	
 	@Override
 	public Integer receiveMsg(Integer userId, 
 			Integer otherId, Integer contentId) {
-		return getJdbcTemplate().update(RECEIVE_MSG, 
+		return getMasterJdbcTemplate().update(RECEIVE_MSG, 
 				contentId, userId, otherId);
 	}
 
 	@Override
 	public Integer clearUnreadCount(Integer userId, Integer otherId) {
-		return getJdbcTemplate().update(CLEAR_UNREAD_COUNT, 
+		return getMasterJdbcTemplate().update(CLEAR_UNREAD_COUNT, 
 				userId, otherId);
 	}
 
