@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="description" content="只要关注@织图，转发此活动微博，就有机会赢取跑男成员签名！">
+<title>转发微博赢跑男签名！</title>
+<style type="text/css">
+body {
+	margin: 0 auto 0 auto;
+	padding: 0;
+	text-align: center;
+	font-size:0;
+	font-family:"微软雅黑",Arial, Helvetica, sans-serif;
+	background:#ffffff;
+}
+
+img {
+	width: 100%;
+	border: 0;
+	padding: 0;
+	margin: 0;
+}
+
+a {
+	text-decoration: none;
+	color: #313139;
+}
+
+#main {
+	display:inline-block;
+	width: 100%;
+	max-width:750px;
+}
+
+#share-btn-wrap {
+	height:1051px;
+	width:750px;
+	position: absolute;
+}
+
+#share-btn {
+	display: inline-block;
+	position: absolute;
+	width:290px;
+	height:423px;
+	left:50%;
+	margin-left:40px;
+	bottom: 0px;
+	margin-bottom:60px;
+	display: none;
+}
+
+</style>
+</head>
+<body>
+<div id='wx_pic' style="display:none;">
+	<img src='http://static.imzhitu.com/op/sticker/151030/banner.jpg' />
+</div>
+<div id="main">
+	<img alt="" src="http://static.imzhitu.com/op/sticker/151030/01.jpg" />
+	<img alt="" src="http://static.imzhitu.com/op/sticker/151030/02.jpg" />
+	<div id="share-btn-wrap">
+		<img alt="" src="http://static.imzhitu.com/op/sticker/151030/03.jpg" />
+		<a id="share-btn" href="imzhitu://sharePage">
+			<img alt="" src="http://static.imzhitu.com/op/sticker/151030/btn.jpg">
+		</a>
+	</div>
+</div>
+
+<script type="text/javascript" src="../staticres/base/js/callapp2.js"></script> 
+<script type="text/javascript" src="../staticres/base/js/jquery/jquery-1.8.2.min.js"></script>
+<script type="text/javascript">
+var inapp = 0;
+ $(document).ready(function() {
+	inapp = callAppInit();
+	
+	initLayout();
+	
+	document.getElementById("share-btn").addEventListener('click',openclient,false);
+});
+
+function initLayout() {
+	var maxW = 750;
+	var winWidth = $(window).width();
+	
+	winWidth = winWidth > maxW ? maxW : winWidth;
+
+	var scale = 1,
+		headerH = 880,
+		
+		btnW = 290,
+		btnH = 423,		
+		btnMarginbottom = 60,
+		btnMarginLeft = 40,
+		
+		wrapW = 750,
+		wrapH = 1051,
+
+		
+	scale = winWidth / maxW;
+	
+	btnW = btnW * scale;
+	btnH = btnH * scale;
+	btnMarginbottom = btnMarginbottom * scale;
+	btnMarginLeft = btnMarginLeft * scale;
+	
+	wrapW = wrapW * scale;
+	wrapH = wrapH * scale;
+	
+	$("#share-btn").css({
+		"width":btnW + "px",
+		"height":btnH + "px",
+		"margin-bottom":btnMarginbottom + "px",
+		"margin-left":btnMarginLeft + "px"})
+		.show();
+		
+	
+	$("#share-btn-wrap").css({
+		"width":wrapW + "px",
+		"height":wrapH + "px"});
+		
+}
+
+</script>
+<div style="display:none;">
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1255868073'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1255868073' type='text/javascript'%3E%3C/script%3E"));</script>
+</div>
+</body>
+</html>

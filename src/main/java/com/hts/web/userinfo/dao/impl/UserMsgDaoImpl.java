@@ -1,21 +1,10 @@
 package com.hts.web.userinfo.dao.impl;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Date;
-import java.util.List;
-
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.hts.web.base.database.HTS;
-import com.hts.web.base.database.RowSelection;
 import com.hts.web.common.dao.impl.BaseDaoImpl;
-import com.hts.web.common.pojo.UserInfoDto;
 import com.hts.web.common.pojo.UserMsg;
-import com.hts.web.common.pojo.UserMsgDto;
-import com.hts.web.common.pojo.UserMsgIndex;
-import com.hts.web.common.pojo.UserMsgRecipientDto;
 import com.hts.web.userinfo.dao.UserMsgDao;
 
 /**
