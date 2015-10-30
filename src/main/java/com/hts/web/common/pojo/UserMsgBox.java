@@ -24,6 +24,15 @@ public class UserMsgBox implements Serializable {
 	public UserMsgBox() {
 		super();
 	}
+	
+	public UserMsgBox(Integer contentId, Integer senderId, Integer recipientId) {
+		super();
+		this.contentId = contentId;
+		this.senderId = senderId;
+		this.recipientId = recipientId;
+	}
+
+
 
 	public Integer getContentId() {
 		return contentId;

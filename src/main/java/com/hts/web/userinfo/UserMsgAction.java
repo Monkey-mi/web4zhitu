@@ -37,7 +37,6 @@ public class UserMsgAction extends BaseAction {
 	private Boolean isSender;
 	private String maxDate;
 	private Boolean trimTotal = true; // 过滤总数
-	private Integer msgType = Tag.USER_MSG_NORMAL;
 	
 	private String userIds;
 	private String worldIds;
@@ -171,7 +170,7 @@ public class UserMsgAction extends BaseAction {
 			if(uid.equals(-1)) {
 				uid = 0;
 			}
-			Integer id = userMsgService.saveUserMsg(uid, otherId, content, msgType);
+			Integer id = userMsgService.saveUserMsg(uid, otherId, content);
 			jsonMap.put(OptResult.JSON_KEY_MSG_ID, id);
 			JSONUtil.optSuccess(OptResult.ADD_SUCCESS, jsonMap);
 		} catch (Exception e) {
@@ -186,7 +185,7 @@ public class UserMsgAction extends BaseAction {
 	 */
 	public String sendMsgNoLogin() {
 		try {
-			Integer id = userMsgService.saveUserMsg(0, otherId, content, msgType);
+			Integer id = userMsgService.saveUserMsg(0, otherId, content);
 			jsonMap.put(OptResult.JSON_KEY_MSG_ID, id);
 			JSONUtil.optSuccess(OptResult.ADD_SUCCESS, jsonMap);
 		} catch (Exception e) {
@@ -216,7 +215,7 @@ public class UserMsgAction extends BaseAction {
 	 */
 	public String deleteMsg() {
 		try {
-			userMsgService.updateUserMsgValid(id, getCurrentLoginUserId());
+			userMsgService.delUserMsg(id, getCurrentLoginUserId(), otherId);
 			JSONUtil.optSuccess(OptResult.DELETE_SUCCESS, jsonMap);
 		} catch(HTSException e){
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getErrorCode(), e.getMessage(), e, jsonMap);
@@ -279,7 +278,7 @@ public class UserMsgAction extends BaseAction {
 	 */
 	public String requestSquareRuleMsg() {
 		try {
-			userMsgService.saveSquareRuleMsg(getCurrentLoginUserId());
+			userMsgService.saveUserWelcomeMsg(getCurrentLoginUserId());
 			JSONUtil.optSuccess(OptResult.ADD_SUCCESS, jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
@@ -484,14 +483,6 @@ public class UserMsgAction extends BaseAction {
 
 	public void setTrimTotal(Boolean trimTotal) {
 		this.trimTotal = trimTotal;
-	}
-
-	public Integer getMsgType() {
-		return msgType;
-	}
-
-	public void setMsgType(Integer msgType) {
-		this.msgType = msgType;
 	}
 
 	public String getUserIds() {

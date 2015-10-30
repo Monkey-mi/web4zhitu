@@ -398,7 +398,7 @@ public class PushServiceImpl implements PushService {
 	}
 	
 	@Override
-	public void pushMiShuMessage(final Integer senderId, final String content, final UserPushInfo userPushInfo, final PushFailedCallback callback)
+	public void pushMiShuMessage(final Integer senderId, final String content, final UserPushInfo userPushInfo)
 			throws Exception {
 		if(userPushInfo != null && senderId != userPushInfo.getId()) {
 			pushExecutor.execute(new Runnable() {
@@ -407,6 +407,14 @@ public class PushServiceImpl implements PushService {
 				public void run() {
 					
 					String fullName = userInfoDao.queryUserNameById(senderId);
+					
+					// 推送失败回调
+					PushFailedCallback callback = new PushFailedCallback() {
+						
+						@Override
+						public void onPushFailed(Exception e) {
+						}
+					};
 						
 					// 对方已经开通了IM
 					if(UserInfoUtil.checkIsImVersion(userPushInfo.getVer())) {

@@ -25,7 +25,6 @@ import com.hts.web.base.database.RowCallback;
 import com.hts.web.base.database.RowSelection;
 import com.hts.web.common.BaseOnBuildSerializableListener;
 import com.hts.web.common.BaseSerializableListAdapter;
-import com.hts.web.common.OnBuildSerializableListener;
 import com.hts.web.common.OnBuildSinceSerializableListener;
 import com.hts.web.common.SerializableListAdapter;
 import com.hts.web.common.SerializableSinceIdListAdapter;
@@ -41,22 +40,21 @@ import com.hts.web.common.pojo.MsgAtId;
 import com.hts.web.common.pojo.MsgCommentDto;
 import com.hts.web.common.pojo.OpSysMsgDto;
 import com.hts.web.common.pojo.PushStatus;
+import com.hts.web.common.pojo.UserAvatar;
 import com.hts.web.common.pojo.UserInfoAvatar;
 import com.hts.web.common.pojo.UserInfoDto;
 import com.hts.web.common.pojo.UserIsMututal;
 import com.hts.web.common.pojo.UserMsg;
 import com.hts.web.common.pojo.UserMsgBox;
+import com.hts.web.common.pojo.UserMsgConver;
 import com.hts.web.common.pojo.UserMsgDto;
-import com.hts.web.common.pojo.UserMsgIndex;
 import com.hts.web.common.pojo.UserMsgLiked;
-import com.hts.web.common.pojo.UserMsgRecipientDto;
 import com.hts.web.common.pojo.UserMsgStatus;
 import com.hts.web.common.pojo.UserMsgUnreadCount;
 import com.hts.web.common.pojo.UserPushInfo;
 import com.hts.web.common.service.KeyGenService;
 import com.hts.web.common.service.impl.BaseServiceImpl;
 import com.hts.web.common.service.impl.KeyGenServiceImpl;
-import com.hts.web.common.util.PushUtil;
 import com.hts.web.common.util.StringUtil;
 import com.hts.web.common.util.TimeUtil;
 import com.hts.web.common.util.UserInfoUtil;
@@ -65,7 +63,6 @@ import com.hts.web.operations.dao.SysMsgCommonDao;
 import com.hts.web.operations.dao.SysMsgCommonDeletedDao;
 import com.hts.web.operations.dao.SysMsgDao;
 import com.hts.web.push.service.PushService;
-import com.hts.web.push.service.impl.PushServiceImpl.PushFailedCallback;
 import com.hts.web.userinfo.dao.MsgAtCommentDao;
 import com.hts.web.userinfo.dao.MsgAtDao;
 import com.hts.web.userinfo.dao.MsgAtWorldDao;
@@ -74,6 +71,7 @@ import com.hts.web.userinfo.dao.MsgUnreadDao;
 import com.hts.web.userinfo.dao.MsgUnreadDao.UnreadType;
 import com.hts.web.userinfo.dao.UserConcernDao;
 import com.hts.web.userinfo.dao.UserInfoDao;
+import com.hts.web.userinfo.dao.UserMsgConversationDao;
 import com.hts.web.userinfo.dao.UserMsgDao;
 import com.hts.web.userinfo.dao.UserMsgInteractDao;
 import com.hts.web.userinfo.dao.UserMsgRecipientBoxDao;
@@ -184,8 +182,13 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 	@Autowired
 	private MsgUnreadDao msgUnreadDao;
 	
+	@Autowired
+	private UserMsgConversationDao msgConversationDao;
+	
 	@Value("${msg.squareRuleMsg}")
-	private String squareRuleMsg ;
+	private String welcomeMsg ;
+	
+	private Integer welcomeMsgId = 1;
 	
 	@Value("${push.customerServiceId}")
 	private Integer customerServiceId = 13;
@@ -211,12 +214,20 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 		this.feedbackListeners = feedbackListeners;
 	}
 	
-	public String getSquareRuleMsg() {
-		return squareRuleMsg;
+	public String getWelcomeMsg() {
+		return welcomeMsg;
 	}
 
-	public void setSquareRuleMsg(String squareRuleMsg) {
-		this.squareRuleMsg = squareRuleMsg;
+	public void setWelcomeMsg(String welcomeMsg) {
+		this.welcomeMsg = welcomeMsg;
+	}
+
+	public Integer getWelcomeMsgId() {
+		return welcomeMsgId;
+	}
+
+	public void setWelcomeMsgId(Integer welcomeMsgId) {
+		this.welcomeMsgId = welcomeMsgId;
 	}
 
 	@Override
@@ -368,9 +379,9 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 		long followCount = userConcernDao.queryUnCheckFollowCount(userId);
 		long likedCount = worldLikedDao.queryUnCheckUserLikedCount(userId);
 		long commentCount = msgCommentDao.queryUnCkCount(userId);
-		long msgCount = cnt.getSysmsgCount() + sysMsgCommonCacheDao.higherCount(cnt.getSysmsgId());
-		long userMsgCount = userMsgRecipientBoxDao.queryUnReadMsgCount(userId);
 		long atMsgCount = atDao.queryUnCheckCount(userId);
+		long msgCount = cnt.getSysmsgCount() + sysMsgCommonCacheDao.higherCount(cnt.getSysmsgId());
+		long userMsgCount = cnt.getUmsgCount();
 		jsonMap.put(OptResult.JSON_KEY_FOLLOW_COUNT, followCount);
 		jsonMap.put(OptResult.JSON_KEY_LIKED_COUNT, likedCount);
 		jsonMap.put(OptResult.JSON_KEY_COMMENT_COUNT, commentCount);
@@ -396,39 +407,49 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 	
 	@Override
 	public Integer saveUserMsg(Integer senderId, Integer recipientId,
-			String content, Integer msgType) throws Exception {
+			String content) throws Exception {
 		if(senderId.equals(recipientId)) {
 			throw new HTSException("不能向自己发送私信");
 		}
-		boolean shield = (userMsgShieldDao.queryShieldId(recipientId, senderId) != null ? true : false);
-		final Integer id = keyGenService.generateId(KeyGenServiceImpl.USER_MSG_ID);
-		userMsgDao.saveMsg(new UserMsg(id, new Date(), content, msgType));
-		UserMsgBox msgBox = new UserMsgBox(id,senderId,recipientId,id);
+		
+		Integer id = keyGenService.generateId(KeyGenServiceImpl.USER_MSG_ID);
+		userMsgDao.saveMsg(new UserMsg(id, content));
+		UserMsgBox msgBox = new UserMsgBox(id, senderId, recipientId);
 		userMsgSendBoxDao.saveSendMsg(msgBox);
-		if(!shield) { // 保存到接受者的收件箱并推送
-			msgBox.setCk(Tag.FALSE);
-			if(recipientId.equals(customerServiceId)) { // 表明这是通过app反馈页面发送的
-				userMsgRecipientBoxDao.saveRecipientBox(msgBox);
-				autoResponse(senderId, recipientId, content, msgType); // 自动回复
-			} else {
-				UserPushInfo pusnInfo = userInfoDao.queryUserPushInfoById(recipientId);
-				// 系统发出或者2.9.5版本（用户间的私信不通过我们的服务器）之前的用户才会收到私信
-				if(senderId.equals(customerServiceId) || pusnInfo.getVer() < Tag.VERSION_2_9_5) {
-					if(senderId.equals(customerServiceId)) {
-						userMsgRecipientBoxDao.updateRecipientCK(id, recipientId, senderId); // 更新指定用户发给系统私信未读标记
-					}
-					userMsgRecipientBoxDao.saveRecipientBox(msgBox);
-					pushService.pushMiShuMessage(senderId, PushUtil.getShortTip(content),
-							pusnInfo, new PushFailedCallback() {
-	
-						@Override
-						public void onPushFailed(Exception e) {}
-					});
-					
-				}
-			}
+		userMsgRecipientBoxDao.saveRecipientMsg(msgBox);
+		msgUnreadDao.addCount(recipientId, UnreadType.UMSG);
+		updateUserMsgConversation(senderId, recipientId, id);
+		
+		if(recipientId.equals(customerServiceId)) {
+			if(senderId != 0)
+				autoResponse(senderId, recipientId, content);
+		} else {
+			UserPushInfo pusnInfo = userInfoDao.queryUserPushInfoById(recipientId);
+			pushService.pushMiShuMessage(senderId, content, pusnInfo);
 		}
 		return id;
+	}
+	
+	/**
+	 * 更新私信对话
+	 * 
+	 * @param userId
+	 * @param otherId
+	 * @param contentId
+	 */
+	private void updateUserMsgConversation(Integer userId, Integer otherId, Integer contentId) {
+		// 更新我和对方的会话状态
+		if(msgConversationDao.sendMsg(userId, otherId, contentId) == 0) {
+			msgConversationDao.saveConver(
+					new UserMsgConver(userId, otherId, contentId,
+							0, UserMsgConversationDao.MSG_TYPE_SEND));
+		}
+		
+		// 更新对方和我的对话
+		if(msgConversationDao.receiveMsg(otherId, userId, contentId) == 0) {
+			msgConversationDao.saveConver(
+					new UserMsgConver(otherId, userId, contentId, 1, UserMsgConversationDao.MSG_TYPE_SEND));
+		}
 	}
 	
 	/**
@@ -440,7 +461,7 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 	 * @param msgType
 	 */
 	private void autoResponse(final Integer senderId, final Integer recipientId,
-			final String content, final Integer msgType) {
+			final String content) {
 		pushService.getPushExecutor().execute(new Runnable() {
 
 			@Override
@@ -448,7 +469,7 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 				try {
 					String answer = openSearchService.searchAnswer(content);
 					if(answer != null) {
-						saveUserMsg(recipientId, senderId, answer, msgType);
+						saveUserMsg(recipientId, senderId, answer);
 					}
 				} catch (Exception e) {
 					logger.warn("xiao mi shu auto response error:" + e.getMessage());
@@ -465,9 +486,10 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 
 			@Override
 			public List<UserMsgDto> getSerializables(RowSelection rowSelection) {
-				List<UserMsgDto> list = userMsgDao.queryUserMsg(userId, otherId, rowSelection);
-				if(list.size() > 0) {
-					userMsgRecipientBoxDao.updateRecipientCK(list.get(0).getId(), otherId, userId);
+				List<UserMsgDto> list = queryUserMsg(userId, otherId, 0, rowSelection);
+				msgConversationDao.clearUnreadCount(userId, otherId);
+				if(!list.isEmpty()) {
+					msgUnreadDao.clearCount(userId, list.get(0).getId(), UnreadType.UMSG);
 				}
 				return list;
 			}
@@ -475,36 +497,133 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 			@Override
 			public List<UserMsgDto> getSerializableByMaxId(int maxId,
 					RowSelection rowSelection) {
-				return userMsgDao.queryUserMsg(maxId, userId, otherId, rowSelection);
+				return queryUserMsg(userId, otherId, maxId, rowSelection);
 			}
 
 			@Override
 			public long getTotalByMaxId(int maxId) {
-//				return userMsgDao.queryUserMsgCount(maxId, userId, otherId);
 				return 0l;
 			}
 			
-		}, OptResult.JSON_KEY_MSG, OptResult.JSON_KEY_TOTAL_COUNT);
+		}, OptResult.JSON_KEY_MSG, null);
 	}
 	
 	@Override
-	public void updateUserMsgValid(Integer contentId, Integer userId) throws Exception {
-		Boolean isSender = false;
-		Integer[] ids = userMsgRecipientBoxDao.querySenderIdByContentId(contentId);
-		if(ids == null) {
-			throw new HTSException("私信不存在");
-		} else if(ids[0].equals(userId)) {
-			isSender = true;
-		} else if(ids[1].equals(userId)) {
-			isSender = false;
+	public List<UserMsgDto> queryUserMsg(Integer userId, Integer otherId, 
+			Integer maxId, RowSelection rowSelection) {
+		final List<UserMsgDto> senderList = new ArrayList<UserMsgDto>();
+		final List<UserMsgDto> recipientList = new ArrayList<UserMsgDto>();
+		final UserAvatar userInfo = userInfoDao.queryUserAvatar(userId);
+		final UserAvatar otherInfo = userInfoDao.queryUserAvatar(otherId);
+		
+		RowCallback<UserMsgDto> senderCallback = new RowCallback<UserMsgDto>() {
+
+			@Override
+			public void callback(UserMsgDto t) {
+				t.setSenderInfo(userInfo);
+				t.setRecipientInfo(otherInfo);
+				senderList.add(t);
+			}
+		};
+		
+		RowCallback<UserMsgDto> recipientCallback = new RowCallback<UserMsgDto>() {
+
+			@Override
+			public void callback(UserMsgDto t) {
+				t.setSenderInfo(otherInfo);
+				t.setRecipientInfo(userInfo);
+				recipientList.add(t);
+			}
+		};
+		
+		if(maxId == 0) {
+			userMsgSendBoxDao.querySendMsg(userId, otherId, rowSelection, senderCallback);
+			userMsgRecipientBoxDao.queryRecipientMsg(userId, otherId, rowSelection, recipientCallback);
 		} else {
-			throw new HTSException("权限不足",1);
+			userMsgSendBoxDao.querySendMsg(maxId, userId, otherId, rowSelection, senderCallback);
+			userMsgRecipientBoxDao.queryRecipientMsg(maxId, userId, otherId, rowSelection, recipientCallback);
+		}
+
+		unionUserMsg(senderList, recipientList, rowSelection.getLimit());
+		
+		return senderList;
+	}
+
+	/**
+	 * 合并发送消息和收取的消息
+	 * 
+	 * @param senderList
+	 * @param recipientList
+	 * @param limit
+	 */
+	private void unionUserMsg(List<UserMsgDto> senderList,
+			List<UserMsgDto> recipientList, Integer limit) {
+
+		senderList.addAll(recipientList);
+		Collections.sort(senderList, new Comparator<UserMsgDto>() {
+
+			@Override
+			public int compare(UserMsgDto o1, UserMsgDto o2) {
+				if(o1.getId() < o2.getId())
+					return 1;
+				else if(o1.getId() > o2.getId()) 
+					return -1;
+				return 0;
+			}
+		});
+		if(senderList.size() > limit) {
+			for(int i = limit; i < senderList.size(); i++) {
+				senderList.remove(i);
+				i--;
+			}
+		}
+	}
+	
+	@Override
+	public void delUserMsg(Integer contentId, Integer userId,
+			Integer otherId) throws Exception {
+		if(otherId == null || otherId == 0) {
+			otherId = customerServiceId;
 		}
 		
-		if(isSender) {
-			userMsgSendBoxDao.updateUnValid(contentId);
+		if(userMsgRecipientBoxDao.queryRecipientId(userId, 
+				otherId, contentId) > 0) {
+			userMsgRecipientBoxDao.deleteRecipientMsg(userId, otherId, contentId);
+			
+			// 查询对方的发件箱里还有没有这条信息,没有的话删除原始信息
+			if(userMsgSendBoxDao.queryContentId(otherId, userId, contentId) < 0 && 
+					!contentId.equals(welcomeMsgId))
+				userMsgDao.deleteMsg(contentId);
+			
 		} else {
-			userMsgRecipientBoxDao.updateUnValid(contentId);
+			userMsgSendBoxDao.deleteSendMsg(userId, otherId, contentId);
+			
+			// 查询对方的收件箱里还有没有这条信息,没有的话删除原始信息
+			if(userMsgRecipientBoxDao.queryContentId(otherId, userId, contentId) < 0 && 
+					!contentId.equals(welcomeMsgId))
+				userMsgDao.deleteMsg(contentId);
+		}
+	}
+	
+	
+	@Override
+	public long queryUserMsgCount(Integer userId, Integer otherId, Integer maxId) {
+		return userMsgRecipientBoxDao.queryRecipientCount(userId, otherId, maxId) +
+				userMsgSendBoxDao.querySendCount(userId, otherId, maxId);
+	}
+
+	
+	@Override
+	public void saveUserWelcomeMsg(Integer userId) throws Exception {
+
+		// 查询接收过欢迎消息,没有的话接收一条
+		if(userMsgRecipientBoxDao.queryContentId(userId, 
+				customerServiceId, welcomeMsgId) < 0) {
+			
+			userMsgRecipientBoxDao.saveRecipientMsg(new UserMsgBox(welcomeMsgId,
+					customerServiceId, userId));
+			UserPushInfo pushInfo = userInfoDao.queryUserPushInfoById(userId);
+			pushService.pushMiShuMessage(customerServiceId, welcomeMsg, pushInfo);
 		}
 	}
 	
@@ -518,27 +637,6 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 		userMsgShieldDao.deleteShield(userId, shieldId);
 	}
 	
-	
-//	@Override
-//	public void buildReceiveMsg(Integer minId, Integer userId, Integer otherId, Map<String, Object> jsonMap)
-//			throws Exception {
-//		List<UserMsgRecipientDto> list = userMsgDao.queryRecipientMsg(minId, otherId, userId);
-//		if(list.size() > 0) {
-//			Integer maxId = list.get(0).getId();
-//			userMsgRecipientBoxDao.updateRecipientCK(maxId, otherId, userId);
-//		}
-//		jsonMap.put(OptResult.JSON_KEY_MSG, list);
-//	}
-	
-//	@Override
-//	public void saveSysMsg(Integer senderId, Integer recipientId,
-//			String content, Integer objType, Integer objId,
-//			String objMeta, String objMeta2, String thumbPath, Integer weight) throws Exception {
-////		Integer id = keyGenService.generateId(KeyGenServiceImpl.OP_SYS_MSG_ID);
-//		sysMsgDao.saveMsg(new OpSysMsg(senderId, recipientId,
-//				new Date(), content, objType, objId, objMeta, objMeta2, thumbPath, weight));
-////		return id;
-//	}
 	
 	@Override
 	public void buildSysMsg(final Integer userId, int maxId,
@@ -555,7 +653,7 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 				unionSysMsg(list, commonList, userId, rowSelection.getLimit());
 				updateSysMsgIsNew(userId, list);
 				if(!list.isEmpty())
-					updateSysMsgUnreadState(userId, list.get(0).getId());
+					msgUnreadDao.clearCount(userId, list.get(0).getId(), UnreadType.SYSMSG);
 				return list;
 			}
 
@@ -595,18 +693,6 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 				dto.setIsNew(Tag.TRUE);
 		}
 	}
-	
-	/**
-	 * 更新未读状态
-	 * 
-	 * @param userId
-	 * @param readId
-	 */
-	private void updateSysMsgUnreadState(Integer userId, Integer readId) {
-		msgUnreadDao.clearCount(userId, UnreadType.SYSMSG);
-		msgUnreadDao.updateReadId(userId, readId, UnreadType.SYSMSG);
-	}
-	
 	
 	/**
 	 * 合并用户收到的系统消息和公用系统消息
@@ -667,15 +753,6 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 		}
 	}
 	
-
-	@Override
-	public void saveSquareRuleMsg(Integer userId) throws Exception {
-		Integer sid = userMsgDao.querySenderId(customerServiceId, userId, Tag.USER_MSG_SQUARE_RULE);
-		if(sid == null) {
-			saveUserMsg(customerServiceId, userId, squareRuleMsg, Tag.USER_MSG_SQUARE_RULE);
-		}
-	}
-
 	@Override
 	public UserMsgStatus getMsgStatus(Integer userId, Integer joinId)
 			throws Exception {
@@ -712,7 +789,7 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 	public void buildILikeOtherMsg(Integer maxId, final Integer userId, final Integer authorId, 
 			Integer start, Integer limit, Map<String, Object> jsonMap) throws Exception {
 		final List<UserMsgLiked> list = new ArrayList<UserMsgLiked>();
-		final UserInfoAvatar avatar = userInfoDao.queryUserAvatar(authorId);
+		final UserInfoAvatar avatar = userInfoDao.queryUserInfoAvatar(authorId);
 		userInfoService.extractVerify(avatar);
 		userInteractService.extractRemark(userId, avatar);
 		if(avatar != null) {
@@ -760,7 +837,7 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 	public void buildOtherLikeMeMsg(Integer maxId, final Integer userId, final Integer authorId, 
 			Integer start, Integer limit, Map<String, Object> jsonMap) throws Exception {
 		final List<UserMsgLiked> list = new ArrayList<UserMsgLiked>();
-		final UserInfoAvatar avatar = userInfoDao.queryUserAvatar(userId);
+		final UserInfoAvatar avatar = userInfoDao.queryUserInfoAvatar(userId);
 		userInfoService.extractVerify(avatar);
 		userInteractService.extractRemark(authorId, avatar);
 		if(avatar != null) {
@@ -1189,7 +1266,6 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 			
 		}, OptResult.JSON_KEY_MSG, null);
 	}
-
 
 }
 

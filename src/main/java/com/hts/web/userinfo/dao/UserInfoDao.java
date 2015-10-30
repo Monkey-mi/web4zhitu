@@ -9,6 +9,7 @@ import java.util.Set;
 
 import com.hts.web.base.database.RowSelection;
 import com.hts.web.common.dao.BaseDao;
+import com.hts.web.common.pojo.UserAvatar;
 import com.hts.web.common.pojo.UserAvatarLite;
 import com.hts.web.common.pojo.UserInfo;
 import com.hts.web.common.pojo.UserInfoAvatar;
@@ -564,7 +565,15 @@ public interface UserInfoDao extends BaseDao {
 	 * @param uid
 	 * @return
 	 */
-	public UserInfoAvatar queryUserAvatar(Integer uid);
+	public UserInfoAvatar queryUserInfoAvatar(Integer uid);
+	
+	/**
+	 * 查询用户头像
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	public UserAvatar queryUserAvatar(Integer uid);
 	
 	
 	/**

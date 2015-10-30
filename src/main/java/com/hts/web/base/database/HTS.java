@@ -73,6 +73,11 @@ public class HTS {
 	public static final String USER_MSG_RECIPIENT_BOX = DB + "user_msg_recipient_box";
 	
 	/**
+	 * 用户私信对话表
+	 */
+	public static final String USER_MSG_CONVERSATION = DB + "user_msg_conversation";
+	
+	/**
 	 * 用户私信屏蔽表
 	 */
 	public static final String USER_MSG_SHIELD = DB + "user_msg_shield";

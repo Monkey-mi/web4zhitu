@@ -2,6 +2,7 @@ package com.hts.web.userinfo.dao;
 
 import java.util.List;
 
+import com.hts.web.base.database.RowCallback;
 import com.hts.web.base.database.RowSelection;
 import com.hts.web.common.dao.BaseDao;
 import com.hts.web.common.pojo.UserMsgBox;
@@ -33,7 +34,7 @@ public interface UserMsgSendBoxDao extends BaseDao {
 	 * @param contentId
 	 * @author lynch 2015-10-28
 	 */
-	public void deleteSendMsg(Integer recipientId, Integer contentId);
+	public void deleteSendMsg(Integer senderId, Integer recipientId, Integer contentId);
 
 	/**
 	 * 查询收件箱消息
@@ -44,8 +45,8 @@ public interface UserMsgSendBoxDao extends BaseDao {
 	 * @author lynch 2015-10-28
 	 * 
 	 */
-	public List<UserMsgDto> querySendMsg(Integer recipientId,
-			RowSelection rowSelection);
+	public void querySendMsg(Integer senderId, Integer recipientId,
+			RowSelection rowSelection, RowCallback<UserMsgDto> callback);
 	
 	/**
 	 * 查询收件箱消息
@@ -56,7 +57,30 @@ public interface UserMsgSendBoxDao extends BaseDao {
 	 * @return
 	 * @author lynch 2015-10-28
 	 */
-	public List<UserMsgDto> querySendMsg(Integer maxId, Integer recipientId, 
-			RowSelection rowSelection);
+	public void querySendMsg(Integer maxId, Integer senderId, Integer recipientId,
+			RowSelection rowSelection, RowCallback<UserMsgDto> callback);
+	
+	
+	/**
+	 * 查询消息id
+	 * 
+	 * @param senderId
+	 * @param recipientId
+	 * @param contentId
+	 */
+	public Integer queryContentId(Integer senderId, 
+			Integer recipientId, Integer contentId);
+	
+	/**
+	 * 查询发件数
+	 * 
+	 * @param senderId
+	 * @param recipientId
+	 * @param maxId
+	 * @return
+	 * 
+	 * @author lynch 2015-10-30
+	 */
+	public long querySendCount(Integer senderId, Integer recipientId, Integer maxId);
 	
 }

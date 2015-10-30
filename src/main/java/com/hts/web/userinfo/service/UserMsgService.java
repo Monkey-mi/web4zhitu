@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.hts.web.base.database.RowSelection;
 import com.hts.web.common.pojo.PushStatus;
+import com.hts.web.common.pojo.UserMsgDto;
 import com.hts.web.common.pojo.UserMsgStatus;
 import com.hts.web.common.service.BaseService;
 
@@ -58,16 +60,15 @@ public interface UserMsgService extends BaseService {
 	public void buildInteractMsg(Integer userId, String maxDateStr, int start, int limit, Map<String, Object> jsonMap) throws Exception;
 	
 	/**
-	 * 保存普通消息
+	 * 保存私信消息
 	 * 
 	 * @param senderId
 	 * @param recipientId
 	 * @param content
-	 * @param msgType
 	 * @throws Exception
 	 */
 	public Integer saveUserMsg(Integer senderId, Integer recipientId,
-			String content, Integer msgType) throws Exception;
+			String content) throws Exception;
 	
 	/**
 	 * 构建和指定用户的私信列表
@@ -82,6 +83,28 @@ public interface UserMsgService extends BaseService {
 	 */
 	public void buildUserMsg(Integer userId, Integer otherId, int maxId, int start,
 			int limit, Map<String, Object> jsonMap) throws Exception;
+	
+	
+	/**
+	 * 查询私信列表
+	 * @param userId
+	 * @param otherId
+	 * @param maxId
+	 * @param rowSelection
+	 * @return
+	 */
+	public List<UserMsgDto> queryUserMsg(Integer userId, Integer otherId, 
+			Integer maxId, RowSelection rowSelection);
+	
+	/**
+	 * 查询私信总数
+	 * 
+	 * @param userId
+	 * @param otherId
+	 * @param maxId
+	 * @return
+	 */
+	public long queryUserMsgCount(Integer userId, Integer otherId, Integer maxId);
 	
 	/**
 	 * 构建接收到的消息列表
@@ -103,7 +126,15 @@ public interface UserMsgService extends BaseService {
 	 * 
 	 * @param contentId
 	 */
-	public void updateUserMsgValid(Integer contentId, Integer userId) throws Exception;
+	public void delUserMsg(Integer contentId, Integer userId, Integer otherId) throws Exception;
+	
+	/**
+	 * 保存欢迎私信
+	 * 
+	 * @param userId
+	 * @throws Exception
+	 */
+	public void saveUserWelcomeMsg(Integer userId) throws Exception;
 	
 	/**
 	 * 构建未读消息列表
@@ -122,41 +153,6 @@ public interface UserMsgService extends BaseService {
 	 */
 	public void deleteSysMsg(Integer recipientId, Integer msgId) throws Exception;
 	
-	
-//	/**
-//	 * 根据id删除消息
-//	 * @param msgId
-//	 * @throws Exception
-//	 */
-//	public void deleteById(Integer msgId) throws Exception;
-	
-//	/**
-//	 * 获取消息id
-//	 * 
-//	 * @param senderId
-//	 * @param recipientId
-//	 * @param objType
-//	 * @param objId
-//	 * @return
-//	 */
-//	public Integer getValidMessageId(Integer senderId, Integer recipientId,
-//			Integer objType, Integer objId);
-	
-//	/**
-//	 * 获取消息id
-//	 * 
-//	 * @param senderId
-//	 * @param recipientId
-//	 * @param objType
-//	 * @param objId
-//	 * @param objMeta2
-//	 * @return
-//	 */
-//	public Integer getValidMessageId(Integer senderId, Integer recipientId,
-//			Integer objType, Integer objId, String objMeta2);
-	
-	
-	
 	/**
 	 * 保存私信屏蔽
 	 * 
@@ -173,28 +169,6 @@ public interface UserMsgService extends BaseService {
 	 * @throws Exception
 	 */
 	public void deleteShield(Integer userId, Integer shieldId) throws Exception;
-	
-	/**
-	 * 查询指定用户发送的私信
-	 * 
-	 * @param minId
-	 * @param userId
-	 * @param otherId
-	 * @param jsonMap
-	 * @throws Exception
-	 */
-//	public void buildReceiveMsg(Integer minId, Integer userId, Integer otherId, 
-//			Map<String, Object> jsonMap) throws Exception;
-	
-	
-	/**
-	 * 保存广场规则私信
-	 * 
-	 * @param userId
-	 * @throws Exception
-	 */
-	public void saveSquareRuleMsg(Integer userId) throws Exception;
-	
 	
 	/**
 	 * 获取消息发送状态

@@ -30,17 +30,13 @@ public class MsgUnreadDaoImpl extends BaseDaoImpl implements MsgUnreadDao {
 			+ " set %s_count=%s_count+1 where user_id=?";
 	
 	private static final String CLEAR_COUNT = "update " + table
-			+ " set %s_count=0 where user_id=?";
+			+ " set %s_count=0, %s_id=? where user_id=?";
 	
 	private static final String QUERY_COUNT_INFO = "select " + UNREAD_COUNT_INFO
 			+ " from " + table + " where user_id=?";
 	
 	private static final String QUERY_READ_ID = "select %s_id from " + table
 			+ " where user_id=?";
-	
-	private static final String UPDATE_READ_ID = "update " + table 
-			+ " set %s_id=? where user_id=?";
-	
 	
 	@Override
 	public void saveUnRead(Integer userId) {
@@ -64,9 +60,9 @@ public class MsgUnreadDaoImpl extends BaseDaoImpl implements MsgUnreadDao {
 	}
 
 	@Override
-	public void clearCount(Integer userId, UnreadType unreadType) {
+	public void clearCount(Integer userId, Integer readId, UnreadType unreadType) {
 		getMasterJdbcTemplate().update(
-				String.format(CLEAR_COUNT, unreadType), userId);
+				String.format(CLEAR_COUNT, unreadType, unreadType), readId, userId);
 	}
 
 	@Override
@@ -91,12 +87,6 @@ public class MsgUnreadDaoImpl extends BaseDaoImpl implements MsgUnreadDao {
 		} catch(EmptyResultDataAccessException e) {
 			return null;
 		}
-	}
-
-	@Override
-	public void updateReadId(Integer userId, Integer id, UnreadType unreadType) {
-		getMasterJdbcTemplate().update(
-				String.format(UPDATE_READ_ID, unreadType), id, userId);
 	}
 
 	@Override

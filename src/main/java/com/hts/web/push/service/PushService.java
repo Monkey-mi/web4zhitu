@@ -94,7 +94,7 @@ public interface PushService {
 	 * @throws Exception
 	 */
 	public void pushMiShuMessage(Integer senderId, String content,
-			UserPushInfo userPushInfo, PushFailedCallback callback)
+			UserPushInfo userPushInfo)
 			throws Exception;
 
 	/**

@@ -2,8 +2,10 @@ package com.hts.web.userinfo.dao;
 
 import java.util.List;
 
+import com.hts.web.base.database.RowCallback;
 import com.hts.web.base.database.RowSelection;
 import com.hts.web.common.dao.BaseDao;
+import com.hts.web.common.pojo.UserAvatar;
 import com.hts.web.common.pojo.UserMsgBox;
 import com.hts.web.common.pojo.UserMsgDto;
 
@@ -33,7 +35,7 @@ public interface UserMsgRecipientBoxDao extends BaseDao {
 	 * @param contentId
 	 * @author lynch 2015-10-28
 	 */
-	public void deleteRecipientMsg(Integer recipientId, Integer contentId);
+	public void deleteRecipientMsg(Integer recipientId, Integer senderId, Integer contentId);
 
 	/**
 	 * 查询收件箱消息
@@ -44,8 +46,8 @@ public interface UserMsgRecipientBoxDao extends BaseDao {
 	 * @author lynch 2015-10-28
 	 * 
 	 */
-	public List<UserMsgDto> queryRecipientMsg(Integer recipientId,
-			RowSelection rowSelection);
+	public void queryRecipientMsg(Integer recipientId, Integer senderId,
+			RowSelection rowSelection, RowCallback<UserMsgDto> callback);
 	
 	/**
 	 * 查询收件箱消息
@@ -56,7 +58,40 @@ public interface UserMsgRecipientBoxDao extends BaseDao {
 	 * @return
 	 * @author lynch 2015-10-28
 	 */
-	public List<UserMsgDto> queryRecipientMsg(Integer maxId, Integer recipientId, 
-			RowSelection rowSelection);
+	public void queryRecipientMsg(Integer maxId, Integer recipientId,
+			Integer senderId, RowSelection rowSelection, RowCallback<UserMsgDto> callback);
+	
+	
+	/**
+	 * 查询消息id
+	 * 
+	 * @param recipientId
+	 * @param senderId
+	 * @param contentId
+	 * @return
+	 */
+	public Integer queryContentId(Integer recipientId, Integer senderId,
+			Integer contentId);
 
+	/**
+	 * 查询接受者id
+	 * 
+	 * @param recipientId
+	 * @param senderId
+	 * @param content
+	 * @return
+	 */
+	public Integer queryRecipientId(Integer recipientId, Integer senderId,
+			Integer contentId);
+	
+	/**
+	 * 查询收件总数
+	 * 
+	 * @param recipientId
+	 * @param senderId
+	 * @param maxId
+	 * @return
+	 */
+	public long queryRecipientCount(Integer recipientId, 
+			Integer senderId, Integer maxId);
 }

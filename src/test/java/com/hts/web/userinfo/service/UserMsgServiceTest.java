@@ -74,45 +74,26 @@ public class UserMsgServiceTest extends BaseTest {
 	
 	@Test
 	public void testSaveUserMsg() throws Exception {
-		service.saveUserMsg(400, 114, "怎么", Tag.USER_MSG_NORMAL);
-	}
-	
-	@Test
-	public void testBuildUserMsgCount() throws Exception {
-		Map<String, Object> jsonMap = new HashMap<String, Object>();
-		service.buildUserConcernMsgIndex(116, 0, 1, 10, jsonMap);
-		logObj(jsonMap);
-	}
-	
-	@Test
-	public void testBuildUserUnConcernMsg() throws Exception {
-		Map<String, Object> jsonMap = new HashMap<String, Object>();
-		service.buildUserUnConcernMsgIndex(485, 0, 1, 10, jsonMap);
-		logObj(jsonMap);
+		service.saveUserMsg(400, 114, "怎么");
 	}
 	
 	@Test
 	public void testBuildUserMsg() throws Exception {
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
 		service.buildUserMsg(527, 114, 0, 1, 10, jsonMap);
+		service.buildUserMsg(527, 114, 1000, 1, 10, jsonMap);
 		logObj(jsonMap);
 	}
 	
 	@Test
-	public void testUpdateChatValid() throws Exception {
-		service.updateChatValid(660, 485, 410);
+	public void saveUserWelcomeMsgTest() throws Exception {
+		service.saveUserWelcomeMsg(390);
 	}
 	
+
 	@Test
-	public void buildUnReadRecipientMsg() throws Exception {
-		Map<String, Object> jsonMap = new HashMap<String, Object>();
-		service.buildReceiveMsg(660, 440, 550, jsonMap);
-		logObj(jsonMap);
-	}
-	
-	@Test
-	public void testSaveSquareRuleMsg() throws Exception {
-		service.saveSquareRuleMsg(390);
+	public void delUserMsgTest() throws Exception {
+		service.delUserMsg(1500, 390, 0);
 	}
 	
 	@Test

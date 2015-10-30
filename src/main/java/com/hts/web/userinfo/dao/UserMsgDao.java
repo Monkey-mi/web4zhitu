@@ -20,4 +20,11 @@ public interface UserMsgDao extends BaseDao {
 	 */
 	public void saveMsg(UserMsg msg);
 	
+	/**
+	 * 删除私信
+	 * 
+	 * @param id
+	 */
+	public void deleteMsg(Integer id);
+	
 }

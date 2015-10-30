@@ -19,6 +19,7 @@ import com.hts.web.base.database.HTS;
 import com.hts.web.base.database.RowSelection;
 import com.hts.web.base.database.SQLUtil;
 import com.hts.web.common.dao.impl.BaseDaoImpl;
+import com.hts.web.common.pojo.UserAvatar;
 import com.hts.web.common.pojo.UserAvatarLite;
 import com.hts.web.common.pojo.UserInfo;
 import com.hts.web.common.pojo.UserInfoAvatar;
@@ -72,6 +73,8 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 	 * 推荐信息
 	 */
 	private static final String REC_INFO = "id,platform_code,province,city,user_label,concern_count";
+	
+	private static final String USER_AVATAR_INFO = "id,user_name,user_avatar,user_avatar_l";
 	
 	/**
 	 * 保存用户信息
@@ -421,6 +424,9 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 			+ " where accept_at_push=0 and id in";
 	
 	private static final String QUERY_SHIELD = "select shield from " + table
+			+ " where id=?";
+	
+	private static final String QUERY_USER_AVATAR = "select " + USER_AVATAR_INFO + " from " + table
 			+ " where id=?";
 	
 	@Override
@@ -984,7 +990,7 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 	}
 	
 	@Override
-	public UserInfoAvatar queryUserAvatar(Integer uid) {
+	public UserInfoAvatar queryUserInfoAvatar(Integer uid) {
 		return queryForObjectWithNULL(QUERY_USER_THUMBNAIL_BY_ID, new Object[]{uid}, 
 				new RowMapper<UserInfoAvatar>() {
 
@@ -1344,6 +1350,24 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 		}catch(EmptyResultDataAccessException e) {
 			return 0;
 		}
+	}
+
+	@Override
+	public UserAvatar queryUserAvatar(Integer uid) {
+		return getJdbcTemplate().queryForObject(QUERY_USER_AVATAR, 
+				new RowMapper<UserAvatar>() {
+
+					@Override
+					public UserAvatar mapRow(ResultSet rs, int rowNum) throws SQLException {
+						UserAvatar avatar = new UserAvatar();
+						avatar.setId(rs.getInt("id"));
+						avatar.setUserName(rs.getString("user_name"));
+						avatar.setUserAvatar(rs.getString("user_avatar"));
+						avatar.setUserAvatarL(rs.getString("user_avatar_l"));
+						return avatar;
+					}
+			
+		}, uid);
 	}
 
 }
