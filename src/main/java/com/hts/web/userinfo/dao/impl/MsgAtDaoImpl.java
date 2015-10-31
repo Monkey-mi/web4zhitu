@@ -31,12 +31,6 @@ public class MsgAtDaoImpl extends BaseDaoImpl implements MsgAtDao {
 			+ "(id,user_id,at_id,world_id,obj_type,obj_id,content) values ";
 	private static final String SAVE_MSG_VALUES = "(?,?,?,?,?,?,?)";
 	private static final int SAVE_MSG_VALUES_LEN = 7;
-	
-	private static final String QUERY_UN_CK_COUNT = "select count(*) from " + table
-			+ " where at_id=? and ck=0";
-	
-	private static final String UPDATE_CK = "update " + table
-			+ " set ck=1 where at_id=? and ck=0";
 
 	private static final String QUERY_MSG = "select " + MSG_INFO + "," + USER_INFO + "," + WORLD_INFO
 			+ " from " + table + " m0," + HTS.USER_INFO + " u0," + HTS.HTWORLD_HTWORLD + " h0"
@@ -73,16 +67,16 @@ public class MsgAtDaoImpl extends BaseDaoImpl implements MsgAtDao {
 		}
 		getMasterJdbcTemplate().update(sb.toString(), args);
 	}
-
-	@Override
-	public Long queryUnCheckCount(Integer atId) {
-		return getJdbcTemplate().queryForLong(QUERY_UN_CK_COUNT, atId);
-	}
-
-	@Override
-	public void updateCK(Integer atId) {
-		getMasterJdbcTemplate().update(UPDATE_CK, atId);
-	}
+//
+//	@Override
+//	public Long queryUnCheckCount(Integer atId) {
+//		return getJdbcTemplate().queryForLong(QUERY_UN_CK_COUNT, atId);
+//	}
+//
+//	@Override
+//	public void updateCK(Integer atId) {
+//		getMasterJdbcTemplate().update(UPDATE_CK, atId);
+//	}
 
 	@Override
 	public List<MsgAtDto> queryMsg(Integer atId, RowSelection rowSelection) {

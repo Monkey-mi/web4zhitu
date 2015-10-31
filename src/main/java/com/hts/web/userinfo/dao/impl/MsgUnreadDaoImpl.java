@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.hts.web.base.database.HTS;
+import com.hts.web.base.database.SQLUtil;
 import com.hts.web.common.dao.impl.BaseDaoImpl;
 import com.hts.web.common.pojo.UserMsgUnreadCount;
 import com.hts.web.userinfo.dao.MsgUnreadDao;
@@ -31,6 +32,10 @@ public class MsgUnreadDaoImpl extends BaseDaoImpl implements MsgUnreadDao {
 	
 	private static final String CLEAR_COUNT = "update " + table
 			+ " set %s_count=0, %s_id=? where user_id=?";
+	
+	private static final String ADD_COUNTS = "update " + table
+			+ " set %s_count=%s_count+1 where user_id in ";
+	
 	
 	private static final String QUERY_COUNT_INFO = "select " + UNREAD_COUNT_INFO
 			+ " from " + table + " where user_id=?";
@@ -63,6 +68,13 @@ public class MsgUnreadDaoImpl extends BaseDaoImpl implements MsgUnreadDao {
 	public void clearCount(Integer userId, Integer readId, UnreadType unreadType) {
 		getMasterJdbcTemplate().update(
 				String.format(CLEAR_COUNT, unreadType, unreadType), readId, userId);
+	}
+	
+	@Override
+	public void addCounts(Integer[] userIds, UnreadType unreadType) {
+		String inSelection = SQLUtil.buildInSelection(userIds);
+		String sql = String.format(ADD_COUNTS, unreadType) + inSelection;
+		getMasterJdbcTemplate().update(sql, (Object[])userIds);
 	}
 
 	@Override
@@ -98,5 +110,6 @@ public class MsgUnreadDaoImpl extends BaseDaoImpl implements MsgUnreadDao {
 			return -1;
 		}
 	}
+
 
 }

@@ -318,33 +318,7 @@ public interface UserMsgService extends BaseService {
 	 */
 	public Integer queryAtId(Integer objType, Integer objId, Integer index,
 			String atName) throws Exception;
-	
-	/**
-	 * 查询未读消息数量
-	 * 
-	 * @param atId
-	 * @return
-	 * @throws Exception
-	 * 
-	 * @version 3.0.5
-	 * @author lynch 2015-09-22
-	 * 
-	 */
-	public Integer queryUnReadAtCount(Integer atId) throws Exception;
 
-	
-	/**
-	 * 更新AT数量
-	 * 
-	 * @param atId
-	 * @return
-	 * @throws Exception
-	 * 
-	 * @version 3.0.5
-	 * @author lynch 2015-09-22
-	 */
-	public void updateAtCK(Integer atId) throws Exception;
-	
 	/**
 	 * 构建AT消息
 	 * 

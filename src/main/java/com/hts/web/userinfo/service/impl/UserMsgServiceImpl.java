@@ -376,12 +376,16 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 	@Override
 	public void buildUnreadSysMsgCount(Integer userId, Map<String, Object> jsonMap) {
 		UserMsgUnreadCount cnt = queryUnreadCountInfo(userId);
+		
 		long followCount = userConcernDao.queryUnCheckFollowCount(userId);
 		long likedCount = worldLikedDao.queryUnCheckUserLikedCount(userId);
 		long commentCount = msgCommentDao.queryUnCkCount(userId);
-		long atMsgCount = atDao.queryUnCheckCount(userId);
-		long msgCount = cnt.getSysmsgCount() + sysMsgCommonCacheDao.higherCount(cnt.getSysmsgId());
+		
+		long atMsgCount = cnt.getAtCount();
+		long msgCount = cnt.getSysmsgCount() 
+				+ sysMsgCommonCacheDao.higherCount(cnt.getSysmsgId());
 		long userMsgCount = cnt.getUmsgCount();
+		
 		jsonMap.put(OptResult.JSON_KEY_FOLLOW_COUNT, followCount);
 		jsonMap.put(OptResult.JSON_KEY_LIKED_COUNT, likedCount);
 		jsonMap.put(OptResult.JSON_KEY_COMMENT_COUNT, commentCount);
@@ -1042,7 +1046,6 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 				}
 			}
 		}
-		
 	}
 	
 	/**
@@ -1083,6 +1086,7 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 		List<PushStatus> statusList;
 		MsgAt[] msgIdxs;
 		List<MsgAt> msgs;
+		List<Integer> msgIds;
 		Set<Integer> shieldSet;
 		Set<Integer> noAcceptAtSet;
 		Integer[] atIds;
@@ -1109,6 +1113,7 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 		statusList = new ArrayList<PushStatus>();
 		msgIdxs = new MsgAt[atIds.length];
 		msgs = new ArrayList<MsgAt>();
+		msgIds = new ArrayList<Integer>();
 		
 		for(int i = 0; i < atIds.length;i++) {
 			
@@ -1143,6 +1148,7 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 				status.setShield(shield);
 				statusList.add(status);
 				msgs.add(msg);
+				msgIds.add(atIds[i]);
 			}
 		}
 		
@@ -1160,6 +1166,7 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 		}
 		
 		atDao.saveAtMsgs(msgs);
+		addAtUnreadCount(msgs);
 		
 		if(push && statusList != null) {
 			for(PushStatus status : statusList) {
@@ -1169,6 +1176,22 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 		}
 		
 		return statusList;
+	}
+	
+	/**
+	 * 增加At未读消息数量
+	 * 
+	 * @param msgs
+	 * @author lynch 2015-10-31
+	 */
+	private void addAtUnreadCount(List<MsgAt> msgs) {
+		if(!msgs.isEmpty()) {
+			Integer[] atIds = new Integer[msgs.size()];
+			for(int i = 0; i < atIds.length; i++) {
+				atIds[i] = msgs.get(i).getAtId();
+			}
+			msgUnreadDao.addCounts(atIds, UnreadType.AT);
+		}
 	}
 	
 	@Override
@@ -1206,24 +1229,17 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 	}
 
 	@Override
-	public Integer queryUnReadAtCount(Integer atId) throws Exception {
-		return atDao.queryUnCheckCount(atId).intValue();
-	}
-
-	@Override
-	public void updateAtCK(Integer atId) throws Exception {
-		atDao.updateCK(atId);
-	}
-	
-	@Override
 	public void buildAtMsg(final Integer atId, Integer maxId, Integer start, Integer limit,
 			Map<String, Object> jsonMap) throws Exception {
 		buildSerializables(maxId, start, limit, jsonMap, new SerializableListAdapter<MsgAtDto>() {
 
 			@Override
 			public List<MsgAtDto> getSerializables(RowSelection rowSelection) throws Exception {
-				atDao.updateCK(atId);
-				return atDao.queryMsg(atId, rowSelection);
+				List<MsgAtDto> list = atDao.queryMsg(atId, rowSelection);
+				if(list != null && !list.isEmpty()) {
+					msgUnreadDao.clearCount(atId, list.get(0).getId(), UnreadType.AT);
+				}
+				return list;
 			}
 
 			@Override

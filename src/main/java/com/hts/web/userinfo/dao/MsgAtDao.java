@@ -36,7 +36,7 @@ public interface MsgAtDao extends BaseDao {
 	 * @version 3.0.5
 	 * @author lynch 2015-09-22
 	 */
-	public Long queryUnCheckCount(Integer atId);
+//	public Long queryUnCheckCount(Integer atId);
 	
 	
 	/**
@@ -48,7 +48,7 @@ public interface MsgAtDao extends BaseDao {
 	 * @author lynch 2015-09-22
 	 * @return
 	 */
-	public void updateCK(Integer atId);
+//	public void updateCK(Integer atId);
 	
 	/**
 	 * 查询消息列表
