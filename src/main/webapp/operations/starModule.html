@@ -82,7 +82,7 @@ img {
 	width:750px;
 	/* height:160px; */
 	position:absolute;
-	margin:-50px 0px 0 0;
+	margin:110px 0px 0 0;
 }
 
 .whriteBlock{
@@ -477,7 +477,8 @@ var pastTopicPicFoot = '"></a></div></div>';
 					 	if(result.starModuleInfos[i].title == ''){
 					 		title1Module = '';
 					 	}
-					 	var module = '<div class="user-wrap"><hr class="moduleHr">'+ title1Module + '<div class="title2">'+ result.starModuleInfos[i].subtitle +'</div><div class="whriteBlock" ><table border="0" class="tableLeft"><tr>' + 
+					 	var title2Module = '<div class="title2">'+ result.starModuleInfos[i].subtitle +'</div>';
+					 	var module = '<div class="user-wrap">' + title2Module +'<hr class="moduleHr">'+ title1Module +'<div class="whriteBlock" ><table border="0" class="tableLeft"><tr>' + 
 					 								'<td rowspan="2"  class="tableFace" ><div class="face-out"><div class="face"><a href="imzhitu://user?uid='+ result.starModuleInfos[i].userId +'"><img src="'+ result.starModuleInfos[i].facePic +'"/></a></div></div></td>'+
 					 								'<td align="left" class="tableMiddleSpace"></td><td align="left" class="tableUserName"><div class="userName">'+ result.starModuleInfos[i].userName +'</div></td></tr>'+
 					 								'<tr><td align="left" class="tableMiddleSpace"></td><td><a id="concern-'+ result.starModuleInfos[i].userId +'" class="concern-btn concern" name="imzhitu-callapp" href="imzhitu://concern?uid='+ result.starModuleInfos[i].userId +'">+关注</a><a class="concern-btn concerned">已关注</a></td></tr>'+
@@ -616,7 +617,7 @@ function initLayout(result) {
 		//小副标题
 		title2fontSize = 26,
 		title2width = 750,
-		title2marginTop = -50,
+		title2marginTop = 115,
 
 		//白色模块底
 		whriteWidth = 714,
