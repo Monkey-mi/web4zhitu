@@ -20,7 +20,7 @@ public class SysMsgCommonDeletedDaoImpl extends BaseDaoImpl implements SysMsgCom
 			+ " (recipient_id, msg_id) values (?,?)";
 	
 	private static final String QUERY_MSG_ID = "select msg_id from " + table
-			+ " where recipient_id=? and msg_id<=? order by msg_id desc";
+			+ " where recipient_id=? and msg_id between ? and ?";
 	
 	@Override
 	public void saveDeleted(Integer recipientId, Integer msgId) {
@@ -28,9 +28,9 @@ public class SysMsgCommonDeletedDaoImpl extends BaseDaoImpl implements SysMsgCom
 	}
 
 	@Override
-	public void queryMsgId(Integer maxId, Integer recipientId,
+	public void queryMsgId(Integer maxId, Integer minId, Integer recipientId,
 			final RowCallback<Integer> callback) {
-		getJdbcTemplate().query(QUERY_MSG_ID, new Object[]{recipientId, maxId}, 
+		getJdbcTemplate().query(QUERY_MSG_ID, new Object[]{recipientId, minId, maxId}, 
 				new RowCallbackHandler() {
 
 			@Override

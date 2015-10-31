@@ -29,7 +29,7 @@ public interface SysMsgCommonDeletedDao extends BaseDao {
 	 * @param callback
 	 * @return
 	 */
-	public void queryMsgId(Integer maxId, Integer recipientId,
+	public void queryMsgId(Integer maxId, Integer minId, Integer recipientId,
 			RowCallback<Integer> callback);
 	
 }

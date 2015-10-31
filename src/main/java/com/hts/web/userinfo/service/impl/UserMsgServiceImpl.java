@@ -469,7 +469,8 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 				try {
 					String answer = openSearchService.searchAnswer(content);
 					if(answer != null) {
-						saveUserMsg(recipientId, senderId, answer);
+						Integer id = saveUserMsg(recipientId, senderId, answer);
+						msgConversationDao.sendMsg(recipientId, senderId, id);
 					}
 				} catch (Exception e) {
 					logger.warn("xiao mi shu auto response error:" + e.getMessage());
@@ -677,7 +678,7 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 				return 0l;
 			}
 
-		}, OptResult.JSON_KEY_MSG, OptResult.JSON_KEY_TOTAL_COUNT); 
+		}, OptResult.JSON_KEY_MSG, null); 
 	}
 
 	/**
@@ -708,27 +709,17 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 	 */
 	private void unionSysMsg(List<OpSysMsgDto> userList, 
 			List<OpSysMsgDto> commonList, Integer userId, Integer limit) {
-		Integer maxId;
-
-		if(commonList.isEmpty()) {
-			return;
-		}
 		
-		if(userList.isEmpty()) {
-			if(commonList.isEmpty()) 
-				return;
-			else
-				maxId = commonList.get(0).getId();
-		} else {
-			maxId = userList.get(0).getId() > commonList.get(0).getId() 
-					? userList.get(0).getId() :  commonList.get(0).getId();
-		}
+		if(commonList.isEmpty())
+			return;
 		
 		final Map<Integer, OpSysMsgDto> map = new HashMap<Integer, OpSysMsgDto>();
 		for(OpSysMsgDto dto : commonList) {
 			map.put(dto.getId(), dto);
 		}
-		sysMsgCommonDeletedDao.queryMsgId(maxId, userId, new RowCallback<Integer>() {
+		sysMsgCommonDeletedDao.queryMsgId(commonList.get(0).getId(),
+				commonList.get(commonList.size()-1).getId(), 
+				userId, new RowCallback<Integer>() {
 
 			@Override
 			public void callback(Integer t) {

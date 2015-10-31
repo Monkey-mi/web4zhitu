@@ -68,7 +68,7 @@ public class UserMsgServiceTest extends BaseTest {
 	@Test
 	public void testBuildSysMsg() throws Exception {
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
-		service.buildSysMsg(1549, 0, 1, 10, false, false, true, jsonMap);
+		service.buildSysMsg(4, 0, 1, 10, false, false, true, jsonMap);
 		logObj(jsonMap);
 	}
 	

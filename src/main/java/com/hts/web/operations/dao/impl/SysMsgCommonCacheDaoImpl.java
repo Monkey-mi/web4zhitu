@@ -42,11 +42,16 @@ public class SysMsgCommonCacheDaoImpl extends BaseCacheDaoImpl<OpSysMsgDto>imple
 
 	@Override
 	public List<OpSysMsgDto> queryMsg(Integer maxId, Integer limit) {
-		Entry<Integer, Integer> entry = index.floorEntry(maxId);
+		if(index.isEmpty()) {
+			rebuildIndex();
+		}
+		Entry<Integer, Integer> entry = index.lowerEntry(maxId);
 		if(entry != null) {
 			Integer idx = entry.getValue();
-			return getRedisTemplate().boundListOps(
-					CacheKeies.OP_MSG_COMMON_SYSMSG).range(idx, idx+limit-1);
+			if(idx >= 0) {
+				return getRedisTemplate().boundListOps(
+						CacheKeies.OP_MSG_COMMON_SYSMSG).range(idx, idx+limit-1);
+			}
 		}
 		return new ArrayList<OpSysMsgDto>();
 	}
@@ -77,5 +82,4 @@ public class SysMsgCommonCacheDaoImpl extends BaseCacheDaoImpl<OpSysMsgDto>imple
 		return 0;
 	}
 	
-
 }
