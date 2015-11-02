@@ -73,7 +73,7 @@ public class MsgUnreadDaoImpl extends BaseDaoImpl implements MsgUnreadDao {
 	@Override
 	public void addCounts(Integer[] userIds, UnreadType unreadType) {
 		String inSelection = SQLUtil.buildInSelection(userIds);
-		String sql = String.format(ADD_COUNTS, unreadType) + inSelection;
+		String sql = String.format(ADD_COUNTS, unreadType, unreadType) + inSelection;
 		getMasterJdbcTemplate().update(sql, (Object[])userIds);
 	}
 
