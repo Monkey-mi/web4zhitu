@@ -82,7 +82,7 @@ img {
 	width:750px;
 	/* height:160px; */
 	position:absolute;
-	margin:110px 0px 0 0;
+	margin:-50px 0px 0 0;
 }
 
 .whriteBlock{
@@ -97,10 +97,10 @@ img {
 	margin-left:144px;
 }
 
-.userPic{
+/* .userPic{
 	width:678px;
 	margin: 0 18px 0 18px;
-}
+} */
 
 img.box-shadow{  
     -webkit-box-shadow:0 0 1px  #85848a;  
@@ -133,28 +133,6 @@ img.box-shadow{
 
 .concerned {
 	border-color: #333333;
-}
-
-.table04{
-	width:678px;
-	 height:636px;
-}
-
-.table03{
-	width:678px;
-}
-
-.table02{
-	width:678px;
-	height:339px;
-}
-
-.tr24{
-	height:318px;
-}					
-
-.td3{
-	width:445px;
 }
 
 .userName {
@@ -267,7 +245,7 @@ img.box-shadow{
  .footButtonAndPast{
 	 display:inline-block;
 	 width:750px;
-	 background-color:#edeff1;
+	 background-color:#EAEBEF;
 	 padding-top:20px
  }
  
@@ -298,19 +276,8 @@ img.box-shadow{
 	color:#ADADAD;
 }
 
-/*  服务切往期主题图的样式*/
-.onePastPic{
-	margin-bottom:25px;
-}
-
-	.pastPicTop{
-	margin-top:-65px;
-}
-
 .pastPic{
-	overflow:hidden;
-	height:238px;
-/* 	padding-bottom:10px; */
+	padding-bottom:10px;
 }
 
 .hrStyle{
@@ -377,6 +344,28 @@ img.box-shadow{
 	position: absolute;
 	font-size: 14px;
 }
+
+.superb {
+	width: 714px;
+	height: 714px;
+	display: none;
+	position: relative;
+}
+
+.zt-container {
+	width: 100% !important;
+	height: 100% !important;
+	background: #edeff1 !important;
+}
+
+.zt-loading-bg {
+	background: none !important;
+}
+
+.zt-loading, .zt-desc-hide, .zt-desc-hide {
+	z-index: 99998 !important;
+}
+
 </style>
 </head>
 <body>
@@ -391,13 +380,16 @@ img.box-shadow{
 		<img id="download-close" title="隐藏" onclick="javascript:hideDownloadBtn();" alt="" src="/staticres/base/images/down-close.jpg">
 	</div>  
 
+<link rel="stylesheet" type="text/css" href="/staticres/htworld/phonev2/css/htszoomtour2013122801.css" />
  <script type="text/javascript" src="/staticres/base/js/callapp2.js"></script>  
 <script type="text/javascript" src="/staticres/base/js/jquery/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="/staticres/base/js/baseTools.js"></script>
+<script type="text/javascript" src="/staticres/htworld/common/js/jquery.htszoomtourV3.js"></script>
 <script type="text/javascript">
 var inapp = 0;
 var userIds = "";
-var twoButton = '<div id="twoButton" class="twoButton" ></div>';
-var footButtonAndPast = '<div class="footButtonAndPast" ><div id="pastTopic" class="pastTopic" ><hr class="hrStyle">' + 
+
+var footButtonAndPast = '<div class="footButtonAndPast" ><div id="twoButton" class="twoButton" ></div><div id="pastTopic" class="pastTopic" ><hr class="hrStyle">' + 
 													'<div id="pastFont" class="pastFont">- 上期专题 -</div></div></div>';
 var downloadButton = '<div class="footButton"><a  href="http://a.app.qq.com/o/simple.jsp?pkgname=com.htshuo.htsg"><img style="" alt="" src="http://static.imzhitu.com/op/sticker/151013/download.png"></a></div>';
 var shareButton = ' <div class="footButton" ><a id="share-btn"  href="imzhitu://sharePage"><img style="" alt="" src="http://static.imzhitu.com/op/sticker/151013/share.png"></a></div> ';
@@ -406,10 +398,7 @@ var shareButton = ' <div class="footButton" ><a id="share-btn"  href="imzhitu://
 var topicHref = 'http://imzhitu.com/operations/';  
 /*   var topicHref = 'http://192.168.1.103:8080/operations/';   */
 
-//往期主题ID
-/* var pastTopicId = "?topicId="; */
-
-/* //图片头
+//图片头
 var pastTopicPicHead = '"><img alt="" src="';
 
 //图片尾
@@ -417,18 +406,7 @@ var pastTopicPicFoot = '"></a></div>';
 
 //往期整体链接模块
 var pastTopicHead = '<div class="pastPic" ><a href="';
-var pastTopicPicFoot = '"></a></div>'; */
-
-//下面加入了切割往期图片的格式和div
-//图片头
-var pastTopicPicHead = '"><img alt="" class="pastPicTop" src="';
-
-//图片尾
 var pastTopicPicFoot = '"></a></div>';
-
-//往期整体链接模块
-var pastTopicHead = '<div class="onePastPic"><div class="pastPic" ><a href="';
-var pastTopicPicFoot = '"></a></div></div>';
 
  $(document).ready(function() {
 	 	var url = window.location.href;
@@ -439,7 +417,7 @@ var pastTopicPicFoot = '"></a></div></div>';
 	 	}
 	 	var topicId = topicId1.substring(topicId1.indexOf("=")+1);
 	 //调用获取数据的函数
- 		$.post("./operations/channel_getStarRecommendTopicInfo",{
+ 		$.post("./operations/channel_getStarWorldRecommendTopicInfo",{
 		"topicId":topicId,
 	},function(data){
 		if(data['result'] == 0) {
@@ -457,17 +435,12 @@ var pastTopicPicFoot = '"></a></div></div>';
 			 	
 			 	for(var i = 0;i < result.starModuleInfos.length;i++){
 			 		userIds += result.starModuleInfos[i].userId + ",";
-			 		//一张图时的默认显示
-			 		 var tablePic = '<div class="userPic"><img  alt="" class="box-shadow" src="'+ result.starModuleInfos[i].pic +'"/></div>'; 
 			 		 
-			 		 //判断对应几张图，并将其显示为对应的模式
-					if( result.starModuleInfos[i].pic04 != ""){
-						tablePic = '<table  align="center" border="0" cellspacing="4" class="table04"><tr class="tr24"><td width=50%><img  alt="" class="box-shadow" src="'+ result.starModuleInfos[i].pic +'"/></td><td width=50%><img  alt="" class="box-shadow" src="'+ result.starModuleInfos[i].pic02 +'"/></td></tr><tr><td><img  alt="" class="box-shadow" src="'+ result.starModuleInfos[i].pic03 +'"/></td><td><img  alt="" class="box-shadow" src="'+ result.starModuleInfos[i].pic04 +'"/></td></tr></table>'; 
-					}else if( result.starModuleInfos[i].pic03 != ""){
-						tablePic = '<table  align="center" border="0" class="table03" ><tr><td rowspan=2   class="td3"><img  alt=""  class="box-shadow" src="'+ result.starModuleInfos[i].pic +'"/></td><td><img  alt=""  class="box-shadow" src="'+ result.starModuleInfos[i].pic02 +'"/></td></tr><tr><td><img  alt=""  class="box-shadow" src="'+ result.starModuleInfos[i].pic03 +'"/></td></tr></table>'; 
-					}else if( result.starModuleInfos[i].pic02 != ""){
-						var tablePic = '<table  align="center" border="0" class="table02" ><tr  class="tr24"><td width=50%><img  alt="" class="box-shadow"  src="'+ result.starModuleInfos[i].pic +'"/></td><td width=50%><img  alt="" class="box-shadow"  src="'+ result.starModuleInfos[i].pic02 +'"/></td></tr></table>';
-					}
+			 		 //展示织图模块
+			 		var worldModule = '<div class="superb"><div class="zt-container" data-wid="' + result.starModuleInfos[i].worldId + '"><div class="zt-title"><img alt=""></div><div class="zt-desc-hide" title="隐藏描述"></div>' + 
+			 											   '<div class="zt-desc-show" title="显示描述"></div><div class="zt-desc"><div class="zt-desc-text"></div><div class="zt-desc-bg"></div></div>' + 
+			 											   '<div class="zt-loading"><div class="zt-loading-bg"></div><div class="zt-loading-icon"></div><div><span>加载中...</span><span id="zt-progress">0</span>' + 
+			 											   '<span>%</span></div></div></div></div>';
 			 		 
 			 		 //小模块介绍
 			 		var intro2 = '<div  class="intro2">'+ result.starModuleInfos[i].intro2 +'</div></div></div>';
@@ -477,12 +450,11 @@ var pastTopicPicFoot = '"></a></div></div>';
 					 	if(result.starModuleInfos[i].title == ''){
 					 		title1Module = '';
 					 	}
-					 	var title2Module = '<div class="title2">'+ result.starModuleInfos[i].subtitle +'</div>';
-					 	var module = '<div class="user-wrap">' + title2Module +'<hr class="moduleHr">'+ title1Module +'<div class="whriteBlock" ><table border="0" class="tableLeft"><tr>' + 
+					 	var module = '<div class="user-wrap"><hr class="moduleHr">'+ title1Module + '<div class="title2">'+ result.starModuleInfos[i].subtitle +'</div><div class="whriteBlock" ><table border="0" class="tableLeft"><tr>' + 
 					 								'<td rowspan="2"  class="tableFace" ><div class="face-out"><div class="face"><a href="imzhitu://user?uid='+ result.starModuleInfos[i].userId +'"><img src="'+ result.starModuleInfos[i].facePic +'"/></a></div></div></td>'+
 					 								'<td align="left" class="tableMiddleSpace"></td><td align="left" class="tableUserName"><div class="userName">'+ result.starModuleInfos[i].userName +'</div></td></tr>'+
 					 								'<tr><td align="left" class="tableMiddleSpace"></td><td><a id="concern-'+ result.starModuleInfos[i].userId +'" class="concern-btn concern" name="imzhitu-callapp" href="imzhitu://concern?uid='+ result.starModuleInfos[i].userId +'">+关注</a><a class="concern-btn concerned">已关注</a></td></tr>'+
-					 								'<tfoot><tr><td height=10  class="tfootHeight" colspan="3"></td></tr></tfoot></table>' + tablePic + intro2;
+					 								'<tfoot><tr><td height=10  class="tfootHeight" colspan="3"></td></tr></tfoot></table>' + worldModule + intro2;
 					 	
 			 		$('#main').append(module);
 				} 
@@ -496,8 +468,11 @@ var pastTopicPicFoot = '"></a></div></div>';
 			 	//发图分享按钮
 			 	$('#main').append(' <div class="share-sticker-btn-out"><div id="sticker-btn" class="share-sticker-btn" ><a href="imzhitu://useSticker">'+ result.stickerButton +'</a></div></div><div class="share-sticker-btn-out"><div id="share-btn" class="share-sticker-btn" ><a href="imzhitu://sharePage">'+ result.shareButton +'</a></div></div>');
 			 	/* $('#main').append("<div class='foot' style='color: #797a7f;'>"+ result.foot +"</div>"); */
-				$('#main').append(twoButton);
-			 	
+				
+			 	if(result.pastTopics[0] != undefined){
+			 		$('#main').append(footButtonAndPast);
+			 	}
+				
 				initLayout(result);
 		} else {
 		alert('You are wrong');
@@ -559,10 +534,6 @@ function initLayout(result) {
 		bindAllBtnClick2Callapp();
 		
 		//非app展示需要增加下载按钮、替换文字、两期回顾
-	 	if(result.pastTopics[0] != undefined){
-	 		$('#main').append(footButtonAndPast);
-	 	}
-		
 		$("#pastFont").text("- 往期回顾 -");
 		
 		if(result.pastTopics[0] != undefined){
@@ -594,6 +565,8 @@ function initLayout(result) {
 		winWidth = winWidth > maxW ? maxW : winWidth;
 		var scale = 1,
 		
+		superbWidth = 714;
+		
 		//headIntro前介绍宽度限制
 		head1width = 670,
 		head1broder = 8,
@@ -617,7 +590,7 @@ function initLayout(result) {
 		//小副标题
 		title2fontSize = 26,
 		title2width = 750,
-		title2marginTop = 115,
+		title2marginTop = -50,
 
 		//白色模块底
 		whriteWidth = 714,
@@ -637,28 +610,6 @@ function initLayout(result) {
 		userNameFontSize = 32,
 		tableUserNameWidth = 300,
 		tableUserNameHeight = 100,
-		
-		//用户图片
-		userPicWidth = 678,
-		userPicMarginRight = 18,
-		userpicMarginLeft = 18,
-		
-		//用户4图table长宽
-		table04width = 678,
-		table04height = 626,
-		
-		//用户3图宽
-		table03width = 678,
-		
-		//用户2图长宽
-		table02width = 678,
-		table02height = 339,
-		
-		//用户24图行高
-		tr24height = 313,
-		
-		//用户3图大图宽
-		td3width = 445,
 
 		//关注按钮
 		concernButtonWidth = 240,
@@ -718,7 +669,7 @@ function initLayout(result) {
 		shareoutWidth = 420,
 		shareoutHeight = 120,
 		shareoutMarginTop = 60,
-		shareoutMarginButtom = 60,
+		shareoutMarginButtom = 30,
 		shareoutMarginRight = 155,
 		shareoutMarginLeft = 155,
 		shareoutBorder = 10,
@@ -735,9 +686,6 @@ function initLayout(result) {
 		footButtonAndPastWidth = 750,
 		footButtonAndPastPaddingTop = 20,
 		
-		onePastPicMarginBottom = 15,
-		pastPicTop = -65,
-		
 		//两个button模块
 		twoButtonWidth = 650,
 		twoButtonFontSize = 20,
@@ -747,7 +695,7 @@ function initLayout(result) {
 		footButtonWidth = 300,
 		
 		//往期专题模块
-		pastTopicWidth = 715,
+		pastTopicWidth = 650,
 		pastTopicFontSize = 13,
 		
 		//往期字体
@@ -757,9 +705,10 @@ function initLayout(result) {
 		
 		//往期banner图
 		pastPicPaddingBottom = 10,
-		pastPicHeight = 238,
 		
 	scale = winWidth / maxW * 100;
+		
+		superbWidth  = superbWidth  * scale / 100;
 	
 		//headIntro前介绍宽度限制
 		head1width = head1width * scale / 100;
@@ -804,28 +753,6 @@ function initLayout(result) {
 		userNameFontSize = userNameFontSize * scale / 100;
 		tableUserNameWidth = tableUserNameWidth * scale / 100;
 		tableUserNameHeight = tableUserNameHeight * scale / 100;
-		
-		//用户图片
-		userPicWidth = userPicWidth * scale / 100;
-		userPicMarginRight = userPicMarginRight * scale / 100;
-		userpicMarginLeft = userpicMarginLeft * scale / 100;
-		
-		//用户4图table长宽
-		table04width = table04width * scale / 100;
-		table04height = table04height * scale / 100;
-		
-		//用户3图宽
-		table03width = table03width * scale / 100;
-		
-		//用户2图长宽
-		table02width = table02width * scale / 100;
-		table02height = table02height  * scale / 100;
-		
-		//用户24图行高
-		tr24height = tr24height * scale / 100;
-		
-		//用户3图大图宽
-		td3width = td3width * scale / 100;
 
 		//关注按钮
 		concernButtonWidth = concernButtonWidth * scale / 100;
@@ -901,9 +828,6 @@ function initLayout(result) {
 	footButtonAndPastWidth = footButtonAndPastWidth * scale/ 100;
 	footButtonAndPastPaddingTop = footButtonAndPastPaddingTop * scale/ 100;
 	
-	onePastPicMarginBottom = onePastPicMarginBottom * scale/ 100;
-	pastPicTop = pastPicTop * scale/ 100;
-	
 	//两个button模块
 	twoButtonWidth = twoButtonWidth * scale/ 100;
 	twoButtonFontSize = twoButtonFontSize * scale/ 100;
@@ -923,7 +847,6 @@ function initLayout(result) {
 	
 	//往期banner图
 	pastPicPaddingBottom = pastPicPaddingBottom * scale/ 100;
-	pastPicHeight = pastPicHeight * scale/ 100;
 		
 		$(".concern").show();
 	
@@ -984,34 +907,6 @@ function initLayout(result) {
 			$(".userName").css({
 					"font-size":userNameFontSize + "px"
 		 		}); 
- 			
- 			//用户图片
- 	 		$(".userPic").css({
- 	 			"width":userPicWidth + "px",
- 	 			"margin-left":userpicMarginLeft + "px",
- 	 			"margin-right":userPicMarginRight + "px"}); 
- 			
- 	 		//用户4图table长宽
- 	 		$(".table04").css({
- 	 			"width":table04width + "px",
- 	 			"height":table04height + "px"}); 
- 	 		
- 	 		//用户3图宽
- 	 		$(".table03").css({
- 	 			"width":table03width + "px"}); 
- 			
- 	 		//用户2图长宽
- 	 		$(".table02").css({
- 	 			"width":table02width + "px",
- 	 			"height":table02height + "px"}); 
- 	 		
- 	 		//用户24图行高
- 	 		$(".tr24").css({
- 	 			"height":tr24height + "px"}); 
- 	 		
- 	 		//用户3图大图宽
- 	 		$(".td3").css({
- 	 			"width":td3width + "px"}); 
 
  			//关注按钮
  	 		$(".concern-btn").css({
@@ -1110,14 +1005,6 @@ function initLayout(result) {
  	 			"width":footButtonAndPastWidth + "px",
  	 			"padding-top":footButtonAndPastPaddingTop + "px"});
  	 		
-			$(".onePastPic").css({
-					"margin-bottom":onePastPicMarginBottom + "px"
-				});
-				
-			$(".pastPicTop").css({
-					"margin-top":pastPicTop + "px"
-			});
- 	 		
  	 		//两个button模块
  	 		$(".twoButton").css({
  	 			"width":twoButtonWidth + "px",
@@ -1141,12 +1028,51 @@ function initLayout(result) {
  	 		
  	 		//往期banner图
  	 		$(".pastPic").css({
- 	 			"height":pastPicHeight + "px",
  	 			"padding-bottom":pastPicPaddingBottom + "px"});
+ 	 		
+ 	 		$(".superb").css({
+ 	 			"width":superbWidth + "px",
+ 	 			"height":superbWidth + "px"
+ 	 		}).show();
  		
 		if(inapp==1) {
 			$("#main").css({"margin-bottom":"0px"});
 		}
+		
+		var scale = superbWidth / 640,
+		width = superbWidth,
+		height = superbWidth,
+		radiu = parseInt(40 * scale),
+		config = {w:width,h:height,r:radiu,s:scale,key:"zhangjiaxin"},
+		worldSettings = {
+		adminKey			: config.key,
+		worldId 			: 15388, // 浏览的世界ID
+		scale 				: config.s, // 缩放比例
+		width 				: config.w, // 显示框宽度
+		height 				: config.h, // 显示宽长度
+		radius				: config.r,	//圆圈半径
+		limit 				: 5, // 每页查询条数
+		url 				: '/ztworld/ztworld_queryTitleChildWorldPage', // 数据获取地址
+		loadMoreURL			: '/ztworld/ztworld_queryChildWorldPage', // 加载更多子世界地址
+		inZoomfactor 		: 5, // 背景图渐变过程中放大的倍数
+		inSpeedfactor 		: 650, // 渐变速度
+		inImgdelayfactor 	: 3, // 渐变延迟时间
+		outZoomfactor 		: 3, // 背景图渐变过程中放大的倍数
+		outSpeedfactor 		: 650, // 渐变速度
+		tagTopPadding		: 1.5*scale,
+		outImgdelayfactor 	: 0,
+		ver					: 1,
+		multiple			: true
+		};
+
+
+		//图片渲染 循环渲染
+		$(".zt-container").each(function() {
+		var $this = $(this);
+		var wid = $this.data("wid");
+		worldSettings.worldId = wid;
+		$this.data('init', false).htszoomtour(worldSettings);
+		});
 }
 
 function bindConcern(uid, status) {
@@ -1171,7 +1097,7 @@ function fetchConcernStatus(uid) {
 	$.post("./user_queryConcernStatus",{
 		"userId":uid,
 		"concernIds":userIds.substring(0,userIds.lastIndexOf(",")),
-	},function(data){http://localhost:8080/operations/starModule.html
+	},function(data){
 		if(data['result'] == 0) {
 			var status = data['concerns'];
 			for(var i = 0; i < status.length; i++) {
