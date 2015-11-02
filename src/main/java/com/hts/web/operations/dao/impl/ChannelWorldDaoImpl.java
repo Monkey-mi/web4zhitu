@@ -17,7 +17,6 @@ import com.hts.web.common.pojo.OpChannelWorld;
 import com.hts.web.common.pojo.OpChannelWorldDto;
 import com.hts.web.common.pojo.UserInfoDto;
 import com.hts.web.operations.dao.ChannelWorldDao;
-import com.hts.web.userinfo.dao.UserInfoDao;
 import com.hts.web.userinfo.dao.impl.UserInfoDaoImpl;
 import com.hts.web.ztworld.dao.HTWorldDao;
 
@@ -130,9 +129,6 @@ public class ChannelWorldDaoImpl extends BaseDaoImpl implements ChannelWorldDao 
 	
 	@Autowired
 	private HTWorldDao worldDao;
-	
-	@Autowired
-	private UserInfoDao userInfoDao;
 	
 	@Override
 	public void saveChannelWorld(OpChannelWorld world) {
