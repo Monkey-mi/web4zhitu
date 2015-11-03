@@ -32,7 +32,6 @@ public interface BulletinCacheDao extends BaseCacheDao {
 	public void updateBulletin(List<OpMsgBulletin> list);
 	
 	/**
-<<<<<<< HEAD
 	 * 查询专题列表
 	 * 
 	 * @return
@@ -47,8 +46,6 @@ public interface BulletinCacheDao extends BaseCacheDao {
 	public List<OpMsgBulletin> queryUserTheme(RowSelection rowSelection);
 	
 	/**
-=======
->>>>>>> branch 'dev' of https://github.com/imzhitu/web4zhitu.git
 	 * 更新用户主题公告
 	 * @param cacheList
 	 */
