@@ -36,7 +36,6 @@ public class SysMsgCommonCacheDaoImpl extends BaseCacheDaoImpl<OpSysMsgDto>imple
 			maxIdDao.updateMaxId(list.get(0).getId());
 			rebuildIndex();
 		}
-		
 		return list;
 	}
 
@@ -48,10 +47,9 @@ public class SysMsgCommonCacheDaoImpl extends BaseCacheDaoImpl<OpSysMsgDto>imple
 		Entry<Integer, Integer> entry = index.lowerEntry(maxId);
 		if(entry != null) {
 			Integer idx = entry.getValue();
-			if(idx >= 0) {
-				return getRedisTemplate().boundListOps(
-						CacheKeies.OP_MSG_COMMON_SYSMSG).range(idx, idx+limit-1);
-			}
+			//　理论上取值范围应该是(idx~idx+limit-1),但是第一个却会重复
+			return getRedisTemplate().boundListOps(
+					CacheKeies.OP_MSG_COMMON_SYSMSG).range(idx+1, idx+limit);
 		}
 		return new ArrayList<OpSysMsgDto>();
 	}
@@ -81,5 +79,5 @@ public class SysMsgCommonCacheDaoImpl extends BaseCacheDaoImpl<OpSysMsgDto>imple
 		}
 		return 0;
 	}
-	
+
 }
