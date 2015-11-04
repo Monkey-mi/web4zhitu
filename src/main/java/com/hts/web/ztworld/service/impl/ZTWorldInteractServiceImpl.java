@@ -49,6 +49,8 @@ import com.hts.web.common.util.UserInfoUtil;
 import com.hts.web.operations.dao.ChannelDao;
 import com.hts.web.push.service.PushService;
 import com.hts.web.userinfo.dao.MsgCommentDao;
+import com.hts.web.userinfo.dao.MsgUnreadDao;
+import com.hts.web.userinfo.dao.MsgUnreadDao.UnreadType;
 import com.hts.web.userinfo.dao.UserAdminDao;
 import com.hts.web.userinfo.dao.UserConcernDao;
 import com.hts.web.userinfo.dao.UserInfoDao;
@@ -58,6 +60,7 @@ import com.hts.web.userinfo.service.UserActivityService;
 import com.hts.web.userinfo.service.UserInfoService;
 import com.hts.web.userinfo.service.UserInteractService;
 import com.hts.web.userinfo.service.UserMsgService;
+import com.hts.web.ztworld.dao.CommentBroadcastCacheDao;
 import com.hts.web.ztworld.dao.HTWorldCommentDao;
 import com.hts.web.ztworld.dao.HTWorldCommentReportDao;
 import com.hts.web.ztworld.dao.HTWorldDao;
@@ -171,6 +174,12 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 
 	@Autowired
 	private UserMsgService userMsgService;
+
+	@Autowired
+	private CommentBroadcastCacheDao commentBroadcastCacheDao;
+	
+	@Autowired
+	private MsgUnreadDao msgUnreadDao;
 	
 	@Override
 	public void buildComments(final Integer userId, final Integer worldId,  int sinceId, int maxId, 
@@ -296,6 +305,12 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 			Long count = worldCommentDao.queryCommentCount(worldId);// 更新评论总数
 			worldDao.updateCommentCount(worldId, count.intValue());
 			userActivityService.addActivityScore(Tag.ACT_TYPE_COMMENT, authorId);
+			
+			// 保存评论到广播队列
+			if(authorId.equals(worldAuthorId)) {
+				commentBroadcastCacheDao.saveComment(comment);
+			}
+			
 			return id;
 		}
 		
@@ -652,14 +667,47 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 		return content;
 	}
 	
-	@Override
-	public void saveMsgComment(Integer commentId, Integer authorId, 
+	/**
+	 * 保存评论消息
+	 * 
+	 * @param commentId
+	 * @param authorId
+	 * @param receiveId
+	 * @param worldId
+	 */
+	private void saveMsgComment(Integer commentId, Integer authorId, 
 			Integer receiveId, Integer worldId) {
 		if(!authorId.equals(receiveId)) {
 			msgCommentDao.saveMsgComment(new MsgComment(commentId, 
 					authorId, receiveId, worldId));
+			msgUnreadDao.addCount(receiveId, UnreadType.COMMENT);
 		}
+	}
+	
+	@Override
+	public void broadcastComment(HTWorldComment comment) throws Exception {
 		
+		Integer commentId = comment.getId();
+		Integer worldId = comment.getWorldId();
+		Integer authorId = comment.getAuthorId();
+		String content = comment.getContent();
+		
+		if(!worldCommentDao.isCommentExist(comment.getId()) || 
+				!isCommentValid(content, worldId, authorId)) 
+			return;
+		
+		// 推送给最近2000个评论参与人
+		List<Integer> rids = worldCommentDao.queryAllAuthorId(worldId, 2000);
+		for(Integer rid : rids) {
+			if(rid.equals(authorId))
+				continue;
+			
+			saveMsgComment(commentId, authorId, rid, worldId);
+			Integer shield = userShieldDao.queryShieldId(rid, authorId) == null ? Tag.FALSE : Tag.TRUE;
+			UserPushInfo pushInfo = userInfoDao.queryUserPushInfoById(rid);
+			pushService.pushComment(commentId, authorId, worldId, authorId,
+					content, pushInfo, shield, true);
+		}
 	}
 	
 	@Override

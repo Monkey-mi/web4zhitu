@@ -137,15 +137,15 @@ public class MsgCommentDaoImpl extends BaseDaoImpl implements MsgCommentDao {
 		getMasterJdbcTemplate().update(DELETE_MSG, commentId, receiveId);
 	}
 
-	@Override
-	public void updateCK(Integer worldAuthorId) {
-		getMasterJdbcTemplate().update(UPDATE_CK, worldAuthorId);
-	}
-
-	@Override
-	public long queryUnCkCount(Integer worldAuthorId) {
-		return getJdbcTemplate().queryForLong(QUERY_UNCK_COUNT, worldAuthorId);
-	}
+//	@Override
+//	public void updateCK(Integer worldAuthorId) {
+//		getMasterJdbcTemplate().update(UPDATE_CK, worldAuthorId);
+//	}
+//
+//	@Override
+//	public long queryUnCkCount(Integer worldAuthorId) {
+//		return getJdbcTemplate().queryForLong(QUERY_UNCK_COUNT, worldAuthorId);
+//	}
 	
 
 }

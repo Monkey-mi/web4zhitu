@@ -3,6 +3,7 @@ package com.hts.web.ztworld.service;
 import java.util.List;
 import java.util.Map;
 
+import com.hts.web.common.pojo.HTWorldComment;
 import com.hts.web.common.pojo.HTWorldGeo;
 import com.hts.web.common.pojo.ObjectWithLiked;
 import com.hts.web.common.pojo.PushStatus;
@@ -81,16 +82,14 @@ public interface ZTWorldInteractService extends BaseService {
 	public void saveReply4Admin(Integer authorId, String content,
 			Integer worldId, Integer reId) throws Exception;
 	
+
 	/**
-	 * 保存评论消息
+	 * 织图作者评论自己的织图的时候，参与该织图讨论的用户都会收到这条评论消息
 	 * 
-	 * @param commentId
-	 * @param authorId
-	 * @param receiveId
-	 * @param worldId
+	 * @param comment
+	 * @author lynch 2015-11-02
 	 */
-	public void saveMsgComment(Integer commentId, Integer authorId, 
-			Integer receiveId, Integer worldId);
+	public void broadcastComment(HTWorldComment comment) throws Exception;
 	
 	/**
 	 * 删除评论
