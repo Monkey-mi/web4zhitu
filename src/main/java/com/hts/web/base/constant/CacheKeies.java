@@ -73,6 +73,11 @@ public class CacheKeies {
 	public static final String ZTWORLD_TYPE = MODULE_ZTWORLD + "type";
 	
 	/**
+	 * 评论广播
+	 */
+	public static final String ZTWORLD_COMMENT_BROADCAST = MODULE_ZTWORLD + "comment:broadcast";
+	
+	/**
 	 * 运营模块
 	 */
 	private static final String MODULE_OP = "op:";

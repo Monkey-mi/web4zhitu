@@ -175,14 +175,6 @@ public interface HTWorldCommentDao extends BaseDao {
 	 */
 	public List<HTWorldCommentDto> queryUserCommentByMinId(Integer userId, Integer minId, RowSelection rowSelection);
 	
-//	/**
-//	 * 查询未读用户评论总数
-//	 * 
-//	 * @param userId
-//	 * @return
-//	 */
-//	public long queryUnCheckUserCommentCount(Integer userId);
-	
 	/**
 	 * 根据最大id查询指定用户的评论消息总数
 	 * 
@@ -288,4 +280,21 @@ public interface HTWorldCommentDao extends BaseDao {
 	 * @return
 	 */
 	public Integer queryReAuthorId(Integer id);
+	
+	/**
+	 * 检测评论是否存在
+	 * 
+	 * @param id
+	 * @return
+	 * @author lynch 2015-11-03
+	 */
+	public boolean isCommentExist(Integer id);
+	
+	/**
+	 * 查询所有评论作者id
+	 * 
+	 * @param worldId
+	 * @return
+	 */
+	public List<Integer> queryAllAuthorId(Integer worldId, Integer limit);
 }

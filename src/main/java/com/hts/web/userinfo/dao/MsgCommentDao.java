@@ -51,18 +51,18 @@ public interface MsgCommentDao {
 	 */
 	public void deleteByCommentId(Integer commentId, Integer receiveId);
 
-	/**
-	 * 更新已读标记
-	 * 
-	 * @param worldAuthorId
-	 */
-	public void updateCK(Integer worldAuthorId);
-
-	/**
-	 * 查询未读总数
-	 * 
-	 * @param worldAuthorId
-	 */
-	public long queryUnCkCount(Integer worldAuthorId);
+//	/**
+//	 * 更新已读标记
+//	 * 
+//	 * @param worldAuthorId
+//	 */
+//	public void updateCK(Integer worldAuthorId);
+//
+//	/**
+//	 * 查询未读总数
+//	 * 
+//	 * @param worldAuthorId
+//	 */
+//	public long queryUnCkCount(Integer worldAuthorId);
 
 }

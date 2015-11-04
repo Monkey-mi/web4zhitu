@@ -90,7 +90,7 @@ import com.hts.web.ztworld.dao.HTWorldLikedDao;
 /**
  * 用户消息业务逻辑访问对象
  * 
- * @author ztj
+ * @author ztj 2015-11-04
  * 
  */
 @Service("HTSUserMsgService")
@@ -374,12 +374,12 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 	}
 
 	@Override
-	public void buildUnreadSysMsgCount(Integer userId, Map<String, Object> jsonMap) {
+	public void buildUnreadSysMsgCount(Integer userId, Map<String, Object> jsonMap) throws Exception{
 		UserMsgUnreadCount cnt = queryUnreadCountInfo(userId);
 		
 		long followCount = userConcernDao.queryUnCheckFollowCount(userId);
 		long likedCount = worldLikedDao.queryUnCheckUserLikedCount(userId);
-		long commentCount = msgCommentDao.queryUnCkCount(userId);
+		long commentCount = cnt.getCommentCount();
 		
 		long atMsgCount = cnt.getAtCount();
 		long msgCount = cnt.getSysmsgCount() 
@@ -1261,8 +1261,12 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 
 			@Override
 			public List<MsgCommentDto> getSerializables(RowSelection rowSelection) throws Exception {
-				msgCommentDao.updateCK(worldAuthorId);
-				return msgCommentDao.queryMsg(worldAuthorId, rowSelection);
+				List<MsgCommentDto> list = msgCommentDao.queryMsg(worldAuthorId, rowSelection);
+				if(!list.isEmpty()) {
+					msgUnreadDao.clearCount(worldAuthorId, list.get(0).getId(), UnreadType.COMMENT);
+				}
+				return list;
+				
 			}
 
 			@Override

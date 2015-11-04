@@ -57,11 +57,6 @@ public class HTWorldCommentDaoImpl extends BaseDaoImpl implements
 	private static final String COMMENT_USER_INFO = "u0.user_name,u0.user_avatar,"
 			+ "u0.user_avatar_l,u0.star,u0.platform_verify";
 	
-	private static final String MSG_INFO = "m0.id,m0.author_id,m0.world_id,"
-			+ "m0.comment_date,m0.content";
-	private static final String MSG_USER_INFO = "u0.user_name,u0.user_avatar,u0.user_avatar_l";
-	private static final String MSG_WORLD_INFO = "h0.title_thumb_path,h0.title_path,h0.valid";
-	
 	/**
 	 * 保存织图评论
 	 * 
@@ -188,12 +183,6 @@ public class HTWorldCommentDaoImpl extends BaseDaoImpl implements
 			+ ORDER_BY_HC_ID_DESC;
 	
 	/**
-	 * 查询指定用户的未读评论消息总数
-	 */
-	private static final String QUERY_UNCHECK_USER_COMMENT_COUNT = "select count(*) from " 
-			+ HTS.HTWORLD_COMMENT + " where valid=? and shield=? and ck=? and (world_author_id=? or re_author_id=?)";
-	
-	/**
 	 * 根据最大id查询指定用户的评论消息总数
 	 */
 	private static final String QUERY_USER_COMMENT_COUNT_BY_MAX_ID = "select count(*) from " +
@@ -273,6 +262,13 @@ public class HTWorldCommentDaoImpl extends BaseDaoImpl implements
 	
 	private static final String QUERY_RE_AUTHOR_ID = "select re_author_id from " + table
 			+ " where id=?";
+	
+	
+	private static final String QUERY_EXISTS_BY_ID = "select 1 from " + table
+			+ " where id=?";
+	
+	private static final String QUERY_ALL_AUTHOR_ID = "select DISTINCT(author_id) from " +table
+			+ " where world_id=? limit ?";
 	
 	@Autowired
 	private HTWorldDao worldDao;
@@ -746,5 +742,27 @@ public class HTWorldCommentDaoImpl extends BaseDaoImpl implements
 		} catch(EmptyResultDataAccessException e) {
 			return 0;
 		}
+	}
+
+	@Override
+	public boolean isCommentExist(Integer id) {
+		try {
+			getJdbcTemplate().queryForInt(QUERY_EXISTS_BY_ID, id);
+			return true;
+		} catch(EmptyResultDataAccessException e) {
+			return false;
+		}
+	}
+
+	@Override
+	public List<Integer> queryAllAuthorId(Integer worldId, Integer limit) {
+		return getJdbcTemplate().query(QUERY_ALL_AUTHOR_ID, new Object[]{worldId, limit},
+				new RowMapper<Integer>() {
+
+					@Override
+					public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
+						return rs.getInt("author_id");
+					}
+		});
 	}
 }
