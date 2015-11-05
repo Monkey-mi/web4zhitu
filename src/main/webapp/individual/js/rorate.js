@@ -7,19 +7,19 @@ var zBase = {
 		FPSms:1000,
 		cycleTimems:3000,
 		slideDiv:'slide',
-		imgDiv :'slide-img-div',
+		imgDiv:'slide-img-div',
 		slideBtn:'slide-btn'
 	},
-	init:function(slideDiv,imgDiv,slideBtn,imgWidth,FPSms,cycleTimems){
-		zBase.config.imgWidth = imgWidth;
-		zBase.config.FPSms= FPSms;
-		zBase.config.cycleTimems = cycleTimems;
-		zBase.config.slideDiv = slideDiv;
-		zBase.config.imgDiv = imgDiv;
-		zBase.config.slideBtn = slideBtn;
-		this.slide = this.$id(zBase.config.slideDiv);
-		this.img_div = this.$c(zBase.config.imgDiv)[0],
-		this.slide_btn = this.$tag('a',this.$c(zBase.config.slideBtn)[0]);
+	init:function(imgWidth,FPSms,cycleTimems,slideDiv,imgDiv,slideBtn){
+		this.config.imgWidth = imgWidth;
+		this.config.FPSms= FPSms;
+		this.config.cycleTimems = cycleTimems;
+		this.config.slideDiv = slideDiv;
+		this.config.imgDiv = imgDiv;
+		this.config.slideBtn = slideBtn;
+		this.slide = this.$id(this.config.slideDiv);
+		this.img_div = this.$c(this.config.imgDiv)[0],
+		this.slide_btn = this.$tag('a',this.$c(this.config.slideBtn)[0]);
 		this.img_arr = this.$tag('img',this.img_div);
 		if(this.config.auto) this.play();
 		this.hover();
@@ -51,9 +51,10 @@ var zBase = {
 	   }
 	},
 	animate:function(obj,attr,val){
-		var d = zBase.config.FPSms;
+		var d = this.config.FPSms;
 		if(obj[attr+'timer']) clearInterval(obj[attr+'timer']);
 		var start = parseInt(zBase.css(obj,attr));
+		
 		var space =  val- start,st=(new Date).getTime(),m=space>0? 'ceil':'floor';
 		obj[attr+'timer'] = setInterval(function(){
 			var t=(new Date).getTime()-st;
@@ -70,13 +71,13 @@ var zBase = {
 			zBase.config.index++;
 			if(zBase.config.index>=zBase.img_arr.length) zBase.config.index=0;
 			
-			zBase.animate(zBase.img_div,zBase.config.direct,-zBase.config.imgWidth);
+			zBase.animate(zBase.img_div,zBase.config.direct,-zBase.config.index*zBase.config.imgWidth);
 			for(var j=0;j<zBase.slide_btn.length;j++){
 				zBase.$remve(zBase.slide_btn[j],'hover');
 			}
 			zBase.$add(zBase.slide_btn[zBase.config.index],'hover');
 			
-		},zBase.config.cycleTimems)
+		},this.config.cycleTimems)
 			
 			
 	},
