@@ -45,6 +45,9 @@ public class HTWorldCommentDaoImpl extends BaseDaoImpl implements
 			+ "(id, author_id, content, comment_date, world_id," 
 			+ "re_author_id) values (?,?,?,?,?,?)";
 	
+	private static final String DELETE_BY_ID = "delete from " + table
+			+ " where world_id=? and id=?";
+	
 	private static final String QUERY_COMMENT_BY_ID = "select " 
 			+ COMMENT_INFO + " from " + table 
 			+ " c0 where c0.world_id=? and c0.id=?";
@@ -188,6 +191,11 @@ public class HTWorldCommentDaoImpl extends BaseDaoImpl implements
 	}
 	
 	@Override
+	public void delComment(Integer id, Integer worldId) {
+		getMasterJdbcTemplate().update(DELETE_BY_ID, worldId, id);
+	}
+	
+	@Override
 	public List<HTWorldCommentDto> queryComment(Integer worldId, RowSelection rowSelection) {
 		return getJdbcTemplate().query(QUERY_COMMENT, 
 				new Object[]{worldId, rowSelection.getFirstRow(), rowSelection.getLimit()},
@@ -271,4 +279,5 @@ public class HTWorldCommentDaoImpl extends BaseDaoImpl implements
 					}
 		});
 	}
+
 }

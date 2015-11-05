@@ -130,7 +130,6 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 	private static final String UPDATE_LIKE_COUNT = "update " + table 
 			+ " set like_count=? where id=?";
 	
-	
 	/** 
 	 * 更新收藏次数 
 	 */

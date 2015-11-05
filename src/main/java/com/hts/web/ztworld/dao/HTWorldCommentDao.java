@@ -60,6 +60,14 @@ public interface HTWorldCommentDao extends BaseDao {
 	public void saveWorldComment(HTWorldComment comment);
 	
 	/**
+	 * 删除评论
+	 * 
+	 * @param id
+	 * @param worldId
+	 */
+	public void delComment(Integer id, Integer worldId);
+	
+	/**
 	 * 分页查询织图评论列表
 	 * 
 	 * @param worldId

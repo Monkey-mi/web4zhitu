@@ -18,22 +18,22 @@ public class MsgLikedDaoImpl extends BaseDaoImpl implements MsgLikedDao {
 
 	private static String table = HTS.USER_MSG_LIKED;
 
-	private static final String MSG_INFO = "m0.id,m0.liked_date,m0.user_id,m0.world_id"
+	private static final String MSG_INFO = "m0.like_id,m0.liked_date,m0.user_id,m0.world_id,"
 			+ "u0.user_name,u0.user_avatar,u0.user_avatar_l,u0.province,u0.city,u0.star,"
 			+ "u0.platform_verify,w0.title_thumb_path";
 	
 	private static final String SAVE_MSG = "insert into " + table
-			+ " (user_id, world_id) values (?,?)";
+			+ " (like_id,user_id,world_id,receive_id) values (?,?,?,?)";
 
 	private static final String QUERY_MSG = "select " + MSG_INFO + " from " + table
 			+ " m0, " + HTS.USER_INFO + " u0," + HTS.HTWORLD_HTWORLD + " w0"
 			+ " where m0.user_id=u0.id and m0.world_id=w0.id and m0.receive_id=?"
-			+ " order by m0.id desc limit ?";
+			+ " order by m0.like_id desc limit ?";
 	
 	private static final String QUERY_MSG_BY_MAXID = "select " + MSG_INFO + " from " + table
 			+ " m0, " + HTS.USER_INFO + " u0," + HTS.HTWORLD_HTWORLD + " w0"
-			+ " where m0.user_id=u0.id and m0.world_id=w0.id and m0.receive_id=? and m0.id<=?"
-			+ " order by m0.id desc limit ?";
+			+ " where m0.user_id=u0.id and m0.world_id=w0.id and m0.receive_id=? and m0.like_id<=?"
+			+ " order by m0.like_id desc limit ?";
 	
 	/**
 	 * 构建喜欢消息
@@ -44,7 +44,7 @@ public class MsgLikedDaoImpl extends BaseDaoImpl implements MsgLikedDao {
 	 */
 	private UserMsgLiked buildLikedMsg(ResultSet rs) throws SQLException {
 		return new UserMsgLiked(
-				rs.getInt("id"),
+				rs.getInt("like_id"),
 				(Date)rs.getObject("liked_date"), 
 				rs.getInt("user_id"), 
 				rs.getString("user_name"), 
@@ -58,9 +58,9 @@ public class MsgLikedDaoImpl extends BaseDaoImpl implements MsgLikedDao {
 	}
 	
 	@Override
-	public void saveMsg(Integer id, Integer userId,
+	public void saveMsg(Integer like_id, Integer userId,
 			Integer worldId, Integer receiveId) {
-		getMasterJdbcTemplate().update(SAVE_MSG, id, userId, worldId, receiveId);
+		getMasterJdbcTemplate().update(SAVE_MSG, like_id, userId, worldId, receiveId);
 	}
 	
 	@Override

@@ -16,12 +16,12 @@ public interface MsgLikedDao extends BaseDao {
 	/**
 	 * 保存喜欢消息
 	 * 
-	 * @param id
+	 * @param like_id
 	 * @param userId
 	 * @param worldId
 	 * @param receiveId
 	 */
-	public void saveMsg(Integer id, Integer userId, Integer worldId, Integer receiveId);
+	public void saveMsg(Integer like_id, Integer userId, Integer worldId, Integer receiveId);
 	
 	/**
 	 * 查询喜欢消息
