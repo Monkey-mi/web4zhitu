@@ -10,9 +10,8 @@ import org.apache.struts2.json.annotations.JSON;
  * 织图评论数据传输对象
  * </p>
  * 
- * 创建时间：2013-8-5
  * 
- * @author ztj
+ * @author ztj 2013-8-5 2015-11-04
  * 
  */
 public class HTWorldCommentDto implements Serializable, ObjectWithUserVerify, ObjectWithUserRemark {
@@ -24,31 +23,26 @@ public class HTWorldCommentDto implements Serializable, ObjectWithUserVerify, Ob
 
 	private Integer id;
 	private Integer authorId; // 作者id
-	private Integer reId; // 被回复评论id
 	private Integer reAuthorId; //　被回复作者id
 	private String content; // 内容
 	private Date commentDate; // 评论时间
 	private Integer worldId; // 世界ID
-	private Integer worldAuthorId; // 织图作者id
 	private UserInfoDto userInfo; // 用户信息
-	private HTWorldThumbDto htworld; // 织图信息
 	
 	public HTWorldCommentDto() {
 		super();
 	}
 
 	public HTWorldCommentDto(Integer id, Integer authorId, 
-			Integer reId, Integer reAuthorId, String content,
-			Date commentDate, Integer worldId, Integer worldAuthorId) {
+			Integer reAuthorId, String content,
+			Date commentDate, Integer worldId) {
 		super();
 		this.id = id;
 		this.authorId = authorId;
-		this.reId = reId;
 		this.reAuthorId = reAuthorId;
 		this.content = content;
 		this.commentDate = commentDate;
 		this.worldId = worldId;
-		this.worldAuthorId = worldAuthorId;
 	}
 
 	public Integer getId() {
@@ -65,14 +59,6 @@ public class HTWorldCommentDto implements Serializable, ObjectWithUserVerify, Ob
 
 	public void setAuthorId(Integer authorId) {
 		this.authorId = authorId;
-	}
-
-	public Integer getReId() {
-		return reId;
-	}
-
-	public void setReId(Integer reId) {
-		this.reId = reId;
 	}
 
 	public String getContent() {
@@ -100,28 +86,12 @@ public class HTWorldCommentDto implements Serializable, ObjectWithUserVerify, Ob
 		this.worldId = worldId;
 	}
 	
-	public Integer getWorldAuthorId() {
-		return worldAuthorId;
-	}
-
-	public void setWorldAuthorId(Integer worldAuthorId) {
-		this.worldAuthorId = worldAuthorId;
-	}
-
 	public UserInfoDto getUserInfo() {
 		return userInfo;
 	}
 
 	public void setUserInfo(UserInfoDto userInfo) {
 		this.userInfo = userInfo;
-	}
-
-	public HTWorldThumbDto getHtworld() {
-		return htworld;
-	}
-
-	public void setHtworld(HTWorldThumbDto htworld) {
-		this.htworld = htworld;
 	}
 
 	@Override

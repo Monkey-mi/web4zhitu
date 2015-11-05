@@ -613,8 +613,9 @@ public interface UserInfoDao extends BaseDao {
 	 * 更新被赞次数
 	 * 
 	 * @param uid
+	 * @author lynch 2015-11-05
 	 */
-	public void updateLikeMeCount(Integer uid, Integer count);
+	public void updateLikeMeCount(Integer uid);
 	
 	/**
 	 * 查询省市信息

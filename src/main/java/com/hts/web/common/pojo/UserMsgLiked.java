@@ -2,18 +2,18 @@ package com.hts.web.common.pojo;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.struts2.json.annotations.JSON;
 
 import com.hts.web.base.constant.Tag;
 
 /**
- * <p>
- * 喜欢消息POJO
- * </p>
+ * 喜欢我的用户信息
  * 
- * 创建时间：2014-09-24
- * @author tianjie
+ * 创建时间: 2015-04-14
+ * 
+ * @author lynch
  *
  */
 public class UserMsgLiked implements Serializable, ObjectWithUserVerify, ObjectWithUserRemark {
@@ -21,36 +21,45 @@ public class UserMsgLiked implements Serializable, ObjectWithUserVerify, ObjectW
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -5820751841529438725L;
+	private static final long serialVersionUID = -2857739629330336944L;
+
 	private Integer id;
+	private Date likedDate;
 	private Integer userId;
 	private String userName;
 	private String userAvatar;
 	private String userAvatarL;
+	
+	private String province;
+	private String city;
+
 	private Integer star;
+	private Integer platformVerify = Tag.VERIFY_NONE;
+
+	private Integer worldId;
+	private String titleThumbPath;
+
 	private String verifyName;
 	private String verifyIcon;
-	private Integer worldId;
-	private Integer worldAuthorId;
-	private String titleThumbPath;
-	private Date likedDate;
+	
 	private String remark;
-	private Integer platformVerify = Tag.VERIFY_NONE;
 	
-	
-	public UserMsgLiked(Integer id, Integer userId, Integer worldId,
-			Integer worldAuthorId, String titleThumbPath, Date likedDate) {
+	private UserMsgLikedRelate relate;
+
+	public UserMsgLiked(Integer id, Date likedDate, Integer userId,
+			String userName, String userAvatar, String userAvatarL,
+			String province, String city, Integer star, Integer platformVerify) {
 		super();
 		this.id = id;
-		this.userId = userId;
-		this.worldId = worldId;
-		this.worldAuthorId = worldAuthorId;
-		this.titleThumbPath = titleThumbPath;
 		this.likedDate = likedDate;
-	}
-
-	public UserMsgLiked() {
-		super();
+		this.userId = userId;
+		this.userName = userName;
+		this.userAvatar = userAvatar;
+		this.userAvatarL = userAvatarL;
+		this.province = province;
+		this.city = city;
+		this.star = star;
+		this.platformVerify = platformVerify;
 	}
 
 	public Integer getId() {
@@ -59,6 +68,15 @@ public class UserMsgLiked implements Serializable, ObjectWithUserVerify, ObjectW
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+	
+	@JSON(format="yyyy-MM-dd HH:mm:ss")
+	public Date getLikedDate() {
+		return likedDate;
+	}
+
+	public void setLikedDate(Date likedDate) {
+		this.likedDate = likedDate;
 	}
 
 	public Integer getUserId() {
@@ -84,7 +102,7 @@ public class UserMsgLiked implements Serializable, ObjectWithUserVerify, ObjectW
 	public void setUserAvatar(String userAvatar) {
 		this.userAvatar = userAvatar;
 	}
-	
+
 	public String getUserAvatarL() {
 		return userAvatarL;
 	}
@@ -101,29 +119,12 @@ public class UserMsgLiked implements Serializable, ObjectWithUserVerify, ObjectW
 		this.worldId = worldId;
 	}
 
-	public Integer getWorldAuthorId() {
-		return worldAuthorId;
-	}
-
-	public void setWorldAuthorId(Integer worldAuthorId) {
-		this.worldAuthorId = worldAuthorId;
-	}
-
 	public String getTitleThumbPath() {
 		return titleThumbPath;
 	}
 
 	public void setTitleThumbPath(String titleThumbPath) {
 		this.titleThumbPath = titleThumbPath;
-	}
-
-	@JSON(format="yyyy-MM-dd HH:mm:ss")
-	public Date getLikedDate() {
-		return likedDate;
-	}
-
-	public void setLikedDate(Date likedDate) {
-		this.likedDate = likedDate;
 	}
 
 	public Integer getStar() {
@@ -134,43 +135,6 @@ public class UserMsgLiked implements Serializable, ObjectWithUserVerify, ObjectW
 		this.star = star;
 	}
 
-	public String getVerifyName() {
-		return verifyName;
-	}
-
-	public String getVerifyIcon() {
-		return verifyIcon;
-	}
-
-	@Override
-	public Integer getVerifyId() {
-		return this.star;
-	}
-
-	@Override
-	public void setVerifyName(String verifyName) {
-		this.verifyName = verifyName;
-	}
-
-	@Override
-	public void setVerifyIcon(String verifyIcon) {
-		this.verifyIcon = verifyIcon;
-	}
-
-	public String getRemark() {
-		return remark;
-	}
-
-	@Override
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
-
-	@Override
-	public Integer getRemarkId() {
-		return userId;
-	}
-
 	public Integer getPlatformVerify() {
 		return platformVerify;
 	}
@@ -179,4 +143,62 @@ public class UserMsgLiked implements Serializable, ObjectWithUserVerify, ObjectW
 		this.platformVerify = platformVerify;
 	}
 
+	public String getVerifyName() {
+		return verifyName;
+	}
+
+	public void setVerifyName(String verifyName) {
+		this.verifyName = verifyName;
+	}
+
+	public String getVerifyIcon() {
+		return verifyIcon;
+	}
+
+	public void setVerifyIcon(String verifyIcon) {
+		this.verifyIcon = verifyIcon;
+	}
+
+	@Override
+	public Integer getVerifyId() {
+		return this.star;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	@Override
+	public Integer getRemarkId() {
+		return this.userId;
+	}
+
+	public UserMsgLikedRelate getRelate() {
+		return relate;
+	}
+
+	public void setRelate(UserMsgLikedRelate relate) {
+		this.relate = relate;
+	}
+
+	public String getProvince() {
+		return province;
+	}
+
+	public void setProvince(String province) {
+		this.province = province;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+	
 }

@@ -20,44 +20,6 @@ import com.hts.web.common.service.BaseService;
  *
  */
 public interface UserMsgService extends BaseService {
-
-	/**
-	 * 构建评论消息列表
-	 * 
-	 * @param userId
-	 * @param maxId
-	 * @param start
-	 * @param limit
-	 * @param jsonMap
-	 * @throws Exception
-	 */
-	public void buildCommentMsg(Integer userId, int sinceId, int maxId,
-			int start, int limit, Map<String, Object> jsonMap) throws Exception;
-	
-	/**
-	 * 构建喜欢消息列表
-	 * 
-	 * @param userId
-	 * @param sinceId
-	 * @param maxId
-	 * @param start
-	 * @param limit
-	 * @param jsonMap
-	 * @throws Exception
-	 */
-	public void buildLikedMsg(Integer userId, int sinceId, int maxId, int start, int limit, Map<String, Object> jsonMap) throws Exception;
-	
-	/**
-	 * 构建互动消息列表
-	 * 
-	 * @param userId
-	 * @param maxDateStr
-	 * @param start
-	 * @param limit
-	 * @param jsonMap
-	 * @throws Exception
-	 */
-	public void buildInteractMsg(Integer userId, String maxDateStr, int start, int limit, Map<String, Object> jsonMap) throws Exception;
 	
 	/**
 	 * 保存私信消息
@@ -188,47 +150,47 @@ public interface UserMsgService extends BaseService {
 	 */
 	public UserMsgStatus getMsgStatus(Integer userId, Integer joinId) throws Exception;
 	
-	/**
-	 * 获取喜欢消息列表
-	 * 
-	 * @param maxId
-	 * @param userId
-	 * @param authorId
-	 * @param start
-	 * @param limit
-	 * @param jsonMap
-	 * @throws Exception
-	 */
-	public void buildLikedMsg2(Integer maxId, Integer userId, Integer authorId, 
-			Integer start, Integer limit, Map<String, Object> jsonMap) throws Exception;
+//	/**
+//	 * 获取喜欢消息列表
+//	 * 
+//	 * @param maxId
+//	 * @param userId
+//	 * @param authorId
+//	 * @param start
+//	 * @param limit
+//	 * @param jsonMap
+//	 * @throws Exception
+//	 */
+//	public void buildLikedMsg2(Integer maxId, Integer userId, Integer authorId, 
+//			Integer start, Integer limit, Map<String, Object> jsonMap) throws Exception;
+//	
+//	/**
+//	 * 获取我喜欢对方的消息列表
+//	 * 
+//	 * @param maxId
+//	 * @param userId
+//	 * @param authorId
+//	 * @param start
+//	 * @param limit
+//	 * @param jsonMap
+//	 * @throws Exception
+//	 */
+//	public void buildILikeOtherMsg(Integer maxId, Integer userId, Integer authorId, 
+//			Integer start, Integer limit, Map<String, Object> jsonMap) throws Exception;
 	
-	/**
-	 * 获取我喜欢对方的消息列表
-	 * 
-	 * @param maxId
-	 * @param userId
-	 * @param authorId
-	 * @param start
-	 * @param limit
-	 * @param jsonMap
-	 * @throws Exception
-	 */
-	public void buildILikeOtherMsg(Integer maxId, Integer userId, Integer authorId, 
-			Integer start, Integer limit, Map<String, Object> jsonMap) throws Exception;
-	
-	/**
-	 * 获取对方喜欢我的消息列表
-	 * 
-	 * @param maxId
-	 * @param userId
-	 * @param authorId
-	 * @param start
-	 * @param limit
-	 * @param jsonMap
-	 * @throws Exception
-	 */
-	public void buildOtherLikeMeMsg(Integer maxId, Integer userId, Integer authorId, 
-			Integer start, Integer limit, Map<String, Object> jsonMap) throws Exception;
+//	/**
+//	 * 获取对方喜欢我的消息列表
+//	 * 
+//	 * @param maxId
+//	 * @param userId
+//	 * @param authorId
+//	 * @param start
+//	 * @param limit
+//	 * @param jsonMap
+//	 * @throws Exception
+//	 */
+//	public void buildOtherLikeMeMsg(Integer maxId, Integer userId, Integer authorId, 
+//			Integer start, Integer limit, Map<String, Object> jsonMap) throws Exception;
 
 	/**
 	 * 构建所有喜欢我的信息

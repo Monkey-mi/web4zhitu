@@ -144,6 +144,11 @@ public class HTS {
 	public static final String HTWORLD_LIKED = DB + "htworld_liked";
 	
 	/**
+	 * 点赞取消表
+	 */
+	public static final String HTWORLD_LIKED_CANCEL = DB + "htworld_liked_cancel";
+	
+	/**
 	 * 织图收藏表
 	 */
 	public static final String HTWORLD_KEEP = DB + "htworld_keep";
@@ -382,5 +387,10 @@ public class HTS {
 	 * 评论消息表
 	 */
 	public static final String USER_MSG_COMMENT = DB + "user_msg_comment";
+	
+	/**
+	 * 喜欢消息表
+	 */
+	public static final String USER_MSG_LIKED = DB + "user_msg_liked";
 	
 }

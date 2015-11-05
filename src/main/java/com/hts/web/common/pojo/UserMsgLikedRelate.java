@@ -1,16 +1,16 @@
 package com.hts.web.common.pojo;
 
-public class HTWorldLikeMeRelate {
+public class UserMsgLikedRelate {
 
 	private Integer relType;
 	private String relText;
 	private Integer relCount;
 
-	public HTWorldLikeMeRelate() {
+	public UserMsgLikedRelate() {
 		super();
 	}
 	
-	public HTWorldLikeMeRelate(Integer relType, String relText, Integer relCount) {
+	public UserMsgLikedRelate(Integer relType, String relText, Integer relCount) {
 		super();
 		this.relType = relType;
 		this.relText = relText;

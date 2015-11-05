@@ -2,58 +2,80 @@ package com.hts.web.ztworld.dao;
 
 import java.util.List;
 
-import net.sf.json.JSONObject;
-
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.hts.web.base.BaseTest;
 import com.hts.web.base.database.RowCallback;
 import com.hts.web.base.database.RowSelection;
+import com.hts.web.common.pojo.HTWorldComment;
 import com.hts.web.common.pojo.HTWorldCommentDto;
-import com.hts.web.common.pojo.HTWorldCommentUser;
+import com.hts.web.common.pojo.HTWorldCommentInline;
 import com.hts.web.common.util.Log;
 
+/**
+ * 织图评论数据访问接口
+ * 
+ * @author lynch
+ *
+ */
 public class HTWorldCommentDaoTest extends BaseTest {
-
+	
 	@Autowired
 	private HTWorldCommentDao dao;
 	
 	@Test
-	public void testQueryCommentDtoById() {
-		HTWorldCommentDto dto = dao.queryCommentDtoById(302);
-		JSONObject jsObj = JSONObject.fromObject(dto);
-		Log.debug(jsObj);
+	public void queryCommentByIdTest() {
+		HTWorldComment c = dao.queryCommentById(24779, 14316);
+		logObj(c);
 	}
 	
 	@Test
-	public void testQueryUserComment() {
-		List<HTWorldCommentDto> list = dao.queryUserComment(109, new RowSelection(1, 10));
+	public void queryCommentDtoByIdTest() {
+		HTWorldCommentDto dto = dao.queryCommentDtoById(24779, 14316);
+		logObj(dto);
 	}
 	
 	@Test
-	public void testQueryCommentUserByLimit() {
-		Integer[] worldIds = new Integer[]{10879,10880};
-		dao.queryCommentUserByLimit(worldIds, 3, new RowCallback<HTWorldCommentUser>() {
+	public void queryCommentCountTest() {
+		Long l = dao.queryCommentCount(14316);
+		logObj(l);
+	}
+	
+	@Test
+	public void queryCommentTest() {
+		List<HTWorldCommentDto> list = dao.queryCommentByMaxId(14316, 1000, new RowSelection(1, 10));
+		list = dao.queryComment(14316, new RowSelection(1, 10));
+		logList(list);
+	}
+	
+	@Test
+	public void queryInlineCommentTest() {
+		dao.queryInlineComment(new Integer[]{14316,14315}, 
+				10, new RowCallback<HTWorldCommentInline>() {
 
 			@Override
-			public void callback(HTWorldCommentUser comment) {
-				Log.debug(comment.getId() + comment.getContent());
+			public void callback(HTWorldCommentInline t) {
+				
 			}
-			
 		});
 	}
 	
 	@Test
-	public void testQueryCommentUserByLimit2() {
-		dao.queryCommentUserByLimit(10879, 3, new RowCallback<HTWorldCommentUser>(){
+	public void queryAuthorIdTest() {
+		Integer aid = dao.queryAuthorId(24779, 14316);
+		Log.debug(aid);
+	}
 
-			@Override
-			public void callback(HTWorldCommentUser comment) {
-				Log.debug(comment.getId() + comment.getContent());
-			}
-			
-		});
+	@Test
+	public void isCommentExistTest() {
+		boolean exists = dao.isCommentExist(24779, 14316);
+		Log.debug(exists);
 	}
 	
+	@Test
+	public void queryAllAuthorIdTest() {
+		List<Integer> list = dao.queryAllAuthorId(14316, 20);
+		logList(list);
+	}
 }

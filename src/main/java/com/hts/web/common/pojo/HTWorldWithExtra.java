@@ -26,14 +26,14 @@ public interface HTWorldWithExtra extends Serializable {
 	 * 
 	 * @return
 	 */
-	public List<HTWorldLikedUser> getLikes();
+	public List<HTWorldLikedInline> getLikes();
 
 	/**
 	 * 获取评论容器
 	 * 
 	 * @return
 	 */
-	public List<HTWorldCommentUser> getComments();
+	public List<HTWorldCommentInline> getComments();
 	
 	/**
 	 * 设置喜欢标记

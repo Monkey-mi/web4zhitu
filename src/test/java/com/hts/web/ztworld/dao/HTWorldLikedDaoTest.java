@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.hts.web.base.BaseTest;
 import com.hts.web.base.database.RowCallback;
-import com.hts.web.common.pojo.HTWorldLikedUser;
+import com.hts.web.common.pojo.HTWorldLikedInline;
 import com.hts.web.common.util.Log;
 
 
@@ -26,17 +26,12 @@ public class HTWorldLikedDaoTest extends BaseTest {
 	private HTWorldLikedDao dao;
 	
 	@Test
-	public void testUpdateLiked() throws Exception {
-		dao.updateLiked(20, 11, 1111, new Date());
-	}
-	
-	@Test
 	public void testQueryLikedUserByLimit() {
 		Integer[] worldIds = new Integer[]{10885,13154};
-		dao.queryLikedUserByLimit(worldIds, 2, new RowCallback<HTWorldLikedUser>() {
+		dao.queryInlineLikedByLimit(worldIds, 2, new RowCallback<HTWorldLikedInline>() {
 
 			@Override
-			public void callback(HTWorldLikedUser likedUser) {
+			public void callback(HTWorldLikedInline likedUser) {
 				Log.debug(likedUser.getUserId());
 			}
 			
@@ -45,10 +40,10 @@ public class HTWorldLikedDaoTest extends BaseTest {
 	
 	@Test
 	public void testQueryLikedUserByLimit2() {
-		dao.queryLikedUserByLimit(9640, 2, new RowCallback<HTWorldLikedUser>() {
+		dao.queryInlineLikedByLimit(9640, 2, new RowCallback<HTWorldLikedInline>() {
 
 			@Override
-			public void callback(HTWorldLikedUser likedUser) {
+			public void callback(HTWorldLikedInline likedUser) {
 				Log.debug(likedUser.getUserId());
 			}
 			

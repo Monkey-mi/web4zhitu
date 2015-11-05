@@ -2,11 +2,8 @@ package com.hts.web.ztworld.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
@@ -18,17 +15,9 @@ import com.hts.web.base.database.RowCallback;
 import com.hts.web.base.database.RowSelection;
 import com.hts.web.base.database.SQLUtil;
 import com.hts.web.common.dao.impl.BaseDaoImpl;
-import com.hts.web.common.pojo.HTWorldLikeMe;
-import com.hts.web.common.pojo.HTWorldLikeMeThumb;
 import com.hts.web.common.pojo.HTWorldLiked;
-import com.hts.web.common.pojo.HTWorldLikedUser;
-import com.hts.web.common.pojo.HTWorldThumbDto;
-import com.hts.web.common.pojo.HTWorldThumbnail;
-import com.hts.web.common.pojo.UserConcernDto;
-import com.hts.web.common.pojo.UserInfoDto;
-import com.hts.web.userinfo.dao.impl.UserConcernDaoImpl;
-import com.hts.web.userinfo.dao.impl.UserInfoDaoImpl;
-import com.hts.web.ztworld.dao.HTWorldDao;
+import com.hts.web.common.pojo.HTWorldLikedInline;
+import com.hts.web.common.pojo.HTWorldLikedUserDto;
 import com.hts.web.ztworld.dao.HTWorldLikedDao;
 
 /**
@@ -36,296 +25,105 @@ import com.hts.web.ztworld.dao.HTWorldLikedDao;
  * 织图世界喜欢数据访问对象
  * </p>
  * 
- * 创建时间：2013-7-4
- * @author ztj
+ * @author ztj　2013-7-4　2015-11-05
  *
  */
 @Repository("HTSHTWorldLikedDao")
 public class HTWorldLikedDaoImpl extends BaseDaoImpl implements HTWorldLikedDao{
 
-	private static final String ORDERY_BY_HL_ID_DESC = " order by hl.id desc ";
 	
-	/**
-	 * 喜欢用户信息
-	 */
-	private static final String LIKED_USER_INFO = "u0.id,u0.user_name,u0.user_avatar,"
-			+ "u0.user_avatar_l,u0.star,u0.platform_verify";
-	
-	/**
-	 *　喜欢我的用户信息
-	 */
-	private static final String LIKE_ME_INFO = "l0.id,l0.liked_date,l0.user_id,"
-			+ "l0.world_id,u0.user_name,u0.user_avatar,u0.province,u0.city,"
-			+ "u0.user_avatar_l,u0.star,u0.platform_verify,w0.title_thumb_path";
-	
-	/**
-	 * 喜欢我的用户分组信息
-	 */
-	private static final String LIKE_ME_INFO_BY_GROUP = "l0.id,l0.liked_date,l0.user_id,"
-			+ "u0.user_name,u0.user_avatar,"
-			+ "u0.user_avatar_l,u0.star,u0.platform_verify,u0.province,u0.city";
-	
-	/**
-	 * 喜欢我的用户织图信息
-	 */
-	private static final String LIKE_ME_WORLD_INFO = "hl0.user_id, hl0.world_id, h0.title_thumb_path";
-	
-	/**
-	 * 织图喜欢表
-	 */
 	public static String table = HTS.HTWORLD_LIKED;
 	
-	/**
-	 * 保存织图喜欢
-	 */
+	private static final String INLINE_USER_INFO = "u0.user_avatar,"
+			+ "u0.star,u0.platform_verify";
+	
+	private static final String INLINE_INFO = "l0.user_id,l0.world_id";
+	
+	private static final String LIKED_USER_INFO = "l0.id,l0.user_id,u0.user_name,"
+			+ "u0.user_avatar,u0.user_avatar_l,u0.star";
+	
 	private static final String SAVE_LIKED = "insert into " + table 
-			+ " (user_id,liked_date,world_id,world_author_id, ck,valid) values (?,?,?,?,?,?)";
+			+ " (id,user_id,world_id) values (?,?,?)";
 	
+	private static final String DEL_LIKE = "delete from " + table
+			+ " where user_id=? and world_id=?";
 	
-	/**
-	 * 更新喜欢有效标志
-	 */
-	private static final String UPDATE_LIKED_VALID = "update " + table 
-			+ " set valid=?, liked_date=? where user_id=? and world_id=?";
+	private static final String QUERY_WORLD_LIKED_COUNT = "select count(*) from " + table 
+			+ " where world_id=?";
 	
-	/**
-	 * 更新推送标记
-	 */
-	private static final String UPDATE_PUSHED = "update " + table + " set pushed=? where id=?";
+	private static final String QUERY_INLINE = "(select " 
+			+ INLINE_INFO + "," +INLINE_USER_INFO
+			+ " from " + table + " l0," + HTS.USER_INFO + " u0"
+			+ " where l0.user_id=u0.id and l0.world_id=? order by l0.id desc limit ?)";
 	
-	/**
-	 * 查询织图喜欢
-	 */
-	private static final String QUERY_LIKED = "select * from " + table 
+	private static final String QUERY_INLINE_BY_WID = "select " 
+			+ INLINE_INFO + "," +INLINE_USER_INFO
+			+ " from " + table + " l0," + HTS.USER_INFO + " u0"
+			+ " where l0.user_id=u0.id and l0.world_id=? order by l0.id desc limit ?";
+	
+	private static final String QUERY_LIKED_USER = "select " + LIKED_USER_INFO
+			+ " from " + table + " l0," + HTS.USER_INFO + " u0"
+			+ " where l0.user_id=u0.id and l0.world_id=?"
+			+ " order by l0.id desc limit ?,?";
+	
+	private static final String QUERY_LIKED_USER_BY_MAX_ID = "select " + LIKED_USER_INFO
+			+ " from " + table + " l0," + HTS.USER_INFO + " u0"
+			+ " where l0.user_id=u0.id and l0.world_id=? and l0.id<=?"
+			+ " order by l0.id desc limit ?,?";
+	
+	private static final String QUERY_LIKED_ID_BY_UID = "select world_id from " + table 
+			+ " where user_id=? and world_id in ";
+
+	private static final String IS_LIKED = "select 1 from " + table 
 			+ " where user_id=? and world_id=?";
 	
 	/**
-	 * 查询织图喜欢总数
+	 * 构建瀑布流内联喜欢用户信息
+	 * 
+	 * @param rs
+	 * @return
+	 * @throws SQLException
 	 */
-	private static final String QUERY_WORLD_LIKED_COUNT = "select count(*) from " + table 
-			+ " where world_id=? and valid=?";
-	
-	/**
-	 * 查询用户喜欢总数
-	 */
-	private static final String QUERY_USER_LIKE_COUNT = "select count(*) from " + table 
-			+ " where user_id=? and valid=1";
-	
-	/**
-	 * 更新未读喜欢信息
-	 */
-	private static final String UPDATE_UNREAD_USER_LIKED = "update " + table 
-			+ " set ck=? where ck=? and valid=? and world_author_id=?";
-	
-	/**
-	 * 查询用户喜欢消息
-	 */
-	private static final String QUERY_USER_LIKED = "select hl.*," + WORLD_THUMB + "," + U0_INFO 
-			+ " from " + table + " as hl, " + HTS.USER_INFO + " as u0, " +  HTS.HTWORLD_HTWORLD 
-			+ " as h where hl.user_id=u0.id and hl.world_id=h.id and hl.valid=? and hl.world_author_id=?"
-			+ ORDERY_BY_HL_ID_DESC;
-	
-	/**
-	 * 根据最大id查询用户喜欢消息
-	 */
-	private static final String QUERY_USER_LIKED_BY_MAX_ID = "select hl.*," + WORLD_THUMB + "," + U0_INFO 
-			+ " from " + table + " as hl, " + HTS.USER_INFO + " as u0, " +  HTS.HTWORLD_HTWORLD 
-			+ " as h where hl.user_id=u0.id and hl.world_id=h.id and hl.valid=? and hl.world_author_id=? and hl.id<=?"
-			+ ORDERY_BY_HL_ID_DESC;
-	
-	/**
-	 * 根据最小id查询用户喜欢消息
-	 */
-	private static final String QUERY_USER_LIKED_BY_MIN_ID = "select hl.*," + WORLD_THUMB + "," + U0_INFO 
-			+ " from " + table + " as hl, " + HTS.USER_INFO + " as u0, " +  HTS.HTWORLD_HTWORLD 
-			+ " as h where hl.user_id=u0.id and hl.world_id=h.id and hl.valid=? and hl.world_author_id=? and hl.id>?"
-			+ ORDERY_BY_HL_ID_DESC;
-	
-	/**
-	 * 查询用户喜欢消息总数
-	 */
-	private static final String QUERY_UNCHECK_USER_LIKED_COUNT = "select count(*) from " + table 
-			+ " where valid=? and ck=? and world_author_id=?";
-	
-	/**
-	 * 根据最大id查询用户喜欢消息总数
-	 */
-	private static final String QUERY_USER_LIKED_COUNT_BY_MAX_ID = "select count(*) from " + table 
-			+ " where valid=? and world_author_id=? and id<=?";
-	
-	/**
-	 * 根据最小id查询用户喜欢消息总数
-	 */
-	private static final String QUERY_USER_LIKED_COUNT_BY_MIN_ID = "select count(*) from " + table 
-			+ " where valid=? and world_author_id=? and id>?";
-	
-	private static final String QUERY_OPERATIONS_LIKED_USER_COUNT_BY_WORLD_ID = "select count(*) from " 
-			+ table + " as hl where hl.valid=? and hl.world_id=?"; 
-	
-	
-	private static final String QUERY_OPERATIONS_LIKED_USER_COUNT_BY_WORLD_ID_AND_MAX_ID = QUERY_OPERATIONS_LIKED_USER_COUNT_BY_WORLD_ID
-			+ " and hl.id<=?"; 
-	
-	/**
-	 * 查询最新喜欢SQL头部
-	 */
-	private static final String QUERY_LIKED_USER_INFO_HEAD = "select " + LIKED_USER_INFO 
-			+ ",hl.world_id,hl.user_id from " + HTS.USER_INFO + " as u0, (";
-	
-	/**
-	 * 查询最新喜欢SQL中部
-	 */
-	private static final String QUERY_LIKED_USRE_INFO_MAIN = "(select world_id,user_id from " 
-			+ table + " where world_id=? and valid=? order by id desc limit ?)";
-	
-	/**
-	 * 查询最新喜欢SQL尾部
-	 */
-	private static final String QUERY_LIKED_USER_INFO_FOOT = " ) as hl where u0.id=hl.user_id";
-	
-	/**
-	 * 根据织图id查询最新喜欢
-	 */
-	private static final String QUERY_LIKED_USER_INFO_BY_WID = "select " + LIKED_USER_INFO 
-			+ ",hl.world_id,hl.user_id from " 
-			+ table + " as hl," + HTS.USER_INFO 
-			+ " as u0 where u0.id=hl.user_id and hl.world_id=? and hl.valid=? order by id desc limit ?";
-	
-	
-	/**
-	 * 查询喜欢指定织图的用户信息
-	 */
-	public static final String QUERY_LIKED_USER_WITH_JOIN  = "select uc.*,uc1.* from (select " + UserConcernDaoImpl.CONCERN_USER_INFO + ",uc0.* from " + HTS.HTWORLD_LIKED
-			+ " as uc0, " + HTS.USER_INFO + " as u"
-			+ " where uc0.user_id = u.id and uc0.world_id=? and uc0.valid=?) as uc"
-			+ " left join " + HTS.USER_CONCERN +  " as uc1 on uc.user_id = uc1.concern_id and uc1.user_id=? and uc1.valid=?" + UserConcernDaoImpl.ORDER_BY_UC_ID_DESC;
-	
-	/**
-	 * 查询喜欢指定织图的用户信息
-	 */
-	public static final String QUERY_LIKED_USER_WITH_JOIN_BY_MAX_ID  = "select uc.*,uc1.* from (select " + UserConcernDaoImpl.CONCERN_USER_INFO + ",uc0.* from " + HTS.HTWORLD_LIKED
-			+ " as uc0, " + HTS.USER_INFO + " as u"
-			+ " where uc0.user_id = u.id and uc0.world_id=? and uc0.valid=? and uc0.id<=?) as uc"
-			+ " left join " + HTS.USER_CONCERN +  " as uc1 on uc.user_id = uc1.concern_id and uc1.user_id=? and uc1.valid=?" + UserConcernDaoImpl.ORDER_BY_UC_ID_DESC;
-	
-	
-	/**SELECT * FROM 
-	 * 查询用户喜欢指定用户的织图
-	 */
-	public static final String QUERY_LIKED_WORLD = "select h.id, h.title_thumb_path from ("
-			+ "select world_id from " + table + " where user_id=? and world_author_id=? and valid=1 order by id desc limit ?) as hl,"
-			+ HTS.HTWORLD_HTWORLD + " as h where hl.world_id=h.id"; 
-	
-	/**
-	 * 查询用户喜欢指定用户的织图总数
-	 */
-	public static final String QUERY_LIKED_WORLD_COUNT = "select count(*) from " + table 
-			+ " where user_id=? and world_author_id=? and valid=1";
-	
-	/**
-	 * 根据用户id查询其喜欢的织图id
-	 */
-	private static final String QUERY_LIKED_WORLD_ID_BY_UID = "select world_id from " + table 
-			+ " where user_id=? and valid=1 and world_id in ";
-	
-	/**
-	 * 查询被赞次数
-	 */
-	private static final String QUERY_LIKE_ME_COUNT_BY_WUID = "select count(*) from " + table 
-			+ " where world_author_id=? and valid=1";
-	
-	/**
-	 * 根据小id查询被赞数
-	 */
-	private static final String QUERY_LIKE_ME_COUNT_BY_MINID = "select count(*) from " + table 
-			+ " where world_author_id=? and valid=1 and id>?";
-
-	/**
-	 * 查询喜欢我的用户信息
-	 */
-	private static final String QUERY_LIKE_ME = "select " + LIKE_ME_INFO + " from "
-			+ table + " as l0," + HTS.USER_INFO + " u0, " + HTS.HTWORLD_HTWORLD + " as w0"
-			+ " where l0.user_id=u0.id and l0.world_id=w0.id and l0.valid=1 and l0.world_author_id=?"
-			+ " and user_id!=? order by l0.id desc limit ?";
-	/**
-	 * 根据最大id查询喜欢我的用户信息
-	 */
-	private static final String QUERY_LIKE_ME_BY_MAXID = "select " + LIKE_ME_INFO + " from "
-			+ table + " as l0," + HTS.USER_INFO + " u0, " + HTS.HTWORLD_HTWORLD + " as w0"
-			+ " where l0.user_id=u0.id and l0.world_id=w0.id and l0.valid=1 and l0.world_author_id=?"
-			+ " and l0.user_id!=? and l0.id<=? order by l0.id desc limit ?";
-	
-	/**
-	 * 查询喜欢我的用户分组信息
-	 */
-	private static final String QUERY_LIKE_ME_BY_GROUP = "select " + LIKE_ME_INFO_BY_GROUP 
-			+ " from " + table + " l0, " + HTS.USER_INFO + " u0"
-			+ " where l0.user_id=u0.id and l0.world_author_id=? and l0.user_id!=?"
-			+ " and l0.valid=1 and l0.id>=? group by l0.user_id order by l0.id desc";
-
-	/**
-	 * 根据用户id查询喜欢我的织图信息，不做分页
-	 */
-	private static final String QUERY_LIKE_ME_WORLD = "select " + LIKE_ME_WORLD_INFO
-		+ " from " + table + " hl0," + HTS.HTWORLD_HTWORLD + " h0"
-		+ " where hl0.world_id=h0.id and hl0.world_author_id=? and hl0.user_id!=?"
-		+ " and hl0.id>=? and hl0.valid=1"
-		+ " order by hl0.id desc";
-	
-	/**
-	 *　查询被赞的最小id
-	 */
-	private static final String QUERY_MIN_ID_BY_DATE = "select min(id) from "
-			+ table + " where world_author_id=? and valid=1 and liked_date>=?";
-	
-	/**
-	 * 查询最大被赞记录id
-	 */
-	private static final String QUERY_MAX_LIKE_ME_ID = "select max(id) from "
-			+ table + " where world_author_id=?";
-	
-	/**
-	 * 查询喜欢id
-	 */
-	private static final String QUERY_LIKE_ID = "select world_id from " 
-			+ table + " where user_id=? and world_id=? and valid=1";
-	
-	@Autowired
-	private HTWorldDao worldDao;
-	
-	@Override
-	public HTWorldLiked queryLiked(Integer userId, Integer worldId) {
-		try {
-			return getMasterJdbcTemplate().queryForObject(QUERY_LIKED, new RowMapper<HTWorldLiked>() {
-	
-				@Override
-				public HTWorldLiked mapRow(ResultSet rs, int rowNum) throws SQLException {
-					return buildHTWorldLiked(rs);
-				}
-				
-			}, new Object[]{userId, worldId});
-		} catch(EmptyResultDataAccessException e) {
-			return null;
-		}
+	private HTWorldLikedInline buildLikedInline(ResultSet rs) throws SQLException {
+		return new HTWorldLikedInline(
+				rs.getInt("user_id"),
+				rs.getString("user_avatar"),
+				rs.getInt("world_id"),
+				rs.getInt("star"),
+				rs.getInt("platform_verify"));
 	}
+	
+	/**
+	 * 构建喜欢织图的用户信息
+	 * 
+	 * @param rs
+	 * @return
+	 * @throws SQLException
+	 */
+	private HTWorldLikedUserDto buildLikedUserDto(ResultSet rs) throws SQLException {
+		return new HTWorldLikedUserDto(
+				rs.getInt("id"),
+				rs.getInt("user_id"),
+				rs.getString("user_name"),
+				rs.getString("user_avatar"),
+				rs.getString("user_avatar_l"),
+				rs.getInt("star"));
+	}
+	
 	
 	@Override
 	public Integer saveLiked(HTWorldLiked liked) {
 		return save(SAVE_LIKED, new Object[]{
+				liked.getId(),
 				liked.getUserId(),
-				liked.getLikedDate(),
 				liked.getWorldId(),
-				liked.getWorldAuthorId(),
-				liked.getCk(),
-				liked.getValid()
 		});
 	}
 	
 	@Override
-	public void updateLiked(Integer userId, Integer worldId, Integer valid, Date date) {
-		getMasterJdbcTemplate().update(UPDATE_LIKED_VALID, new Object[]{valid, date, userId, worldId});
+	public void delLiked(Integer userId, Integer worldId) {
+		getMasterJdbcTemplate().update(DEL_LIKE, userId, worldId);
 	}
-	
 	
 	@Override
 	public long queryLikedCount(Integer worldId) {
@@ -333,234 +131,76 @@ public class HTWorldLikedDaoImpl extends BaseDaoImpl implements HTWorldLikedDao{
 	}
 
 	@Override
-	public void updatePushed(Integer id, Integer valid) {
-		getMasterJdbcTemplate().update(UPDATE_PUSHED, new Object[]{valid, id});
-	}
-
-	@Override
-	public List<HTWorldLiked> queryUserLiked(Integer userId, RowSelection rowSelection) {
-		return queryForPage(QUERY_USER_LIKED, new Object[]{Tag.TRUE, userId}, new RowMapper<HTWorldLiked>() {
-
-			@Override
-			public HTWorldLiked mapRow(ResultSet rs, int rowNum)
-					throws SQLException {
-				return buildHTWorldLikedWithUserAndThumb(rs);
-			}
-		}, rowSelection);
-	}
-	
-	@Override
-	public List<HTWorldLiked> queryUserLikedByMaxId(Integer userId, Integer maxId, RowSelection rowSelection) {
-		return queryForPage(QUERY_USER_LIKED_BY_MAX_ID, new Object[]{Tag.TRUE, userId, maxId}, new RowMapper<HTWorldLiked>() {
-
-			@Override
-			public HTWorldLiked mapRow(ResultSet rs, int rowNum)
-					throws SQLException {
-				return buildHTWorldLikedWithUserAndThumb(rs);
-			}
-		}, rowSelection);
-	}
-	
-	@Override
-	public List<HTWorldLiked> queryUserLikedByMinId(Integer userId, Integer minId, RowSelection rowSelection) {
-		return queryForPage(QUERY_USER_LIKED_BY_MIN_ID, new Object[]{Tag.TRUE, userId, minId}, new RowMapper<HTWorldLiked>() {
-
-			@Override
-			public HTWorldLiked mapRow(ResultSet rs, int rowNum)
-					throws SQLException {
-				return buildHTWorldLikedWithUserAndThumb(rs);
-			}
-		}, rowSelection);
-	}
-	
-	@Override
-	public long queryUnCheckUserLikedCount(Integer userId) {
-		return getJdbcTemplate().queryForLong(QUERY_UNCHECK_USER_LIKED_COUNT, new Object[]{Tag.TRUE, Tag.FALSE, userId});
-	}
-	
-	@Override
-	public long queryUserLikedCountByMaxId(Integer userId, Integer maxId) {
-		return getJdbcTemplate().queryForLong(QUERY_USER_LIKED_COUNT_BY_MAX_ID, new Object[]{Tag.TRUE, userId, maxId});
-	}
-	
-	@Override
-	public long queryUserLikedCountByMinId(Integer userId, Integer minId) {
-		return getJdbcTemplate().queryForLong(QUERY_USER_LIKED_COUNT_BY_MIN_ID, new Object[]{Tag.TRUE, userId, minId});
-	}
-	
-	@Override
-	public void updateUnreadUserLiked(Integer userId) {
-		getMasterJdbcTemplate().update(UPDATE_UNREAD_USER_LIKED, new Object[]{Tag.TRUE, Tag.FALSE, Tag.TRUE, userId});
-	}
-
-	@Override
-	public long queryOperationsLikedUserCountByWorldId(Integer worldId) {
-		return getJdbcTemplate().queryForLong(QUERY_OPERATIONS_LIKED_USER_COUNT_BY_WORLD_ID, new Object[]{
-			Tag.TRUE,worldId
-		});
-	}
-
-
-	@Override
-	public long queryOperationsLikedUserCountByWorldIdAndMaxId(Integer maxId, Integer worldId) {
-		return getJdbcTemplate().queryForLong(QUERY_OPERATIONS_LIKED_USER_COUNT_BY_WORLD_ID_AND_MAX_ID, new Object[]{
-			Tag.TRUE,worldId,maxId
-		});
-	}
-	
-	@Override
-	public void queryLikedUserByLimit(Integer[] worldIds,
-			Integer limit, final RowCallback<HTWorldLikedUser> callback) {
-		Object[] args = new Object[worldIds.length * 3];
-		StringBuilder sqlBuilder = new StringBuilder(QUERY_LIKED_USER_INFO_HEAD);
+	public void queryInlineLikedByLimit(Integer[] worldIds,
+			Integer limit, final RowCallback<HTWorldLikedInline> callback) {
+		Object[] args = new Object[worldIds.length * 2];
+		StringBuilder sqlBuilder = new StringBuilder();
 		for(int i = 0; i < worldIds.length; i++) {
 			if(i != 0) {
 				sqlBuilder.append(" union all ");
 			}
-			sqlBuilder.append(QUERY_LIKED_USRE_INFO_MAIN);
-			int k = i * 3;
+			sqlBuilder.append(QUERY_INLINE);
+			int k = i * 2;
 			args[k] = worldIds[i];
-			args[k+1] = Tag.TRUE;
-			args[k+2] = limit;
+			args[k+1] = limit;
 		}
-		sqlBuilder.append(QUERY_LIKED_USER_INFO_FOOT);
 		getJdbcTemplate().query(sqlBuilder.toString(), args, new RowCallbackHandler() {
 			
 			@Override
 			public void processRow(ResultSet rs) throws SQLException {
-				HTWorldLikedUser user = buildHTWorldLikedUser(rs);
-				callback.callback(user);
+				callback.callback(buildLikedInline(rs));
 			}
 		});
 	}
 	
 	@Override
-	public void queryLikedUserByLimit(Integer worldId,
-			Integer limit, final RowCallback<HTWorldLikedUser> callback) {
-		getJdbcTemplate().query(QUERY_LIKED_USER_INFO_BY_WID, 
-				new Object[]{worldId, Tag.TRUE, limit}, 
+	public void queryInlineLikedByLimit(Integer worldId,
+			Integer limit, final RowCallback<HTWorldLikedInline> callback) {
+		getJdbcTemplate().query(QUERY_INLINE_BY_WID, 
+				new Object[]{worldId, limit}, 
 				new RowCallbackHandler() {
 			
 			@Override
 			public void processRow(ResultSet rs) throws SQLException {
-				HTWorldLikedUser user = buildHTWorldLikedUser(rs);
-				callback.callback(user);
+				callback.callback(buildLikedInline(rs));
 			}
 		});
 	}
 	
 	@Override
-	public List<UserConcernDto> queryLikedUser(Integer worldId, Integer userId,
+	public List<HTWorldLikedUserDto> queryLikedUser(Integer worldId,
 			RowSelection rowSelection) {
-		return queryForPage(QUERY_LIKED_USER_WITH_JOIN, new Object[]{worldId, Tag.TRUE, userId, Tag.TRUE}, 
-				new RowMapper<UserConcernDto>() {
-
-			@Override
-			public UserConcernDto mapRow(ResultSet rs, int num)
-					throws SQLException {
-				return UserConcernDaoImpl.buildUserConcernDtoByResultSet(rs);
-			}
-		}, rowSelection);
-	}
-
-	@Override
-	public List<UserConcernDto> queryLikedUser(Integer maxId, Integer worldId,
-			Integer userId, RowSelection rowSelection) {
-		return queryForPage(QUERY_LIKED_USER_WITH_JOIN_BY_MAX_ID, new Object[]{worldId, Tag.TRUE, maxId, userId, Tag.TRUE}, 
-				new RowMapper<UserConcernDto>() {
-
-			@Override
-			public UserConcernDto mapRow(ResultSet rs, int num)
-					throws SQLException {
-				return UserConcernDaoImpl.buildUserConcernDtoByResultSet(rs);
-			}
-		}, rowSelection);
-	}
-
-	@Override
-	public long queryUserLikeCount(Integer userId) {
-		return getJdbcTemplate().queryForLong(QUERY_USER_LIKE_COUNT, userId);
-	}
-
-	
-	@Override
-	public List<HTWorldThumbnail> queryLikeOthersWorldThumbnail(Integer limit,
-			Integer userId, Integer authorId) {
-		return getJdbcTemplate().query(QUERY_LIKED_WORLD, new Object[]{userId, authorId, limit},
-				new RowMapper<HTWorldThumbnail>() {
+		return getJdbcTemplate().query(QUERY_LIKED_USER, 
+				new Object[]{worldId, rowSelection.getFirstRow(), rowSelection.getLimit()}, 
+				new RowMapper<HTWorldLikedUserDto>() {
 
 					@Override
-					public HTWorldThumbnail mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
-						return new HTWorldThumbnail(rs.getInt("id"), 
-								rs.getString("title_thumb_path"));
+					public HTWorldLikedUserDto mapRow(ResultSet rs, int rowNum) throws SQLException {
+						return buildLikedUserDto(rs);
 					}
 		});
 	}
-	
+
 	@Override
-	public long queryLikeOthersWorldCount(Integer userId, Integer authorId) {
-		return getJdbcTemplate().queryForLong(QUERY_LIKED_WORLD_COUNT, 
-				new Object[]{userId, authorId});
-	}
+	public List<HTWorldLikedUserDto> queryLikedUser(Integer maxId, Integer worldId,
+			RowSelection rowSelection) {
+		return getJdbcTemplate().query(QUERY_LIKED_USER_BY_MAX_ID, 
+				new Object[]{worldId, maxId, rowSelection.getFirstRow(), rowSelection.getLimit()}, 
+				new RowMapper<HTWorldLikedUserDto>() {
 
-	
-	
-	/**
-	 * 从结果集构建HTWorldLiked
-	 * 
-	 * @param rs
-	 * @return
-	 * @throws SQLException 
-	 */
-	public HTWorldLiked buildHTWorldLiked(ResultSet rs) throws SQLException {
-		return new HTWorldLiked(
-				rs.getInt("id"), 
-				rs.getInt("user_id"),
-				(Date)rs.getObject("liked_date"), 
-				rs.getInt("world_id"), 
-				rs.getInt("world_author_id"),
-				rs.getInt("ck"),
-				rs.getInt("valid"));
+					@Override
+					public HTWorldLikedUserDto mapRow(ResultSet rs, int rowNum) throws SQLException {
+						return buildLikedUserDto(rs);
+					}
+			
+		});
 	}
 	
-	/**
-	 * 
-	 * @param rs
-	 * @return
-	 * @throws SQLException
-	 */
-	public HTWorldLikedUser buildHTWorldLikedUser(ResultSet rs) throws SQLException {
-		return new HTWorldLikedUser(
-				rs.getInt("id"),
-				rs.getString("user_name"),
-				rs.getString("user_avatar"),
-				rs.getString("user_avatar_l"),
-				rs.getInt("world_id"),
-				rs.getInt("star"),
-				rs.getInt("platform_verify"));
-	}
-	
-	/**
-	 * 从结果集构建HTWorldLiked
-	 * @param rs
-	 * @return
-	 * @throws SQLException 
-	 */
-	public HTWorldLiked buildHTWorldLikedWithUserAndThumb(ResultSet rs) throws SQLException {
-		HTWorldLiked dto = buildHTWorldLiked(rs);
-		UserInfoDto user = UserInfoDaoImpl.buildUserInfoDtoByResult(dto.getUserId(), rs);
-		dto.setUserInfo(user);
-		HTWorldThumbDto thumb = worldDao.buildHTWorldThumbDtoByResultSet(dto.getWorldId(), rs);
-		dto.setHtworld(thumb);
-		return dto;
-	}
-
 	@Override
 	public void queryLiked(Integer userId, Integer[] worldIds,
 			final RowCallback<Integer> callback) {
 		String inSelection = SQLUtil.buildInSelection(worldIds);
-		String sql = QUERY_LIKED_WORLD_ID_BY_UID + inSelection;
+		String sql = QUERY_LIKED_ID_BY_UID + inSelection;
 		Object[] args = SQLUtil.getArgsByInCondition(worldIds, new Object[]{userId}, true);
 		getJdbcTemplate().query(sql, args, new RowCallbackHandler() {
 			
@@ -572,129 +212,12 @@ public class HTWorldLikedDaoImpl extends BaseDaoImpl implements HTWorldLikedDao{
 	}
 
 	@Override
-	public long queryLikeMeCount(Integer worldAuthorId) {
-		return getMasterJdbcTemplate().queryForLong(QUERY_LIKE_ME_COUNT_BY_WUID, worldAuthorId);
-	}
-
-	@Override
-	public long queryLikeMeCount(Integer minId, Integer worldAuthorId) {
-		return getJdbcTemplate().queryForLong(QUERY_LIKE_ME_COUNT_BY_MINID, 
-				new Object[]{worldAuthorId, minId});
-	}
-	
-	@Override
-	public Integer queryMinIdByMinDate(Integer authorId, Date minDate) {
+	public boolean isLiked(Integer userId, Integer worldId) {
 		try {
-			return getJdbcTemplate().queryForInt(QUERY_MIN_ID_BY_DATE, 
-					new Object[]{authorId, minDate});
-		} catch(DataAccessException e) {
-			return 0;
+			getJdbcTemplate().queryForInt(IS_LIKED, userId, worldId);
+			return true;
+		} catch(EmptyResultDataAccessException e) {
+			return false;
 		}
 	}
-	
-	@Override
-	public List<HTWorldLikeMe> queryLikeMe(Integer maxId, Integer authorId,
-			Integer limit) {
-		return getJdbcTemplate().query(QUERY_LIKE_ME_BY_MAXID, 
-				new Object[]{authorId, authorId, maxId, limit}, 
-				new RowMapper<HTWorldLikeMe>(){
-
-					@Override
-					public HTWorldLikeMe mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
-						HTWorldLikeMe lm = buildLikeMe(rs);
-						lm.setWorldId(rs.getInt("world_id"));
-						lm.setTitleThumbPath(rs.getString("title_thumb_path"));
-						return lm;
-					}
-		});
-	}
-	
-	@Override
-	public List<HTWorldLikeMe> queryLikeMe(Integer authorId,
-			Integer limit) {
-		return getJdbcTemplate().query(QUERY_LIKE_ME, new Object[]{authorId, authorId, limit}, 
-				new RowMapper<HTWorldLikeMe>(){
-
-					@Override
-					public HTWorldLikeMe mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
-						HTWorldLikeMe lm = buildLikeMe(rs);
-						lm.setWorldId(rs.getInt("world_id"));
-						lm.setTitleThumbPath(rs.getString("title_thumb_path"));
-						return lm;
-					}
-		});
-	}
-	
-	@Override
-	public List<HTWorldLikeMe> queryLikeMeByGroup(Integer minId, Integer authorId) {
-		return getJdbcTemplate().query(QUERY_LIKE_ME_BY_GROUP, 
-				new Object[]{authorId, authorId, minId}, 
-				new RowMapper<HTWorldLikeMe>(){
-
-					@Override
-					public HTWorldLikeMe mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
-						return buildLikeMe(rs);
-					}
-		});
-	}
-	
-	@Override
-	public void queryLikeMeWorld(Integer minId, Integer authorId,
-			final RowCallback<HTWorldLikeMeThumb> callback) {
-		
-		getJdbcTemplate().query(QUERY_LIKE_ME_WORLD,
-				new Object[]{authorId, authorId, minId},
-				new RowCallbackHandler() {
-		
-			@Override
-			public void processRow(ResultSet rs) throws SQLException {
-				callback.callback(buildLikeMeThumb(rs));
-			}
-		});
-	}
-	
-	@Override
-	public Integer queryMaxLikeMeId(Integer authorId) {
-		try {
-			return getJdbcTemplate().queryForInt(QUERY_MAX_LIKE_ME_ID, authorId);
-		} catch(DataAccessException e) {
-			return 0;
-		}
-	}
-	
-	@Override
-	public Integer queryLikedId(Integer userId, Integer worldId) {
-		try {
-			return getJdbcTemplate().queryForInt(QUERY_LIKE_ID, new Object[]{userId, worldId});
-		} catch(DataAccessException e) {
-			return 0;
-		}
-	}
-	
-	public HTWorldLikeMe buildLikeMe(ResultSet rs) throws SQLException {
-		return new HTWorldLikeMe(
-				rs.getInt("id"),
-				(Date)rs.getObject("liked_date"),
-				rs.getInt("user_id"),
-				rs.getString("user_name"),
-				rs.getString("user_avatar"),
-				rs.getString("user_avatar_l"),
-				rs.getString("province"),
-				rs.getString("city"),
-				rs.getInt("star"),
-				rs.getInt("platform_verify"));
-	}
-	
-	public HTWorldLikeMeThumb buildLikeMeThumb(ResultSet rs) throws SQLException {
-		return new HTWorldLikeMeThumb(
-				rs.getInt("user_id"),
-				rs.getInt("world_id"),
-				rs.getString("title_thumb_path"));
-	}
-
-
-
 }

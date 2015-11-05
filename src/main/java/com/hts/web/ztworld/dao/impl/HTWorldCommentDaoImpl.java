@@ -2,45 +2,31 @@ package com.hts.web.ztworld.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.hts.web.base.constant.Tag;
 import com.hts.web.base.database.HTS;
 import com.hts.web.base.database.RowCallback;
 import com.hts.web.base.database.RowSelection;
-import com.hts.web.base.database.SQLUtil;
 import com.hts.web.common.dao.impl.BaseDaoImpl;
 import com.hts.web.common.pojo.HTWorldComment;
 import com.hts.web.common.pojo.HTWorldCommentDto;
-import com.hts.web.common.pojo.HTWorldCommentReId;
-import com.hts.web.common.pojo.HTWorldCommentUser;
-import com.hts.web.common.pojo.HTWorldThumbDto;
-import com.hts.web.common.pojo.MsgCommentDto;
-import com.hts.web.common.pojo.MsgCommentUserDto;
-import com.hts.web.common.pojo.MsgCommentWorldDto;
+import com.hts.web.common.pojo.HTWorldCommentInline;
+import com.hts.web.common.pojo.HTWorldCommentInlineUser;
 import com.hts.web.common.pojo.UserInfoDto;
-import com.hts.web.common.util.CollectionUtil;
-import com.hts.web.userinfo.dao.impl.UserInfoDaoImpl;
 import com.hts.web.ztworld.dao.HTWorldCommentDao;
-import com.hts.web.ztworld.dao.HTWorldDao;
 
 /**
  * <p>
  * 织图评论数据访问对象
  * </p>
  * 
- * 创建时间：2013-8-9
- * @author ztj
+ * @author ztj 2013-8-9 2015-11-04
  *
  */
 @Repository("HTSHTWorldCommentDao")
@@ -49,265 +35,54 @@ public class HTWorldCommentDaoImpl extends BaseDaoImpl implements
 	
 	private static final String table = HTS.HTWORLD_COMMENT;
 	
-	private static final String ORDER_BY_HC_ID_DESC = " order by hc.id desc";
+	private static final String COMMENT_INFO = "c0.id,c0.author_id,c0.content,"
+			+ "c0.comment_date,c0.world_id,c0.re_author_id";
 	
-	/**
-	 * 评论用户信息
-	 */
 	private static final String COMMENT_USER_INFO = "u0.user_name,u0.user_avatar,"
 			+ "u0.user_avatar_l,u0.star,u0.platform_verify";
 	
-	/**
-	 * 保存织图评论
-	 * 
-	 */
-	private static final String SAVE_COMMENT = "insert into " + HTS.HTWORLD_COMMENT 
-			+ "(id, author_id, content, comment_date, world_id, world_author_id, re_id," 
-			+ "re_author_id, ck, valid, shield) values (?,?,?,?,?,?,?,?,?,?,?)";
+	private static final String SAVE_COMMENT = "insert into " + table 
+			+ "(id, author_id, content, comment_date, world_id," 
+			+ "re_author_id) values (?,?,?,?,?,?)";
 	
-	/**
-	 * 根据id查询评论
-	 */
-	private static final String QUERY_COMMENT_BY_ID = "select * from " + HTS.HTWORLD_COMMENT + " where id=?";
+	private static final String QUERY_COMMENT_BY_ID = "select " 
+			+ COMMENT_INFO + " from " + table 
+			+ " c0 where c0.world_id=? and c0.id=?";
 	
-	/**
-	 * 根据id查询评论数据传输对象
-	 */
-	private static final String QUERY_COMMENT_DTO_BY_ID = "select hc.*, " + U0_INFO + " from " 
-			+ HTS.HTWORLD_COMMENT + " as hc, "  + HTS.USER_INFO + " as u0" 
-			+ " where hc.author_id=u0.id and hc.id=?";
+	private static final String QUERY_COMMENT_DTO_BY_ID = "select " 
+			+ COMMENT_INFO + ", " + COMMENT_USER_INFO 
+			+ " from " + table + " as c0, "  + HTS.USER_INFO + " as u0" 
+			+ " where c0.author_id=u0.id and c0.world_id=? and c0.id=?";
 	
-	/**
-	 * 查询织图评论SQL公用头部
-	 */
-	private static final String QUERY_COMMENT_HEADER = "select hc.*, " + U0_INFO + " from " 
-			+ HTS.HTWORLD_COMMENT + " as hc, "  + HTS.USER_INFO + " as u0" 
-			+ " where hc.author_id=u0.id and hc.world_id=? and hc.valid=? and hc.shield=?";
-	/**
-	 * 查询织图评论
-	 */
-	private static final String QUERY_COMMENT = QUERY_COMMENT_HEADER + ORDER_BY_HC_ID_DESC;
+	private static final String QUERY_COMMENT = "select " 
+			+ COMMENT_INFO + ", " + U0_INFO 
+			+ " from " + table + " as c0, "  + HTS.USER_INFO + " as u0" 
+			+ " where c0.author_id=u0.id and c0.world_id=?"
+			+ " order by c0.id desc limit ?,?";
 	
-	/**
-	 * 根据最大id查询织图评论
-	 */
-	private static final String QUERY_COMMENT_BY_MAX_ID = QUERY_COMMENT_HEADER 
-			+ " and hc.id<=?" + ORDER_BY_HC_ID_DESC;
+	private static final String QUERY_COMMENT_BY_MAX_ID = "select " 
+			+ COMMENT_INFO + ", " + U0_INFO 
+			+ " from " + table + " as c0, "  + HTS.USER_INFO + " as u0" 
+			+ " where c0.author_id=u0.id and c0.world_id=? and c0.id<=?"
+			+ " order by c0.id desc limit ?,?";
 	
-	/**
-	 * 根据最小id查询织图评论
-	 */
-	private static final String QUERY_COMMENT_BY_MIN_ID =  QUERY_COMMENT_HEADER 
-			+ " and hc.id>?" + ORDER_BY_HC_ID_DESC;
+	private static final String QUERY_COMMENT_COUNT = "select count(*) from " 
+			+ table + " where world_id=?";
 	
-	/**
-	 * 查询织图评论总数
-	 */
-	private static final String QUERY_WORLD_COMMENTED_COUNT = "select count(*) from " 
-			+ HTS.HTWORLD_COMMENT + " where world_id=? and valid=? and shield=?";
-	
-	/**
-	 * 根据最大id查询织图评论总数
-	 */
-	private static final String QUERY_WORLD_COMMENTED_COUNT_BY_MAX_ID = QUERY_WORLD_COMMENTED_COUNT 
-			+ " and id<=?";
-	
-	/**
-	 * 根据最小id查询织图评论总数
-	 */
-	private static final String QUERY_WORLD_COMMENT_COUNT_BY_MIN_ID = QUERY_WORLD_COMMENTED_COUNT 
-			+ " and id>?";
-	
-	/**
-	 * 查询评论总数SQL头部
-	 */
-	private static final String QUERY_COMMENT_COUNT_HEADER = "select count(*) from " 
-			+ HTS.HTWORLD_COMMENT + " as hc," + HTS.USER_INFO + " as u0"
-			+" where hc.author_id=u0.id";
-	
-	/**
-	 * 查询评论总数SQL尾部
-	 */
-	private static final String QUERY_COMMENT_COUNT_FOOT = " and hc.valid=?";
-	
-	/**
-	 * 根据最大id查询评论总数SQL尾部
-	 */
-	private static final String QUERY_COMMENT_COUNT_BY_MAX_ID_FOOT = " and hc.valid=? and hc.id<=?";
-	
-	/**
-	 * 根据最小id查询评论总数SQL尾部
-	 */
-	private static final String QUERY_COMMENT_COUNT_BY_MIN_ID_FOOT = " and hc.valid=? and hc.id>?";
-	
-	/**
-	 * 更新评论屏蔽标记
-	 */
-	private static final String UPDATE_COMMENT_SHIELD = "update " + HTS.HTWORLD_COMMENT 
-			+ " set shield=? where id=?";
-	
-	/**
-	 * 更新推送标记
-	 */
-	private static final String UPDATE_PUSHED = "update " + HTS.HTWORLD_COMMENT 
-			+ " set pushed=? where id=?";
-	
-	/**
-	 * 更新指定用户的未读评论消息
-	 */
-	private static final String UPDATE_UNREAD_USER_COMMENT = "update " + HTS.HTWORLD_COMMENT 
-			+ " set ck=? where ck=? and valid=? and shield=? and (world_author_id=? or re_author_id=?)";
-	
-	/**
-	 * 查询指定用户的评论消息
-	 */
-	private static final String QUERY_USER_COMMENT = "select hc.*," + WORLD_THUMB + ","+ U0_INFO + " from " +
-			HTS.HTWORLD_COMMENT + " as hc, " + HTS.USER_INFO + " as u0, " + HTS.HTWORLD_HTWORLD + " as h"
-			+ " where hc.author_id=u0.id and hc.world_id=h.id and hc.valid=? and hc.shield=? and (hc.world_author_id=? or hc.re_author_id=?)"
-			+ ORDER_BY_HC_ID_DESC;
-	
-	/**
-	 * 根据最大id查询指定用户的评论消息
-	 */
-	private static final String QUERY_USER_COMMENT_BY_MAX_ID = "select hc.*," + WORLD_THUMB + "," + U0_INFO + " from " +
-			HTS.HTWORLD_COMMENT + " as hc, " + HTS.USER_INFO + " as u0, " + HTS.HTWORLD_HTWORLD + " as h"
-			+ " where hc.author_id=u0.id and hc.world_id=h.id and hc.valid=? and hc.shield=? and (hc.world_author_id=? or hc.re_author_id=?)  and hc.id<=?"
-			+ ORDER_BY_HC_ID_DESC;
-	
-	/**
-	 * 根据最小id查询指定用户的评论消息
-	 */
-	private static final String QUERY_USER_COMMENT_BY_MIN_ID = "select hc.*," + WORLD_THUMB + "," + U0_INFO + " from " +
-			HTS.HTWORLD_COMMENT + " as hc, " + HTS.USER_INFO + " as u0, " + HTS.HTWORLD_HTWORLD + " as h"
-			+ " where hc.author_id=u0.id and hc.world_id=h.id and hc.valid=? and hc.shield=? and (hc.world_author_id=? or hc.re_author_id=?) and hc.id>?"
-			+ ORDER_BY_HC_ID_DESC;
-	
-	/**
-	 * 根据最大id查询指定用户的评论消息总数
-	 */
-	private static final String QUERY_USER_COMMENT_COUNT_BY_MAX_ID = "select count(*) from " +
-			HTS.HTWORLD_COMMENT + " where valid=? and shield=? and (world_author_id=? or re_author_id=?) and id<=?";
-	
-	/**
-	 * 根据最小id查询指定用户的评论消息总数
-	 */
-	private static final String QUERY_USER_COMMENT_COUNT_BY_MIN_ID = "select count(*) from " +
-			HTS.HTWORLD_COMMENT + " where valid=? and shield=? and (world_author_id=? or re_author_id=?) and id<=?";
-	
-	/**
-	 * 查询最新评论SQL头部
-	 */
-	private static final String QUERY_COMMENT_USER_INFO_HEAD = "select " + COMMENT_USER_INFO 
-		+ ",hc.* from " + HTS.USER_INFO + " as u0, (";
-	
-	/**
-	 * 查询最新评论SQL中部
-	 */
-	private static final String QUERY_COMMENT_USRE_INFO_MAIN = "(select id,re_id,re_author_id,"
-			+ "content,comment_date,world_id,author_id from " 
-			+ table + " where world_id=? and valid=? and shield=? order by id desc limit ?)";
-	
-	/**
-	 * 查询最新评论SQL尾部
-	 */
-	private static final String QUERY_COMMENT_USER_INFO_FOOT = " ) as hc where u0.id=hc.author_id";
-	
-	/**
-	 * 根据织图id查询最新评论
-	 */
-	private static final String QUERY_COMMENT_USER_INFO_BY_WID = "select " + COMMENT_USER_INFO 
-			+ ",hc.id,hc.re_id,hc.re_author_id,hc.content,hc.comment_date,hc.world_id,author_id from " 
-			+ table + " as hc," + HTS.USER_INFO 
-			+ " as u0 where u0.id=hc.author_id and hc.world_id=? and hc.valid=? and hc.shield=? order by id desc limit ?";
-	
-	/**
-	 * 根据id来更新ck位
-	 */
-	private static final String UPDATE_CK_BY_ID = "update " + table 
-			+ " set ck=? where id=?";
-	
-	/**
-	 * 根据id更新valid
-	 */
-	private static final String UPDATE_VALID_BY_IDS = " update " + table 
-			+ " set valid=1 where id in ";
-	
-	/**
-	 * 根据id来修改评论内容
-	 */
-	private static final String UPDATE_CONTENT_BY_ID = " update " + table 
-			+ " set content=? where id=?";
-	
-	/**
-	 * 根据id来修改时间comment_date
-	 */
-	private static final String UPDATE_COMMENT_DATE_BY_ID = " update " + table 
-			+ " set comment_date=? where id=?";
-			
-	/**
-	 * 查询回复id
-	 */
-	private static final String QUERY_RE_IDS = "select id, re_id from " + table
-			+ " where id in ";
-	
-	/**
-	 * 查询有效性
-	 */
-	private static final String QUERY_VALID = "select valid from " + table
-			+ " where id=?";
-
+	private static final String QUERY_INLINE_COMMENT = "(select"
+			+ " c0.world_id,c0.content,u0.user_name from "
+			+ table + " c0," + HTS.USER_INFO + " u0"
+			+ " where c0.author_id=u0.id and c0.world_id=?"
+			+ " order by c0.id desc limit ?)";
 	
 	private static final String QUERY_AUTHOR_ID = "select author_id from " + table
-			+ " where id=?";
-	
-	private static final String QUERY_RE_AUTHOR_ID = "select re_author_id from " + table
-			+ " where id=?";
-	
+			+ " where world_id=? and id=?";
 	
 	private static final String QUERY_EXISTS_BY_ID = "select 1 from " + table
-			+ " where id=?";
+			+ " where world_id=? and id=?";
 	
 	private static final String QUERY_ALL_AUTHOR_ID = "select DISTINCT(author_id) from " +table
 			+ " where world_id=? limit ?";
-	
-	@Autowired
-	private HTWorldDao worldDao;
-	
-	/**
-	 * 构建评论消息DTO
-	 * 
-	 * @param rs
-	 * @return
-	 * @throws SQLException
-	 * 
-	 * @version 3.0.5
-	 * @author lynch 2015-09-28
-	 */
-	public MsgCommentDto buildMsgDto(ResultSet rs) throws SQLException {
-		MsgCommentDto msg = new MsgCommentDto();
-		msg.setId(rs.getInt("id"));
-		msg.setWorldId(rs.getInt("world_id"));
-		msg.setContent(rs.getString("content"));
-		msg.setCommentDate((Date)rs.getObject("comment_date"));
-		
-		MsgCommentUserDto user = new MsgCommentUserDto();
-		user.setId(rs.getInt("author_id"));
-		user.setUserName(rs.getString("user_name"));
-		user.setUserAvatar(rs.getString("user_avatar"));
-		user.setUserAvatarL(rs.getString("user_avatar_l"));
-		
-		MsgCommentWorldDto world = new MsgCommentWorldDto();
-		world.setId(rs.getInt("world_id"));
-		world.setTitleThumbPath(rs.getString("title_thumb_path"));
-		world.setTitlePath(rs.getString("title_path"));
-		world.setValid(rs.getInt("valid"));
-		
-		msg.setUserInfo(user);
-		msg.setHtworld(world);
-		
-		return msg;
-	}
-
 	
 	/**
 	 * 根据结果集构建织图评论POJO对象
@@ -316,161 +91,56 @@ public class HTWorldCommentDaoImpl extends BaseDaoImpl implements
 	 * @return
 	 * @throws SQLException 
 	 */
-	public HTWorldCommentDto buildHTWorldCommentDtoWithUser(ResultSet rs) throws SQLException {
+	private HTWorldCommentDto buildCommentDto(ResultSet rs) throws SQLException {
 		HTWorldCommentDto dto = new HTWorldCommentDto(
 				rs.getInt("id"),
 				rs.getInt("author_id"),
-				rs.getInt("re_id"),
 				rs.getInt("re_author_id"),
 				rs.getString("content"),
 				(Date)rs.getObject("comment_date"),
-				rs.getInt("world_id"),
-				rs.getInt("world_author_id"));
-		UserInfoDto userInfo = UserInfoDaoImpl.buildUserInfoDtoByResult(dto.getAuthorId(), rs);
-		dto.setUserInfo(userInfo);
+				rs.getInt("world_id"));
+		
+		UserInfoDto user = new UserInfoDto();
+		user.setId(rs.getInt("author_id"));
+		user.setUserName(rs.getString("user_name"));
+		user.setUserAvatar(rs.getString("user_avatar"));
+		user.setUserAvatarL(rs.getString("user_avatar_l"));
+		user.setStar(rs.getInt("star"));
+		user.setPlatformVerify(rs.getInt("platform_verify"));
+		
+		dto.setUserInfo(user);
+		
 		return dto;
 	}
 	
 	/**
-	 * 构建评论用户信息
-	 * @param rs
-	 * @return
-	 * @throws SQLException
-	 */
-	public HTWorldCommentUser buildCommentUser(ResultSet rs) throws SQLException {
-		return new HTWorldCommentUser(
-				rs.getInt("id"),
-				rs.getInt("re_id"),
-				rs.getInt("re_author_id"),
-				rs.getString("content"),
-				(Date)rs.getObject("comment_date"),
-				rs.getInt("world_id"),
-				rs.getInt("author_id"),
-				rs.getString("user_name"),
-				rs.getString("user_avatar"),
-				rs.getString("user_avatar_l"),
-				rs.getInt("star"),
-				rs.getInt("platform_verify"));
-	}
-
-	
-	/**
-	 * 根据结果集构建织图评论POJO对象
+	 * 构建内联评论信息
 	 * 
 	 * @param rs
 	 * @return
 	 * @throws SQLException
 	 */
-	public HTWorldCommentDto buildHTWorldCommentDtoWithUserAndThumb(ResultSet rs) throws SQLException {
-		HTWorldCommentDto dto = buildHTWorldCommentDtoWithUser(rs);
-		HTWorldThumbDto thumb = worldDao.buildHTWorldThumbDtoByResultSet(dto.getWorldId(), rs);
-		dto.setHtworld(thumb);
-		return dto;
+	private HTWorldCommentInline buildInlineComment(ResultSet rs) throws SQLException {
+		HTWorldCommentInline comment = new HTWorldCommentInline();
+		comment.setWorldId(rs.getInt("world_id"));
+		comment.setContent(rs.getString("content"));
+		
+		HTWorldCommentInlineUser user = new HTWorldCommentInlineUser();
+		user.setUserName(rs.getString("user_name"));
+		comment.setUserInfo(user);
+		
+		return comment;
 	}
-	
-	@Override
-	public void updateCkById(Integer ck,Integer id){
-		getMasterJdbcTemplate().update(UPDATE_CK_BY_ID, ck,id);
-	}
-	
-	@Override
-	public void updateValidByIds(Integer[] ids){
-		String sql = UPDATE_VALID_BY_IDS + SQLUtil.buildInSelection(ids);
-		getMasterJdbcTemplate().update(sql,(Object[])ids);
-	}
-	
-	@Override
-	public void updateCommentDateById(Integer id,Date commentDate){
-		getMasterJdbcTemplate().update(UPDATE_COMMENT_DATE_BY_ID, new Object[]{commentDate,id});
-	}
+
 	
 	@Override
 	public long queryCommentCount(Integer worldId) {
-		return getMasterJdbcTemplate().queryForLong(QUERY_WORLD_COMMENTED_COUNT, new Object[]{
-			worldId,Tag.TRUE,Tag.FALSE
-		});
-	}
-	
-	
-	@Override
-	public long queryCommentCount(Map<String, Object> attrMap, Map<String, Object> userAttrMap) {
-		String sql = buildSelectWorldSQL(QUERY_COMMENT_COUNT_HEADER, QUERY_COMMENT_COUNT_FOOT, 
-				attrMap, userAttrMap);
-		List<Object> argsList = new ArrayList<Object>();
-		CollectionUtil.collectMapValues(argsList, attrMap);
-		CollectionUtil.collectMapValues(argsList, userAttrMap);
-		argsList.add(Tag.TRUE);
-		return getJdbcTemplate().queryForLong(sql, argsList.toArray());
+		return getMasterJdbcTemplate().queryForLong(QUERY_COMMENT_COUNT, 
+				worldId);
 	}
 	
 	@Override
-	public long queryCommentCountByMaxId(Integer maxId, Map<String, Object> attrMap, 
-			Map<String, Object> userAttrMap) {
-		String sql = buildSelectWorldSQL(QUERY_COMMENT_COUNT_HEADER, 
-				QUERY_COMMENT_COUNT_BY_MAX_ID_FOOT, attrMap, userAttrMap);
-		List<Object> argsList = new ArrayList<Object>();
-		CollectionUtil.collectMapValues(argsList, attrMap);
-		CollectionUtil.collectMapValues(argsList, userAttrMap);
-		argsList.add(Tag.TRUE);
-		argsList.add(maxId);
-		return getJdbcTemplate().queryForLong(sql, argsList.toArray());
-	}
-	
-	@Override
-	public long queryCommentCountByMinId(Integer minId, Map<String, Object> attrMap, Map<String, Object> userAttrMap) {
-		String sql = buildSelectWorldSQL(QUERY_COMMENT_COUNT_HEADER,
-				QUERY_COMMENT_COUNT_BY_MIN_ID_FOOT, attrMap, userAttrMap);
-		List<Object> argsList = new ArrayList<Object>();
-		CollectionUtil.collectMapValues(argsList, attrMap);
-		CollectionUtil.collectMapValues(argsList, userAttrMap);
-		argsList.add(minId);
-		return getJdbcTemplate().queryForLong(sql, argsList.toArray());
-	}
-
-
-	
-	/**
-	 * 构建评论查询条件
-	 * 
-	 * @param attrMap
-	 * @param userAttrMap
-	 * @return
-	 */
-	private static String buildSelection(Map<String, Object> attrMap,
-			Map<String, Object> userAttrMap) {
-		StringBuilder builder = new StringBuilder();
-		Set<String> keySet = attrMap.keySet();
-		Object[] keies = keySet.toArray();
-		for(int i = 0; i < keies.length; i++) {
-			builder.append(" and hc.").append(keies[i]).append("=?");
-		}
-		Set<String> userKeySet = userAttrMap.keySet();
-		Object[] userKeies = userKeySet.toArray();
-		for(int i = 0; i < userKeies.length; i++) {
-			builder.append(" and u0.").append(userKeies[i]).append("=?");
-		}
-		return builder.toString();
-	}
-	
-	/**
-	 * 构建评论查询SQL
-	 * @param header
-	 * @param foot
-	 * @param attrMap
-	 * @param userAttrMap
-	 * @param orderKey
-	 * @param orderBy
-	 * @return
-	 */
-	private static String buildSelectWorldSQL(String header, String foot, 
-			Map<String, Object> attrMap, Map<String, Object> userAttrMap) {
-		String selection = buildSelection(attrMap,userAttrMap);
-		String sql = header + selection + foot + ORDER_BY_HC_ID_DESC;
-		return sql;
-	}
-	
-	@Override
-	public HTWorldComment queryCommentById(Integer id) {
+	public HTWorldComment queryCommentById(Integer id, Integer worldId) {
 		return queryForObjectWithNULL(QUERY_COMMENT_BY_ID, new RowMapper<HTWorldComment>(){
 
 			@Override
@@ -482,28 +152,27 @@ public class HTWorldCommentDaoImpl extends BaseDaoImpl implements
 						rs.getString("content"),
 						(Date)rs.getObject("comment_Date"),
 						rs.getInt("world_id"),
-						rs.getInt("world_author_id"),
-						rs.getInt("re_id"),
-						rs.getInt("re_author_id"),
-						rs.getInt("ck"),
-						rs.getInt("valid"),
-						rs.getInt("shield"));
+						rs.getInt("re_author_id"));
 			}
-		}, id);
+		}, worldId, id);
 	}
 	
 	@Override
-	public HTWorldCommentDto queryCommentDtoById(Integer id) {
-		return queryForObjectWithNULL(QUERY_COMMENT_DTO_BY_ID, 
-				new RowMapper<HTWorldCommentDto>(){
-
-			@Override
-			public HTWorldCommentDto mapRow(ResultSet rs, int rowNum)
-					throws SQLException {
-				return buildHTWorldCommentDtoWithUser(rs);
-			}
-			
-		}, new Object[]{id});
+	public HTWorldCommentDto queryCommentDtoById(Integer id, Integer worldId) {
+		try {
+			return getJdbcTemplate().queryForObject(QUERY_COMMENT_DTO_BY_ID, 
+					new RowMapper<HTWorldCommentDto>(){
+	
+				@Override
+				public HTWorldCommentDto mapRow(ResultSet rs, int rowNum)
+						throws SQLException {
+					return buildCommentDto(rs);
+				}
+				
+			}, new Object[]{worldId, id});
+		} catch(EmptyResultDataAccessException e) {
+			return null;
+		}
 	}
 
 	@Override
@@ -514,240 +183,77 @@ public class HTWorldCommentDaoImpl extends BaseDaoImpl implements
 				worldComment.getContent(),
 				worldComment.getCommentDate(),
 				worldComment.getWorldId(),
-				worldComment.getWorldAuthorId(),
-				worldComment.getReId(),
 				worldComment.getReAuthorId(),
-				worldComment.getCK(),
-				worldComment.getValid(),
-				worldComment.getShield(),
 		});
 	}
 	
 	@Override
 	public List<HTWorldCommentDto> queryComment(Integer worldId, RowSelection rowSelection) {
-		return queryForPage(QUERY_COMMENT, new Object[]{worldId,Tag.TRUE,Tag.FALSE},
+		return getJdbcTemplate().query(QUERY_COMMENT, 
+				new Object[]{worldId, rowSelection.getFirstRow(), rowSelection.getLimit()},
 				new RowMapper<HTWorldCommentDto>() {
 
 			@Override
 			public HTWorldCommentDto mapRow(ResultSet rs, int rowNum)
 					throws SQLException {
-				return buildHTWorldCommentDtoWithUser(rs);
+				return buildCommentDto(rs);
 			}
 			
-		}, rowSelection);
-	}
-	
-	@Override
-	public List<HTWorldCommentDto> queryCommentByMaxId(Integer worldId, Integer maxId, RowSelection rowSelection) {
-		return queryForPage(QUERY_COMMENT_BY_MAX_ID, new Object[]{worldId,Tag.TRUE,Tag.FALSE,maxId},
-				new RowMapper<HTWorldCommentDto>() {
-
-			@Override
-			public HTWorldCommentDto mapRow(ResultSet rs, int rowNum)
-					throws SQLException {
-				return buildHTWorldCommentDtoWithUser(rs);
-			}
-			
-		}, rowSelection);
-	}
-	
-	@Override
-	public List<HTWorldCommentDto> queryCommentByMinId(Integer worldId, Integer minId, RowSelection rowSelection) {
-		return queryForPage(QUERY_COMMENT_BY_MIN_ID, new Object[]{worldId,Tag.TRUE,Tag.FALSE,minId},
-				new RowMapper<HTWorldCommentDto>() {
-
-			@Override
-			public HTWorldCommentDto mapRow(ResultSet rs, int rowNum)
-					throws SQLException {
-				return buildHTWorldCommentDtoWithUser(rs);
-			}
-			
-		}, rowSelection);
-	}
-	
-	@Override
-	public long queryCommentCountByMaxId(Integer worldId, Integer maxId) {
-		return getJdbcTemplate().queryForLong(QUERY_WORLD_COMMENTED_COUNT_BY_MAX_ID, new Object[]{
-				worldId, Tag.TRUE, Tag.FALSE, maxId
 		});
 	}
 	
 	@Override
-	public long queryCommentCountByMinId(Integer worldId, Integer minId) {
-		return getJdbcTemplate().queryForLong(QUERY_WORLD_COMMENT_COUNT_BY_MIN_ID, new Object[]{
-			worldId,Tag.TRUE,Tag.FALSE,minId
+	public List<HTWorldCommentDto> queryCommentByMaxId(Integer worldId, 
+			Integer maxId, RowSelection rowSelection) {
+		return getJdbcTemplate().query(QUERY_COMMENT_BY_MAX_ID, 
+				new Object[]{worldId,maxId,rowSelection.getFirstRow(), rowSelection.getLimit()},
+				new RowMapper<HTWorldCommentDto>() {
+
+			@Override
+			public HTWorldCommentDto mapRow(ResultSet rs, int rowNum)
+					throws SQLException {
+				return buildCommentDto(rs);
+			}
+			
 		});
 	}
 	
 	@Override
-	public void updateCommentShield(Integer id, Integer shield) {
-		getMasterJdbcTemplate().update(UPDATE_COMMENT_SHIELD, new Object[]{shield, id});
-	}
-	
-	@Override
-	public void updatePushed(Integer commentId, Integer valid) {
-		getMasterJdbcTemplate().update(UPDATE_PUSHED, new Object[]{valid, commentId});
-	}
-	
-	@Override
-	public List<HTWorldCommentDto> queryUserComment(Integer userId, RowSelection rowSelection) {
-		return queryForPage(QUERY_USER_COMMENT, new Object[]{Tag.TRUE, Tag.FALSE, userId, userId}, 
-				new RowMapper<HTWorldCommentDto>() {
-
-					@Override
-					public HTWorldCommentDto mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
-						return buildHTWorldCommentDtoWithUserAndThumb(rs);
-					}
-			
-		}, rowSelection);
-	}
-	
-	@Override
-	public List<HTWorldCommentDto> queryUserCommentByMaxId(Integer userId, Integer maxId,
-			RowSelection rowSelection) {
-		return queryForPage(QUERY_USER_COMMENT_BY_MAX_ID, 
-				new Object[]{Tag.TRUE, Tag.FALSE, userId, userId, maxId}, 
-				new RowMapper<HTWorldCommentDto>() {
-
-					@Override
-					public HTWorldCommentDto mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
-						return buildHTWorldCommentDtoWithUserAndThumb(rs);
-					}
-		}, rowSelection);
-	}
-	
-	@Override
-	public List<HTWorldCommentDto> queryUserCommentByMinId(Integer userId, 
-			Integer minId, RowSelection rowSelection) {
-		return queryForPage(QUERY_USER_COMMENT_BY_MIN_ID, 
-				new Object[]{Tag.TRUE, Tag.FALSE, userId, userId, minId}, 
-				new RowMapper<HTWorldCommentDto>() {
-
-					@Override
-					public HTWorldCommentDto mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
-						return buildHTWorldCommentDtoWithUserAndThumb(rs);
-					}
-		}, rowSelection);
-	}
-	
-	@Override
-	public long queryUserCommentCountByMaxId(Integer userId, Integer maxId) {
-		return getJdbcTemplate().queryForLong(QUERY_USER_COMMENT_COUNT_BY_MAX_ID, 
-				new Object[]{Tag.TRUE, Tag.FALSE, userId, userId, maxId});
-	}
-
-	@Override
-	public long queryUserCommentCountByMinId(Integer userId, Integer minId) {
-		return getJdbcTemplate().queryForLong(QUERY_USER_COMMENT_COUNT_BY_MIN_ID,
-				new Object[]{Tag.TRUE, Tag.FALSE, userId, userId, minId});
-	}
-	
-	@Override
-	public void updateUnreadComment(Integer userId) {
-		getMasterJdbcTemplate().update(UPDATE_UNREAD_USER_COMMENT,
-				new Object[]{Tag.TRUE, Tag.FALSE, Tag.TRUE, Tag.FALSE, userId, userId});
-	}
-	
-	@Override
-	public void queryCommentUserByLimit(Integer[] worldIds,
-			Integer limit, final RowCallback<HTWorldCommentUser> callback) {
-		Object[] args = new Object[worldIds.length * 4];
-		StringBuilder sqlBuilder = new StringBuilder(QUERY_COMMENT_USER_INFO_HEAD);
+	public void queryInlineComment(Integer[] worldIds,
+			Integer limit, final RowCallback<HTWorldCommentInline> callback) {
+		Object[] args = new Object[worldIds.length * 2];
+		StringBuilder sqlBuilder = new StringBuilder();
 		for(int i = 0; i < worldIds.length; i++) {
 			if(i != 0) {
 				sqlBuilder.append(" union all ");
 			}
-			sqlBuilder.append(QUERY_COMMENT_USRE_INFO_MAIN);
-			int k = i * 4;
+			sqlBuilder.append(QUERY_INLINE_COMMENT);
+			int k = i * 2;
 			args[k] = worldIds[i];
-			args[k+1] = Tag.TRUE;
-			args[k+2] = Tag.FALSE;
-			args[k+3] = limit;
+			args[k+1] = limit;
 		}
-		sqlBuilder.append(QUERY_COMMENT_USER_INFO_FOOT);
 		getJdbcTemplate().query(sqlBuilder.toString(), args, new RowCallbackHandler() {
 
 			@Override
 			public void processRow(ResultSet rs) throws SQLException {
-				HTWorldCommentUser comment = buildCommentUser(rs);
-				callback.callback(comment);
-			}
-			
-		});
-	}
-	
-	@Override
-	public void queryCommentUserByLimit(Integer worldId, Integer limit,
-			final RowCallback<HTWorldCommentUser> callback) {
-		getJdbcTemplate().query(QUERY_COMMENT_USER_INFO_BY_WID, 
-				new Object[]{worldId, Tag.TRUE, Tag.FALSE, limit},
-				new RowCallbackHandler() {
-			
-			@Override
-			public void processRow(ResultSet rs) throws SQLException {
-				HTWorldCommentUser comment = buildCommentUser(rs);
-				callback.callback(comment);
+				callback.callback(buildInlineComment(rs));
 			}
 		});
 	}
 	
 	@Override
-	public void updateContentById(Integer id , String content){
-		getMasterJdbcTemplate().update(UPDATE_CONTENT_BY_ID, content,id);
-	}
-	
-	@Override
-	public List<HTWorldCommentReId> queryReId(Integer[] ids) {
-		String inSelection = SQLUtil.buildInSelection(ids);
-		String sql = QUERY_RE_IDS + inSelection;
-		return getJdbcTemplate().query(sql, ids, 
-				new RowMapper<HTWorldCommentReId>() {
-
-					@Override
-					public HTWorldCommentReId mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
-						return new HTWorldCommentReId(
-								rs.getInt("id"),
-								rs.getInt("re_id"));
-					}
-		});
-	}
-	
-	@Override
-	public Integer queryValid(Integer id) {
+	public Integer queryAuthorId(Integer id, Integer worldId) {
 		try {
-			return getJdbcTemplate().queryForInt(QUERY_VALID, id);
-		} catch(EmptyResultDataAccessException e) {
-			return Tag.FALSE;
-		}
-	}
-
-
-	@Override
-	public Integer queryAuthorId(Integer id) {
-		try {
-			return getJdbcTemplate().queryForInt(QUERY_AUTHOR_ID, id);
+			return getJdbcTemplate().queryForInt(QUERY_AUTHOR_ID, worldId, id);
 		} catch(EmptyResultDataAccessException e) {
 			return 0;
 		}
 	}
 	
 	@Override
-	public Integer queryReAuthorId(Integer id) {
+	public boolean isCommentExist(Integer id, Integer worldId) {
 		try {
-			return getJdbcTemplate().queryForInt(QUERY_RE_AUTHOR_ID, id);
-		} catch(EmptyResultDataAccessException e) {
-			return 0;
-		}
-	}
-
-	@Override
-	public boolean isCommentExist(Integer id) {
-		try {
-			getJdbcTemplate().queryForInt(QUERY_EXISTS_BY_ID, id);
+			getJdbcTemplate().queryForInt(QUERY_EXISTS_BY_ID, worldId, id);
 			return true;
 		} catch(EmptyResultDataAccessException e) {
 			return false;

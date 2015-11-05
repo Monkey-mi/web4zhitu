@@ -14,35 +14,28 @@ import com.hts.web.base.constant.Tag;
  * @author ztj
  * 
  */
-public class HTWorldLikedUser implements Serializable, ObjectWithUserVerify, ObjectWithUserRemark {
+public class HTWorldLikedInline implements Serializable, ObjectWithUserVerify {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -54337246555182643L;
 	private Integer userId;
-	private String userName;
 	private String userAvatar;
-	private String userAvatarL;
 	private Integer worldId;
 	private Integer star;
-	private String verifyName;
 	private String verifyIcon;
-	private String remark;
 	private Integer platformVerify = Tag.VERIFY_NONE;
 
-	public HTWorldLikedUser() {
+	public HTWorldLikedInline() {
 		super();
 	}
 
-	public HTWorldLikedUser(Integer userId, String userName, 
-			String userAvatar, String userAvatarL,Integer worldId, 
-			Integer star, Integer platformVerify) {
+	public HTWorldLikedInline(Integer userId, String userAvatar, 
+			Integer worldId, Integer star, Integer platformVerify) {
 		super();
 		this.userId = userId;
-		this.userName = userName;
 		this.userAvatar = userAvatar;
-		this.userAvatarL = userAvatarL;
 		this.worldId = worldId;
 		this.star = star;
 		this.platformVerify = platformVerify;
@@ -60,24 +53,8 @@ public class HTWorldLikedUser implements Serializable, ObjectWithUserVerify, Obj
 		return userAvatar;
 	}
 
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
 	public void setUserAvatar(String userAvatar) {
 		this.userAvatar = userAvatar;
-	}
-
-	public String getUserAvatarL() {
-		return userAvatarL;
-	}
-
-	public void setUserAvatarL(String userAvatarL) {
-		this.userAvatarL = userAvatarL;
 	}
 
 	public Integer getWorldId() {
@@ -96,14 +73,6 @@ public class HTWorldLikedUser implements Serializable, ObjectWithUserVerify, Obj
 		this.star = star;
 	}
 
-	public String getVerifyName() {
-		return verifyName;
-	}
-
-	public void setVerifyName(String verifyName) {
-		this.verifyName = verifyName;
-	}
-
 	public String getVerifyIcon() {
 		return verifyIcon;
 	}
@@ -117,20 +86,6 @@ public class HTWorldLikedUser implements Serializable, ObjectWithUserVerify, Obj
 		return star;
 	}
 
-	@Override
-	public Integer getRemarkId() {
-		return this.userId;
-	}
-	
-	public String getRemark() {
-		return remark;
-	}
-
-	@Override
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
-
 	public Integer getPlatformVerify() {
 		return platformVerify;
 	}
@@ -138,5 +93,9 @@ public class HTWorldLikedUser implements Serializable, ObjectWithUserVerify, Obj
 	public void setPlatformVerify(Integer platformVerify) {
 		this.platformVerify = platformVerify;
 	}
-	
+
+	@Override
+	public void setVerifyName(String verifyName) {
+	}
+
 }

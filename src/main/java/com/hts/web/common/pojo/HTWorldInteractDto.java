@@ -70,8 +70,8 @@ public class HTWorldInteractDto implements HTWorldWithExtra, ObjectWithUserVerif
 	private String extra1;
 	private Integer concerned = Tag.FALSE;;
 
-	private List<HTWorldLikedUser> likes = new ArrayList<HTWorldLikedUser>(); // 喜欢的用户
-	private List<HTWorldCommentUser> comments = new ArrayList<HTWorldCommentUser>(); // 评论
+	private List<HTWorldLikedInline> likes = new ArrayList<HTWorldLikedInline>(); // 喜欢的用户
+	private List<HTWorldCommentInline> comments = new ArrayList<HTWorldCommentInline>(); // 评论
 	
 	public HTWorldInteractDto() {
 		super();
@@ -400,20 +400,20 @@ public class HTWorldInteractDto implements HTWorldWithExtra, ObjectWithUserVerif
 	}
 
 	@Override
-	public List<HTWorldLikedUser> getLikes() {
+	public List<HTWorldLikedInline> getLikes() {
 		return likes;
 	}
 
-	public void setLikes(List<HTWorldLikedUser> likes) {
+	public void setLikes(List<HTWorldLikedInline> likes) {
 		this.likes = likes;
 	}
 
 	@Override
-	public List<HTWorldCommentUser> getComments() {
+	public List<HTWorldCommentInline> getComments() {
 		return comments;
 	}
 
-	public void setComments(List<HTWorldCommentUser> comments) {
+	public void setComments(List<HTWorldCommentInline> comments) {
 		this.comments = comments;
 	}
 	

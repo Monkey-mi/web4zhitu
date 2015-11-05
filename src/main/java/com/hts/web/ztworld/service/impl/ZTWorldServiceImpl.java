@@ -34,7 +34,7 @@ import com.hts.web.common.pojo.HTWorldChildWorldDto;
 import com.hts.web.common.pojo.HTWorldChildWorldThumb;
 import com.hts.web.common.pojo.HTWorldChildWorldType;
 import com.hts.web.common.pojo.HTWorldChildWorldTypeDto2;
-import com.hts.web.common.pojo.HTWorldCommentUser;
+import com.hts.web.common.pojo.HTWorldCommentInline;
 import com.hts.web.common.pojo.HTWorldDto;
 import com.hts.web.common.pojo.HTWorldFilterLogo;
 import com.hts.web.common.pojo.HTWorldInteractDto;
@@ -43,7 +43,7 @@ import com.hts.web.common.pojo.HTWorldLabelWorld;
 import com.hts.web.common.pojo.HTWorldLatest;
 import com.hts.web.common.pojo.HTWorldLatestId;
 import com.hts.web.common.pojo.HTWorldLatestIndex;
-import com.hts.web.common.pojo.HTWorldLikedUser;
+import com.hts.web.common.pojo.HTWorldLikedInline;
 import com.hts.web.common.pojo.HTWorldTextStyle;
 import com.hts.web.common.pojo.HTWorldWithExtra;
 import com.hts.web.common.pojo.OpChannel;
@@ -762,11 +762,11 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 //			}
 			
 			if (commentLimit > 0) {
-				worldCommentDao.queryCommentUserByLimit(worldIds, commentLimit,
-						new RowCallback<HTWorldCommentUser>() {
+				worldCommentDao.queryInlineComment(worldIds, commentLimit,
+						new RowCallback<HTWorldCommentInline>() {
 
 							@Override
-							public void callback(HTWorldCommentUser comment) {
+							public void callback(HTWorldCommentInline comment) {
 								Integer wid = comment.getWorldId();
 								Integer index = indexMap.get(wid);
 								worldList.get(index).getComments().add(comment);
@@ -775,11 +775,11 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 			}
 			if (likedLimit > 0) {
 				final Map<Integer, UserVerify> verifyMap = userInfoService.getVerify();
-				worldLikedDao.queryLikedUserByLimit(worldIds, likedLimit,
-						new RowCallback<HTWorldLikedUser>() {
+				worldLikedDao.queryInlineLikedByLimit(worldIds, likedLimit,
+						new RowCallback<HTWorldLikedInline>() {
 
 							@Override
-							public void callback(HTWorldLikedUser likedUser) {
+							public void callback(HTWorldLikedInline likedUser) {
 								Integer verifyId = likedUser.getVerifyId();
 								if(verifyMap.containsKey(verifyId)) {
 									UserVerify uv = verifyMap.get(verifyId);
@@ -805,27 +805,15 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 			Integer worldId = world.getId();
 			
 			if(extractLiked && userId != null) {
-				Integer liked = worldLikedDao.queryLikedId(userId, worldId) != 0 ? Tag.TRUE : Tag.FALSE;
-				world.setLiked(liked);
+				world.setLiked(worldLikedDao.isLiked(userId, worldId));
 			}
 			
-			if (commentLimit > 0) {
-				worldCommentDao.queryCommentUserByLimit(worldId, commentLimit,
-						new RowCallback<HTWorldCommentUser>() {
-
-							@Override
-							public void callback(HTWorldCommentUser comment) {
-								world.getComments().add(comment);
-							}
-
-						});
-			}
 			if (likedLimit > 0) {
-				worldLikedDao.queryLikedUserByLimit(worldId, likedLimit,
-						new RowCallback<HTWorldLikedUser>() {
+				worldLikedDao.queryInlineLikedByLimit(worldId, likedLimit,
+						new RowCallback<HTWorldLikedInline>() {
 
 							@Override
-							public void callback(HTWorldLikedUser likedUser) {
+							public void callback(HTWorldLikedInline likedUser) {
 								Integer verifyId = likedUser.getVerifyId();
 								if(verifyMap.containsKey(verifyId)) {
 									UserVerify uv = verifyMap.get(verifyId);
