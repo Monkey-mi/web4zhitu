@@ -1001,6 +1001,7 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 		userInfoDao.queryUserInfoDtoById(userId);
 		List<HTWorldLikeMe> likeMeList = null;
 		if(maxId == 0) {
+			worldLikedDao.updateUnreadUserLiked(userId);
 			likeMeList = worldLikedDao.queryLikeMe(userId, limit);
 		} else {
 			likeMeList = worldLikedDao.queryLikeMe(maxId, userId, limit);
