@@ -42,6 +42,7 @@
 		<intercept-url pattern="/user/rpwd_error" access="permitAll" />
 		<intercept-url pattern="/user/**" access="hasRole('ROLE_USER')" />
 		
+		<intercept-url pattern="/ztworld/ztworld_getLastNWorldByUserId" access="permitAll" />
 		<intercept-url pattern="/ztworld/ztworld_queryWorld" access="permitAll" />
 		<intercept-url pattern="/ztworld/ztworld_htszoomtour" access="permitAll" />
 		<intercept-url pattern="/ztworld/ztworld_phonezoomtour" access="permitAll" />

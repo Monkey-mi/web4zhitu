@@ -16,10 +16,10 @@ import com.hts.web.common.BaseAction;
 import com.hts.web.common.pojo.UserInfo;
 import com.hts.web.common.pojo.UserSocialAccount;
 import com.hts.web.common.util.JSONUtil;
+import com.hts.web.common.util.UserInfoUtil;
 import com.hts.web.security.service.LoginService;
 import com.hts.web.userinfo.service.UserActivityService;
 import com.hts.web.userinfo.service.UserInfoService;
-import com.hts.web.userinfo.service.impl.UserInfoServiceImpl;
 
 /**
  * <p>
@@ -104,6 +104,40 @@ public class UserInfoAction extends BaseAction {
 	
 	@Autowired
 	private UserActivityService userActivityService;
+	
+	
+	/**
+	 * 个人主页
+	 * @return
+	 */
+	public String getIndividualHomePage(){
+		try{
+			String strId = request.getParameter("s");
+			int iId = Integer.parseInt(strId);
+			int userId = UserInfoUtil.decode(iId);
+			UserInfo userInfo = userInfoService.getUserInfoById(userId);
+			if (userInfo == null){
+				return ERROR;
+			}		
+			
+			request.setAttribute("userName", userInfo.getUserName());
+			request.setAttribute("avatarImgPath", userInfo.getUserAvatar());
+			request.setAttribute("sex", userInfo.getSex() == 1 ? "男":"女");
+			request.setAttribute("address", userInfo.getAddress() == null ? "暂无":userInfo.getAddress());
+			request.setAttribute("job", userInfo.getJob() == null ? "暂无":userInfo.getJob());
+			request.setAttribute("verifyName", userInfo.getVerifyName());
+			request.setAttribute("verifyIcon", userInfo.getVerifyIcon());
+			request.setAttribute("picCount", userInfo.getChildCount());
+			request.setAttribute("signature", userInfo.getSignature());
+			request.setAttribute("worldCount", userInfo.getWorldCount());
+			request.setAttribute("concernCount", userInfo.getConcernCount());
+			request.setAttribute("followCount", userInfo.getFollowCount());
+			return "phone";
+		}catch(Exception e){
+			return ERROR;
+		}
+	}
+	
 	/**
 	 * 向织图注册
 	 * 

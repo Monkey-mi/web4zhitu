@@ -652,6 +652,13 @@ public interface HTWorldDao extends BaseDao {
 	 */
 	public Integer queryValid(Integer id);
 	
+	/**
+	 * 查询用户的最新n个织图的title_path
+	 * @param userId
+	 * @return
+	 */
+	public List<HTWorldDto> queryLastNHtworldInfoByUserId(Integer userId,Integer n);
+	
 }
 
 

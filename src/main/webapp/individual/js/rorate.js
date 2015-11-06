@@ -59,7 +59,8 @@ var zBase = {
 		obj[attr+'timer'] = setInterval(function(){
 			var t=(new Date).getTime()-st;
 			if (t < d){
-				zBase.css(obj,attr,Math[m](zBase.easing['easeOut'](t,start,space,d)) +'px');
+//				zBase.css(obj,attr,Math[m](zBase.easing['easeOut'](t,start,space,d)) +'px');
+				zBase.css(obj,attr,zBase.easing['easeOut'](t,start,space,d) +'px');
 			}else{
 				clearInterval(obj[attr+'timer']);
 				zBase.css(obj,attr,top+space+'px');

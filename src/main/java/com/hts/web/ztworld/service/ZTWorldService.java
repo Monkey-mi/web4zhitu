@@ -438,5 +438,14 @@ public interface ZTWorldService extends BaseService {
 	public void buildLatestId(Integer maxId, Integer minId,
 			Integer limit, Map<String, Object> jsonMap) throws Exception;
 	
+	/**
+	 * 查询用户最新n个织图的title_path
+	 * @param userId
+	 * @param n
+	 * @return
+	 * @throws Exception
+	 */
+	public List<HTWorldDto> queryLastNHtworldInfoByUserId(Integer userId,Integer n)throws Exception;
+	
 	
 }
