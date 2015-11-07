@@ -590,7 +590,7 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 	private static final String QUERY_VALID = "select valid from " + table
 			+ " where id=?";
 	
-	private static final String QUERY_LAST_N_WORLD_INFO_BY_USER_ID = "select id,title_path from " + table + " where author_id= ? and valid=1 and shield=0 order by id desc limit ?";
+	private static final String QUERY_LAST_N_WORLD_INFO_BY_USER_ID = "select id,title_thumb_path from " + table + " where author_id= ? and valid=1 and shield=0 order by id desc limit ?";
 	
 	@Override
 	public void updateWorldShield(Integer worldId, Integer shield) {
@@ -1824,8 +1824,8 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 				public HTWorldDto mapRow(ResultSet rs, int rowNum)throws SQLException{
 					HTWorldDto dto = new HTWorldDto();
 //					dto.setId(rs.getInt("id"));
-					dto.setTitlePath(rs.getString("title_path"));;
-//					dto.setTitleThumbPath(rs.getString("title_thumb_path"));
+//					dto.setTitlePath(rs.getString("title_path"));;
+					dto.setTitleThumbPath(rs.getString("title_thumb_path"));
 					return dto;
 				}
 			});

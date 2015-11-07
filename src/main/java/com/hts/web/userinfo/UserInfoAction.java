@@ -120,10 +120,15 @@ public class UserInfoAction extends BaseAction {
 				return ERROR;
 			}		
 			
+			String address = userInfo.getAddress();
+			if(address == null || address.trim().equals("")){
+				address = "暂无";
+			}
+			request.setAttribute("userId", userId);
 			request.setAttribute("userName", userInfo.getUserName());
 			request.setAttribute("avatarImgPath", userInfo.getUserAvatar());
 			request.setAttribute("sex", userInfo.getSex() == 1 ? "男":"女");
-			request.setAttribute("address", userInfo.getAddress() == null ? "暂无":userInfo.getAddress());
+			request.setAttribute("address", address);
 			request.setAttribute("job", userInfo.getJob() == null ? "暂无":userInfo.getJob());
 			request.setAttribute("verifyName", userInfo.getVerifyName());
 			request.setAttribute("verifyIcon", userInfo.getVerifyIcon());

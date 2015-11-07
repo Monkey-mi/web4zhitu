@@ -116,7 +116,7 @@ public class ZTWorldAction extends BaseAction {
 			List<HTWorldDto> worldList = worldService.queryLastNHtworldInfoByUserId(userId, 9);
 			List<String>titlePathList = new ArrayList<String>();
 			for(HTWorldDto dto:worldList){
-				titlePathList.add(dto.getTitlePath());
+				titlePathList.add(dto.getTitleThumbPath());
 			}
 			jsonMap.put("myWorldList", titlePathList);
 			JSONUtil.optSuccess(jsonMap);
