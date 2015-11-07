@@ -19,7 +19,7 @@
 
 </head>
 <body>
-  	<div id="main">
+  	<div id="main" style="display:none">
 		<div id="head">
 			<div id="user-info-avatar">
 				<img id="user-avatar" class="avatar-radius" src="${avatarImgPath }"/>
@@ -360,7 +360,7 @@
 			"overflow"			: "hidden",	
 			"font-family"		: "微软雅黑",
 			"background-color"  : "rgba(255,255,255,0.9)",
-			"padding-bottom"	: 12 * scale + "px",
+			"padding-bottom"	: 10 * scale + "px",
 			"position"			: "fixed",
 			"z-index"			: "99999" 
 		});
@@ -417,7 +417,7 @@
 			"display"	: "block",
 			"font-size"	: 30 * scale + "px",
 			"color"		: "#373e46",
-			"margin-top": 6 * scale + "px",
+			"margin-top": 14 * scale + "px",
 			"text-align": "left"
 		});
 		
@@ -443,6 +443,8 @@
 			"width"		: 612 * scale + "px",
 			"height"	: 20 * scale + "px"
 		});
+		
+		$("#main").css({"display":""});
 	}
 </script>
 </html>
