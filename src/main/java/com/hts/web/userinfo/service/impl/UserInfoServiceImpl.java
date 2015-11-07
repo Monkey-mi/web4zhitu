@@ -13,6 +13,7 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 import org.springframework.stereotype.Service;
 
 import com.hts.web.aliyun.service.OsUserInfoService;
+import com.hts.web.base.HTSErrorCode;
 import com.hts.web.base.HTSException;
 import com.hts.web.base.constant.LoggerKeies;
 import com.hts.web.base.constant.OptResult;
@@ -63,90 +64,6 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 	private static Logger registerLogger = Logger.getLogger(LoggerKeies.USER_REGISTER);
 	private static Logger loginBySocialLogger = Logger.getLogger(LoggerKeies.USER_LOGIN_BY_SOCIAL);
 	private static Logger registerBySocialLogger = Logger.getLogger(LoggerKeies.USER_REGISTER_BY_SOCIAL);
-	/**
-	 * 账号错误
-	 */
-	public static final int LOGIN_CODE_ERROR = 1;
-	
-	/**
-	 * 密码错误
-	 */
-	public static final int PASSWORD_ERROR = 2;
-	
-	/**
-	 * 账号已经存在
-	 */
-	public static final int LOGIN_CODE_EXIST = 3;
-	
-	/**
-	 * 用户名已经存在
-	 */
-	public static final int USER_NAME_EXIST = 4;
-	
-	/**
-	 * 推送Token错误
-	 */
-	public static final int PUSH_TOKEN_ERROR = 5;
-	
-	/**
-	 * 头像为空错误
-	 */
-	public static final int AVATAR_ERROR = 6;
-	
-	/**
-	 * 社交平台已经关闭错误
-	 */
-	public static final int PLATFORM_OFF_ERROR = 7;
-	
-	/**
-	 * 解绑登陆平台错误
-	 */
-	public static final int UN_BIND_LOGIN_PLATFORM = 8;
-	
-	/**
-	 * 用户名不存在错误
-	 */
-	public static final int USER_NAME_NOT_EXITS_ERROR = 9;
-	
-	/**
-	 * 账号错误提示
-	 */
-	public static final String TIP_LOGIN_CODE_ERROR = "账号错误";
-	
-	/**
-	 * 账号已经存在提示
-	 */
-	public static final String TIP_LOGIN_CODE_EXIST = "该邮箱已经被注册";
-	
-	/**
-	 * 账号不存在提示
-	 */
-	public static final String TIP_LOGIN_CODE_NOT_EXIST = "账号不存在";
-	
-	/**
-	 * 用户名已经存在提示
-	 */
-	public static final String TIP_USER_NAME_EXIST = "用户名已经存在";
-	
-	/**
-	 * 用户名不存在提示
-	 */
-	public static final String TIP_USER_NAME_NOT_EXIST = "用户名不存在";
-	
-	/**
-	 * 密码错误提示
-	 */
-	public static final String TIP_PASSWORD_ERROR = "密码错误";
-	
-	/**
-	 * 退出成功提示
-	 */
-	public static final String TIP_LOGOUT_SUCCESS = "退出成功";
-
-	/**
-	 * 推送Token错误
-	 */
-	public static final String TIP_PUSH_TOKEN_ERROR = "推送Token错误";
 	
 	private static final int PLATFORM_REASON_MAX_LENGTH = 140;
 	
@@ -155,8 +72,6 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 	private static final int PHONE_VER_MAX_LENGTH = 9;
 	
 	private static final float VER_MAX = 999.99f;
-	
-//	private static final String DEFAULT_NAME = "该用户未设置名字";
 	
 	private static final String DEFAULT_AVATAR_L = "http://static.imzhitu.com/avatar/m/no-avatar-l.png";
 	
@@ -262,7 +177,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 		UserInfo userInfo = null;
 		userName = StringUtil.trimName(userName);
 		if(userInfoDao.checkLoginCodeExists(loginCode, PlatFormCode.ZHITU)) { //判断账号是否存在
-			throw new HTSException(TIP_LOGIN_CODE_EXIST, LOGIN_CODE_EXIST);
+			throw new HTSException(HTSErrorCode.LOGIN_CODE_EXISTS);
 		}
 		
 		userAvatar = StringUtil.checkIsNULL(userAvatar) ? DEFAULT_AVATAR_S : 
@@ -357,12 +272,12 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 					+ ",phoneCode=" + phoneCode + ",phoneSys=" + phoneSys + "," + ",phoneVer=" + phoneVer
 					+ ",ver=" + ver);
 			//账号错误
-			throw new HTSException(TIP_LOGIN_CODE_ERROR, LOGIN_CODE_ERROR);
+			throw new HTSException(HTSErrorCode.LOGIN_CODE_INCORECT);
 		} else {
 			byte[] encryptPassword = userInfo.getPasswordEncrypt();
 			if(!MD5Encrypt.validatePassword(password, encryptPassword)) {
 				//密码错误
-				throw new HTSException(TIP_PASSWORD_ERROR, PASSWORD_ERROR);
+				throw new HTSException(HTSErrorCode.PASSWORD_INCORECT);
 			}
 		}
 		
@@ -423,7 +338,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 					+ "loginCode=" + loginCode
 					+ ",phoneCode=" + phoneCode + ",phoneSys=" + phoneSys 
 					+ ",phoneVer=" + phoneVer + ",ver=" + ver);
-			throw new HTSException(TIP_LOGIN_CODE_ERROR, LOGIN_CODE_ERROR);
+			throw new HTSException(HTSErrorCode.LOGIN_CODE_INCORECT);
 		}
 		UserInfo userInfo = null;
 		UserSocialAccount account = socialAccountDao.queryUserId(loginCode, platformCode);
@@ -511,11 +426,8 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 	 */
 	private void checkPlatformAvaliable(Integer platformCode, Integer phoneCode, Float ver) throws HTSException {
 		if(platformCode.equals(PlatFormCode.REN_REN)) {
-			throw new HTSException("不好意思，由于人人网的权限问题，用人人帐号登录暂时关闭，请选择新浪微博登录或者是QQ登录", PLATFORM_OFF_ERROR);
+			throw new HTSException(HTSErrorCode.PLATFORM_OFF, "不好意思，由于人人网的权限问题，用人人帐号登录暂时关闭，请选择新浪微博登录或者是QQ登录");
 		}	
-//		} else if(platformCode.equals(PlatFormCode.WEI_SIN) && ver.equals(Tag.VERSION_2_9_88)) {
-//			throw new HTSException("不好意思，此版本暂停使用微信注册，请使用其他平台注册或升级版本", PLATFORM_OFF_ERROR);
-//		}
 	}
 	
 	/**
@@ -650,7 +562,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 		if(atIndex != null) {
 			userId = userMsgService.queryAtId(objType, objId, atIndex, atName);
 			if(userId == 0)
-				throw new HTSException(TIP_USER_NAME_NOT_EXIST, USER_NAME_NOT_EXITS_ERROR);
+				throw new HTSException(HTSErrorCode.USER_NAME_NOT_EXISTS);
 		}
 		
 		userInfo = userInfoDao.queryUserInfoById(userId);
@@ -719,9 +631,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 				userInfoDao.updateProfileAndPass(userInfo, passEncrypt);
 				userInfo.setPasswordEncrypt(null);
 			} else {
-				HTSException e = new HTSException("旧密码错误");
-				e.setErrorCode(PASSWORD_ERROR);
-				throw e;
+				throw new HTSException(HTSErrorCode.OLD_PASSWORD_INCORECT);
 			}
 		}
 		return userInfo;
@@ -836,7 +746,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 			throws Exception {
 		userName = StringUtil.trimName(userName);
 		if(userInfoDao.checkUserNameExists(userName)) {
-			throw new HTSException(TIP_USER_NAME_EXIST, USER_NAME_EXIST);
+			throw new HTSException(HTSErrorCode.USER_NAME_EXISTS);
 		}
 		osUserService.updateUserWithoutNULL(userId, userName, null, null, null, null, null);
 		userInfoDao.updateUserName(userId, userName);
@@ -846,7 +756,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 	public void updateAvatar(Integer userId, String userAvatar,
 			String userAvatarL) throws Exception {
 		if(StringUtil.checkIsNULL(userAvatar) || StringUtil.checkIsNULL(userAvatarL)) {
-			throw new HTSException("头像不能为空", AVATAR_ERROR);
+			throw new HTSException(HTSErrorCode.AVATAR_NULL);
 		}
 		userAvatarL = StringUtil.replaceQiniuDomain(userAvatarL);
 		userAvatar = StringUtil.replaceQiniuDomain(userAvatar);
@@ -895,9 +805,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 			byte[] passEncrypt = MD5Encrypt.encryptByMD5(password);
 			userInfoDao.updatePassword(userId, passEncrypt);
 		} else {
-			HTSException e = new HTSException("旧密码错误");
-			e.setErrorCode(PASSWORD_ERROR);
-			throw e;
+			throw new HTSException(HTSErrorCode.OLD_PASSWORD_INCORECT);
 		}
 	}
 
@@ -1013,7 +921,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 	public void buildUserAvatarLite(Integer id, Map<String, Object> jsonMap) throws Exception {
 		UserAvatarLite avatar = userInfoDao.queryUserAvatarLite(id);
 		if(avatar == null) {
-			throw new HTSException("没有这个用户");
+			throw new HTSException(HTSErrorCode.USER_NOT_EXISTS);
 		}
 		jsonMap.put(OptResult.JSON_KEY_USER_INFO, avatar);
 	}

@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.hts.web.aliyun.service.OpenSearchService;
+import com.hts.web.base.HTSErrorCode;
 import com.hts.web.base.HTSException;
 import com.hts.web.base.constant.OptResult;
 import com.hts.web.base.constant.Tag;
@@ -241,7 +242,7 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 	public Integer saveUserMsg(Integer senderId, Integer recipientId,
 			String content) throws Exception {
 		if(senderId.equals(recipientId)) {
-			throw new HTSException("不能向自己发送私信");
+			throw new HTSException(HTSErrorCode.PARAMATER_ERR);
 		}
 		
 		Integer id = keyGenService.generateId(KeyGenServiceImpl.USER_MSG_ID);
@@ -585,7 +586,7 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 			throws Exception {
 		UserMsgStatus status = userInfoDao.queryUserMsgStatus(userId);
 		if(status == null) {
-			throw new HTSException("用户不存在", 1);
+			throw new HTSException(HTSErrorCode.USER_NOT_EXISTS);
 		} else {
 			Integer shield = userShieldDao.queryShieldId(userId, joinId) == null ? Tag.FALSE : Tag.TRUE;
 			if(shield.equals(Tag.FALSE)) { // 我没屏蔽它的时候查询这个用户是否被屏蔽
@@ -767,7 +768,8 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 		noAcceptAtSet = userInfoDao.queryNotAcceptAtUIds(atIds);
 		
 		if(atIds.length != atNames.length) {
-			throw new HTSException("at ids length must be equals at names length");
+			throw new HTSException(HTSErrorCode.PARAMATER_ERR,
+					"at ids length must be equals at names length");
 		}
 		
 		statusList = new ArrayList<PushStatus>();

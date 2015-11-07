@@ -18,6 +18,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hts.web.base.HTSErrorCode;
 import com.hts.web.base.HTSException;
 import com.hts.web.base.constant.LoggerKeies;
 import com.hts.web.base.constant.OptResult;
@@ -700,7 +701,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 			Integer childCount = worldDao.queryChildCount(userId);
 			userInfoDao.updateWorldAndChildCount(userId, count.intValue(), childCount);
 		} else {
-			throw new HTSException("织图不存在或已经被删除", ERROR_CODE_REPEAT_OPT);
+			throw new HTSException(HTSErrorCode.INVALID_WORLD);
 		}
 	}
 
@@ -1324,7 +1325,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 			dto = worldDao.queryHTWorldDtoByIdNoValidCheck(worldId);
 		}
 		if (dto == null) {
-			throw new HTSException("织图不存在");
+			throw new HTSException(HTSErrorCode.INVALID_WORLD);
 		}
 		// 查询首页子世界信息
 		HTWorldChildWorld titleChild = worldChildWorldDao
@@ -1364,7 +1365,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 			int start, int limit, Map<String, Object> jsonMap, boolean trimTotal, 
 			final boolean trimExtra, final int commentLimit, final int likedLimit) throws Exception {
 		if(StringUtil.checkIsNULL(query))
-			throw new HTSException("查询条件不允许为空");
+			throw new HTSException(HTSErrorCode.PARAMATER_ERR, "query can't be null");
 		String totalKey = trimTotal ? null : OptResult.JSON_KEY_TOTAL_COUNT;
 		buildSerializables(maxId, start, limit, jsonMap, new SerializableListAdapter<HTWorldInteractDto>() {
 
@@ -1522,7 +1523,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 	public void buildLatest(Integer userId, Long startTime, Long endTime, Integer maxId, 
 			Integer limit, Map<String, Object> jsonMap) throws Exception {
 		if(startTime <= endTime) {
-			throw new HTSException("startTime必须大于endTime");
+			throw new HTSException(HTSErrorCode.PARAMATER_ERR);
 		}
 		List<HTWorldLatest> wlist = null;
 		Long total = 0l;
@@ -1631,7 +1632,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 	public void buildLatest2(Integer userId, Long startTime, Long endTime, Integer maxId, 
 			Integer limit, Map<String, Object> jsonMap) throws Exception {
 		if(startTime <= endTime) {
-			throw new HTSException("startTime必须大于endTime");
+			throw new HTSException(HTSErrorCode.PARAMATER_ERR);
 		}
 		List<HTWorldLatest> wlist = null;
 		Long total = 0l;

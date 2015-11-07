@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.hts.web.base.HTSErrorCode;
 import com.hts.web.base.HTSException;
 import com.hts.web.base.constant.OptResult;
 import com.hts.web.base.constant.Tag;
@@ -226,7 +227,7 @@ public class ZTWorldStickerServiceImpl extends BaseServiceImpl implements
 	public HTWorldStickerDto getStickerDtoById(Integer id) throws Exception {
 		HTWorldStickerDto dto = stickerDao.queryStickerById(id);
 		if(dto == null) {
-			throw new HTSException("sticker not found");
+			throw new HTSException(HTSErrorCode.INVALID_STICKER);
 		}
 		return dto;
 	}

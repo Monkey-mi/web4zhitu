@@ -1,7 +1,5 @@
 package com.hts.web.base;
 
-import com.hts.web.base.constant.OptResult;
-
 /**
  * <p>
  * 汇图说自定义异常
@@ -10,44 +8,33 @@ import com.hts.web.base.constant.OptResult;
  *
  */
 public class HTSException extends Exception {
-	
-	private Integer errorCode = OptResult.OPT_FAILED;
 
+	
+	private int errorCode;
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 6608825747512996755L;
-
-	public HTSException() {
-		super();
+	
+	public HTSException(HTSErrorCode errorCode) {
+		super(errorCode.toString());
+		this.errorCode = errorCode.getErrCode();
 	}
 	
-	public HTSException(String message, Throwable cause) {
-		super(message, cause);
-	}
-
-	public HTSException(String message) {
-		super(message);
-	}
-
-	public HTSException(Throwable cause) {
-		super(cause);
-	}
-
-	public HTSException(String message, Integer errorCode) {
-		super(message);
-		this.errorCode = errorCode;
+	public HTSException(HTSErrorCode errorCode, String customMsg) {
+		super(customMsg);
+		this.errorCode = errorCode.getErrCode();
 	}
 	
-	public Integer getErrorCode() {
+	public HTSException(HTSErrorCode errorCode, Throwable e) {
+		super(e);
+		this.errorCode = errorCode.getErrCode();
+	}
+	
+	public int getErrorCode() {
 		return errorCode;
 	}
 
-	public void setErrorCode(Integer errorCode) {
-		this.errorCode = errorCode;
-	}
 	
-	
-	
-
 }

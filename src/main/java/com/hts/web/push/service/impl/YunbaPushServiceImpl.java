@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hts.web.base.HTSErrorCode;
 import com.hts.web.base.HTSException;
 import com.hts.web.base.constant.Tag;
 import com.hts.web.common.pojo.PushIM;
@@ -30,9 +31,6 @@ public class YunbaPushServiceImpl implements YunbaPushService {
 	
 	@Autowired
 	private UserConcernDao userConcernDao;
-	
-	@Autowired
-	private UserInfoDao userInfoDao;
 	
 	@Autowired
 	private YunbaClient yunbaClient;
@@ -65,7 +63,7 @@ public class YunbaPushServiceImpl implements YunbaPushService {
 					yunbaClient.publishToAlias(String.valueOf(toAlias), json.toString());
 				}
 			} catch (Exception e) {
-				throw new HTSException(e.getMessage(), e);
+				throw new HTSException(HTSErrorCode.REQUEST_FAIL, e.getMessage());
 			}
 		}
 	}
@@ -86,9 +84,9 @@ public class YunbaPushServiceImpl implements YunbaPushService {
 			yunbaClient.publishToAliasBatch(JSONArray.fromObject(recipientIds), 
 					content, apnJSON);
 		} catch (JSONException e) {
-			throw new HTSException(e.getMessage(), e);
+			throw new HTSException(HTSErrorCode.REQUEST_FAIL, e.getMessage());
 		} catch (YunbaException e) {
-			throw new HTSException(e.getMessage(), e);
+			throw new HTSException(HTSErrorCode.REQUEST_FAIL, e.getMessage());
 		}
 	}
 
@@ -104,7 +102,7 @@ public class YunbaPushServiceImpl implements YunbaPushService {
 			apnJSON.put("aps", aps);
 			yunbaClient.publishToCommonTopic(topic, json.toString(), apnJSON);
 		} catch (Exception e) {
-			throw new HTSException(e.getMessage(), e);
+			throw new HTSException(HTSErrorCode.REQUEST_FAIL, e.getMessage());
 		}
 			
 		
@@ -121,7 +119,7 @@ public class YunbaPushServiceImpl implements YunbaPushService {
 			apnJSON.put("aps", aps);
 			yunbaClient.publishToCommonTopic(topic, msg, apnJSON);
 		} catch (Exception e) {
-			throw new HTSException(e.getMessage(), e);
+			throw new HTSException(HTSErrorCode.REQUEST_FAIL, e.getMessage());
 		}
 		
 	}
@@ -144,7 +142,7 @@ public class YunbaPushServiceImpl implements YunbaPushService {
 			}
 			yunbaClient.publishToCommonTopic(topic, json.toString(), apnJSON);
 		} catch (Exception e) {
-			throw new HTSException(e.getMessage(), e);
+			throw new HTSException(HTSErrorCode.REQUEST_FAIL, e.getMessage());
 		}
 	}
 }

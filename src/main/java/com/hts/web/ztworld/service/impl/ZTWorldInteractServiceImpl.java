@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
+import com.hts.web.base.HTSErrorCode;
 import com.hts.web.base.HTSException;
 import com.hts.web.base.constant.LoggerKeies;
 import com.hts.web.base.constant.OptResult;
@@ -83,32 +84,6 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 	
 	private static Logger shieldCommentLogger = 
 			Logger.getLogger(LoggerKeies.WORLD_SHIELD_COMMENT);
-	
-	
-	/**
-	 * 错误代码：重复操作
-	 */
-	public static final Integer ERROR_CODE_REPEAT_OPT = 1;
-	
-	/**
-	 * 错误代码：无效操作
-	 */
-	public static final Integer ERROR_CODE_INVALID = 2;
-	
-	/**
-	 * 错误提示：无效操作
-	 */
-	public static final String ERROR_MSG_INVALID = "此织图已经被删除，无法互动";
-	
-	/**
-	 * 错误提示：评论无效操作
-	 */
-	public static final String ERROR_MSG_COMMENT_INVALID = "此评论已经被删除，无法回复";
-	
-	/**
-	 * 错误提示:
-	 */
-	public static final String ERROR_MSG_PRIVILEGE = "操作失败";
 	
 	@Autowired
 	private KeyGenService keyGenService;
@@ -269,7 +244,7 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 		UserInfoDto udto;
 		
 		if(!checkWorldValid(worldId)) {
-			throw new HTSException(ERROR_MSG_INVALID, ERROR_CODE_INVALID);
+			throw new HTSException(HTSErrorCode.INVALID_WORLD);
 		}
 		
 		id = keyGenService.generateId(KeyGenServiceImpl.HTWORLD_COMMENT_ID);
@@ -514,9 +489,9 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 		UserInfoDto udto;
 		
 		if(!checkWorldValid(worldId)) {
-			throw new HTSException(ERROR_MSG_INVALID, ERROR_CODE_INVALID);
+			throw new HTSException(HTSErrorCode.INVALID_WORLD);
 		} else if(!worldCommentDao.isCommentExist(reId, worldId)){
-			throw new HTSException(ERROR_MSG_COMMENT_INVALID, ERROR_CODE_INVALID);
+			throw new HTSException(HTSErrorCode.INVALID_COMMENT);
 		}
 		
 		// 暗号检查
@@ -703,7 +678,7 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 			Integer userId) throws Exception {
 		if(worldId == null || worldId == 0) {
 			// TODO 未传织图id不允许删除评论
-			throw new HTSException("param error");
+			throw new HTSException(HTSErrorCode.PARAMATER_ERR);
 		}
 		HTWorldComment comment = worldCommentDao.queryCommentById(id, worldId);
 		if(comment == null)
@@ -737,11 +712,11 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 			Integer worldAuthorId) throws Exception, HTSException {
 		
 		if(!isUserValid(userId)) {
-			throw new HTSException(ERROR_MSG_PRIVILEGE, ERROR_CODE_INVALID);
+			throw new HTSException(HTSErrorCode.PERMISSION_DENY);
 		}
 		
 		if(!checkWorldValid(worldId)) {
-			throw new HTSException(ERROR_MSG_INVALID, ERROR_CODE_INVALID);
+			throw new HTSException(HTSErrorCode.INVALID_WORLD);
 		}
 
 		if(worldAuthorId == null || worldAuthorId == 0) {
@@ -906,14 +881,12 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 	public void saveKeep(Integer userId, Integer worldId) throws Exception {
 		
 		if(!checkWorldValid(worldId)) {
-			throw new HTSException(ERROR_MSG_INVALID, ERROR_CODE_INVALID);
+			throw new HTSException(HTSErrorCode.INVALID_WORLD);
 		}
 		
 		boolean flag = saveOrReKeep(userId, worldId);
 		if(!flag) {
-			HTSException e = new HTSException("已经收藏过");
-			e.setErrorCode(ERROR_CODE_REPEAT_OPT);
-			throw e;
+			throw new HTSException(HTSErrorCode.REPEAT_KEEP);
 		}
 	}
 	
@@ -965,7 +938,7 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 		
 		UserPushInfo userPushInfo = userInfoDao.queryUserPushInfoByWorldId(worldId);
 		if(userPushInfo == null)
-			throw new HTSException("用户不存在", ERROR_CODE_INVALID);
+			throw new HTSException(HTSErrorCode.USER_NOT_EXISTS);
 		
 		int ck = userPushInfo.getId().equals(userId) ? Tag.TRUE : Tag.FALSE;
 		HTWorldKeep keep = new HTWorldKeep(userId, new Date(), worldId,userPushInfo.getId(), ck, Tag.TRUE);
@@ -1004,9 +977,7 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 	public void saveReport(Integer userId, Integer worldId, String reportContent) throws Exception {
 		boolean flag = saveOrReReport(userId, worldId, reportContent);
 		if(!flag) {
-			HTSException e = new HTSException("已经举报过");
-			e.setErrorCode(ERROR_CODE_REPEAT_OPT);
-			throw e;
+			throw new HTSException(HTSErrorCode.REPEAT_REPORT);
 		}
 	}
 
@@ -1062,7 +1033,7 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 			throws Exception {
 		HTWorldInteractDto dto = worldDao.queryHTWorldInteract(worldId);
 		if(dto == null) {
-			throw new HTSException("指定织图不存在");
+			throw new HTSException(HTSErrorCode.INVALID_WORLD);
 		}
 		if(!dto.getAuthorId().equals(userId)) {
 			Integer isMututal = userConcernDao.queryIsMututal(userId, dto.getAuthorId());
