@@ -115,10 +115,13 @@ public class ZTWorldAction extends BaseAction {
 			int userId = UserInfoUtil.decode(iId);
 			List<HTWorldDto> worldList = worldService.queryLastNHtworldInfoByUserId(userId, 9);
 			List<String>titlePathList = new ArrayList<String>();
+			List<String>shortLinkList = new ArrayList<String>();
 			for(HTWorldDto dto:worldList){
 				titlePathList.add(dto.getTitleThumbPath());
+				shortLinkList.add(dto.getShortLink());
 			}
 			jsonMap.put("myWorldList", titlePathList);
+			jsonMap.put("shortLinkList", shortLinkList);
 			JSONUtil.optSuccess(jsonMap);
 		}catch(Exception e){
 			jsonMap.put(OptResult.RESULT, OptResult.OPT_FAILED);			
