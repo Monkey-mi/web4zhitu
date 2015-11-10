@@ -37,7 +37,7 @@ img {
 	width:108px;
 	height:108px;
 	margin-left: 500px;
-	margin-top: 300px;
+	bottom: 132px;
 }
 
 #div-propaganda{
@@ -58,7 +58,7 @@ img {
 
 .slide a{
 	text-decoration:none;
-	color:#cc6600;
+	color:#ffffff;
 }
 
 .slide .div-slide-img{position:absolute;
@@ -77,9 +77,10 @@ line-height:20px;
 position:absolute;
 bottom:10px;z-index:11;
 text-align:center;
+font-size:20px;
 }
 
-.div-slide-btn a.hover{color:#ccc;}
+.div-slide-btn a.hover{color:rgba(255,255,255,0.6);}
 
 .concernDataShow{
 	background-color:rgba(0,0,0,0.6);
@@ -96,13 +97,15 @@ text-align:center;
 	font-size:24px;
 	text-align:justify;
 	line-height:35px;
+	color:#62707d;
 }
 
 .dataShow{
 	font-size:28px;
-	border-top:1px solid #000000;
-	border-bottom:1px solid #000000;
+	border-top:1px solid rgba(167,167,167,0.5);
+	border-bottom:1px solid rgba(167,167,167,0.5);
 	padding:18px 0 16px 0;
+	color:#373e46;
 }  
 
 .superbDataShow{
@@ -113,7 +116,7 @@ text-align:center;
 .stickerDataShow{
 	width:320px;
 	margin-left:320px; 
-	border-left: 1px solid #000000;
+	border-left: 1px solid rgba(167,167,167,0.5);
 }  
 
 .preShowPicForWtworld{
@@ -272,7 +275,8 @@ text-align:center;
 		<img  alt="" src="http://static.imzhitu.com/ios/image/2015/11/05/52/71e6d5e6bbf27df556a8180d2ce4f8cc_30006@2x.jpg">
 	</div> -->
 	
- 	<div id="div-propaganda">
+		<!-- 轮播图片 -->
+		<div id="div-propaganda">
 			<div class="slide" id="div-slide">
 				<div class="div-slide-img">
 					<img src="http://ww4.sinaimg.cn/large/a0a4bc09gw1er8n9yh6poj20fk078ab8.jpg" title="图片1"/>
@@ -281,7 +285,7 @@ text-align:center;
 					<img src="http://ww1.sinaimg.cn/large/a0a4bc09gw1er8rwxb6fyj20fk078gmi.jpg" title="图片4">
 					<img src="http://ww2.sinaimg.cn/large/a0a4bc09gw1er8rwzl6tej20fk078q3w.jpg" title="图片5">
 				</div>
-				<div class="div-slide-btn" style="font-size:20px;">
+				<div class="div-slide-btn">
 					<a href="#" class="hover">●</a>
 					<a href="#">●</a>
 					<a href="#">●</a>
@@ -289,17 +293,18 @@ text-align:center;
 					<a href="#">●</a>
 				</div>
 			</div> 
-	</div> 
+		</div>
 		
-</div>
-
-<div id="download-wrap">
-<a id="download-btn" title="点击下载" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.htshuo.htsg">
-	<img id="download-bg" alt="" src="/staticres/base/images/down-bg.jpg">
-	<img id="download-logo" alt="" src="/staticres/base/images/down-logo.png">
-	<span id="download-tip">点击下载</span>
-</a>
-<img id="download-close" title="隐藏" onclick="javascript:hideDownloadBtn();" alt="" src="/staticres/base/images/down-close.jpg">
+	<div id="download-wrap">
+		<img id="download-logo" alt="" src="/individual/images/logo.png">
+		<div id="slogan">
+			<span id="zhitu-name">织图</span>
+			<span id="zhitu-slogan">年轻人的生活方式</span>
+		</div>				
+		<span id="download-close" onclick="javascript:hideDownloadBtn();"><img title="隐藏"  alt="" src="/individual/images/x@2x.png"></span>
+		<span id="download-tip" onclick="download()">点击下载</span>
+	</div>
+	
 </div>
 
 <script type="text/javascript" src="/staticres/base/js/callapp2.js"></script> 
@@ -333,7 +338,7 @@ text-align:center;
 	 		//循环加入图片
 	 		if(result.opChannelWorldDto.length > 0){
 	 		for(var i = 0; i < result.opChannelWorldDto.length; i++ ){
-	 			imgs  += '<a id="img'+ result.opChannelWorldDto[i].id +' " href="http://www.baidu.com"><img  alt="" src=" ' + result.opChannelWorldDto[i].coverPath+ ' "></a>' 
+	 			imgs  += '<a id="img'+ result.opChannelWorldDto[i].id +' " href="http://imzhitu.com/DT' +result.opChannelWorldDto[i].shortLink + '"><img  alt="" src=" ' + (result.opChannelWorldDto[i].titleThumbPath).replace(".middleImage","") + ' "></a>' 
 	 		}
 	 		}else{
 	 			alert('还没有产生精选奥。');
@@ -347,12 +352,12 @@ text-align:center;
 	 		$("title").text(channelName);
 			 
 	 		 $("#activityLoading").append('<div id="officeButton" class="officeButton" style="width:108px;height:108px;position:fixed;margin-left: 500px;margin-top: 300px;">' + 
-														'<a href="http://imzhitu.com"><img alt="" src="http://imzhitu.qiniudn.com/op/office/OfficeButton.png" /></a></div>');
-				$("#activityLoading").append('<div id="concernDataShow"  class="concernDataShow" >' + changeNumber(memberCount) + '人已关注</div>');
+														'<a href="http://imzhitu.com"><img alt="" src="http://imzhitu.qiniudn.com/op/office/officeButton01.png" /></a></div>');
+				$("#activityLoading").append('<div id="concernDataShow"  class="concernDataShow" ><span style="color:#ffab08">' + changeNumber(memberCount) + '</span>人已关注</div>');
 				$("#activityLoading").append('<div id="header"><img alt="" src=" ' + banner + ' " /> </div>');
 				$("#activityLoading").append('<div id="channelIntro"  class="channelIntro" >' + channelDesc + '</div>');
-				$("#activityLoading").append('<div id="dataShow"  class="dataShow"><div id="superbDataShow" class="superbDataShow" ><span>精选<br>' + changeNumber(superbCount) + '</span></div>' + 
-														'<div id="stickerDataShow"  class="stickerDataShow" ><span>参与<br>' + changeNumber(worldCount) + '</span></div></div>');
+				$("#activityLoading").append('<div id="dataShow"  class="dataShow"><div id="superbDataShow" class="superbDataShow" ><span>' + changeNumber(superbCount) + '<br>精选</span></div>' + 
+														'<div id="stickerDataShow"  class="stickerDataShow" ><span>' + changeNumber(worldCount) + '<br>参与</span></div></div>');
 				$("#activityLoading").append('<div id="preShowPicForWtworld"  class="preShowPicForWtworld" >' + imgs+ '</div>');
 				initLayout(); 
 	 		}else{
@@ -382,12 +387,12 @@ function initLayout() {
 	var scale = 1,
 		
 //设置主面板margin-bottom值
-	mainMarginBottom = 120,
+	mainMarginBottom = 104,
 	
 	officeButtonWidth = 108,
 	officeButtonHeight = 108,
 	officeButtonMarginLeft = 500, 
-	officeButtonMarginTop =  600,
+	officeButtonBottom =  132,
 
 	//设置轮播面板的初始值
 	divPropagandaPaddingTop = 6,
@@ -395,6 +400,7 @@ function initLayout() {
 	
 	slideWidth = 612,
 	slideHeight = 284,
+	slidRadius = 15,
 
 	slideDivSlideImgWidth = 3060,
 
@@ -404,13 +410,14 @@ function initLayout() {
 	divSlideBtnHeight = 20,
 	divSlideBtnLineHeight = 20,
 	divSlideBtnBottom = 10,
+	divSlideBtnFontSize = 20,
 	
 	//频道关注数量展示
 	concernDataShowWidth = 160,
 	concernDataShowHeight = 50,
-	concernDataShowMarginTop = 200,
+	concernDataShowMarginTop = 145,
 	concernDataShowLeft = 470,
-	concernDataShowBorderRadius = 20,
+	concernDataShowBorderRadius = 25,
 	concernDataShowFontSize = 20,
 	concernDataShowLineHeight = 50,
 	
@@ -428,9 +435,9 @@ function initLayout() {
 	stickerDataShowWidth = 319,
 	stickerDataShowMarginLeft = 320,
 
-	preShowPicForWtworldPaddingTop = 20,
-	preShowPicForWtworldPaddingLeft = 14,
-	preShowPicForWtworldPaddingBottom = 20,
+	preShowPicForWtworldPaddingTop = 14,
+	preShowPicForWtworldPaddingLeft = 2,
+	preShowPicForWtworldPaddingBottom = 2,
 	preShowPicForWtworldPaddingRight = 8,
 	
 	preShowPicForWtworldImgWidth = 200,
@@ -446,7 +453,7 @@ function initLayout() {
 	officeButtonWidth = officeButtonWidth * scale;
 	officeButtonHeight = officeButtonHeight * scale;
 	officeButtonMarginLeft = officeButtonMarginLeft * scale; 
-	officeButtonMarginTop =  officeButtonMarginTop * scale;
+	officeButtonBottom =  officeButtonBottom * scale;
 	
 	//设置轮播面板的初始值
 	divPropagandaPaddingTop = divPropagandaPaddingTop * scale;
@@ -454,6 +461,7 @@ function initLayout() {
 	
 	slideWidth = slideWidth * scale;
 	slideHeight = slideHeight * scale;
+	slidRadius = slidRadius * scale;
 	
 	slideDivSlideImgWidth = slideDivSlideImgWidth * scale;
 	
@@ -463,6 +471,7 @@ function initLayout() {
 	divSlideBtnHeight = divSlideBtnHeight * scale;
 	divSlideBtnLineHeight = divSlideBtnLineHeight * scale;
 	divSlideBtnBottom = divSlideBtnBottom * scale;
+	divSlideBtnFontSize = divSlideBtnFontSize * scale;
 	
 	//频道关注数
 	concernDataShowWidth = concernDataShowWidth * scale;
@@ -508,7 +517,7 @@ function initLayout() {
 		"width":officeButtonWidth + "px",
 		"height":officeButtonHeight + "px",
 		"margin-left":officeButtonMarginLeft + "px",
-		"margin-top":officeButtonMarginTop + "px"
+		"bottom":officeButtonBottom + "px"
 	}).show();
 	
 	$("#div-propaganda").css({
@@ -518,7 +527,20 @@ function initLayout() {
 	
 	$(".slide").css({
 		"width":slideWidth + "px",
-		"height":slideHeight + "px"
+		"height":slideHeight + "px",
+		"border"	: "1px solid #ffffff",
+		"-moz-border-radius"	: slidRadius + "px",
+		"-webkit-border-radius"	: slidRadius + "px",
+		"border-radius"	: slidRadius + "px"
+	});
+	
+	$(".slide1").css({
+		"width":slideWidth + "px",
+		"height":slideHeight + "px",
+		"border"	: "1px solid #ffffff",
+		"-moz-border-radius"	: slidRadius + "px",
+		"-webkit-border-radius"	: slidRadius + "px",
+		"border-radius"	: slidRadius + "px"
 	});
 	
 	$(".slide .div-slide-img").css({
@@ -533,7 +555,8 @@ function initLayout() {
 		"width":divSlideBtnWidth + "px",
 		"height":divSlideBtnHeight + "px",
 		"line-height":divSlideBtnLineHeight + "px",
-		"bottom":divSlideBtnBottom + "px"
+		"bottom":divSlideBtnBottom + "px",
+		"font-size":divSlideBtnFontSize + "px"
 	});
 	
 	 $(".concernDataShow").css({
@@ -581,6 +604,82 @@ function initLayout() {
 		"border-radius":preShowPicForWtworldImgBorderRadius + "px"
 	});
 	
+	$("#download-wrap").css({
+		"width"				: 640 * scale + "px",
+		"height"			: 104 * scale + "px",
+		"margin"			: "0 auto",
+		"bottom"			: "0",
+		"text-align"		: "center",
+		"overflow"			: "hidden",	
+		"font-family"		: "微软雅黑",
+		"background-color"  : "rgba(255,255,255,0.9)",
+		/* "padding-bottom"	: 10 * scale + "px", */
+		"position"			: "fixed",
+		"z-index"			: "99999" 
+	});
+	
+	$("#download-logo").css({
+		"width"			: "auto",
+		"height"		: 80  * scale + "px",
+		"margin-top"	: 12 * scale + "px",
+		"margin-left"	: 14 * scale + "px",
+		"display"		: "inline",
+		"position"		: "absolute",
+		"left"			: "0"
+	});
+	
+	$("#download-close").css({
+		"width"			: 16 * scale + "px",
+		"height"		: 16 * scale + "px",
+		"display"		: "inline-block",
+		"cursor"		: "pointer",
+		"vertical-align": "center",
+		"margin"		: 44 * scale + "px " + ( 30 * scale ) + "px 0 0",
+		"position"		: "absolute",
+		"right"			: "0"
+	});
+	
+	$("#download-tip").css({
+		"background"			: "#3a97d0",
+		"width"					: 200 * scale + "px",
+		"height"				: 60 * scale + "px",
+		"color"					: "#ffffff",
+		"-moz-border-radius"	: 4 * scale + "px",
+		"-webkit-border-radius"	: 4 * scale + "px",
+		"border-radius"			: 4 * scale + "px",
+		"text-align"			: "center",
+		"font-size"				: 24 * scale + "px",
+		"display"				: "inline-block",
+		"vertical-align"		: "top",
+		"cursor"				: "pointer",
+		"line-height"			: 60 * scale + "px",
+		"float"					: "right",
+		"margin"				: 22 * scale + "px " + (22 * scale) + "px 0 0",
+		"position"				: "absolute",
+		"right"					: 58 * scale + "px"
+	});
+	
+	$("#slogan").css({
+		"display"		: "inline-block",
+		"vertical-align": "top",
+		"position"		: "absolute",
+		"left"			: 120 * scale +"px"
+	});
+	
+	$("#zhitu-name").css({
+		"display"	: "block",
+		"font-size"	: 30 * scale + "px",
+		"color"		: "#373e46",
+		"margin-top": 14 * scale + "px",
+		"text-align": "left"
+	});
+	
+	$("#zhitu-slogan").css({
+		"display"	: "block",
+		"font-size"	: 24 * scale + "px",
+		"color"		: "#959da5",
+		"margin-top": 6 * scale + "px"
+	});
 }
 
 function bindConcern(uid, status) {
