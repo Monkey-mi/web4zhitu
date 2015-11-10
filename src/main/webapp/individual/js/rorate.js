@@ -8,7 +8,8 @@ var zBase = {
 		cycleTimems:3000,
 		slideDiv:'slide',
 		imgDiv:'slide-img-div',
-		slideBtn:'slide-btn'
+		slideBtn:'slide-btn',
+		vDirect: 1
 	},
 	init:function(imgWidth,FPSms,cycleTimems,slideDiv,imgDiv,slideBtn){
 		this.config.imgWidth = imgWidth;
@@ -55,11 +56,13 @@ var zBase = {
 		if(obj[attr+'timer']) clearInterval(obj[attr+'timer']);
 		var start = parseInt(zBase.css(obj,attr));
 		
-		var space =  val- start,st=(new Date).getTime(),m=space>0? 'ceil':'floor';
+		var space =  val- start,st=(new Date).getTime();
+//		space = val==0 ? zBase.config.imgWidth : space;
 		obj[attr+'timer'] = setInterval(function(){
 			var t=(new Date).getTime()-st;
 			if (t < d){
-				zBase.css(obj,attr,Math[m](zBase.easing['easeOut'](t,start,space,d)) +'px');
+//				zBase.css(obj,attr,Math[m](zBase.easing['easeOut'](t,start,space,d)) +'px');
+				zBase.css(obj,attr,zBase.easing['easeOut'](t,start,space,d) +'px');
 			}else{
 				clearInterval(obj[attr+'timer']);
 				zBase.css(obj,attr,top+space+'px');
@@ -68,8 +71,17 @@ var zBase = {
 	},
 	play:function(){
 		this.slide.timer = setInterval(function(){
-			zBase.config.index++;
-			if(zBase.config.index>=zBase.img_arr.length) zBase.config.index=0;
+			zBase.config.index += zBase.config.vDirect;
+			
+			if(zBase.config.index>=zBase.img_arr.length) {
+				zBase.config.vDirect *= -1; 
+				zBase.config.index -=2;
+			}
+			if(zBase.config.index < 0) {
+				zBase.config.vDirect *= -1; 
+				zBase.config.index = 1;
+			}
+			
 			
 			zBase.animate(zBase.img_div,zBase.config.direct,-zBase.config.index*zBase.config.imgWidth);
 			for(var j=0;j<zBase.slide_btn.length;j++){

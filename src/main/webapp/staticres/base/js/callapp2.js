@@ -64,6 +64,36 @@ function openclient(checkConf) {
     }
 }
 
+function openclientV2(checkConf){	
+	if(inapp == 1)
+		return;
+
+	var href = this.getAttribute("href");
+	this.removeAttribute('href');
+	var ifr = document.createElement('iframe');
+    ifr.style.display = 'none';
+    ifr.src = href;
+	var uatype = getUAType(ua);
+	
+	if(uatype > 0) {
+		var startTime = Date.now();
+        document.body.appendChild(ifr);
+        var t = setTimeout(function() {
+            var endTime = Date.now();
+            if (!startTime || endTime - startTime < config.timeout + 200) { 
+                window.location = config.url;
+            } else {
+            }
+        }, config.timeout);
+        window.onblur = function() {
+            clearTimeout(t);
+        }
+    } else {
+    	window.location = config.url;
+    }
+    
+}
+
 function getUAType(ua) {
 	if(ua.indexOf('iphone') > 0 || ua.indexOf('ipad') > 0) return 1;
 	else if(ua.indexOf('android') > 0) return 2;

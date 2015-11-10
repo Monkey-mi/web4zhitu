@@ -332,4 +332,22 @@ public interface ChannelService extends BaseService{
 	
 	public void getStarWorldRecommendTopicInfo(Integer topicId,Map<String, Object> jsonMap) throws Exception;
 	
+	/**
+	 * 利用channelId查询出频道分享页面的所有信息
+	 * 包括：
+	 * 1.频道banner图
+	 * 2.频道描述
+	 * 3.频道关注人数
+	 * 4.频道参与人数
+	 * 5.频道中织图精选数
+	 * 6.缩略banner（用于微信分享）
+	 * 7.一定量的精选织图封面
+	 * 8.织图对应的
+	 * @param channerId
+	 * @param jsonMap
+	 * @throws Exception 
+		*	2015年11月7日
+		*	mishengliang
+	 */
+	public void  getChannelSharePageInfo(Integer channerId,Map<String, Object> jsonMap)throws Exception ;
 }

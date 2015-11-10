@@ -2,6 +2,8 @@ package com.hts.web.ztworld;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import net.sf.json.JSONObject;
 
@@ -18,6 +20,7 @@ import com.hts.web.common.pojo.HTWorld;
 import com.hts.web.common.pojo.HTWorldDto;
 import com.hts.web.common.util.JSONUtil;
 import com.hts.web.common.util.StringUtil;
+import com.hts.web.common.util.UserInfoUtil;
 import com.hts.web.operations.service.UserOperationsService;
 import com.hts.web.ztworld.service.ZTWorldService;
 import com.hts.web.ztworld.service.impl.ZTWorldServiceImpl;
@@ -104,6 +107,28 @@ public class ZTWorldAction extends BaseAction {
 	private UserOperationsService userOptService;
 
 	
+	public String getLastNWorldByUserId(){
+		
+		try{
+			String strId = request.getParameter("s");
+			int iId = Integer.parseInt(strId);
+			int userId = UserInfoUtil.decode(iId);
+			List<HTWorldDto> worldList = worldService.queryLastNHtworldInfoByUserId(userId, 9);
+			List<String>titlePathList = new ArrayList<String>();
+			List<String>shortLinkList = new ArrayList<String>();
+			for(HTWorldDto dto:worldList){
+				titlePathList.add(dto.getTitleThumbPath());
+				shortLinkList.add(dto.getShortLink());
+			}
+			jsonMap.put("myWorldList", titlePathList);
+			jsonMap.put("shortLinkList", shortLinkList);
+			JSONUtil.optSuccess(jsonMap);
+		}catch(Exception e){
+			jsonMap.put(OptResult.RESULT, OptResult.OPT_FAILED);			
+		}
+		return StrutsKey.JSON;
+	}
+	
 	/**
 	 * 检查织图是否存在
 	 * 
@@ -161,6 +186,8 @@ public class ZTWorldAction extends BaseAction {
 		}
 		return ERROR;
 	}
+	
+	
 	
 	/**
 	 * 分享织图

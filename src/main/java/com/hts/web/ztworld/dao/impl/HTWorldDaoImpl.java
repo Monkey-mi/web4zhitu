@@ -591,6 +591,8 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 	
 	private static final String QUERY_LAST_N_WORLD_INFO_BY_USER_ID = "select id,title_thumb_path,short_link from " + table + " where author_id= ? and valid=1 and shield=0 order by id desc limit ?";
 	
+	private static final String QUERY_LAST_N_WORLD_INFO_BY_USER_ID = "select id,title_thumb_path,short_link from " + table + " where author_id= ? and valid=1 and shield=0 order by id desc limit ?";
+	
 	@Override
 	public void updateWorldShield(Integer worldId, Integer shield) {
 		getMasterJdbcTemplate().update(UPDATE_WORLD_SHIELD, new Object[]{shield, worldId});

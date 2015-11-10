@@ -223,6 +223,14 @@ public interface UserInfoService extends BaseService {
 			Integer atIndex, String atName, Integer objType, Integer objId) throws Exception;
 	
 	/**
+	 * 根据用户Id查询用户的信息。
+	 * @param userId 用户Id
+	 * @return
+	 * @throws Exception
+	 */
+	public UserInfo getUserInfoById(Integer userId)throws Exception;
+	
+	/**
 	 * 更新个人资料
 	 * 
 	 * @param userId
@@ -454,6 +462,5 @@ public interface UserInfoService extends BaseService {
 	 */
 	public void buildUserAvatarLite(Integer id, 
 			Map<String, Object> jsonMap) throws Exception;
-	
 
 }

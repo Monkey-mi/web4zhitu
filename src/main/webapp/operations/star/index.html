@@ -11,7 +11,7 @@ body {
 	margin: 0 auto 0 auto;
 	padding: 0;
 	text-align: center;
-/*  	font-size: 0;  */
+  	font-size: 28px;  
 	font-family: "微软雅黑", Arial, Helvetica, sans-serif;
 	background: #ffffff;
 }
@@ -57,7 +57,7 @@ img {
 }
 
 .headIntro2 {
-	font-size:28px;
+	font-size:100%;
 	font-weight:400;
 	line-height:44px;
 	color:#373e46;
@@ -599,6 +599,7 @@ function initLayout(result) {
 		var maxW = 750;
 		var winWidth = $(window).width();
 		winWidth = winWidth > maxW ? maxW : winWidth;
+		
 		var scale = 1,
 		
 		//headIntro前介绍宽度限制
@@ -622,7 +623,11 @@ function initLayout(result) {
 		title1marginTop = -106,  
 		
 		//小副标题
-		title2fontSize = 20,
+		title2fontSize = 35;
+/* 		 var br=navigator.userAgent.toLowerCase();  
+			if(br.indexOf('iphone os') != -1){
+				title2fontSize = 14;
+			};  */
 		title2width = 750,
 		title2marginTop = 115,
 
@@ -941,6 +946,10 @@ function initLayout(result) {
 	pastPicHeight = pastPicHeight * scale/ 100;
 		
 		$(".concern").show();
+		
+ 		$("body").css({
+ 			"font-size":head2fontSize + "px"
+ 		});
 	
  		//headIntro前介绍宽度限制
  		$(".headIntro1").css({
@@ -955,7 +964,7 @@ function initLayout(result) {
  			"padding-left":head2paddingLeft + "px",
  			"padding-right":head2paddingRight + "px",
  			"padding-bottom":head2paddingBottom + "px",
- 			"font-size":head2fontSize + "px",
+/*  			"font-size":head2fontSize + "pt", */
  			"line-height":head2lineHeight + "px",
  			"border-width":head2border + "px"}); 
 
@@ -968,7 +977,7 @@ function initLayout(result) {
   	 		
   	 		$(".title2").css({
  	 			"width":title2width + "px",
-  	 			"font-size":title2fontSize + "pt", 
+  	 			"font-size":title2fontSize + "px", 
  	 			"margin-top":title2marginTop + "px"
  	 			});  
 
