@@ -925,6 +925,17 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 		}
 		jsonMap.put(OptResult.JSON_KEY_USER_INFO, avatar);
 	}
+	
+	@Override
+	public UserInfo getUserInfoById(Integer userId)throws Exception{
+		UserInfo userInfo = userInfoDao.queryUserInfoById(userId);
+		if (userInfo != null) {
+			extractVerify(userInfo);
+		}
+		return userInfo;
+	}
+	
+	
 
 
 }

@@ -18,6 +18,7 @@ import com.hts.web.base.constant.Tag;
 import com.hts.web.base.database.RowCallback;
 import com.hts.web.base.database.RowSelection;
 import com.hts.web.common.SerializableListAdapter;
+import com.hts.web.common.pojo.ChannelSharePageInfoDto;
 import com.hts.web.common.pojo.HTWorldLabel;
 import com.hts.web.common.pojo.OpActivity;
 import com.hts.web.common.pojo.OpChannel;
@@ -835,5 +836,17 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 	    opStarRecommendTopicInfo.setStarModuleInfos(list);
 	    opStarRecommendTopicInfo.setPastTopics(pastTopics);
 		jsonMap.put(OptResult.JSON_KEY_OBJ, opStarRecommendTopicInfo);
+	}
+	
+	@Override
+	public void getChannelSharePageInfo(Integer channelId,Map<String, Object> jsonMap) throws Exception {
+		ChannelSharePageInfoDto channelSharePageInfo = new ChannelSharePageInfoDto();
+		 OpChannelDetail opChannelDetail = channelDao.queryChannelDetail(channelId);
+		 List<OpChannelWorldDto> opChannelWorldDtos = channelWorldDao.querySuperbChannelWorld(channelId,new RowSelection(1,36));
+		 
+		 channelSharePageInfo.setOpChannelWorldDto(opChannelWorldDtos);
+		 channelSharePageInfo.setOpChannelDetail(opChannelDetail);
+		 jsonMap.put(OptResult.JSON_KEY_OBJ, channelSharePageInfo);
+		
 	}
 }

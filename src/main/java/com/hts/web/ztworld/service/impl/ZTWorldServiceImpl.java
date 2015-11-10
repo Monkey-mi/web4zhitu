@@ -1732,5 +1732,12 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 			jsonMap.put(OptResult.JSON_KEY_PREVIOUS_ID, ids);
 		}
 	}
+	
+	public List<HTWorldDto> queryLastNHtworldInfoByUserId(Integer userId,Integer n)throws Exception{
+		if(userId == null || n == null || n < 1){
+			return null;
+		}
+		return worldDao.queryLastNHtworldInfoByUserId(userId, n);
+	}
 
 }
