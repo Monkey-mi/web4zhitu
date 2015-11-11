@@ -438,13 +438,13 @@ var pastTopicHead = '<div class="onePastPic"><a href="';
 
 
  $(document).ready(function() {
-	 	var url = window.location.href;
+	  	var url = window.location.href;
 	 	var topicId1 = url.substring(url.lastIndexOf("/")+1,url.length);
 	 	var end = topicId1.length;
 	 	if(topicId1.indexOf("?") != -1){
 	 		end = topicId1.indexOf("?");
 	 	}
-	 	var topicId = topicId1.substring(0,end);
+	 	var topicId = topicId1.substring(0,end); 
 	 //调用获取数据的函数
  		$.post("./operations/channel_getStarRecommendTopicInfo",{
 		"topicId":topicId,
@@ -544,6 +544,9 @@ function initLayout(result) {
 	
 	inapp = callAppInit();
 	if(inapp == 1) {
+		//mishengliang
+		var isInappAndSoOn = window.location.search;
+		
 		var reg = new RegExp("(^|&)uid=([^&]*)(&|$)", "i"),
 			r = window.location.search.substr(1).match(reg);
 			
@@ -554,9 +557,13 @@ function initLayout(result) {
 			fetchConcernStatus(uid);
 		}
 		
-	/* 	$("#twoButton").append(shareButton); */
+	 	if(result.pastTopics[0] != undefined){
+	 		$('#main').append(footButtonAndPast);
+	 	}
+		
+	 	/* $("#twoButton").append(shareButton);  */
 		if(result.pastTopics[0] != undefined){
-			var topicHref01 = topicHref + topicTypeWhat01 + result.pastTopics[0].topicId;
+			var topicHref01 = topicHref + topicTypeWhat01 + result.pastTopics[0].topicId + isInappAndSoOn;
 			var topicPic = pastTopicPicHead + result.pastTopics[0].bannerPic + pastTopicPicFoot;
 			var pastTopic01 = pastTopicHead +  topicHref01 + topicPic;
 			$("#pastTopic").append(pastTopic01);
