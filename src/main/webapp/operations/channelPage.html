@@ -317,10 +317,10 @@ font-size:20px;
 	 	var url = window.location.href;
 	 	var channelId1 = url.substring(url.lastIndexOf("?")+1,url.length);
 	 	var end = channelId1.length;
-	 	if(channelId1.indexOf("?") != -1){
-	 		end = channelId1.indexOf("?");
+	 	if(channelId1.indexOf("&") != -1){
+	 		end = channelId1.indexOf("&");
 	 	}
-	 	var channelId = channelId1.substring(channelId1.indexOf("=")+1);
+	 	var channelId = channelId1.substring(channelId1.indexOf("=")+1,end);
 	 	
 	 	$.post("/operations/channel_getChannelSharePageInfo",{
 	 		channelId:channelId
