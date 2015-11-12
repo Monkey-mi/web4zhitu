@@ -107,7 +107,7 @@
 		</action>
 		
 		<!-- 个人主页 -->
-		<action name="individualHomePage" class="com.hts.web.userinfo.UserInfoAction"
+		<action name="home" class="com.hts.web.userinfo.UserInfoAction"
 			method="getIndividualHomePage">
 			<result name="phone" type="dispatcher">/individual/phone/homepage.jsp</result>
 			<result name="error" type="redirect">/404</result>
