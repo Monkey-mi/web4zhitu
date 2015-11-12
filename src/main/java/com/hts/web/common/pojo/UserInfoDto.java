@@ -17,7 +17,7 @@ import com.hts.web.base.constant.Tag;
  * @author ztj
  * 
  */
-public class UserInfoDto implements Serializable, ObjectWithUserVerify, ObjectWithUserRemark {
+public class UserInfoDto implements Serializable, ObjectWithUserVerify, ObjectWithUserRemark, ObjectWithChecksum {
 
 	/**
 	 * 
@@ -54,6 +54,8 @@ public class UserInfoDto implements Serializable, ObjectWithUserVerify, ObjectWi
 	private Integer platformVerify = Tag.VERIFY_NONE;
 	
 	private String remark;
+	
+	private Integer checksum;
 	
 
 	public UserInfoDto() {
@@ -299,6 +301,21 @@ public class UserInfoDto implements Serializable, ObjectWithUserVerify, ObjectWi
 
 	public void setPlatformVerify(Integer platformVerify) {
 		this.platformVerify = platformVerify;
+	}
+
+	
+	public Integer getChecksum() {
+		return checksum;
+	}
+
+	@Override
+	public Integer getChecksumUID() {
+		return id;
+	}
+
+	@Override
+	public void setChecksum(Integer checksum) {
+		this.checksum = checksum;
 	}
 	
 }

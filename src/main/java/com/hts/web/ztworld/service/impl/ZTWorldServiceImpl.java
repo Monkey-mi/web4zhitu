@@ -114,7 +114,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 	/**
 	 * 织图世界访问前缀_DT
 	 */
-	public static final String WORLD_TAG_PREFIX_DT = "DT";
+	public static final String WORLD_TAG_PREFIX_DT = "WD";
 
 	/**
 	 * 手机页面标志
@@ -368,8 +368,9 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 		// 保存织图标签
 		try {
 			if(!StringUtil.checkIsNULL(worldLabel)) {
+				worldLabel = worldLabel.trim();
 				String[] names = worldLabel.split(",");
-				StringUtil.trimStrArray(names); // 过滤每个标签的空格
+//				StringUtil.trimStrArray(names); // 过滤每个标签的空格
 				Set<String> nameSet = new LinkedHashSet<String>();
 				Map<String, HTWorldLabel> labelMap = worldLabelDao.queryLabelByNames(names);
 				for(String name : names) {
@@ -1266,6 +1267,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 	public HTWorldDto getHTWorldDtoFromURL(String requestURL, boolean isAdmin)
 			throws Exception {
 		String link = parseShortLinkOrIdFromURL(requestURL);
+		System.out.println("-----------------------" + link);
 		if (link != null) {
 			Integer worldId = 0;
 			try {

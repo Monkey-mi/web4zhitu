@@ -19,7 +19,8 @@ import com.hts.web.base.constant.Tag;
  * 
  */
 
-public class HTWorldInteractDto implements HTWorldWithExtra, ObjectWithUserVerify, ObjectWithUserRemark, ObjectWithConcerned {
+public class HTWorldInteractDto implements HTWorldWithExtra, ObjectWithUserVerify, 
+	ObjectWithUserRemark, ObjectWithConcerned {
 
 	/**
 	 * 
@@ -506,5 +507,6 @@ public class HTWorldInteractDto implements HTWorldWithExtra, ObjectWithUserVerif
 	public Integer getConcerned() {
 		return concerned;
 	}
+
 	
 }

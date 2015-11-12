@@ -18,6 +18,7 @@ import com.hts.web.base.constant.LoggerKeies;
 import com.hts.web.base.constant.OptResult;
 import com.hts.web.base.constant.PlatFormCode;
 import com.hts.web.base.constant.Tag;
+import com.hts.web.common.pojo.ObjectWithChecksum;
 import com.hts.web.common.pojo.ObjectWithUserVerify;
 import com.hts.web.common.pojo.ObjectWithUserVerifyDesc;
 import com.hts.web.common.pojo.UserAvatarLite;
@@ -32,6 +33,7 @@ import com.hts.web.common.service.impl.KeyGenServiceImpl;
 import com.hts.web.common.util.MD5Encrypt;
 import com.hts.web.common.util.PushUtil;
 import com.hts.web.common.util.StringUtil;
+import com.hts.web.common.util.UserInfoUtil;
 import com.hts.web.plat.service.PlatService;
 import com.hts.web.plat.service.SinaWeiboService;
 import com.hts.web.push.service.PushService;
@@ -1026,8 +1028,19 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 		}
 		return userInfo;
 	}
-	
-	
 
+	@Override
+	public void checksum(ObjectWithChecksum obj) {
+		obj.setChecksum(UserInfoUtil.encode(obj.getChecksumUID()));
+	}
 
+	@Override
+	public void checksum(List<? extends ObjectWithChecksum> objs) {
+		if(objs != null) {
+			for(ObjectWithChecksum obj : objs) {
+				checksum(obj);
+			}
+		}
+	}
+	
 }

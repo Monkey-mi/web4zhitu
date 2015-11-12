@@ -14,7 +14,8 @@ import com.hts.web.base.constant.Tag;
  * @author ztj
  * 
  */
-public class HTWorldLikedUser implements Serializable, ObjectWithUserVerify, ObjectWithUserRemark {
+public class HTWorldLikedUser implements Serializable, ObjectWithUserVerify,
+	ObjectWithUserRemark, ObjectWithChecksum {
 
 	/**
 	 * 
@@ -30,6 +31,8 @@ public class HTWorldLikedUser implements Serializable, ObjectWithUserVerify, Obj
 	private String verifyIcon;
 	private String remark;
 	private Integer platformVerify = Tag.VERIFY_NONE;
+	
+	private Integer checksum;
 
 	public HTWorldLikedUser() {
 		super();
@@ -138,5 +141,19 @@ public class HTWorldLikedUser implements Serializable, ObjectWithUserVerify, Obj
 	public void setPlatformVerify(Integer platformVerify) {
 		this.platformVerify = platformVerify;
 	}
+
+	public Integer getChecksum() {
+		return checksum;
+	}
+
+	public void setChecksum(Integer checksum) {
+		this.checksum = checksum;
+	}
+
+	@Override
+	public Integer getChecksumUID() {
+		return userId;
+	}
+
 	
 }

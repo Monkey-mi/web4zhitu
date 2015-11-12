@@ -70,12 +70,12 @@ img.zt-temp{
 }
 
 .zt-tag-border-nowebkit {
-	left:-2px;
-	top:-2px;
+	left:-3px;
+	top:-3px;
 	border-radius:80px;
 	-webkit-border-radius: 80px;
 	-moz-border-radius: 80px;
-	border:2px solid #ffffff;
+	border:3px solid #ffffff;
 	
 }
 
@@ -115,6 +115,7 @@ img.zt-temp{
 	-moz-border-radius: 80px;
 }
 
+/*
 .zt-loading{
 	position:absolute;
 	width:110px;
@@ -152,6 +153,7 @@ img.zt-temp{
 	background:url(../images/ajax-loader2.gif) no-repeat center center;
 	
 }
+*/
 
 .zt-desc {
 	width:100%;

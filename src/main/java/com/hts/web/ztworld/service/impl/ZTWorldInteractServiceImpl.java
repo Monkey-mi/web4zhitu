@@ -22,7 +22,6 @@ import com.hts.web.base.database.HTS;
 import com.hts.web.base.database.RowCallback;
 import com.hts.web.base.database.RowSelection;
 import com.hts.web.common.SerializableListAdapter;
-import com.hts.web.common.SerializableSinceIdListAdapter;
 import com.hts.web.common.pojo.HTWorldChannelName;
 import com.hts.web.common.pojo.HTWorldComment;
 import com.hts.web.common.pojo.HTWorldCommentDto;
@@ -32,6 +31,7 @@ import com.hts.web.common.pojo.HTWorldGeo;
 import com.hts.web.common.pojo.HTWorldInteractDto;
 import com.hts.web.common.pojo.HTWorldKeep;
 import com.hts.web.common.pojo.HTWorldLiked;
+import com.hts.web.common.pojo.HTWorldLikedUser;
 import com.hts.web.common.pojo.HTWorldReport;
 import com.hts.web.common.pojo.HTWorldThumbnail;
 import com.hts.web.common.pojo.MsgComment;
@@ -182,9 +182,9 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 	private MsgUnreadDao msgUnreadDao;
 	
 	@Override
-	public void buildComments(final Integer userId, final Integer worldId,  int sinceId, int maxId, 
+	public void buildComments(final Integer userId, final Integer worldId, int maxId, 
 			int start, int limit, Map<String, Object> jsonMap) throws Exception {
-		buildSerializables(sinceId, maxId, start, limit, jsonMap, new SerializableSinceIdListAdapter<HTWorldCommentDto>(){
+		buildSerializables(maxId, start, limit, jsonMap, new SerializableListAdapter<HTWorldCommentDto>(){
 
 			@Override
 			public List<HTWorldCommentDto> getSerializables(
@@ -206,23 +206,40 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 
 			@Override
 			public long getTotalByMaxId(int maxId) {
-				return worldCommentDao.queryCommentCountByMaxId(worldId, maxId);
+				return 0l;
 			}
 
+		}, OptResult.JSON_KEY_COMMENTS, OptResult.JSON_KEY_TOTAL_COUNT);
+	}
+	
+	@Override
+	public void buildOpenComment(final Integer worldId, int maxId, 
+			int start, int limit, Map<String, Object> jsonMap) throws Exception {
+		buildSerializables(maxId, start, limit, jsonMap, new SerializableListAdapter<HTWorldCommentDto>(){
+
 			@Override
-			public List<HTWorldCommentDto> getSerializableBySinceId(
-					int sinceId, RowSelection rowSelection) {
-				List<HTWorldCommentDto> list = worldCommentDao.queryCommentByMinId(worldId, sinceId, rowSelection);
+			public List<HTWorldCommentDto> getSerializables(
+					RowSelection rowSelection) {
+				List<HTWorldCommentDto> list = worldCommentDao.queryComment(worldId, rowSelection);
 				userInfoService.extractVerify(list);
-				userInteractService.extractRemark(userId, list);
+				userInfoService.checksum(list);
 				return list;
 			}
 
 			@Override
-			public long getTotalBySinceId(int sinceId) {
-				return worldCommentDao.queryCommentCountByMinId(worldId, sinceId);
+			public List<HTWorldCommentDto> getSerializableByMaxId(int maxId,
+					RowSelection rowSelection) {
+				List<HTWorldCommentDto> list = worldCommentDao.queryCommentByMaxId(worldId, maxId, rowSelection);
+				userInfoService.extractVerify(list);
+				userInfoService.checksum(list);
+				return list;
 			}
-			
+
+			@Override
+			public long getTotalByMaxId(int maxId) {
+				return 0l;
+			}
+
 		}, OptResult.JSON_KEY_COMMENTS, OptResult.JSON_KEY_TOTAL_COUNT);
 	}
 	
@@ -1072,6 +1089,39 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 		}
 		worldService.extractExtraInfo(true, true, userId, trimExtras, commentLimit, likedLimit, dto);
 		userInfoService.extractVerify(dto);
+		
+		// 加载第一个频道的信息
+		if(dto.getChannelNames() != null && dto.getChannelNames().size() > 0) {
+			HTWorldChannelName cname = dto.getChannelNames().get(0);
+			Integer cid = cname.getId();
+			if(cid != null) {
+				OpChannel channel = channelDao.queryChannel(cid);
+				if(channel != null) {
+					List<OpChannel> channelList = new ArrayList<OpChannel>();
+					channelList.add(channel);
+					jsonMap.put(OptResult.JSON_KEY_CHANNELS, channelList);
+				}
+			}
+		}
+		
+		jsonMap.put(OptResult.JSON_KEY_HTWORLD, dto);
+	}
+
+	public void getWorldInteractByLink(String shortLink, Integer likedLimit, 
+			Map<String, Object> jsonMap) throws Exception{
+		HTWorldInteractDto dto = worldDao.queryHTWorldInteractByLink(shortLink);
+		if(dto == null) {
+			throw new HTSException("指定织图不存在");
+		}
+		
+		userInfoService.checksum(dto.getUserInfo());
+		worldService.extractExtraInfo(false, false, null, false, 0, likedLimit, dto);
+		userInfoService.extractVerify(dto);
+		
+		List<HTWorldLikedUser> likes = dto.getLikes();
+		if(likes != null && !likes.isEmpty()) {
+			userInfoService.checksum(likes);
+		}
 		
 		// 加载第一个频道的信息
 		if(dto.getChannelNames() != null && dto.getChannelNames().size() > 0) {

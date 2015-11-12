@@ -54,6 +54,7 @@ public class ZTWorldInteractAction extends BaseAction {
 	private String ids;
 	private String atIds;
 	private String atNames;
+	private String shortLink;
 	
 	@Autowired
 	private ZTWorldInteractService worldInteractService;
@@ -76,7 +77,7 @@ public class ZTWorldInteractAction extends BaseAction {
 	public String queryComments() {
 		try {
 			worldInteractService.buildComments(getCurrentLoginUserId(), 
-					worldId, sinceId, maxId, start, limit, jsonMap);
+					worldId, maxId, start, limit, jsonMap);
 			JSONUtil.optSuccess(jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
@@ -143,24 +144,6 @@ public class ZTWorldInteractAction extends BaseAction {
 		}
 		return StrutsKey.JSON;
 	}
-	
-//	/**
-//	 * 回复评论
-//	 * @return
-//	 */
-//	public String replyWithAt() {
-//		try {
-//			worldInteractService.saveReplyWithAt(im, worldId, worldAuthorId,
-//					getCurrentLoginUserId(), content, reId, reAuthorId, 
-//					atIds, atNames, jsonMap);
-//			JSONUtil.optSuccess(jsonMap);
-//		} catch(HTSException e) {
-//			JSONUtil.optFailed(e.getErrorCode(), e.getMessage(), jsonMap);
-//		} catch (Exception e) {
-//			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
-//		}
-//		return StrutsKey.JSON;
-//	}
 	
 	/**
 	 * 用户删除评论
@@ -382,6 +365,38 @@ public class ZTWorldInteractAction extends BaseAction {
 		}
 		return StrutsKey.JSON;
 	}
+	
+	/**
+	 * 查询织图信息
+	 * 
+	 * @return
+	 */
+	public String queryInteractByLink() {
+		try {
+			worldInteractService.getWorldInteractByLink(shortLink, likedLimit, jsonMap);
+			JSONUtil.optSuccess(jsonMap);
+		} catch(Exception e) {
+			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+		}
+		return StrutsKey.JSON;
+	}
+	
+	
+	/**
+	 * 分页查询织图评论
+	 * 
+	 * @return
+	 */
+	public String queryOpenComment() {
+		try {
+			worldInteractService.buildOpenComment(worldId, maxId, start, limit, jsonMap);
+			JSONUtil.optSuccess(jsonMap);
+		} catch (Exception e) {
+			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+		}
+		return StrutsKey.JSON;
+	}
+	
 	
 	/**
 	 * 查询织图位置信息
@@ -618,5 +633,14 @@ public class ZTWorldInteractAction extends BaseAction {
 	public void setAtNames(String atNames) {
 		this.atNames = atNames;
 	}
+
+	public String getShortLink() {
+		return shortLink;
+	}
+
+	public void setShortLink(String shortLink) {
+		this.shortLink = shortLink;
+	}
+	
 	
 }

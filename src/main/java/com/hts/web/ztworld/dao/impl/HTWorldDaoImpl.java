@@ -352,6 +352,10 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 			+ " from htworld_htworld as h0, user_info as u0"
 			+ " where h0.author_id=u0.id and h0.id=?";
 	
+	private static final String QUERY_WORLD_INTERACT_BY_LINK = "select h0.*," + U0_INFO 
+			+ " from htworld_htworld as h0, user_info as u0"
+			+ " where h0.author_id=u0.id and h0.short_link=?";
+	
 	/**
 	 * 根据用户id查询所有织图位置信息
 	 */
@@ -1015,6 +1019,19 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 			}
 			
 		}, new Object[]{worldId});
+	}
+	
+	@Override
+	public HTWorldInteractDto queryHTWorldInteractByLink(String shortLink) {
+		return queryForObjectWithNULL(QUERY_WORLD_INTERACT_BY_LINK, new RowMapper<HTWorldInteractDto>() {
+
+			@Override
+			public HTWorldInteractDto mapRow(ResultSet rs, int rowNum)
+					throws SQLException {
+				return buildHTWorldInteractDto(rs);
+			}
+			
+		}, shortLink);
 	}
 	
 	@Override

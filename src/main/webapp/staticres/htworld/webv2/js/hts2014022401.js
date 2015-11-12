@@ -18,7 +18,7 @@ var admin=false,
 	commentTotal = 0,
 	commentPage = 0,
 	commentPageStart = 1,
-	commentPageLimit = 10,
+	commentPageLimit = 20,
 	$commentScrollPanel,
 	
 	shareHead = 'http://s.share.baidu.com/?uid=6844316&searchPic=0&sign=off&type=text&title=织图-旅行故事&desc=', //分享头部
@@ -378,7 +378,7 @@ var ajax = {
 		$commentScrollPanel.hide();
 		$commentScrollPanel.children(".comment").remove(); // 移除所有评论
 		$("#loadin-comment-tip").show();
-		$.post('./ztworld/interact_queryComments', {
+		$.post('./ztworld/interact_queryOpenComment', {
 					'worldId':worldId,
 					'maxId':commentMaxId,
 					'start':commentPageStart,
@@ -393,7 +393,7 @@ var ajax = {
 				 },'json');
 	},
 	fetchMoreComment : function(worldId, page) {
-		$.post('./ztworld/interact_queryComments', {
+		$.post('./ztworld/interact_queryOpenComment', {
 			'worldId':worldId,
 			'maxId':commentMaxId,
 			'start':commentPageStart,

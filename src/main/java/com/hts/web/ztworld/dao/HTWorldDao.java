@@ -659,6 +659,13 @@ public interface HTWorldDao extends BaseDao {
 	 */
 	public List<HTWorldDto> queryLastNHtworldInfoByUserId(Integer userId,Integer n);
 	
+	/**
+	 * 根据短链查询织图和作者信息
+	 * 
+	 * @param shortLink
+	 * @return
+	 */
+	public HTWorldInteractDto queryHTWorldInteractByLink(String shortLink);
 }
 
 
