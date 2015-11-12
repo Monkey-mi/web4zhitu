@@ -169,6 +169,11 @@ public class HTS {
 	public static final String HTWORLD_COMMENT = DB + "htworld_comment";
 	
 	/**
+	 * 织图评论删除表
+	 */
+	public static final String HTWORLD_COMMENT_DELETE = DB + "htworld_comment_delete";
+	
+	/**
 	 * 织图评论举报表
 	 */
 	public static final String HTWORLD_COMMENT_REPORT = DB + "htworld_comment_report";
