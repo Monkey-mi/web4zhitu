@@ -78,6 +78,11 @@ public class CacheKeies {
 	public static final String ZTWORLD_COMMENT_BROADCAST = MODULE_ZTWORLD + "comment:broadcast";
 	
 	/**
+	 * 织图评论周表中在redis里的最大id
+	 */
+	public static final String ZTWORLD_COMMENT_WEEK_MAX_ID = MODULE_ZTWORLD + "comment:weekmaxid";
+	
+	/**
 	 * 运营模块
 	 */
 	private static final String MODULE_OP = "op:";
