@@ -82,7 +82,19 @@
 		</action>
 		
 		<!-- 进入汇图世界(新) -->
+		<!-- 
 		<action name="DT*" class="com.hts.web.ztworld.ZTWorldAction"
+			method="checkExists">
+			<result name="phone" type="dispatcher">/htworld/phonev3/index.jsp</result>
+			<result name="web" type="dispatcher">/htworld/phonev3/index.jsp</result>
+			<result name="error" type="redirect">/404</result>
+		</action>
+		 -->
+		<action name="DT*">
+			<result type="dispatcher">/htworld/phonev3/index.html</result>
+		</action>
+		
+		<action name="WD*" class="com.hts.web.ztworld.ZTWorldAction"
 			method="checkExists">
 			<result name="phone" type="dispatcher">/htworld/phonev2/index.jsp</result>
 			<result name="web" type="dispatcher">/htworld/webv2/index.jsp</result>
@@ -107,7 +119,7 @@
 		</action>
 		
 		<!-- 个人主页 -->
-		<action name="individualHomePage" class="com.hts.web.userinfo.UserInfoAction"
+		<action name="home" class="com.hts.web.userinfo.UserInfoAction"
 			method="getIndividualHomePage">
 			<result name="phone" type="dispatcher">/individual/phone/homepage.jsp</result>
 			<result name="error" type="redirect">/404</result>
