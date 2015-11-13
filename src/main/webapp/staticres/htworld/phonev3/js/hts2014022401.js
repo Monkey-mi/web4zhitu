@@ -23,7 +23,8 @@ var ui = {
 		return parseInt((winWidth-10*2-60)/30);
 	},
 	initWorld : function(result) {
-		var worldWidth, worldHeight, world, user, channel;
+		var winHeight, worldWidth, worldHeight, world, user, channel;
+		winHeight = $(window).height();
 		worldWidth = winWidth;
 		worldHeight = worldWidth;
 		world = result['htworld'];
@@ -33,6 +34,8 @@ var ui = {
 		 $('.zt-container:eq(0)').css({width:worldWidth + 'px', height:worldHeight + 'px'});
 		$('#world').css({height:worldHeight + 'px', width:worldWidth + 'px'});
 		$('.zt-title').children('img:eq(0)').attr('src', world['titlePath']);
+		$(".zt-desc, .zt-desc-show, .zt-desc-hide, .zt-desc-show, .zt-desc-hide")
+			.css({'margin-bottom':winHeight-54-worldHeight + 'px'});
 		
 		$('#main-box').show();
 		
@@ -86,7 +89,7 @@ var ui = {
 			height = worldHeight,
 			radiu = parseInt(25 * scale),
 			config = {w:width,h:height,r:radiu,s:scale};
-		ui.initChildWorld(config);
+		ui.initChildWorld(config, world['worldDesc']);
 		
 		return worldId;
 	},
@@ -168,12 +171,12 @@ var ui = {
 		
 		return 0;
 	},
-	initChildWorld : function(config) {
+	initChildWorld : function(config, desc) {
 		var worldSettings = {
 			adminKey			: config.key,
 			worldId 			: worldId, // 浏览的世界ID
 			ver					: 1,
-			//desc 				: desc,
+			desc 				: desc,
 			scale 				: config.s, // 缩放比例
 			width 				: config.w, // 显示框宽度
 			height 				: config.h, // 显示宽长度

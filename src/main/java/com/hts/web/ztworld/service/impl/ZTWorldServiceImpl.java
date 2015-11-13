@@ -114,7 +114,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 	/**
 	 * 织图世界访问前缀_DT
 	 */
-	public static final String WORLD_TAG_PREFIX_DT = "WD";
+	public static final String WORLD_TAG_PREFIX_DT = "DT";
 
 	/**
 	 * 手机页面标志
@@ -1267,7 +1267,6 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 	public HTWorldDto getHTWorldDtoFromURL(String requestURL, boolean isAdmin)
 			throws Exception {
 		String link = parseShortLinkOrIdFromURL(requestURL);
-		System.out.println("-----------------------" + link);
 		if (link != null) {
 			Integer worldId = 0;
 			try {

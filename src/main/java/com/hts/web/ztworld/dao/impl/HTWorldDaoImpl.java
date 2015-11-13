@@ -354,7 +354,7 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 	
 	private static final String QUERY_WORLD_INTERACT_BY_LINK = "select h0.*," + U0_INFO 
 			+ " from htworld_htworld as h0, user_info as u0"
-			+ " where h0.author_id=u0.id and h0.short_link=?";
+			+ " where h0.author_id=u0.id and h0.short_link=? and h0.valid=1";
 	
 	/**
 	 * 根据用户id查询所有织图位置信息

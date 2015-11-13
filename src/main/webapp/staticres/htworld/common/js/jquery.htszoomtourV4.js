@@ -345,7 +345,7 @@
 			}
 			var $descText = $desc.children(".zt-desc-text");
 				
-			if(desc == '' || desc == 'undefined') {
+			if(desc == settings.desc || desc == '' || desc == 'undefined') {
 				$desc.hide();
 				$showDesc.hide();
 				$hideDesc.hide();
