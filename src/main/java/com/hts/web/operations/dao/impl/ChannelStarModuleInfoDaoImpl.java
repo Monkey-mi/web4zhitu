@@ -16,11 +16,11 @@ public class ChannelStarModuleInfoDaoImpl  extends BaseDaoImpl implements Channe
 
 	private String QUERY_STARMODULEINFO_BY_TOPICID = "SELECT smi.title,smi.subtitle,smi.pics,smi.pic02,smi.pic03,smi.pic04,smi.intro,ui.user_avatar_l,smi.user_id,ui.user_name  "
 																									+ "FROM hts.operations_channel_topic_module smi , hts.user_info ui "
-																									+ "WHERE smi.user_id = ui.id and smi.topic_id = ?;";
+																									+ "WHERE smi.user_id = ui.id and smi.topic_id = ? order by smi.order_index asc;";
 	
 	private String QUERY_STARWORLDMODULEINFO_BY_TOPICID = "SELECT smi.title,smi.subtitle,smi.world_id,smi.intro,ui.user_avatar_l,smi.user_id,ui.user_name  "
 			+ "FROM hts.operations_channel_topic_world_module smi , hts.user_info ui "
-			+ "WHERE smi.user_id = ui.id and smi.topic_id = ?;";
+			+ "WHERE smi.user_id = ui.id and smi.topic_id = ? order by smi.order_index asc;";
 	
 	@Override
 	public List<OpStarModuleInfo> getOpStarModuleInfo(Integer topicId) {

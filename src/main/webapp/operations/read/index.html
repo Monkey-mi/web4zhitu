@@ -428,16 +428,16 @@ var pastTopicPicFoot = '"></a></div></div>';
 			 	for(var i = 0;i < result.starModuleInfos.length;i++){
 			 		userIds += result.starModuleInfos[i].userId + ",";
 			 		//一张图时的默认显示
-			 		 var tablePic = '<div class="userPic"><img  alt="" class="box-shadow" src="'+ result.starModuleInfos[i].pic +'"/></div>'; 
+			 		 var tablePic = '<div class="userPic"><a href="imzhitu://user?uid='+ result.starModuleInfos[i].userId +'"><img  alt="" class="box-shadow" src="'+ result.starModuleInfos[i].pic +'"/></a></div>'; 
 			 		 
 			 		 //判断对应几张图，并将其显示为对应的模式
-						if( result.starModuleInfos[i].pic04 != ""){
-							tablePic = '<table  align="center" border="0" cellspacing="4" class="table04"><tr class="tr24"><td width=50%><img  alt="" class="box-shadow" src="'+ result.starModuleInfos[i].pic +'"/></td><td width=50%><img  alt="" class="box-shadow" src="'+ result.starModuleInfos[i].pic02 +'"/></td></tr><tr><td><img  alt="" class="box-shadow" src="'+ result.starModuleInfos[i].pic03 +'"/></td><td><img  alt="" class="box-shadow" src="'+ result.starModuleInfos[i].pic04 +'"/></td></tr></table>'; 
-						}else if( result.starModuleInfos[i].pic03 != ""){
-							tablePic = '<table  align="center" border="0" class="table03" ><tr><td rowspan=2   class="td3"><img  alt=""  class="box-shadow" src="'+ result.starModuleInfos[i].pic +'"/></td><td><img  alt=""  class="box-shadow" src="'+ result.starModuleInfos[i].pic02 +'"/></td></tr><tr><td><img  alt=""  class="box-shadow" src="'+ result.starModuleInfos[i].pic03 +'"/></td></tr></table>'; 
-						}else if( result.starModuleInfos[i].pic02 != ""){
-							var tablePic = '<table  align="center" border="0" class="table02" ><tr  class="tr24"><td width=50%><img  alt="" class="box-shadow"  src="'+ result.starModuleInfos[i].pic +'"/></td><td width=50%><img  alt="" class="box-shadow"  src="'+ result.starModuleInfos[i].pic02 +'"/></td></tr></table>';
-						}
+					if( result.starModuleInfos[i].pic04 != ""){
+						tablePic = '<table  align="center" border="0" cellspacing="4" class="table04"><tr class="tr24"><td width=50%><a href="imzhitu://user?uid='+ result.starModuleInfos[i].userId +'"><img  alt="" class="box-shadow" src="'+ result.starModuleInfos[i].pic +'"/></a></td><td width=50%><a href="imzhitu://user?uid='+ result.starModuleInfos[i].userId +'"><img  alt="" class="box-shadow" src="'+ result.starModuleInfos[i].pic02 +'"/></a></td></tr><tr><td><a href="imzhitu://user?uid='+ result.starModuleInfos[i].userId +'"><img  alt="" class="box-shadow" src="'+ result.starModuleInfos[i].pic03 +'"/></td><td><img  alt="" class="box-shadow" src="'+ result.starModuleInfos[i].pic04 +'"/></a></td></tr></table>'; 
+					}else if( result.starModuleInfos[i].pic03 != ""){
+						tablePic = '<table  align="center" border="0" class="table03" ><tr><td rowspan=2   class="td3"><a href="imzhitu://user?uid='+ result.starModuleInfos[i].userId +'"><img  alt=""  class="box-shadow" src="'+ result.starModuleInfos[i].pic +'"/></a></td><td><a href="imzhitu://user?uid='+ result.starModuleInfos[i].userId +'"><img  alt=""  class="box-shadow" src="'+ result.starModuleInfos[i].pic02 +'"/></a></td></tr><tr><td><a href="imzhitu://user?uid='+ result.starModuleInfos[i].userId +'"><img  alt=""  class="box-shadow" src="'+ result.starModuleInfos[i].pic03 +'"/></a></td></tr></table>'; 
+					}else if( result.starModuleInfos[i].pic02 != ""){
+						var tablePic = '<table  align="center" border="0" class="table02" ><tr  class="tr24"><td width=50%><a href="imzhitu://user?uid='+ result.starModuleInfos[i].userId +'"><img  alt="" class="box-shadow"  src="'+ result.starModuleInfos[i].pic +'"/></a></td><td width=50%><a href="imzhitu://user?uid='+ result.starModuleInfos[i].userId +'"><img  alt="" class="box-shadow"  src="'+ result.starModuleInfos[i].pic02 +'"/></a></td></tr></table>';
+					}
 			 		 
 			 		 //小模块介绍
 			 		var intro2 = '<div  class="intro2">'+ result.starModuleInfos[i].intro2 +'</div></div>';
