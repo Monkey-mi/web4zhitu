@@ -74,12 +74,11 @@ var ui = {
 		if(world['worldDesc'] != '') {
 			$('#world-desc').text(world['worldDesc']).show();
 			document.title = world['worldDesc'];
-			$("meta[name=description]").attr('content', world['worldDesc']);
 		} else {
 			document.title = "分享来自" +user['userName'] + "的织图";
-			$("meta[name=description]").attr('content', "来织图，看年轻人的生活方式");
 			
 		}
+		$("#share-img").attr('src', world['titlePath']);
 		$('.like-count').text(world['likeCount']);
 		$('#comment-count').text(world['commentCount']);
 		if(ui.appendLikes(world['likes']) == 0)
@@ -130,6 +129,11 @@ var ui = {
 		
 		if(labelsStr == '' && channels == '')
 			return -1;
+		
+		//设置页面关键字
+		var pageKeywords = $("meta[name=keywords]").attr('content');
+		pageKeywords = labelsStr + pageKeywords;
+		$("meta[name=keywords]").attr('content', pageKeywords);
 		
 		$labelWrap = $("#labels");
 		labelArray = labelsStr.split(',');
@@ -210,12 +214,13 @@ var ui = {
 		$('.zt-container:eq(0)').htszoomtour(worldSettings);
 	},
 	appendComment : function(comments) {
-		var comment, author, $comment, $verifyIcon;
+		var comment, author, $comment, $verifyIcon, shareComment, shareCommentCount;
+		shareCommentCount = 0;
 		var $commentWrap = $("#comment-wrap");
 		var now = new Date();
 		
-		if(comments.length == 0) {
-			
+		if(comments == ''|| comments.length == 0) {
+			return -1;
 		}
 		
 		for(var i in comments) {
@@ -245,7 +250,23 @@ var ui = {
 				+ '</div>');
 			
 			$commentWrap.append($comment);
+			
+			if(maxCommentId == 0 && comment['reAuthorId'] == 0) {
+				if(shareCommentCount == 0) {
+					shareComment = "[评论]:" + comment['content'];
+				} else if(shareCommentCount <= 3) {
+					shareComment = shareComment + " || " + comment['content'];
+				}
+				++shareCommentCount;
+			}
 		}
+		
+		if(maxCommentId == 0) {
+			$commentWrap.show();
+			$("meta[name=description]").attr('content', shareComment);
+		}
+		
+		return 0;
 	},
 	showCommentLoading : function() {
 		$("#comment-fetch-loading").show();
@@ -322,9 +343,6 @@ var ajax = {
 				 var len = result['comments'].length;
 				 if(len > 0) {
 					 ui.appendComment(result['comments']);
-					 if(maxCommentId == 0) {
-						 $("#comment-wrap").show();
-					 }
 					 maxCommentId = result['comments'][len-1]['id']-1;
 					 if(len < 20 || maxCommentId <= 0)
 						 ui.hideCommentLoading(false);
