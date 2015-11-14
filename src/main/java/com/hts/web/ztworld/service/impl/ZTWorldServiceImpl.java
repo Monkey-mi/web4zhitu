@@ -369,8 +369,9 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 		// 保存织图标签
 		try {
 			if(!StringUtil.checkIsNULL(worldLabel)) {
+				worldLabel = worldLabel.trim();
 				String[] names = worldLabel.split(",");
-				StringUtil.trimStrArray(names); // 过滤每个标签的空格
+//				StringUtil.trimStrArray(names); // 过滤每个标签的空格
 				Set<String> nameSet = new LinkedHashSet<String>();
 				Map<String, HTWorldLabel> labelMap = worldLabelDao.queryLabelByNames(names);
 				for(String name : names) {

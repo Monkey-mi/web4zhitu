@@ -186,7 +186,7 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 				return 0l;
 			}
 
-			
+
 		}, OptResult.JSON_KEY_COMMENTS, null);
 	}
 	
@@ -1043,6 +1043,39 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 		}
 		worldService.extractExtraInfo(true, true, userId, trimExtras, commentLimit, likedLimit, dto);
 		userInfoService.extractVerify(dto);
+		
+		// 加载第一个频道的信息
+		if(dto.getChannelNames() != null && dto.getChannelNames().size() > 0) {
+			HTWorldChannelName cname = dto.getChannelNames().get(0);
+			Integer cid = cname.getId();
+			if(cid != null) {
+				OpChannel channel = channelDao.queryChannel(cid);
+				if(channel != null) {
+					List<OpChannel> channelList = new ArrayList<OpChannel>();
+					channelList.add(channel);
+					jsonMap.put(OptResult.JSON_KEY_CHANNELS, channelList);
+				}
+			}
+		}
+		
+		jsonMap.put(OptResult.JSON_KEY_HTWORLD, dto);
+	}
+
+	public void getWorldInteractByLink(String shortLink, Integer likedLimit, 
+			Map<String, Object> jsonMap) throws Exception{
+		HTWorldInteractDto dto = worldDao.queryHTWorldInteractByLink(shortLink);
+		if(dto == null) {
+			throw new HTSException("指定织图不存在");
+		}
+		
+		userInfoService.checksum(dto.getUserInfo());
+		worldService.extractExtraInfo(false, false, null, false, 0, likedLimit, dto);
+		userInfoService.extractVerify(dto);
+		
+		List<HTWorldLikedUser> likes = dto.getLikes();
+		if(likes != null && !likes.isEmpty()) {
+			userInfoService.checksum(likes);
+		}
 		
 		// 加载第一个频道的信息
 		if(dto.getChannelNames() != null && dto.getChannelNames().size() > 0) {

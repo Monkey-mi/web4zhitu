@@ -14,7 +14,7 @@ import org.apache.struts2.json.annotations.JSON;
  * @author ztj 2013-8-5 2015-11-04
  * 
  */
-public class HTWorldCommentDto implements Serializable, ObjectWithUserVerify, ObjectWithUserRemark {
+public class HTWorldCommentDto implements Serializable, ObjectWithUserVerify, ObjectWithUserRemark, ObjectWithChecksum {
 
 	/**
 	 * 
@@ -126,5 +126,23 @@ public class HTWorldCommentDto implements Serializable, ObjectWithUserVerify, Ob
 	public void setReAuthorId(Integer reAuthorId) {
 		this.reAuthorId = reAuthorId;
 	}
+
+
+	@Override
+	public void setChecksum(Integer checksum) {
+		this.userInfo.setChecksum(checksum);
+	}
+
+	@Override
+	public Integer getChecksumUID() {
+		return authorId;
+	}
+
+	@Override
+	public void rmChecksumUID() {
+		this.authorId = null;
+	}
+	
+	
 	
 }

@@ -36,6 +36,20 @@ public interface ZTWorldInteractService extends BaseService {
 			int start, int limit, Map<String, Object> jsonMap) throws Exception;
 
 	/**
+	 * 构建开放评论
+	 * 
+	 * @param worldId
+	 * @param maxId
+	 * @param start
+	 * @param limit
+	 * @param jsonMap
+	 * @throws Exception
+	 */
+	public void buildOpenComment(final Integer worldId, int maxId, 
+			int start, int limit, Map<String, Object> jsonMap) throws Exception;
+	
+	
+	/**
 	 * 保存织图评论
 	 * 
 	 * @param im
@@ -276,5 +290,16 @@ public interface ZTWorldInteractService extends BaseService {
 	 * @param content
 	 */
 	public String replaceAt2Reply(String content);
+	
+	/**
+	 * 根据短链查询织图和用户信息
+	 * 
+	 * @param shortLink
+	 * @param likedLimit
+	 * @param jsonMap
+	 * @throws Exception
+	 */
+	public void getWorldInteractByLink(String shortLink, Integer likedLimit, 
+			Map<String, Object> jsonMap) throws Exception;
 	
 }

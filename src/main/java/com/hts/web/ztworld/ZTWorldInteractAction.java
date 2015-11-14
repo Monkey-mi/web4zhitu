@@ -54,6 +54,7 @@ public class ZTWorldInteractAction extends BaseAction {
 	private String ids;
 	private String atIds;
 	private String atNames;
+	private String shortLink;
 	
 	@Autowired
 	private ZTWorldInteractService worldInteractService;
@@ -366,6 +367,38 @@ public class ZTWorldInteractAction extends BaseAction {
 	}
 	
 	/**
+	 * 查询织图信息
+	 * 
+	 * @return
+	 */
+	public String queryInteractByLink() {
+		try {
+			worldInteractService.getWorldInteractByLink(shortLink, likedLimit, jsonMap);
+			JSONUtil.optSuccess(jsonMap);
+		} catch(Exception e) {
+			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+		}
+		return StrutsKey.JSON;
+	}
+	
+	
+	/**
+	 * 分页查询织图评论
+	 * 
+	 * @return
+	 */
+	public String queryOpenComment() {
+		try {
+			worldInteractService.buildOpenComment(worldId, maxId, start, limit, jsonMap);
+			JSONUtil.optSuccess(jsonMap);
+		} catch (Exception e) {
+			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+		}
+		return StrutsKey.JSON;
+	}
+	
+	
+	/**
 	 * 查询织图位置信息
 	 * 
 	 * @return
@@ -600,5 +633,14 @@ public class ZTWorldInteractAction extends BaseAction {
 	public void setAtNames(String atNames) {
 		this.atNames = atNames;
 	}
+
+	public String getShortLink() {
+		return shortLink;
+	}
+
+	public void setShortLink(String shortLink) {
+		this.shortLink = shortLink;
+	}
+	
 	
 }
