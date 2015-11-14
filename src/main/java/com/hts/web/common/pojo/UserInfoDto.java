@@ -317,5 +317,10 @@ public class UserInfoDto implements Serializable, ObjectWithUserVerify, ObjectWi
 	public void setChecksum(Integer checksum) {
 		this.checksum = checksum;
 	}
+
+	@Override
+	public void rmChecksumUID() {
+		this.id = null;
+	}
 	
 }

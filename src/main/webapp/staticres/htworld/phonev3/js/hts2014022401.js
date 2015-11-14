@@ -1,11 +1,20 @@
 var worldId, winWidth;
 var maxCommentId = 0;
+var maxSuperbId = 0;
+var isSuperbloading = false;
 $(document).ready(function() {
 	winWidth = ui.getWinWidth();
 	var shortLink = ui.getShortLink();
 	var likeLimit = ui.getLikeLimit(winWidth);
 	ajax.fetchWorld(shortLink, likeLimit);
 	ajax.fetchSuperb();
+	
+	$(window).scroll(function () {
+	    if ($(document).scrollTop() + $(window).height() >= $(document).height()) {
+	    	ajax.fetchSuperb();
+	    }
+	});
+	
 });
 
 var ui = {
@@ -17,7 +26,7 @@ var ui = {
 		return str.substr(3);
 	},
 	getWinWidth : function() {
-		return $(window).width();
+		return $(window).outerWidth();
 	},
 	getLikeLimit : function(winWidth) {
 		return parseInt((winWidth-10*2-60)/30);
@@ -157,7 +166,7 @@ var ui = {
 			return -1;
 		}
 		
-		var superbSize = parseInt((winWidth - 2*4 - 2*10) / 3);
+		var superbSize = parseInt((winWidth - 2*4 - 2*5 - 2*3) / 3);
 		var $superbWrap = $("#superbs");
 		var $superb;
 		for(var i in superbs) {
@@ -167,7 +176,9 @@ var ui = {
 			$superbWrap.append($superb);
 		}
 		
-		$("#superb-wrap").show();
+		if(maxSuperbId == 0) {
+			$("#superb-wrap").show();
+		}
 		
 		return 0;
 	},
@@ -248,6 +259,12 @@ var ui = {
 		}
 		$("#comment-fetch-loading").hide();
 	},
+	showSuperbLoading : function() {
+		$("#superb-fetch-loading-wrap").show();
+	},
+	hideSuperbLoading : function() {
+		$("#superb-fetch-loading-wrap").hide();
+	},
 	gohome : function(checksum) {
 		window.location.href = "/home?s=" + checksum;
 	},
@@ -309,9 +326,10 @@ var ajax = {
 						 $("#comment-wrap").show();
 					 }
 					 maxCommentId = result['comments'][len-1]['id']-1;
-					 if(maxCommentId <= 0)
+					 if(len < 20 || maxCommentId <= 0)
 						 ui.hideCommentLoading(false);
-					 ui.hideCommentLoading(true);
+					 else
+						 ui.hideCommentLoading(true);
 				 } else {
 					 ui.hideCommentLoading(false);
 				 }
@@ -321,18 +339,34 @@ var ajax = {
 		 },'json');
 	},
 	fetchSuperb : function() {
+		if(isSuperbloading)
+			return;
+		
+		isSuperbloading = true;
+		ui.showSuperbLoading();
 		$.post('/operations/ztworld_querySuperbTypeSquareListV2', {
+			'maxId':maxSuperbId,
 			'typeId':0,
 			'trimConcernId':'true',
 			'commentLimit':0,
 			'likedLimit':0,
-			'completeLimit':12,
-			'limit':12
+			'completeLimit':24,
+			'limit':24
 		 },function(result) {
 			 if(result['result'] == 0) {
-				 ui.appendSuperb(result['htworld']);
-			 } else {
+				 var len = result['htworld'].length;
+				 if(len > 0) {
+					 ui.appendSuperb(result['htworld']);
+					 maxSuperbId = result['htworld'][len-1]['recommendId']-1;
+					 if(maxSuperbId <= 0) { // 已经没有数据了，不允许再次加载
+						 ui.hideSuperbLoading();
+						 isSuperbloading = true;
+						 return;
+					 }
+				 }
 			 }
+			 ui.hideSuperbLoading();
+			 isSuperbloading = false;
 		 },'json');
 	},
 };

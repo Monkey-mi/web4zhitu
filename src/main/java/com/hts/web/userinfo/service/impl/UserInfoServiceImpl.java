@@ -1032,6 +1032,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 	@Override
 	public void checksum(ObjectWithChecksum obj) {
 		obj.setChecksum(UserInfoUtil.encode(obj.getChecksumUID()));
+		obj.rmChecksumUID();
 	}
 
 	@Override

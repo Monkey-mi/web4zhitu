@@ -155,5 +155,10 @@ public class HTWorldLikedUser implements Serializable, ObjectWithUserVerify,
 		return userId;
 	}
 
+	@Override
+	public void rmChecksumUID() {
+		this.userId = null;
+	}
+
 	
 }

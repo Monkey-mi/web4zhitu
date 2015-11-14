@@ -268,6 +268,16 @@ public class CacheKeies {
 	 * 达人推荐
 	 */
 	public static final String OP_STAR_RECOMMEND = "starRecommend";
+	
+	/**
+	 * 微信AccessToken
+	 */
+	public static final String OP_WECHAT_TOKEN = MODULE_OP + "wechat:token";
+	
+	/**
+	 * 微信Ticket
+	 */
+	public static final String OP_WECHAT_TICKET = MODULE_OP + "wechat:ticket";
 
 	
 	/**
@@ -279,6 +289,5 @@ public class CacheKeies {
 	 * 用户注册数据统计
 	 */
 	public static final String STAT_USER_REGISTER = MODULE_STAT + "userRegister";
-	
 	
 }

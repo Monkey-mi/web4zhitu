@@ -416,6 +416,8 @@ html,body {
 #superbs {
 	padding:5px;
 	text-align: center;
+	margin-left:2px;
+	text-align:center;
 }
 .superb {
 	margin:2px 2px 2px 2px;
@@ -423,6 +425,21 @@ html,body {
 }
 .superb img {
 	border: none;
+}
+
+#superb-fetch-loading-wrap {
+	text-align: center;
+	height:24px;
+	margin-bottom:20px;
+}
+
+#superb-fetch-loading {
+	left:50%;
+	margin-left:-8px;
+	display: inline-block;
+	position: absolute;
+	left:50%;
+	margin-top:12px;
 }
 
 .zt-loading {

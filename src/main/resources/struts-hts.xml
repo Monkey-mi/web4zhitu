@@ -82,21 +82,9 @@
 		</action>
 		
 		<!-- 进入汇图世界(新) -->
-		<!-- 
 		<action name="DT*" class="com.hts.web.ztworld.ZTWorldAction"
 			method="checkExists">
-			<result name="phone" type="dispatcher">/htworld/phonev3/index.jsp</result>
-			<result name="web" type="dispatcher">/htworld/phonev3/index.jsp</result>
-			<result name="error" type="redirect">/404</result>
-		</action>
-		 -->
-		<action name="DT*">
-			<result type="dispatcher">/htworld/phonev3/index.html</result>
-		</action>
-		
-		<action name="WD*" class="com.hts.web.ztworld.ZTWorldAction"
-			method="checkExists">
-			<result name="phone" type="dispatcher">/htworld/phonev2/index.jsp</result>
+			<result name="phone" type="dispatcher">/htworld/webv2/index.jsp</result>
 			<result name="web" type="dispatcher">/htworld/webv2/index.jsp</result>
 			<result name="error" type="redirect">/404</result>
 		</action>
@@ -133,4 +121,5 @@
 	<include file="struts-hts-operations.xml" />
 	<include file="struts-hts-security.xml" />
 	<include file="struts-hts-qiniu.xml" />
+	<include file="struts-hts-wechat.xml" />
 </struts>

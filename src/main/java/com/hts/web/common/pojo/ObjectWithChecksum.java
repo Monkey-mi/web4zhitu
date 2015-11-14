@@ -16,6 +16,11 @@ public interface ObjectWithChecksum {
 	public Integer getChecksumUID();
 	
 	/**
+	 * 删除用户id
+	 */
+	public void rmChecksumUID();
+	
+	/**
 	 * UID加密
 	 * 
 	 * @param uid

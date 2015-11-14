@@ -62,6 +62,8 @@
 		<intercept-url pattern="/ztworld/label_queryHotLabel" access="permitAll" />
 		<intercept-url pattern="/ztworld/**" access="hasRole('ROLE_USER')" />
 		
+		<intercept-url pattern="/wechat/signature" access="permitAll" />
+		
 		<remember-me key="imzhituStore" services-ref="loginService" />
 		<logout logout-url="/user/user_logout" logout-success-url="/security/logoutSuccess" delete-cookies="JSESSIONID"/>
 		<form-login login-page="/403" />

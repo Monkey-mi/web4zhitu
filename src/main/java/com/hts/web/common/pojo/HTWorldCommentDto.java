@@ -167,5 +167,12 @@ public class HTWorldCommentDto implements Serializable, ObjectWithUserVerify, Ob
 	public Integer getChecksumUID() {
 		return authorId;
 	}
+
+	@Override
+	public void rmChecksumUID() {
+		this.authorId = null;
+	}
+	
+	
 	
 }
