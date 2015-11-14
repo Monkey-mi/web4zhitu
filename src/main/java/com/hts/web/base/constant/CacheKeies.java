@@ -78,6 +78,11 @@ public class CacheKeies {
 	public static final String ZTWORLD_COMMENT_BROADCAST = MODULE_ZTWORLD + "comment:broadcast";
 	
 	/**
+	 * 织图评论周表中在redis里的最大id
+	 */
+	public static final String ZTWORLD_COMMENT_WEEK_MAX_ID = MODULE_ZTWORLD + "comment:weekmaxid";
+	
+	/**
 	 * 运营模块
 	 */
 	private static final String MODULE_OP = "op:";
@@ -263,6 +268,16 @@ public class CacheKeies {
 	 * 达人推荐
 	 */
 	public static final String OP_STAR_RECOMMEND = "starRecommend";
+	
+	/**
+	 * 微信AccessToken
+	 */
+	public static final String OP_WECHAT_TOKEN = MODULE_OP + "wechat:token";
+	
+	/**
+	 * 微信Ticket
+	 */
+	public static final String OP_WECHAT_TICKET = MODULE_OP + "wechat:ticket";
 
 	
 	/**
@@ -274,6 +289,5 @@ public class CacheKeies {
 	 * 用户注册数据统计
 	 */
 	public static final String STAT_USER_REGISTER = MODULE_STAT + "userRegister";
-	
 	
 }

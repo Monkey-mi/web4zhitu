@@ -104,7 +104,7 @@
 		winWidth  = winWidth > maxWidth ? maxWidth : winWidth;
 	var scale = winWidth / maxWidth;
 	var inapp = 0;	
-	var prefix = "www.imzhitu.com/DT";
+	var prefix = "/DT";
 	$(function(){
 		
 		inapp = callAppInit();

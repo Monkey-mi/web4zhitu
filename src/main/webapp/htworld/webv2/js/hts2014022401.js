@@ -375,7 +375,7 @@ var ajax = {
 		$commentScrollPanel.hide();
 		$commentScrollPanel.children(".comment").remove(); // 移除所有评论
 		$("#loadin-comment-tip").show();
-		$.post('./ztworld/interact_queryComments', {
+		$.post('./ztworld/interact_queryOpenComment', {
 					'worldId':worldId,
 					'maxId':commentMaxId,
 					'start':commentPageStart,
@@ -390,7 +390,7 @@ var ajax = {
 				 },'json');
 	},
 	fetchMoreComment : function(worldId, page) {
-		$.post('./ztworld/interact_queryComments', {
+		$.post('./ztworld/interact_queryOpenComment', {
 			'worldId':worldId,
 			'maxId':commentMaxId,
 			'start':commentPageStart,

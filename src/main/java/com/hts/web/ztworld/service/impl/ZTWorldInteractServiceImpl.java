@@ -31,6 +31,7 @@ import com.hts.web.common.pojo.HTWorldGeo;
 import com.hts.web.common.pojo.HTWorldInteractDto;
 import com.hts.web.common.pojo.HTWorldKeep;
 import com.hts.web.common.pojo.HTWorldLiked;
+import com.hts.web.common.pojo.HTWorldLikedInline;
 import com.hts.web.common.pojo.HTWorldLikedUserDto;
 import com.hts.web.common.pojo.HTWorldReport;
 import com.hts.web.common.pojo.MsgComment;
@@ -42,7 +43,6 @@ import com.hts.web.common.pojo.UserPushInfo;
 import com.hts.web.common.service.KeyGenService;
 import com.hts.web.common.service.impl.BaseServiceImpl;
 import com.hts.web.common.service.impl.KeyGenServiceImpl;
-import com.hts.web.common.util.Log;
 import com.hts.web.common.util.StringUtil;
 import com.hts.web.common.util.UserInfoUtil;
 import com.hts.web.operations.dao.ChannelDao;
@@ -160,8 +160,7 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 	@Override
 	public void buildComments(final Integer userId, final Integer worldId, int maxId, 
 			int start, int limit, Map<String, Object> jsonMap) throws Exception {
-		buildSerializables(maxId, start, limit, jsonMap, 
-				new SerializableListAdapter<HTWorldCommentDto>(){
+		buildSerializables(maxId, start, limit, jsonMap, new SerializableListAdapter<HTWorldCommentDto>(){
 
 			@Override
 			public List<HTWorldCommentDto> getSerializables(
@@ -186,8 +185,38 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 				return 0l;
 			}
 
+		}, OptResult.JSON_KEY_COMMENTS, OptResult.JSON_KEY_TOTAL_COUNT);
+	}
+	
+	@Override
+	public void buildOpenComment(final Integer worldId, int maxId, 
+			int start, int limit, Map<String, Object> jsonMap) throws Exception {
+		buildSerializables(maxId, start, limit, jsonMap, new SerializableListAdapter<HTWorldCommentDto>(){
 
-		}, OptResult.JSON_KEY_COMMENTS, null);
+			@Override
+			public List<HTWorldCommentDto> getSerializables(
+					RowSelection rowSelection) {
+				List<HTWorldCommentDto> list = worldCommentDao.queryComment(worldId, rowSelection);
+				userInfoService.extractVerify(list);
+				userInfoService.checksum(list);
+				return list;
+			}
+
+			@Override
+			public List<HTWorldCommentDto> getSerializableByMaxId(int maxId,
+					RowSelection rowSelection) {
+				List<HTWorldCommentDto> list = worldCommentDao.queryCommentByMaxId(worldId, maxId, rowSelection);
+				userInfoService.extractVerify(list);
+				userInfoService.checksum(list);
+				return list;
+			}
+
+			@Override
+			public long getTotalByMaxId(int maxId) {
+				return 0l;
+			}
+
+		}, OptResult.JSON_KEY_COMMENTS, OptResult.JSON_KEY_TOTAL_COUNT);
 	}
 	
 	
@@ -1065,14 +1094,14 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 			Map<String, Object> jsonMap) throws Exception{
 		HTWorldInteractDto dto = worldDao.queryHTWorldInteractByLink(shortLink);
 		if(dto == null) {
-			throw new HTSException("指定织图不存在");
+			throw new HTSException(HTSErrorCode.INVALID_WORLD);
 		}
 		
 		userInfoService.checksum(dto.getUserInfo());
 		worldService.extractExtraInfo(false, false, null, false, 0, likedLimit, dto);
 		userInfoService.extractVerify(dto);
 		
-		List<HTWorldLikedUser> likes = dto.getLikes();
+		List<HTWorldLikedInline> likes = dto.getLikes();
 		if(likes != null && !likes.isEmpty()) {
 			userInfoService.checksum(likes);
 		}

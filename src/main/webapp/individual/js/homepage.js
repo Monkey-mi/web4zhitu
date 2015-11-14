@@ -85,16 +85,16 @@ function initLayout(scale){
 		}
 		
 		var address = $("#user-info-address").text();
-		if(address.length > 8){
+		if(address.length > 7){
 			var p = address.indexOf("：");
-			address = address.substr(p+1,address.length - p > 8 ? 8 : address.length - p);
+			address = address.substr(p+1,address.length - p > 7 ? 7 : address.length - p);
 			$("#user-info-address").text(address);
 		}
 		
 		var job = $("#user-info-job").text();
-		if(job.length > 5){
+		if(job.length > 4){
 			var p = job.indexOf("：");
-			job = job.substr(p+1,job.length - p > 8 ? 8 : job.length - p);
+			job = job.substr(p+1,job.length - p > 5 ? 5 : job.length - p);
 			$("#user-info-job").text(job);
 		}
 		

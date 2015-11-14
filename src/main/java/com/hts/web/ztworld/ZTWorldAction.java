@@ -436,15 +436,6 @@ public class ZTWorldAction extends BaseAction {
 	}
 	
 	/**
-	 * 分页查询指定用户喜欢的织图
-	 * 
-	 * @return
-	 */
-	public String queryLikedWorld() {
-		return StrutsKey.JSON;
-	}
-	
-	/**
 	 * 分页查询指定用户的织图
 	 * 
 	 * @return

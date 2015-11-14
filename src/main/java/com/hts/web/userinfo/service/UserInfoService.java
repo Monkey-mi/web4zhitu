@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.hts.web.base.HTSException;
+import com.hts.web.common.pojo.ObjectWithChecksum;
 import com.hts.web.common.pojo.ObjectWithUserVerify;
 import com.hts.web.common.pojo.ObjectWithUserVerifyDesc;
 import com.hts.web.common.pojo.UserInfo;
@@ -463,4 +464,17 @@ public interface UserInfoService extends BaseService {
 	public void buildUserAvatarLite(Integer id, 
 			Map<String, Object> jsonMap) throws Exception;
 
+	/**
+	 * UID加密
+	 * 
+	 * @param obj
+	 */
+	public void checksum(ObjectWithChecksum obj);
+	
+	/**
+	 * UID批量加密
+	 * 
+	 * @param objs
+	 */
+	public void checksum(List<? extends ObjectWithChecksum> objs);
 }

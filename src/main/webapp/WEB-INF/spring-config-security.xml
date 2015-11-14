@@ -42,6 +42,7 @@
 		<intercept-url pattern="/user/rpwd_error" access="permitAll" />
 		<intercept-url pattern="/user/**" access="hasRole('ROLE_USER')" />
 		
+		<intercept-url pattern="/ztworld/interact_queryInteractByLink" access="permitAll" />
 		<intercept-url pattern="/ztworld/ztworld_getLastNWorldByUserId" access="permitAll" />
 		<intercept-url pattern="/ztworld/ztworld_queryWorld" access="permitAll" />
 		<intercept-url pattern="/ztworld/ztworld_htszoomtour" access="permitAll" />
@@ -51,7 +52,7 @@
 		<intercept-url pattern="/ztworld/ztworld_queryChildWorldPage" access="permitAll" />
 		<intercept-url pattern="/ztworld/ztworld_queryUserRandomWorld" access="permitAll" />
 		<intercept-url pattern="/ztworld/ztworld_searchWorld" access="permitAll" />
-		<intercept-url pattern="/ztworld/interact_queryComments" access="permitAll" />
+		<intercept-url pattern="/ztworld/interact_queryOpenComment" access="permitAll" />
 		<intercept-url pattern="/ztworld/interact_likeDirect" access="permitAll" />
 		<intercept-url pattern="/ztworld/interact_likeDirect4Phone" access="permitAll" />
 		<intercept-url pattern="/ztworld/interact_addClickCount" access="permitAll" />
@@ -60,6 +61,8 @@
 		<intercept-url pattern="/ztworld/sticker_queryStickerById" access="permitAll" />
 		<intercept-url pattern="/ztworld/label_queryHotLabel" access="permitAll" />
 		<intercept-url pattern="/ztworld/**" access="hasRole('ROLE_USER')" />
+		
+		<intercept-url pattern="/wechat/signature" access="permitAll" />
 		
 		<remember-me key="imzhituStore" services-ref="loginService" />
 		<logout logout-url="/user/user_logout" logout-success-url="/security/logoutSuccess" delete-cookies="JSESSIONID"/>
