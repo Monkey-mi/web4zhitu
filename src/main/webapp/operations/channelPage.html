@@ -201,9 +201,7 @@ font-size:10px;
 </style>
 </head>
 <body>
-<div id='wx_pic' style="display:none;">
-	<img src='http://static.imzhitu.com/op/channel/1442834798000.jpg' />
-</div>
+<div id='wx_pic' style="display:none;"></div>
 
 <div id="main">
 
@@ -363,8 +361,7 @@ font-size:10px;
 			 
 			 //设置标题
 	 		$("title").text(channelName);
-			 
-	 			$("#activityLoading").append('<img style="display:none" alt="" src=" ' + banner + ' " />');
+			 	$("#wx_pic").append("<img src='" + banner + "' />");
 				$("#activityLoading").append('<div id="concernDataShow"  class="concernDataShow" ><span style="color:#ffab08">' + changeNumber(memberCount) + '</span>人已关注</div>');
 				$("#activityLoading").append('<div id="header"><img alt="" src=" ' + banner + ' " /> </div>');
 				$("#activityLoading").append('<div id="channelIntro"  class="channelIntro" >' + channelDesc + '</div>');
