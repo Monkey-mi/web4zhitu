@@ -18,6 +18,7 @@ import com.hts.web.base.constant.Tag;
 import com.hts.web.common.BaseAction;
 import com.hts.web.common.pojo.HTWorld;
 import com.hts.web.common.pojo.HTWorldDto;
+import com.hts.web.common.pojo.HTWorldThumbDto;
 import com.hts.web.common.util.JSONUtil;
 import com.hts.web.common.util.StringUtil;
 import com.hts.web.common.util.UserInfoUtil;
@@ -107,16 +108,34 @@ public class ZTWorldAction extends BaseAction {
 	private UserOperationsService userOptService;
 
 	
+	/**
+	 * 查询置顶用户最新织图缩略图,只查询图片,不查询用户信息
+	 * 
+	 * @return
+	 * @author lynch 2015-11-16
+	 */
+	public String queryUserLastNThumb() {
+		try {
+			List<HTWorldThumbDto> list = 
+					worldService.queryLastNHtworldInfoByUserId(userId, limit);
+			JSONUtil.optResult(OptResult.OPT_SUCCESS, list, 
+					OptResult.JSON_KEY_HTWORLD, jsonMap);
+		} catch (Exception e) {
+			JSONUtil.optFailed(e.getMessage(), jsonMap);
+		}
+		return StrutsKey.JSON;
+	}
+	
 	public String getLastNWorldByUserId(){
 		
 		try{
 			String strId = request.getParameter("s");
 			int iId = Integer.parseInt(strId);
 			int userId = UserInfoUtil.decode(iId);
-			List<HTWorldDto> worldList = worldService.queryLastNHtworldInfoByUserId(userId, 9);
+			List<HTWorldThumbDto> worldList = worldService.queryLastNHtworldInfoByUserId(userId, 9);
 			List<String>titlePathList = new ArrayList<String>();
 			List<String>shortLinkList = new ArrayList<String>();
-			for(HTWorldDto dto:worldList){
+			for(HTWorldThumbDto dto:worldList){
 				titlePathList.add(dto.getTitleThumbPath());
 				shortLinkList.add(dto.getShortLink());
 			}

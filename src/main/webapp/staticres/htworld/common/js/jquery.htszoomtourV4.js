@@ -490,6 +490,8 @@
 			// 显示第一个
 			$ztitems.first().show();
 			$ztcontainer.data('viewedList').push($ztitems.first().data('id'));
+			hts.appendGuide($ztcontainer);
+			
 		},
 		
 		/**
@@ -536,9 +538,9 @@
 				desc = childInfo['childWorldDesc'];
 			
 			// 如果第一页没有描述，就赋值织图描述
-			if(childIndex == 0 && (desc == '' || desc == undefined || desc == 'undefined')) {
-				desc = $ztcontainer.data('desc');
-			}
+			//if(childIndex == 0 && (desc == '' || desc == undefined || desc == 'undefined')) {
+			//	desc = $ztcontainer.data('desc');
+			//}
 			
 			if(childW >= childH) {
 				childH = childH * (containerW / childW);
@@ -571,6 +573,13 @@
 					tagPos = this.getPosistion(thumb['coordinatex'],thumb['coordinatey'], settings.radius),
 					coorx = tagPos.x + '%',
 					coory = tagPos.y + '%';
+				
+				if(childIndex == 0 && !cache.guide.hasGuide) { // 第一页并且有圆圈缩略图,设置引导标记位haseGuide=1
+					cache.guide.x = coorx;
+					cache.guide.y = coory;
+					cache.guide.hasGuide = 1;
+				}
+				
 				var $thumb = $('<div class="zt-tag" data-toid=' + thumb['toId'] + '  data-link="zt-item-' + thumb['toId'] +'"></div>'),
 					$thumbImg = $('<img class="zt-tag-img" src="' + thumb['thumbPath'] + '"/>'),
 					$border;
@@ -707,7 +716,74 @@
 	        	arrow.css({"-webkit-transform":"rotate(" + angle+ "deg)", "-moz-transform":"rotate(" + angle + "deg)", "transform":"rotate(" + angle + "deg)"});
 	    		thumb.append(arrow);
 			}
-		}
+		},
+		appendGuide : function($ztcontainer) {
+			
+			if(!cache.guide.hasGuide || hts.isGuideFinished())
+				return;
+			
+			var $clickUp, $clickDown;
+			$clickUp = $("<img id='zt-guide-click-up' class='zt-guide' src='/staticres/htworld/common/images/click-up.png' />");
+			$clickDown = $("<img id='zt-guide-click-down' class='zt-guide' src='/staticres/htworld/common/images/click-down.png' />");
+			$clickUp.css({'left':cache.guide.x, 'top':cache.guide.y});
+			$clickDown.css({'left':cache.guide.x, 'top':cache.guide.y});
+			$ztcontainer.append($clickUp).append($clickDown);
+			setTimeout(function() {
+				hts.showGuildClickUp();
+			}, 1000);
+		},
+		isGuideFinished : function() {
+			var guideCount = hts.getCookie("htszoomtourguide");
+			
+			if(guideCount == null) {
+				hts.setCookie("htszoomtourguide", 1);
+			} else if(parseInt(guideCount) < 5) {
+				hts.setCookie("htszoomtourguide", ++guideCount);
+			} else {
+				return true;
+			}
+			return false;
+		},
+		showGuildClickUp : function() {
+			$("#zt-guide-click-up").show();
+			setTimeout(function() {
+				$("#zt-guide-click-up").remove();
+				hts.showGuildClickDown();
+			}, 2000);
+		},
+		
+		showGuildClickDown : function() {
+			$("#zt-guide-click-down").show();
+			setTimeout(function() {
+				$("#zt-guide-click-down").remove();
+			}, 1500);
+		},
+		
+		/**
+		 * 设置cookie,默认过期时间为1天
+		 */
+		setCookie : function(name,value) {
+		    var exp = new Date(); 
+		    exp.setTime(exp.getTime() + 1*24*60*60*1000); 
+		    document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString(); 
+		},
+		
+		/**
+		 * 获取cookie
+		 * @param name
+		 * @returns
+		 */
+		getCookie : function(name) {
+			var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+		    if(arr=document.cookie.match(reg))
+		        return unescape(arr[2]); 
+		    else 
+		        return null; 
+		},
+		
+		checkCookieEnable : function() {
+			return navigator.cookieEnabled;
+		},
 		
 	},
 	
@@ -798,8 +874,9 @@
 								ie9		 : ($.browser.msie && parseInt($.browser.version) == 9),
 								webkit	 : $.browser.webkit,
 								tagdim	 : {x : (settings.radius * 100) / settings.width, y : (settings.radius * 100) / settings.height},
+								guide	 : {x : 0, y : 0, hasGuide : 0},
 								// 如果正在动画则设置为true
-								animTour : false
+								animTour : false,
 							};
 					}
 					//初始化页面数据
