@@ -84,7 +84,7 @@ function initLayout(s,scale){
 		});
 		
 		$("#user-data").css({
-			"height"		: "36px",
+			"height"		: "40px",
 			"margin"		: "auto",
 			"margin-top"	: 8 + "px",
 			"border-bottom"	: "1px #d7dce0 solid",
@@ -106,7 +106,7 @@ function initLayout(s,scale){
 			"font-size"		: 15 + "px",
 			"color"			: "#62707d",
 			"font-family"	: "微软雅黑",
-			"margin-top"	: "1px",
+			"margin-top"	: "4px",
 			"line-height"	: "20px"
 		});
 		
@@ -132,7 +132,7 @@ function initLayout(s,scale){
 		});
 		
 		$("#concernCount").css({
-			"margin-top"	: "4px",
+			"margin-top"	: "6px",
 			"line-height"   : "14px"
 		});
 		$("#span-user-data-desc").css({
