@@ -9,48 +9,48 @@ function initLayout(s,scale){
 
 		
 		$(".avatar-radius").css({
-			"-moz-border-radius"	:75 * scale +"px",
-			"-webkit-border-radius"	:75 * scale +"px"	
+			"-moz-border-radius"	:34 +"px",
+			"-webkit-border-radius"	:34 +"px"	
 		});
 		
 		$("#head").css({
 			"width"		: "100%",
-			"height"	: 180 * scale + "px",
+			"height"	: 83 + "px",
 			"font-family"		: "微软雅黑"
 		});
 		$("#user-info-avatar").css({
-			"width"		: 180 * scale + "px",
-			"height"	: 180 * scale + "px",
+			"width"		: 83 + "px",
+			"height"	: 83 + "px",
 			"position"	: "relative",
 			"display"	: "inline-block",
 			"margin"	: "0 auto"
 		});
 		$("#head-user-info").css({
-			"width"		: 460 * scale + "px",
-			"height"	: 160 * scale + "px",
+			"width"		: (winWidth - 83) + "px",
+			"height"	: 73 + "px",
 			"overflow"	: "hidden"
 		});
 		$("#user-avatar").css({
-			"width"		: 150 * scale + "px",
-			"height"	: 150 * scale + "px",
-			"left"		: 20 * scale + "px",
-			"top"		: 20 * scale + "px",
+			"width"		: 67 + "px",
+			"height"	: 67 + "px",
+			"left"		: 10 + "px",
+			"top"		: 10 + "px",
 			"z-index"	: "1",
 			"position"	: "absolute"
 		});
 		
 		$("#user-avatar-mask").css({
-			"width"		: 152 * scale + "px",
-			"height"	: 152 * scale + "px",
-			"left"		: 20 * scale + "px",
-			"top"		: 20 * scale + "px",
+			"width"		: 68 + "px",
+			"height"	: 68 + "px",
+			"left"		: 10 + "px",
+			"top"		: 10 + "px",
 			"z-index"	: "999",
 			"position"	: "absolute"
 		});
 		
 		$(".avatar-radius").css({
-			"-moz-border-radius"	: 75 * scale + "px",
-			"-webkit-border-radius"	: 75 * scale + "px"	
+			"-moz-border-radius"	: 34 + "px",
+			"-webkit-border-radius"	: 34 + "px"	
 		});
 		
 		
@@ -58,69 +58,73 @@ function initLayout(s,scale){
 		
 		
 		$("#user-info-concern-btn").css({
-			"width" 			: 430 * scale + "px",
-			"height"			: 48 * scale + "px",
-			"line-height"		: 48 * scale + "px",
+			"width" 			: (winWidth - 93) + "px",
+			"height"			: 19 + "px",
+			"line-height"		: 20 + "px",
 			"display"			: "block",
 			"background-color"	: "#6abfde", 
 			"text-align"		: "center",
 			"border"			: "1px #5caac7 solid",
 			"color"				: "#ffffff",
-			"font-size"			: 26 * scale + "px",
+			"font-size"			: 11 + "px",
 			"font-family"		: "微软雅黑",
-			"-moz-border-radius"	: 24 * scale + "px",
-			"-webkit-border-radius"	: 24 * scale + "px",
+			"-moz-border-radius"	: 10 + "px",
+			"-webkit-border-radius"	: 10 + "px",
 			"cursor"			: "pointer"	
 		});
 		
 		$("#user-info-signature").css({
-			"padding-left" 		: 24 * scale + "px",
+			"padding-left" 		: 12 + "px",
 			"text-align"  		: "left",
 			"display"			: "block",
-			"font-size"			: 24 * scale + "px",
+			"font-size"			: 11 + "px",
 			"color"				: "#62707d",
-			"margin-top"		: 10 * scale + "px"
+			"margin-top"		: 5 + "px"
 		});
 		
 		$("#user-data").css({
+			"height"		: "32px",
 			"margin"		: "auto",
-			"margin-top"	: 20 * scale + "px",
+			"margin-top"	: 8 + "px",
 			"border-bottom"	: "1px #d7dce0 solid",
-			"border-top"	: "1px solid #d7dce0"
+			"border-top"	: "1px solid #d7dce0",
+			"font-size"		: "0"
 		});
 		
 		
 		
 		$(".span-user-data-desc").css({
-			"font-size"		: 22 * scale + "px",
+			"font-size"		: 10 + "px",
 			"color"			: "#b6bec6",
-			"font-family"	: "微软雅黑"
+			"font-family"	: "微软雅黑",
+			"margin-bottom"	: "1px",
+			"line-height"	: "14px"
 		});
 		
 		$(".span-user-data").css({
-			"font-size"		: 30 * scale + "px",
+			"font-size"		: 12 + "px",
 			"color"			: "#62707d",
-			"font-family"	: "微软雅黑"			
+			"font-family"	: "微软雅黑",
+			"margin-top"	: "1px",
+			"line-height"	: "20px"
 		});
 		
 		$("#user-data div").css({
 			"display"		: "inline-block",
 			"vertical-align": "top",
-			"width"			: "32%",
-			"padding"		: 4 * scale + "px 0 " + (10*scale) + "px 0"
+			"width"			: "32%"
 		});
 		
 		$("#user-data span").css({
 			"width"			: "100%",
-			"height"		: "50%",
+			"height"		: "15px",
 			"text-align"	: "center",
-			"display"		: "block",
-			"margin-top"	: 6 * scale + "px"
+			"display"		: "block"
 		});
 		
 		
 		
-		$("#user-concernCount").css({
+		$("#user-concernCount span").css({
 			"border-left"	: "1px #d7dce0 solid",
 			"border-right"	: "1px #d7dce0 solid"
 		});
@@ -129,13 +133,13 @@ function initLayout(s,scale){
 		
 		$("#div-propaganda").css({
 			"margin"			: "auto",
-			"padding-top"		: 6 * scale + "px",
+			"padding-top"		: 3 + "px",
 			"background-color"	: "#f0f4f7"												
 		});
 		
 		$("#download-wrap").css({
 			"width"				: 640 * scale + "px",
-			"height"			: 104 * scale + "px",
+			"height"			: 52 + "px",
 			"margin"			: "0 auto",
 			"bottom"			: "0",
 			"text-align"		: "center",
@@ -148,41 +152,41 @@ function initLayout(s,scale){
 		
 		$("#download-logo").css({
 			"width"			: "auto",
-			"height"		: 80  * scale + "px",
-			"margin-top"	: 10 * scale + "px",
-			"margin-left"	: 14 * scale + "px",
+			"height"		: 40 + "px",
+			"margin-top"	: 5 + "px",
+			"margin-left"	: 7 + "px",
 			"display"		: "inline",
 			"float"			: "left"
 		});
 		
 		$("#download-close").css({
-			"width"			: 16 * scale + "px",
-			"height"		: 16 * scale + "px",
+			"width"			: 8 + "px",
+			"height"		: 8 + "px",
 			"display"		: "inline-block",
 			"cursor"		: "pointer",
 			"vertical-align": "center",
-			"margin"		: 36 * scale + "px " + ( 36 * scale ) + "px 0 0",
+			"margin"		: 18 + "px " + ( 18 ) + "px 0 0",
 			"float"			: "right"
 		});
 		
 		$("#download-tip").css({
 			"background"			: "#3a97d0",
-			"width"					: 200 * scale + "px",
-			"height"				: 60 * scale + "px",
+			"width"					: 100 + "px",
+			"height"				: 30 + "px",
 			"color"					: "#ffffff",
-			"-moz-border-radius"	: 4 * scale + "px",
-			"-webkit-border-radius"	: 4 * scale + "px",
-			"border-radius"			: 4 * scale + "px",
+			"-moz-border-radius"	: 2 + "px",
+			"-webkit-border-radius"	: 2 + "px",
+			"border-radius"			: 2 + "px",
 			"text-align"			: "center",
-			"font-size"				: 24 * scale + "px",
+			"font-size"				: 12 + "px",
 			"display"				: "inline-block",
 			"vertical-align"		: "top",
 			"cursor"				: "pointer",
-			"line-height"			: 60 * scale + "px",
+			"line-height"			: 30 + "px",
 			"float"					: "right",
-			"margin"				: 22 * scale + "px " + (22 * scale) + "px 0 0",
+			"margin"				: 11 + "px " + (11) + "px 0 0",
 			"position"				: "absolute",
-			"right"					: 52 * scale + "px"
+			"right"					: 26 + "px"
 		});
 		
 		$("#slogan").css({
@@ -190,15 +194,15 @@ function initLayout(s,scale){
 			"vertical-align": "top",
 			"float"			: "left",
 			"font-size"		: "0",
-			"padding-left"	: 16 * scale + "px",
-			"padding-top"	: 14 * scale + "px"
+			"padding-left"	: 8 + "px",
+			"padding-top"	: 7 + "px"
 		});
 		
 		$("#zhitu-name").css({
 			"display"	: "block",
 			"valign"	: "top",
-			"height"	: 30 * scale + "px",
-			"font-size"	: 30 * scale + "px",
+			"height"	: 15 + "px",
+			"font-size"	: 14 + "px",
 			"color"		: "#373e46",
 			"text-align": "left"
 		});
@@ -206,9 +210,9 @@ function initLayout(s,scale){
 		$("#zhitu-slogan").css({
 			"display"	: "block",
 			"valign"	: "top",
-			"height"	: 24 * scale + "px",
-			"font-size"	: 24 * scale + "px",
-			"margin-top": 8 * scale + "px",
+			"height"	: 12 + "px",
+			"font-size"	: 12 + "px",
+			"margin-top": 4 + "px",
 			"color"		: "#959da5",
 		});
 		
@@ -289,7 +293,7 @@ function getMyWorldList(s,scale){
 				var winWidth = $(window).width();
 					winWidth  = winWidth > maxWidth ? maxWidth : winWidth;
 				$("#user-pic").css({
-					"padding"		: 8 * scale + "px " + "0 " + 8 * scale + "px " + 0 + "px",
+					"padding"		: 4 + "px " + "0 " + 3 + "px " + 0 + "px",
 					"background-color": "#f0f4f7"
 				});
 				$("#user-pic-container").css({
@@ -303,6 +307,7 @@ function getMyWorldList(s,scale){
 function queryUserInfo(s,scale){
 	$.post("./user/user_getIndividualHomePage",{'s':s},function(result){
 		if(result['result'] == 0){
+			
 			document.title = result['userName'];
 			if(result['signature'].length > 0){
 				var descriptions = document.getElementsByName('description');
@@ -310,8 +315,8 @@ function queryUserInfo(s,scale){
 			}
 			$("#user-avatar").attr('src',result['avatarImgPath']);
 			$("#user-info-sex").css({
-				"margin-right"	: 10 * scale + "px",
-				"width"			: 58 * scale + "px",
+				"margin-right"	: 5 + "px",
+				"width"			: 24 + "px",
 				"overflow"		: "hidden"
 			});
 			$("#user-info-sex").text(result['sex']);
@@ -321,8 +326,8 @@ function queryUserInfo(s,scale){
 				address = "地点" + address;
 			}
 			$("#user-info-address").css({
-				"margin-right"	: 10 * scale + "px",
-				"width"			: 186 * scale + "px",
+				"margin-right"	: 5 + "px",
+				"width"			: (winWidth -127)/2 + "px",
 				"overflow"		: "hidden"
 			});
 			$("#user-info-address").text(address);
@@ -332,7 +337,7 @@ function queryUserInfo(s,scale){
 				job = "职业:" + job;
 			}
 			$("#user-info-job").css({
-				"width"			: 176 * scale + "px",
+				"width"			: (winWidth -127)/2 + "px",
 				"overflow"		: "hidden"
 			});
 			$("#user-info-job").text(job);
@@ -342,15 +347,16 @@ function queryUserInfo(s,scale){
 				
 				$("#verifyIcon").attr('src',result['verifyIcon']);
 				$("#verifyIcon").css({
-					"width"			: 30 * scale + "px",
-					"margin-bottom"	: 7 * scale  + "px",
-					"vertical-align": "middle"
+					"width"			: 15 + "px",
+					"margin-bottom"	: 3  + "px",
+					"vertical-align": "middle",
+					"margin-right"	: "2px"
 				});
 				
 				$("#user-info-verify").css({
 					"width"		: 154 * scale + "px",
 					"overflow"	: "hidden",
-					"margin-right"	: 10 * scale + "px"
+					"margin-right"	: 5 + "px"
 				});
 			} else{
 				$("#user-info-verify").css({
@@ -372,7 +378,7 @@ function queryUserInfo(s,scale){
 			$("#user-info-concern-btn").attr('href',"imzhitu://user?uid=" + result['userId']);
 			
 			$("#head-user-info").css({
-				"padding-top"	: 20 * scale + "px",
+				"padding-top"	: 10 + "px",
 				"display"		: "inline-block",
 				"vertical-align": "top",
 				"text-align"	: "left",
@@ -381,20 +387,20 @@ function queryUserInfo(s,scale){
 			});
 			
 			$("#head-user-info span").css({
-				"-moz-border-radius"	: 20 * scale + "px",
-				"-webkit-border-radius"	: 20 * scale + "px"
+				"-moz-border-radius"	: 10 + "px",
+				"-webkit-border-radius"	: 10 + "px"
 			});
 			
 			$(".user-info").css({
-				"margin-bottom" 	: 8 * scale + "px",
+				"margin-bottom" 	: 4 + "px",
 				"background-color"	: "#ecf0f3",
 				"color"				: "#62707d",
 				"text-align"		: "center",
 				"display"			: "inline-block",
-				"font-size"			: 24 * scale + "px",
+				"font-size"			: 10 + "px",
 				"font-family"		: "微软雅黑",
-				"height"			: 44 * scale + "px",
-				"line-height"		: 44 * scale + "px",
+				"height"			: 19 + "px",
+				"line-height"		: 20 + "px",
 				
 			});
 			
