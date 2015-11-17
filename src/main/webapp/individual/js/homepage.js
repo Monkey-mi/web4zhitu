@@ -75,6 +75,7 @@ function initLayout(s,scale){
 		
 		$("#user-info-signature").css({
 			"padding-left" 		: 12 + "px",
+			"padding-right" 	: 12 + "px",
 			"text-align"  		: "left",
 			"display"			: "block",
 			"font-size"			: 12 + "px",
