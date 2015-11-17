@@ -59,7 +59,7 @@ public class ActivityDaoImpl extends BaseDaoImpl implements
 	 * 根据id查询活动
 	 */
 	private static final String QUERY_HTWORLD_BY_ACTIVITYID = "SELECT hh.* FROM hts.htworld_label_world as hlw,hts.htworld_htworld as hh"
-			+  " WHERE  hlw.world_id = hh.id and hlw.valid=1 and hlw. label_id = ? "
+			+  " WHERE  hlw.world_id = hh.id and hlw.valid=1 and hlw. label_id = ? order by hh.like_count desc"
 			+ " LIMIT ?";
 	
 	/**
