@@ -1,57 +1,77 @@
-*{
-	padding:0;
-	margin:0;
+html,body{
+	font-family:Microsoft YaHei,Arial, Helvetica, sans-serif;
+	padding: 0px;
+	margin: 0px auto;
+	text-decoration: none;
 }
-
-body{
-	padding:0;
-	margin:0;
-}
-
 #main{
-	width:100%;height:100%;
+	width:100%;
 	margin: 0 auto;
 }
 
 .avatar-radius{
-	-moz-border-radius:75px;
-	-webkit-border-radius:75px;	
+	-moz-border-radius:37px;
+	-webkit-border-radius:37px;	
 }
 #head-user-info span{
-	-moz-border-radius:20px;
-	-webkit-border-radius:20px;	
-	
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	overflow: hidden;	
+	letter-spacing: normal;
 }
 .user-info{
+	height:22px;
 	background-color:#ecf0f3;
 	color:#62707d;
 	text-align:center;
 	display: inline-block;
-	padding: 8px 16px;
-	margin-bottom: 8px;
-	font-size: 24px;
-	font-family: FZLTHJW;
+	margin-bottom: 4px;
+	font-size: 12px;
+	font-family: Microsoft YaHei;
+	line-height: 22px;
+	letter-spacing: -0.5em;
 }
+
+#user-info-sex {
+	width: 24px;
+	margin-right: 5px;
+}
+#user-info-address {
+	width: 93px;
+	margin-right: 5px;
+}
+#user-info-job {
+	width: 88px;
+}
+#user-info-verify {
+	width: 75px;
+	margin-right: 5px;
+}
+#user-info-picCount {
+	width:120px
+}
+
+
 .world-title-list{
 
 }
 
 .img-grid-style{
-	width: 198px;
-	height: 198px;
-	margin:6px 0 0 6px; 
-	-moz-border-radius:4px;
-	-webkit-border-radius:4px;	
+	width: 99px;
+	height: 99px;
+	margin:3px 0 0 3px; 
+	-moz-border-radius:2px;
+	-webkit-border-radius:2px;	
 }
 
 .span-user-data-desc{
-	font-size: 22px;
+	font-size: 12px;
 	color: #b6bec6;
-	font-family: FZLTHJW;
+	font-family: Microsoft YaHei;
 }
 
 .span-user-data{
-	font-size: 30px;
+	font-size: 16px;
 	color: #62707d;
 	font-family: ArialMT Regular;
 }
@@ -60,7 +80,7 @@ body{
 	display: inline-block;
 	vertical-align: top;
 	width:32%;
-	padding: 4px 0 10px 0;
+	padding: 2px 0 5px 0;
 }
 
 #user-data span{
@@ -68,7 +88,7 @@ body{
 	height:50%;
 	text-align: center;
 	display: block;
-	margin-top: 6px;
+	margin-top: 3px;
 }
 
 #head{
@@ -80,69 +100,76 @@ body{
 
 #user-data{
 	margin:auto;
-	margin-top: 20px;
+	margin-top: 10px;
 	border-bottom: 1px #d7dce0 solid ;
 	border-top: 1px solid #d7dce0;
 }
 
 #user-pic{
 	margin:auto;
-	text-align: center;
-	padding-top:8px;
+	padding:4px;
 	background-color: #f0f4f7;
 }
 
 #user-info-avatar{
 	position: relative;
-	width: 180px;
-	height: 190px;
+	width: 90px;
+	height: 95px;
 	display: inline-block;
 	margin:0 auto;
 }
 
 #user-avatar{
-	height: 150px;
-	width: 150px;
+	height: 75px;
+	width: 75px;
 	z-index: 1;
 	position: absolute;
-	left: 20px;
-	top: 20px;
+	left: 10px;
+	top: 10px;
 }
 
 #user-avatar-mask{
-	height: 152px;
-	width: 152px;
+	height: 77px;
+	width: 77px;
 	z-index: 999;
 	position: absolute;
-	left: 20px;
-	top: 20px;
+	left: 10px;
+	top: 10px;
 }
 
 #head-user-info{
 	display: inline-block;
 	vertical-align: top;
-	padding-top: 20px;
+	padding-top: 10px;
 	text-align: left;
+	font-size: 0;
+	letter-spacing: -2px;/*根据不同字体字号或许需要做一定的调整*/
+  	word-spacing: -2px;
 }
 
 #user-info-concern-btn{
 	display:block;
-	width: 430px;
+	width: 215px;
+	height:22px;
+	line-height:22px;
 	background-color:#6abfde; 
 	text-align: center;
-	padding: 8px 0px;
-	border: 2px #5caac7 solid;
+	border: 1px #5caac7 solid;
 	color: #ffffff;
-	font-size: 26px;
-	font-family: FZLTHJW;
+	font-size: 13px;
+	font-family: Microsoft YaHei;
+	-moz-border-radius:12px;
+	-webkit-border-radius:12px;
+	padding: 0;
+	margin: 0;	
 }
 
 #user-info-signature{
 	text-align:left;
 	display:block;
-	font-size: 24px;
+	font-size: 14px;
 	color: #62707d; 
-	padding-left: 20px;
+	padding-left: 10px;
 }
 
 
@@ -153,77 +180,87 @@ body{
 
 #div-propaganda{
 	margin: auto;
-	padding-top: 6px;
 	background-color: #f0f4f7;
 }
 
 
 #download-wrap {
+	width:100%;
+	height:52px;
 	margin:0 auto;
 	bottom: 0;
 	text-align: center;
 	overflow:hidden;	
-	font-family: FZLTHJW;
+	font-family: Microsoft YaHei;
 	background-color: rgba(255,255,255,0.9);
-	padding-bottom:12px; 
+	padding-bottom:6px;
+	position:fixed; 
+	z-index: 9999;
 }
 
 #download-logo {
 	width: auto;
-	height: 80px;
-	margin-top: 10px;
-	margin-left: 14px;
+	height: 40px;
+	margin-top: 5px;
+	margin-left: 7px;
 	display: inline;
 	float: left;
 }
 
 #download-close {
-	width: 16px;
-	height: 16px;
+	width: 8px;
+	height: 8px;
 	display: inline-block;
 	cursor: pointer;
 	vertical-align: center;
-	float: right;
-	margin:36px 20px 0 0;
+	position: absolute;
+	margin:18px 10px 0 0;
+	right:10px;
 }
 
 #download-tip {
 	background: #3a97d0;
-	width: 200px;
-	height: 60px;
+	width: 100px;
+	height: 30px;
 	color: #ffffff;
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
 	border-radius: 4px;
 	text-align: center;
-	font-size: 24px;
+	font-size: 14px;
 	display: inline-block;
 	vertical-align: top;
 	cursor: pointer;
-	line-height: 60px;
+	line-height: 30px;
 	float: right;
-	margin: 22px 22px 0 0;
+	margin: 11px 11px 0 0;
+	position:absolute;
+	right:26px;
 }
 
 #slogan{
 	display:inline-block;
 	vertical-align: top;
-	padding-left: 16px;
-	padding-top: 10px;
+	padding-left: 8px;
+	padding-top: 5px;
 	float: left;
+	font-size: 0;
 }
 
 #zhitu-name{
 	display: block;
-	font-size: 30px;
+	font-size: 16px;
 	color: #373e46;
-	margin-top: 6px;
 	text-align: left;
 }
 
 #zhitu-slogan{
 	display: block;
-	font-size: 24px;
+	font-size: 12px;
 	color: #959da5;
-	margin-top: 6px;
+}
+.slide{
+	/*border	: 1px solid #ffffff;*/
+	-moz-border-radius	: 4px;
+	-webkit-border-radius	: 4px
 }

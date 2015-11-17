@@ -1,5 +1,6 @@
-function initLayout(scale){	
-		
+function initLayout(s,scale){	
+		queryUserInfo(s,scale);
+		getMyWorldList(s,scale);
 		
 		$("#main").css({
 			"width"		: winWidth + "px",
@@ -24,6 +25,11 @@ function initLayout(scale){
 			"display"	: "inline-block",
 			"margin"	: "0 auto"
 		});
+		$("#head-user-info").css({
+			"width"		: 460 * scale + "px",
+			"height"	: 160 * scale + "px",
+			"overflow"	: "hidden"
+		});
 		$("#user-avatar").css({
 			"width"		: 150 * scale + "px",
 			"height"	: 150 * scale + "px",
@@ -47,56 +53,9 @@ function initLayout(scale){
 			"-webkit-border-radius"	: 75 * scale + "px"	
 		});
 		
-		$("#head-user-info").css({
-			"padding-top"	: 20 * scale + "px",
-			"display"		: "inline-block",
-			"vertical-align": "top",
-			"text-align"	: "left"
-		});
 		
-		$("#head-user-info span").css({
-			"-moz-border-radius"	: 20 * scale + "px",
-			"-webkit-border-radius"	: 20 * scale + "px"	
-		});
 		
-		$(".user-info").css({
-			"margin-bottom" 	: 8 * scale + "px",
-			"padding" 			: "0 " + ( 16 * scale ) + "px",
-			"background-color"	: "#ecf0f3",
-			"color"				: "#62707d",
-			"text-align"		: "center",
-			"display"			: "inline-block",
-			"font-size"			: 24 * scale + "px",
-			"font-family"		: "微软雅黑",
-			"height"			: 44 * scale + "px",
-			"line-height"		: 44 * scale + "px"
-		});
 		
-		if($("#verifyIcon").attr("src").length > 0){
-			$("#verifyIcon").css({
-				"width"		: 30 * scale + "px",
-				"margin-bottom": 7 * scale + "px",
-				"vertical-align"	: "middle"
-			});
-		}else{
-			$("#user-info-verify").css({
-				"display"	: "none"
-			});
-		}
-		
-		var address = $("#user-info-address").text();
-		if(address.length > 7){
-			var p = address.indexOf("：");
-			address = address.substr(p+1,address.length - p > 7 ? 7 : address.length - p);
-			$("#user-info-address").text(address);
-		}
-		
-		var job = $("#user-info-job").text();
-		if(job.length > 4){
-			var p = job.indexOf("：");
-			job = job.substr(p+1,job.length - p > 5 ? 5 : job.length - p);
-			$("#user-info-job").text(job);
-		}
 		
 		$("#user-info-concern-btn").css({
 			"width" 			: 430 * scale + "px",
@@ -105,7 +64,7 @@ function initLayout(scale){
 			"display"			: "block",
 			"background-color"	: "#6abfde", 
 			"text-align"		: "center",
-			"border"			: "2px #5caac7 solid",
+			"border"			: "1px #5caac7 solid",
 			"color"				: "#ffffff",
 			"font-size"			: 26 * scale + "px",
 			"font-family"		: "微软雅黑",
@@ -130,12 +89,7 @@ function initLayout(scale){
 			"border-top"	: "1px solid #d7dce0"
 		});
 		
-		$("#user-pic").css({
-			"margin"		: "auto",
-			"text-align"	: "center",
-			"padding-top"	: 8 * scale + "px",
-			"background-color": "#f0f4f7"
-		});
+		
 		
 		$(".span-user-data-desc").css({
 			"font-size"		: 22 * scale + "px",
@@ -188,7 +142,6 @@ function initLayout(scale){
 			"overflow"			: "hidden",	
 			"font-family"		: "微软雅黑",
 			"background-color"  : "rgba(255,255,255,0.9)",
-			"padding-bottom"	: 10 * scale + "px",
 			"position"			: "fixed",
 			"z-index"			: "99999" 
 		});
@@ -199,8 +152,7 @@ function initLayout(scale){
 			"margin-top"	: 10 * scale + "px",
 			"margin-left"	: 14 * scale + "px",
 			"display"		: "inline",
-			"position"		: "absolute",
-			"left"			: "0"
+			"float"			: "left"
 		});
 		
 		$("#download-close").css({
@@ -209,9 +161,8 @@ function initLayout(scale){
 			"display"		: "inline-block",
 			"cursor"		: "pointer",
 			"vertical-align": "center",
-			"margin"		: 36 * scale + "px 0 0 0",
-			"position"		: "absolute",
-			"right"			: ( 40 * scale ) + "px"
+			"margin"		: 36 * scale + "px " + ( 36 * scale ) + "px 0 0",
+			"float"			: "right"
 		});
 		
 		$("#download-tip").css({
@@ -231,37 +182,40 @@ function initLayout(scale){
 			"float"					: "right",
 			"margin"				: 22 * scale + "px " + (22 * scale) + "px 0 0",
 			"position"				: "absolute",
-			"right"					: 58 * scale + "px"
+			"right"					: 52 * scale + "px"
 		});
 		
 		$("#slogan").css({
 			"display"		: "inline-block",
 			"vertical-align": "top",
-			"position"		: "absolute",
-			"left"			: 120 * scale +"px"
+			"float"			: "left",
+			"font-size"		: "0",
+			"padding-left"	: 16 * scale + "px",
+			"padding-top"	: 14 * scale + "px"
 		});
 		
 		$("#zhitu-name").css({
 			"display"	: "block",
+			"valign"	: "top",
+			"height"	: 30 * scale + "px",
 			"font-size"	: 30 * scale + "px",
 			"color"		: "#373e46",
-			"margin-top": 14 * scale + "px",
-			"text-align": "left",
-			"padding"	: "0"
+			"text-align": "left"
 		});
 		
 		$("#zhitu-slogan").css({
 			"display"	: "block",
+			"valign"	: "top",
+			"height"	: 24 * scale + "px",
 			"font-size"	: 24 * scale + "px",
+			"margin-top": 8 * scale + "px",
 			"color"		: "#959da5",
-			"margin-top": 6 * scale + "px",
-			"padding"	: "0"
 		});
 		
 		$(".slide").css({
 			"width"		: 612 * scale + "px",
 			"height"	: 284 * scale + "px",
-			"border"	: "1px solid #ffffff",
+			"border"	:"1px solid #ffffff",
 			"-moz-border-radius"	: 8 * scale + "px",
 			"-webkit-border-radius"	: 8 * scale + "px"
 		});
@@ -281,3 +235,171 @@ function initLayout(scale){
 		
 		$("#main").css({"display":""});
 	}
+
+function getMyWorldList(s,scale){
+	$.post("./ztworld/ztworld_getLastNWorldByUserId",{
+		's':s
+	},function(result){
+		if(result['result'] == 0){
+			var worldList = result['myWorldList'];
+			var shortLinkList = result['shortLinkList'];
+			for(var i=0; i<worldList.length && shortLinkList.length; i++){
+				var worldTitleImg = worldList[i];
+				var htm = "<img class='img-grid-style' src='"+worldTitleImg+"' onclick='window.location.href=\"" +prefix+ shortLinkList[i] + "\"'/>";
+				if(i % 3 == 1){
+					htm = "<img class='img-grid-style img-grid-mid' src='"+worldTitleImg+"' onclick='window.location.href=\"" +prefix+ shortLinkList[i] + "\"'/>";
+				}
+				$("#user-pic").append(htm);
+			}
+			if(worldList.length > 0){
+					var imgW = 200;
+					var mgrT = 6;
+					var mgrR = 6;
+					var mgrL = 6;
+				if(worldList.length > 2){
+					/*
+					if(worldList.length == 4){
+						imgW = 300;
+						imgH = 300;
+						mgrR = 12;
+						mgrL = 0;
+						mgrT = 6;
+					}*/
+				}else{
+					imgW = 612;
+					imgH = 612;
+					mgrR = 0;
+					mgrL = 0;
+					mgrT = 6;
+				}
+				
+				$(".img-grid-style").css({
+						"width"					: imgW * scale + "px",
+						"margin-top"			: mgrT * scale + "px", 
+						"-moz-border-radius"	: 4 * scale + "px",
+						"-webkit-border-radius"	: 4 * scale + "px",
+						"cursor"				: "pointer"
+					});
+				$(".img-grid-mid").css({
+					"margin-left"			: mgrL * scale + "px",
+					"margin-right"			: mgrR * scale + "px"
+				});
+				
+				var maxWidth = 640;
+				var winWidth = $(window).width();
+					winWidth  = winWidth > maxWidth ? maxWidth : winWidth;
+				$("#user-pic").css({
+					"padding"		: 8 * scale + "px " + "0 " + 8 * scale + "px " + 0 + "px",
+					"background-color": "#f0f4f7"
+				});
+				$("#user-pic-container").css({
+					"text-align"	: "center"
+				});
+			}
+		}
+	},"json");
+}
+
+function queryUserInfo(s,scale){
+	$.post("./user/user_getIndividualHomePage",{'s':s},function(result){
+		if(result['result'] == 0){
+			document.title = result['userName'];
+			if(result['signature'].length > 0){
+				var descriptions = document.getElementsByName('description');
+				descriptions[0].setAttribute("content",result['signature']);
+			}
+			$("#user-avatar").attr('src',result['avatarImgPath']);
+			$("#user-info-sex").css({
+				"margin-right"	: 10 * scale + "px",
+				"width"			: 58 * scale + "px",
+				"overflow"		: "hidden"
+			});
+			$("#user-info-sex").text(result['sex']);
+			
+			var address = result['address'];
+			if(address.length < 5){
+				address = "地点" + address;
+			}
+			$("#user-info-address").css({
+				"margin-right"	: 10 * scale + "px",
+				"width"			: 186 * scale + "px",
+				"overflow"		: "hidden"
+			});
+			$("#user-info-address").text(address);
+			
+			var job = result['job'];
+			if(job.length < 3){
+				job = "职业:" + job;
+			}
+			$("#user-info-job").css({
+				"width"			: 176 * scale + "px",
+				"overflow"		: "hidden"
+			});
+			$("#user-info-job").text(job);
+			
+			if( result['verifyName'].length > 0 ){
+				$("#user-info-verify span").text(result['verifyName']);
+				
+				$("#verifyIcon").attr('src',result['verifyIcon']);
+				$("#verifyIcon").css({
+					"width"			: 30 * scale + "px",
+					"margin-bottom"	: 7 * scale  + "px",
+					"vertical-align": "middle"
+				});
+				
+				$("#user-info-verify").css({
+					"width"		: 154 * scale + "px",
+					"overflow"	: "hidden",
+					"margin-right"	: 10 * scale + "px"
+				});
+			} else{
+				$("#user-info-verify").css({
+					"display"	: "none"
+				});
+			}
+			
+			$("#user-info-picCount span").text(result['picCount']);
+			$("#user-info-picCount").css({
+				"width"		: 230 * scale + "px",
+				"overflow"	: "hidden"
+			});
+			
+			
+			$("#user-info-signature").text(result['signature']);
+			$("#worldCount").text(result['worldCount']);
+			$("#concernCount").text(result['concernCount']);
+			$("#followCount").text(result['followCount']);
+			$("#user-info-concern-btn").attr('href',"imzhitu://user?uid=" + result['userId']);
+			
+			$("#head-user-info").css({
+				"padding-top"	: 20 * scale + "px",
+				"display"		: "inline-block",
+				"vertical-align": "top",
+				"text-align"	: "left",
+				"font-size"		: "0"
+				
+			});
+			
+			$("#head-user-info span").css({
+				"-moz-border-radius"	: 20 * scale + "px",
+				"-webkit-border-radius"	: 20 * scale + "px"
+			});
+			
+			$(".user-info").css({
+				"margin-bottom" 	: 8 * scale + "px",
+				"background-color"	: "#ecf0f3",
+				"color"				: "#62707d",
+				"text-align"		: "center",
+				"display"			: "inline-block",
+				"font-size"			: 24 * scale + "px",
+				"font-family"		: "微软雅黑",
+				"height"			: 44 * scale + "px",
+				"line-height"		: 44 * scale + "px",
+				
+			});
+			
+		}else{
+	
+		}
+	},"json");
+}
