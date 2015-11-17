@@ -67,6 +67,8 @@ public class ActivityDaoImpl extends BaseDaoImpl implements
 	 */
 	private static final String QUERY_ACTIVITY_TOTAL_BY_AID = 	"select count(*) from hts.htworld_label_world where label_id = ? ";
 	
+	private static final String QUERY_LABEL_BY_AID = "select label_name from hts.htworld_label where id = ?";
+	
 	@Autowired
 	private HTWorldLabelWorldDao worldLabelWorldDao;
 	
@@ -184,5 +186,9 @@ public class ActivityDaoImpl extends BaseDaoImpl implements
 	
 	public int getActivityCount(Integer activityId){
 		return getJdbcTemplate().queryForObject(QUERY_ACTIVITY_TOTAL_BY_AID,new Object[] {activityId},Integer.class) ;
+	}
+	
+	public String queryLableName(Integer activityId){
+		return getJdbcTemplate().queryForObject(QUERY_LABEL_BY_AID,new Object[] {activityId},String.class) ;
 	}
 }

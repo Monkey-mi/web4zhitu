@@ -16,12 +16,16 @@ import com.hts.web.common.service.impl.BaseServiceImpl;
 import com.hts.web.operations.dao.ActivityDao;
 import com.hts.web.operations.dao.ActivityStarCacheDao;
 import com.hts.web.operations.service.ActivityService;
+import com.hts.web.ztworld.dao.HTWorldLabelDao;
 
 @Service("HTSActivityService")
 public class ActivityServiceImpl extends BaseServiceImpl implements ActivityService {
 
 	@Autowired
 	private ActivityDao activityDao;
+	
+	@Autowired
+	private HTWorldLabelDao worldLabelDao;
 	
 	@Autowired
 	private ActivityStarCacheDao activityStarCacheDao;
@@ -32,18 +36,22 @@ public class ActivityServiceImpl extends BaseServiceImpl implements ActivityServ
 		
 		OpActivitySharePageInfo opActivitySharePageInfo = new OpActivitySharePageInfo();  
 		OpActivity opActivity = activityDao.queryActivityById(aid);
+		String lableName = activityDao.queryLableName(aid);
 		List<HTWorld> htWorlds = activityDao.getHtWorldByAid(aid,limites);
 		List<OpActivityStar> starList = activityStarCacheDao.queryStar(aid);
+		
 		
 		long now = new Date().getTime();
 		long deadline = opActivity.getDeadline().getTime();
 		long remainDay = (deadline - now) / (24 *60 * 60 * 1000) + 1;
-		int activityCount = activityDao.getActivityCount(aid);
+		/*int activityCount = activityDao.getActivityCount(aid);*/
+		int worldCount = worldLabelDao.queryWorldCount(aid);
 		
 		opActivitySharePageInfo.setRemianDay((int)remainDay);
 		opActivitySharePageInfo.setOpActivity(opActivity);
 		opActivitySharePageInfo.setHtWorlds(htWorlds);
-		opActivitySharePageInfo.setActivityCount(activityCount);
+		opActivitySharePageInfo.setLabelName(lableName);
+		opActivitySharePageInfo.setActivityCount(worldCount);
 		opActivitySharePageInfo.setOpActivityStars(starList);
 		
 		jsonMap.put(OptResult.JSON_KEY_OBJ, opActivitySharePageInfo);

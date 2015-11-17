@@ -841,9 +841,11 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 		ChannelSharePageInfoDto channelSharePageInfo = new ChannelSharePageInfoDto();
 		 OpChannelDetail opChannelDetail = channelDao.queryChannelDetail(channelId);
 		 List<OpChannelWorldDto> opChannelWorldDtos = channelWorldDao.querySuperbChannelWorld(channelId,new RowSelection(1,36));
+		 List<OpChannelStar> starList = channelStarCacheDao.queryStar(channelId);
 		 
 		 channelSharePageInfo.setOpChannelWorldDto(opChannelWorldDtos);
 		 channelSharePageInfo.setOpChannelDetail(opChannelDetail);
+		 channelSharePageInfo.setStarList(starList);
 		 jsonMap.put(OptResult.JSON_KEY_OBJ, channelSharePageInfo);
 		
 	}

@@ -349,6 +349,7 @@ font-size:10px;
 	 		var memberCount = result.opChannelDetail.memberCount;
 	 		var banner = result.opChannelDetail.banner;
 	 		var imgs;
+	 		var starListInfo;
 	 		
 	 		//循环加入图片
 	 		if(result.opChannelWorldDto.length > 0){
@@ -359,16 +360,29 @@ font-size:10px;
 	 			alert('还没有产生精选奥。');
 	 		}
 	 		
+	 		//循环加入红人头像
+	 		if(result.starList.length > 0){
+	 		for(var i = 0; i < result.starList.length; i++ ){
+	 			starListInfo  += '<img style="height:40px;width:40px;border-radius:21px;padding:0 3px 0 3px" alt="" src=" ' + result.starList[i].userAvatar + ' ">'
+	 		}
+	 		}else{
+	 			starListInfo= '';
+	 		}
+	 		
 			//修改文件描述
 			 var oMeta = document.getElementsByTagName('meta')[3];
 			 oMeta.content = channelDesc;
 			 
-			 //设置标题
-	 		$("title").text(channelName);
+				 //设置标题
+	 			$("title").text(channelName);
 			 	$("#wx_pic").append("<img src='" + banner + "' />");
 				$("#activityLoading").append('<div id="concernDataShow"  class="concernDataShow" ><span style="color:#ffab08">' + changeNumber(memberCount) + '</span>人已关注</div>');
 				$("#activityLoading").append('<div id="header"><img alt="" src=" ' + banner + ' " /> </div>');
 				$("#activityLoading").append('<div id="channelIntro"  class="channelIntro" >' + channelDesc + '</div>');
+				if(result.starList.length > 0){//如果有红人推荐，则显示出来
+					$("#activityLoading").append('<div style="border-top:1px solid rgba(234,234,234,0.8);text-align: left;padding:0 7px 0 7px" > <div style="height:30px;line-height:30px;font-size:13px;">达人推荐</div>'
+						+'<div style="height:70px; overflow-x: scroll;"> <div style="height:40px;width:500px;margin-top:8px;">'+starListInfo+'</div> </div></div>');
+				}
 				$("#activityLoading").append('<div id="dataShow"  class="dataShow"><div id="superbDataShow" class="superbDataShow" ><span>' + changeNumber(superbCount) + '<br>精选</span></div>' + 
 														'<div id="stickerDataShow"  class="stickerDataShow" ><span>' + changeNumber(worldCount) + '<br>参与</span></div></div>');
 				$("#activityLoading").append('<div id="preShowPicForWtworld"  class="preShowPicForWtworld" >' + imgs+ '</div>');
