@@ -85,7 +85,7 @@ var ui = {
 				document.title = "分享来自" + user['userName'] + "的织图";
 			
 		}
-		$("#share-img").attr('src', world['titlePath']);
+		$("#share-img").attr('src', world['titleThumbPath']);
 		$('.like-count').text(world['likeCount']);
 		$('#comment-count').text(world['commentCount']);
 		if(ui.appendLikes(world['likes']) == 0)
@@ -176,8 +176,8 @@ var ui = {
 		if(superbs == ''|| superbs.length == 0) {
 			return -1;
 		}
-		
-		var superbSize = parseInt((winWidth - 2*4 - 2*5 - 2*3) / 3);
+		 
+		var superbSize = parseInt((winWidth - 2*4 - 2*5 - 2*2) / 3);
 		var $superbWrap = $("#superbs");
 		var $superb;
 		for(var i in superbs) {
@@ -188,6 +188,7 @@ var ui = {
 		}
 		
 		if(maxSuperbId == 0) {
+			$("#superbs").css({"width":superbSize * 3 + 2*4 + 2*2});
 			$("#superb-wrap").show();
 		}
 		
@@ -204,7 +205,7 @@ var ui = {
 		
 		var $latest;
 		var count = 0;
-		var latestsSize = parseInt((winWidth - 2*4 - 2*5 - 2*3) / 3);
+		var latestsSize = parseInt((winWidth - 2*4 - 2*5 - 2*2) / 3);
 		var $latestsWrap = $("#latests");
 		for(var i in latests) {
 			if(latests[i]['shortLink'] == shortLink)
@@ -220,6 +221,7 @@ var ui = {
 			++count;
 		}
 		if(count > 0) {
+			$("#latests").css({"width":latestsSize * 3 + 2*4 + 2*2});
 			$("#latest-wrap").show();
 		}
 		return 0;

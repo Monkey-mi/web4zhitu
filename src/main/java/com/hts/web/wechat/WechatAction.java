@@ -41,5 +41,5 @@ public class WechatAction extends BaseAction {
 		}
 		return StrutsKey.JSON;
 	}
-
+	
 }
