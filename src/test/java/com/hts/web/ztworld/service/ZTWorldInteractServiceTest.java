@@ -63,8 +63,8 @@ public class ZTWorldInteractServiceTest extends BaseTest {
 	@Test
 	public void testBuildComments() throws Exception {
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
-//		service.buildComments(527, 9896,0,1, 10, jsonMap);
-		service.buildOpenComment(9896, 0, 1, 10, jsonMap);
+		service.buildComments(527, 9896,0,1000, 1, 10, jsonMap);
+//		service.buildOpenComment(9896, 0, 1, 10, jsonMap);
 		JSONObject jsObj = JSONObject.fromObject(jsonMap);
 		Log.debug(jsObj.toString());
 	}

@@ -22,6 +22,7 @@ import com.hts.web.base.database.HTS;
 import com.hts.web.base.database.RowCallback;
 import com.hts.web.base.database.RowSelection;
 import com.hts.web.common.SerializableListAdapter;
+import com.hts.web.common.SerializableSinceIdListAdapter;
 import com.hts.web.common.pojo.HTWorldChannelName;
 import com.hts.web.common.pojo.HTWorldComment;
 import com.hts.web.common.pojo.HTWorldCommentDto;
@@ -182,9 +183,9 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 	private MsgUnreadDao msgUnreadDao;
 	
 	@Override
-	public void buildComments(final Integer userId, final Integer worldId, int maxId, 
+	public void buildComments(final Integer userId, final Integer worldId, int maxId, int sinceId,
 			int start, int limit, Map<String, Object> jsonMap) throws Exception {
-		buildSerializables(maxId, start, limit, jsonMap, new SerializableListAdapter<HTWorldCommentDto>(){
+		buildSerializables(sinceId, maxId, start, limit, jsonMap, new SerializableSinceIdListAdapter<HTWorldCommentDto>(){
 
 			@Override
 			public List<HTWorldCommentDto> getSerializables(
@@ -207,6 +208,19 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 			@Override
 			public long getTotalByMaxId(int maxId) {
 				return 0l;
+			}
+
+			@Override
+			public List<HTWorldCommentDto> getSerializableBySinceId(int sinceId, RowSelection rowSelection) {
+				List<HTWorldCommentDto> list = worldCommentDao.queryCommentByMinId(worldId, sinceId, rowSelection);
+				userInfoService.extractVerify(list);
+				userInteractService.extractRemark(userId, list);
+				return list;
+			}
+
+			@Override
+			public long getTotalBySinceId(int sinceId) {
+				return 0;
 			}
 
 		}, OptResult.JSON_KEY_COMMENTS, OptResult.JSON_KEY_TOTAL_COUNT);

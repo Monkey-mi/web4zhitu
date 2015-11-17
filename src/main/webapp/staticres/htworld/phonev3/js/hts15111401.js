@@ -38,7 +38,7 @@ var ui = {
 		world = result['htworld'];
 		user = result['htworld']['userInfo'];
 		worldId = world['id'];
-		userId = world['authorId'];
+		userId = user['checksum'];
 		
 		$('.zt-container:eq(0)').css({width:worldWidth + 'px', height:worldHeight + 'px'});
 		$('#world').css({height:worldHeight + 'px', width:worldWidth + 'px'});
@@ -221,7 +221,7 @@ var ui = {
 			++count;
 		}
 		if(count > 0) {
-			$("#latests").css({"width":latestsSize * 3 + 2*4 + 2*2});
+			$latestsWrap.css({"width":latestsSize * 3 + 2*4 + 2*2});
 			$("#latest-wrap").show();
 		}
 		return 0;
@@ -429,8 +429,8 @@ var ajax = {
 		 },'json');
 	},
 	fetchLatest : function(userId) {
-		$.post('/ztworld/ztworld_queryUserLastNThumb', {
-			'userId':userId,
+		$.post('/ztworld/ztworld_getLastNWorldByUserId', {
+			's':userId,
 			'limit':4
 		},function(result) {
 			 if(result['result'] == 0) {

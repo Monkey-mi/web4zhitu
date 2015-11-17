@@ -77,7 +77,7 @@ public class ZTWorldInteractAction extends BaseAction {
 	public String queryComments() {
 		try {
 			worldInteractService.buildComments(getCurrentLoginUserId(), 
-					worldId, maxId, start, limit, jsonMap);
+					worldId, maxId, sinceId, start, limit, jsonMap);
 			JSONUtil.optSuccess(jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
