@@ -144,9 +144,9 @@ font-size:10px;
 	position:fixed;
 	bottom:0;
 	height:60px;
-	display:none;
 	text-align:center;
 	z-index:99999;
+	display:none;
 }
 
 #download-btn {
@@ -154,6 +154,7 @@ font-size:10px;
 	width:100%;
 	display:inline-block;
 	color:#ffffff;
+	display:none;
 }
 
 #download-bg {
@@ -161,6 +162,7 @@ font-size:10px;
 	height:100%;
 	position:absolute;
 	left:0px;
+	display:none;
 }
 
 #download-logo {
@@ -170,7 +172,7 @@ font-size:10px;
 	left:0px;
 	margin-top:8px;
 	margin-left:12px;
-	
+	display:none;
 }
 
 #download-close {
@@ -180,6 +182,7 @@ font-size:10px;
 	right:0;
 	display:inline;
 	cursor:pointer;
+	display:none;
 }
 
 #download-tip {
@@ -196,6 +199,7 @@ font-size:10px;
     text-align:center;
     position:absolute;
     font-size:14px;
+    display:none;
 }
 
 </style>
@@ -300,12 +304,12 @@ font-size:10px;
 		</div>
 		
 	<!-- 官网链接按钮  -->
-	<div id="officeButton" class="officeButton">
+<!-- 	<div id="officeButton" class="officeButton">
 		<a href="http://imzhitu.com"><img alt="" src="http://imzhitu.qiniudn.com/op/office/officeButton01.png" /></a>
-	</div>
+	</div> -->
 		
 	<div id="download-wrap">
-		<img id="download-logo" alt="" src="/individual/images/logo.png">
+		<a href="http://imzhitu.com"><img id="download-logo" alt="" src="/individual/images/logo.png"></a>
 		<div id="slogan">
 			<span id="zhitu-name">织图</span>
 			<span id="zhitu-slogan">年轻人的生活方式</span>
@@ -402,146 +406,6 @@ function initLayout() {
 		"width":picWidth + "px",
 		"height":picWidth + "px",
 	});
-/* 	var maxW = 640;
-	var winWidth = $(window).width();
-	
-	winWidth = winWidth > maxW ? maxW : winWidth;
-
-	var scale = 1,
-		
-//设置主面板margin-bottom值
-	mainMarginBottom = 104,
-	
-	officeButtonWidth = 108,
-	officeButtonHeight = 108,
-	officeButtonMarginLeft = 500, 
-	officeButtonBottom =  132,
-
-	//设置轮播面板的初始值
-	divPropagandaPaddingTop = 6,
-	divPropagandaPaddingBottoom = 8,
-	
-	slideWidth = 612,
-	slideHeight = 284,
-	slidRadius = 8,
-
-	slideDivSlideImgWidth = 3060,
-
-	slideImgWidth = 612,
-
-	divSlideBtnWidth = 612,
-	divSlideBtnHeight = 20,
-	divSlideBtnLineHeight = 20,
-	divSlideBtnBottom = 10,
-	divSlideBtnFontSize = 20,
-	
-	//频道关注数量展示
-	concernDataShowWidth = 160,
-	concernDataShowHeight = 50,
-	concernDataShowMarginTop = 145,
-	concernDataShowLeft = 470,
-	concernDataShowBorderRadius = 25,
-	concernDataShowFontSize = 20,
-	concernDataShowLineHeight = 50,
-	
-	//频道介绍
-	channelIntroMargin = 20,
-	channelIntroFontSize = 24,
-	channelIntroLineHeight = 35,
-
-	dataShowFontSize = 28,
-	dataShowPaddingTop = 18,
-	dataShowPaddingBottom = 16,
-
-	superbDataShowWidth = 320,
-
-	stickerDataShowWidth = 319,
-	stickerDataShowMarginLeft = 320,
-
-	preShowPicForWtworldPaddingTop = 14,
-	preShowPicForWtworldPaddingLeft = 2,
-	preShowPicForWtworldPaddingBottom = 2,
-	preShowPicForWtworldPaddingRight = 8,
-	
-	preShowPicForWtworldImgWidth = 200,
-	preShowPicForWtworldImgHeight = 200,
-	preShowPicForWtworldImgMarginLeft = 6,
-	preShowPicForWtworldImgBorderRadius = 5,
-
-	scale = winWidth / maxW;
-	
-	//设置主面板margin-bottom值
-	mainMarginBottom = mainMarginBottom * scale;
-	
-	officeButtonWidth = officeButtonWidth * scale;
-	officeButtonHeight = officeButtonHeight * scale;
-	officeButtonMarginLeft = officeButtonMarginLeft * scale; 
-	officeButtonBottom =  officeButtonBottom * scale;
-	
-	//设置轮播面板的初始值
-	divPropagandaPaddingTop = divPropagandaPaddingTop * scale;
-	divPropagandaPaddingBottoom = divPropagandaPaddingBottoom * scale;
-	
-	slideWidth = slideWidth * scale;
-	slideHeight = slideHeight * scale;
-	slidRadius = slidRadius * scale;
-	
-	slideDivSlideImgWidth = slideDivSlideImgWidth * scale;
-	
-	slideImgWidth = slideImgWidth * scale;
-
-	divSlideBtnWidth = divSlideBtnWidth * scale;
-	divSlideBtnHeight = divSlideBtnHeight * scale;
-	divSlideBtnLineHeight = divSlideBtnLineHeight * scale;
-	divSlideBtnBottom = divSlideBtnBottom * scale;
-	divSlideBtnFontSize = divSlideBtnFontSize * scale;
-	
-	//频道关注数
-	concernDataShowWidth = concernDataShowWidth * scale;
-	concernDataShowHeight = concernDataShowHeight * scale;
-	concernDataShowMarginTop = concernDataShowMarginTop * scale;
-	concernDataShowLeft = concernDataShowLeft * scale;
-	concernDataShowBorderRadius = concernDataShowBorderRadius * scale;
-	concernDataShowFontSize = concernDataShowFontSize * scale;
-	concernDataShowLineHeight = concernDataShowLineHeight * scale;
-	
-	//频道介绍
-	channelIntroMargin = channelIntroMargin * scale;
-	channelIntroFontSize = channelIntroFontSize * scale;
-	channelIntroLineHeight = channelIntroLineHeight * scale;
-	
-	dataShowFontSize = dataShowFontSize * scale;
-	dataShowPaddingTop = dataShowPaddingTop * scale;
-	dataShowPaddingBottom = dataShowPaddingBottom * scale;
-	
-	superbDataShowWidth = superbDataShowWidth * scale;
-	
-	stickerDataShowWidth = stickerDataShowWidth * scale;
-	stickerDataShowMarginLeft = stickerDataShowMarginLeft * scale;
-	
-	preShowPicForWtworldPaddingTop = preShowPicForWtworldPaddingTop * scale;
-	preShowPicForWtworldPaddingLeft = preShowPicForWtworldPaddingLeft * scale;
-	preShowPicForWtworldPaddingBottom = preShowPicForWtworldPaddingBottom * scale;
-	preShowPicForWtworldPaddingRight = preShowPicForWtworldPaddingRight * scale;
-	
-	preShowPicForWtworldImgWidth = preShowPicForWtworldImgWidth * scale;
-	preShowPicForWtworldImgHeight = preShowPicForWtworldImgHeight * scale;
-	preShowPicForWtworldImgMarginLeft = preShowPicForWtworldImgMarginLeft * scale;
-	preShowPicForWtworldImgBorderRadius = preShowPicForWtworldImgBorderRadius * scale;
-	
-	zBase.init(612,1000,3000,'div-slide','div-slide-img','div-slide-btn');
-	
-	$("#main").css({
-		"margin-bottom":mainMarginBottom + "px"
-	});
-	
-	
-	$(".officeButton").css({
-		"width":officeButtonWidth + "px",
-		"height":officeButtonHeight + "px",
-		"margin-left":officeButtonMarginLeft + "px",
-		"bottom":officeButtonBottom + "px"
-	}).show();*/
 	
 	$("#div-propaganda").css({
 		"padding-top":3 * scale + "px",
@@ -579,42 +443,6 @@ function initLayout() {
 	
 	 $(".officeButton").show();
 	 $("#div-propaganda").show();
-	 /*$(".channelIntro").css({
-		"margin":channelIntroMargin + "px",
-		"font-size":channelIntroFontSize + "px",
-		"line-height":channelIntroLineHeight + "px",
-	}).show();
-	
-	$(".dataShow").css({
-		"font-size":dataShowFontSize + "px",
-		"padding-top":dataShowPaddingTop + "px",
-		"padding-bottom":dataShowPaddingBottom + "px"
-	}).show();
-	
-	$(".superbDataShow").css({
-		"width":superbDataShowWidth + "px"
-	}).show();
-	
-	$(".stickerDataShow").css({
-		"width":stickerDataShowWidth + "px",
-		"margin-left":stickerDataShowMarginLeft + "px"
-	}).show();
-	
-	$(".preShowPicForWtworld").css({
-		"padding-top":preShowPicForWtworldPaddingTop + "px",
-		"padding-left":preShowPicForWtworldPaddingLeft + "px",
-		"padding-bottom":preShowPicForWtworldPaddingBottom + "px",
-		"padding-right":preShowPicForWtworldPaddingRight + "px"
-	}).show();
-	
-	$(".preShowPicForWtworld img").css({
-		"width":preShowPicForWtworldImgWidth + "px",
-		"height":preShowPicForWtworldImgHeight + "px",
-		"margin-left":preShowPicForWtworldImgMarginLeft + "px",
-		"border-radius":preShowPicForWtworldImgBorderRadius + "px"
-	}); */
-	
-
 	
 	$("#download-wrap").css({
 		"width"				: "100%",
@@ -629,7 +457,7 @@ function initLayout() {
 		 "padding-top:" : 5 + " px", */
 		"position"			: "fixed",
 		"z-index"			: "99999" 
-	});
+	}).show();
 	
 	$("#download-logo").css({
 		"width"			: "auto",
@@ -639,7 +467,7 @@ function initLayout() {
 		"display"		: "inline",
 		"position"		: "absolute",
 		"left"			: "0"
-	});
+	}).show();
 	
 	$("#download-close").css({
 		"width"			: 8 + "px",
@@ -650,7 +478,7 @@ function initLayout() {
 		"margin"		: 22 + "px " + ( 15 ) + "px 0 0",
 		"position"		: "absolute",
 		"right"			: "0"
-	});
+	}).show();
 	
 	$("#download-tip").css({
 		"background"			: "#3a97d0",
@@ -670,7 +498,7 @@ function initLayout() {
 		"margin"				: 11 + "px " + (11) + "px 0 0",
 		"position"				: "absolute",
 		"right"					: 29 + "px"
-	});
+	}).show();
 	
 	$("#slogan").css({
 		"display"		: "inline-block",
