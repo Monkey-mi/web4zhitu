@@ -62,6 +62,11 @@ public class ActivityDaoImpl extends BaseDaoImpl implements
 			+  " WHERE  hlw.world_id = hh.id and hlw.valid=1 and hlw. label_id = ? "
 			+ " LIMIT ?";
 	
+	/**
+	 * 根据活动id查询参加活动的人数
+	 */
+	private static final String QUERY_ACTIVITY_TOTAL_BY_AID = 	"select count(*) from hts.htworld_label_world where label_id = ? ";
+	
 	@Autowired
 	private HTWorldLabelWorldDao worldLabelWorldDao;
 	
@@ -175,5 +180,9 @@ public class ActivityDaoImpl extends BaseDaoImpl implements
 				rs.getInt("shield"),
 				JSONUtil.getJSObjectFromText(rs.getString("text_style"))
 				);
+	}
+	
+	public int getActivityCount(Integer activityId){
+		return getJdbcTemplate().queryForObject(QUERY_ACTIVITY_TOTAL_BY_AID,new Object[] {activityId},Integer.class) ;
 	}
 }
