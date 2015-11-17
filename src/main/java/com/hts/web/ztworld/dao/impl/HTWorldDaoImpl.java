@@ -1834,12 +1834,14 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 	}
 	
 	@Override
-	public List<HTWorldDto> queryLastNHtworldInfoByUserId(Integer userId,Integer n){
+	public List<HTWorldThumbDto> queryLastNHtworldInfoByUserId(Integer userId,Integer n) {
 		try {
-			return getJdbcTemplate().query(QUERY_LAST_N_WORLD_INFO_BY_USER_ID, new Object[]{userId,n}, new RowMapper<HTWorldDto>(){
+			return getJdbcTemplate().query(QUERY_LAST_N_WORLD_INFO_BY_USER_ID, 
+					new Object[]{userId,n},
+					new RowMapper<HTWorldThumbDto>(){
 				@Override
-				public HTWorldDto mapRow(ResultSet rs, int rowNum)throws SQLException{
-					HTWorldDto dto = new HTWorldDto();
+				public HTWorldThumbDto mapRow(ResultSet rs, int rowNum)throws SQLException{
+					HTWorldThumbDto dto = new HTWorldThumbDto();
 					dto.setTitleThumbPath(rs.getString("title_thumb_path"));
 					dto.setShortLink(rs.getString("short_link"));
 					return dto;

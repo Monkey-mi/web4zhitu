@@ -276,3 +276,11 @@ img.zt-temp{
 	
 }
 
+.zt-guide {
+	z-index: 999999;
+	display: none;
+	position: absolute;
+	
+}
+
+
