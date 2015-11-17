@@ -8,6 +8,7 @@ import java.util.List;
 import net.sf.json.JSONObject;
 
 import org.apache.log4j.Logger;
+import org.codehaus.jackson.annotate.JsonKeyClass;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.hts.web.base.HTSException;
@@ -107,40 +108,26 @@ public class ZTWorldAction extends BaseAction {
 	@Autowired
 	private UserOperationsService userOptService;
 
-	
+
 	/**
-	 * 查询置顶用户最新织图缩略图,只查询图片,不查询用户信息
-	 * 
+	 * 获取用户最近n张织图
 	 * @return
-	 * @author lynch 2015-11-16
 	 */
-	public String queryUserLastNThumb() {
-		try {
-			List<HTWorldThumbDto> list = 
-					worldService.queryLastNHtworldInfoByUserId(userId, limit);
-			JSONUtil.optResult(OptResult.OPT_SUCCESS, list, 
-					OptResult.JSON_KEY_HTWORLD, jsonMap);
-		} catch (Exception e) {
-			JSONUtil.optFailed(e.getMessage(), jsonMap);
-		}
-		return StrutsKey.JSON;
-	}
-	
 	public String getLastNWorldByUserId(){
 		
 		try{
 			String strId = request.getParameter("s");
 			int iId = Integer.parseInt(strId);
 			int userId = UserInfoUtil.decode(iId);
-			List<HTWorldThumbDto> worldList = worldService.queryLastNHtworldInfoByUserId(userId, 9);
-			List<String>titlePathList = new ArrayList<String>();
-			List<String>shortLinkList = new ArrayList<String>();
-			for(HTWorldThumbDto dto:worldList){
-				titlePathList.add(dto.getTitleThumbPath());
-				shortLinkList.add(dto.getShortLink());
+			
+			if(limit == null || limit == 0 || limit < 0){
+				limit = 9;
 			}
-			jsonMap.put("myWorldList", titlePathList);
-			jsonMap.put("shortLinkList", shortLinkList);
+			if(limit > 50){
+				limit = 50;
+			}
+			List<HTWorldThumbDto> worldList = worldService.queryLastNHtworldInfoByUserId(userId, limit);
+			jsonMap.put(OptResult.JSON_KEY_HTWORLD, worldList);
 			JSONUtil.optSuccess(jsonMap);
 		}catch(Exception e){
 			jsonMap.put(OptResult.RESULT, OptResult.OPT_FAILED);			
