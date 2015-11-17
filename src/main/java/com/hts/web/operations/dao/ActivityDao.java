@@ -41,4 +41,13 @@ public interface ActivityDao extends BaseDao {
 	 */
 	public int getActivityCount(Integer activityId);
 	
+	
+	/**
+	 * 获取活动名
+	 * @param activityId
+	 * @return 
+		*	2015年11月17日
+		*	mishengliang
+	 */
+	public String queryLableName(Integer activityId);
 }

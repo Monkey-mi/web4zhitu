@@ -22,6 +22,7 @@ public class OpActivitySharePageInfo implements Serializable {
 	private OpActivity opActivity;
 	private List<HTWorld> htWorlds;
 	private Integer  remianDay;
+	private String labelName;
 	private Integer activityCount;
 	private List<OpActivityStar> opActivityStars;
 
@@ -51,6 +52,14 @@ public class OpActivitySharePageInfo implements Serializable {
 
 	public void setRemianDay(Integer remianDay) {
 		this.remianDay = remianDay;
+	}
+
+	public String getLabelName() {
+		return labelName;
+	}
+
+	public void setLabelName(String labelName) {
+		this.labelName = labelName;
 	}
 
 	public Integer getActivityCount() {

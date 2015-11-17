@@ -344,7 +344,7 @@ font-size:10px;
 	 	},function(data){
 	 		if(data.result == 0){
 	 		var result = data['obj'];
-	 		var activityName = result.opActivity.activityTitle; 
+	 		var activityName = result.labelName; 
 	 		var activityDesc = result.opActivity.activityDesc;
 	 		var activityRemainDay = result.remianDay;
 	 		/* var activityCount = result.activityCount; */
@@ -375,8 +375,8 @@ font-size:10px;
 			 var oMeta = document.getElementsByTagName('meta')[3];
 			 oMeta.content = activityDesc;
 			 
-			 //设置标题
-	 		$("title").text(activityName);
+				 //设置标题
+	 			$("title").text(activityName);
 			 
 	 			$("#activityLoading").append('<img style="display:none" alt="" src=" ' + banner + ' " />');
 				$("#activityLoading").append('<div id="concernDataShow"  class="concernDataShow" >剩余<span style="color:#ffab08">' + activityRemainDay + '</span>天</div>');

@@ -36,6 +36,7 @@ public class ActivityServiceImpl extends BaseServiceImpl implements ActivityServ
 		
 		OpActivitySharePageInfo opActivitySharePageInfo = new OpActivitySharePageInfo();  
 		OpActivity opActivity = activityDao.queryActivityById(aid);
+		String lableName = activityDao.queryLableName(aid);
 		List<HTWorld> htWorlds = activityDao.getHtWorldByAid(aid,limites);
 		List<OpActivityStar> starList = activityStarCacheDao.queryStar(aid);
 		
@@ -49,6 +50,7 @@ public class ActivityServiceImpl extends BaseServiceImpl implements ActivityServ
 		opActivitySharePageInfo.setRemianDay((int)remainDay);
 		opActivitySharePageInfo.setOpActivity(opActivity);
 		opActivitySharePageInfo.setHtWorlds(htWorlds);
+		opActivitySharePageInfo.setLabelName(lableName);
 		opActivitySharePageInfo.setActivityCount(worldCount);
 		opActivitySharePageInfo.setOpActivityStars(starList);
 		
