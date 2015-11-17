@@ -59,14 +59,14 @@ function initLayout(s,scale){
 		
 		$("#user-info-concern-btn").css({
 			"width" 			: (winWidth - 93) + "px",
-			"height"			: 19 + "px",
-			"line-height"		: 20 + "px",
+			"height"			: 21 + "px",
+			"line-height"		: 22 + "px",
 			"display"			: "block",
 			"background-color"	: "#6abfde", 
 			"text-align"		: "center",
 			"border"			: "1px #5caac7 solid",
 			"color"				: "#ffffff",
-			"font-size"			: 11 + "px",
+			"font-size"			: 13 + "px",
 			"font-family"		: "微软雅黑",
 			"-moz-border-radius"	: 10 + "px",
 			"-webkit-border-radius"	: 10 + "px",
@@ -77,13 +77,14 @@ function initLayout(s,scale){
 			"padding-left" 		: 12 + "px",
 			"text-align"  		: "left",
 			"display"			: "block",
-			"font-size"			: 11 + "px",
+			"font-size"			: 12 + "px",
 			"color"				: "#62707d",
-			"margin-top"		: 5 + "px"
+			"margin-top"		: 10 + "px",
+			"line-height"		: 18 + "px"
 		});
 		
 		$("#user-data").css({
-			"height"		: "32px",
+			"height"		: "36px",
 			"margin"		: "auto",
 			"margin-top"	: 8 + "px",
 			"border-bottom"	: "1px #d7dce0 solid",
@@ -94,15 +95,15 @@ function initLayout(s,scale){
 		
 		
 		$(".span-user-data-desc").css({
-			"font-size"		: 10 + "px",
+			"font-size"		: 11 + "px",
 			"color"			: "#b6bec6",
 			"font-family"	: "微软雅黑",
 			"margin-bottom"	: "1px",
-			"line-height"	: "14px"
+			"line-height"	: "17px"
 		});
 		
 		$(".span-user-data").css({
-			"font-size"		: 12 + "px",
+			"font-size"		: 15 + "px",
 			"color"			: "#62707d",
 			"font-family"	: "微软雅黑",
 			"margin-top"	: "1px",
@@ -117,7 +118,7 @@ function initLayout(s,scale){
 		
 		$("#user-data span").css({
 			"width"			: "100%",
-			"height"		: "15px",
+			"height"		: "17px",
 			"text-align"	: "center",
 			"display"		: "block"
 		});
@@ -126,7 +127,16 @@ function initLayout(s,scale){
 		
 		$("#user-concernCount span").css({
 			"border-left"	: "1px #d7dce0 solid",
-			"border-right"	: "1px #d7dce0 solid"
+			"border-right"	: "1px #d7dce0 solid",
+			"height"		: "14px"
+		});
+		
+		$("#concernCount").css({
+			"margin-top"	: "4px",
+			"line-height"   : "14px"
+		});
+		$("#span-user-data-desc").css({
+			"line-height"   : "14px"
 		});
 		
 		
@@ -160,13 +170,15 @@ function initLayout(s,scale){
 		});
 		
 		$("#download-close").css({
-			"width"			: 8 + "px",
-			"height"		: 8 + "px",
 			"display"		: "inline-block",
 			"cursor"		: "pointer",
 			"vertical-align": "center",
-			"margin"		: 18 + "px " + ( 18 ) + "px 0 0",
+			"margin"		: 20 + "px " + 14 + "px 0 0",
 			"float"			: "right"
+		});
+		$("#download-close img").css({
+			"width"			: 10 + "px",
+			"height"		: 10 + "px",
 		});
 		
 		$("#download-tip").css({
@@ -178,7 +190,7 @@ function initLayout(s,scale){
 			"-webkit-border-radius"	: 2 + "px",
 			"border-radius"			: 2 + "px",
 			"text-align"			: "center",
-			"font-size"				: 12 + "px",
+			"font-size"				: 13 + "px",
 			"display"				: "inline-block",
 			"vertical-align"		: "top",
 			"cursor"				: "pointer",
@@ -237,7 +249,7 @@ function initLayout(s,scale){
 			"height"	: 20 * scale + "px"
 		});
 		
-		$("#main").css({"display":""});
+		
 	}
 
 function getMyWorldList(s,scale){
@@ -281,8 +293,6 @@ function getMyWorldList(s,scale){
 				$(".img-grid-style").css({
 						"width"					: imgW * scale + "px",
 						"margin-top"			: mgrT * scale + "px", 
-						"-moz-border-radius"	: 4 * scale + "px",
-						"-webkit-border-radius"	: 4 * scale + "px",
 						"cursor"				: "pointer"
 					});
 				$(".img-grid-mid").css({
@@ -292,16 +302,17 @@ function getMyWorldList(s,scale){
 				
 				$("#user-pic-container").css({
 					"text-align"	  : "center",
-					"background-color": "#f0f4f7"
+					"background-color": "#f0f4f7",
+					"padding"		  : 10 * scale + "px " + "0px " + 3 + "px 0px"
 				});
 				
 				$("#user-pic").css({
-					"padding"		: 4 + "px " + "0 " + 3 + "px " + 0 + "px",
 					"text-align"	  : "left"
 				});
 				
 			}
 		}
+		
 	},"json");
 }
 
@@ -398,13 +409,13 @@ function queryUserInfo(s,scale){
 				"color"				: "#62707d",
 				"text-align"		: "center",
 				"display"			: "inline-block",
-				"font-size"			: 10 + "px",
+				"font-size"			: 12 + "px",
 				"font-family"		: "微软雅黑",
-				"height"			: 19 + "px",
-				"line-height"		: 20 + "px",
+				"height"			: 21 + "px",
+				"line-height"		: 22 + "px",
 				
 			});
-			
+			$("#main").css({"display":""});
 		}else{
 	
 		}
