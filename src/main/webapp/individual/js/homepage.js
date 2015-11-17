@@ -255,7 +255,7 @@ function initLayout(s,scale){
 function getMyWorldList(s,scale){
 	$.post("./ztworld/ztworld_getLastNWorldByUserId",{
 		's':s,
-		'limit':9
+		'limit':24
 	},function(result){
 		if(result['result'] == 0){
 			var worldList = result['htworld'];
