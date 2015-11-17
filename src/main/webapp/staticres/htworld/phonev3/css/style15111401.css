@@ -463,6 +463,7 @@ html,body {
 #latests {
 	text-align: center;
 	text-align:left;
+	display: inline-block;
 }
 .latest {
 	margin:2px 2px 2px 2px;
@@ -513,9 +514,10 @@ html,body {
 
 #download-wrap #slogan {
 	position: absolute;
+	height:44px;
 	margin-left:10px;
 	display: inline-block;
-	margin-top:18px;
+	margin-top:13px;
 }
 
 #download-btn {
@@ -533,6 +535,7 @@ html,body {
 	margin-top:13px;
 	display: inline-block;
 }
+
 #download-logo img{
 	height:44px;
 }
@@ -553,10 +556,18 @@ html,body {
     font-size:13px;
 }
 
+#zhitu-name {
+	margin-top:5px;	
+}
+
 #zhitu-slogan {
 	font-size: 13px;
 	color: #b6bec6;
-	margin-top:7px;
+	margin-top:4px;
+	position: absolute;
+	width:150px;
+	bottom: 0px;
+	margin-bottom: 3px;
 }
 
 .zt-loading {
