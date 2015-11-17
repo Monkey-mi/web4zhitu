@@ -32,4 +32,13 @@ public interface ActivityDao extends BaseDao {
 	 */
 	public List<HTWorld> getHtWorldByAid(Integer activityId, int limit);
 	
+	/**
+	 *  查询活动参加人数
+	 * @param activityId
+	 * @return 
+		*	2015年11月17日
+		*	mishengliang
+	 */
+	public int getActivityCount(Integer activityId);
+	
 }
