@@ -165,7 +165,7 @@ function initLayout(s,scale){
 		
 		$("#div-propaganda").css({
 			"margin"			: "auto",
-			"padding-top"		: 3 + "px",
+			"padding-bottom"	: 10 + "px",
 			"background-color"	: "#f0f4f7"												
 		});
 		
@@ -292,7 +292,8 @@ function getMyWorldList(s,scale){
 				
 				$(".img-grid-style").css({
 						"width"					: imgW  + "px",
-						"margin-top"			: mgrT  + "px", 
+						"margin-top"			: mgrT  + "px",
+						"margin-bottom"			: mgrT  + "px", 
 						"cursor"				: "pointer",
 						"margin-left"			: mgrL  + "px",
 						"margin-right"			: mgrR  + "px"
