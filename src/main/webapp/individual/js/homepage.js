@@ -185,7 +185,7 @@ function initLayout(s,scale){
 		$("#download-logo").css({
 			"width"			: "auto",
 			"height"		: 40 + "px",
-			"margin-top"	: 5 + "px",
+			"margin-top"	: 6 + "px",
 			"margin-left"	: 7 + "px",
 			"display"		: "inline",
 			"float"			: "left"
@@ -229,7 +229,7 @@ function initLayout(s,scale){
 			"float"			: "left",
 			"font-size"		: "0",
 			"padding-left"	: 8 + "px",
-			"padding-top"	: 7 + "px"
+			"padding-top"	: 8 + "px"
 		});
 		
 		$("#zhitu-name").css({
