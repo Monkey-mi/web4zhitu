@@ -95,18 +95,18 @@ function initLayout() {
 		"height":picWidth + "px",
 	});
 	
-	$("#div-propaganda").css({
-		"padding-top":3 * scale + "px",
-		"padding-bottom":4 * scale + "px"
-	}).show();
+/*	$("#div-propaganda").css({
+		"padding-top":0 * scale + "px",
+		"padding-bottom":7 * scale + "px"
+	}).show();*/
 	
 	$(".slide").css({
 		"width":mainWidth + "px",
 		"height":142 * (mainWidth/306) + "px",
-		"border"	: "1px solid #ffffff",
+		/*		"border"	: "1px solid #ffffff",
 		"-moz-border-radius"	: 8 * scale + "px",
 		"-webkit-border-radius"	: 8 * scale + "px",
-		"border-radius"	: 8 * scale + "px"
+		"border-radius"	: 8 * scale + "px"*/
 	});
 	
 	$(".slide .div-slide-img").css({

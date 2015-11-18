@@ -37,8 +37,8 @@ img {
 
 #div-propaganda{
 	margin: auto;
-	padding-top: 3px;
-	padding-bottom:4px;
+	padding-top: 0px;
+	padding-bottom:7px;
 	background-color: #EDEFF1;
 	display:none;
 }

@@ -92,18 +92,18 @@ function initLayout() {
 		"height":picWidth + "px",
 	});
 	
-	$("#div-propaganda").css({
-		"padding-top":3 * scale + "px",
-		"padding-bottom":4 * scale + "px"
-	}).show();
+/*	$("#div-propaganda").css({
+		"padding-top":0 * scale + "px",
+		"padding-bottom":7 * scale + "px"
+	}).show();*/
 	
 	$(".slide").css({
 		"width":mainWidth + "px",
 		"height":142 * (mainWidth/306) + "px",
-		"border"	: "1px solid #ffffff",
+		/*		"border"	: "1px solid #ffffff",
 		"-moz-border-radius"	: 8 * scale + "px",
 		"-webkit-border-radius"	: 8 * scale + "px",
-		"border-radius"	: 8 * scale + "px"
+		"border-radius"	: 8 * scale + "px"*/
 	});
 	
 	$(".slide .div-slide-img").css({
@@ -136,27 +136,6 @@ function initLayout() {
 	
 	$("#download-tip").show();
 	
-/*	$("#slogan").css({
-		"display"		: "inline-block",
-		"vertical-align": "top",
-		"position"		: "absolute",
-		"left"			: 60 +"px"
-	});
-	
-	$("#zhitu-name").css({
-		"display"	: "block",
-		"font-size"	: 15 + "px",
-		"color"		: "#373e46",
-		"margin-top": 7 + "px",
-		"text-align": "left"
-	});
-	
-	$("#zhitu-slogan").css({
-		"display"	: "block",
-		"font-size"	: 12 + "px",
-		"color"		: "#959da5",
-		"margin-top": 3 + "px"
-	});*/
 }
 
 //根据参数计算出展示图片的尺寸
