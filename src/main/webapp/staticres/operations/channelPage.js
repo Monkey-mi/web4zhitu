@@ -129,63 +129,15 @@ function initLayout() {
 /* 	 $(".officeButton").show(); */
 	 $("#div-propaganda").show();
 	
-	$("#download-wrap").css({
-		"width"				: "100%",
-		"height"			: 52 + "px",
-		"margin"			: "0 auto",
-		"bottom"			: "0",
-		"text-align"		: "center",
-		"overflow"			: "hidden",	
-		"font-family"		: "微软雅黑",
-		"background-color"  : "rgba(255,255,255,0.9)",
-/* 		 "padding-bottom"	: 5 + "px", 
-		 "padding-top:" : 5 + " px", */
-		"position"			: "fixed",
-		"z-index"			: "99999" 
-	}).show();
+	$("#download-wrap").show();
 	
-	$("#download-logo").css({
-		"width"			: "auto",
-		"height"		: 40  + "px",
-		"margin-top"	: 6 + "px",
-		"margin-left"	: 7 + "px",
-		"display"		: "inline",
-		"position"		: "absolute",
-		"left"			: "0"
-	}).show();
+	$("#download-logo").show();
 	
-	$("#download-close").css({
-		"width"			: 8 + "px",
-		"height"		: 8 + "px",
-		"display"		: "inline-block",
-		"cursor"		: "pointer",
-		"vertical-align": "center",
-		"margin"		: 22 + "px " + ( 15 ) + "px 0 0",
-		"position"		: "absolute",
-		"right"			: "0"
-	}).show();
+	$("#download-close").show();
 	
-	$("#download-tip").css({
-		"background"			: "#3a97d0",
-		"width"					: 100 + "px",
-		"height"				: 30 + "px",
-		"color"					: "#ffffff",
-		"-moz-border-radius"	: 2 + "px",
-		"-webkit-border-radius"	: 2 + "px",
-		"border-radius"			: 2 + "px",
-		"text-align"			: "center",
-		"font-size"				: 12 + "px",
-		"display"				: "inline-block",
-		"vertical-align"		: "top",
-		"cursor"				: "pointer",
-		"line-height"			: 30 + "px",
-		"float"					: "right",
-		"margin"				: 11 + "px " + (11) + "px 0 0",
-		"position"				: "absolute",
-		"right"					: 29 + "px"
-	}).show();
+	$("#download-tip").show();
 	
-	$("#slogan").css({
+/*	$("#slogan").css({
 		"display"		: "inline-block",
 		"vertical-align": "top",
 		"position"		: "absolute",
@@ -205,7 +157,7 @@ function initLayout() {
 		"font-size"	: 12 + "px",
 		"color"		: "#959da5",
 		"margin-top": 3 + "px"
-	});
+	});*/
 }
 
 //根据参数计算出展示图片的尺寸
