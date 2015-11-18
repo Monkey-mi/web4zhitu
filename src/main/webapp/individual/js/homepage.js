@@ -85,7 +85,7 @@ function initLayout(s,scale){
 			"display"			: "block",
 			"background-color"	: "#6abfde", 
 			"text-align"		: "center",
-			"border"			: "1px solid rgba(234,234,234,0.8)",
+			"border"			: "1px #5caac7 solid",
 			"color"				: "#ffffff",
 			"font-size"			: 13 + "px",
 			"font-family"		: "微软雅黑",
@@ -109,8 +109,8 @@ function initLayout(s,scale){
 			"height"		: "40px",
 			"margin"		: "auto",
 			"margin-top"	: 8 + "px",
-			"border-bottom"	: "1px #d7dce0 solid",
-			"border-top"	: "1px solid #d7dce0",
+			"border-bottom"	: "1px solid rgba(234,234,234,0.8)",
+			"border-top"	: "1px solid rgba(234,234,234,0.8)",
 			"font-size"		: "0"
 		});
 		
@@ -148,8 +148,8 @@ function initLayout(s,scale){
 		
 		
 		$("#user-concernCount span").css({
-			"border-left"	: "1px #d7dce0 solid",
-			"border-right"	: "1px #d7dce0 solid",
+			"border-left"	: "1px solid rgba(234,234,234,0.8)",
+			"border-right"	: "1px solid rgba(234,234,234,0.8)",
 			"height"		: "14px"
 		});
 		
