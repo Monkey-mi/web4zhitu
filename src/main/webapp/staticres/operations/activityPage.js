@@ -126,7 +126,6 @@ function initLayout() {
 	
 	 $(".concernDataShow").css({
 		"margin-top":140 * (winWidth/320) + "px",
-		"margin-left":235 * (winWidth/320) + "px",
 	}); 
 	
 /*	 $(".officeButton").show();*/
