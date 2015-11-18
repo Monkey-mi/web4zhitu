@@ -1,5 +1,6 @@
 package com.hts.web.operations.service.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -40,10 +41,13 @@ public class ActivityServiceImpl extends BaseServiceImpl implements ActivityServ
 		List<HTWorld> htWorlds = activityDao.getHtWorldByAid(aid,limites);
 		List<OpActivityStar> starList = activityStarCacheDao.queryStar(aid);
 		
-		
 		long now = new Date().getTime();
-		long deadline = opActivity.getDeadline().getTime();
-		long remainDay = (deadline - now) / (24 *60 * 60 * 1000) + 1;
+		Date deadline = opActivity.getDeadline();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+		String s=sdf.format(deadline);
+		
+		long deadLineTime = sdf.parse(s).getTime();
+		long remainDay = (deadLineTime - now) / (24 *60 * 60 * 1000) + 2;
 		/*int activityCount = activityDao.getActivityCount(aid);*/
 		int worldCount = worldLabelDao.queryWorldCount(aid);
 		
