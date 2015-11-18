@@ -85,7 +85,7 @@ function initLayout(s,scale){
 			"display"			: "block",
 			"background-color"	: "#6abfde", 
 			"text-align"		: "center",
-			"border"			: "1px #5caac7 solid",
+			"border"			: "1px #73b7c0 solid",
 			"color"				: "#ffffff",
 			"font-size"			: 13 + "px",
 			"font-family"		: "微软雅黑",
