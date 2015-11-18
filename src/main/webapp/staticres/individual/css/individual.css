@@ -57,10 +57,6 @@ html,body{
 	overflow: hidden;
 }
 
-.img-grid-style{
-	-moz-border-radius:2px;
-	-webkit-border-radius:2px;	
-}
 
 .span-user-data-desc{
 	font-size: 11px;
