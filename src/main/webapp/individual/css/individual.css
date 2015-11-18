@@ -10,17 +10,15 @@ html,body{
 }
 
 .avatar-radius{
-	-moz-border-radius:37px;
-	-webkit-border-radius:37px;	
+	-moz-border-radius:34px;
+	-webkit-border-radius:34px;	
 }
 #head-user-info span{
 	-moz-border-radius:10px;
 	-webkit-border-radius:10px;
-	overflow: hidden;	
-	letter-spacing: normal;
 }
 .user-info{
-	height:22px;
+	height:21px;
 	background-color:#ecf0f3;
 	color:#62707d;
 	text-align:center;
@@ -29,99 +27,108 @@ html,body{
 	font-size: 12px;
 	font-family: Microsoft YaHei;
 	line-height: 22px;
-	letter-spacing: -0.5em;
+}
+#verifyIcon{
+	width: 15px;
+	margin-bottom: 3px;
+	vertical-align: middle;
+	margin-right:2px; 
 }
 
 #user-info-sex {
 	width: 24px;
 	margin-right: 5px;
+	overflow: hidden;
 }
 #user-info-address {
-	width: 93px;
 	margin-right: 5px;
+	overflow: hidden;
 }
 #user-info-job {
-	width: 88px;
+	overflow: hidden;
 }
 #user-info-verify {
-	width: 75px;
+	width:77px;
 	margin-right: 5px;
+	overflow: hidden;
 }
 #user-info-picCount {
-	width:120px
-}
-
-
-.world-title-list{
-
+	width:115px;
+	overflow: hidden;
 }
 
 .img-grid-style{
-	width: 99px;
-	height: 99px;
-	margin:3px 0 0 3px; 
 	-moz-border-radius:2px;
 	-webkit-border-radius:2px;	
 }
 
 .span-user-data-desc{
-	font-size: 12px;
+	font-size: 11px;
 	color: #b6bec6;
 	font-family: Microsoft YaHei;
+	margin-bottom: 1px;
+	line-height: 17px;
 }
 
 .span-user-data{
-	font-size: 16px;
+	font-size: 15px;
 	color: #62707d;
-	font-family: ArialMT Regular;
+	font-family: Microsoft YaHei;
+	margin-top: 4px;
+	line-height: 20px;
 }
 
 #user-data div{
 	display: inline-block;
 	vertical-align: top;
 	width:32%;
-	padding: 2px 0 5px 0;
 }
 
 #user-data span{
 	width:100%;
-	height:50%;
+	height:17px;
 	text-align: center;
 	display: block;
-	margin-top: 3px;
 }
 
 #head{
-	margin:auto;
-	text-align: center;
+	width:100%;
+	height:83px;
+	font-family:Microsoft YaHei;
 }
 
 
 
 #user-data{
+	height:40px;
 	margin:auto;
-	margin-top: 10px;
-	border-bottom: 1px #d7dce0 solid ;
-	border-top: 1px solid #d7dce0;
+	margin-top: 8px;
+	border-bottom: 1px solid rgba(234,234,234,0.8) ;
+	border-top: 1px solid rgba(234,234,234,0.8);
+	font-size: 0;
 }
 
 #user-pic{
-	margin:auto;
-	padding:4px;
+	display: inline-block;	
+	text-align: left;
+}
+#user-pic-container{
+	text-align: center;
 	background-color: #f0f4f7;
+	padding:5px;
 }
 
 #user-info-avatar{
 	position: relative;
-	width: 90px;
-	height: 95px;
+	width: 83px;
+	height: 83px;
 	display: inline-block;
 	margin:0 auto;
 }
 
 #user-avatar{
-	height: 75px;
-	width: 75px;
+	height: 67px;
+	width: 67px;
 	z-index: 1;
 	position: absolute;
 	left: 10px;
@@ -129,8 +136,8 @@ html,body{
 }
 
 #user-avatar-mask{
-	height: 77px;
-	width: 77px;
+	height: 68px;
+	width: 68px;
 	z-index: 999;
 	position: absolute;
 	left: 10px;
@@ -138,30 +145,26 @@ html,body{
 }
 
 #head-user-info{
+	padding-top:10px;
 	display: inline-block;
 	vertical-align: top;
-	padding-top: 10px;
 	text-align: left;
-	font-size: 0;
-	letter-spacing: -2px;/*根据不同字体字号或许需要做一定的调整*/
-  	word-spacing: -2px;
+	font-size: 0; 	
 }
 
 #user-info-concern-btn{
 	display:block;
-	width: 215px;
-	height:22px;
+	height:21px;
 	line-height:22px;
 	background-color:#6abfde; 
 	text-align: center;
-	border: 1px #5caac7 solid;
+	border: 1px #73b7c0 solid;
 	color: #ffffff;
 	font-size: 13px;
 	font-family: Microsoft YaHei;
-	-moz-border-radius:12px;
-	-webkit-border-radius:12px;
-	padding: 0;
-	margin: 0;	
+	-moz-border-radius:10.5px;
+	-webkit-border-radius:10.5px;
+	cursor: pointer;	
 }
 
 #user-info-signature{
@@ -169,23 +172,35 @@ html,body{
 	display:block;
 	font-size: 14px;
 	color: #62707d; 
-	padding-left: 10px;
+	padding-left: 12px;
+	padding-right: 12px;
+	line-height: 18px;
+	margin-top: 10px;
 }
 
 
-#user-concernCount {
-	border-left: 1px #d7dce0 solid;
-	border-right: 1px #d7dce0 solid;
+#user-concernCount span{
+	border-left: 1px solid rgba(234,234,234,0.8);
+	border-right: 1px solid rgba(234,234,234,0.8);
+	height: 14px;
 }
+
+
 
 #div-propaganda{
 	margin: auto;
 	background-color: #f0f4f7;
+	padding-bottom: 10px;
+}
+#concernCount{
+	margin-top: 6px;
+	line-height: 14px;
+}
+#span-user-data-desc{
+	line-height: 14px;
 }
 
-
 #download-wrap {
-	width:100%;
 	height:52px;
 	margin:0 auto;
 	bottom: 0;
@@ -193,14 +208,14 @@ html,body{
 	overflow:hidden;	
 	font-family: Microsoft YaHei;
 	background-color: rgba(255,255,255,0.9);
-	padding-bottom:6px;
+	padding-bottom:2px;
 	position:fixed; 
 	z-index: 9999;
 }
 
 #download-logo {
 	width: auto;
-	height: 40px;
+	height: 45px;
 	margin-top: 5px;
 	margin-left: 7px;
 	display: inline;
@@ -208,59 +223,68 @@ html,body{
 }
 
 #download-close {
-	width: 8px;
-	height: 8px;
 	display: inline-block;
 	cursor: pointer;
 	vertical-align: center;
-	position: absolute;
-	margin:18px 10px 0 0;
-	right:10px;
+	margin:22px 10px 0 0;
+	float: right;
+}
+
+#download-close img{
+	width: 10px;
+	height: 10px;
 }
 
 #download-tip {
-	background: #3a97d0;
-	width: 100px;
-	height: 30px;
+	background: #3a98d0;
+	width: 96px;
+	height: 26px;
 	color: #ffffff;
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
-	border-radius: 4px;
+	border: 2px solid #3083b5;
 	text-align: center;
-	font-size: 14px;
+	font-size: 13px;
 	display: inline-block;
 	vertical-align: top;
 	cursor: pointer;
 	line-height: 30px;
 	float: right;
-	margin: 11px 11px 0 0;
+	margin: 12px 0 0 0;
 	position:absolute;
-	right:26px;
+	right:30px;
 }
 
 #slogan{
 	display:inline-block;
 	vertical-align: top;
 	padding-left: 8px;
-	padding-top: 5px;
+	padding-top: 11px;
 	float: left;
 	font-size: 0;
+	line-height: 11px;
 }
 
 #zhitu-name{
 	display: block;
-	font-size: 16px;
+	font-size: 14px;
 	color: #373e46;
 	text-align: left;
+	height: 15px;
+	line-height: 15px;
 }
 
 #zhitu-slogan{
 	display: block;
 	font-size: 12px;
 	color: #959da5;
+	valign:top;
+	height: 12px;
+	margin-top: 4px;
 }
 .slide{
-	/*border	: 1px solid #ffffff;*/
-	-moz-border-radius	: 4px;
-	-webkit-border-radius	: 4px
+	border	: 1px solid #ffffff;
+	-moz-border-radius	: 8px;
+	-webkit-border-radius	: 8px;
+	height: 142px;
 }

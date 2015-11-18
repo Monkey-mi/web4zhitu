@@ -7,14 +7,7 @@
 <meta name="description" content="年轻人的生活方式">
 <title>个人主页</title>
 <link rel="stylesheet" href="/individual/css/rorate.css" type="text/css" />
-<style type="text/css">
-html,body{
-	font-family:Microsoft YaHei,Arial, Helvetica, sans-serif;
-	padding: 0px;
-	margin: 0px auto;
-	text-decoration: none;
-}
-</style>
+<link rel="stylesheet" href="/individual/css/individual.css" type="text/css" />
 </head>
 <body>
   	<div id="main" style="display:none">
@@ -105,7 +98,7 @@ html,body{
 	$(function(){
 		inapp = callAppInit();
 		initLayout(s,scale);
-		zBase.init(612 * scale ,2000,2000,'div-slide','div-slide-img','div-slide-btn');
+		zBase.init(winWidth -14 ,2000,2000,'div-slide','div-slide-img','div-slide-btn');
 		if(inapp == 1){
 			$("#download-wrap").hiden();
 		}else{

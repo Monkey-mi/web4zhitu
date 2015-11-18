@@ -1,256 +1,32 @@
 function initLayout(s,scale){	
+		$("#main").width(winWidth);
+		$("#download-wrap").width(winWidth);
 		$(".slide").css({
-			"width"		: parseInt(612 * scale) + "px",
-			"height"	: 284 * scale + "px",
-			"border"	:"1px solid #ffffff",
-			"-moz-border-radius"	: 8 * scale + "px",
-			"-webkit-border-radius"	: 8 * scale + "px"
+			"width"		: (winWidth-14) + "px"
 		});
-		$(".slide .div-slide-img").width(5*parseInt(612 * scale));
+		$(".slide .div-slide-img").width(5*(winWidth-14));
 		$(".slide .div-slide-img").click(function(){
 			window.location.href="http://www.imzhitu.com";
 		});
 		
 		$(".slide img").css({
-			"width"					: 612 * scale + "px"	
+			"width"					: (winWidth-14) + "px"	
 		});
 		
 		$(".div-slide-btn").css({
-			"width"		: 612 * scale + "px",
-			"height"	: 20 * scale + "px"
+			"width"		: (winWidth-14) + "px",
+			"height"	: 10 + "px"
+		});
+		$("#head-user-info").css({
+			"width"		: (winWidth - 83) + "px",
+		});
+		
+		$("#user-info-concern-btn").css({
+			"width" 			: (winWidth - 93) + "px"
 		});
 	
 		queryUserInfo(s,scale);
 		getMyWorldList(s,scale);
-		
-		$("#main").css({
-			"width"		: winWidth + "px",
-			"margin"	: "0 auto"
-		});
-
-		
-		$(".avatar-radius").css({
-			"-moz-border-radius"	:34 +"px",
-			"-webkit-border-radius"	:34 +"px"	
-		});
-		
-		$("#head").css({
-			"width"		: "100%",
-			"height"	: 83 + "px",
-			"font-family"		: "微软雅黑"
-		});
-		$("#user-info-avatar").css({
-			"width"		: 83 + "px",
-			"height"	: 83 + "px",
-			"position"	: "relative",
-			"display"	: "inline-block",
-			"margin"	: "0 auto"
-		});
-		$("#head-user-info").css({
-			"width"		: (winWidth - 83) + "px",
-			"height"	: 73 + "px",
-			"overflow"	: "hidden"
-		});
-		$("#user-avatar").css({
-			"width"		: 67 + "px",
-			"height"	: 67 + "px",
-			"left"		: 10 + "px",
-			"top"		: 10 + "px",
-			"z-index"	: "1",
-			"position"	: "absolute"
-		});
-		
-		$("#user-avatar-mask").css({
-			"width"		: 68 + "px",
-			"height"	: 68 + "px",
-			"left"		: 10 + "px",
-			"top"		: 10 + "px",
-			"z-index"	: "999",
-			"position"	: "absolute"
-		});
-		
-		$(".avatar-radius").css({
-			"-moz-border-radius"	: 34 + "px",
-			"-webkit-border-radius"	: 34 + "px"	
-		});
-		
-		
-		
-		
-		
-		$("#user-info-concern-btn").css({
-			"width" 			: (winWidth - 93) + "px",
-			"height"			: 21 + "px",
-			"line-height"		: 22 + "px",
-			"display"			: "block",
-			"background-color"	: "#6abfde", 
-			"text-align"		: "center",
-			"border"			: "1px #73b7c0 solid",
-			"color"				: "#ffffff",
-			"font-size"			: 13 + "px",
-			"font-family"		: "微软雅黑",
-			"-moz-border-radius"	: 10 + "px",
-			"-webkit-border-radius"	: 10 + "px",
-			"cursor"			: "pointer"	
-		});
-		
-		$("#user-info-signature").css({
-			"padding-left" 		: 12 + "px",
-			"padding-right" 	: 12 + "px",
-			"text-align"  		: "left",
-			"display"			: "block",
-			"font-size"			: 12 + "px",
-			"color"				: "#62707d",
-			"margin-top"		: 10 + "px",
-			"line-height"		: 18 + "px"
-		});
-		
-		$("#user-data").css({
-			"height"		: "40px",
-			"margin"		: "auto",
-			"margin-top"	: 8 + "px",
-			"border-bottom"	: "1px solid rgba(234,234,234,0.8)",
-			"border-top"	: "1px solid rgba(234,234,234,0.8)",
-			"font-size"		: "0"
-		});
-		
-		
-		
-		$(".span-user-data-desc").css({
-			"font-size"		: 11 + "px",
-			"color"			: "#b6bec6",
-			"font-family"	: "微软雅黑",
-			"margin-bottom"	: "1px",
-			"line-height"	: "17px"
-		});
-		
-		$(".span-user-data").css({
-			"font-size"		: 15 + "px",
-			"color"			: "#62707d",
-			"font-family"	: "微软雅黑",
-			"margin-top"	: "4px",
-			"line-height"	: "20px"
-		});
-		
-		$("#user-data div").css({
-			"display"		: "inline-block",
-			"vertical-align": "top",
-			"width"			: "32%"
-		});
-		
-		$("#user-data span").css({
-			"width"			: "100%",
-			"height"		: "17px",
-			"text-align"	: "center",
-			"display"		: "block"
-		});
-		
-		
-		
-		$("#user-concernCount span").css({
-			"border-left"	: "1px solid rgba(234,234,234,0.8)",
-			"border-right"	: "1px solid rgba(234,234,234,0.8)",
-			"height"		: "14px"
-		});
-		
-		$("#concernCount").css({
-			"margin-top"	: "6px",
-			"line-height"   : "14px"
-		});
-		$("#span-user-data-desc").css({
-			"line-height"   : "14px"
-		});
-		
-		
-		
-		$("#div-propaganda").css({
-			"margin"			: "auto",
-			"padding-bottom"	: 10 + "px",
-			"background-color"	: "#f0f4f7"												
-		});
-		
-		$("#download-wrap").css({
-			"width"				: 640 * scale + "px",
-			"height"			: 52 + "px",
-			"margin"			: "0 auto",
-			"bottom"			: "0",
-			"text-align"		: "center",
-			"overflow"			: "hidden",	
-			"font-family"		: "微软雅黑",
-			"background-color"  : "rgba(255,255,255,0.9)",
-			"position"			: "fixed",
-			"z-index"			: "99999" 
-		});
-		
-		$("#download-logo").css({
-			"width"			: "auto",
-			"height"		: 40 + "px",
-			"margin-top"	: 6 + "px",
-			"margin-left"	: 7 + "px",
-			"display"		: "inline",
-			"float"			: "left"
-		});
-		
-		$("#download-close").css({
-			"display"		: "inline-block",
-			"cursor"		: "pointer",
-			"vertical-align": "center",
-			"margin"		: 20 + "px " + 14 + "px 0 0",
-			"float"			: "right"
-		});
-		$("#download-close img").css({
-			"width"			: 10 + "px",
-			"height"		: 10 + "px",
-		});
-		
-		$("#download-tip").css({
-			"background"			: "#3a97d0",
-			"width"					: 100 + "px",
-			"height"				: 30 + "px",
-			"color"					: "#ffffff",
-			"-moz-border-radius"	: 2 + "px",
-			"-webkit-border-radius"	: 2 + "px",
-			"border-radius"			: 2 + "px",
-			"text-align"			: "center",
-			"font-size"				: 13 + "px",
-			"display"				: "inline-block",
-			"vertical-align"		: "top",
-			"cursor"				: "pointer",
-			"line-height"			: 30 + "px",
-			"float"					: "right",
-			"margin"				: 11 + "px " + (11) + "px 0 0",
-			"position"				: "absolute",
-			"right"					: 26 + "px"
-		});
-		
-		$("#slogan").css({
-			"display"		: "inline-block",
-			"vertical-align": "top",
-			"float"			: "left",
-			"font-size"		: "0",
-			"padding-left"	: 8 + "px",
-			"padding-top"	: 8 + "px"
-		});
-		
-		$("#zhitu-name").css({
-			"display"	: "block",
-			"valign"	: "top",
-			"height"	: 15 + "px",
-			"font-size"	: 14 + "px",
-			"color"		: "#373e46",
-			"text-align": "left"
-		});
-		
-		$("#zhitu-slogan").css({
-			"display"	: "block",
-			"valign"	: "top",
-			"height"	: 12 + "px",
-			"font-size"	: 12 + "px",
-			"margin-top": 4 + "px",
-			"color"		: "#959da5",
-		});
-		
-		
 		
 	}
 
@@ -273,16 +49,7 @@ function getMyWorldList(s,scale){
 					var mgrR = 2;
 					var mgrL = 2;
 					var w    = parseInt(imgW * 3 + 2*2 + 2*4);
-				if(worldList.length > 2){
-					/*
-					if(worldList.length == 4){
-						imgW = 300;
-						imgH = 300;
-						mgrR = 12;
-						mgrL = 0;
-						mgrT = 6;
-					}*/
-				}else{
+				if(worldList.length < 3){
 					imgW = w;
 					imgH = w;
 					mgrR = 0;
@@ -299,16 +66,8 @@ function getMyWorldList(s,scale){
 						"margin-right"			: mgrR  + "px"
 					});
 				
-				$("#user-pic-container").css({
-					"text-align"	  : "center",
-					"background-color": "#f0f4f7",
-					"padding"		  : "5px" 
-				});
-				
 				$("#user-pic").css({
-					"text-align"	  : "left",
-					"width"			  : w + "px",
-					"display"		  : "inline-block"
+					"width"			  : w + "px"
 				});
 				
 			}
@@ -327,25 +86,7 @@ function queryUserInfo(s,scale){
 				descriptions[0].setAttribute("content",result['signature']);
 			}
 			
-			$(".user-info").css({
-				"margin-bottom" 	: 4 + "px",
-				"background-color"	: "#ecf0f3",
-				"color"				: "#62707d",
-				"text-align"		: "center",
-				"display"			: "inline-block",
-				"font-size"			: 12 + "px",
-				"font-family"		: "微软雅黑",
-				"height"			: 21 + "px",
-				"line-height"		: 22 + "px",
-				
-			});
-			
 			$("#user-avatar").attr('src',result['avatarImgPath']);
-			$("#user-info-sex").css({
-				"margin-right"	: 5 + "px",
-				"width"			: 24 + "px",
-				"overflow"		: "hidden"
-			});
 			$("#user-info-sex").text(result['sex']);
 			
 			var address = result['address'];
@@ -353,9 +94,7 @@ function queryUserInfo(s,scale){
 				address = "地点" + address;
 			}
 			$("#user-info-address").css({
-				"margin-right"	: 5 + "px",
-				"width"			: (winWidth -127)/2 + "px",
-				"overflow"		: "hidden"
+				"width"			: (winWidth -127)/2 + "px"
 			});
 			$("#user-info-address").text(address);
 			
@@ -364,27 +103,14 @@ function queryUserInfo(s,scale){
 				job = "职业:" + job;
 			}
 			$("#user-info-job").css({
-				"width"			: (winWidth -127)/2 + "px",
-				"overflow"		: "hidden"
+				"width"			: (winWidth -127)/2 + "px"
 			});
 			$("#user-info-job").text(job);
 			
 			if( result['verifyName'].length > 0 ){
 				$("#user-info-verify span").text(result['verifyName']);
-				
 				$("#verifyIcon").attr('src',result['verifyIcon']);
-				$("#verifyIcon").css({
-					"width"			: 15 + "px",
-					"margin-bottom"	: 3  + "px",
-					"vertical-align": "middle",
-					"margin-right"	: "2px"
-				});
 				
-				$("#user-info-verify").css({
-					"width"		: 154 * scale + "px",
-					"overflow"	: "hidden",
-					"margin-right"	: 5 + "px"
-				});
 			} else{
 				$("#user-info-verify").css({
 					"display"	: "none"
@@ -392,32 +118,11 @@ function queryUserInfo(s,scale){
 			}
 			
 			$("#user-info-picCount span").text(result['picCount']);
-			$("#user-info-picCount").css({
-				"width"		: 230 * scale + "px",
-				"overflow"	: "hidden"
-			});
-			
-			
 			$("#user-info-signature").text(result['signature']);
 			$("#worldCount").text(result['worldCount']);
 			$("#concernCount").text(result['concernCount']);
 			$("#followCount").text(result['followCount']);
 			$("#user-info-concern-btn").attr('href',"imzhitu://user?uid=" + result['userId']);
-			
-			$("#head-user-info").css({
-				"padding-top"	: 10 + "px",
-				"display"		: "inline-block",
-				"vertical-align": "top",
-				"text-align"	: "left",
-				"font-size"		: "0"
-				
-			});
-			
-			$("#head-user-info span").css({
-				"-moz-border-radius"	: 10 + "px",
-				"-webkit-border-radius"	: 10 + "px"
-			});
-			
 			
 			$("#main").css({"display":""});
 		}else{
