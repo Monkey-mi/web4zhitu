@@ -47,7 +47,7 @@ $(document).ready(function() {
 				 //设置标题
 	 			$("title").text(channelName);
 			 	$("#wx_pic").append("<img src='" + banner + "' />");
-				$("#activityLoading").append('<div id="concernDataShow"  class="concernDataShow" ><span style="color:#ffab08">' + changeNumber(memberCount) + '</span>人已关注</div>');
+				$("#activityLoading").append('<div id="concernDataShow"  class="concernDataShow" ><span style="color:#ffab08">' + changeNumber(memberCount) + '</span>人关注</div>');
 				$("#activityLoading").append('<div id="header"><img alt="" src=" ' + banner + ' " /> </div>');
 				$("#activityLoading").append('<div id="channelIntro"  class="channelIntro" >' + channelDesc + '</div>');
 				if(result.starList.length > 0){//如果有红人推荐，则显示出来
