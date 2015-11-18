@@ -1,4 +1,25 @@
 function initLayout(s,scale){	
+		$(".slide").css({
+			"width"		: parseInt(612 * scale) + "px",
+			"height"	: 284 * scale + "px",
+			"border"	:"1px solid #ffffff",
+			"-moz-border-radius"	: 8 * scale + "px",
+			"-webkit-border-radius"	: 8 * scale + "px"
+		});
+		$(".slide .div-slide-img").width(5*parseInt(612 * scale));
+		$(".slide .div-slide-img").click(function(){
+			window.location.href="http://www.imzhitu.com";
+		});
+		
+		$(".slide img").css({
+			"width"					: 612 * scale + "px"	
+		});
+		
+		$(".div-slide-btn").css({
+			"width"		: 612 * scale + "px",
+			"height"	: 20 * scale + "px"
+		});
+	
 		queryUserInfo(s,scale);
 		getMyWorldList(s,scale);
 		
@@ -64,7 +85,7 @@ function initLayout(s,scale){
 			"display"			: "block",
 			"background-color"	: "#6abfde", 
 			"text-align"		: "center",
-			"border"			: "1px #5caac7 solid",
+			"border"			: "1px solid rgba(234,234,234,0.8)",
 			"color"				: "#ffffff",
 			"font-size"			: 13 + "px",
 			"font-family"		: "微软雅黑",
@@ -229,26 +250,6 @@ function initLayout(s,scale){
 			"color"		: "#959da5",
 		});
 		
-		$(".slide").css({
-			"width"		: 612 * scale + "px",
-			"height"	: 284 * scale + "px",
-			"border"	:"1px solid #ffffff",
-			"-moz-border-radius"	: 8 * scale + "px",
-			"-webkit-border-radius"	: 8 * scale + "px"
-		});
-		$(".slide .div-slide-img").width(3060*scale);
-		$(".slide .div-slide-img").click(function(){
-			window.location.href="http://www.imzhitu.com";
-		});
-		
-		$(".slide img").css({
-			"width"					: 612 * scale + "px"	
-		});
-		
-		$(".div-slide-btn").css({
-			"width"		: 612 * scale + "px",
-			"height"	: 20 * scale + "px"
-		});
 		
 		
 	}
@@ -263,17 +264,15 @@ function getMyWorldList(s,scale){
 			for ( var i = 0 ; i < worldList.length; i++){
 				var worldItem = worldList[i];
 				var htm = "<img class='img-grid-style' src='"+worldItem['titleThumbPath']+"' onclick='window.location.href=\"" +prefix+ worldItem['shortLink'] + "\"'/>";
-				if(i % 3 == 1){
-					htm = "<img class='img-grid-style img-grid-mid' src='"+worldItem['titleThumbPath']+"' onclick='window.location.href=\"" +prefix+ worldItem['shortLink'] + "\"'/>";
-				}
 				$("#user-pic").append(htm);
 			}
 			
 			if(worldList.length > 0){
-					var imgW = 200;
-					var mgrT = 6;
-					var mgrR = 6 ;
-					var mgrL = 6;
+					var imgW = parseInt((winWidth - 2*2 - 2*4 - 2*5)/3); 
+					var mgrT = 2;
+					var mgrR = 2;
+					var mgrL = 2;
+					var w    = parseInt(imgW * 3 + 2*2 + 2*4);
 				if(worldList.length > 2){
 					/*
 					if(worldList.length == 4){
@@ -284,31 +283,31 @@ function getMyWorldList(s,scale){
 						mgrT = 6;
 					}*/
 				}else{
-					imgW = 612;
-					imgH = 612;
+					imgW = w;
+					imgH = w;
 					mgrR = 0;
 					mgrL = 0;
 					mgrT = 6;
 				}
 				
 				$(".img-grid-style").css({
-						"width"					: imgW * scale + "px",
-						"margin-top"			: mgrT * scale + "px", 
-						"cursor"				: "pointer"
+						"width"					: imgW  + "px",
+						"margin-top"			: mgrT  + "px", 
+						"cursor"				: "pointer",
+						"margin-left"			: mgrL  + "px",
+						"margin-right"			: mgrR  + "px"
 					});
-				$(".img-grid-mid").css({
-					"margin-left"			: mgrL * scale + "px",
-					"margin-right"			: mgrR * scale + "px"
-				});
 				
 				$("#user-pic-container").css({
 					"text-align"	  : "center",
 					"background-color": "#f0f4f7",
-					"padding"		  : 10 * scale + "px " + "0px " + 3 + "px 0px"
+					"padding"		  : "5px" 
 				});
 				
 				$("#user-pic").css({
-					"text-align"	  : "left"
+					"text-align"	  : "left",
+					"width"			  : w + "px",
+					"display"		  : "inline-block"
 				});
 				
 			}
@@ -326,6 +325,20 @@ function queryUserInfo(s,scale){
 				var descriptions = document.getElementsByName('description');
 				descriptions[0].setAttribute("content",result['signature']);
 			}
+			
+			$(".user-info").css({
+				"margin-bottom" 	: 4 + "px",
+				"background-color"	: "#ecf0f3",
+				"color"				: "#62707d",
+				"text-align"		: "center",
+				"display"			: "inline-block",
+				"font-size"			: 12 + "px",
+				"font-family"		: "微软雅黑",
+				"height"			: 21 + "px",
+				"line-height"		: 22 + "px",
+				
+			});
+			
 			$("#user-avatar").attr('src',result['avatarImgPath']);
 			$("#user-info-sex").css({
 				"margin-right"	: 5 + "px",
@@ -404,18 +417,7 @@ function queryUserInfo(s,scale){
 				"-webkit-border-radius"	: 10 + "px"
 			});
 			
-			$(".user-info").css({
-				"margin-bottom" 	: 4 + "px",
-				"background-color"	: "#ecf0f3",
-				"color"				: "#62707d",
-				"text-align"		: "center",
-				"display"			: "inline-block",
-				"font-size"			: 12 + "px",
-				"font-family"		: "微软雅黑",
-				"height"			: 21 + "px",
-				"line-height"		: 22 + "px",
-				
-			});
+			
 			$("#main").css({"display":""});
 		}else{
 	
