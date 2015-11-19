@@ -103,10 +103,10 @@ function initLayout() {
 	$(".slide").css({
 		"width":mainWidth + "px",
 		"height":142 * (mainWidth/306) + "px",
-		/*		"border"	: "1px solid #ffffff",
-		"-moz-border-radius"	: 8 * scale + "px",
-		"-webkit-border-radius"	: 8 * scale + "px",
-		"border-radius"	: 8 * scale + "px"*/
+		"border"	: "1px solid #ffffff",
+		"-moz-border-radius"	: 5 * scale + "px",
+		"-webkit-border-radius"	: 5 * scale + "px",
+		"border-radius"	: 5 * scale + "px"
 	});
 	
 	$(".slide .div-slide-img").css({

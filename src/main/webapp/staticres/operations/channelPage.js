@@ -56,6 +56,7 @@ $(document).ready(function() {
 				}
 				$("#activityLoading").append('<div id="dataShow"  class="dataShow"><div id="superbDataShow" class="superbDataShow" ><span>' + changeNumber(superbCount) + '<br>精选</span></div>' + 
 														'<div id="stickerDataShow"  class="stickerDataShow" ><span>' + changeNumber(worldCount) + '<br>参与</span></div></div>');
+				$("#activityLoading").append('<div style="height:7px;border-top: 1px solid #d7dce0;border-bottom: 1px solid #d7dce0;background-color:#edeff1"></div>');
 				$("#activityLoading").append('<div id="preShowPicForWtworld"  class="preShowPicForWtworld" >' + imgs+ '</div>');
 				initLayout(); 
 	 		}else{
@@ -100,10 +101,10 @@ function initLayout() {
 	$(".slide").css({
 		"width":mainWidth + "px",
 		"height":142 * (mainWidth/306) + "px",
-		/*		"border"	: "1px solid #ffffff",
-		"-moz-border-radius"	: 8 * scale + "px",
-		"-webkit-border-radius"	: 8 * scale + "px",
-		"border-radius"	: 8 * scale + "px"*/
+		"border"	: "1px solid #ffffff",
+		"-moz-border-radius"	: 2 * scale + "px",
+		"-webkit-border-radius"	: 2 * scale + "px",
+		"border-radius"	: 2 * scale + "px"
 	});
 	
 	$(".slide .div-slide-img").css({
