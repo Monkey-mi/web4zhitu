@@ -99,8 +99,8 @@ html,body{
 	height:40px;
 	margin:auto;
 	margin-top: 8px;
-	border-bottom: 1px solid rgba(234,234,234,0.8) ;
-	border-top: 1px solid rgba(234,234,234,0.8);
+	border-bottom: 1px solid #d7dce0 ;
+	border-top: 1px solid #d7dce0;
 	font-size: 0;
 }
 
@@ -154,12 +154,12 @@ html,body{
 	line-height:22px;
 	background-color:#6abfde; 
 	text-align: center;
-	border: 1px #73b7c0 solid;
+	border: 1px #5caac7 solid;
 	color: #ffffff;
 	font-size: 13px;
 	font-family: Microsoft YaHei;
-	-moz-border-radius:10.5px;
-	-webkit-border-radius:10.5px;
+	-moz-border-radius:11.5px;
+	-webkit-border-radius:11.5px;
 	cursor: pointer;	
 }
 
@@ -176,8 +176,8 @@ html,body{
 
 
 #user-concernCount span{
-	border-left: 1px solid rgba(234,234,234,0.8);
-	border-right: 1px solid rgba(234,234,234,0.8);
+	border-left: 1px solid #d7dce0;
+	border-right: 1px solid #d7dce0;
 	height: 14px;
 }
 
@@ -233,18 +233,18 @@ html,body{
 
 #download-tip {
 	background: #3a98d0;
-	width: 96px;
-	height: 26px;
+	width: 98px;
+	height: 28px;
 	color: #ffffff;
-	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px;
-	border: 2px solid #3083b5;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	border: 1px solid #3083b5;
 	text-align: center;
 	font-size: 13px;
 	display: inline-block;
 	vertical-align: top;
 	cursor: pointer;
-	line-height: 30px;
+	line-height: 28px;
 	float: right;
 	margin: 12px 0 0 0;
 	position:absolute;

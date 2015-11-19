@@ -447,7 +447,7 @@ public interface ZTWorldService extends BaseService {
 	 * @throws Exception
 	 * @author lynch 2015-11-16
 	 */
-	public List<HTWorldThumbDto> queryLastNHtworldInfoByUserId(Integer userId,Integer n)throws Exception;
+	public List<HTWorldInteractDto> queryLastNHtworldInfoByUserId(Integer userId,Integer n)throws Exception;
 	
 	
 }

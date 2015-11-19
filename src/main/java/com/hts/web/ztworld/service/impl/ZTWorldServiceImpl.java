@@ -1747,11 +1747,13 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 	}
 	
 	@Override
-	public List<HTWorldThumbDto> queryLastNHtworldInfoByUserId(Integer userId,Integer n)throws Exception{
+	public List<HTWorldInteractDto> queryLastNHtworldInfoByUserId(Integer userId,Integer n)throws Exception{
 		if(userId == null || n == null || n < 1){
 			return null;
 		}
-		return worldDao.queryLastNHtworldInfoByUserId(userId, n);
+		List<HTWorldInteractDto> list =  worldDao.queryLastNHtworldInfoByUserId(userId, n);
+		extractExtraInfo(false, 2, 0, 0, list);
+		return list;
 	}
 
 }

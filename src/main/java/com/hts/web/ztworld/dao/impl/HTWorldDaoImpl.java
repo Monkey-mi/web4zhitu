@@ -594,7 +594,7 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 	private static final String QUERY_VALID = "select valid from " + table
 			+ " where id=?";
 	
-	private static final String QUERY_LAST_N_WORLD_INFO_BY_USER_ID = "select id,title_thumb_path,short_link from " + table + " where author_id= ? and valid=1 and shield=0 order by id desc limit ?";
+	private static final String QUERY_LAST_N_WORLD_INFO_BY_USER_ID = "select * from " + table + " where author_id= ? and valid=1 and shield=0 order by id desc limit ?";
 	
 	@Override
 	public void updateWorldShield(Integer worldId, Integer shield) {
@@ -1834,17 +1834,14 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 	}
 	
 	@Override
-	public List<HTWorldThumbDto> queryLastNHtworldInfoByUserId(Integer userId,Integer n) {
+	public List<HTWorldInteractDto> queryLastNHtworldInfoByUserId(Integer userId,Integer n) {
 		try {
 			return getJdbcTemplate().query(QUERY_LAST_N_WORLD_INFO_BY_USER_ID, 
 					new Object[]{userId,n},
-					new RowMapper<HTWorldThumbDto>(){
+					new RowMapper<HTWorldInteractDto>(){
 				@Override
-				public HTWorldThumbDto mapRow(ResultSet rs, int rowNum)throws SQLException{
-					HTWorldThumbDto dto = new HTWorldThumbDto();
-					dto.setTitleThumbPath(rs.getString("title_thumb_path"));
-					dto.setShortLink(rs.getString("short_link"));
-					return dto;
+				public HTWorldInteractDto mapRow(ResultSet rs, int rowNum)throws SQLException{
+					return buildHTWorldInteractDto(rs);
 				}
 			});
 		} catch(EmptyResultDataAccessException e){

@@ -19,6 +19,7 @@ import com.hts.web.base.constant.Tag;
 import com.hts.web.common.BaseAction;
 import com.hts.web.common.pojo.HTWorld;
 import com.hts.web.common.pojo.HTWorldDto;
+import com.hts.web.common.pojo.HTWorldInteractDto;
 import com.hts.web.common.pojo.HTWorldThumbDto;
 import com.hts.web.common.util.JSONUtil;
 import com.hts.web.common.util.StringUtil;
@@ -126,7 +127,7 @@ public class ZTWorldAction extends BaseAction {
 			if(limit > 50){
 				limit = 50;
 			}
-			List<HTWorldThumbDto> worldList = worldService.queryLastNHtworldInfoByUserId(userId, limit);
+			List<HTWorldInteractDto> worldList = worldService.queryLastNHtworldInfoByUserId(userId, limit);
 			jsonMap.put(OptResult.JSON_KEY_HTWORLD, worldList);
 			JSONUtil.optSuccess(jsonMap);
 		}catch(Exception e){

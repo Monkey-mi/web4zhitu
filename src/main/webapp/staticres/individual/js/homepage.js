@@ -1,3 +1,5 @@
+
+var userAvatar;
 function initLayout(s,scale){	
 		$("#main").width(winWidth);
 		$("#download-wrap").width(winWidth);
@@ -33,13 +35,52 @@ function initLayout(s,scale){
 function getMyWorldList(s,scale){
 	$.post("./ztworld/ztworld_getLastNWorldByUserId",{
 		's':s,
-		'limit':24
+		'limit':4
 	},function(result){
 		if(result['result'] == 0){
 			var worldList = result['htworld'];
 			for ( var i = 0 ; i < worldList.length; i++){
 				var worldItem = worldList[i];
-				var htm = "<img class='img-grid-style' src='"+worldItem['titleThumbPath']+"' onclick='window.location.href=\"" +prefix+ worldItem['shortLink'] + "\"'/>";
+				var htm;
+				if(worldList.length > 5){
+					htm = "<img class='img-grid-style' src='"+worldItem['titleThumbPath']+"' onclick='window.location.href=\"" +prefix+ worldItem['shortLink'] + "\"'/>";
+				}else{
+					htm = "<div class='div-stream'>" +
+							"<div class='div-stream-pic-info'>" +
+							"<div class='div-stream-pic-info-avatar'><img class='avatar' src=''/><img src='/staticres/individual/images/individual_avatar_@2x.png'/></div>" +
+							"<div class='div-stream-pic-info-name'><span class='username'></span><span class='location'>" + worldItem['locationAddr'] +	"</span></div>" +
+							"<div class='div-stream-pic-info-time'><span></span><span></span></div>" +
+							"</div>" +
+							
+							"<div class='div-stream-style'><img src='" +worldItem['titleThumbPath']+"' onclick='window.location.href=\"" +prefix+ worldItem['shortLink'] + "\"'/></div>" +
+							
+							"<div class='div-stream-world-desc'>" + worldItem['worldDesc'] + "</div>" +
+							"<div class='div-stream-interact-btn'><span class='span-like-btn'><img src='/staticres/individual/images/like.png'/><span>喜欢</span></span>" +
+							"<span class='span-comment-btn'><img src='/staticres/individual/images/comment.png'/><span>评论</span></span>" +
+							"<span class='span-share-btn'><img src='/staticres/individual/images/share.png'/><span>分享</span></span><div>";
+					if(worldItem['comments'].length > 0){
+						var commentHtml = "<div class='div-stream-comment'>" ;
+						for(var j=0; j<worldItem['comments'].length && j < 2; j++){
+							var commentItem = worldItem['comments'][j];
+							commentHtml += "<div>"+commentItem['userInfo']['userName'] +"<div>";
+						}
+						commentHtml += "</div>";
+						htm += commentHtml;
+					}
+					
+					if(worldItem['label'].length > 0){
+						var labelHtml = "<div class='div-stream-label'><div class='label-desc'>标签</div><div class='label-names'>";
+						var labelArray = worldItem['label'].split(",");
+						for(var j=0;j<labelArray.length;j++){
+							labelHtml += "<span>" + labelArray[j] + "</span>";
+						}
+						labelHtml += "</div></div>";
+						htm += labelHtml;  
+					}
+					htm += "</div>";
+					
+				}
+				
 				$("#user-pic").append(htm);
 			}
 			
@@ -49,12 +90,12 @@ function getMyWorldList(s,scale){
 					var mgrR = 2;
 					var mgrL = 2;
 					var w    = parseInt(imgW * 3 + 2*2 + 2*4);
-				if(worldList.length < 3){
+				if(worldList.length < 6){
 					imgW = w;
 					imgH = w;
 					mgrR = 0;
 					mgrL = 0;
-					mgrT = 6;
+					mgrT = 2;
 				}
 				
 				$(".img-grid-style").css({
