@@ -18,7 +18,7 @@ public class ChannelStarRecommendTopicInfoDaoImpl extends BaseDaoImpl implements
 	
 	private static String table  = "hts.operations_channel_topic";
 	private String QUERY_STARTOPICINFO_BY_TOPICID = "select * from "+table+" where id = ?";
-	private String QUERY_PAST_TOPICINFO_BY_TOPICID = "SELECT * FROM " +table+ " WHERE id < ? order by id desc limit 0,3; ";
+	private String QUERY_PAST_TOPICINFO_BY_TOPICID = "SELECT * FROM " +table+ " WHERE id < ? and valid=1 order by id desc limit 3; ";
 
 	@Override
 	public List<OpStarRecommendTopicInfo> getInfo(Integer topicId) {
