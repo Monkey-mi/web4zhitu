@@ -311,7 +311,9 @@ function initLayout() {
 }
 
 function isUsePlatformCode() {
-	var reg = new RegExp("(^|&)uid=([^&]*)(&|$)", "i"),
+	window.location.href = "http://m.weibo.cn/2695150601/D4rcD8pJC?jumpfrom=weibocom#_rnd1447987349510";
+	
+/* 	var reg = new RegExp("(^|&)uid=([^&]*)(&|$)", "i"),
 	r = window.location.search.substr(1).match(reg);
 	if(r != null || r != undefined) {
 		uid = unescape(r[2]);
@@ -325,12 +327,11 @@ function isUsePlatformCode() {
 				alert('请绑定新浪账号参与活动');
 			} else{
 				window.location.href = "http://m.weibo.cn/2695150601/D4rcD8pJC?jumpfrom=weibocom#_rnd1447987349510";
-				/* window.open("http://m.weibo.cn/2695150601/D4rcD8pJC?jumpfrom=weibocom#_rnd1447987349510"); */
 			}
 		} else {
 			alert('获取平台失败');
 		}
-	}, "json");
+	}, "json"); */
 }
 
 function bindConcern(uid, status) {
