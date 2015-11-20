@@ -46,6 +46,7 @@ import com.hts.web.common.pojo.HTWorldLatestId;
 import com.hts.web.common.pojo.HTWorldLatestIndex;
 import com.hts.web.common.pojo.HTWorldLikedInline;
 import com.hts.web.common.pojo.HTWorldTextStyle;
+import com.hts.web.common.pojo.HTWorldThumbDto;
 import com.hts.web.common.pojo.HTWorldWithExtra;
 import com.hts.web.common.pojo.OpChannel;
 import com.hts.web.common.pojo.OpMsgBulletin;
@@ -1734,11 +1735,14 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 		}
 	}
 	
-	public List<HTWorldDto> queryLastNHtworldInfoByUserId(Integer userId,Integer n)throws Exception{
+	@Override
+	public List<HTWorldInteractDto> queryLastNHtworldInfoByUserId(Integer userId,Integer n)throws Exception{
 		if(userId == null || n == null || n < 1){
 			return null;
 		}
-		return worldDao.queryLastNHtworldInfoByUserId(userId, n);
+		List<HTWorldInteractDto> list =  worldDao.queryLastNHtworldInfoByUserId(userId, n);
+		extractExtraInfo(false, 2, 0, 0, list);
+		return list;
 	}
 
 }

@@ -32,7 +32,7 @@ public interface ZTWorldInteractService extends BaseService {
 	 * @param jsonMap
 	 * @throws Exception
 	 */
-	public void buildComments(Integer userId, Integer worldId, int maxId,
+	public void buildComments(Integer userId, Integer worldId, int maxId, int sinceId,
 			int start, int limit, Map<String, Object> jsonMap) throws Exception;
 
 	/**
