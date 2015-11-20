@@ -77,7 +77,7 @@ public class ZTWorldInteractServiceTest extends BaseTest {
 	
 	@Test
 	public void testCancelLiked() throws Exception {
-		service.cancelLiked(485, 14527);
+		service.cancelLiked(485, (int)(Math.random() * 999999));
 	}
 	
 	@Test

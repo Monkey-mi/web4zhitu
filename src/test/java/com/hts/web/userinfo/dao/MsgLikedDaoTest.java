@@ -18,7 +18,7 @@ public class MsgLikedDaoTest extends BaseTest {
 	
 	@Test
 	public void saveMsgTest() {
-		dao.saveMsg(1, 10, 10, 10);
+//		dao.saveMsg(1, 10, 10, 10);
 	}
 	
 	@Test

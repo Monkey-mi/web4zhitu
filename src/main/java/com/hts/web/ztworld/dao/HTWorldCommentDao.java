@@ -92,6 +92,19 @@ public interface HTWorldCommentDao extends BaseDao {
 	
 	
 	/**
+	 * 根据最小id分页查询评论列表
+	 * 
+	 * @param worldId
+	 * @param minId
+	 * @param rowSelection
+	 * @return
+	 * 
+	 * @author lynch 2015-11-20
+	 */
+	public List<HTWorldCommentDto> queryCommentByMinId(Integer worldId, 
+			Integer minId, RowSelection rowSelection);
+	
+	/**
 	 * 查询瀑布流内嵌的评论
 	 * 
 	 * @param worldIds

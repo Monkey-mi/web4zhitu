@@ -61,6 +61,8 @@ import com.hts.web.userinfo.service.UserInfoService;
 import com.hts.web.userinfo.service.UserInteractService;
 import com.hts.web.userinfo.service.UserMsgService;
 import com.hts.web.ztworld.dao.CommentBroadcastCacheDao;
+import com.hts.web.ztworld.dao.CommentDeleteDao;
+import com.hts.web.ztworld.dao.CommentShieldDao;
 import com.hts.web.ztworld.dao.HTWorldCommentDao;
 import com.hts.web.ztworld.dao.HTWorldCommentReportDao;
 import com.hts.web.ztworld.dao.HTWorldDao;
@@ -157,6 +159,12 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 	
 	@Autowired
 	private MsgLikedDao msgLikedDao;
+	
+	@Autowired
+	private CommentDeleteDao commentDeleteDao;
+	
+	@Autowired
+	private CommentShieldDao commentShieldDao;
 	
 	@Override
 	public void buildComments(final Integer userId, final Integer worldId, int maxId, int sinceId,
@@ -291,7 +299,7 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 		}
 		
 		id = keyGenService.generateId(KeyGenServiceImpl.HTWORLD_COMMENT_ID);
-		comment = new HTWorldComment(id, authorId, content, new Date(), worldId, 0);
+		comment = new HTWorldComment(id, authorId, content, new Date(), worldId, worldAuthorId, 0);
 		dto = new HTWorldCommentDto(id, authorId, 0, content, comment.getCommentDate(),
 				worldId);
 		
@@ -306,7 +314,7 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 		jsonMap.put(OptResult.JSON_KEY_IS_MUTUTAL, -1);
 		jsonMap.put(OptResult.JSON_KEY_USER_ID, worldAuthorId);
 		
-		if(isCommentValid(content, worldId, authorId)) {
+		if(isCommentValid(comment)) {
 			worldCommentDao.saveWorldComment(comment);
 			Long count = worldCommentDao.queryCommentCount(worldId);// 更新评论总数
 			worldDao.updateCommentCount(worldId, count.intValue());
@@ -416,15 +424,16 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 	 * @return
 	 * @throws Exception
 	 */
-	private boolean isCommentValid(String content,
-			Integer worldId, Integer authorId) throws Exception {
+	private boolean isCommentValid(HTWorldComment comment) throws Exception {
 		
 		boolean valid = true;
-		if(commentFilterService.isad(content)) {
+		if(commentFilterService.isad(comment.getContent())) {
 			valid = false;
-			commentFilterService.insertADCommentToRedis(worldId, authorId, content, new Date());
+			commentFilterService.insertADCommentToRedis(comment.getWorldId(), comment.getAuthorId(),
+					comment.getContent(), new Date());
+			commentShieldDao.saveComment(comment);
 		} else {
-			Map<String, Object> tags = userInfoDao.queryTagById(authorId);
+			Map<String, Object> tags = userInfoDao.queryTagById(comment.getAuthorId());
 			valid = (tags.get("shield")).equals(Tag.TRUE) ? false : true;
 		}
 		
@@ -553,7 +562,7 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 		id = keyGenService.generateId(KeyGenServiceImpl.HTWORLD_COMMENT_ID);
 		
 		comment = new HTWorldComment(id, authorId, content, new Date(), worldId,
-					reAuthorId);
+				worldAuthorId, reAuthorId);
 		dto = new HTWorldCommentDto(id, authorId, reAuthorId, content, 
 				comment.getCommentDate(), worldId);
 		
@@ -568,7 +577,7 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 		jsonMap.put(OptResult.JSON_KEY_IS_MUTUTAL, -1);
 		jsonMap.put(OptResult.JSON_KEY_USER_ID, reAuthorId);
 		
-		if(isCommentValid(content, worldId, authorId)) {
+		if(isCommentValid(comment)) {
 			worldCommentDao.saveWorldComment(comment);
 			Long count = worldCommentDao.queryCommentCount(worldId);
 			worldDao.updateCommentCount(worldId, count.intValue());
@@ -698,8 +707,7 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 		Integer authorId = comment.getAuthorId();
 		String content = comment.getContent();
 		
-		if(!worldCommentDao.isCommentExist(commentId, worldId) || 
-				!isCommentValid(content, worldId, authorId)) 
+		if(!worldCommentDao.isCommentExist(commentId, worldId)) 
 			return;
 		
 		// 推送给最近2000个评论参与人
@@ -733,6 +741,7 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 				|| worldDao.queryAuthorId(comment.getWorldId()).equals(userId)) {
 			
 			worldCommentDao.delComment(id, worldId);
+			commentDeleteDao.saveComment(comment);
 			Long count = worldCommentDao.queryCommentCount(comment.getWorldId());
 			worldDao.updateCommentCount(comment.getWorldId(), count.intValue());
 			
@@ -769,7 +778,7 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 		if(!likedCancelDao.isCancel(userId, worldId))
 			return saveLikedOpt(im, userId, worldId, worldAuthorId);
 		else
-			return reSaveLiked(userId, worldId, worldAuthorId);
+			return reSaveLikedOpt(userId, worldId, worldAuthorId);
 	}
 
 	/**
@@ -801,7 +810,7 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 	 * @param worldId
 	 * @param userId
 	 */
-	private PushStatus reSaveLiked(Integer userId, Integer worldId, 
+	private PushStatus reSaveLikedOpt(Integer userId, Integer worldId, 
 			Integer worldAuthorId) throws Exception {
 		
 		if(saveLikedContent(userId, worldId, worldAuthorId) > 0) {
@@ -825,7 +834,8 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 		id = keyGenService.generateId(KeyGenServiceImpl.HTWORLD_LIKED_ID);
 		try {
 			worldLikedDao.saveLiked(new HTWorldLiked(id, userId, worldId));
-		} catch(DuplicateKeyException e) {
+		} catch(Exception e) {
+			e.printStackTrace();
 			return -1;
 		}
 		//喜欢数+1

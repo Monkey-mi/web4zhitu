@@ -35,6 +35,10 @@ public class HTWorldCommentDaoImpl extends BaseDaoImpl implements
 	
 	private static final String table = HTS.HTWORLD_COMMENT;
 	
+	
+	private static final String FULL_COMMENT_INFO = "c0.id,c0.author_id,c0.content,"
+			+ "c0.comment_date,c0.world_id,c0.world_author_id,c0.re_author_id";
+	
 	private static final String COMMENT_INFO = "c0.id,c0.author_id,c0.content,"
 			+ "c0.comment_date,c0.world_id,c0.re_author_id";
 	
@@ -43,13 +47,13 @@ public class HTWorldCommentDaoImpl extends BaseDaoImpl implements
 	
 	private static final String SAVE_COMMENT = "insert into " + table 
 			+ "(id, author_id, content, comment_date, world_id," 
-			+ "re_author_id) values (?,?,?,?,?,?)";
+			+ "world_author_id,re_author_id) values (?,?,?,?,?,?,?)";
 	
 	private static final String DELETE_BY_ID = "delete from " + table
 			+ " where world_id=? and id=?";
 	
 	private static final String QUERY_COMMENT_BY_ID = "select " 
-			+ COMMENT_INFO + " from " + table 
+			+ FULL_COMMENT_INFO + " from " + table 
 			+ " c0 where c0.world_id=? and c0.id=?";
 	
 	private static final String QUERY_COMMENT_DTO_BY_ID = "select " 
@@ -67,6 +71,12 @@ public class HTWorldCommentDaoImpl extends BaseDaoImpl implements
 			+ COMMENT_INFO + ", " + U0_INFO 
 			+ " from " + table + " as c0, "  + HTS.USER_INFO + " as u0" 
 			+ " where c0.author_id=u0.id and c0.world_id=? and c0.id<=?"
+			+ " order by c0.id desc limit ?,?";
+	
+	private static final String QUERY_COMMENT_BY_MIN_ID = "select " 
+			+ COMMENT_INFO + ", " + U0_INFO 
+			+ " from " + table + " as c0, "  + HTS.USER_INFO + " as u0" 
+			+ " where c0.author_id=u0.id and c0.world_id=? and c0.id>?"
 			+ " order by c0.id desc limit ?,?";
 	
 	private static final String QUERY_COMMENT_COUNT = "select count(*) from " 
@@ -144,20 +154,26 @@ public class HTWorldCommentDaoImpl extends BaseDaoImpl implements
 	
 	@Override
 	public HTWorldComment queryCommentById(Integer id, Integer worldId) {
-		return queryForObjectWithNULL(QUERY_COMMENT_BY_ID, new RowMapper<HTWorldComment>(){
-
-			@Override
-			public HTWorldComment mapRow(ResultSet rs, int rowNum)
-					throws SQLException {
-				return new HTWorldComment(
-						rs.getInt("id"), 
-						rs.getInt("author_id"), 
-						rs.getString("content"),
-						(Date)rs.getObject("comment_Date"),
-						rs.getInt("world_id"),
-						rs.getInt("re_author_id"));
-			}
-		}, worldId, id);
+		try {
+			return getJdbcTemplate().queryForObject(QUERY_COMMENT_BY_ID, new RowMapper<HTWorldComment>(){
+	
+				@Override
+				public HTWorldComment mapRow(ResultSet rs, int rowNum)
+						throws SQLException {
+					HTWorldComment comm = new HTWorldComment();
+					comm.setId(rs.getInt("id"));
+					comm.setAuthorId(rs.getInt("author_id"));
+					comm.setContent(rs.getString("content"));
+					comm.setCommentDate((Date)rs.getObject("comment_Date"));
+					comm.setWorldId(rs.getInt("world_id"));
+					comm.setWorldAuthorId(rs.getInt("world_author_id"));
+					comm.setReAuthorId(rs.getInt("re_author_id"));
+					return comm;
+				}
+			}, worldId, id);
+		} catch(EmptyResultDataAccessException e) {
+			return null;
+		}
 	}
 	
 	@Override
@@ -186,6 +202,7 @@ public class HTWorldCommentDaoImpl extends BaseDaoImpl implements
 				worldComment.getContent(),
 				worldComment.getCommentDate(),
 				worldComment.getWorldId(),
+				worldComment.getWorldAuthorId(),
 				worldComment.getReAuthorId(),
 		});
 	}
@@ -277,6 +294,22 @@ public class HTWorldCommentDaoImpl extends BaseDaoImpl implements
 					public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
 						return rs.getInt("author_id");
 					}
+		});
+	}
+
+	@Override
+	public List<HTWorldCommentDto> queryCommentByMinId(Integer worldId, 
+			Integer minId, RowSelection rowSelection) {
+		return getJdbcTemplate().query(QUERY_COMMENT_BY_MIN_ID, 
+				new Object[]{worldId,minId,rowSelection.getFirstRow(), rowSelection.getLimit()},
+				new RowMapper<HTWorldCommentDto>() {
+
+			@Override
+			public HTWorldCommentDto mapRow(ResultSet rs, int rowNum)
+					throws SQLException {
+				return buildCommentDto(rs);
+			}
+			
 		});
 	}
 

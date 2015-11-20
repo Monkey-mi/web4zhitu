@@ -9,7 +9,6 @@ import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.hts.web.base.constant.Tag;
 import com.hts.web.base.database.HTS;
 import com.hts.web.base.database.RowCallback;
 import com.hts.web.base.database.RowSelection;

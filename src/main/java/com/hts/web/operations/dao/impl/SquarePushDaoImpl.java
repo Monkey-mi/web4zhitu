@@ -110,7 +110,7 @@ public class SquarePushDaoImpl extends BaseDaoImpl implements SquarePushDao {
 	 * 查询广场分类织图SQL尾部
 	 */
 	private static final String QUERY_LABEL_SQUARE_FOOT = ORDER_BY_HW_SERIAL_DESC + " limit ?,?) as h "
-			+ " left join (select * from " + HTS.HTWORLD_LIKED + " hl0 where hl0.valid=1 and hl0.user_id=?) as hl on h.id = hl.world_id"
+			+ " left join (select * from " + HTS.HTWORLD_LIKED + " hl0 where hl0.user_id=?) as hl on h.id = hl.world_id"
 			+ " left join (select * from " + HTS.HTWORLD_KEEP + "  hk0 where hk0.valid=1 and hk0.user_id=?) as hk on h.id = hk.world_id";
 	
 	/**

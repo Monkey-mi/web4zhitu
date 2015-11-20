@@ -174,9 +174,19 @@ public class HTS {
 	public static final String HTWORLD_COMMENT = DB + "htworld_comment";
 	
 	/**
+	 * 织图周最新评论表
+	 */
+	public static final String HTWORLD_COMMENT_WEEK = DB + "htworld_comment_week";
+	
+	/**
 	 * 织图评论删除表
 	 */
 	public static final String HTWORLD_COMMENT_DELETE = DB + "htworld_comment_delete";
+	
+	/**
+	 * 织图评论屏蔽表
+	 */
+	public static final String HTWORLD_COMMENT_SHIELD = DB + "htworld_comment_shield";
 	
 	/**
 	 * 织图评论举报表

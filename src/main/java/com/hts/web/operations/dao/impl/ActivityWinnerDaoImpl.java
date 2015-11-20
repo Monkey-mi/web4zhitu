@@ -31,7 +31,7 @@ public class ActivityWinnerDaoImpl extends BaseDaoImpl implements ActivityWinner
 			+ "(select h0.*," + U0_INFO + " from " + table + " as lb0," + HTS.USER_INFO + " as u0," + HTS.HTWORLD_HTWORLD + " as h0"
 			+ " where h0.author_id=u0.id and h0.id=lb0.world_id and h0.valid=1 and h0.shield=0 and lb0.activity_id=?"
 			+ " order by h0.id desc,lb0.weight desc LIMIT ?,?) as h"
-			+ " left join (select * from " + HTS.HTWORLD_LIKED + " hl0 where hl0.valid=1 and hl0.user_id=?) as hl on h.id = hl.world_id"
+			+ " left join (select * from " + HTS.HTWORLD_LIKED + " hl0 where hl0.user_id=?) as hl on h.id = hl.world_id"
 			+ " left join (select * from " + HTS.HTWORLD_KEEP + "  hk0 where hk0.valid=1 and hk0.user_id=?) as hk on h.id = hk.world_id";
 	
 	/**
@@ -41,7 +41,7 @@ public class ActivityWinnerDaoImpl extends BaseDaoImpl implements ActivityWinner
 			+ "(select h0.*," + U0_INFO + " from " + table + " as lb0," + HTS.USER_INFO + " as u0," + HTS.HTWORLD_HTWORLD + " as h0"
 			+ " where h0.author_id=u0.id and h0.id=lb0.world_id and h0.valid=1 and h0.shield=0 and lb0.activity_id=? and h0.id<=?"
 			+ " order by h0.id desc,lb0.weight desc LIMIT ?,?) as h"
-			+ " left join (select * from " + HTS.HTWORLD_LIKED + " hl0 where hl0.valid=1 and hl0.user_id=? and hl0.world_id<=?) as hl on h.id = hl.world_id"
+			+ " left join (select * from " + HTS.HTWORLD_LIKED + " hl0 where hl0.user_id=? and hl0.world_id<=?) as hl on h.id = hl.world_id"
 			+ " left join (select * from " + HTS.HTWORLD_KEEP + "  hk0 where hk0.valid=1 and hk0.user_id=? and hk0.world_id<=?) as hk on h.id = hk.world_id";
 	
 	/**
@@ -59,7 +59,7 @@ public class ActivityWinnerDaoImpl extends BaseDaoImpl implements ActivityWinner
 			+ HTS.OPERATIONS_ACTIVITY_AWARD + " as awa0"
 			+ " where h0.author_id=u0.id and h0.id=lb0.world_id and lb0.award_id=awa0.id and h0.valid=1 and h0.shield=0 and lb0.activity_id=?"
 			+ " order by lb0.serial desc,lb0.weight desc LIMIT ?,?) as h"
-			+ " left join (select * from " + HTS.HTWORLD_LIKED + " hl0 where hl0.valid=1 and hl0.user_id=?) as hl on h.id = hl.world_id"
+			+ " left join (select * from " + HTS.HTWORLD_LIKED + " hl0 where hl0.user_id=?) as hl on h.id = hl.world_id"
 			+ " left join (select * from " + HTS.HTWORLD_KEEP + "  hk0 where hk0.valid=1 and hk0.user_id=?) as hk on h.id = hk.world_id";
 	
 	/**
@@ -70,7 +70,7 @@ public class ActivityWinnerDaoImpl extends BaseDaoImpl implements ActivityWinner
 			+ HTS.OPERATIONS_ACTIVITY_AWARD + " as awa0"
 			+ " where h0.author_id=u0.id and h0.id=lb0.world_id and lb0.award_id=awa0.id and h0.valid=1 and h0.shield=0 and lb0.activity_id=? and lb0.serial<=?"
 			+ " order by lb0.serial desc,lb0.weight desc LIMIT ?,?) as h"
-			+ " left join (select * from " + HTS.HTWORLD_LIKED + " hl0 where hl0.valid=1 and hl0.user_id=?) as hl on h.id = hl.world_id"
+			+ " left join (select * from " + HTS.HTWORLD_LIKED + " hl0 where hl0.user_id=?) as hl on h.id = hl.world_id"
 			+ " left join (select * from " + HTS.HTWORLD_KEEP + "  hk0 where hk0.valid=1 and hk0.user_id=?) as hk on h.id = hk.world_id";
 	
 	/**

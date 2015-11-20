@@ -52,12 +52,6 @@ public class MsgCommentDaoImpl extends BaseDaoImpl implements MsgCommentDao {
 	private static final String DELETE_MSG = "delete from " + table
 			+ " where comment_id=? and receive_id=?";
 	
-	private static final String UPDATE_CK = "update " + table 
-			+ " set ck=1 where receive_id=? and ck=0";
-	
-	private static final String QUERY_UNCK_COUNT = "select count(1) from " + table
-			+ " where receive_id=? and ck=0";
-
 	/**
 	 * 构建评论消息DTO
 	 * 
@@ -136,16 +130,5 @@ public class MsgCommentDaoImpl extends BaseDaoImpl implements MsgCommentDao {
 	public void deleteByCommentId(Integer commentId, Integer receiveId) {
 		getMasterJdbcTemplate().update(DELETE_MSG, commentId, receiveId);
 	}
-
-//	@Override
-//	public void updateCK(Integer worldAuthorId) {
-//		getMasterJdbcTemplate().update(UPDATE_CK, worldAuthorId);
-//	}
-//
-//	@Override
-//	public long queryUnCkCount(Integer worldAuthorId) {
-//		return getJdbcTemplate().queryForLong(QUERY_UNCK_COUNT, worldAuthorId);
-//	}
-	
 
 }

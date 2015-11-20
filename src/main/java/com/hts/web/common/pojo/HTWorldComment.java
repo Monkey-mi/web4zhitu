@@ -24,6 +24,7 @@ public class HTWorldComment implements Serializable {
 	private String content; // 内容
 	private Date commentDate; // 评论时间
 	private Integer worldId; // 世界ID
+	private Integer worldAuthorId; // 织图作者id
 	private Integer reAuthorId; // 被回复评论作者id
 
 	public HTWorldComment() {
@@ -31,7 +32,7 @@ public class HTWorldComment implements Serializable {
 	}
 
 	public HTWorldComment(Integer id, Integer authorId, String content,
-			Date commentDate, Integer worldId,
+			Date commentDate, Integer worldId, Integer worldAuthorId,
 			Integer reAuthorId) {
 		super();
 		this.id = id;
@@ -39,6 +40,7 @@ public class HTWorldComment implements Serializable {
 		this.content = content;
 		this.commentDate = commentDate;
 		this.worldId = worldId;
+		this.worldAuthorId = worldAuthorId;
 		this.reAuthorId = reAuthorId;
 	}
 	
@@ -75,6 +77,14 @@ public class HTWorldComment implements Serializable {
 	public void setWorldId(Integer worldId) {
 		this.worldId = worldId;
 	}
+	
+	public Integer getWorldAuthorId() {
+		return worldAuthorId;
+	}
+
+	public void setWorldAuthorId(Integer worldAuthorId) {
+		this.worldAuthorId = worldAuthorId;
+	}
 
 	public Integer getAuthorId() {
 		return authorId;
@@ -83,7 +93,7 @@ public class HTWorldComment implements Serializable {
 	public void setAuthorId(Integer authorId) {
 		this.authorId = authorId;
 	}
-
+	
 	public Integer getReAuthorId() {
 		return reAuthorId;
 	}
