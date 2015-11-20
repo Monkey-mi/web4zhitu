@@ -660,6 +660,16 @@ public interface UserInfoDao extends BaseDao {
 	 * @return
 	 * @throws Exception
 	 */
-	public Set<Integer> queryNotAcceptAtUIds(Integer[] uids) throws Exception;
+	public Set<Integer> queryNotAcceptAtUIds(Integer[] uids);
+	
+	
+	/**
+	 * 查询是否使用指定平台登陆
+	 * 
+	 * @param uid
+	 * @param platformCode
+	 * @return
+	 */
+	public boolean isPlatformCode(Integer uid, Integer platformCode);
 	
 }

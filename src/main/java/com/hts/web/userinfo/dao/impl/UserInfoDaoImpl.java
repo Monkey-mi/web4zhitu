@@ -429,6 +429,9 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 	private static final String QUERY_USER_AVATAR = "select " + USER_AVATAR_INFO + " from " + table
 			+ " where id=?";
 	
+	private static final String IS_PLATFORM = "select 1 from " + table
+			+ " where id=? and platform_code=?";
+	
 	@Override
 	public UserInfoDto buildUserInfoDto(Integer userId, ResultSet rs) throws SQLException {
 		return buildUserInfoDtoByResult(userId, rs);
@@ -1319,7 +1322,7 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 	}
 
 	@Override
-	public Set<Integer> queryNotAcceptAtUIds(Integer[] uids) throws Exception {
+	public Set<Integer> queryNotAcceptAtUIds(Integer[] uids) {
 		final Set<Integer> set;
 		String sql;
 		String inSelection;
@@ -1368,6 +1371,17 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 					}
 			
 		}, uid);
+	}
+
+	@Override
+	public boolean isPlatformCode(Integer uid, Integer platformCode) {
+		try {
+			getJdbcTemplate().queryForInt(IS_PLATFORM,
+				new Object[]{uid, platformCode});
+			return true;
+		} catch(EmptyResultDataAccessException e) {
+			return false;
+		}
 	}
 
 }

@@ -96,6 +96,10 @@ public class SocialAccountDaoImpl extends BaseDaoImpl implements SocialAccountDa
 	
 	private static final String QUERY_EXIST_BY_PLAT_ID = "select 1 from " + table
 			+ " where platform_id=? limit 1";
+	
+	
+	private static final String QUERY_HAS_PLATFORM = "select 1 from " + table
+			+ " where user_id=? and platform_code=? limit 1";
 
 
 	@Override
@@ -285,6 +289,16 @@ public class SocialAccountDaoImpl extends BaseDaoImpl implements SocialAccountDa
 	public boolean queryPlatformIdExist(String platformId) {
 		try {
 			getJdbcTemplate().queryForInt(QUERY_EXIST_BY_PLAT_ID,platformId);
+			return true;
+		} catch(EmptyResultDataAccessException e) {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean hasPlatformCode(Integer userId, Integer platformCode) {
+		try {
+			getJdbcTemplate().queryForInt(QUERY_HAS_PLATFORM, userId, platformCode);
 			return true;
 		} catch(EmptyResultDataAccessException e) {
 			return false;

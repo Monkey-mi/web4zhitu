@@ -1043,5 +1043,13 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 			}
 		}
 	}
+
+	@Override
+	public boolean isUsePlatformCode(Integer uid, Integer platformCode) {
+		if(userInfoDao.isPlatformCode(uid, platformCode) 
+				|| socialAccountDao.hasPlatformCode(uid, platformCode))
+			return true;
+		return false;
+	}
 	
 }

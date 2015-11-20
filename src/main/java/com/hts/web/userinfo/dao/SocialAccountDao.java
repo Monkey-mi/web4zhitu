@@ -95,4 +95,13 @@ public interface SocialAccountDao extends BaseDao {
 	 */
 	public boolean queryPlatformIdExist(String platformId);
 	
+	/**
+	 * 判断是否绑定过置顶平台
+	 * 
+	 * @param userId
+	 * @param platformCode
+	 * @return
+	 */
+	public boolean hasPlatformCode(Integer userId, Integer platformCode);
+	
 }
