@@ -117,30 +117,31 @@ public class UserInfoAction extends BaseAction {
 			int userId = UserInfoUtil.decode(iId);
 			UserInfo userInfo = userInfoService.getUserInfoById(userId);
 			if (userInfo == null){
-				return ERROR;
+				jsonMap.put("result", OptResult.OPT_FAILED);
 			}		
 			
 			String address = userInfo.getAddress();
 			if(address == null || address.trim().equals("")){
 				address = "暂无";
 			}
-			request.setAttribute("userId", userId);
-			request.setAttribute("userName", userInfo.getUserName());
-			request.setAttribute("avatarImgPath", userInfo.getUserAvatar());
-			request.setAttribute("sex", userInfo.getSex() == 1 ? "男":"女");
-			request.setAttribute("address", address);
-			request.setAttribute("job", userInfo.getJob() == null ? "暂无":userInfo.getJob());
-			request.setAttribute("verifyName", userInfo.getVerifyName());
-			request.setAttribute("verifyIcon", userInfo.getVerifyIcon());
-			request.setAttribute("picCount", userInfo.getChildCount());
-			request.setAttribute("signature", userInfo.getSignature());
-			request.setAttribute("worldCount", userInfo.getWorldCount());
-			request.setAttribute("concernCount", userInfo.getConcernCount());
-			request.setAttribute("followCount", userInfo.getFollowCount());
-			return "phone";
+			jsonMap.put("userId", userId);
+			jsonMap.put("userName", userInfo.getUserName());
+			jsonMap.put("avatarImgPath", userInfo.getUserAvatar());
+			jsonMap.put("sex", userInfo.getSex() == 1 ? "男":"女");
+			jsonMap.put("address", address);
+			jsonMap.put("job", userInfo.getJob() == null ? "暂无":userInfo.getJob());
+			jsonMap.put("verifyName", userInfo.getVerifyName());
+			jsonMap.put("verifyIcon", userInfo.getVerifyIcon());
+			jsonMap.put("picCount", userInfo.getChildCount());
+			jsonMap.put("signature", userInfo.getSignature());
+			jsonMap.put("worldCount", userInfo.getWorldCount());
+			jsonMap.put("concernCount", userInfo.getConcernCount());
+			jsonMap.put("followCount", userInfo.getFollowCount());
+			jsonMap.put("result", OptResult.OPT_SUCCESS);
 		}catch(Exception e){
-			return ERROR;
+			jsonMap.put("result", OptResult.OPT_FAILED);
 		}
+		return StrutsKey.JSON;
 	}
 	
 	/**

@@ -1,0 +1,119 @@
+<html lang="zh-CN">
+<head>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="description" content="年轻人的生活方式">
+<title>个人主页</title>
+<link rel="stylesheet" href="/staticres/individual/css/rorate.css" type="text/css" />
+<link rel="stylesheet" href="/staticres/individual/css/individual.css" type="text/css" />
+</head>
+<body>
+  	<div id="main" style="display:none">
+		<div id="head">
+			<div id="user-info-avatar">
+				<img id="user-avatar" class="avatar-radius" src=""/>
+				<img id="user-avatar-mask" src="/staticres/individual/images/individual_avatar_@2x.png"/>				
+			</div><!-- 
+		 --><div id="head-user-info">
+				<span id="user-info-sex" class="user-info"></span> 
+			 	<span id="user-info-address" class="user-info"></span>
+			    <span id="user-info-job" class="user-info"></span><br>
+				<span id="user-info-verify" class="user-info"><img id="verifyIcon" src=""><span></span></span>
+			    <span id="user-info-picCount" class="user-info">发布照片：<span></span>张</span>	<br>
+			    <a href="" id="user-info-concern-btn" target="_blank">加关注</a>
+			 </div>
+		</div>
+		<div id="user-info-signature"></div>	
+		<div id="user-data">
+			<div id="user-worldCount" >
+				<span id="worldCount"  class="span-user-data" ></span>
+				<span class="span-user-data-desc">相册</span>
+			</div>
+			<div id="user-concernCount" >
+				<span id="concernCount" class="span-user-data" ></span>
+				<span class="span-user-data-desc">关注</span>
+			</div>
+			<div id="user-followCount" >
+				<span id="followCount" class="span-user-data"></span>
+				<span class="span-user-data-desc">粉丝</span>
+			</div>
+		</div>
+		
+		<!-- 用户图片 -->
+		<div id="user-pic-container">
+			<div id="user-pic"></div>
+		</div>
+		
+		<!-- 轮播图片 -->
+		<div id="div-propaganda">
+			<div class="slide" id="div-slide">
+				<div class="div-slide-img">
+					<img src="http://ww4.sinaimg.cn/large/a0a4bc09gw1er8n9yh6poj20fk078ab8.jpg" title="图片1"/>
+					<img src="http://ww1.sinaimg.cn/large/a0a4bc09gw1er8rwlndlkj20fk078aaz.jpg" title="图片2"/>
+					<img src="http://ww4.sinaimg.cn/large/a0a4bc09gw1er8rwo4pn3j20fk078757.jpg" title="图片3"/>
+					<img src="http://ww1.sinaimg.cn/large/a0a4bc09gw1er8rwxb6fyj20fk078gmi.jpg" title="图片4">
+					<img src="http://ww2.sinaimg.cn/large/a0a4bc09gw1er8rwzl6tej20fk078q3w.jpg" title="图片5">
+				</div>
+				<div class="div-slide-btn">
+					<a href="#" class="hover">●</a>
+					<a href="#">●</a>
+					<a href="#">●</a>
+					<a href="#">●</a>
+					<a href="#">●</a>
+				</div>
+			</div> 
+		</div>
+		
+		<div id="download-wrap">
+					
+			<img id="download-logo" alt="" src="/staticres/individual/images/logo.png">
+			<div id="slogan">
+				<div id="zhitu-name">织图</div>
+				<div id="zhitu-slogan">年轻人的生活方式</div>
+			</div>				
+			<span id="download-tip" onclick="download()">点击下载</span>
+			<span id="download-close" onclick="javascript:hideDownloadBtn();"><img title="隐藏"  alt="" src="/staticres/individual/images/x@2x.png"></span>
+		</div>
+	</div>
+	
+</body>
+<script type="text/javascript" src="/staticres/base/js/jquery/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="/staticres/individual/js/rorate.js"></script>
+<script type="text/javascript" src="/staticres/base/js/callapp2.js"></script>
+<script type="text/javascript" src="/staticres/individual/js/homepage.js"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript" src="/staticres/base/js/wechat.js"></script>
+<script type="text/javascript">
+	var maxWidth = 640;
+	var winWidth = $(window).width();
+		winWidth  = winWidth > maxWidth ? maxWidth : winWidth;
+	var scale = winWidth / maxWidth;
+	var inapp = 0;	
+	var prefix = "/DT";
+	var reg = new RegExp("(^|&)s=([^&]*)(&|$)","i");
+	var r   = window.location.search.substr(1).match(reg);
+	var s   = r[2]; 
+	$(function(){
+		inapp = callAppInit();
+		initLayout(s,scale);
+		zBase.init(winWidth -14 ,2000,2000,'div-slide','div-slide-img','div-slide-btn');
+		if(inapp == 1){
+			$("#download-wrap").hiden();
+		}else{
+			$("#main").css({"margin-bottom": 52 + "px"});
+			$("#download-wrap").show();
+		}
+		document.getElementById("user-info-concern-btn").addEventListener('click',openclientV2,false);
+	});
+	
+	function hideDownloadBtn() {
+		$("#download-wrap").hide();
+		$("#main").css({"margin-bottom":10  + "px"});
+	}
+	function download(){
+		window.location.href="http://a.app.qq.com/o/simple.jsp?pkgname=com.htshuo.htsg";
+	}	
+</script>
+</html>

@@ -28,6 +28,7 @@
 		 -->
 		<intercept-url pattern="/operations/**" access="permitAll" />
 		
+		<intercept-url pattern="/user/user_getIndividualHomePage" access="permitAll" />
 		<intercept-url pattern="/user/user_login" access="permitAll" />
 		<intercept-url pattern="/user/user_loginBySocialAccount" access="permitAll" />
 		<intercept-url pattern="/user/user_register" access="permitAll" />
@@ -42,6 +43,7 @@
 		<intercept-url pattern="/user/rpwd_error" access="permitAll" />
 		<intercept-url pattern="/user/**" access="hasRole('ROLE_USER')" />
 		
+		<intercept-url pattern="/ztworld/ztworld_queryUserLastNThumb" access="permitAll" />
 		<intercept-url pattern="/ztworld/interact_queryInteractByLink" access="permitAll" />
 		<intercept-url pattern="/ztworld/ztworld_getLastNWorldByUserId" access="permitAll" />
 		<intercept-url pattern="/ztworld/ztworld_queryWorld" access="permitAll" />

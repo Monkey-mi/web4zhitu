@@ -657,7 +657,7 @@ public interface HTWorldDao extends BaseDao {
 	 * @param userId
 	 * @return
 	 */
-	public List<HTWorldDto> queryLastNHtworldInfoByUserId(Integer userId,Integer n);
+	public List<HTWorldInteractDto> queryLastNHtworldInfoByUserId(Integer userId,Integer n);
 	
 	/**
 	 * 根据短链查询织图和作者信息

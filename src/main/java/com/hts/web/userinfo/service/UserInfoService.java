@@ -43,6 +43,14 @@ public interface UserInfoService extends BaseService {
 	public Integer checkUserNameExists(String userName) throws Exception;
 	
 	/**
+	 * 检测是否使用指定平台登陆或绑定
+	 * 
+	 * @param platformCode
+	 * @return
+	 */
+	public boolean isUsePlatformCode(Integer uid, Integer platformCode);
+	
+	/**
 	 * 保存用户信息
 	 * 
 	 * @param loginCode

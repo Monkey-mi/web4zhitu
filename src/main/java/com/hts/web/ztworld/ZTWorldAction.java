@@ -8,6 +8,7 @@ import java.util.List;
 import net.sf.json.JSONObject;
 
 import org.apache.log4j.Logger;
+import org.codehaus.jackson.annotate.JsonKeyClass;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.hts.web.base.HTSException;
@@ -18,6 +19,8 @@ import com.hts.web.base.constant.Tag;
 import com.hts.web.common.BaseAction;
 import com.hts.web.common.pojo.HTWorld;
 import com.hts.web.common.pojo.HTWorldDto;
+import com.hts.web.common.pojo.HTWorldInteractDto;
+import com.hts.web.common.pojo.HTWorldThumbDto;
 import com.hts.web.common.util.JSONUtil;
 import com.hts.web.common.util.StringUtil;
 import com.hts.web.common.util.UserInfoUtil;
@@ -106,22 +109,26 @@ public class ZTWorldAction extends BaseAction {
 	@Autowired
 	private UserOperationsService userOptService;
 
-	
+
+	/**
+	 * 获取用户最近n张织图
+	 * @return
+	 */
 	public String getLastNWorldByUserId(){
 		
 		try{
 			String strId = request.getParameter("s");
 			int iId = Integer.parseInt(strId);
 			int userId = UserInfoUtil.decode(iId);
-			List<HTWorldDto> worldList = worldService.queryLastNHtworldInfoByUserId(userId, 9);
-			List<String>titlePathList = new ArrayList<String>();
-			List<String>shortLinkList = new ArrayList<String>();
-			for(HTWorldDto dto:worldList){
-				titlePathList.add(dto.getTitleThumbPath());
-				shortLinkList.add(dto.getShortLink());
+			
+			if(limit == null || limit == 0 || limit < 0){
+				limit = 9;
 			}
-			jsonMap.put("myWorldList", titlePathList);
-			jsonMap.put("shortLinkList", shortLinkList);
+			if(limit > 50){
+				limit = 50;
+			}
+			List<HTWorldInteractDto> worldList = worldService.queryLastNHtworldInfoByUserId(userId, limit);
+			jsonMap.put(OptResult.JSON_KEY_HTWORLD, worldList);
 			JSONUtil.optSuccess(jsonMap);
 		}catch(Exception e){
 			jsonMap.put(OptResult.RESULT, OptResult.OPT_FAILED);			

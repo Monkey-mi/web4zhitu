@@ -3,13 +3,14 @@ package com.hts.web.ztworld.service;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.json.JSONObject;
-
 import com.hts.web.common.pojo.HTWorld;
 import com.hts.web.common.pojo.HTWorldDto;
 import com.hts.web.common.pojo.HTWorldInteractDto;
+import com.hts.web.common.pojo.HTWorldThumbDto;
 import com.hts.web.common.pojo.HTWorldWithExtra;
 import com.hts.web.common.service.BaseService;
+
+import net.sf.json.JSONObject;
 
 /**
  * <p>
@@ -444,8 +445,9 @@ public interface ZTWorldService extends BaseService {
 	 * @param n
 	 * @return
 	 * @throws Exception
+	 * @author lynch 2015-11-16
 	 */
-	public List<HTWorldDto> queryLastNHtworldInfoByUserId(Integer userId,Integer n)throws Exception;
+	public List<HTWorldInteractDto> queryLastNHtworldInfoByUserId(Integer userId,Integer n)throws Exception;
 	
 	
 }

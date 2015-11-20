@@ -25,6 +25,7 @@ public class ChannelSharePageInfoDto implements Serializable {
 
 	private OpChannelDetail opChannelDetail;
 	private List<OpChannelWorldDto> opChannelWorldDtos;
+	private  List<OpChannelStar> starList;
 	
 	public OpChannelDetail getOpChannelDetail() {
 		return opChannelDetail;
@@ -37,6 +38,12 @@ public class ChannelSharePageInfoDto implements Serializable {
 	}
 	public void setOpChannelWorldDto(List<OpChannelWorldDto> opChannelWorldDtos) {
 		this.opChannelWorldDtos = opChannelWorldDtos;
+	}
+	public List<OpChannelStar> getStarList() {
+		return starList;
+	}
+	public void setStarList(List<OpChannelStar> starList) {
+		this.starList = starList;
 	}
 	
 }

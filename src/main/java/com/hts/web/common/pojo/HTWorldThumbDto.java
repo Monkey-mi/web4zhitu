@@ -24,6 +24,7 @@ public class HTWorldThumbDto implements Serializable {
 	private String titlePath;
 	private String bgPath;
 	private String titleThumbPath;
+	private String shortLink;
 	private Integer valid;
 	private Integer shield;
 
@@ -96,6 +97,14 @@ public class HTWorldThumbDto implements Serializable {
 
 	public void setBgPath(String bgPath) {
 		this.bgPath = bgPath;
+	}
+
+	public String getShortLink() {
+		return shortLink;
+	}
+
+	public void setShortLink(String shortLink) {
+		this.shortLink = shortLink;
 	}
 	
 }

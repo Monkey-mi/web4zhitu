@@ -11,8 +11,10 @@ import org.springframework.stereotype.Repository;
 
 import com.hts.web.base.database.HTS;
 import com.hts.web.common.dao.impl.BaseDaoImpl;
+import com.hts.web.common.pojo.HTWorld;
 import com.hts.web.common.pojo.HTWorldLabelWorldAuthor;
 import com.hts.web.common.pojo.OpActivity;
+import com.hts.web.common.util.JSONUtil;
 import com.hts.web.operations.dao.ActivityDao;
 import com.hts.web.ztworld.dao.HTWorldLabelWorldDao;
 
@@ -52,6 +54,20 @@ public class ActivityDaoImpl extends BaseDaoImpl implements
 			+ HTS.OPERATIONS_ACTIVITY_WINNER + " where user_id=lw0.user_id and activity_id=?)"
 			+ " GROUP BY lw0.user_id ORDER BY like_count desc,lw0.serial desc limit ?) as lw, " 
 			+ HTS.USER_INFO + " as u0 where lw.user_id=u0.id";
+	
+	/**
+	 * 根据id查询活动
+	 */
+	private static final String QUERY_HTWORLD_BY_ACTIVITYID = "SELECT hh.* FROM hts.htworld_label_world as hlw,hts.htworld_htworld as hh"
+			+  " WHERE  hlw.world_id = hh.id and hlw.valid=1 and hlw. label_id = ? order by hh.like_count desc"
+			+ " LIMIT ? ";
+	
+	/**
+	 * 根据活动id查询参加活动的人数
+	 */
+	private static final String QUERY_ACTIVITY_TOTAL_BY_AID = 	"select count(*) from hts.htworld_label_world where label_id = ? ";
+	
+	private static final String QUERY_LABEL_BY_AID = "select label_name from hts.htworld_label where id = ?";
 	
 	@Autowired
 	private HTWorldLabelWorldDao worldLabelWorldDao;
@@ -115,5 +131,64 @@ public class ActivityDaoImpl extends BaseDaoImpl implements
 				rs.getInt("serial"));
 	}
 
+	@Override
+	public List<HTWorld> getHtWorldByAid(Integer activityId, int limit) {
+		return getJdbcTemplate().query(QUERY_HTWORLD_BY_ACTIVITYID, 
+				new Object[]{activityId,limit}, new RowMapper<HTWorld>(){
 
+					@Override
+					public HTWorld mapRow(ResultSet rs,
+							int rowNum) throws SQLException {
+							return buildHTworld(rs);
+					}
+			
+		});
+	}
+	
+	public HTWorld buildHTworld(ResultSet rs) throws SQLException {
+		
+		return new HTWorld(
+				rs.getInt("id"), 
+				rs.getString("short_link"), 
+				rs.getInt("author_id"), 
+				rs.getString("world_name"),
+				rs.getString("world_desc"),
+				rs.getString("world_label"),
+				rs.getString("world_type"),
+				rs.getInt("type_id"),
+				(Date)rs.getObject("date_added"),
+				(Date)rs.getObject("date_modified"),
+				rs.getInt("click_count"),
+				rs.getInt("like_count"),
+				rs.getInt("comment_count"),
+				rs.getInt("keep_count"),
+				rs.getString("cover_path"),
+				rs.getString("title_path"),
+				rs.getString("bg_path"),
+				rs.getString("title_thumb_path"),
+				null,//不需要这个数据，现在获取麻烦，且不必要实现，故先置为空。
+				rs.getDouble("longitude"),
+				rs.getDouble("latitude"), 
+				rs.getString("location_desc"),
+				rs.getString("location_addr"),
+				rs.getInt("phone_code"),
+				rs.getString("province"),
+				rs.getString("city"),
+				rs.getInt("size"),
+				rs.getInt("child_count"),
+				rs.getInt("ver"),
+				rs.getInt("tp"),
+				rs.getInt("valid"),
+				rs.getInt("shield"),
+				JSONUtil.getJSObjectFromText(rs.getString("text_style"))
+				);
+	}
+	
+	public int getActivityCount(Integer activityId){
+		return getJdbcTemplate().queryForObject(QUERY_ACTIVITY_TOTAL_BY_AID,new Object[] {activityId},Integer.class) ;
+	}
+	
+	public String queryLableName(Integer activityId){
+		return getJdbcTemplate().queryForObject(QUERY_LABEL_BY_AID,new Object[] {activityId},String.class) ;
+	}
 }

@@ -13,4 +13,5 @@ public interface WechatService {
 	public String getToken();
 	
 	public JSONObject getSignature(String url);
+	
 }

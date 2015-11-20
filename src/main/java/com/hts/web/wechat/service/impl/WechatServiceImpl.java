@@ -3,6 +3,7 @@ package com.hts.web.wechat.service.impl;
 import java.util.Date;
 import java.util.UUID;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.script.DigestUtils;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,8 @@ import net.sf.json.JSONObject;
 @Service("HTSWechatService")
 public class WechatServiceImpl implements WechatService {
 
+	private static Logger logger = Logger.getLogger(WechatServiceImpl.class);
+	
 	@Autowired
 	private WechatCacheDao wechatCacheDao;
 	
@@ -53,5 +56,5 @@ public class WechatServiceImpl implements WechatService {
 		
 		return jsObj;
 	}
-	
+
 }

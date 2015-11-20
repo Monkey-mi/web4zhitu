@@ -1,0 +1,7 @@
+a{text-decoration:none;color:rgba(255,255,255,0.4)}
+.slide{width:306px;height:142px;margin:0 auto;overflow:hidden;position:relative;}
+.slide .div-slide-img{position:absolute;top:0;left:0;width:1530px;}
+.slide .div-slide-img img{float:left;}
+.slide img{width:306px;}
+.div-slide-btn{width:306px;height:20px;line-height:20px;position:absolute;bottom:10px;z-index:11;text-align:center;}
+.div-slide-btn a.hover{color:rgba(255,255,255,1);}
