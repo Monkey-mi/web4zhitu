@@ -7,6 +7,7 @@ import com.hts.web.base.constant.OptResult;
 import com.hts.web.common.BaseAction;
 import com.hts.web.common.util.JSONUtil;
 import com.hts.web.operations.service.ActivityService;
+import com.hts.web.userinfo.service.UserInfoService;
 
 /**
  * <p>
@@ -26,8 +27,20 @@ public class ActivityAction extends BaseAction {
 	@Autowired
 	private ActivityService activityService;
 	
-	private Integer aid;
+	@Autowired
+	private UserInfoService userInfoService;
 	
+	private Integer aid;
+	private Integer userId;
+
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+
 	public Integer getAid() {
 		return aid;
 	}
@@ -47,6 +60,16 @@ public class ActivityAction extends BaseAction {
 		return StrutsKey.JSON;
 	}
 	
-	
+	public String isUsePlatformCode() {
+		try {
+			int isSina = 2;
+			boolean isSinaPlatform = userInfoService.isUsePlatformCode(userId,isSina);
+			jsonMap.put("isPlatfrom", isSinaPlatform);
+			JSONUtil.optSuccess(jsonMap);
+		} catch (Exception e) {
+			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+		}
+		return StrutsKey.JSON;
+	}
 	
 }

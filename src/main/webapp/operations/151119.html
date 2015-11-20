@@ -180,18 +180,9 @@ a {
 <div class="share-wrap">
 <img alt="" src="http://static.imzhitu.com/op/sticker/151119/02.jpg" /> 
 <div id="share-btn-wrap1">
-<a id="share-btn1"  href="imzhitu://sharePage" style="display:block"><img  src="http://static.imzhitu.com/op/sticker/151119/share.jpg"></a>
+<img onclick="javascript:isUsePlatformCode();" src="http://static.imzhitu.com/op/sticker/151119/share.jpg">
 </div>
 </div>
-</div>
-
-<div id="download-wrap">
-<a id="download-btn" title="点击下载" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.htshuo.htsg">
-	<img id="download-bg" alt="" src="/staticres/base/images/down-bg.jpg">
-	<img id="download-logo" alt="" src="/staticres/base/images/down-logo.png">
-	<span id="download-tip">点击下载</span>
-</a>
-<img id="download-close" title="隐藏" onclick="javascript:hideDownloadBtn();" alt="" src="/staticres/base/images/down-close.jpg">
 </div>
 
 <script type="text/javascript" src="../staticres/base/js/callapp2.js"></script> 
@@ -211,7 +202,7 @@ var inapp = 0;
 			bindAllBtnClick2Callapp();
 		} else {
 			uid = unescape(r[2]);
-			fetchConcernStatus(uid);
+			/* fetchConcernStatus(uid); */
 		}
 	} else {
 		$("#download-wrap").show();
@@ -317,6 +308,29 @@ function initLayout() {
 		if(inapp==1) {
 			$("#main").css({"margin-bottom":"0px"});
 		}
+}
+
+function isUsePlatformCode() {
+	var reg = new RegExp("(^|&)uid=([^&]*)(&|$)", "i"),
+	r = window.location.search.substr(1).match(reg);
+	if(r != null || r != undefined) {
+		uid = unescape(r[2]);
+	}
+	
+	$.post("./activity_isUsePlatformCode",{
+		"userId":uid,
+	},function(data){
+		if(data['result'] == 0) {
+			if(data['isPlatfrom'] != true){
+				alert('请绑定新浪账号参与活动');
+			} else{
+				window.location.href = "http://m.weibo.cn/2695150601/D4rcD8pJC?jumpfrom=weibocom#_rnd1447987349510";
+				/* window.open("http://m.weibo.cn/2695150601/D4rcD8pJC?jumpfrom=weibocom#_rnd1447987349510"); */
+			}
+		} else {
+			alert('获取平台失败');
+		}
+	}, "json");
 }
 
 function bindConcern(uid, status) {
