@@ -46,7 +46,6 @@ import com.hts.web.common.pojo.HTWorldLatestId;
 import com.hts.web.common.pojo.HTWorldLatestIndex;
 import com.hts.web.common.pojo.HTWorldLikedInline;
 import com.hts.web.common.pojo.HTWorldTextStyle;
-import com.hts.web.common.pojo.HTWorldThumbDto;
 import com.hts.web.common.pojo.HTWorldWithExtra;
 import com.hts.web.common.pojo.OpChannel;
 import com.hts.web.common.pojo.OpMsgBulletin;
@@ -83,6 +82,7 @@ import com.hts.web.ztworld.dao.HTWorldFilterLogoCacheDao;
 import com.hts.web.ztworld.dao.HTWorldLabelDao;
 import com.hts.web.ztworld.dao.HTWorldLabelWorldDao;
 import com.hts.web.ztworld.dao.HTWorldLikedDao;
+import com.hts.web.ztworld.dao.HTWorldWeekDao;
 import com.hts.web.ztworld.service.ZTWorldService;
 
 import net.sf.json.JSONArray;
@@ -252,6 +252,9 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 	
 	@Autowired
 	private UserMsgService userMsgService;
+	
+	@Autowired
+	private HTWorldWeekDao worldWeekDao;
 	
 	private String baseThumbPathAixin = "http://static.imzhitu.com/world/thumbs/1403056393000.png";
 	private String baseThumbPathXing = "http://static.imzhitu.com/world/thumbs/1403057093000.png";
@@ -437,6 +440,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 			saveWorldLogger.warn("save channel world error, " + e.getMessage(), e);
 		}
 		
+		worldWeekDao.saveWorld(world);
 		worldDao.saveWorld(world); // 保存世界信息
 		
 		// 更新织图总数
@@ -698,6 +702,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 		if (world != null && world.getValid() == Tag.TRUE
 				&& world.getAuthorId().equals(userId)
 				&& world.getShield() == Tag.FALSE) {
+			worldWeekDao.validRecord(HTS.HTWORLD_HTWORLD_WEEK, Tag.FALSE, worldId);
 			worldDao.validRecord(HTS.HTWORLD_HTWORLD, Tag.FALSE, worldId);
 			Long count = worldDao.queryWorldCountByAuthorId(userId);
 			Integer childCount = worldDao.queryChildCount(userId);

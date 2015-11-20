@@ -1786,6 +1786,7 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 		return getJdbcTemplate().queryForInt(QUERY_CHILD_COUNT_BY_ID, id);
 	}
 	
+	@Override
 	public String[] parseChannelNames(List<HTWorldChannelName> names) {
 		StringBuilder cnameBuilder = new StringBuilder();
 		StringBuilder cidBuilder = new StringBuilder();

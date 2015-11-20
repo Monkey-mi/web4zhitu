@@ -137,6 +137,11 @@ public class HTS {
 	 * 织图世界表
 	 */
 	public static final String HTWORLD_HTWORLD = DB + "htworld_htworld";
+	
+	/**
+	 * 每周最新织图表
+	 */
+	public static final String HTWORLD_HTWORLD_WEEK = DB + "htworld_htworld_week";
 
 	/**
 	 * 织图喜欢表
