@@ -18,7 +18,7 @@ import net.sf.json.JSONObject;
 @Repository("HTSWorldWeekDao")
 public class HTWorldWeekDaoImpl extends BaseDaoImpl implements HTWorldWeekDao {
 	
-	private static String table = HTS.HTWORLD_HTWORLD;
+	private static String table = HTS.HTWORLD_HTWORLD_WEEK;
 	
 	/**
 	 * 保存世界
