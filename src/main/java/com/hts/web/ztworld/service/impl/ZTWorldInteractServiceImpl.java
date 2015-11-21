@@ -63,6 +63,7 @@ import com.hts.web.userinfo.service.UserMsgService;
 import com.hts.web.ztworld.dao.CommentBroadcastCacheDao;
 import com.hts.web.ztworld.dao.CommentDeleteDao;
 import com.hts.web.ztworld.dao.CommentShieldDao;
+import com.hts.web.ztworld.dao.CommentWeekDao;
 import com.hts.web.ztworld.dao.HTWorldCommentDao;
 import com.hts.web.ztworld.dao.HTWorldCommentReportDao;
 import com.hts.web.ztworld.dao.HTWorldDao;
@@ -165,6 +166,9 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 	
 	@Autowired
 	private CommentShieldDao commentShieldDao;
+	
+	@Autowired
+	private CommentWeekDao commentWeekDao;
 	
 	@Override
 	public void buildComments(final Integer userId, final Integer worldId, int maxId, int sinceId,
@@ -315,6 +319,7 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 		jsonMap.put(OptResult.JSON_KEY_USER_ID, worldAuthorId);
 		
 		if(isCommentValid(comment)) {
+			commentWeekDao.saveComment(comment);
 			worldCommentDao.saveWorldComment(comment);
 			Long count = worldCommentDao.queryCommentCount(worldId);// 更新评论总数
 			worldDao.updateCommentCount(worldId, count.intValue());
@@ -578,6 +583,7 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 		jsonMap.put(OptResult.JSON_KEY_USER_ID, reAuthorId);
 		
 		if(isCommentValid(comment)) {
+			commentWeekDao.saveComment(comment);
 			worldCommentDao.saveWorldComment(comment);
 			Long count = worldCommentDao.queryCommentCount(worldId);
 			worldDao.updateCommentCount(worldId, count.intValue());
@@ -740,6 +746,7 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 				|| userId.equals(comment.getReAuthorId())
 				|| worldDao.queryAuthorId(comment.getWorldId()).equals(userId)) {
 			
+			commentWeekDao.delComment(id, worldId);
 			worldCommentDao.delComment(id, worldId);
 			commentDeleteDao.saveComment(comment);
 			Long count = worldCommentDao.queryCommentCount(comment.getWorldId());
