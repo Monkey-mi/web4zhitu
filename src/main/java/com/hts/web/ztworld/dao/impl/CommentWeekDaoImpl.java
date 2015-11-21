@@ -15,7 +15,7 @@ public class CommentWeekDaoImpl extends BaseDaoImpl implements CommentWeekDao {
 	
 	private static final String SAVE_COMMENT = "insert into " + table 
 			+ "(id, author_id, content, comment_date, world_id," 
-			+ "author_id,re_author_id) values (?,?,?,?,?,?,?)";
+			+ "world_author_id,re_author_id) values (?,?,?,?,?,?,?)";
 	
 	private static final String DELETE_BY_ID = "delete from " + table
 			+ " where world_id=? and id=?";
