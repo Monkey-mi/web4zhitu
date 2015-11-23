@@ -71,8 +71,7 @@ var downbanner = {
 };
 
 (function(){
-	downbanner.appendBanner();
-//	if(downbanner.checkCookieEnable && !downbanner.isHideBanner()) {
-//		downbanner.appendBanner();
-//	}
+	if(downbanner.checkCookieEnable && !downbanner.isHideBanner()) {
+		downbanner.appendBanner();
+	}
 })();
