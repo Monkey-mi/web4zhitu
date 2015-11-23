@@ -47,6 +47,17 @@ var downbanner = {
 		return downbanner.getCookie(downbanner.hideCookie) != null ? true : false;
 	},
 	
+	/* 判断是否在app内部打开网页 */
+	isInApp : function() {
+		var reg = new RegExp("(^|&)inapp=([^&]*)(&|$)","i");
+		var r   = window.location.search.substr(1).match(reg);
+		var s   = r[2];
+		if(s != undefined && s == 1) {
+			return true;
+		}
+		return false;
+	},
+	
 	/* 设置cookie,默认过期时间为1天 */
 	setCookie : function(name,value) {
 	    var exp = new Date(); 
@@ -71,7 +82,8 @@ var downbanner = {
 };
 
 (function(){
-	if(downbanner.checkCookieEnable && !downbanner.isHideBanner()) {
+	if(downbanner.checkCookieEnable && !downbanner.isHideBanner() 
+			&& !downbanner.isInApp()) {
 		downbanner.appendBanner();
 	}
 })();
