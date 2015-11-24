@@ -280,7 +280,9 @@ img.zt-temp{
 	z-index: 999999;
 	display: none;
 	position: absolute;
-	
+	margin-top: 7px;
+	margin-left:5px;
+	width:60px;
 }
 
 

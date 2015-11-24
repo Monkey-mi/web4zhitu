@@ -6,22 +6,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <meta name="description" content="年轻人的生活方式">
 <title>个人主页</title>
-<link rel="stylesheet" href="/staticres/individual/css/rorate.css" type="text/css" />
-<link rel="stylesheet" href="/staticres/individual/css/individual.css" type="text/css" />
+<link rel="stylesheet" href="/staticres/home/css/rorate.css" type="text/css" />
+<link rel="stylesheet" href="/staticres/home/css/home.css" type="text/css" />
 </head>
 <body>
-  	<div id="main" style="display:none">
+  	<div id="main">
 		<div id="head">
 			<div id="user-info-avatar">
-				<img id="user-avatar" class="avatar-radius" src=""/>
-				<img id="user-avatar-mask" src="/staticres/individual/images/individual_avatar_@2x.png"/>				
-			</div><!-- 
-		 --><div id="head-user-info">
-				<span id="user-info-sex" class="user-info"></span> 
-			 	<span id="user-info-address" class="user-info"></span>
+				<img id="user-avatar" class="avatar" src=""/>
+				<img id="user-avatar-mask" src="/staticres/home/images/individual_avatar_@2x.png"/>				
+			</div>
+			<div id="head-user-info">
+				<span id="user-info-sex" class="user-info">男</span> 
+			 	<span id="user-info-address" class="user-info">广东 深圳</span>
 			    <span id="user-info-job" class="user-info"></span><br>
-				<span id="user-info-verify" class="user-info"><img id="verifyIcon" src=""><span></span></span>
-			    <span id="user-info-picCount" class="user-info">发布照片：<span></span>张</span>	<br>
+				<span id="user-info-verify" class="user-info"><img id="verifyIcon" src=""><span>织图明星</span></span>
+			    <span id="user-info-picCount" class="user-info">发布照片：<span>1</span>张</span><br>
 			    <a href="" id="user-info-concern-btn" target="_blank">加关注</a>
 			 </div>
 		</div>
@@ -47,6 +47,7 @@
 		</div>
 		
 		<!-- 轮播图片 -->
+		<!-- 
 		<div id="div-propaganda">
 			<div class="slide" id="div-slide">
 				<div class="div-slide-img">
@@ -65,55 +66,25 @@
 				</div>
 			</div> 
 		</div>
+		 -->
 		
 		<div id="download-wrap">
 					
-			<img id="download-logo" alt="" src="/staticres/individual/images/logo.png">
+			<img id="download-logo" alt="" src="/staticres/home/images/logo.png">
 			<div id="slogan">
 				<div id="zhitu-name">织图</div>
 				<div id="zhitu-slogan">年轻人的生活方式</div>
 			</div>				
-			<span id="download-tip" onclick="download()">点击下载</span>
-			<span id="download-close" onclick="javascript:hideDownloadBtn();"><img title="隐藏"  alt="" src="/staticres/individual/images/x@2x.png"></span>
+			<span id="download-tip" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.htshuo.htsg">点击下载</span>
+			<span id="download-close" onclick="javascript:hideDownloadBtn();"><img title="隐藏"  alt="" src="/staticres/home/images/x@2x.png"></span>
 		</div>
 	</div>
 	
 </body>
 <script type="text/javascript" src="/staticres/base/js/jquery/jquery-1.8.2.min.js"></script>
-<script type="text/javascript" src="/staticres/individual/js/rorate.js"></script>
+<script type="text/javascript" src="/staticres/home/js/rorate.js"></script>
 <script type="text/javascript" src="/staticres/base/js/callapp2.js"></script>
-<script type="text/javascript" src="/staticres/individual/js/homepage.js"></script>
+<script type="text/javascript" src="/staticres/home/js/home.js"></script>
 <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script type="text/javascript" src="/staticres/base/js/wechat.js"></script>
-<script type="text/javascript">
-	var maxWidth = 640;
-	var winWidth = $(window).width();
-		winWidth  = winWidth > maxWidth ? maxWidth : winWidth;
-	var scale = winWidth / maxWidth;
-	var inapp = 0;	
-	var prefix = "/DT";
-	var reg = new RegExp("(^|&)s=([^&]*)(&|$)","i");
-	var r   = window.location.search.substr(1).match(reg);
-	var s   = r[2]; 
-	$(function(){
-		inapp = callAppInit();
-		initLayout(s,scale);
-		zBase.init(winWidth -14 ,2000,2000,'div-slide','div-slide-img','div-slide-btn');
-		if(inapp == 1){
-			$("#download-wrap").hiden();
-		}else{
-			$("#main").css({"margin-bottom": 52 + "px"});
-			$("#download-wrap").show();
-		}
-		document.getElementById("user-info-concern-btn").addEventListener('click',openclientV2,false);
-	});
-	
-	function hideDownloadBtn() {
-		$("#download-wrap").hide();
-		$("#main").css({"margin-bottom":10  + "px"});
-	}
-	function download(){
-		window.location.href="http://a.app.qq.com/o/simple.jsp?pkgname=com.htshuo.htsg";
-	}	
-</script>
 </html>

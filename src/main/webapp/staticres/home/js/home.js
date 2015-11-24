@@ -1,24 +1,55 @@
-
+/*
+ * 用户个人主页js
+ * 
+ * author: lynch 2015-11-21
+ */
+var prefix = "/DT";
 var userAvatar;
-function initLayout(s,scale){	
-		$("#main").width(winWidth);
-		$("#download-wrap").width(winWidth);
-		$(".slide").css({
-			"width"		: (winWidth-14) + "px"
-		});
-		$(".slide .div-slide-img").width(5*(winWidth-14));
-		$(".slide .div-slide-img").click(function(){
-			window.location.href="http://www.imzhitu.com";
-		});
+
+$(function(){
+	//zBase.init(winWidth -14 ,2000,2000,'div-slide','div-slide-img','div-slide-btn');
+	document.getElementById("user-info-concern-btn").addEventListener('click',openclientV2,false);
+});
+
+function hideDownloadBtn() {
+	$("#download-wrap").hide();
+	$("#main").css({"margin-bottom":10  + "px"});
+}
+
+var ui = {
+	getInApp : function() {
+		return callAppInit();
+	},
+	getS : function() {
+		var reg = new RegExp("(^|&)s=([^&]*)(&|$)","i");
+		var r   = window.location.search.substr(1).match(reg);
+		var s   = r[2];
+		if(s != undefined) {
+			return s;
+		}
+		return -1;
+	},
+	
+	initLayout : function(inapp, s) {
+		//$("#main").width(winWidth);
+		//$("#download-wrap").width(winWidth);
+		//$(".slide").css({
+		//	"width"		: (winWidth-14) + "px"
+		//});
+		//$(".slide .div-slide-img").width(5*(winWidth-14));
+		//$(".slide .div-slide-img").click(function(){
+		//	window.location.href="http://www.imzhitu.com";
+		//});
 		
-		$(".slide img").css({
-			"width"					: (winWidth-14) + "px"	
-		});
+		//$(".slide img").css({
+		//	"width"					: (winWidth-14) + "px"	
+		//});
 		
-		$(".div-slide-btn").css({
-			"width"		: (winWidth-14) + "px",
-			"height"	: 10 + "px"
-		});
+		//$(".div-slide-btn").css({
+		//	"width"		: (winWidth-14) + "px",
+		//	"height"	: 10 + "px"
+		//});
+		
 		$("#head-user-info").css({
 			"width"		: (winWidth - 83) + "px",
 		});
@@ -26,11 +57,27 @@ function initLayout(s,scale){
 		$("#user-info-concern-btn").css({
 			"width" 			: (winWidth - 93) + "px"
 		});
-	
-		queryUserInfo(s,scale);
-		getMyWorldList(s,scale);
 		
+		if(inapp == 1){
+			$("#download-wrap").hiden();
+		}else{
+			$("#main").css({"margin-bottom": 52 + "px"});
+			$("#download-wrap").show();
+		}
+
+		//queryUserInfo(s,scale);
+		//getMyWorldList(s,scale);
 	}
+};
+
+var ajax = {
+		
+};
+
+
+
+function initLayout(s,scale){	
+}
 
 function getMyWorldList(s,scale){
 	$.post("./ztworld/ztworld_getLastNWorldByUserId",{
@@ -165,7 +212,7 @@ function queryUserInfo(s,scale){
 			$("#followCount").text(result['followCount']);
 			$("#user-info-concern-btn").attr('href',"imzhitu://user?uid=" + result['userId']);
 			
-			$("#main").css({"display":""});
+			//$("#main").css({"display":""});
 		}else{
 	
 		}

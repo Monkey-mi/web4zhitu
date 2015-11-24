@@ -121,17 +121,17 @@ public class ZTWorldAction extends BaseAction {
 			int iId = Integer.parseInt(strId);
 			int userId = UserInfoUtil.decode(iId);
 			
-			if(limit == null || limit == 0 || limit < 0){
+			if(limit == null || limit == 0 || limit < 0)
 				limit = 9;
-			}
-			if(limit > 50){
+			
+			if(limit > 50)
 				limit = 50;
-			}
-			List<HTWorldInteractDto> worldList = worldService.queryLastNHtworldInfoByUserId(userId, limit);
-			jsonMap.put(OptResult.JSON_KEY_HTWORLD, worldList);
+			
+			worldService.queryLastNHtworldInfoByUserId(userId, limit, jsonMap);
 			JSONUtil.optSuccess(jsonMap);
-		}catch(Exception e){
-			jsonMap.put(OptResult.RESULT, OptResult.OPT_FAILED);			
+		} catch(Exception e) {
+			e.printStackTrace();
+			JSONUtil.optFailed2(getCurrentLoginUserId(), e, jsonMap, worldLogger);
 		}
 		return StrutsKey.JSON;
 	}
