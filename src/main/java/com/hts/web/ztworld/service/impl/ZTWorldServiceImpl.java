@@ -1741,13 +1741,18 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 	}
 	
 	@Override
-	public List<HTWorldInteractDto> queryLastNHtworldInfoByUserId(Integer userId,Integer n)throws Exception{
-		if(userId == null || n == null || n < 1){
-			return null;
+	public void queryLastNHtworldInfoByUserId(Integer userId,
+			Integer limit, Map<String, Object> jsonMap)throws Exception{
+		if(limit == 4) {
+			List<HTWorldThumbDto> worldList =  worldDao.queryLastNHtworldInfoByUserId(userId, limit);
+			jsonMap.put(OptResult.JSON_KEY_HTWORLD, worldList);
+		} else {
+			List<HTWorldInteractDto> worldList = worldDao.queryUserWorld(userId, -1, new RowSelection(1, limit));
+			extractExtraInfo(false, 2, 0, worldList.size(), worldList);
+			userInfoService.extractVerify(worldList);
+			jsonMap.put(OptResult.JSON_KEY_HTWORLD, worldList);
 		}
-		List<HTWorldInteractDto> list =  worldDao.queryLastNHtworldInfoByUserId(userId, n);
-		extractExtraInfo(false, 2, 0, 0, list);
-		return list;
+		
 	}
 
 }

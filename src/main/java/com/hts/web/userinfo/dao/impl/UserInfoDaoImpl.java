@@ -121,6 +121,10 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 			+ " set platform_token=?,platform_token_expires=?,platform_sign=?,platform_verify=?,platform_reason=?,"
 			+ "push_token=?,phone_code=?,phone_sys=?,phone_ver=?,online=?,ver=? where login_code=? and platform_code=?";
 	
+	private static final String UPDATE_LOGIN_STATUS_NO_PLATFORM_VERIFY = "update " + table 
+			+ " set platform_token=?,platform_token_expires=?,platform_sign=?,"
+			+ "push_token=?,phone_code=?,phone_sys=?,phone_ver=?,online=?,ver=? where login_code=? and platform_code=?";
+	
 	/**
 	 * 更新退出登陆状态
 	 */
@@ -520,10 +524,17 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 			Long platformTokenExpires, String platformSign, Integer platformVerify, 
 			String platformReason,String pushToken, Integer phoneCode, String phoneSys, String phoneVer, 
 			Integer online, Float ver){
-		getMasterJdbcTemplate().update(UPDATE_LOGIN_STATUS, new Object[]{
-				platformToken,platformTokenExpires,platformSign, platformVerify, platformReason,
-				pushToken, phoneCode, phoneSys, phoneVer, online, ver, loginCode, platformCode
-		});
+		if(platformVerify != null && platformVerify != 0) {
+			getMasterJdbcTemplate().update(UPDATE_LOGIN_STATUS, new Object[]{
+					platformToken,platformTokenExpires,platformSign, platformVerify, platformReason,
+					pushToken, phoneCode, phoneSys, phoneVer, online, ver, loginCode, platformCode
+			});
+		} else {
+			getMasterJdbcTemplate().update(UPDATE_LOGIN_STATUS_NO_PLATFORM_VERIFY, new Object[]{
+					platformToken,platformTokenExpires,platformSign,pushToken,
+					phoneCode, phoneSys, phoneVer, online, ver, loginCode, platformCode
+			});
+		}
 	}
 	
 	@Override
