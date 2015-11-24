@@ -16,7 +16,7 @@ var downbanner = {
 		var body = document.body;
 		var downWrap = document.createElement('div');
 		
-		downWrap.setAttribute("style", "width:100%;height:52px;margin:0 auto;bottom: 0;text-align:center;overflow:hidden;font-family: Microsoft YaHei;padding-bottom:2px;position:fixed; z-index: 9999;background: rgba(255,255,255,0.9);");
+		downWrap.setAttribute("style", "width:100%;height:52px;margin:0 auto;bottom: 0;text-align:center;overflow:hidden;font-family: Microsoft YaHei;padding-bottom:2px;position:fixed; z-index: 999999;background: rgba(255,255,255,0.9);");
 		downWrap.innerHTML =
 			 '<a href="'+indexURL+'">'
 			+'<img style="width: auto;height: 45px;margin-top: 5px;margin-left: 7px;display: inline;float: left;" alt="" src="/staticres/home/images/logo.png">'
@@ -25,7 +25,7 @@ var downbanner = {
 			+'	<div style="display: block;font-size: 14px;color: #373e46;text-align: left;height: 15px;line-height: 15px;">织图</div>'
 			+'	<div style="display: block;font-size: 12px;color: #959da5;vertical-align:top;height: 12px;margin-top: 4px;">年轻人的生活方式</div>'
 			+'</div>'
-			+'<a href="'+downURL+'" style="background: #3a98d0;width: 96px;height: 26px;color: #ffffff;-moz-border-radius: 4px;-webkit-border-radius: 4px;border: 2px solid #3083b5;text-align: center;font-size: 13px;display: inline-block;vertical-align: top;cursor: pointer;line-height: 30px;float: right;margin: 12px 0 0 0;position:absolute;right:30px;">点击下载</a>'
+			+'<a href="'+downURL+'" style="background: #3a98d0;width: 96px;height: 26px;color: #ffffff;-moz-border-radius: 4px;-webkit-border-radius: 4px;border: 2px solid #3083b5;text-align: center;font-size: 13px;display: inline-block;vertical-align: top;cursor: pointer;line-height: 26px;float: right;margin: 12px 0 0 0;position:absolute;right:30px;">点击下载</a>'
 			+'<span onclick="javascript:downbanner.hideBanner(this);" style="display: inline-block;cursor: pointer;vertical-align: center;margin:22px 10px 0 0;float: right;">'
 			+'<img title="隐藏"  alt="" src="/staticres/home/images/x@2x.png" style="width: 10px;height: 10px;">'
 			+'</span>';
@@ -82,8 +82,9 @@ var downbanner = {
 };
 
 (function(){
-	if(downbanner.checkCookieEnable && !downbanner.isHideBanner() 
-			&& !downbanner.isInApp()) {
-		downbanner.appendBanner();
-	}
+	downbanner.appendBanner();
+	//if(downbanner.checkCookieEnable && !downbanner.isHideBanner() 
+	//		&& !downbanner.isInApp()) {
+	//	downbanner.appendBanner();
+	//}
 })();

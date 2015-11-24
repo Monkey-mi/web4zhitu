@@ -515,9 +515,6 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 		if(platformCode.equals(PlatFormCode.REN_REN)) {
 			throw new HTSException("不好意思，由于人人网的权限问题，用人人帐号登录暂时关闭，请选择新浪微博登录或者是QQ登录", PLATFORM_OFF_ERROR);
 		}	
-//		} else if(platformCode.equals(PlatFormCode.WEI_SIN) && ver.equals(Tag.VERSION_2_9_88)) {
-//			throw new HTSException("不好意思，此版本暂停使用微信注册，请使用其他平台注册或升级版本", PLATFORM_OFF_ERROR);
-//		}
 	}
 	
 	/**

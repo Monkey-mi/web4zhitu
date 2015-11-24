@@ -344,8 +344,8 @@
 				$hideDesc = $ztcontainer.find('.zt-desc-hide:eq(0)');
 			}
 			var $descText = $desc.children(".zt-desc-text");
-				
-			if(desc == settings.desc || desc == '' || desc == 'undefined') {
+			
+			if(desc == $ztcontainer.data('desc') || desc == '' || desc == 'undefined') {
 				$desc.hide();
 				$showDesc.hide();
 				$hideDesc.hide();

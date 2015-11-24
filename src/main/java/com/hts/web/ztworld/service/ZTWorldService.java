@@ -441,13 +441,15 @@ public interface ZTWorldService extends BaseService {
 	
 	/**
 	 * 查询用户最新n个织图的title_path
+	 * 
 	 * @param userId
 	 * @param n
 	 * @return
 	 * @throws Exception
 	 * @author lynch 2015-11-16
 	 */
-	public List<HTWorldInteractDto> queryLastNHtworldInfoByUserId(Integer userId,Integer n)throws Exception;
+	public void queryLastNHtworldInfoByUserId(Integer userId, Integer limit, 
+			Map<String, Object> jsonMap) throws Exception;
 	
 	
 }
