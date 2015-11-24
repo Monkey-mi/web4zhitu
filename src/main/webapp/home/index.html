@@ -4,87 +4,103 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<meta name="description" content="年轻人的生活方式">
-<title>个人主页</title>
-<link rel="stylesheet" href="/staticres/home/css/rorate.css" type="text/css" />
+<meta name="description" content="全球首创多图式场景，更多视角，极致展示。轻松制作故事相册，更好的解决图片碎片化。">
+<meta name="keywords" content="相册,美图,社交,旅行,故事,时尚">
+<title>织图个人主页</title>
 <link rel="stylesheet" href="/staticres/home/css/home.css" type="text/css" />
+<link rel="stylesheet" href="/staticres/home/css/rorate.css" type="text/css" />
 </head>
 <body>
-  	<div id="main">
-		<div id="head">
-			<div id="user-info-avatar">
-				<img id="user-avatar" class="avatar" src=""/>
-				<img id="user-avatar-mask" src="/staticres/home/images/individual_avatar_@2x.png"/>				
-			</div>
-			<div id="head-user-info">
-				<span id="user-info-sex" class="user-info">男</span> 
-			 	<span id="user-info-address" class="user-info">广东 深圳</span>
-			    <span id="user-info-job" class="user-info"></span><br>
-				<span id="user-info-verify" class="user-info"><img id="verifyIcon" src=""><span>织图明星</span></span>
-			    <span id="user-info-picCount" class="user-info">发布照片：<span>1</span>张</span><br>
-			    <a href="" id="user-info-concern-btn" target="_blank">加关注</a>
-			 </div>
+<div style="display:none">
+	<img id="share-img" src="" />
+</div>
+<div id="main">
+<div class="user-info-wrap">
+	<div class="avatar-wrap round">
+		<img id="user-avatar" class="round" alt="" src="/staticres/home/images/avatar-empty.jpg"/>
+		<img class="avatar-border" alt="" src="/staticres/home/images/individual_avatar_@2x.png"/>
+	</div>
+	<div class="personal-info-wrap">
+		<div class="personal-line">
+			<span id="sex" class="personal-info round">男</span>
+			<span id="address" class="personal-info round">地点</span>
+			<span id="job" class="personal-info round">职业</span>
 		</div>
-		<div id="user-info-signature"></div>	
-		<div id="user-data">
-			<div id="user-worldCount" >
-				<span id="worldCount"  class="span-user-data" ></span>
-				<span class="span-user-data-desc">相册</span>
-			</div>
-			<div id="user-concernCount" >
-				<span id="concernCount" class="span-user-data" ></span>
-				<span class="span-user-data-desc">关注</span>
-			</div>
-			<div id="user-followCount" >
-				<span id="followCount" class="span-user-data"></span>
-				<span class="span-user-data-desc">粉丝</span>
-			</div>
+		<div class="personal-line">
+			<span id="verify-name-wrap" class="personal-info round">
+				<img id="verify-icon" class="verify-icon" alt="" src="">
+				<span id="verify-name"></span>
+			</span>
+			<span class="personal-info round">发布照片:<span id="child-count">0</span>张</span>
 		</div>
-		
-		<!-- 用户图片 -->
-		<div id="user-pic-container">
-			<div id="user-pic"></div>
-		</div>
-		
-		<!-- 轮播图片 -->
-		<!-- 
-		<div id="div-propaganda">
-			<div class="slide" id="div-slide">
-				<div class="div-slide-img">
-					<img src="http://ww4.sinaimg.cn/large/a0a4bc09gw1er8n9yh6poj20fk078ab8.jpg" title="图片1"/>
-					<img src="http://ww1.sinaimg.cn/large/a0a4bc09gw1er8rwlndlkj20fk078aaz.jpg" title="图片2"/>
-					<img src="http://ww4.sinaimg.cn/large/a0a4bc09gw1er8rwo4pn3j20fk078757.jpg" title="图片3"/>
-					<img src="http://ww1.sinaimg.cn/large/a0a4bc09gw1er8rwxb6fyj20fk078gmi.jpg" title="图片4">
-					<img src="http://ww2.sinaimg.cn/large/a0a4bc09gw1er8rwzl6tej20fk078q3w.jpg" title="图片5">
-				</div>
-				<div class="div-slide-btn">
-					<a href="#" class="hover">●</a>
-					<a href="#">●</a>
-					<a href="#">●</a>
-					<a href="#">●</a>
-					<a href="#">●</a>
-				</div>
-			</div> 
-		</div>
-		 -->
-		
-		<div id="download-wrap">
-					
-			<img id="download-logo" alt="" src="/staticres/home/images/logo.png">
-			<div id="slogan">
-				<div id="zhitu-name">织图</div>
-				<div id="zhitu-slogan">年轻人的生活方式</div>
-			</div>				
-			<span id="download-tip" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.htshuo.htsg">点击下载</span>
-			<span id="download-close" onclick="javascript:hideDownloadBtn();"><img title="隐藏"  alt="" src="/staticres/home/images/x@2x.png"></span>
+		<div class="personal-line">
+			<a id="concern-btn" class="personal-info round" href="/index4ph.html">加关注</a>
 		</div>
 	</div>
+	<div id="signature">
+	</div>
 	
+	<div class="count-info-wrap">
+		<div class="divide-line"></div>
+		<div class="count-info">
+			<div class="count-grid">
+				<div id="world-count" class="count-num">0</div>
+				<div class="count-title">相册</div>
+			</div>
+			<div id="count-grid-middle" class="count-grid">
+				<div id="concern-count" class="count-num">0</div>
+				<div class="count-title">关注</div>
+			</div>
+			<div class="count-grid">
+				<div id="follow-count" class="count-num">0</div>
+				<div class="count-title">粉丝</div>
+			</div>
+		</div>
+		<div class="divide-line"></div>
+	</div>
+</div>
+
+<div id="world-wrap">
+	<div id="worlds">
+	</div>
+</div>
+
+<div id="world-empty-wrap">
+	<img src="/staticres/home/images/empty.jpg" />
+</div>
+
+<div id="fetch-world-loading-wrap">
+	<img id="fetch-world-loading" src="/staticres/htworld/phonev3/images/loading.gif" />
+</div>
+
+<div id="ad-wrap">
+	<div id="ad-dividing-top" class="dividing-line"></div>
+	<div class="slide" id="div-slide">
+		<div class="div-slide-img">
+			<a href="http://imzhitu.com/index4ph.html"><img src="http://ww4.sinaimg.cn/large/a0a4bc09gw1er8n9yh6poj20fk078ab8.jpg" title="图片1"/></a>
+			<a href="http://imzhitu.com/index4ph.html"><img src="http://ww1.sinaimg.cn/large/a0a4bc09gw1er8rwlndlkj20fk078aaz.jpg" title="图片2"/></a>
+			<a href="http://imzhitu.com/index4ph.html"><img src="http://ww4.sinaimg.cn/large/a0a4bc09gw1er8rwo4pn3j20fk078757.jpg" title="图片3"/></a>
+			<a href="http://imzhitu.com/index4ph.html"><img src="http://ww1.sinaimg.cn/large/a0a4bc09gw1er8rwxb6fyj20fk078gmi.jpg" title="图片4"></a>
+			<a href="http://imzhitu.com/index4ph.html"><img src="http://ww2.sinaimg.cn/large/a0a4bc09gw1er8rwzl6tej20fk078q3w.jpg" title="图片5"></a>
+		</div>
+		<div class="div-slide-btn">
+			<a href="#" class="hover">●</a>
+			<a href="#">●</a>
+			<a href="#">●</a>
+			<a href="#">●</a>
+			<a href="#">●</a>
+		</div>
+	</div> 
+	<div class="dividing-line"></div>
+</div>
+</div>
 </body>
 <script type="text/javascript" src="/staticres/base/js/jquery/jquery-1.8.2.min.js"></script>
 <script type="text/javascript" src="/staticres/home/js/rorate.js"></script>
-<script type="text/javascript" src="/staticres/base/js/callapp2.js"></script>
+<link rel="stylesheet" type="text/css" href="/staticres/htworld/phonev3/css/htszoomtour15111401.css" />
+<script type="text/javascript" src="/staticres/htworld/common/js/jquery.htszoomtourV4.js"></script>
 <script type="text/javascript" src="/staticres/home/js/home.js"></script>
 <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script type="text/javascript" src="/staticres/base/js/wechat.js"></script>
+<script type="text/javascript" src="/staticres/base/js/downbanner.js"></script>
 </html>
