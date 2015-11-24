@@ -1,0 +1,316 @@
+<html lang="zh-CN">
+<head>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="description" content="全球首创多图式场景，更多视角，极致展示。轻松制作故事相册，更好的解决图片碎片化。">
+<meta name="keywords" content="相册,美图,社交,旅行,故事,时尚">
+<title>织图个人主页</title>
+<link rel="stylesheet" href="/staticres/home/css/home2.css" type="text/css" />
+<link rel="stylesheet" href="/staticres/home/css/rorate.css" type="text/css" />
+<link rel="stylesheet" type="text/css" href="/staticres/htworld/phonev3/css/htszoomtour15111401.css" />
+<style type="text/css">
+.round {
+	-moz-border-radius:100px;
+	-webkit-border-radius:100px;
+	border-radius: 100px;
+}
+
+ .user-info-wrap {
+ 	background: #ffffff;
+ 	display: inline-block;
+ 	width: 100%;
+ 	padding-top: 10px;
+ }
+ .user-info-wrap .avatar-wrap {
+	width: 68px;
+	height: 68px;
+	margin-left: 10px;
+	display: inline-block;
+ }
+ .user-info-wrap #user-avatar {
+	width: 68px;
+	height: 68px;
+	position: absolute;
+ }
+ .user-info-wrap .avatar-border {
+ 	width: 68px;
+	height: 68px;
+ 	z-index: 999;
+ }
+ 
+ .user-info-wrap .personal-info-wrap {
+ 	display: inline-block;
+ 	vertical-align: top;
+ 	margin-left: 5px;
+ 	display: none;
+ }
+ 
+.personal-line {
+	margin-bottom: 4px;
+}	 
+
+.user-info-wrap .personal-info {
+ 	background: #ecf0f3;
+ 	font-size: 12px;
+ 	color: #62707d;
+ 	height: 22px;
+ 	line-height: 22px;
+ 	padding: 0 10px;
+ 	text-align:center;
+ 	display: inline-block;
+ 	overflow: hidden;
+ }
+ 
+ .user-info-wrap .verify-icon{
+ 	width:15px;
+ 	height:15px;
+ 	vertical-align: middle;
+ }
+ 
+ .user-info-wrap #sex {
+ 	padding: 0 5px;
+ 	min-width: 13px;
+ }
+ 
+ #concern-btn {
+ 	padding: 0px;
+ }
+ 
+ .user-info-wrap #concern-btn {
+ 	background: #6abfde;
+ 	border: 1px #73b7c0 solid;
+ 	color: #fff;
+ 	width:100%;
+ }
+ 
+ .user-info-wrap #signature {
+ 	color: #373e46;
+ 	font-size: 13px;
+ 	margin: 8px 0 0 0;
+    padding: 0 10px 0 10px;
+    line-height: 23px;
+    display: none;
+ }
+ 
+ .user-info-wrap #verify-name-wrap {
+ 	display: none;
+ }
+
+.divide-line {
+    border-left: none;
+    border-right: 0;
+    border-bottom: 0;
+    border-top: 1px solid rgba(234,234,234,0.8);
+ }
+ 
+ .count-info-wrap {
+ 	margin-top:8px;
+ }
+ 
+ .count-info {
+ 	height:40px;
+ }
+ 
+ .count-grid {
+ 	width: 32%;
+ 	display: inline-block;
+ 	text-align: center;
+ 	margin-top: 1px;
+ }
+ 
+ .count-info {
+ 	margin: 2px 0 0 0;
+ }
+ 
+ #count-grid-middle {
+ 	border-left: 1px solid rgba(234,234,234,0.8);
+ 	border-right: 1px solid rgba(234,234,234,0.8);
+ }
+ 
+ .count-num {
+ 	color: #62707d;
+ 	font-size: 15px;
+ 	margin-top: 3px;
+ }
+ 
+ .count-title {
+ 	font-size: 11px;
+ 	color: #b6bec6;
+ 	margin-top: 0px;
+}
+ 
+ 
+#world-wrap {
+	text-align: center;
+	margin: 5px 0 0 0;
+	/*display: none;*/
+	min-height: 2px;
+}
+
+#worlds {
+	text-align:left;
+	display: inline-block;
+	width:100%;
+}
+.world-thumb {
+	margin:2px 2px 2px 2px;
+	display: inline-block;
+}
+.world-thumb img {
+	border: none;
+}
+
+#div-propaganda{
+	margin: auto;
+	margin-top: 5px;
+	margin-bottom:7px;
+	display: none;
+}
+
+.slide{
+	width:306px;
+	height:142px;
+	margin:0 auto;
+	overflow:hidden;
+	position:relative;
+	/*
+	border-radius: 2px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	*/
+}
+
+.slide a{
+	text-decoration:none;
+	color:rgba(255,255,255,0.6);
+}
+
+.slide .div-slide-img{
+	position:absolute;
+	top:0;
+	left:0;
+	width:1530px;
+}
+
+.slide .div-slide-img img{
+	float:left;
+}
+
+.slide img{
+	width:306px;
+}
+
+.div-slide-btn{
+	width:306px;
+	height:10px;
+	line-height:10px;
+	position:absolute;
+	bottom:10px;
+	z-index:5;
+	text-align:center;
+	font-size:12px;
+}
+
+.div-slide-btn a.hover{
+	color:#ffffff;
+}
+	
+	 
+</style>
+</head>
+<body>
+<div id="main">
+<div class="user-info-wrap">
+	<div class="avatar-wrap">
+		<img id="user-avatar" class="round" alt="" src=""/>
+		<img class="avatar-border" alt="" src="/staticres/home/images/individual_avatar_@2x.png"/>
+	</div>
+	<div class="personal-info-wrap">
+		<div class="personal-line">
+			<span id="sex" class="personal-info round">男</span>
+			<span id="address" class="personal-info round">地点</span>
+			<span id="job" class="personal-info round">职业</span>
+		</div>
+		<div class="personal-line">
+			<span id="verify-name-wrap" class="personal-info round">
+				<img id="verify-icon" class="verify-icon" alt="" src="">
+				<span id="verify-name"></span>
+			</span>
+			<span class="personal-info round">发布照片:<span id="child-count">0</span>张</span>
+		</div>
+		<div class="personal-line">
+			<span id="concern-btn" class="personal-info round">加关注</span>
+		</div>
+	</div>
+	<div id="signature">
+	</div>
+	
+	<div class="count-info-wrap">
+		<div class="divide-line"></div>
+		<div class="count-info">
+			<div class="count-grid">
+				<div id="world-count" class="count-num">0</div>
+				<div class="count-title">相册</div>
+			</div>
+			<div id="count-grid-middle" class="count-grid">
+				<div id="concern-count" class="count-num">0</div>
+				<div class="count-title">关注</div>
+			</div>
+			<div class="count-grid">
+				<div id="follow-count" class="count-num">0</div>
+				<div class="count-title">粉丝</div>
+			</div>
+		</div>
+		<div class="divide-line"></div>
+	</div>
+</div>
+
+<div id="world-wrap">
+	<div id="worlds">
+	</div>
+</div>
+
+<div id="world-empty-wrap">
+	<img src="/staticres/home/images/empty.jpg" />
+</div>
+
+<div id="fetch-world-loading-wrap">
+	<img id="fetch-world-loading" src="/staticres/htworld/phonev3/images/loading.gif" />
+</div>
+
+
+<div id="div-propaganda">
+	<div class="slide" id="div-slide">
+		<div class="div-slide-img">
+			<img src="http://ww4.sinaimg.cn/large/a0a4bc09gw1er8n9yh6poj20fk078ab8.jpg" title="图片1"/>
+			<img src="http://ww1.sinaimg.cn/large/a0a4bc09gw1er8rwlndlkj20fk078aaz.jpg" title="图片2"/>
+			<img src="http://ww4.sinaimg.cn/large/a0a4bc09gw1er8rwo4pn3j20fk078757.jpg" title="图片3"/>
+			<img src="http://ww1.sinaimg.cn/large/a0a4bc09gw1er8rwxb6fyj20fk078gmi.jpg" title="图片4">
+			<img src="http://ww2.sinaimg.cn/large/a0a4bc09gw1er8rwzl6tej20fk078q3w.jpg" title="图片5">
+		</div>
+		<div class="div-slide-btn">
+			<a href="#" class="hover">●</a>
+			<a href="#">●</a>
+			<a href="#">●</a>
+			<a href="#">●</a>
+			<a href="#">●</a>
+		</div>
+	</div> 
+	<div class="dividing-line"></div>
+</div>
+<!-- 
+<div class="clearfix"></div>
+ -->
+</div>
+</body>
+<script type="text/javascript" src="/staticres/base/js/jquery/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="/staticres/base/js/callapp2.js"></script>
+<script type="text/javascript" src="/staticres/home/js/home2.js"></script>
+<script type="text/javascript" src="/staticres/htworld/common/js/jquery.htszoomtourV4.js"></script>
+<script type="text/javascript" src="/staticres/home/js/rorate.js"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript" src="/staticres/base/js/wechat.js"></script>
+<script type="text/javascript" src="/staticres/base/js/downbanner.js"></script>
+</html>

@@ -116,28 +116,7 @@ public class UserInfoAction extends BaseAction {
 			int iId = Integer.parseInt(strId);
 			int userId = UserInfoUtil.decode(iId);
 			UserInfo userInfo = userInfoService.getUserInfoById(userId);
-			if (userInfo == null){
-				jsonMap.put("result", OptResult.OPT_FAILED);
-			}		
-			
-			String address = userInfo.getAddress();
-			if(address == null || address.trim().equals("")){
-				address = "暂无";
-			}
-			jsonMap.put("userId", userId);
-			jsonMap.put("userName", userInfo.getUserName());
-			jsonMap.put("avatarImgPath", userInfo.getUserAvatar());
-			jsonMap.put("sex", userInfo.getSex() == 1 ? "男":"女");
-			jsonMap.put("address", address);
-			jsonMap.put("job", userInfo.getJob() == null ? "暂无":userInfo.getJob());
-			jsonMap.put("verifyName", userInfo.getVerifyName());
-			jsonMap.put("verifyIcon", userInfo.getVerifyIcon());
-			jsonMap.put("picCount", userInfo.getChildCount());
-			jsonMap.put("signature", userInfo.getSignature());
-			jsonMap.put("worldCount", userInfo.getWorldCount());
-			jsonMap.put("concernCount", userInfo.getConcernCount());
-			jsonMap.put("followCount", userInfo.getFollowCount());
-			jsonMap.put("result", OptResult.OPT_SUCCESS);
+			JSONUtil.optResult(OptResult.OPT_SUCCESS, userInfo, OptResult.JSON_KEY_USER_INFO, jsonMap);
 		}catch(Exception e){
 			jsonMap.put("result", OptResult.OPT_FAILED);
 		}

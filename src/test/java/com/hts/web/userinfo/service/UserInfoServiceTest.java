@@ -70,7 +70,7 @@ public class UserInfoServiceTest extends BaseTest {
 	public void testLoginBySocialAccount() throws Exception	 {
 		UserInfo userInfo = service.loginBySocialAccount(PlatFormCode.SINA, 
 				"OezXcEiiBSKSxW0eoylIeCepcSueXAZW35TQjEJF5W24SogjYXrlXX2dxpGWvBbICO0B2FZZ3KwuRkrqjJvYFLS4Wupp0_yPIB2gfs08CX9kj2k1pje6yubQkOFYRdfWYyKfZPHmQOfHdHzkGd38Vw",
-				1412276264337l, "呵呵",1, null,
+				1412276264337l, "呵呵",20, null,
 				"2097226533", "天天天杰",
 				"http://static.imzhitu.com/avatar/s/2014/02/05/15/23d241de6d2eb98675e4ee89c46f044c.jpg",
 				"http://static.imzhitu.com/avatar/m/2014/02/05/15/23d241de6d2eb98675e4ee89c46f044c.jpg",
