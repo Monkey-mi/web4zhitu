@@ -41,6 +41,7 @@ var callSetting = {
 			break;
 		default:
 		}
+		alert(ifr.src);
 		if(uatype > 0) {
 			var startTime = Date.now();
 	        document.body.appendChild(ifr);

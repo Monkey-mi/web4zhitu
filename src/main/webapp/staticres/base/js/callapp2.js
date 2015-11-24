@@ -74,7 +74,7 @@ function openclientV2(checkConf){
     ifr.style.display = 'none';
     ifr.src = href;
 	var uatype = getUAType(ua);
-	
+	alert(ifr.src);
 	if(uatype > 0) {
 		var startTime = Date.now();
         document.body.appendChild(ifr);

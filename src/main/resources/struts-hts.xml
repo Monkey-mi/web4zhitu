@@ -108,7 +108,7 @@
 		
 		<!-- 个人主页 -->
 		<action name="home">
-			<result type="dispatcher">/home/index2.html</result>
+			<result type="dispatcher">/home/index.html</result>
 		</action>
 
 	</package>
