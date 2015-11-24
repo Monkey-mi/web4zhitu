@@ -46,6 +46,7 @@ import com.hts.web.common.pojo.HTWorldLatestId;
 import com.hts.web.common.pojo.HTWorldLatestIndex;
 import com.hts.web.common.pojo.HTWorldLikedInline;
 import com.hts.web.common.pojo.HTWorldTextStyle;
+import com.hts.web.common.pojo.HTWorldThumbDto;
 import com.hts.web.common.pojo.HTWorldWithExtra;
 import com.hts.web.common.pojo.OpChannel;
 import com.hts.web.common.pojo.OpMsgBulletin;
