@@ -31,11 +31,16 @@ var ui = {
 	initUserInfo : function(user) {
 		var job, addr, sex;
 		
-		job = user['job'] == "" ? "未设置职业" : user['job'];
-		addr = user['address'] == "" ? "未设置地点" : user['address'];
-		sex = user['sex'] == 2 ? "男" : "女";
+		job = $.trim(user['job']) == "" ? "职业:暂无" : $.trim(user['job']);
+		addr = $.trim(user['address']) == "" ? "地点:暂无" : $.trim(user['address']);
+		sex = user['sex'] == 2 ? "女" : "男";
 
-		document.title = user['userName'] + "的个人主页";
+		var title = user['worldCount'] > 0 ? user['userName'] + " | 相册×" + user['worldCount'] 
+			: user['userName'];
+		document.title = title;
+		
+		var shareDesc = sex + "生 | 粉丝×" + user["followCount"] + "\n" + addr + " | " + job;
+		$("meta[name=description]").attr('content', shareDesc);
 		
 		$("#job").text(job);
 		$("#address").text(addr);
@@ -160,6 +165,7 @@ var ui = {
 				+ '<div class="btn-wrap">'
 				+ '<a class="opt-btn" href="/index4ph.html"><img src="/staticres/htworld/phonev3/images/icon-like.png"/><span class="like-count">'+ui.countformat(world["likeCount"])+'</span></a>'
 				+ '<a class="opt-btn" href="/index4ph.html"><img src="/staticres/htworld/phonev3/images/icon-comment.png"/>评论</a>'
+				+ '<a class="opt-btn share-btn" href="/DT'+world["shortLink"]+'"><img src="/staticres/htworld/phonev3/images/icon-share.png"/>分享</a>'
 				+ '</div>'
 				+ ui.getWorldComments(world['comments'], world['commentCount'])
 				+ ui.getWorldLabels(world['worldLabel'], world['channelNames'])
@@ -335,7 +341,7 @@ var ajax = {
 		},function(result){
 			if(result['result'] == 0){
 				var worldList = result['htworld'];
-				var len = limit;
+				var len = worldList.length;
 				
 				if(len == 9) {
 					ui.appendThumb(worldList);
