@@ -102,9 +102,9 @@ function initLayout() {
 		"width":mainWidth + "px",
 		"height":142 * (mainWidth/306) + "px",
 		"border"	: "1px solid #ffffff",
-		"-moz-border-radius"	: 2 * scale + "px",
-		"-webkit-border-radius"	: 2 * scale + "px",
-		"border-radius"	: 2 * scale + "px"
+		"-moz-border-radius"	: 3 * scale + "px",
+		"-webkit-border-radius"	: 3 * scale + "px",
+		"border-radius"	: 3 * scale + "px"
 	});
 	
 	$(".slide .div-slide-img").css({
@@ -123,7 +123,7 @@ function initLayout() {
 	});
 	
 	 $(".concernDataShow").css({
-		"margin-top":75 * (winWidth/320) + "px",
+		"margin-top":80 * (winWidth/320) + "px",
 	}); 
 	
 /* 	 $(".officeButton").show(); */

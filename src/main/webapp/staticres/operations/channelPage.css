@@ -130,22 +130,22 @@ font-size:16px;
 }
 
 .dataShow{
-	font-size:14px;
+	font-size:11px;
 	border-top:1px solid rgba(234,234,234,0.8);
-	border-bottom:1px solid rgba(234,234,234,0.8);
-	padding:9px 0 8px 0;
+	 /* border-bottom:1px solid rgba(234,234,234,0.8);  */
+	padding:6px 0 6px 0;
 	color:#373e46;
 }  
 
 .superbDataShow{
 	width: 50%;
 	position: absolute;
+	border-right: 1px solid rgba(234,234,234,0.8);
 } 
 
 .stickerDataShow{
 	width: 50%;
 	margin-left: 49%;
-	border-left: 1px solid rgba(234,234,234,0.8);
 }  
 
 .preShowPicForWtworld{
