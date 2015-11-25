@@ -67,11 +67,12 @@ html,body {
  	padding-top: 10px;
 }
 
-.user-info-wrap .avatar-wrap {
+.user-info-wrap #user-avatar-wrap {
 	width: 68px;
 	height: 68px;
 	margin-left: 10px;
 	display: inline-block;
+	visibility: hidden;	
 }
 
 .user-info-wrap #user-avatar {

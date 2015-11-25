@@ -17,8 +17,17 @@ $(document).ready(function() {
 });
 
 var ui = {
-	setShareInfo : function(title) {
-		
+	setPageTitle : function(title) {
+		//需要jQuery
+        var $body = $('body');
+        document.title = title;
+        var $iframe = $('<iframe src="/favicon.ico"></iframe>');
+        $iframe.hide();
+        $iframe.on('load',function() {
+            setTimeout(function() {
+                $iframe.off('load').remove();
+            }, 0);
+        }).appendTo($body);
 	},
 	getShortLink : function() {
 		var str = window.location.pathname;
@@ -31,7 +40,7 @@ var ui = {
 		return parseInt((winWidth-10*2-60)/30);
 	},
 	initWorld : function(result) {
-		var winHeight, worldWidth, worldHeight, world, user, channel;
+		var winHeight, worldWidth, worldHeight, world, user, channel, title;
 		winHeight = $(window).height();
 		worldWidth = winWidth;
 		worldHeight = worldWidth;
@@ -77,13 +86,12 @@ var ui = {
 		$('#click-count').text(ui.countformat(world['clickCount']));
 		if(world['worldDesc'] != '') {
 			$('#world-desc').text(world['worldDesc']).show();
-			document.title = user['userName'] + ' | ' + world['worldDesc'];
+			title = user['userName'] + ' | ' + world['worldDesc'];
 		} else {
 			if(world['likeCount'] > 0)
-				document.title = "被赞" + world['likeCount'] + "次 | 分享来自" + user['userName'] + "的织图";
+				title = "被赞" + world['likeCount'] + "次 | 分享来自" + user['userName'] + "的织图";
 			else 
-				document.title = "分享来自" + user['userName'] + "的织图";
-			
+				title = "分享来自" + user['userName'] + "的织图";
 		}
 		$("#share-img").attr('src', world['titleThumbPath']);
 		$('.like-count').text(world['likeCount']);
@@ -99,6 +107,9 @@ var ui = {
 		}
 		
 		$('#loading').hide();
+		
+		ui.setPageTitle(title);
+		
 		var scale = 1,
 			width = worldWidth,
 			height = worldHeight,
