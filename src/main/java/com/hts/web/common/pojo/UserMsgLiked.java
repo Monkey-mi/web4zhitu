@@ -48,7 +48,8 @@ public class UserMsgLiked implements Serializable, ObjectWithUserVerify, ObjectW
 
 	public UserMsgLiked(Integer id, Date likedDate, Integer userId,
 			String userName, String userAvatar, String userAvatarL,
-			String province, String city, Integer star, Integer platformVerify) {
+			String province, String city, Integer star, Integer platformVerify, 
+			Integer worldId, String titleThumbPath) {
 		super();
 		this.id = id;
 		this.likedDate = likedDate;
@@ -60,6 +61,8 @@ public class UserMsgLiked implements Serializable, ObjectWithUserVerify, ObjectW
 		this.city = city;
 		this.star = star;
 		this.platformVerify = platformVerify;
+		this.worldId = worldId;
+		this.titleThumbPath = titleThumbPath;
 	}
 
 	public Integer getId() {
@@ -200,5 +203,7 @@ public class UserMsgLiked implements Serializable, ObjectWithUserVerify, ObjectW
 	public void setCity(String city) {
 		this.city = city;
 	}
+	
+	
 	
 }

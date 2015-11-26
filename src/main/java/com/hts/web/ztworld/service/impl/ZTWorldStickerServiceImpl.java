@@ -87,7 +87,7 @@ public class ZTWorldStickerServiceImpl extends BaseServiceImpl implements
 		List<HTWorldStickerDto> list = stickerCacheDao.queryRecommendSticker();
 		extractUnlock(userId, list);
 		List<HTWorldStickerTypeDto> typeList = stickerTypeCacheDao.queryStickerType();
-		if(typeList != null && typeList.get(0).getId() == -1) {
+		if(typeList.size() > 0 && typeList.get(0).getId() == -1) {
 			typeList.remove(0);
 		}
 		List<HTWorldStickerTypeDto> recType = stickerTypeCacheDao.queryRecommendType();

@@ -53,7 +53,9 @@ public class MsgLikedDaoImpl extends BaseDaoImpl implements MsgLikedDao {
 				rs.getString("province"), 
 				rs.getString("city"), 
 				rs.getInt("star"),
-				rs.getInt("platform_verify"));
+				rs.getInt("platform_verify"),
+				rs.getInt("world_id"),
+				rs.getString("title_thumb_path"));
 		
 	}
 	
