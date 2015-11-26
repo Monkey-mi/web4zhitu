@@ -1,6 +1,9 @@
 package com.hts.web.common.pojo;
 
 import java.io.Serializable;
+import java.util.Date;
+
+import org.apache.struts2.json.annotations.JSON;
 
 /**
  * <p>
@@ -19,6 +22,7 @@ public class HTWorldCommentInline implements Serializable {
 	
 	private Integer worldId;
 	private String content; // 内容
+	private Date commentDate = new Date(); // 安卓v3.0.5之前没有会报错
 	private HTWorldCommentInlineUser userInfo;
 	
 	public HTWorldCommentInline() {
@@ -44,6 +48,15 @@ public class HTWorldCommentInline implements Serializable {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+	
+	@JSON(format="yyyy-MM-dd HH:mm:ss")
+	public Date getCommentDate() {
+		return commentDate;
+	}
+
+	public void setCommentDate(Date commentDate) {
+		this.commentDate = commentDate;
 	}
 
 	public HTWorldCommentInlineUser getUserInfo() {
