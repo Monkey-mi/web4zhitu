@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hts.web.base.HTSErrorCode;
 import com.hts.web.base.HTSException;
 import com.hts.web.base.constant.OptResult;
 import com.hts.web.base.constant.Tag;
@@ -150,7 +151,7 @@ public class ZTWorldLabelServiceImpl extends BaseServiceImpl implements
 		labelName = labelName.trim();
 		final HTWorldLabel label = worldLabelDao.queryLabelByName(labelName);
 		if(label == null) {
-			throw new HTSException("无效标签", 1);
+			throw new HTSException(HTSErrorCode.INVALID_LABEL);
 		}
 
 		Integer state = label.getLabelState();
@@ -282,7 +283,7 @@ public class ZTWorldLabelServiceImpl extends BaseServiceImpl implements
 		labelName = labelName.trim();
 		final HTWorldLabel label = worldLabelDao.queryLabelByName(labelName);
 		if(label == null) {
-			throw new HTSException("无效标签", 1);
+			throw new HTSException(HTSErrorCode.INVALID_LABEL);
 		}
 		
 		jsonMap.put(OptResult.JSON_KEY_LABEL_INFO, label);

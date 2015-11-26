@@ -1,11 +1,8 @@
 package com.hts.web.userinfo.service.impl;
 
-import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -18,22 +15,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.hts.web.aliyun.service.OpenSearchService;
+import com.hts.web.base.HTSErrorCode;
 import com.hts.web.base.HTSException;
 import com.hts.web.base.constant.OptResult;
 import com.hts.web.base.constant.Tag;
 import com.hts.web.base.database.RowCallback;
 import com.hts.web.base.database.RowSelection;
-import com.hts.web.common.BaseOnBuildSerializableListener;
-import com.hts.web.common.BaseSerializableListAdapter;
-import com.hts.web.common.OnBuildSinceSerializableListener;
 import com.hts.web.common.SerializableListAdapter;
-import com.hts.web.common.SerializableSinceIdListAdapter;
-import com.hts.web.common.pojo.HTWorldCommentDto;
-import com.hts.web.common.pojo.HTWorldInteract;
-import com.hts.web.common.pojo.HTWorldLikeMe;
-import com.hts.web.common.pojo.HTWorldLikeMeRelate;
-import com.hts.web.common.pojo.HTWorldLikeMeThumb;
-import com.hts.web.common.pojo.HTWorldLiked;
 import com.hts.web.common.pojo.MsgAt;
 import com.hts.web.common.pojo.MsgAtDto;
 import com.hts.web.common.pojo.MsgAtId;
@@ -49,6 +37,7 @@ import com.hts.web.common.pojo.UserMsgBox;
 import com.hts.web.common.pojo.UserMsgConver;
 import com.hts.web.common.pojo.UserMsgDto;
 import com.hts.web.common.pojo.UserMsgLiked;
+import com.hts.web.common.pojo.UserMsgLikedRelate;
 import com.hts.web.common.pojo.UserMsgStatus;
 import com.hts.web.common.pojo.UserMsgUnreadCount;
 import com.hts.web.common.pojo.UserPushInfo;
@@ -56,7 +45,6 @@ import com.hts.web.common.service.KeyGenService;
 import com.hts.web.common.service.impl.BaseServiceImpl;
 import com.hts.web.common.service.impl.KeyGenServiceImpl;
 import com.hts.web.common.util.StringUtil;
-import com.hts.web.common.util.TimeUtil;
 import com.hts.web.common.util.UserInfoUtil;
 import com.hts.web.operations.dao.SysMsgCommonCacheDao;
 import com.hts.web.operations.dao.SysMsgCommonDao;
@@ -67,13 +55,13 @@ import com.hts.web.userinfo.dao.MsgAtCommentDao;
 import com.hts.web.userinfo.dao.MsgAtDao;
 import com.hts.web.userinfo.dao.MsgAtWorldDao;
 import com.hts.web.userinfo.dao.MsgCommentDao;
+import com.hts.web.userinfo.dao.MsgLikedDao;
 import com.hts.web.userinfo.dao.MsgUnreadDao;
 import com.hts.web.userinfo.dao.MsgUnreadDao.UnreadType;
 import com.hts.web.userinfo.dao.UserConcernDao;
 import com.hts.web.userinfo.dao.UserInfoDao;
 import com.hts.web.userinfo.dao.UserMsgConversationDao;
 import com.hts.web.userinfo.dao.UserMsgDao;
-import com.hts.web.userinfo.dao.UserMsgInteractDao;
 import com.hts.web.userinfo.dao.UserMsgRecipientBoxDao;
 import com.hts.web.userinfo.dao.UserMsgSendBoxDao;
 import com.hts.web.userinfo.dao.UserMsgShieldDao;
@@ -82,15 +70,12 @@ import com.hts.web.userinfo.dao.UserShieldDao;
 import com.hts.web.userinfo.service.UserInfoService;
 import com.hts.web.userinfo.service.UserInteractService;
 import com.hts.web.userinfo.service.UserMsgService;
-import com.hts.web.ztworld.dao.HTWorldCommentDao;
 import com.hts.web.ztworld.dao.HTWorldDao;
-import com.hts.web.ztworld.dao.HTWorldInteractDao;
-import com.hts.web.ztworld.dao.HTWorldLikedDao;
 
 /**
  * 用户消息业务逻辑访问对象
  * 
- * @author ztj 2015-11-04
+ * @author ztj 2015-11-04 2015-11-05
  * 
  */
 @Service("HTSUserMsgService")
@@ -99,16 +84,8 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 	
 	private static Logger logger = Logger.getLogger(UserMsgServiceImpl.class);
 	
-	private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	
 	@Autowired
 	private KeyGenService keyGenService;
-	
-	@Autowired
-	private HTWorldCommentDao worldCommentDao;
-	
-	@Autowired
-	private HTWorldLikedDao worldLikedDao;
 	
 	@Autowired
 	private UserConcernDao userConcernDao;
@@ -135,16 +112,10 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 	private SysMsgDao sysMsgDao;
 	
 	@Autowired
-	private HTWorldInteractDao worldInteractDao;
-	
-	@Autowired
 	private UserInfoService userInfoService;
 	
 	@Autowired
 	private UserShieldDao userShieldDao;
-	
-	@Autowired
-	private UserMsgInteractDao userMsgInteractDao;
 	
 	@Autowired
 	private HTWorldDao worldDao;
@@ -185,6 +156,9 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 	@Autowired
 	private UserMsgConversationDao msgConversationDao;
 	
+	@Autowired
+	private MsgLikedDao msgLikedDao;
+	
 	@Value("${msg.squareRuleMsg}")
 	private String welcomeMsg ;
 	
@@ -196,8 +170,6 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 	@Value("${push.feedbackListeners}")
 	private String feedbackListeners;
 
-	private Integer likeMeGroupInterval = 5*60*1000;
-	
 	public Integer getCustomerServiceId() {
 		return customerServiceId;
 	}
@@ -231,154 +203,11 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 	}
 
 	@Override
-	public void buildCommentMsg(final Integer userId, int sinceId, int maxId,
-			int start, int limit, Map<String, Object> jsonMap) throws Exception {
-		buildSerializables(sinceId, maxId, start, limit, jsonMap, new SerializableSinceIdListAdapter<HTWorldCommentDto>() {
-
-			@Override
-			public List<HTWorldCommentDto> getSerializables(
-					RowSelection rowSelection) {
-				return worldCommentDao.queryUserComment(userId, rowSelection);
-			}
-
-			@Override
-			public List<HTWorldCommentDto> getSerializableByMaxId(int maxId,
-					RowSelection rowSelection) {
-				return worldCommentDao.queryUserCommentByMaxId(userId, maxId, rowSelection);
-			}
-
-			@Override
-			public long getTotalByMaxId(int maxId) {
-				return worldCommentDao.queryUserCommentCountByMaxId(userId,maxId);
-			}
-
-			@Override
-			public List<HTWorldCommentDto> getSerializableBySinceId(
-					int sinceId, RowSelection rowSelection) {
-				return worldCommentDao.queryUserCommentByMinId(userId, sinceId, rowSelection);
-			}
-
-			@Override
-			public long getTotalBySinceId(int sinceId) {
-				return worldCommentDao.queryUserCommentCountByMinId(userId,sinceId);
-			}
-			
-		}, OptResult.JSON_KEY_COMMENTS, OptResult.JSON_KEY_TOTAL_COUNT, new OnBuildSinceSerializableListener() {
-
-			@Override
-			public void onBuild(List<? extends Serializable> list, long total) {
-				worldCommentDao.updateUnreadComment(userId);
-			}
-
-			@Override
-			public void onBuildByMaxId(List<? extends Serializable> list, long total) {}
-
-			@Override
-			public void onBuildBySinceId(List<? extends Serializable> list, long total) {}
-			
-		});
-	}
-
-	@Override
-	public void buildLikedMsg(final Integer userId, int sinceId, int maxId,
-			int start, int limit, Map<String, Object> jsonMap) throws Exception {
-		buildSerializables(sinceId, maxId, start, limit, jsonMap, new SerializableSinceIdListAdapter<HTWorldLiked>() {
-
-			@Override
-			public List<HTWorldLiked> getSerializables(RowSelection rowSelection) {
-				return worldLikedDao.queryUserLiked(userId, rowSelection);
-			}
-
-			@Override
-			public List<HTWorldLiked> getSerializableByMaxId(int maxId,
-					RowSelection rowSelection) {
-				return worldLikedDao.queryUserLikedByMaxId(userId, maxId, rowSelection);
-			}
-
-			@Override
-			public long getTotalByMaxId(int maxId) {
-				return worldLikedDao.queryUserLikedCountByMaxId(userId, maxId);
-			}
-
-			@Override
-			public List<HTWorldLiked> getSerializableBySinceId(int sinceId,
-					RowSelection rowSelection) {
-				return worldLikedDao.queryUserLikedByMinId(userId, sinceId, rowSelection);
-			}
-
-			@Override
-			public long getTotalBySinceId(int sinceId) {
-				return worldLikedDao.queryUserLikedCountByMinId(userId,sinceId);
-			}
-			
-		}, OptResult.JSON_KEY_LIKEDS, OptResult.JSON_KEY_TOTAL_COUNT, new OnBuildSinceSerializableListener() {
-
-			@Override
-			public void onBuild(List<? extends Serializable> list, long total) {
-				worldLikedDao.updateUnreadUserLiked(userId);
-			}
-
-			@Override
-			public void onBuildByMaxId(List<? extends Serializable> list, long total) {}
-
-			@Override
-			public void onBuildBySinceId(List<? extends Serializable> list, long total) {}
-			
-		});
-	}
-	
-	@Override
-	public void buildInteractMsg(final Integer userId, String maxDateStr, int start,
-			int limit, Map<String, Object> jsonMap) throws Exception {
-		Date maxDate = null;
-		if(!StringUtil.checkIsNULL(maxDateStr)) {
-			maxDate = format.parse(maxDateStr);
-		}
-		buildSerializables("getInteractDate", maxDate, start, limit, jsonMap, new BaseSerializableListAdapter<HTWorldInteract>() {
-
-			@Override
-			public List<HTWorldInteract> getSerializables(RowSelection rowSelection) {
-				List<HTWorldInteract> list = worldInteractDao.queryInteract(userId, rowSelection);
-				userInfoService.extractVerify(list);
-				userInteractService.extractRemark(userId, list);
-				return list;
-			}
-
-			@Override
-			public List<HTWorldInteract> getSerializableByMaxId(
-					Serializable maxSerializable, RowSelection rowSelection) {
-				List<HTWorldInteract> list = worldInteractDao.queryInteract((Date)maxSerializable, userId, rowSelection);
-				userInfoService.extractVerify(list);
-				userInteractService.extractRemark(userId, list);
-				return list;
-			}
-
-			@Override
-			public long getTotalByMaxId(Serializable maxSerializable) {
-				return 0l;
-			}
-		}, OptResult.JSON_KEY_INTERACT, OptResult.JSON_KEY_TOTAL_COUNT, new BaseOnBuildSerializableListener() {
-			
-			@Override
-			public void onBuildByMaxId(List<? extends Serializable> list,
-					Serializable maxSerializable, long total) {
-				
-			}
-			
-			@Override
-			public void onBuild(List<? extends Serializable> list,
-					Serializable maxSerializable, long total) {
-				worldInteractDao.updateUnReadInteract((Date)maxSerializable, userId);
-			}
-		});
-	}
-
-	@Override
 	public void buildUnreadSysMsgCount(Integer userId, Map<String, Object> jsonMap) throws Exception{
 		UserMsgUnreadCount cnt = queryUnreadCountInfo(userId);
 		
 		long followCount = userConcernDao.queryUnCheckFollowCount(userId);
-		long likedCount = worldLikedDao.queryUnCheckUserLikedCount(userId);
+		long likedCount = cnt.getLikeCount();
 		long commentCount = cnt.getCommentCount();
 		
 		long atMsgCount = cnt.getAtCount();
@@ -413,7 +242,7 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 	public Integer saveUserMsg(Integer senderId, Integer recipientId,
 			String content) throws Exception {
 		if(senderId.equals(recipientId)) {
-			throw new HTSException("不能向自己发送私信");
+			throw new HTSException(HTSErrorCode.PARAMATER_ERR);
 		}
 		
 		Integer id = keyGenService.generateId(KeyGenServiceImpl.USER_MSG_ID);
@@ -757,7 +586,7 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 			throws Exception {
 		UserMsgStatus status = userInfoDao.queryUserMsgStatus(userId);
 		if(status == null) {
-			throw new HTSException("用户不存在", 1);
+			throw new HTSException(HTSErrorCode.USER_NOT_EXISTS);
 		} else {
 			Integer shield = userShieldDao.queryShieldId(userId, joinId) == null ? Tag.FALSE : Tag.TRUE;
 			if(shield.equals(Tag.FALSE)) { // 我没屏蔽它的时候查询这个用户是否被屏蔽
@@ -784,106 +613,6 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 		return status;
 	}
 	
-	@Override
-	public void buildILikeOtherMsg(Integer maxId, final Integer userId, final Integer authorId, 
-			Integer start, Integer limit, Map<String, Object> jsonMap) throws Exception {
-		final List<UserMsgLiked> list = new ArrayList<UserMsgLiked>();
-		final UserInfoAvatar avatar = userInfoDao.queryUserInfoAvatar(authorId);
-		userInfoService.extractVerify(avatar);
-		userInteractService.extractRemark(userId, avatar);
-		if(avatar != null) {
-			final RowCallback<UserMsgLiked> callback = new RowCallback<UserMsgLiked>() {
-				
-				@Override
-				public void callback(UserMsgLiked t) {
-					t.setUserId(t.getWorldAuthorId());
-					t.setUserName(avatar.getUserName());
-					t.setUserAvatar(avatar.getUserAvatar());
-					t.setUserAvatarL(avatar.getUserAvatarL());
-					t.setStar(avatar.getVerifyId());
-					t.setVerifyName(avatar.getVerifyName());
-					t.setVerifyIcon(avatar.getVerifyIcon());
-					t.setRemark(avatar.getRemark());
-					t.setPlatformVerify(avatar.getPlatformVerify());
-					list.add(t);
-				}
-			};
-			buildSerializables(maxId, start, limit, jsonMap, new SerializableListAdapter<UserMsgLiked>() {
-
-				@Override
-				public List<UserMsgLiked> getSerializables(
-						RowSelection rowSelection) {
-					userMsgInteractDao.queryLikedMsg(userId, authorId, rowSelection, callback);
-					return list;
-				}
-
-				@Override
-				public List<UserMsgLiked> getSerializableByMaxId(int maxId,
-						RowSelection rowSelection) {
-						userMsgInteractDao.queryLikedMsg(maxId, userId, authorId, rowSelection, callback);
-					return list;
-				}
-
-				@Override
-				public long getTotalByMaxId(int maxId) {
-					return 0;
-				}
-			}, OptResult.JSON_KEY_MSG, null);
-		}
-	}
-	
-	@Override
-	public void buildOtherLikeMeMsg(Integer maxId, final Integer userId, final Integer authorId, 
-			Integer start, Integer limit, Map<String, Object> jsonMap) throws Exception {
-		final List<UserMsgLiked> list = new ArrayList<UserMsgLiked>();
-		final UserInfoAvatar avatar = userInfoDao.queryUserInfoAvatar(userId);
-		userInfoService.extractVerify(avatar);
-		userInteractService.extractRemark(authorId, avatar);
-		if(avatar != null) {
-			final RowCallback<UserMsgLiked> callback = new RowCallback<UserMsgLiked>() {
-				
-				@Override
-				public void callback(UserMsgLiked t) {
-					t.setUserName(avatar.getUserName());
-					t.setUserAvatar(avatar.getUserAvatar());
-					t.setUserAvatarL(avatar.getUserAvatarL());
-					t.setStar(avatar.getVerifyId());
-					t.setVerifyName(avatar.getVerifyName());
-					t.setVerifyIcon(avatar.getVerifyIcon());
-					t.setRemark(avatar.getRemark());
-					t.setPlatformVerify(avatar.getPlatformVerify());
-					list.add(t);
-				}
-			};
-			buildSerializables(maxId, start, limit, jsonMap, new SerializableListAdapter<UserMsgLiked>() {
-
-				@Override
-				public List<UserMsgLiked> getSerializables(
-						RowSelection rowSelection) {
-					userMsgInteractDao.queryLikedMsg(userId, authorId, rowSelection, callback);
-					return list;
-				}
-
-				@Override
-				public List<UserMsgLiked> getSerializableByMaxId(int maxId,
-						RowSelection rowSelection) {
-						userMsgInteractDao.queryLikedMsg(maxId, userId, authorId, rowSelection, callback);
-					return list;
-				}
-
-				@Override
-				public long getTotalByMaxId(int maxId) {
-					return 0;
-				}
-			}, OptResult.JSON_KEY_MSG, null);
-		}
-	}
-
-	@Override
-	public void buildLikedMsg2(Integer maxId, final Integer userId, final Integer authorId, 
-			Integer start, Integer limit, Map<String, Object> jsonMap) throws Exception {
-		
-	}
 	
 	@Override
 	public void buildThumbnail(String userIdStr, String worldIdStr, 
@@ -907,15 +636,6 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 			}
 		}
 		
-		if(likeOtherUID != null && likeOtherUID != 0) {
-			long total = worldLikedDao.queryLikeOthersWorldCount(userId, likeOtherUID);
-			jsonMap.put(OptResult.JSON_KEY_LIKE_OTHER_COUNT, total);
-		}
-		
-		if(likeMeUID != null && likeMeUID != 0) {
-			long total = worldLikedDao.queryLikeOthersWorldCount(likeMeUID, userId);
-			jsonMap.put(OptResult.JSON_KEY_LIKE_ME_COUNT, total);
-		}
 	}
 	
 	private void extractIsMututal(Integer userId, final List<UserInfoAvatar> users) {
@@ -963,34 +683,7 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 	public void buildLikeMeMsg(Integer maxId, 
 			final Integer userId,final Integer limit, 
 			final Map<String, Object> jsonMap) throws Exception {
-		List<HTWorldLikeMe> likeMeList = null;
-		if(maxId == 0) {
-			Date minDate = TimeUtil.getSubDateFromNow(likeMeGroupInterval);
-			Integer minId= worldLikedDao.queryMinIdByMinDate(userId, minDate);
-			if(minId > 0) {
-				likeMeList = worldLikedDao.queryLikeMeByGroup(minId, userId); // 根据最小id查询喜欢过我的人的分组列表
-				
-				extractLikeMeWorldThumb(minId, userId, likeMeList); // 根据最小id获取被点过赞所有缩略图
-				
-				if(likeMeList.size() < limit) { // 不足一页，加载更多数据
-					List<HTWorldLikeMe> noThumbsList = worldLikedDao.queryLikeMe(minId-1, 
-							userId, limit-likeMeList.size());
-					likeMeList.addAll(noThumbsList);
-				} else { // 大于或等于一页, 下一页以最小id作为起始id
-					jsonMap.put(OptResult.JSON_KEY_MAX_ID, minId);
-				}
-				
-				jsonMap.put(OptResult.JSON_KEY_INTERVAL, likeMeGroupInterval);
-				
-			} else {
-				likeMeList = worldLikedDao.queryLikeMe(userId, limit);
-			}
-			
-		} else {
-			likeMeList = worldLikedDao.queryLikeMe(maxId, userId, limit);
-		}
-		
-		userInfoService.extractVerify(likeMeList);
+		List<UserMsgLiked> likeMeList = null;
 		jsonMap.put(OptResult.JSON_KEY_MSG, likeMeList);
 		
 	}
@@ -999,19 +692,18 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 	public void buildLikeMeMsgWithoutGroup(Integer maxId, Integer userId, 
 			Integer limit, final Map<String, Object> jsonMap) throws Exception {
 		userInfoDao.queryUserInfoDtoById(userId);
-		List<HTWorldLikeMe> likeMeList = null;
+		List<UserMsgLiked> likeMeList = null;
 		if(maxId == 0) {
-			worldLikedDao.updateUnreadUserLiked(userId);
-			likeMeList = worldLikedDao.queryLikeMe(userId, limit);
+			likeMeList = msgLikedDao.queryMsg(userId, limit);
 		} else {
-			likeMeList = worldLikedDao.queryLikeMe(maxId, userId, limit);
+			likeMeList = msgLikedDao.queryMsg(maxId, userId, limit);
 		}
 		extractRelate(userId, likeMeList);
 		userInfoService.extractVerify(likeMeList);
 		jsonMap.put(OptResult.JSON_KEY_MSG, likeMeList);
 	}
 
-	public void extractRelate(Integer userId, List<HTWorldLikeMe> list) {
+	public void extractRelate(Integer userId, List<UserMsgLiked> list) {
 		if(list == null || list.size() == 0) {
 			return;
 		}
@@ -1022,16 +714,16 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 		String province = StringUtil.checkIsNULL(user.getProvince()) ? null
 				: StringUtil.subShengFromProvince(user.getProvince());
 
-		Map<Integer, HTWorldLikeMeRelate> relMap = new HashMap<Integer, HTWorldLikeMeRelate>();
+		Map<Integer, UserMsgLikedRelate> relMap = new HashMap<Integer, UserMsgLikedRelate>();
 		
-		for(HTWorldLikeMe lm : list) {
+		for(UserMsgLiked lm : list) {
 			Integer relId = lm.getId();
 			if(relMap.containsKey(relId)) {
 				lm.setRelate(relMap.get(relId));
 				
 			} else {
 				if(city!= null && !StringUtil.checkIsNULL(lm.getCity()) && lm.getCity().contains(city)) {
-					HTWorldLikeMeRelate rel = new HTWorldLikeMeRelate(Tag.LIKE_ME_RELATE_CITY, 
+					UserMsgLikedRelate rel = new UserMsgLikedRelate(Tag.LIKE_ME_RELATE_CITY, 
 							lm.getProvince() + " " + lm.getCity(), 0);
 					lm.setRelate(rel);
 					relMap.put(relId, rel);
@@ -1039,7 +731,7 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 				}
 				
 				if(province!=null && !StringUtil.checkIsNULL(lm.getProvince()) && lm.getProvince().contains(province)) {
-					HTWorldLikeMeRelate rel = new HTWorldLikeMeRelate(Tag.LIKE_ME_RELATE_PROVINCE, 
+					UserMsgLikedRelate rel = new UserMsgLikedRelate(Tag.LIKE_ME_RELATE_PROVINCE, 
 							lm.getProvince(), 0);
 					lm.setRelate(rel);
 					relMap.put(relId, rel);
@@ -1049,38 +741,6 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 		}
 	}
 	
-	/**
-	 * 
-	 * @param minId
-	 * @param likeMeList
-	 * @param limit
-	 */
-	private void extractLikeMeWorldThumb(Integer minId, Integer authorId, 
-			final List<HTWorldLikeMe> likeMeList) {
-		final Map<Integer, Integer> idxMap = new HashMap<Integer, Integer>();
-		for(int i = 0; i < likeMeList.size(); i++) {
-			Integer uid = likeMeList.get(i).getUserId();
-			idxMap.put(uid, i);
-		}
-		worldLikedDao.queryLikeMeWorld(minId, authorId, 
-				new RowCallback<HTWorldLikeMeThumb>() {
-
-					@Override
-					public void callback(HTWorldLikeMeThumb t) {
-						Integer uid = t.getUserId();
-						Integer idx = idxMap.get(uid);
-						if(idx != null) {
-							HTWorldLikeMe likeMe = likeMeList.get(idx);
-							if(likeMe.getTitleThumbs() == null) {
-								likeMe.setTitleThumbs(new ArrayList<HTWorldLikeMeThumb>());
-							}
-							likeMe.getTitleThumbs().add(t);
-						}
-					}
-			
-		});
-	}
-
 	@Override
 	public List<PushStatus> saveAtMsgs(String atIdsStr, String atNamesStr , Set<Integer> rejectIds, Boolean push,
 			Integer userId, Integer objType, Integer objId, Integer worldId, String content) throws Exception {
@@ -1108,7 +768,8 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 		noAcceptAtSet = userInfoDao.queryNotAcceptAtUIds(atIds);
 		
 		if(atIds.length != atNames.length) {
-			throw new HTSException("at ids length must be equals at names length");
+			throw new HTSException(HTSErrorCode.PARAMATER_ERR,
+					"at ids length must be equals at names length");
 		}
 		
 		statusList = new ArrayList<PushStatus>();

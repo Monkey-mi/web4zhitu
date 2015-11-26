@@ -19,6 +19,7 @@ import com.gexin.rp.sdk.base.impl.SingleMessage;
 import com.gexin.rp.sdk.base.impl.Target;
 import com.gexin.rp.sdk.http.IGtPush;
 import com.gexin.rp.sdk.template.TransmissionTemplate;
+import com.hts.web.base.HTSErrorCode;
 import com.hts.web.base.HTSException;
 import com.hts.web.base.constant.LoggerKeies;
 import com.hts.web.base.constant.Tag;
@@ -625,7 +626,7 @@ public class PushServiceImpl implements PushService {
 		try {
 			template.setPushInfo("open",1,"","",content, title,"","");
 		} catch (Exception e) {
-			throw new HTSException(e.getMessage());
+			throw new HTSException(HTSErrorCode.REQUEST_FAIL, e.getMessage());
 		}
 		template.setTransmissionType(2);
 		message.setData(template);
@@ -638,7 +639,7 @@ public class PushServiceImpl implements PushService {
 		IPushResult result = gtPush.pushMessageToSingle(message, target);
 		Object res = result.getResponse().get("result");
 		if(!res.equals("ok")) {
-			throw new HTSException(res.toString());
+			throw new HTSException(HTSErrorCode.REQUEST_FAIL, res.toString());
 		}
 	}
 	
@@ -669,7 +670,7 @@ public class PushServiceImpl implements PushService {
 		try {
 			template.setPushInfo("open",1,"",null,playload,content,"","");
 		} catch (Exception e) {
-			throw new HTSException(e.getMessage());
+			throw new HTSException(HTSErrorCode.REQUEST_FAIL, e.getMessage());
 		}
 		
 		message.setData(template);
@@ -680,7 +681,7 @@ public class PushServiceImpl implements PushService {
 		IPushResult result = gtPush.pushMessageToList(contentId, targets);
 		Object res = result.getResponse().get("result");
 		if(!res.equals("ok")) {
-			throw new HTSException(res.toString());
+			throw new HTSException(HTSErrorCode.REQUEST_FAIL, res.toString());
 		}
 	}
 	
@@ -712,7 +713,7 @@ public class PushServiceImpl implements PushService {
 		try {
 			apnsService.push(pushToken, payload);
 		} catch(NetworkIOException e) {
-			throw new HTSException(e);
+			throw new HTSException(HTSErrorCode.REQUEST_FAIL);
 		}
 	}
 	

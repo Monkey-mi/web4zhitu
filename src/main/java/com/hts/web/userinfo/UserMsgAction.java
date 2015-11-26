@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.hts.web.base.HTSException;
 import com.hts.web.base.StrutsKey;
 import com.hts.web.base.constant.OptResult;
-import com.hts.web.base.constant.Tag;
 import com.hts.web.common.BaseAction;
 import com.hts.web.common.pojo.UserMsgStatus;
 import com.hts.web.common.util.JSONUtil;
@@ -52,14 +51,11 @@ public class UserMsgAction extends BaseAction {
 	 * 获取评论/回复消息
 	 * 
 	 * @return
+	 * @author lynch
+	 * @deprecated v3.0.5弃用
 	 */
 	public String queryComment() {
-		try {
-			userMsgService.buildCommentMsg(getCurrentLoginUserId(), sinceId, maxId, start, limit, jsonMap);
-			JSONUtil.optSuccess(jsonMap);
-		} catch (Exception e) {
-			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
-		}
+		JSONUtil.optSuccess(jsonMap);
 		return StrutsKey.JSON;
 	}
 	
@@ -67,14 +63,10 @@ public class UserMsgAction extends BaseAction {
 	 * 获取喜欢消息
 	 * 
 	 * @return
+	 * @deprecated v3.0.5
 	 */
 	public String queryLiked() {
-		try {
-			userMsgService.buildLikedMsg(getCurrentLoginUserId(), sinceId, maxId, start, limit, jsonMap);
-			JSONUtil.optSuccess(jsonMap);
-		} catch (Exception e) {
-			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
-		}
+		JSONUtil.optSuccess(jsonMap);
 		return StrutsKey.JSON;
 	}
 	
@@ -82,14 +74,11 @@ public class UserMsgAction extends BaseAction {
 	 * 构建互动列表
 	 * 
 	 * @return
+	 * @deprecated v3.0.5弃用
 	 */
+	@Deprecated
 	public String queryInteract() {
-		try {
-			userMsgService.buildInteractMsg(getCurrentLoginUserId(), maxDate, start, limit, jsonMap);
-			JSONUtil.optSuccess(jsonMap);
-		} catch (Exception e) {
-			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
-		}
+		JSONUtil.optSuccess(jsonMap);
 		return StrutsKey.JSON;
 	}
 
@@ -255,21 +244,6 @@ public class UserMsgAction extends BaseAction {
 		return StrutsKey.JSON;
 	}
 	
-	/**
-	 * 查询收到的私信
-	 * 
-	 * @return
-	 */
-//	public String queryReceiveMsg() {
-//		try {
-//			userMsgService.buildReceiveMsg(sinceId, getCurrentLoginUserId(), otherId, jsonMap);
-//			JSONUtil.optSuccess(jsonMap);
-//		} catch(Exception e) {
-//			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
-//		}
-//		return StrutsKey.JSON;
-//	}
-	
 	
 	/**
 	 * 发送广场规则消息
@@ -306,29 +280,20 @@ public class UserMsgAction extends BaseAction {
 	 * 
 	 * @return
 	 */
+	@Deprecated
 	public String queryOtherLikeMeMsg() {
-		try {
-			userMsgService.buildOtherLikeMeMsg(maxId, userId, getCurrentLoginUserId(), 
-					start, limit, jsonMap);
-			JSONUtil.optSuccess(jsonMap);
-		} catch(Exception e) {
-			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
-		}
+		JSONUtil.optSuccess(jsonMap);
 		return StrutsKey.JSON;
 	}
 	
 	/**
+	 * v3.0.5弃用
 	 * 查询我喜欢对方的消息列表
 	 * @return
 	 */
+	@Deprecated 
 	public String queryILikeOtherMsg() {
-		try {
-			userMsgService.buildILikeOtherMsg(maxId, getCurrentLoginUserId(), userId, 
-					start, limit, jsonMap);
-			JSONUtil.optSuccess(jsonMap);
-		} catch(Exception e) {
-			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
-		}
+		JSONUtil.optSuccess(jsonMap);
 		return StrutsKey.JSON;
 	}
 	

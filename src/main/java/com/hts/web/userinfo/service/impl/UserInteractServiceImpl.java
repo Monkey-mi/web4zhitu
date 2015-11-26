@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hts.web.base.HTSErrorCode;
 import com.hts.web.base.HTSException;
 import com.hts.web.base.constant.OptResult;
 import com.hts.web.base.constant.Tag;
@@ -62,23 +63,6 @@ public class UserInteractServiceImpl extends BaseServiceImpl implements UserInte
 	
 	private static Logger logger = Logger.getLogger(UserInteractServiceImpl.class);
 	
-	/**
-	 * 已经关注错误
-	 */
-	public static final int HAS_OPTIONED_ERROR = 1;
-	
-	/**
-	 * 已经取消关注错误
-	 */
-	public static final int HAS_CANCEL_OPTION_ERROR = 2;
-	
-	/**
-	 * 已经关注提示
-	 */
-	public static final String TIP_HAS_CONCERN_ERROR = "已经关注过,或关注对象不存在";
-	
-	public static final String TIP_HAS_CANCEL_CONCERN_ERROR = "已经取消关注，或取消关注对象不存在";
-
 	@Autowired
 	private KeyGenService keyGenService;
 	
@@ -130,7 +114,7 @@ public class UserInteractServiceImpl extends BaseServiceImpl implements UserInte
 		List<PushStatus> resultList = new ArrayList<PushStatus>();
 		for(Integer concernId : concernIds) {
 			if(userId.equals(concernId)) {
-				throw new HTSException(TIP_HAS_CONCERN_ERROR, HAS_OPTIONED_ERROR);
+				throw new HTSException(HTSErrorCode.PARAMATER_ERR);
 			}
 			PushStatus result = null;
 			UserConcern concern = userConcernDao.queryConcern(userId, concernId);
@@ -166,7 +150,7 @@ public class UserInteractServiceImpl extends BaseServiceImpl implements UserInte
 	public PushStatus saveConcern(Boolean im, Integer userId, Integer concernId, 
 			Integer concernCount) throws Exception {
 		if(userId.equals(concernId)) {
-			throw new HTSException(TIP_HAS_CONCERN_ERROR, HAS_OPTIONED_ERROR);
+			throw new HTSException(HTSErrorCode.PARAMATER_ERR);
 		}
 		PushStatus result = null;
 		UserConcern concern = userConcernDao.queryConcern(userId, concernId);
@@ -175,7 +159,7 @@ public class UserInteractServiceImpl extends BaseServiceImpl implements UserInte
 		} else if(concern.getValid() == Tag.FALSE) {
 			result = reSaveConcernOpt(im, userId, concernId, new Date());
 		} else {
-			throw new HTSException(TIP_HAS_CONCERN_ERROR, HAS_OPTIONED_ERROR);
+			throw new HTSException(HTSErrorCode.REPEAT_CONCERN);
 		}
 		Long followCount = userConcernDao.queryFollowCount(concernId);
 		userInfoDao.updateFollowCount(concernId, followCount.intValue());
@@ -274,8 +258,6 @@ public class UserInteractServiceImpl extends BaseServiceImpl implements UserInte
 			userInfoDao.updateFollowCount(concernId, followCount.intValue());
 			Long concernCount = userConcernDao.queryConcernCount(userId);
 			userInfoDao.updateConcernCount(userId, concernCount.intValue());
-		} else {
-			throw new HTSException(TIP_HAS_CANCEL_CONCERN_ERROR, HAS_CANCEL_OPTION_ERROR);
 		}
 	}
 	
@@ -494,8 +476,6 @@ public class UserInteractServiceImpl extends BaseServiceImpl implements UserInte
 			userConcernTypeDao.saveConcernType(new UserConcernType(userId, typeId, Tag.TRUE));
 		} else if(type.getValid().equals(Tag.FALSE)) {
 			userConcernTypeDao.updateConcernTypeValid(userId, typeId, Tag.TRUE);
-		} else {
-			throw new HTSException(TIP_HAS_CONCERN_ERROR, HAS_OPTIONED_ERROR);
 		}
 	}
 
@@ -511,7 +491,7 @@ public class UserInteractServiceImpl extends BaseServiceImpl implements UserInte
 			throws Exception {
 		String[] loginCodes = StringUtil.convertStringToStrs(loginCodesStr);
 		if(loginCodes.length <= 0) {
-			throw new HTSException("loginCode列表为空");
+			throw new HTSException(HTSErrorCode.PARAMATER_ERR, "loginCodes is empty");
 		}
 		List<UserInfoDto> list = userConcernDao.queryNotConcernUserInfo(userId, loginCodes);
 		userInfoService.extractVerify(list);
@@ -524,7 +504,8 @@ public class UserInteractServiceImpl extends BaseServiceImpl implements UserInte
 			throws Exception {
 		String[] loginCodes = StringUtil.convertStringToStrs(loginCodesStr);
 		if(loginCodes.length <= 0) {
-			throw new HTSException("loginCode列表为空");
+			throw new HTSException(HTSErrorCode.PARAMATER_ERR,
+					"loginCodes is empty");
 		}
 		List<UserInfoDto> list = userInfoDao.queryRegister(loginCodes);
 		userInfoService.extractVerify(list);
@@ -719,7 +700,8 @@ public class UserInteractServiceImpl extends BaseServiceImpl implements UserInte
 	public void buildIsMututal(Integer userId, String cidsStr,
 			Map<String, Object> jsonMap) throws Exception {
 		if(StringUtil.checkIsNULL(cidsStr)) {
-			throw new HTSException("concernIds can not be null");
+			throw new HTSException(HTSErrorCode.PARAMATER_ERR, 
+					"concernIds can not be null");
 		}
 		
 		List<UserWithIsMututal> list = new ArrayList<UserWithIsMututal>();

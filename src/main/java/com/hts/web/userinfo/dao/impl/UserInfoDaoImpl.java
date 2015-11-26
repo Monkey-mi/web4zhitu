@@ -394,7 +394,7 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 	 * 更新被赞次数
 	 */
 	private static final String UPDATE_LIKE_ME_COUNT = "update " + table
-			+ " set like_me_count=? where id=?";
+			+ " set like_me_count=like_me_count+1 where id=?";
 	
 	/**
 	 * 根据登录账号查询id
@@ -1022,8 +1022,8 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 	}
 	
 	@Override
-	public void updateLikeMeCount(Integer uid, Integer count) {
-		getMasterJdbcTemplate().update(UPDATE_LIKE_ME_COUNT, new Object[]{count, uid});
+	public void updateLikeMeCount(Integer uid) {
+		getMasterJdbcTemplate().update(UPDATE_LIKE_ME_COUNT, new Object[]{uid});
 	}
 	
 	@Override

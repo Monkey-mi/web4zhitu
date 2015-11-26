@@ -151,7 +151,7 @@ public class ZTWorldInteractAction extends BaseAction {
 	 */
 	public String deleteComment() {
 		try {
-			worldInteractService.deleteComment(commentId, getCurrentLoginUserId());
+			worldInteractService.deleteComment(commentId, worldId, getCurrentLoginUserId());
 			JSONUtil.optSuccess(OptResult.DELETE_SUCCESS, jsonMap);
 		} catch(HTSException e) {
 			JSONUtil.optFailed(e.getErrorCode(), e.getMessage(), jsonMap);

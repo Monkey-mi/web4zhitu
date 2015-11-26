@@ -26,10 +26,10 @@ import com.hts.web.common.service.BaseService;
  */
 public class BaseServiceImpl implements BaseService{
 	
-	/**
-	 * 错误代码：重复操作
-	 */
-	public static final int ERROR_CODE_REPEAT_OPT = 1;
+//	/**
+//	 * 错误代码：重复操作
+//	 */
+//	public static final int ERROR_CODE_REPEAT_OPT = 1;
 	
 	/**
 	 * 构建序列化列表

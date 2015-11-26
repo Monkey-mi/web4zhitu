@@ -137,11 +137,21 @@ public class HTS {
 	 * 织图世界表
 	 */
 	public static final String HTWORLD_HTWORLD = DB + "htworld_htworld";
+	
+	/**
+	 * 每周最新织图表
+	 */
+	public static final String HTWORLD_HTWORLD_WEEK = DB + "htworld_htworld_week";
 
 	/**
 	 * 织图喜欢表
 	 */
 	public static final String HTWORLD_LIKED = DB + "htworld_liked";
+	
+	/**
+	 * 点赞取消表
+	 */
+	public static final String HTWORLD_LIKED_CANCEL = DB + "htworld_liked_cancel";
 	
 	/**
 	 * 织图收藏表
@@ -169,9 +179,19 @@ public class HTS {
 	public static final String HTWORLD_COMMENT = DB + "htworld_comment";
 	
 	/**
+	 * 织图周最新评论表
+	 */
+	public static final String HTWORLD_COMMENT_WEEK = DB + "htworld_comment_week";
+	
+	/**
 	 * 织图评论删除表
 	 */
 	public static final String HTWORLD_COMMENT_DELETE = DB + "htworld_comment_delete";
+	
+	/**
+	 * 织图评论屏蔽表
+	 */
+	public static final String HTWORLD_COMMENT_SHIELD = DB + "htworld_comment_shield";
 	
 	/**
 	 * 织图评论举报表
@@ -387,5 +407,10 @@ public class HTS {
 	 * 评论消息表
 	 */
 	public static final String USER_MSG_COMMENT = DB + "user_msg_comment";
+	
+	/**
+	 * 喜欢消息表
+	 */
+	public static final String USER_MSG_LIKED = DB + "user_msg_liked";
 	
 }

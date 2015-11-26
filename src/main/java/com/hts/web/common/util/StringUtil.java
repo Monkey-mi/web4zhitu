@@ -139,9 +139,9 @@ public class StringUtil {
 	 * @return
 	 * @throws HTSException
 	 */
-	public static String getTag(String src, String split) throws HTSException {
+	public static String getTag(String src, String split) {
 		if (!src.contains(split)) {
-			throw new HTSException(new NullPointerException());
+			new NullPointerException();
 		}
 		int index = src.lastIndexOf(split);
 		String tag = src.substring(index + 1);

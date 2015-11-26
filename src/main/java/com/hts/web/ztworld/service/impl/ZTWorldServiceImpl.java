@@ -18,6 +18,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hts.web.base.HTSErrorCode;
 import com.hts.web.base.HTSException;
 import com.hts.web.base.constant.LoggerKeies;
 import com.hts.web.base.constant.OptResult;
@@ -34,7 +35,7 @@ import com.hts.web.common.pojo.HTWorldChildWorldDto;
 import com.hts.web.common.pojo.HTWorldChildWorldThumb;
 import com.hts.web.common.pojo.HTWorldChildWorldType;
 import com.hts.web.common.pojo.HTWorldChildWorldTypeDto2;
-import com.hts.web.common.pojo.HTWorldCommentUser;
+import com.hts.web.common.pojo.HTWorldCommentInline;
 import com.hts.web.common.pojo.HTWorldDto;
 import com.hts.web.common.pojo.HTWorldFilterLogo;
 import com.hts.web.common.pojo.HTWorldInteractDto;
@@ -43,7 +44,7 @@ import com.hts.web.common.pojo.HTWorldLabelWorld;
 import com.hts.web.common.pojo.HTWorldLatest;
 import com.hts.web.common.pojo.HTWorldLatestId;
 import com.hts.web.common.pojo.HTWorldLatestIndex;
-import com.hts.web.common.pojo.HTWorldLikedUser;
+import com.hts.web.common.pojo.HTWorldLikedInline;
 import com.hts.web.common.pojo.HTWorldTextStyle;
 import com.hts.web.common.pojo.HTWorldThumbDto;
 import com.hts.web.common.pojo.HTWorldWithExtra;
@@ -82,6 +83,7 @@ import com.hts.web.ztworld.dao.HTWorldFilterLogoCacheDao;
 import com.hts.web.ztworld.dao.HTWorldLabelDao;
 import com.hts.web.ztworld.dao.HTWorldLabelWorldDao;
 import com.hts.web.ztworld.dao.HTWorldLikedDao;
+import com.hts.web.ztworld.dao.HTWorldWeekDao;
 import com.hts.web.ztworld.service.ZTWorldService;
 
 import net.sf.json.JSONArray;
@@ -251,6 +253,9 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 	
 	@Autowired
 	private UserMsgService userMsgService;
+	
+	@Autowired
+	private HTWorldWeekDao worldWeekDao;
 	
 	private String baseThumbPathAixin = "http://static.imzhitu.com/world/thumbs/1403056393000.png";
 	private String baseThumbPathXing = "http://static.imzhitu.com/world/thumbs/1403057093000.png";
@@ -436,6 +441,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 			saveWorldLogger.warn("save channel world error, " + e.getMessage(), e);
 		}
 		
+		worldWeekDao.saveWorld(world);
 		worldDao.saveWorld(world); // 保存世界信息
 		
 		// 更新织图总数
@@ -697,12 +703,13 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 		if (world != null && world.getValid() == Tag.TRUE
 				&& world.getAuthorId().equals(userId)
 				&& world.getShield() == Tag.FALSE) {
+			worldWeekDao.validRecord(HTS.HTWORLD_HTWORLD_WEEK, Tag.FALSE, worldId);
 			worldDao.validRecord(HTS.HTWORLD_HTWORLD, Tag.FALSE, worldId);
 			Long count = worldDao.queryWorldCountByAuthorId(userId);
 			Integer childCount = worldDao.queryChildCount(userId);
 			userInfoDao.updateWorldAndChildCount(userId, count.intValue(), childCount);
 		} else {
-			throw new HTSException("织图不存在或已经被删除", ERROR_CODE_REPEAT_OPT);
+			throw new HTSException(HTSErrorCode.INVALID_WORLD);
 		}
 	}
 
@@ -764,11 +771,11 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 //			}
 			
 			if (commentLimit > 0) {
-				worldCommentDao.queryCommentUserByLimit(worldIds, commentLimit,
-						new RowCallback<HTWorldCommentUser>() {
+				worldCommentDao.queryInlineComment(worldIds, commentLimit,
+						new RowCallback<HTWorldCommentInline>() {
 
 							@Override
-							public void callback(HTWorldCommentUser comment) {
+							public void callback(HTWorldCommentInline comment) {
 								Integer wid = comment.getWorldId();
 								Integer index = indexMap.get(wid);
 								worldList.get(index).getComments().add(comment);
@@ -777,11 +784,11 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 			}
 			if (likedLimit > 0) {
 				final Map<Integer, UserVerify> verifyMap = userInfoService.getVerify();
-				worldLikedDao.queryLikedUserByLimit(worldIds, likedLimit,
-						new RowCallback<HTWorldLikedUser>() {
+				worldLikedDao.queryInlineLikedByLimit(worldIds, likedLimit,
+						new RowCallback<HTWorldLikedInline>() {
 
 							@Override
-							public void callback(HTWorldLikedUser likedUser) {
+							public void callback(HTWorldLikedInline likedUser) {
 								Integer verifyId = likedUser.getVerifyId();
 								if(verifyMap.containsKey(verifyId)) {
 									UserVerify uv = verifyMap.get(verifyId);
@@ -807,27 +814,15 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 			Integer worldId = world.getId();
 			
 			if(extractLiked && userId != null) {
-				Integer liked = worldLikedDao.queryLikedId(userId, worldId) != 0 ? Tag.TRUE : Tag.FALSE;
-				world.setLiked(liked);
+				world.setLiked(worldLikedDao.isLiked(userId, worldId));
 			}
 			
-			if (commentLimit > 0) {
-				worldCommentDao.queryCommentUserByLimit(worldId, commentLimit,
-						new RowCallback<HTWorldCommentUser>() {
-
-							@Override
-							public void callback(HTWorldCommentUser comment) {
-								world.getComments().add(comment);
-							}
-
-						});
-			}
 			if (likedLimit > 0) {
-				worldLikedDao.queryLikedUserByLimit(worldId, likedLimit,
-						new RowCallback<HTWorldLikedUser>() {
+				worldLikedDao.queryInlineLikedByLimit(worldId, likedLimit,
+						new RowCallback<HTWorldLikedInline>() {
 
 							@Override
-							public void callback(HTWorldLikedUser likedUser) {
+							public void callback(HTWorldLikedInline likedUser) {
 								Integer verifyId = likedUser.getVerifyId();
 								if(verifyMap.containsKey(verifyId)) {
 									UserVerify uv = verifyMap.get(verifyId);
@@ -1338,7 +1333,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 			dto = worldDao.queryHTWorldDtoByIdNoValidCheck(worldId);
 		}
 		if (dto == null) {
-			throw new HTSException("织图不存在");
+			throw new HTSException(HTSErrorCode.INVALID_WORLD);
 		}
 		// 查询首页子世界信息
 		HTWorldChildWorld titleChild = worldChildWorldDao
@@ -1378,7 +1373,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 			int start, int limit, Map<String, Object> jsonMap, boolean trimTotal, 
 			final boolean trimExtra, final int commentLimit, final int likedLimit) throws Exception {
 		if(StringUtil.checkIsNULL(query))
-			throw new HTSException("查询条件不允许为空");
+			throw new HTSException(HTSErrorCode.PARAMATER_ERR, "query can't be null");
 		String totalKey = trimTotal ? null : OptResult.JSON_KEY_TOTAL_COUNT;
 		buildSerializables(maxId, start, limit, jsonMap, new SerializableListAdapter<HTWorldInteractDto>() {
 
@@ -1536,7 +1531,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 	public void buildLatest(Integer userId, Long startTime, Long endTime, Integer maxId, 
 			Integer limit, Map<String, Object> jsonMap) throws Exception {
 		if(startTime <= endTime) {
-			throw new HTSException("startTime必须大于endTime");
+			throw new HTSException(HTSErrorCode.PARAMATER_ERR);
 		}
 		List<HTWorldLatest> wlist = null;
 		Long total = 0l;
@@ -1645,7 +1640,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 	public void buildLatest2(Integer userId, Long startTime, Long endTime, Integer maxId, 
 			Integer limit, Map<String, Object> jsonMap) throws Exception {
 		if(startTime <= endTime) {
-			throw new HTSException("startTime必须大于endTime");
+			throw new HTSException(HTSErrorCode.PARAMATER_ERR);
 		}
 		List<HTWorldLatest> wlist = null;
 		Long total = 0l;

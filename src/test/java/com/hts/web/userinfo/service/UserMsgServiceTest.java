@@ -32,33 +32,6 @@ public class UserMsgServiceTest extends BaseTest {
 	private UserMsgService service;
 
 	@Test
-	public void testBuildCommentMsg() throws Exception {
-		Map<String, Object> jsonMap = new HashMap<String, Object>();
-		service.buildCommentMsg(109, 0, 0, 1, 10, jsonMap);
-		logObj(jsonMap);
-	}
-	
-	@Test
-	public void testBuildLikedMsg() throws Exception {
-		Map<String, Object> jsonMap = new HashMap<String, Object>();
-		service.buildLikedMsg(109, 0, 0, 1, 10, jsonMap);
-		logObj(jsonMap);
-	}
-	
-	@Test
-	public void testBuildInteractMsg() throws Exception {
-		Map<String, Object> jsonMap = new HashMap<String, Object>();
-		service.buildInteractMsg(1278, "2014-07-09 12:00:00", 1, 10, jsonMap);
-		service.buildInteractMsg(1278, null, 1, 10, jsonMap);
-		List<HTWorldInteract> list = (List<HTWorldInteract>) jsonMap.get(OptResult.JSON_KEY_INTERACT);
-		for(HTWorldInteract in : list) {
-			Log.debug(in.getUserInfo().getVerifyId() + " : " + in.getUserInfo().getVerifyName() + " : " + in.getUserInfo().getVerifyIcon());
-		}
-//		logObj(jsonMap);
-		
-	}
-	
-	@Test
 	public void buildUnreadMsgCount() throws Exception {
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
 		service.buildUnreadSysMsgCount(1549, jsonMap);
@@ -100,38 +73,6 @@ public class UserMsgServiceTest extends BaseTest {
 	public void testGetMsgStatus() throws Exception {
 		UserMsgStatus status = service.getMsgStatus(1000, 1611);
 		logObj(status);
-	}
-	
-	@Test
-	public void testBuildUserLikedMsg2() throws Exception {
-		Map<String, Object> jsonMap = new HashMap<String, Object>();
-		service.buildLikedMsg2(0, 1611, 1549, 1, 10, jsonMap);
-//		service.buildLikedMsg(2481, 485, 116, 1, 10, jsonMap);
-		logObj(jsonMap);
-	}
-	
-	@Test
-	public void buildILikeOtherMsgTest() throws Exception {
-		logNumberList(log, new NumberListAdapter() {
-
-			@Override
-			public void buildNumberList(Map<String, Object> jsonMap)
-					throws Exception {
-				service.buildILikeOtherMsg(0, 1611, 1549, 1, 10, jsonMap);
-			}
-		});
-	}
-	
-	@Test
-	public void buildOtherLikeMeTest() throws Exception {
-		logNumberList(log, new NumberListAdapter() {
-
-			@Override
-			public void buildNumberList(Map<String, Object> jsonMap)
-					throws Exception {
-				service.buildOtherLikeMeMsg(0, 1611, 1549, 1, 10, jsonMap);
-			}
-		});
 	}
 	
 	@Test

@@ -41,7 +41,7 @@ public class ZTWorldInteractServiceTest extends BaseTest {
 	public void testSaveComment() throws Exception {
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
 		service.saveComment(false, 14316, 1550, 1549, 
-				"呵呵光圈" + new Date().getTime(), null, null, jsonMap);
+				"呵呵" + new Date().getTime(), null, null, jsonMap);
 		logger.debug(jsonMap);
 	}
 	
@@ -77,7 +77,7 @@ public class ZTWorldInteractServiceTest extends BaseTest {
 	
 	@Test
 	public void testCancelLiked() throws Exception {
-		service.cancelLiked(485, 14527);
+		service.cancelLiked(485, (int)(Math.random() * 999999));
 	}
 	
 	@Test

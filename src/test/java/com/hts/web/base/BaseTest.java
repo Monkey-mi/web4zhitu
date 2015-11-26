@@ -1,19 +1,19 @@
 package com.hts.web.base;
 
+import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-
-import net.sf.json.JSONObject;
 
 import org.apache.log4j.Logger;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.hts.web.common.util.Log;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 /**
  * <p>
@@ -26,8 +26,6 @@ import com.hts.web.common.util.Log;
  */
 @RunWith(SpringJUnit4ClassRunner.class)  
 @ContextConfiguration(locations={"file:src/main/webapp/WEB-INF/spring-config.xml"}) 
-//@TransactionConfiguration(transactionManager="transactionManager",defaultRollback=false)
-//@Transactional
 public abstract class BaseTest {
 
 	/**
@@ -37,6 +35,11 @@ public abstract class BaseTest {
 	protected static void logObj(Object obj) {
 		JSONObject jsObj = JSONObject.fromObject(obj);
 		Log.debug(jsObj);
+	}
+	
+	protected static void logList(List<? extends Serializable> list) {
+		JSONArray arr = JSONArray.fromObject(list);
+		Log.debug(arr);
 	}
 	
 	protected void logNumberList(Logger logger, NumberListAdapter adapter) throws Exception {
@@ -52,10 +55,5 @@ public abstract class BaseTest {
 		
 	}
 	
-	public static void main(String[] args) {
-		for(int i = 0; i < 100; i++) {
-			System.out.println(i % 10 + 2);
-		}
-	}
 	
 }

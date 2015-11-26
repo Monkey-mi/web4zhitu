@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import weibo4j.Friendships;
 import weibo4j.model.WeiboException;
 
+import com.hts.web.base.HTSErrorCode;
 import com.hts.web.base.HTSException;
 import com.hts.web.base.constant.OptResult;
 import com.hts.web.base.constant.PlatFormCode;
@@ -435,7 +436,7 @@ public class UserOperationsServiceImpl extends BaseServiceImpl implements
 				if(recommend.getSysAccept().equals(USER_RECOMMEND_REJECT))
 					userRecommendDao.updateSysAcceptByUID(userId, USER_RECOMMEND_PENDING, date);
 				else 
-					throw new HTSException("已经申请过", ERROR_CODE_REPEAT_OPT);
+					throw new HTSException(HTSErrorCode.REPEAT_APPLY);
 				break;
 			}
 		}

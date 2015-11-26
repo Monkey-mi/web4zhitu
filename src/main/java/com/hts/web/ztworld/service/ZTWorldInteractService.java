@@ -109,10 +109,12 @@ public interface ZTWorldInteractService extends BaseService {
 	 * 删除评论
 	 * 
 	 * @param id
+	 * @param worldId
 	 * @param userId
 	 * @throws Exception
 	 */
-	public void deleteComment(Integer id, Integer userId) throws Exception;
+	public void deleteComment(Integer id, 
+			Integer worldId, Integer userId) throws Exception;
 
 	/**
 	 * 保存织图喜欢
@@ -275,14 +277,6 @@ public interface ZTWorldInteractService extends BaseService {
 	 * @param worldId
 	 */
 	public boolean checkWorldValid(Integer worldId);
-	
-	/**
-	 * 检测评论是否有效
-	 * 
-	 * @param commentId
-	 * @return
-	 */
-	public boolean checkCommentValid(Integer commentId);
 	
 	/**
 	 * 过滤评论开头的' : '
