@@ -31,12 +31,10 @@ var ui = {
 	initUserInfo : function(user) {
 		var job, addr, sex;
 		
-		job = user['job'] == "" ? "未设置职业" : user['job'];
-		addr = user['address'] == "" ? "未设置地点" : user['address'];
-		sex = user['sex'] == 2 ? "男" : "女";
+		job = $.trim(user['job']) == "" ? "职业:暂无" : $.trim(user['job']);
+		addr = $.trim(user['address']) == "" ? "地点:暂无" : $.trim(user['address']);
+		sex = user['sex'] == 2 ? "女" : "男";
 
-		document.title = user['userName'] + "的个人主页";
-		
 		$("#job").text(job);
 		$("#address").text(addr);
 		$("#sex").text(sex);
@@ -51,12 +49,57 @@ var ui = {
 		}
 		
 		$("#user-avatar, #share-img").attr("src", user["userAvatarL"]);
+		$("#user-avatar-wrap").css({"visibility": "visible"});
 		
 		if(user['verifyName'] != "") {
 			$("#verify-icon").attr("src", user["verifyIcon"]);
 			$("#verify-name").text(user['verifyName']);
 			$("#verify-name-wrap").css({"display":"inline-block"}).show();
 		}
+		ui.initShare(user);
+	},
+	initShare : function(user) {
+		var title = user['worldCount'] > 0 ? user['userName'] + " | 相册×" + user['worldCount'] 
+			: user['userName'];
+		
+		var desc = "";
+		var sex = user['sex'] == 2 ? "女" : "男";
+		var addr = $.trim(user['address']) == "" ? "来自" + addr : "";
+		
+		desc = desc + sex + "生";
+		
+		if(user['verifyName'] != "") {
+			desc = desc + "(" + user['verifyName'] + ")";
+		}
+		
+		if(user['followCount'] > 0) {
+			desc = desc + "，粉丝×" + user['followCount'];
+		}
+		
+		if($.trim(user['address']) != "") {
+			desc = desc + "，来自: " + $.trim(user['address']);
+		}
+		
+		if($.trim(user['job']) != "") {
+			desc = desc + "，职业: " + $.trim(user['job']);
+		}
+		
+		if($.trim(user['signature']) != "") {
+			desc = desc + "，个人介绍: " + $.trim(user['signature']);
+		}
+		
+		$("meta[name=description]").attr('content', desc);
+		
+        var $body = $('body');
+        document.title = title;
+        var $iframe = $('<iframe src="/favicon.ico"></iframe>');
+        $iframe.hide();
+        $iframe.on('load',function() {
+            setTimeout(function() {
+                $iframe.off('load').remove();
+            }, 0);
+        }).appendTo($body);
+		
 	},
 	appendThumb : function(thumbs) {
 		if(thumbs == ''|| thumbs.length == 0) {
@@ -68,7 +111,7 @@ var ui = {
 		var $thumb;
 		for(var i in thumbs) {
 			$thumb = $('<a class="world-thumb" href="/DT'+thumbs[i]['shortLink']+'">'
-					  + '<img src="'+thumbs[i]["titlePath"]+'" width="'+thumbSize+'" height="'+thumbSize+'" /></a>');
+					  + '<img src="'+thumbs[i]["titleThumbPath"]+'" width="'+thumbSize+'" height="'+thumbSize+'" /></a>');
 			$thumb.css({"width":thumbSize + "px", "height":thumbSize+"px"});
 			$thumbWrap.append($thumb);
 		}
@@ -160,6 +203,7 @@ var ui = {
 				+ '<div class="btn-wrap">'
 				+ '<a class="opt-btn" href="/index4ph.html"><img src="/staticres/htworld/phonev3/images/icon-like.png"/><span class="like-count">'+ui.countformat(world["likeCount"])+'</span></a>'
 				+ '<a class="opt-btn" href="/index4ph.html"><img src="/staticres/htworld/phonev3/images/icon-comment.png"/>评论</a>'
+				+ '<a class="opt-btn share-btn" href="/DT'+world["shortLink"]+'"><img src="/staticres/htworld/phonev3/images/icon-share.png"/>分享</a>'
 				+ '</div>'
 				+ ui.getWorldComments(world['comments'], world['commentCount'])
 				+ ui.getWorldLabels(world['worldLabel'], world['channelNames'])
@@ -335,7 +379,7 @@ var ajax = {
 		},function(result){
 			if(result['result'] == 0){
 				var worldList = result['htworld'];
-				var len = limit;
+				var len = worldList.length;
 				
 				if(len == 9) {
 					ui.appendThumb(worldList);

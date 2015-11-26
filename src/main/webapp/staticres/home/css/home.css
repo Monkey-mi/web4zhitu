@@ -67,11 +67,12 @@ html,body {
  	padding-top: 10px;
 }
 
-.user-info-wrap .avatar-wrap {
+.user-info-wrap #user-avatar-wrap {
 	width: 68px;
 	height: 68px;
 	margin-left: 10px;
 	display: inline-block;
+	visibility: hidden;	
 }
 
 .user-info-wrap #user-avatar {
@@ -204,11 +205,9 @@ html,body {
 
 #worlds .world-thumb img {
 	border: none;
-	/*
 	border-radius: 2px;
 	-moz-border-radius: 2px;
 	-webkit-border-radius: 2px;
-	*/
 }
 
 
@@ -217,11 +216,9 @@ html,body {
 	margin-top: 5px;
 	margin-bottom:7px;
 	display: none;
-	/*
 	border-radius: 2px;
 	-moz-border-radius: 2px;
 	-webkit-border-radius: 2px;
-	*/
 }
 
 #ad-wrap .slide{
@@ -230,11 +227,9 @@ html,body {
 	margin:0 auto;
 	overflow:hidden;
 	position:relative;
-	/*
 	border-radius: 2px;
 	-moz-border-radius: 2px;
 	-webkit-border-radius: 2px;
-	*/
 }
 
 #ad-wrap .slide a{
