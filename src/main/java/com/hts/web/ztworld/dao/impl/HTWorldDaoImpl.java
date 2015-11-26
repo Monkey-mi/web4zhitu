@@ -238,24 +238,14 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 	/**
 	 * 查询指定用户的织图
 	 */
-	private static final String QUERY_USER_WORLD = "select h.*,1-ISNULL(hl.user_id) as liked, 1-ISNULL(hk.user_id) as keep from"
-			+ " (select h0.*," + U0_INFO + " from " + table + " as h0, " + HTS.USER_INFO + " as u0" 
-			+ " where h0.author_id=u0.id and h0.author_id=? and h0.valid=1 and h0.tp=0 order by h0.id desc LIMIT ?,?) as h"
-			+ " left join (select * from " + HTS.HTWORLD_LIKED + " hl0 where hl0.user_id=?) as hl"
-			+ " on h.id = hl.world_id"
-			+ " left join (select * from " + HTS.HTWORLD_KEEP + " hk0 where hk0.valid=1 and hk0.user_id=?) as hk"
-			+ " on h.id = hk.world_id order by h.id desc";
+	private static final String QUERY_USER_WORLD = "select h0.*," + U0_INFO  + " from " + table + " as h0, " + HTS.USER_INFO + " as u0" 
+			+ " where h0.author_id=u0.id and h0.author_id=? and h0.valid=1 and h0.tp=0 order by h0.id desc LIMIT ?,?";
 	
 	/**
 	 * 根据最大id查询指定用户的织图
 	 */
-	private static final String QUERY_USER_WORLD_BY_MAX_ID = "select h.*,1-ISNULL(hl.user_id) as liked, 1-ISNULL(hk.user_id) as keep from"
-			+ " (select h0.*," + U0_INFO  + " from " + table + " as h0, " + HTS.USER_INFO + " as u0" 
-			+ " where h0.author_id=u0.id and h0.author_id=? and h0.valid=1 and h0.tp=0 and h0.id<=? order by h0.id desc LIMIT ?,?) as h"
-			+ " left join (select * from " + HTS.HTWORLD_LIKED + " hl0 where hl0.user_id=? and hl0.world_id<=?) as hl"
-			+ " on h.id = hl.world_id"
-			+ " left join (select * from " + HTS.HTWORLD_KEEP + " hk0 where hk0.valid=1 and hk0.user_id=? and hk0.world_id<=?) as hk"
-			+ " on h.id = hk.world_id order by h.id desc";
+	private static final String QUERY_USER_WORLD_BY_MAX_ID = "select h0.*," + U0_INFO  + " from " + table + " as h0, " + HTS.USER_INFO + " as u0" 
+			+ " where h0.author_id=u0.id and h0.author_id=? and h0.valid=1 and h0.tp=0 and h0.id<=? order by h0.id desc LIMIT ?,?";
 	
 	
 	/**
@@ -829,7 +819,7 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 	@Override
 	public List<HTWorldInteractDto> queryUserWorld(Integer userId, Integer joinId, RowSelection rowSelection) {
 		return getJdbcTemplate().query(QUERY_USER_WORLD, 
-				new Object[]{userId,rowSelection.getFirstRow(),rowSelection.getLimit(),joinId,joinId}, 
+				new Object[]{userId,rowSelection.getFirstRow(),rowSelection.getLimit()}, 
 				new RowMapper<HTWorldInteractDto>() {
 
 					@Override
@@ -843,7 +833,7 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 	@Override
 	public List<HTWorldInteractDto> queryUserWorld(Integer userId, Integer joinId, Integer maxId, RowSelection rowSelection){
 		return getJdbcTemplate().query(QUERY_USER_WORLD_BY_MAX_ID,
-				new Object[]{userId,maxId,rowSelection.getFirstRow(),rowSelection.getLimit(),joinId,maxId,joinId,maxId},
+				new Object[]{userId,maxId,rowSelection.getFirstRow(),rowSelection.getLimit()},
 				new RowMapper<HTWorldInteractDto>() {
 
 					@Override
@@ -1185,8 +1175,8 @@ public class HTWorldDaoImpl extends BaseDaoImpl implements HTWorldDao{
 	 */
 	public HTWorldInteractDto buildHTWorldInteractDtoByResultSet(ResultSet rs) throws SQLException {
 		HTWorldInteractDto dto = buildHTWorldInteractDto(rs);
-		dto.setLiked(rs.getObject("liked"));
-		dto.setKeep(rs.getObject("keep"));
+//		dto.setLiked(rs.getObject("liked"));
+//		dto.setKeep(rs.getObject("keep"));
 		return dto;
 	}
 	

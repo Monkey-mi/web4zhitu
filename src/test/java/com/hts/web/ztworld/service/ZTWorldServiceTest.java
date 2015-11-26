@@ -57,7 +57,7 @@ public class ZTWorldServiceTest extends BaseTest {
 	@Test
 	public void testBuildConcernWorld() throws Exception {
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
-		service.buildConcernWorld(Tag.BULLETIN_CHANNEL, 1,1549, 0, 1, 10, jsonMap, false, false, 3, 12);
+		service.buildConcernWorld(Tag.BULLETIN_CHANNEL, 1,1549, 100, 1, 10, jsonMap, false, false, 3, 12);
 //		service.buildConcernWorld(485, 14474, 1, 10, jsonMap, true, false, 3, 12);
 		List<HTWorldInteractDto> list = (List<HTWorldInteractDto>) jsonMap.get(OptResult.JSON_KEY_HTWORLD);
 		for(HTWorldInteractDto dto : list) {

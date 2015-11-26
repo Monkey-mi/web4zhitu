@@ -1110,7 +1110,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 					public List<HTWorldInteractDto> getSerializables(
 							RowSelection rowSelection) {
 						List<HTWorldInteractDto> worldList = worldDao.queryUserWorld(userId, tmpJoinId, rowSelection);
-						extractExtraInfo(trimExtras, commentLimit, likedLimit, worldList.size(), worldList);
+						extractExtraInfo(true, false, tmpJoinId, trimExtras, commentLimit, likedLimit, worldList.size(), worldList);
 						userInfoService.extractVerify(worldList);
 						if(!tmpJoinId.equals(userId))
 							userInteractService.extractRemark(tmpJoinId, worldList);
@@ -1122,7 +1122,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 							int maxId, RowSelection rowSelection) {
 						List<HTWorldInteractDto> worldList = worldDao.queryUserWorld(userId, tmpJoinId,
 										maxId, rowSelection);
-						extractExtraInfo(trimExtras, commentLimit, likedLimit, worldList.size(), worldList);
+						extractExtraInfo(true, false, tmpJoinId, trimExtras, commentLimit, likedLimit, worldList.size(), worldList);
 						userInfoService.extractVerify(worldList);
 						if(!tmpJoinId.equals(userId))
 							userInteractService.extractRemark(tmpJoinId, worldList);
