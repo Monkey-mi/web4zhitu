@@ -472,7 +472,10 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 		if(!StringUtil.checkIsNULL(content) && content.contains("zt666")) {
 			if(reId != null && reId != 0) {
 				if(userAdminDao.queryShieldCommentPermission(authorId)) {
-					worldCommentDao.validRecord(HTS.HTWORLD_COMMENT, Tag.FALSE, reId); // 直接删除评论
+					HTWorldComment comment = worldCommentDao.queryCommentByWID(reId, worldId);
+					commentShieldDao.saveComment(comment);
+					commentWeekDao.delComment(reId);
+					worldCommentDao.delComment(reId, worldId);
 					Long count = worldCommentDao.queryCommentCount(worldId);
 					worldDao.updateCommentCount(worldId, count.intValue());
 					
@@ -733,11 +736,14 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 	@Override
 	public void deleteComment(Integer id, Integer worldId, 
 			Integer userId) throws Exception {
+
+		//TODO v3.0.5后两个版本上线后强制必须传入worldId才能删除评论,并删除id索引
 		if(worldId == null || worldId == 0) {
-			// TODO 未传织图id不允许删除评论
-			throw new HTSException(HTSErrorCode.PARAMATER_ERR);
+			if((worldId = commentWeekDao.queryWorldId(id)) < 0) { 
+				throw new HTSException(HTSErrorCode.PARAMATER_ERR);
+			}
 		}
-		HTWorldComment comment = worldCommentDao.queryCommentById(id, worldId);
+		HTWorldComment comment = worldCommentDao.queryCommentByWID(id, worldId);
 		if(comment == null)
 			return;
 		
@@ -746,7 +752,7 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 				|| userId.equals(comment.getReAuthorId())
 				|| worldDao.queryAuthorId(comment.getWorldId()).equals(userId)) {
 			
-			commentWeekDao.delComment(id, worldId);
+			commentWeekDao.delComment(id);
 			worldCommentDao.delComment(id, worldId);
 			commentDeleteDao.saveComment(comment);
 			Long count = worldCommentDao.queryCommentCount(comment.getWorldId());

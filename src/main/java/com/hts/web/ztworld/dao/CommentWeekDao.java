@@ -25,8 +25,15 @@ public interface CommentWeekDao extends BaseDao {
 	 * 删除评论
 	 * 
 	 * @param id
-	 * @param worldId
 	 */
-	public void delComment(Integer id, Integer worldId);
+	public void delComment(Integer id);
+	
+	/**
+	 * 查询织图id
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Integer queryWorldId(Integer id);
 	
 }

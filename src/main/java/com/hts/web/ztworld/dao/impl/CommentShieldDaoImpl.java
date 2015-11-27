@@ -10,7 +10,7 @@ import com.hts.web.ztworld.dao.CommentShieldDao;
 @Repository("HTSCommentShieldDao")
 public class CommentShieldDaoImpl extends BaseDaoImpl implements CommentShieldDao {
 
-	private static final String table = HTS.HTWORLD_COMMENT_DELETE;
+	private static final String table = HTS.HTWORLD_COMMENT_SHIELD;
 	
 	private static final String SAVE_COMMENT = "insert into " + table 
 			+ "(id, author_id, content, comment_date, world_id," 

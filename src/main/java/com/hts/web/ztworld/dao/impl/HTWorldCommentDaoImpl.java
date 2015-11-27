@@ -49,12 +49,19 @@ public class HTWorldCommentDaoImpl extends BaseDaoImpl implements
 			+ "(id, author_id, content, comment_date, world_id," 
 			+ "world_author_id,re_author_id) values (?,?,?,?,?,?,?)";
 	
-	private static final String DELETE_BY_ID = "delete from " + table
+	private static final String DELETE_BY_WID = "delete from " + table
 			+ " where world_id=? and id=?";
+	
+	private static final String DELETE_BY_ID = "delete from " + table
+			+ " where id=?";
+	
+	private static final String QUERY_COMMENT_BY_WID = "select " 
+			+ FULL_COMMENT_INFO + " from " + table 
+			+ " c0 where c0.world_id=? and c0.id=?";
 	
 	private static final String QUERY_COMMENT_BY_ID = "select " 
 			+ FULL_COMMENT_INFO + " from " + table 
-			+ " c0 where c0.world_id=? and c0.id=?";
+			+ " c0 where c0.id=?";
 	
 	private static final String QUERY_COMMENT_DTO_BY_ID = "select " 
 			+ COMMENT_INFO + ", " + COMMENT_USER_INFO 
@@ -153,9 +160,9 @@ public class HTWorldCommentDaoImpl extends BaseDaoImpl implements
 	}
 	
 	@Override
-	public HTWorldComment queryCommentById(Integer id, Integer worldId) {
+	public HTWorldComment queryCommentByWID(Integer id, Integer worldId) {
 		try {
-			return getJdbcTemplate().queryForObject(QUERY_COMMENT_BY_ID, new RowMapper<HTWorldComment>(){
+			return getJdbcTemplate().queryForObject(QUERY_COMMENT_BY_WID, new RowMapper<HTWorldComment>(){
 	
 				@Override
 				public HTWorldComment mapRow(ResultSet rs, int rowNum)
@@ -209,7 +216,12 @@ public class HTWorldCommentDaoImpl extends BaseDaoImpl implements
 	
 	@Override
 	public void delComment(Integer id, Integer worldId) {
-		getMasterJdbcTemplate().update(DELETE_BY_ID, worldId, id);
+		getMasterJdbcTemplate().update(DELETE_BY_WID, worldId, id);
+	}
+	
+	
+	public void delCommentById(Integer id) {
+		getMasterJdbcTemplate().update(DELETE_BY_ID, id);
 	}
 	
 	@Override

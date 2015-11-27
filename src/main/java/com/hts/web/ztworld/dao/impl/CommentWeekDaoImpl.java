@@ -1,5 +1,6 @@
 package com.hts.web.ztworld.dao.impl;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
 
 import com.hts.web.base.database.HTS;
@@ -18,7 +19,10 @@ public class CommentWeekDaoImpl extends BaseDaoImpl implements CommentWeekDao {
 			+ "world_author_id,re_author_id) values (?,?,?,?,?,?,?)";
 	
 	private static final String DELETE_BY_ID = "delete from " + table
-			+ " where world_id=? and id=?";
+			+ " where id=?";
+	
+	private static final String QUERY_WORLD_ID = "select world_id from " + table
+			+ " where id=?";
 	
 	@Override
 	public void saveComment(HTWorldComment comm) {
@@ -34,7 +38,16 @@ public class CommentWeekDaoImpl extends BaseDaoImpl implements CommentWeekDao {
 	}
 	
 	@Override
-	public void delComment(Integer id, Integer worldId) {
-		getMasterJdbcTemplate().update(DELETE_BY_ID, worldId, id);
+	public void delComment(Integer id) {
+		getMasterJdbcTemplate().update(DELETE_BY_ID, id);
+	}
+
+	@Override
+	public Integer queryWorldId(Integer id) {
+		try {
+			return getJdbcTemplate().queryForInt(QUERY_WORLD_ID, id);
+		} catch(EmptyResultDataAccessException e) {
+			return -1;
+		}
 	}
 }

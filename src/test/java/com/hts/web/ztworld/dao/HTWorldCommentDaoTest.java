@@ -26,7 +26,7 @@ public class HTWorldCommentDaoTest extends BaseTest {
 	
 	@Test
 	public void queryCommentByIdTest() {
-		HTWorldComment c = dao.queryCommentById(24779, 14316);
+		HTWorldComment c = dao.queryCommentByWID(24779, 14316);
 		logObj(c);
 	}
 	

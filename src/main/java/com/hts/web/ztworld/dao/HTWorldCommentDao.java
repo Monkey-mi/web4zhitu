@@ -20,7 +20,7 @@ import com.hts.web.common.pojo.HTWorldCommentInline;
 public interface HTWorldCommentDao extends BaseDao {
 
 	/**
-	 * 根据id查询评论信息
+	 * 根据wid查询评论信息
 	 * 
 	 * @param id
 	 * @param worldId
@@ -28,7 +28,7 @@ public interface HTWorldCommentDao extends BaseDao {
 	 * 
 	 * @author lynch 2015-11-04
 	 */
-	public HTWorldComment queryCommentById(Integer id, Integer worldId);
+	public HTWorldComment queryCommentByWID(Integer id, Integer worldId);
 	
 	/**
 	 * 根据id查询评论数据传输信息（包含用户信息）
