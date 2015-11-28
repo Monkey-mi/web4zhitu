@@ -175,20 +175,18 @@ public interface ZTWorldInteractService extends BaseService {
 	public void cancelReport(Integer userId, Integer worldId) throws Exception;
 
 	/**
-	 * 获取织图和用户互动信息
+	 * 获取单个织图互动信息
 	 * 
 	 * @param worldId
 	 * @param userId
-	 * @param isAddClick
-	 * @param trimExtras
 	 * @param commentLimit
 	 * @param likedLimit
-	 * @return
+	 * @param jsonMap
 	 * @throws Exception
 	 */
 	public void getWorldInteract(Integer worldId, Integer userId,
-			boolean trimExtras, Integer commentLimit,
-			Integer likedLimit, Map<String, Object> jsonMap) throws Exception;
+			Integer commentLimit, Integer likedLimit,
+			Map<String, Object> jsonMap) throws Exception;
 
 	/**
 	 * 获取指定用户的织图位置信息

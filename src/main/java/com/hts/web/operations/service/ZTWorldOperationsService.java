@@ -117,7 +117,7 @@ public interface ZTWorldOperationsService extends BaseService {
 	 */
 	public void buildTypeSquare(int maxId, int start,
 			int limit, final int commentLimit, int likedLimit, 
-			int completeLimit, int typeId, Integer joinId, Map<String, Object> jsonMap) throws Exception;
+			int typeId, Integer joinId, Map<String, Object> jsonMap) throws Exception;
 	
 	/**
 	 * 查询精品分类
@@ -253,13 +253,12 @@ public interface ZTWorldOperationsService extends BaseService {
 	 * @param limit
 	 * @param jsonMap
 	 * @param trimTotal
-	 * @param trimExtras
 	 * @param commentLimit
 	 * @param likedLimit
 	 */
 	public void buildActivityWinner(boolean isOrderBySerial, Integer activityId, Integer joinId, int maxId,
 			int start, int limit, Map<String, Object> jsonMap,boolean trimTotal, 
-			boolean trimExtras, int commentLimit, int likedLimit) throws Exception;
+			int commentLimit, int likedLimit) throws Exception;
 	
 	/**
 	 * 查询活动点赞排行

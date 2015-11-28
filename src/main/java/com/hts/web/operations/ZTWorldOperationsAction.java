@@ -162,7 +162,7 @@ public class ZTWorldOperationsAction extends BaseAction {
 	public String queryTypeSquare() {
 		try {
 			worldOperationsService.buildTypeSquare(maxId, start, limit, 
-					commentLimit, likedLimit, completeLimit, typeId, getCurrentLoginUserId(), jsonMap);
+					commentLimit, likedLimit, typeId, getCurrentLoginUserId(), jsonMap);
 			JSONUtil.optSuccess(jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
@@ -306,7 +306,7 @@ public class ZTWorldOperationsAction extends BaseAction {
 	public String queryActivityWorld() {
 		try {
 			worldLabelService.buildLabelWorld(false, activityId, getCurrentLoginUserId(), 
-					maxId, start, limit, jsonMap, trimTotal, trimExtras, commentLimit, likedLimit);
+					maxId, start, limit, jsonMap, trimTotal, commentLimit, likedLimit);
 			JSONUtil.optSuccess(jsonMap);
 		} catch(Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
@@ -338,7 +338,7 @@ public class ZTWorldOperationsAction extends BaseAction {
 	public String queryActivityWinner() {
 		try {
 			worldOperationsService.buildActivityWinner(false, activityId, getCurrentLoginUserId(), 
-					maxId, start, limit, jsonMap, trimTotal, trimExtras, commentLimit, likedLimit);
+					maxId, start, limit, jsonMap, trimTotal, commentLimit, likedLimit);
 			JSONUtil.optSuccess(jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
@@ -354,7 +354,7 @@ public class ZTWorldOperationsAction extends BaseAction {
 	public String queryActivityWinnerV2() {
 		try {
 			worldOperationsService.buildActivityWinner(true, activityId, getCurrentLoginUserId(), 
-					maxId, start, limit, jsonMap, trimTotal, trimExtras, commentLimit, likedLimit);
+					maxId, start, limit, jsonMap, trimTotal, commentLimit, likedLimit);
 			JSONUtil.optSuccess(jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
@@ -547,8 +547,8 @@ public class ZTWorldOperationsAction extends BaseAction {
 	 */
 	public String queryChannelWorld() {
 		try {
-			channelService.buildChannelWorld(channelId, getCurrentLoginUserId(), maxId, start, limit, trimExtras, 
-					commentLimit, likedLimit, completeLimit, jsonMap);;
+			channelService.buildChannelWorld(channelId, getCurrentLoginUserId(),
+					maxId, start, limit, commentLimit, likedLimit, jsonMap);;
 			JSONUtil.optSuccess(jsonMap);
 		} catch(Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);

@@ -724,26 +724,28 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 	}
 
 	@Override
-	public void extractExtraInfo(boolean trimExtra, int commentLimit,
-			int likedLimit, int worldLimit, final List<? extends HTWorldWithExtra> worldList) {
-		extractExtraInfo(false, false, null, trimExtra, commentLimit, likedLimit, worldLimit, worldList);
+	public void extractLikeComment(int commentLimit, int likedLimit, 
+			final List<? extends HTWorldWithExtra> worldList) {
+		extractLikeComment(0, commentLimit, likedLimit, worldList);
 	}
 	
 	@Override
-	public void extractExtraInfo(boolean extractLiked, boolean extractKeep, Integer userId, 
-			boolean trimExtra, int commentLimit, int likedLimit, int worldLimit, 
+	public void extractLikeComment(int userId, int commentLimit, int likedLimit,
 			final List<? extends HTWorldWithExtra> worldList) {
-		if (!trimExtra && worldLimit > 0) {
+		if(worldList == null || worldList.isEmpty())
+			return;
+		
+		if (userId != 0 || commentLimit > 0 || likedLimit > 0) {
 			final Map<Integer, Integer> indexMap = new HashMap<Integer, Integer>();
-			Integer[] worldIds = new Integer[worldLimit];
-			for (int i = 0; i < worldLimit; i++) {
+			Integer[] worldIds = new Integer[worldList.size()];
+			for (int i = 0; i < worldList.size(); i++) {
 				Integer worldId = worldList.get(i).getId();
 				worldIds[i] = worldId;
 				indexMap.put(worldId, i);
 			}
 			
 			// 设置喜欢标记
-			if(extractLiked && userId != null) {
+			if(userId != 0) {
 				worldLikedDao.queryLiked(userId, worldIds, new RowCallback<Integer>() {
 
 					@Override
@@ -755,20 +757,6 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 					}
 				});
 			}
-			
-//			// 设置收藏标记
-//			if(extractKeep && userId != null) {
-//				worldKeepDao.queryKeep(userId, worldIds, new RowCallback<Integer>() {
-//
-//					@Override
-//					public void callback(Integer t) {
-//						Integer index = indexMap.get(t);
-//						if(index != null) {
-//							worldList.get(index).setLiked(Tag.TRUE);
-//						}
-//					}
-//				});
-//			}
 			
 			if (commentLimit > 0) {
 				worldCommentDao.queryInlineComment(worldIds, commentLimit,
@@ -782,6 +770,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 							}
 						});
 			}
+			
 			if (likedLimit > 0) {
 				final Map<Integer, UserVerify> verifyMap = userInfoService.getVerify();
 				worldLikedDao.queryInlineLikedByLimit(worldIds, likedLimit,
@@ -806,14 +795,17 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 	}
 
 	@Override
-	public void extractExtraInfo(boolean extractLiked, boolean extractKeep, Integer userId, 
-			boolean trimExtra, int commentLimit,
+	public void extractLikeComment(int userId, int commentLimit,
 			int likedLimit, final HTWorldInteractDto world) {
-		if (!trimExtra && world != null) {
+		
+		if(world == null) 
+			return;
+		
+		if (userId != 0 || likedLimit > 0 || commentLimit > 0) {
 			final Map<Integer, UserVerify> verifyMap = userInfoService.getVerify();
 			Integer worldId = world.getId();
 			
-			if(extractLiked && userId != null) {
+			if(userId != 0) {
 				world.setLiked(worldLikedDao.isLiked(userId, worldId));
 			}
 			
@@ -839,7 +831,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 	@Override
 	public void buildConcernWorld(final Integer recType, final Integer recPage,
 			final Integer userId, int maxId, int start, int limit, 
-			final Map<String, Object> jsonMap, boolean trimTotal, final boolean trimExtras,
+			final Map<String, Object> jsonMap, boolean trimTotal,
 			final int commentLimit, final int likedLimit) throws Exception {
 		buildSerializables(maxId, 1, limit, jsonMap,
 				new SerializableListAdapter<HTWorldInteractDto>() {
@@ -848,7 +840,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 					public List<HTWorldInteractDto> getSerializables(
 							RowSelection rowSelection) {
 						List<HTWorldInteractDto> worldList = worldDao.queryConcernWorld(userId, rowSelection);
-						extractExtraInfo(true, true, userId, trimExtras, commentLimit, likedLimit, worldList.size(), worldList);
+						extractLikeComment(userId, commentLimit, likedLimit, worldList);
 						userInfoService.extractVerify(worldList);
 						userInteractService.extractRemark(userId, worldList);
 						recFromConcern(userId, recPage, recType, jsonMap);
@@ -861,7 +853,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 							int maxId, RowSelection rowSelection) {
 						List<HTWorldInteractDto> worldList = worldDao.queryConcernWorld(userId, maxId,
 										rowSelection);
-						extractExtraInfo(true, true, userId, trimExtras, commentLimit, likedLimit, worldList.size(), worldList);
+						extractLikeComment(userId, commentLimit, likedLimit, worldList);
 						userInfoService.extractVerify(worldList);
 						userInteractService.extractRemark(userId, worldList);
 						recFromConcern(userId, recPage, recType, jsonMap);
@@ -1020,8 +1012,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 	@Override
 	public void buildKeepWorld(final Integer userId, int maxId,
 			int start, int limit, Map<String, Object> jsonMap,
-			boolean trimTotal, final boolean trimExtras,
-			final int commentLimit, final int likedLimit) throws Exception {
+			boolean trimTotal, final int commentLimit, final int likedLimit) throws Exception {
 		String totalKey = trimTotal ? null : OptResult.JSON_KEY_TOTAL_COUNT;
 		buildSerializables(maxId, start, limit, jsonMap,
 				new SerializableListAdapter<HTWorldInteractDto>() {
@@ -1030,7 +1021,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 					public List<HTWorldInteractDto> getSerializables(
 							RowSelection rowSelection) {
 						List<HTWorldInteractDto> worldList = worldDao.queryKeepWorld(userId, rowSelection);
-						extractExtraInfo(trimExtras, commentLimit, likedLimit, worldList.size(), worldList);
+						extractLikeComment(commentLimit, likedLimit, worldList);
 						userInfoService.extractVerify(worldList);
 						userInteractService.extractRemark(userId, worldList);
 						return worldList;
@@ -1041,7 +1032,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 							int maxId, RowSelection rowSelection) {
 						List<HTWorldInteractDto> worldList = worldDao.queryKeepWorld(userId, maxId,
 										rowSelection);
-						extractExtraInfo(trimExtras, commentLimit, likedLimit, worldList.size(), worldList);
+						extractLikeComment(commentLimit, likedLimit, worldList);
 						userInfoService.extractVerify(worldList);
 						userInteractService.extractRemark(userId, worldList);
 						return worldList;
@@ -1068,8 +1059,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 					public List<HTWorldInteractDto> getSerializables(
 							RowSelection rowSelection) {
 						List<HTWorldInteractDto> worldList = worldDao.queryLikedWorld(userId, rowSelection);
-						extractExtraInfo(trimExtras, commentLimit, likedLimit, worldList.size(),
-								worldList);
+						extractLikeComment(commentLimit, likedLimit, worldList);
 						return worldList;
 					}
 
@@ -1078,8 +1068,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 							int maxId, RowSelection rowSelection) {
 						List<HTWorldInteractDto> worldList = worldDao.queryLikedWorld(userId, maxId,
 										rowSelection);
-						extractExtraInfo(trimExtras, commentLimit, likedLimit, worldList.size(),
-								worldList);
+						extractLikeComment(commentLimit, likedLimit, worldList);
 						return worldList;
 					}
 
@@ -1095,8 +1084,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 	@Override
 	public void buildUserWorld(final Integer userId, Integer joinId,
 			int maxId, int start, int limit,
-			Map<String, Object> jsonMap, boolean trimTotal,
-			final boolean trimExtras, final int commentLimit,
+			Map<String, Object> jsonMap, boolean trimTotal, final int commentLimit,
 			final int likedLimit) throws Exception {
 		String totalKey = trimTotal ? null : OptResult.JSON_KEY_TOTAL_COUNT;
 		if (joinId == null || joinId == 0) {
@@ -1110,7 +1098,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 					public List<HTWorldInteractDto> getSerializables(
 							RowSelection rowSelection) {
 						List<HTWorldInteractDto> worldList = worldDao.queryUserWorld(userId, tmpJoinId, rowSelection);
-						extractExtraInfo(true, false, tmpJoinId, trimExtras, commentLimit, likedLimit, worldList.size(), worldList);
+						extractLikeComment(tmpJoinId, commentLimit, likedLimit, worldList);
 						userInfoService.extractVerify(worldList);
 						if(!tmpJoinId.equals(userId))
 							userInteractService.extractRemark(tmpJoinId, worldList);
@@ -1122,7 +1110,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 							int maxId, RowSelection rowSelection) {
 						List<HTWorldInteractDto> worldList = worldDao.queryUserWorld(userId, tmpJoinId,
 										maxId, rowSelection);
-						extractExtraInfo(true, false, tmpJoinId, trimExtras, commentLimit, likedLimit, worldList.size(), worldList);
+						extractLikeComment(tmpJoinId, commentLimit, likedLimit, worldList);
 						userInfoService.extractVerify(worldList);
 						if(!tmpJoinId.equals(userId))
 							userInteractService.extractRemark(tmpJoinId, worldList);
@@ -1138,8 +1126,9 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 	}
 	
 	@Override
-	public void buildLatestWorld(final Integer joinId, final int maxId, int start, final int limit, Map<String, Object> jsonMap, boolean trimTotal, 
-			final boolean trimExtras, final int commentLimit, final int likedLimit) throws Exception {
+	public void buildLatestWorld(final Integer joinId, final int maxId, int start, 
+			final int limit, Map<String, Object> jsonMap, boolean trimTotal, 
+			final int commentLimit, final int likedLimit) throws Exception {
 		String totalKey = trimTotal ? null : OptResult.JSON_KEY_TOTAL_COUNT;
 		buildSerializables(maxId, start, limit, jsonMap,
 				new SerializableListAdapter<HTWorldInteractDto>() {
@@ -1176,7 +1165,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 						} else {
 							worldList = worldDao.queryLatestWorld(joinId, rowSelection);
 						}
-						extractExtraInfo(trimExtras, commentLimit, likedLimit, worldList.size(), worldList);
+						extractLikeComment(commentLimit, likedLimit, worldList);
 						userInfoService.extractVerify(worldList);
 						userInteractService.extractRemark(joinId, worldList);
 						return worldList;
@@ -1186,8 +1175,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 					public List<HTWorldInteractDto> getSerializableByMaxId(
 							int maxId, RowSelection rowSelection) {
 						List<HTWorldInteractDto> worldList = worldDao.queryLatestWorld(joinId, maxId, rowSelection);
-						extractExtraInfo(trimExtras, commentLimit, likedLimit, worldList.size(),
-								worldList);
+						extractLikeComment(commentLimit, likedLimit, worldList);
 						return worldList;
 					}
 
@@ -1201,8 +1189,9 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 	}
 	
 	@Override
-	public void buildLatestAndUserWorld(final Integer joinId, final int maxId, int start, final int limit, Map<String, Object> jsonMap, boolean trimTotal, 
-			final boolean trimExtras, final int commentLimit, final int likedLimit) throws Exception {
+	public void buildLatestAndUserWorld(final Integer joinId, final int maxId, 
+			int start, final int limit, Map<String, Object> jsonMap, boolean trimTotal, 
+			final int commentLimit, final int likedLimit) throws Exception {
 		final Date endDate = new Date();
 		Calendar ca = Calendar.getInstance();
 		ca.setTime(endDate);
@@ -1216,7 +1205,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 					RowSelection rowSelection) {
 				List<HTWorldInteractDto> worldList = worldDao.queryLatestAndUserWorld(joinId, 
 						beginDate, endDate, rowSelection);
-				extractExtraInfo(trimExtras, commentLimit, likedLimit, worldList.size(), worldList);
+				extractLikeComment(commentLimit, likedLimit, worldList);
 				userInfoService.extractVerify(worldList);
 				userInteractService.extractRemark(joinId, worldList);
 				return worldList;
@@ -1227,7 +1216,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 					RowSelection rowSelection) {
 				List<HTWorldInteractDto> worldList = worldDao.queryLatestAndUserWorld(maxId, 
 						joinId, beginDate, endDate, rowSelection);
-				extractExtraInfo(trimExtras, commentLimit, likedLimit, worldList.size(), worldList);
+				extractLikeComment(commentLimit, likedLimit, worldList);
 				userInfoService.extractVerify(worldList);
 				userInteractService.extractRemark(joinId, worldList);
 				return worldList;
@@ -1371,7 +1360,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 	@Override
 	public void buildHTWorld(final String query, final Integer userId, int maxId,
 			int start, int limit, Map<String, Object> jsonMap, boolean trimTotal, 
-			final boolean trimExtra, final int commentLimit, final int likedLimit) throws Exception {
+			final int commentLimit, final int likedLimit) throws Exception {
 		if(StringUtil.checkIsNULL(query))
 			throw new HTSException(HTSErrorCode.PARAMATER_ERR, "query can't be null");
 		String totalKey = trimTotal ? null : OptResult.JSON_KEY_TOTAL_COUNT;
@@ -1381,7 +1370,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 			public List<HTWorldInteractDto> getSerializables(
 					RowSelection rowSelection) {
 				List<HTWorldInteractDto> list = worldDao.queryWorldInteractByDesc(userId, query, rowSelection);
-				extractExtraInfo(trimExtra, commentLimit, likedLimit, list.size(), list);
+				extractLikeComment(commentLimit, likedLimit, list);
 				userInfoService.extractVerify(list);
 				userInteractService.extractRemark(userId, list);
 				return list;
@@ -1391,7 +1380,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 			public List<HTWorldInteractDto> getSerializableByMaxId(int maxId,
 					RowSelection rowSelection) {
 				List<HTWorldInteractDto> list = worldDao.queryWorldInteractByDesc(maxId, userId, query, rowSelection);
-				extractExtraInfo(trimExtra, commentLimit, likedLimit, list.size(), list);
+				extractLikeComment(commentLimit, likedLimit, list);
 				userInfoService.extractVerify(list);
 				userInteractService.extractRemark(userId, list);
 				return list;
@@ -1749,7 +1738,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 			jsonMap.put(OptResult.JSON_KEY_HTWORLD, worldList);
 		} else {
 			List<HTWorldInteractDto> worldList = worldDao.queryUserWorld(userId, -1, new RowSelection(1, limit));
-			extractExtraInfo(false, 2, 0, worldList.size(), worldList);
+			extractLikeComment(2, 0, worldList);
 			userInfoService.extractVerify(worldList);
 			jsonMap.put(OptResult.JSON_KEY_HTWORLD, worldList);
 		}

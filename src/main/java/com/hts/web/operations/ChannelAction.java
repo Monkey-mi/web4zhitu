@@ -138,8 +138,8 @@ public class ChannelAction extends BaseAction {
 	public String queryChannelWorld() {
 		try {
 			channelService.buildChannelWorld(channelId, getCurrentLoginUserId(), 
-					maxId, start, limit, trimExtras,  commentLimit, likedLimit,
-					completeLimit, jsonMap);
+					maxId, start, limit,  commentLimit, likedLimit,
+					jsonMap);
 			JSONUtil.optSuccess(jsonMap);
 		} catch(Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
@@ -155,8 +155,7 @@ public class ChannelAction extends BaseAction {
 	public String querySuperbChannelWorld() {
 		try {
 			channelService.buildSuperbChannelWorld(channelId, getCurrentLoginUserId(), 
-					maxId, start, limit, trimExtras,  commentLimit, likedLimit,
-					completeLimit, jsonMap);
+					maxId, start, limit, commentLimit, likedLimit, jsonMap);
 			JSONUtil.optSuccess(jsonMap);
 		} catch(Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
@@ -171,8 +170,7 @@ public class ChannelAction extends BaseAction {
 	public String queryUnValidChannelWorld() {
 		try {
 			channelService.buildUnValidChannelWorld(channelId, getCurrentLoginUserId(), 
-					maxId, start, limit, trimExtras,  commentLimit, likedLimit,
-					completeLimit, jsonMap);
+					maxId, start, limit, commentLimit, likedLimit, jsonMap);
 			JSONUtil.optSuccess(jsonMap);
 		} catch(Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);

@@ -115,39 +115,35 @@ public interface ZTWorldService extends BaseService {
 			Integer childId, int limit) throws Exception;
 
 	/**
-	 * 提取织图额外信息（赞，评论列表）
+	 * 获取织图评论点赞
 	 * 
-	 * @param trimExtra
 	 * @param commentLimit
 	 * @param likedLimit
-	 * @param worldLimit 提取总数
 	 * @param worldList
 	 */
-	public void extractExtraInfo(boolean trimExtra, int commentLimit,
-			int likedLimit, int worldLimit, List<? extends HTWorldWithExtra> worldList);
+	public void extractLikeComment(int commentLimit,
+			int likedLimit,List<? extends HTWorldWithExtra> worldList);
 	
 	/**
-	 * 获取织图额外信息
+	 * 获取织图评论点赞,以及是否喜欢过织图
 	 * 
-	 * @param extractLiked 获取喜欢标记
-	 * @param extractKeep 获取收藏标记
-	 * @param trimExtra
+	 * @param userId
 	 * @param commentLimit
 	 * @param likedLimit
-	 * @param worldLimit
 	 * @param worldList
 	 */
-	public void extractExtraInfo(boolean extractLiked, boolean extractKeep, Integer userId, boolean trimExtra, int commentLimit,
-			int likedLimit, int worldLimit, final List<? extends HTWorldWithExtra> worldList);
+	public void extractLikeComment(int userId, int commentLimit,
+			int likedLimit, final List<? extends HTWorldWithExtra> worldList);
 	
 	/**
-	 * 提取织图额外信息（赞，评论列表）
-	 * @param trimExtra
+	 * 获取织图评论点赞
+	 * 
+	 * @param userId
 	 * @param commentLimit
 	 * @param likedLimit
 	 * @param world
 	 */
-	public void extractExtraInfo(boolean extractLiked, boolean extractKeep, Integer userId, boolean trimExtra, int commentLimit,
+	public void extractLikeComment(int userId, int commentLimit,
 			int likedLimit, HTWorldInteractDto world);
 
 	/**
@@ -160,14 +156,13 @@ public interface ZTWorldService extends BaseService {
 	 * @param limit
 	 * @param jsonMap
 	 * @param trimTotal
-	 * @param trimExtras
 	 * @param commentLimit
 	 * @param likedLimit
 	 * @throws Exception
 	 */
 	public void buildConcernWorld(Integer recType, Integer recPage, Integer userId, int maxId,
-			int start, int limit, Map<String, Object> jsonMap, boolean trimTotal,
-			boolean trimExtras, int commentLimit, int likedLimit) throws Exception;
+			int start, int limit, Map<String, Object> jsonMap, boolean trimTotal, 
+			int commentLimit, int likedLimit) throws Exception;
 
 	/**
 	 * 构建收藏的织图列表
@@ -178,14 +173,13 @@ public interface ZTWorldService extends BaseService {
 	 * @param limit
 	 * @param jsonMap
 	 * @param trimTotal
-	 * @param trimExtras
 	 * @param commentLimit
 	 * @param likedLimit
 	 * @throws Exception
 	 */
 	public void buildKeepWorld(final Integer userId, int maxId, 
 			int start, int limit, Map<String, Object> jsonMap, boolean trimTotal, 
-			final boolean trimExtras, final int commentLimit, final int likedLimit) throws Exception;
+			final int commentLimit, final int likedLimit) throws Exception;
 
 	/**
 	 * 构建喜欢的织图列表
@@ -216,14 +210,13 @@ public interface ZTWorldService extends BaseService {
 	 * @param limit
 	 * @param jsonMap
 	 * @param trimTotal
-	 * @param trimExtras
 	 * @param commentLimit
 	 * @param likedLimit
 	 * @throws Exception
 	 */
 	public void buildUserWorld(Integer userId, Integer joinId,
 			int maxId, int start, int limit, Map<String, Object> jsonMap, boolean trimTotal, 
-			boolean trimExtras, int commentLimit, int likedLimit)
+			int commentLimit, int likedLimit)
 			throws Exception;
 
 	/**
@@ -278,24 +271,7 @@ public interface ZTWorldService extends BaseService {
 	 */
 	public void buildLatestWorld(int limit, Map<String, Object> jsonMap) throws Exception;
 	
-	/**;
-					label = new HTWorldLabel(labelId, name, pinyin, 0, new Date(), Tag.FALSE, Tag.TRUE, 0, 0);
-					worldLabelDao.saveLabel(label);
-				} else {
-					labelId = label.getId();
-//					if(label.getLabelState().equals(Tag.WORLD_LABEL_ACTIVITY)) {
-//						valid = Tag.FALSE;
-//					}
-				}
-				Integer lwid = keyGenService.generateId(KeyGenServiceImpl.HTWORLD_LABEL_WORLD_ID);
-				worldLabelWorldDao.saveLabelWorld(new HTWorldLabelWorld(lwid, worldId, authorId, 
-						labelId, valid, lwid, 0));
-				int count = 0;
-//				if(label.getLabelState().equals(Tag.WORLD_LABEL_NORMAL)) { // 普通标签算真实总数，其他标签等审核
-				Long labelWorldCount = worldLabelWorldDao.queryWorldCountByLabelId(labelId);
-				count = labelWorldCount.intValue();
-				worldLabelDao.updateWorldCount(labelId, count);
-//				}
+	/**
 	 * 构建最新织图列表
 	 * 
 	 * @param maxId
@@ -304,8 +280,9 @@ public interface ZTWorldService extends BaseService {
 	 * @param jsonMap
 	 * @throws Exception
 	 */
-	public void buildLatestWorld(Integer joinId, int maxId, int start, int limit, Map<String, Object> jsonMap, boolean trimTotal, 
-			boolean trimExtras, int commentLimit, int likedLimit) throws Exception;
+	public void buildLatestWorld(Integer joinId, int maxId, int start, int limit, 
+			Map<String, Object> jsonMap, boolean trimTotal, 
+			int commentLimit, int likedLimit) throws Exception;
 	
 	/**
 	 * 构建最新和用户织图列表
@@ -316,13 +293,13 @@ public interface ZTWorldService extends BaseService {
 	 * @param limit
 	 * @param jsonMap
 	 * @param trimTotal
-	 * @param trimExtras
 	 * @param commentLimit
 	 * @param likedLimit
 	 * @throws Exception
 	 */
-	public void buildLatestAndUserWorld(final Integer joinId, final int maxId, int start, final int limit, Map<String, Object> jsonMap, boolean trimTotal, 
-			final boolean trimExtras, final int commentLimit, final int likedLimit) throws Exception;
+	public void buildLatestAndUserWorld(final Integer joinId, final int maxId, int start, 
+			final int limit, Map<String, Object> jsonMap, boolean trimTotal, 
+			final int commentLimit, final int likedLimit) throws Exception;
 	
 	/**
 	 * 构建织图互动列表
@@ -337,8 +314,7 @@ public interface ZTWorldService extends BaseService {
 	 */
 	public void buildHTWorld(String query, Integer userId, 
 			int maxId, int start, int limit, Map<String, Object> jsonMap, 
-			boolean trimTotal, final boolean trimExtras,
-			final int commentLimit, final int likedLimit) throws Exception;
+			boolean trimTotal, final int commentLimit, final int likedLimit) throws Exception;
 	
 	/**
 	 * 构建最新子世界类型列表

@@ -190,8 +190,8 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 	
 	@Override
 	public void buildChannelWorld(final Integer channelId, final Integer userId, Integer maxId,
-			Integer start, Integer limit, final Boolean trimExtras, final Integer commentLimit,
-			final Integer likedLimit, final Integer completeLimit, final Map<String, Object> jsonMap)
+			Integer start, Integer limit, final Integer commentLimit,
+			final Integer likedLimit, final Map<String, Object> jsonMap)
 			throws Exception {
 		buildSerializables("getRecommendId", maxId, start, limit, jsonMap, 
 				new SerializableListAdapter<OpChannelWorldDto>() {
@@ -200,8 +200,7 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 					public List<OpChannelWorldDto> getSerializables(RowSelection rowSelection) {
 						List<OpChannelWorldDto> worldList = channelWorldDao.queryChannelWorld(channelId, rowSelection, userId);
 						
-						worldService.extractExtraInfo(true, true, userId, trimExtras, commentLimit, 
-								likedLimit, worldList.size(), worldList);
+						worldService.extractLikeComment(userId, commentLimit, likedLimit, worldList);
 						userInfoService.extractVerify(worldList);
 						userConcernService.extractConcernStatus(userId, worldList);
 						userInteractService.extractRemark(userId, worldList);
@@ -223,8 +222,7 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 					@Override
 					public List<OpChannelWorldDto> getSerializableByMaxId(int maxId, RowSelection rowSelection) {
 						List<OpChannelWorldDto> worldList = channelWorldDao.queryChannelWorld(maxId, channelId, rowSelection, userId);
-						worldService.extractExtraInfo(true, true, userId, trimExtras, commentLimit, 
-								likedLimit, worldList.size(), worldList);
+						worldService.extractLikeComment(userId, commentLimit, likedLimit, worldList);
 						userInfoService.extractVerify(worldList);
 						userInteractService.extractRemark(userId, worldList);
 						userConcernService.extractConcernStatus(userId, worldList);
@@ -241,8 +239,8 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 	
 	@Override
 	public void buildSuperbChannelWorld(final Integer channelId, final Integer userId, Integer maxId,
-			Integer start, Integer limit, final Boolean trimExtras, final Integer commentLimit,
-			final Integer likedLimit, final Integer completeLimit, final Map<String, Object> jsonMap)
+			Integer start, Integer limit, final Integer commentLimit,
+			final Integer likedLimit, final Map<String, Object> jsonMap)
 			throws Exception {
 		buildSerializables("getRecommendId", maxId, start, limit, jsonMap, 
 				new SerializableListAdapter<OpChannelWorldDto>() {
@@ -250,7 +248,7 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 					@Override
 					public List<OpChannelWorldDto> getSerializables(RowSelection rowSelection) {
 						List<OpChannelWorldDto> worldList = channelWorldDao.querySuperbChannelWorld(channelId, rowSelection);
-						worldService.extractExtraInfo(true, true, userId, trimExtras, commentLimit, likedLimit, worldList.size(), worldList);
+						worldService.extractLikeComment(userId, commentLimit, likedLimit, worldList);
 						userInfoService.extractVerify(worldList);
 						userConcernService.extractConcernStatus(userId, worldList);
 						userInteractService.extractRemark(userId, worldList);
@@ -261,7 +259,7 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 					@Override
 					public List<OpChannelWorldDto> getSerializableByMaxId(int maxId, RowSelection rowSelection) {
 						List<OpChannelWorldDto> worldList = channelWorldDao.querySuperbChannelWorld(maxId, channelId, rowSelection);
-						worldService.extractExtraInfo(true, true, userId, trimExtras, commentLimit, likedLimit, worldList.size(), worldList);
+						worldService.extractLikeComment(userId, commentLimit, likedLimit, worldList);
 						userInfoService.extractVerify(worldList);
 						userInteractService.extractRemark(userId, worldList);
 						userConcernService.extractConcernStatus(userId, worldList);
@@ -278,8 +276,8 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 	
 	@Override
 	public void buildUnValidChannelWorld(final Integer channelId, final Integer userId,
-			Integer maxId, Integer start, final Integer limit, final Boolean trimExtras,
-			final Integer commentLimit, final Integer likedLimit, final Integer completeLimit,
+			Integer maxId, Integer start, final Integer limit,
+			final Integer commentLimit, final Integer likedLimit,
 			final Map<String, Object> jsonMap) throws Exception {
 		buildSerializables("getRecommendId", maxId, start, limit, jsonMap, 
 				new SerializableListAdapter<OpChannelWorldDto>() {
@@ -288,8 +286,7 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 					public List<OpChannelWorldDto> getSerializables(RowSelection rowSelection) {
 						List<OpChannelWorldDto> worldList = channelWorldDao.queryUnValidChannelWorld(channelId, 
 								rowSelection);
-						worldService.extractExtraInfo(true, true, userId, trimExtras, commentLimit, 
-								likedLimit, worldList.size(), worldList);
+						worldService.extractLikeComment(userId, commentLimit, likedLimit, worldList);
 						userInfoService.extractVerify(worldList);
 						userInteractService.extractRemark(userId, worldList);
 						return worldList;
@@ -299,8 +296,7 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 					public List<OpChannelWorldDto> getSerializableByMaxId(int maxId, RowSelection rowSelection) {
 						List<OpChannelWorldDto> worldList = channelWorldDao.queryUnValidChannelWorld(maxId, 
 								channelId, rowSelection);
-						worldService.extractExtraInfo(true, true, userId, trimExtras, commentLimit, 
-								likedLimit, worldList.size(), worldList);
+						worldService.extractLikeComment(userId, commentLimit, likedLimit, worldList);
 						userInfoService.extractVerify(worldList);
 						userInteractService.extractRemark(userId, worldList);
 						return worldList;

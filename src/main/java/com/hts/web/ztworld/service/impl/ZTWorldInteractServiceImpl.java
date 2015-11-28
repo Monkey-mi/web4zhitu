@@ -1095,7 +1095,7 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 	
 	@Override
 	public void getWorldInteract(Integer worldId, Integer userId, 
-			boolean trimExtras, Integer commentLimit, Integer likedLimit, Map<String, Object> jsonMap)
+			Integer commentLimit, Integer likedLimit, Map<String, Object> jsonMap)
 			throws Exception {
 		HTWorldInteractDto dto = worldDao.queryHTWorldInteract(worldId);
 		if(dto == null) {
@@ -1107,7 +1107,7 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 				dto.getUserInfo().setIsMututal(isMututal);
 			}
 		}
-		worldService.extractExtraInfo(true, true, userId, trimExtras, commentLimit, likedLimit, dto);
+		worldService.extractLikeComment(userId, commentLimit, likedLimit, dto);
 		userInfoService.extractVerify(dto);
 		
 		// 加载第一个频道的信息
@@ -1135,7 +1135,7 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 		}
 		
 		userInfoService.checksum(dto.getUserInfo());
-		worldService.extractExtraInfo(false, false, null, false, 0, likedLimit, dto);
+		worldService.extractLikeComment(0, 0, likedLimit, dto);
 		userInfoService.extractVerify(dto);
 		
 		List<HTWorldLikedInline> likes = dto.getLikes();

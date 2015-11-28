@@ -120,7 +120,7 @@ public class ZTWorldLabelAction extends BaseAction {
 		try {
 			worldLabelService.buildLabelWorld(false, labelName, trimValid, 
 					getCurrentLoginUserId(), maxId, start, limit, jsonMap, 
-					trimTotal, trimExtras, commentLimit, likedLimit);
+					trimTotal, commentLimit, likedLimit);
 			JSONUtil.optSuccess(jsonMap);
 		} catch (HTSException e){
 			JSONUtil.optFailed(e.getErrorCode(), e.getMessage(), jsonMap);
@@ -139,7 +139,7 @@ public class ZTWorldLabelAction extends BaseAction {
 		try {
 			worldLabelService.buildLabelWorld(true, labelName, trimValid, 
 					getCurrentLoginUserId(), maxId, start, limit, jsonMap, 
-					trimTotal, trimExtras, commentLimit, likedLimit);
+					trimTotal, commentLimit, likedLimit);
 			JSONUtil.optSuccess(jsonMap);
 		} catch (HTSException e){
 			JSONUtil.optFailed(e.getErrorCode(), e.getMessage(), jsonMap);
@@ -158,7 +158,7 @@ public class ZTWorldLabelAction extends BaseAction {
 		try {
 			worldLabelService.buildLabelSuperbWorld(labelName, 
 					getCurrentLoginUserId(), maxId, start, limit, jsonMap, 
-					trimTotal, trimExtras, commentLimit, likedLimit);
+					trimTotal, commentLimit, likedLimit);
 			JSONUtil.optSuccess(jsonMap);
 		} catch (HTSException e){
 			JSONUtil.optFailed(e.getErrorCode(), e.getMessage(), jsonMap);

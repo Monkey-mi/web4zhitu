@@ -60,14 +60,13 @@ public interface ZTWorldLabelService extends BaseService {
 	 * @param limit
 	 * @param jsonMap
 	 * @param trimTotal
-	 * @param trimExtras
 	 * @param commentLimit
 	 * @param likedLimit
 	 * @return
 	 */
 	public void buildLabelWorld(boolean isOrderBySerial, String labelName, boolean trimValid, 
 			Integer joinId, int maxId, int start, int limit, Map<String, Object> jsonMap,boolean trimTotal, 
-			boolean trimExtras, int commentLimit, int likedLimit) throws Exception;
+			int commentLimit, int likedLimit) throws Exception;
 	
 	/**
 	 * 构建标签信息
@@ -89,14 +88,13 @@ public interface ZTWorldLabelService extends BaseService {
 	 * @param limit
 	 * @param jsonMap
 	 * @param trimTotal
-	 * @param trimExtras
 	 * @param commentLimit
 	 * @param likedLimit
 	 * @throws Exception
 	 */
 	public void buildLabelWorld(boolean isOrderBySerial, Integer labelId, Integer joinId, int maxId,
 			int start, int limit, Map<String, Object> jsonMap,boolean trimTotal, 
-			boolean trimExtras, int commentLimit, int likedLimit) throws Exception;
+			int commentLimit, int likedLimit) throws Exception;
 	
 	/**
 	 * 构建精选织图
@@ -107,7 +105,6 @@ public interface ZTWorldLabelService extends BaseService {
 	 * @param start
 	 * @param limit
 	 * @param jsonMap
-	 * @param trimTotal
 	 * @param trimExtras
 	 * @param commentLimit
 	 * @param likedLimit
@@ -117,7 +114,7 @@ public interface ZTWorldLabelService extends BaseService {
 	 */
 	public void buildLabelSuperbWorld(String labelName, final Integer joinId, int maxId,
 			int start, int limit, Map<String, Object> jsonMap,
-			final boolean trimTotal, final boolean trimExtras, final int commentLimit,
+			final boolean trimTotal, final int commentLimit,
 			final int likedLimit) throws Exception;
 	
 	/**

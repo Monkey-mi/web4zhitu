@@ -42,8 +42,7 @@ public class ZTWorldLabelServiceTest extends BaseTest {
 	@Test
 	public void testBuildLabelWorld() throws Exception {
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
-//		service.buildLabelWorld(true, "自拍情结", true, 116, 1000, 1, 10, jsonMap, false, false, 3, 12);
-		service.buildLabelWorld(true, "自拍情结", true, 116, 0, 1, 10, jsonMap, false, false, 3, 12);
+		service.buildLabelWorld(true, "自拍情结", true, 116, 0, 1, 10, jsonMap, false, 3, 12);
 		logObj(jsonMap);
 	}
 	

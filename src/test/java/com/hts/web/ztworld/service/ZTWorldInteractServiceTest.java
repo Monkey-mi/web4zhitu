@@ -110,7 +110,7 @@ public class ZTWorldInteractServiceTest extends BaseTest {
 	@Test
 	public void testGetWorldInteract() throws Exception {
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
-		service.getWorldInteract(10962, 527, false, 3, 12, jsonMap);
+		service.getWorldInteract(10962, 527, 3, 12, jsonMap);
 	}
 	
 	@Test

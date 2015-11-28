@@ -362,15 +362,14 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 	@Override
 	public void buildTypeSquare(int maxId, int start,
 			int limit, final int commentLimit, final int likedLimit, 
-			final int completeLimit, final int typeId, final Integer joinId, 
+			final int typeId, final Integer joinId, 
 			Map<String, Object> jsonMap) throws Exception {
 		buildSerializables("getRecommendId", maxId, start, limit, jsonMap, new SerializableListAdapter<OpWorldTypeDto>() {
 
 			@Override
 			public List<OpWorldTypeDto> getSerializables(RowSelection rowSelection) {
 				List<OpWorldTypeDto> list = squarePushDao.queryNormalSquare(typeId, joinId, rowSelection);
-				worldService.extractExtraInfo(false, commentLimit, likedLimit, 
-						Math.min(list.size(), completeLimit), list);
+				worldService.extractLikeComment(commentLimit, likedLimit, list);
 				return list;
 			}
 
@@ -378,8 +377,7 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 			public List<OpWorldTypeDto> getSerializableByMaxId(int maxId,
 					RowSelection rowSelection) {
 				List<OpWorldTypeDto> list = squarePushDao.queryNormalSquareByMaxSerial(maxId, typeId, joinId, rowSelection);
-				worldService.extractExtraInfo(false, commentLimit, likedLimit, 
-						Math.min(list.size(), completeLimit), list);
+				worldService.extractLikeComment(commentLimit, likedLimit, list);
 				return list;
 			}
 
@@ -420,8 +418,7 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 						}
 					}
 				}
-				worldService.extractExtraInfo(false, commentLimit, likedLimit, 
-						Math.min(list.size(), completeLimit), list);
+				worldService.extractLikeComment(commentLimit, likedLimit, list);
 				userInfoService.extractVerify(list);
 				userInteractService.extractRemark(joinId, list);
 				if(!trimConcernId) {
@@ -439,8 +436,7 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 				} else {
 					list = squarePushDao.querySuperbV4(maxId, rowSelection);
 				}
-				worldService.extractExtraInfo(false, commentLimit, likedLimit, 
-						Math.min(list.size(), completeLimit), list);
+				worldService.extractLikeComment(commentLimit, likedLimit, list);
 				userInfoService.extractVerify(list);
 				userInteractService.extractRemark(joinId, list);
 				if(!trimConcernId) {
@@ -603,7 +599,7 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 			List<OpWorldTypeDto> randomList = new ArrayList<OpWorldTypeDto>();
 			randomList2(list, randomList);
 			list = randomList;
-			worldService.extractExtraInfo(false, commentLimit, likedLimit, size, list);
+			worldService.extractLikeComment(commentLimit, likedLimit, list);
 			userInfoService.extractVerify(list);
 			userInteractService.extractRemark(joinId, list);
 			
@@ -682,7 +678,7 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 						// 瀑布流状态下才加载赞列表
 						if(completeLimit != 0) {
 							// 加载点赞列表和关注状态等
-							worldService.extractExtraInfo(true, false, joinId, false, commentLimit, likedLimit, list.size(), list);
+							worldService.extractLikeComment(joinId, commentLimit, likedLimit, list);
 							if(!trimConcernId) {
 								extractConcerned(joinId, list);
 							}
@@ -705,7 +701,7 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 						
 						// 瀑布流状态下才加载赞列表
 						if(commentLimit != 0) {
-							worldService.extractExtraInfo(false, false, joinId, false, commentLimit, likedLimit, list.size(), list);
+							worldService.extractLikeComment(joinId, commentLimit, likedLimit, list);
 							userInfoService.extractVerify(list);
 							if(!trimConcernId) {
 								extractConcerned(joinId, list);
@@ -968,10 +964,9 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 	}
 
 	@Override
-	public void buildActivityWinner(final boolean isOrderBySerial, final Integer activityId, final Integer joinId,
-			int maxId, int start, int limit, Map<String, Object> jsonMap,
-			final boolean trimTotal, final boolean trimExtras, final int commentLimit,
-			final int likedLimit) throws Exception{
+	public void buildActivityWinner(final boolean isOrderBySerial, final Integer activityId,
+			final Integer joinId, int maxId, int start, int limit, Map<String, Object> jsonMap,
+			final boolean trimTotal, final int commentLimit, final int likedLimit) throws Exception{
 		String totalKey = trimTotal ? null : OptResult.JSON_KEY_TOTAL_COUNT;
 		String getIdMethod = "getId";
 		if(isOrderBySerial) {
@@ -989,8 +984,7 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 						} else {
 							worldList = activityWinnerDao.queryActivityWorldV2(joinId, activityId, rowSelection);
 						}
-						worldService.extractExtraInfo(trimExtras, commentLimit, likedLimit, worldList.size(),
-								worldList);
+						worldService.extractLikeComment(commentLimit, likedLimit, worldList);
 						userInfoService.extractVerify(worldList);
 						userInteractService.extractRemark(joinId, worldList);
 						return worldList;
@@ -1005,8 +999,7 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 						} else {
 							worldList = activityWinnerDao.queryActivityWorldV2(maxId, joinId, activityId, rowSelection);
 						}
-						worldService.extractExtraInfo(trimExtras, commentLimit, likedLimit, worldList.size(),
-								worldList);
+						worldService.extractLikeComment(commentLimit, likedLimit, worldList);
 						userInfoService.extractVerify(worldList);
 						userInteractService.extractRemark(joinId, worldList);
 						return worldList;
@@ -1063,8 +1056,7 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 			Map<String, Object> jsonMap) throws Exception {
 		List<OpWorldTypeDto> tutorialList = xiaoMiShuWorldDao.queryWorldTypeDto(customerServiceId, joinId, 
 				new RowSelection(1, tutorialLimit));
-		worldService.extractExtraInfo(false, commentLimit, likedLimit, 
-				Math.min(tutorialList.size(), completeLimit), tutorialList);
+		worldService.extractLikeComment(commentLimit, likedLimit, tutorialList);
 		userInfoService.extractVerify(tutorialList);
 		userInteractService.extractRemark(joinId, tutorialList);
 		if(!trimConcernId) {

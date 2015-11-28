@@ -33,16 +33,14 @@ public interface ChannelService extends BaseService{
 	 * @param maxId
 	 * @param start
 	 * @param limit
-	 * @param trimExtras
 	 * @param commentLimit
 	 * @param likedLimit
-	 * @param completeLimit
 	 * @param jsonMap
 	 * @throws Exception
 	 */
 	public void buildChannelWorld(Integer channelId, Integer userId, Integer maxId,
-			Integer start, Integer limit, Boolean trimExtras, Integer commentLimit,
-			Integer likedLimit, Integer completeLimit, Map<String, Object> jsonMap) throws Exception;
+			Integer start, Integer limit, Integer commentLimit,
+			Integer likedLimit, Map<String, Object> jsonMap) throws Exception;
 	
 	
 	/**
@@ -53,16 +51,14 @@ public interface ChannelService extends BaseService{
 	 * @param maxId
 	 * @param start
 	 * @param limit
-	 * @param trimExtras
 	 * @param commentLimit
 	 * @param likedLimit
-	 * @param completeLimit
 	 * @param jsonMap
 	 * @throws Exception
 	 */
 	public void buildSuperbChannelWorld(Integer channelId, Integer userId, Integer maxId,
-			Integer start, Integer limit, Boolean trimExtras, Integer commentLimit,
-			Integer likedLimit, Integer completeLimit, Map<String, Object> jsonMap) throws Exception;
+			Integer start, Integer limit, Integer commentLimit,
+			Integer likedLimit, Map<String, Object> jsonMap) throws Exception;
 	
 	/**
 	 * 构建未生效的频道织图列表
@@ -80,8 +76,8 @@ public interface ChannelService extends BaseService{
 	 * @throws Exception
 	 */
 	public void buildUnValidChannelWorld(Integer channelId, Integer userId, Integer maxId,
-			Integer start, Integer limit, Boolean trimExtras, Integer commentLimit,
-			Integer likedLimit, Integer completeLimit, Map<String, Object> jsonMap) throws Exception;
+			Integer start, Integer limit, Integer commentLimit,
+			Integer likedLimit, Map<String, Object> jsonMap) throws Exception;
 	
 	
 	/**

@@ -347,7 +347,7 @@ public class ZTWorldAction extends BaseAction {
 	public String searchWorld() {
 		try {
 			worldService.buildHTWorld(query, getCurrentLoginUserId(), maxId, start, limit,
-					jsonMap, trimTotal, trimExtras, commentLimit, likedLimit);
+					jsonMap, trimTotal, commentLimit, likedLimit);
 			JSONUtil.optSuccess(jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
@@ -417,7 +417,7 @@ public class ZTWorldAction extends BaseAction {
 	public String queryConcernWorld() {
 		try {
 			worldService.buildConcernWorld(recType, recPage, getCurrentLoginUserId(), 
-					maxId, start, limit, jsonMap, trimTotal, trimExtras, commentLimit,
+					maxId, start, limit, jsonMap, trimTotal, commentLimit,
 					likedLimit);
 			JSONUtil.optSuccess(jsonMap);
 		} catch (Exception e) {
@@ -434,7 +434,7 @@ public class ZTWorldAction extends BaseAction {
 	public String queryKeepWorld() {
 		try {
 			worldService.buildKeepWorld(getCurrentLoginUserId(), maxId, start, limit, jsonMap, 
-					trimTotal, trimExtras, commentLimit, likedLimit);
+					trimTotal, commentLimit, likedLimit);
 			JSONUtil.optSuccess(jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
@@ -450,7 +450,7 @@ public class ZTWorldAction extends BaseAction {
 	public String queryMyWorld() {
 		try {
 			worldService.buildUserWorld(userId, getCurrentLoginUserId(), maxId, start, limit, jsonMap,
-					trimTotal, trimExtras, commentLimit, likedLimit);
+					trimTotal, commentLimit, likedLimit);
 			JSONUtil.optSuccess(jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
@@ -495,7 +495,7 @@ public class ZTWorldAction extends BaseAction {
 	public String queryLatestWorldV2() {
 		try {
 			worldService.buildLatestWorld(getCurrentLoginUserId(), maxId, start, limit, jsonMap,
-			trimTotal, trimExtras, commentLimit, likedLimit);
+					trimTotal, commentLimit, likedLimit);
 			JSONUtil.optSuccess(jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
@@ -510,7 +510,7 @@ public class ZTWorldAction extends BaseAction {
 	public String queryLatestWorldV3() {
 		try {
 			worldService.buildLatestAndUserWorld(getCurrentLoginUserId(), maxId, start, limit, jsonMap,
-			trimTotal, trimExtras, commentLimit, likedLimit);
+			trimTotal, commentLimit, likedLimit);
 			JSONUtil.optSuccess(jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);

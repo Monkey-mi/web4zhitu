@@ -45,7 +45,7 @@ public class ChannelServiceTest extends BaseTest {
 			public void buildNumberList(Map<String, Object> jsonMap)
 					throws Exception {
 //				service.buildChannelWorld(11832, 485, 10000, 1, 10, false, 0, 10, 4, jsonMap);
-				service.buildChannelWorld(11819, 527, 0, 1, 10, false, 0, 10, 4, jsonMap);
+				service.buildChannelWorld(11819, 527, 0, 1, 10, 0, 4, jsonMap);
 				List<OpChannelWorldDto> list = (List<OpChannelWorldDto>) jsonMap.get(OptResult.JSON_KEY_HTWORLD);
 				for(OpChannelWorldDto dto : list) {
 					Log.debug(dto.getId() + " : " + dto.getSuperb());
@@ -57,14 +57,14 @@ public class ChannelServiceTest extends BaseTest {
 	@Test
 	public void testBuildSuperbChannelWorld() throws Exception {
 		Map<String,Object> jsonMap = new HashMap<String, Object>();
-		service.buildChannelWorld(8, 527, 0, 1, 10, false, 0, 10, 4, jsonMap);
+		service.buildChannelWorld(8, 527, 0, 1, 10, 0, 4, jsonMap);
 		logNumberList(logger, new NumberListAdapter(){
 
 			@Override
 			public void buildNumberList(Map<String, Object> jsonMap)
 					throws Exception {
-				service.buildSuperbChannelWorld(1, 485, 10000, 1, 10, false, 0, 10, 4, jsonMap);
-				service.buildSuperbChannelWorld(1, 527, 0, 1, 10, false, 0, 10, 4, jsonMap);
+				service.buildSuperbChannelWorld(1, 485, 10000, 1, 10, 0, 4, jsonMap);
+				service.buildSuperbChannelWorld(1, 527, 0, 1, 10, 0, 4, jsonMap);
 			}
 			
 		});
@@ -195,7 +195,7 @@ public class ChannelServiceTest extends BaseTest {
 			public void buildNumberList(Map<String, Object> jsonMap)
 					throws Exception {
 				service.buildUnValidChannelWorld(11819, 485, 0, 
-						1, 10, false, 0, 10, 4, jsonMap);
+						1, 10, 0, 4, jsonMap);
 			}
 		});
 	}

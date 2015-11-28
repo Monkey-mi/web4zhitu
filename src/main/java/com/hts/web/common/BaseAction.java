@@ -32,7 +32,6 @@ public abstract class BaseAction extends ActionSupport {
 	protected Integer minId = 0;
 	protected Integer maxSerial = 0;
 	protected Boolean trimTotal = true; // 过滤总数标记位
-	protected Boolean trimExtras = true; // 过滤附加信息标记位
 	protected Integer commentLimit = 3;
 	protected Integer likedLimit = 12;
 	
@@ -143,13 +142,13 @@ public abstract class BaseAction extends ActionSupport {
 		this.trimTotal = trimTotal;
 	}
 
-	public Boolean getTrimExtras() {
-		return trimExtras;
-	}
-
-	public void setTrimExtras(Boolean trimExtras) {
-		this.trimExtras = trimExtras;
-	}
+//	public Boolean getTrimExtras() {
+//		return trimExtras;
+//	}
+//
+//	public void setTrimExtras(Boolean trimExtras) {
+//		this.trimExtras = trimExtras;
+//	}
 
 	public Integer getCommentLimit() {
 		return commentLimit;

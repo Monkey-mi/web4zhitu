@@ -146,7 +146,7 @@ public class ZTWorldLabelServiceImpl extends BaseServiceImpl implements
 
 	@Override
 	public void buildLabelWorld(boolean isOrderBySerial, String labelName, boolean trimValid, Integer joinId, int maxId,
-			int start, int limit, Map<String, Object> jsonMap, boolean trimTotal, boolean trimExtras, 
+			int start, int limit, Map<String, Object> jsonMap, boolean trimTotal, 
 			int commentLimit, int likedLimit) throws Exception {
 		labelName = labelName.trim();
 		final HTWorldLabel label = worldLabelDao.queryLabelByName(labelName);
@@ -166,13 +166,13 @@ public class ZTWorldLabelServiceImpl extends BaseServiceImpl implements
 //				}
 //			}
 			buildLabelWorld(isOrderBySerial, label.getId(), joinId, maxId, start, limit, jsonMap, 
-					trimTotal, trimExtras, commentLimit, likedLimit);
+					trimTotal, commentLimit, likedLimit);
 			if(maxId == 0)
 				worldOperationsService.buildActivityStar(joinId, label.getId(), jsonMap); // 添加明星列表
 			break;
 		default:
 			buildLabelWorld(isOrderBySerial, label.getId(), joinId, maxId, start, limit, jsonMap, 
-					trimTotal, trimExtras, commentLimit, likedLimit);
+					trimTotal, commentLimit, likedLimit);
 			break;
 		}
 	}
@@ -180,7 +180,7 @@ public class ZTWorldLabelServiceImpl extends BaseServiceImpl implements
 	@Override
 	public void buildLabelWorld(final boolean isOrderBySerial, final Integer labelId, final Integer joinId, int maxId,
 			int start, int limit, Map<String, Object> jsonMap,
-			final boolean trimTotal, final boolean trimExtras, final int commentLimit,
+			final boolean trimTotal, final int commentLimit,
 			final int likedLimit) throws Exception {
 		String totalKey = trimTotal ? null : OptResult.JSON_KEY_TOTAL_COUNT;
 		String getIdMethod = "getId";
@@ -199,8 +199,7 @@ public class ZTWorldLabelServiceImpl extends BaseServiceImpl implements
 						} else {
 							worldList = worldLabelWorldDao.queryLabelWorldV2(joinId, labelId, rowSelection);
 						}
-						worldService.extractExtraInfo(true, false, joinId, trimExtras, commentLimit, likedLimit, worldList.size(),
-								worldList);
+						worldService.extractLikeComment(joinId, commentLimit, likedLimit, worldList);
 						userInfoService.extractVerify(worldList);
 						userInteractService.extractRemark(joinId, worldList);
 						userConcernService.extractConcernStatus(joinId, worldList);
@@ -216,8 +215,7 @@ public class ZTWorldLabelServiceImpl extends BaseServiceImpl implements
 						} else {
 							worldList = worldLabelWorldDao.queryLabelWorldV2(maxId, joinId, labelId, rowSelection);
 						}
-						worldService.extractExtraInfo(true, false, joinId, trimExtras, commentLimit, likedLimit, worldList.size(),
-								worldList);
+						worldService.extractLikeComment(joinId, commentLimit, likedLimit, worldList);
 						userInfoService.extractVerify(worldList);
 						userInteractService.extractRemark(joinId, worldList);
 						userConcernService.extractConcernStatus(joinId, worldList);
@@ -235,7 +233,7 @@ public class ZTWorldLabelServiceImpl extends BaseServiceImpl implements
 	@Override
 	public void buildLabelSuperbWorld(String labelName, final Integer joinId, int maxId,
 			int start, int limit, Map<String, Object> jsonMap,
-			final boolean trimTotal, final boolean trimExtras, final int commentLimit,
+			final boolean trimTotal, final int commentLimit,
 			final int likedLimit) throws Exception {
 		String name = labelName.trim();
 		HTWorldLabel label = worldLabelDao.queryLabelByName(name);
@@ -248,8 +246,7 @@ public class ZTWorldLabelServiceImpl extends BaseServiceImpl implements
 							RowSelection rowSelection) {
 						List<HTWorldInteractDto> worldList = 
 								worldLabelWorldDao.queryLabelSuperbWorld(labelId, rowSelection);
-						worldService.extractExtraInfo(true, false, joinId, trimExtras, commentLimit, likedLimit, worldList.size(),
-								worldList);
+						worldService.extractLikeComment(joinId, commentLimit, likedLimit, worldList);
 						userInfoService.extractVerify(worldList);
 						userInteractService.extractRemark(joinId, worldList);
 						userConcernService.extractConcernStatus(joinId, worldList);
@@ -261,8 +258,7 @@ public class ZTWorldLabelServiceImpl extends BaseServiceImpl implements
 							int maxId, RowSelection rowSelection) {
 						List<HTWorldInteractDto> worldList = 
 								worldLabelWorldDao.queryLabelSuperbWorld(maxId, labelId, rowSelection);
-						worldService.extractExtraInfo(true, false, joinId, trimExtras, commentLimit, likedLimit, worldList.size(),
-								worldList);
+						worldService.extractLikeComment(joinId, commentLimit, likedLimit, worldList);
 						userInfoService.extractVerify(worldList);
 						userInteractService.extractRemark(joinId, worldList);
 						userConcernService.extractConcernStatus(joinId, worldList);

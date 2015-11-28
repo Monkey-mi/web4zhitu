@@ -57,7 +57,7 @@ public class ZTWorldServiceTest extends BaseTest {
 	@Test
 	public void testBuildConcernWorld() throws Exception {
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
-		service.buildConcernWorld(Tag.BULLETIN_CHANNEL, 1,1549, 100, 1, 10, jsonMap, false, false, 3, 12);
+		service.buildConcernWorld(Tag.BULLETIN_CHANNEL, 1,1549, 100, 1, 10, jsonMap, false, 3, 12);
 //		service.buildConcernWorld(485, 14474, 1, 10, jsonMap, true, false, 3, 12);
 		List<HTWorldInteractDto> list = (List<HTWorldInteractDto>) jsonMap.get(OptResult.JSON_KEY_HTWORLD);
 		for(HTWorldInteractDto dto : list) {
@@ -70,7 +70,7 @@ public class ZTWorldServiceTest extends BaseTest {
 	public void testBuildUserWorld() throws Exception {
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
 //		service.buildUserWorld(116, 114, 1000, 1, 10, jsonMap, false, false, 3, 12);
-		service.buildUserWorld(1550, 485, 0, 1, 10, jsonMap, false, false, 3, 12);
+		service.buildUserWorld(1550, 485, 0, 1, 10, jsonMap, false, 3, 12);
 		List<HTWorldInteractDto> list = (List<HTWorldInteractDto>) jsonMap.get(OptResult.JSON_KEY_HTWORLD);
 //		JSONObject jsObj = JSONObject.fromObject(jsonMap);
 //		Log.debug(jsObj.toString());
@@ -84,8 +84,8 @@ public class ZTWorldServiceTest extends BaseTest {
 	@Test
 	public void testBuildKeepWorld() throws Exception {
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
-		service.buildKeepWorld(109, 1000, 1, 5, jsonMap, false, false, 3, 12);
-		service.buildKeepWorld(109, 0, 1, 5, jsonMap, false, false, 3, 12);
+		service.buildKeepWorld(109, 1000, 1, 5, jsonMap, false, 3, 12);
+		service.buildKeepWorld(109, 0, 1, 5, jsonMap, false, 3, 12);
 		JSONObject jsObj = JSONObject.fromObject(jsonMap);
 		Log.debug(jsObj.toString());
 	}
@@ -103,7 +103,7 @@ public class ZTWorldServiceTest extends BaseTest {
 	public void testBuildLatestWorldV2() throws Exception {
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
 //		service.buildLatestWorld(116, 1000, 1, 10, jsonMap, false, false, 3, 12);
-		service.buildLatestWorld(116, 0, 1, 10, jsonMap, false, false, 3, 12);
+		service.buildLatestWorld(116, 0, 1, 10, jsonMap, false, 3, 12);
 //		JSONObject jsObj = JSONObject.fromObject(jsonMap);
 //		Log.debug(jsObj.toString());
 		List<HTWorldInteractDto> worldList = (List<HTWorldInteractDto>) jsonMap.get(OptResult.JSON_KEY_HTWORLD);
@@ -116,7 +116,7 @@ public class ZTWorldServiceTest extends BaseTest {
 	public void testBuildLatestAndUserWorld() throws Exception {
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
 //		service.buildLatestAndUserWorld(485, 12914, 1, 10, jsonMap, false, false, 3, 12);
-		service.buildLatestAndUserWorld(485, 0, 1, 10, jsonMap, false, false, 3, 12);
+		service.buildLatestAndUserWorld(485, 0, 1, 10, jsonMap, false, 3, 12);
 //		logObj(jsonMap);
 		List<HTWorldInteractDto> worldList = (List<HTWorldInteractDto>) jsonMap.get(OptResult.JSON_KEY_HTWORLD);
 		for(HTWorldInteractDto dto : worldList) {
@@ -210,7 +210,7 @@ public class ZTWorldServiceTest extends BaseTest {
 	@Test
 	public void buildWorldInteractByDesc() throws Exception {
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
-		service.buildHTWorld("喜欢", 1420, 400, 1, 10, jsonMap, false, true, 0, 9);
+		service.buildHTWorld("喜欢", 1420, 400, 1, 10, jsonMap, false, 0, 9);
 		logObj(jsonMap);
 	}
 	

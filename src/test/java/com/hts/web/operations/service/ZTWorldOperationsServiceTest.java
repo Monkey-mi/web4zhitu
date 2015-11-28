@@ -110,7 +110,7 @@ public class ZTWorldOperationsServiceTest extends BaseTest {
 	@Test
 	public void testBuildTypeSquare() throws Exception {
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
-		service.buildTypeSquare(600, 1, 10, 3, 6, 3, 7, 527, jsonMap);
+		service.buildTypeSquare(600, 1, 10, 3, 6, 7, 527, jsonMap);
 		logObj(jsonMap);
 	}
 	
@@ -141,10 +141,10 @@ public class ZTWorldOperationsServiceTest extends BaseTest {
 	@Test
 	public void testBuildActivityWinner() throws Exception {
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
-		service.buildActivityWinner(false, 2, 116, 1000, 1, 10, jsonMap, false, false, 3, 12);
-		service.buildActivityWinner(false, 2, 116, 0, 1, 10, jsonMap, false, false, 3, 12);
-		service.buildActivityWinner(true, 132, 116, 3002, 1, 10, jsonMap, false, false, 3, 12);
-		service.buildActivityWinner(true, 132, 116, 0, 1, 10, jsonMap, false, false, 3, 12);
+		service.buildActivityWinner(false, 2, 116, 1000, 1, 10, jsonMap, false, 3, 12);
+		service.buildActivityWinner(false, 2, 116, 0, 1, 10, jsonMap, false, 3, 12);
+		service.buildActivityWinner(true, 132, 116, 3002, 1, 10, jsonMap, false, 3, 12);
+		service.buildActivityWinner(true, 132, 116, 0, 1, 10, jsonMap, false, 3, 12);
 		logObj(jsonMap);
 	}
 	
