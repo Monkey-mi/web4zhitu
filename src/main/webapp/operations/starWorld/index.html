@@ -263,7 +263,7 @@ img.box-shadow{
 }
 
 .pastTopic{
-	width:650px;
+	width:715px;
 	font-size:20px;
 	background-color:#EAEBEF;
 	margin:auto;
@@ -276,14 +276,34 @@ img.box-shadow{
 	color:#ADADAD;
 }
 
+.onPastPic{
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.2);
+    height: 238px;
+    width: 715px;
+}
+
 .pastPic{
-	padding-bottom:10px;
+	overflow:hidden;
+	height:238px;
+/* 	padding-bottom:10px; */
 }
 
 .hrStyle{
 	border-top:1px solid #ADADAD;
 	border-left:0px;
 }
+
+/*  服务切往期主题图的样式*/
+.onePastPic{
+	margin-bottom:25px;
+}
+
+	.pastPicTop{
+	margin-top:-65px;
+}
+
+
 
 #download-wrap {
 	width: 100%;
@@ -399,14 +419,13 @@ var topicHref = 'http://imzhitu.com/operations/';
 /*   var topicHref = 'http://192.168.1.103:8080/operations/';   */
 
 //图片头
-var pastTopicPicHead = '"><img alt="" src="';
+var pastTopicPicHead = '"><div class="onPastPic"></div><div class="pastPic" ><img alt="" class="pastPicTop" src="';
 
 //图片尾
-var pastTopicPicFoot = '"></a></div>';
+var pastTopicPicFoot = '"></div></a></div>';
 
 //往期整体链接模块
-var pastTopicHead = '<div class="pastPic" ><a href="';
-var pastTopicPicFoot = '"></a></div>';
+var pastTopicHead = '<div class="onePastPic"><a href="';
 
  $(document).ready(function() {
 	  	var url = window.location.href;
@@ -686,6 +705,9 @@ function initLayout(result) {
 		footButtonAndPastWidth = 750,
 		footButtonAndPastPaddingTop = 20,
 		
+		onePastPicMarginBottom = 15,
+		pastPicTop = -65,
+		
 		//两个button模块
 		twoButtonWidth = 650,
 		twoButtonFontSize = 20,
@@ -694,8 +716,12 @@ function initLayout(result) {
 		footButtonHeight = 140,
 		footButtonWidth = 300,
 		
+		//往期专题上减弱图层
+		onPastPicWidth = 716,
+		onPastPicHeiht =249,
+		
 		//往期专题模块
-		pastTopicWidth = 650,
+		pastTopicWidth = 715,
 		pastTopicFontSize = 13,
 		
 		//往期字体
@@ -705,6 +731,7 @@ function initLayout(result) {
 		
 		//往期banner图
 		pastPicPaddingBottom = 10,
+		pastPicHeight = 238,
 		
 	scale = winWidth / maxW * 100;
 		
@@ -828,6 +855,9 @@ function initLayout(result) {
 	footButtonAndPastWidth = footButtonAndPastWidth * scale/ 100;
 	footButtonAndPastPaddingTop = footButtonAndPastPaddingTop * scale/ 100;
 	
+	onePastPicMarginBottom = onePastPicMarginBottom * scale/ 100;
+	pastPicTop = pastPicTop * scale/ 100;
+	
 	//两个button模块
 	twoButtonWidth = twoButtonWidth * scale/ 100;
 	twoButtonFontSize = twoButtonFontSize * scale/ 100;
@@ -835,6 +865,10 @@ function initLayout(result) {
 	//button本身属性
 	footButtonHeight = footButtonHeight * scale/ 100;
 	footButtonWidth = footButtonWidth * scale/ 100;
+	
+	//往期专题上减弱图层
+	onPastPicWidth = onPastPicWidth * scale/ 100;
+	onPastPicHeiht = onPastPicHeiht  * scale/ 100;
 	
 	//往期专题模块
 	pastTopicWidth = pastTopicWidth * scale/ 100;
@@ -847,6 +881,7 @@ function initLayout(result) {
 	
 	//往期banner图
 	pastPicPaddingBottom = pastPicPaddingBottom * scale/ 100;
+	pastPicHeight = pastPicHeight * scale/ 100;
 		
 		$(".concern").show();
 	
@@ -1005,30 +1040,46 @@ function initLayout(result) {
  	 			"width":footButtonAndPastWidth + "px",
  	 			"padding-top":footButtonAndPastPaddingTop + "px"});
  	 		
- 	 		//两个button模块
- 	 		$(".twoButton").css({
- 	 			"width":twoButtonWidth + "px",
- 	 			"font-size":twoButtonFontSize + "px"});
- 	 		
- 	 		//button本身属性
- 	 		$(".footButton").css({
- 	 			"width":footButtonWidth + "px",
- 	 			"height":footButtonHeight + "px"});
- 	 		
- 	 		//往期专题模块
- 	 		$(".pastTopic").css({
- 	 			"width":pastTopicWidth + "px",
- 	 			"font-size":pastTopicFontSize + "px"});
- 	 		
- 	 		//往期字体
- 	 		$(".pastFont").css({
- 	 			"padding-bottom":pastFontPaddingBottom + "px",
- 	 			"padding-top":pastFontPaddingTop + "px",
- 	 			"font-size":pastFontFontSize + "px"});
- 	 		
- 	 		//往期banner图
- 	 		$(".pastPic").css({
- 	 			"padding-bottom":pastPicPaddingBottom + "px"});
+			$(".onePastPic").css({
+				"margin-bottom":onePastPicMarginBottom + "px"
+			});
+			
+		$(".pastPicTop").css({
+				"margin-top":pastPicTop + "px"
+		});
+	 		
+	 		//两个button模块
+	 		$(".twoButton").css({
+	 			"width":twoButtonWidth + "px",
+	 			"font-size":twoButtonFontSize + "px"});
+	 		
+	 		//button本身属性
+	 		$(".footButton").css({
+	 			"width":footButtonWidth + "px",
+	 			"height":footButtonHeight + "px"});
+	 		
+	 		//往期专题模块上的减弱图层
+	 		$(".onPastPic").css({
+	 			"width":onPastPicWidth + "px",
+	 			"height":onPastPicHeiht + "px",
+	 			"margin-bottom":onePastPicMarginBottom + "px"
+	 			});
+	 		
+	 		//往期专题模块
+	 		$(".pastTopic").css({
+	 			"width":pastTopicWidth + "px",
+	 			"font-size":pastTopicFontSize + "px"});
+	 		
+	 		//往期字体
+	 		$(".pastFont").css({
+	 			"padding-bottom":pastFontPaddingBottom + "px",
+	 			"padding-top":pastFontPaddingTop + "px",
+	 			"font-size":pastFontFontSize + "px"});
+	 		
+	 		//往期banner图
+	 		$(".pastPic").css({
+	 			"height":pastPicHeight + "px",
+	 			"padding-bottom":pastPicPaddingBottom + "px"});
  	 		
  	 		$(".superb").css({
  	 			"width":superbWidth + "px",
