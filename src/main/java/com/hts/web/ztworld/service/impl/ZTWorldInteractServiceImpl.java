@@ -847,8 +847,8 @@ public class ZTWorldInteractServiceImpl extends BaseServiceImpl implements ZTWor
 		id = keyGenService.generateId(KeyGenServiceImpl.HTWORLD_LIKED_ID);
 		try {
 			worldLikedDao.saveLiked(new HTWorldLiked(id, userId, worldId));
+			msgUnreadDao.addCount(userId, UnreadType.LIKE);
 		} catch(Exception e) {
-			e.printStackTrace();
 			return -1;
 		}
 		//喜欢数+1

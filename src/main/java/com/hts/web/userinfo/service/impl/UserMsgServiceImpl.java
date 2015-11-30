@@ -691,10 +691,12 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 	@Override
 	public void buildLikeMeMsgWithoutGroup(Integer maxId, Integer userId, 
 			Integer limit, final Map<String, Object> jsonMap) throws Exception {
-		userInfoDao.queryUserInfoDtoById(userId);
 		List<UserMsgLiked> likeMeList = null;
 		if(maxId == 0) {
 			likeMeList = msgLikedDao.queryMsg(userId, limit);
+			if(likeMeList != null && !likeMeList.isEmpty()) {
+				msgUnreadDao.clearCount(userId, likeMeList.get(0).getId(), UnreadType.LIKE);
+			}
 		} else {
 			likeMeList = msgLikedDao.queryMsg(maxId, userId, limit);
 		}
