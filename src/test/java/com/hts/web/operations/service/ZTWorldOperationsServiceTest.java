@@ -185,7 +185,7 @@ public class ZTWorldOperationsServiceTest extends BaseTest {
 	public void testBuildSuperbTypeSquareListV2() throws Exception {
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
 //		service.buildSuperbTypeSquareListV2(0,2231, 1, 10, 3, 6, 3, false, 485, jsonMap);
-		service.buildSuperbTypeSquareListV2(0, 0, 1, 10, 3, 6, 3, false, 485, jsonMap);
+		service.buildSuperbTypeSquareListV2(0, 0, 1, 10, 3, 6, 3, false, 3,485, jsonMap);
 		logObj(jsonMap);
 	}
 	

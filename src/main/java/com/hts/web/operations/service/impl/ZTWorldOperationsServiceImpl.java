@@ -26,6 +26,7 @@ import com.hts.web.common.pojo.OpActivityLikeRank;
 import com.hts.web.common.pojo.OpActivityLogo;
 import com.hts.web.common.pojo.OpActivityStar;
 import com.hts.web.common.pojo.OpActivityWinnerDto;
+import com.hts.web.common.pojo.OpChannel;
 import com.hts.web.common.pojo.OpSquareTopic;
 import com.hts.web.common.pojo.OpUserVerifyDto;
 import com.hts.web.common.pojo.OpWorldType;
@@ -40,6 +41,7 @@ import com.hts.web.operations.dao.ActivityLikeRankDao;
 import com.hts.web.operations.dao.ActivityLogoCacheDao;
 import com.hts.web.operations.dao.ActivityStarCacheDao;
 import com.hts.web.operations.dao.ActivityWinnerDao;
+import com.hts.web.operations.dao.ChannelCacheDao;
 import com.hts.web.operations.dao.OpUserVerifyDtoCacheDao;
 import com.hts.web.operations.dao.OpWorldTypeCacheDao;
 import com.hts.web.operations.dao.OpWorldTypeDto2CacheDao;
@@ -144,6 +146,9 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 	
 	@Autowired
 	private UserVerifyRecCacheDao userVerifyRecCacheDao;
+	
+	@Autowired
+	private ChannelCacheDao channelCacheDao;
 	
 	@Value("${push.customerServiceId}")
 	private Integer customerServiceId = 13;
@@ -635,7 +640,7 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 	@Override
 	public void buildSuperbTypeSquareListV2(final Integer typeId, int maxId, int start, final int limit,
 			final int commentLimit, final int likedLimit, final int completeLimit, 
-			final boolean trimConcernId, final Integer joinId, final Map<String, Object> jsonMap) throws Exception {
+			final boolean trimConcernId, final int channelCount, final Integer joinId, final Map<String, Object> jsonMap) throws Exception {
 		buildSerializables("getRecommendId", maxId, start, limit, jsonMap, 
 				new SerializableListAdapter<OpWorldTypeDto>() {
 
@@ -661,6 +666,11 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 							
 							// 加载所有下拉菜单
 							jsonMap.put(OptResult.JSON_KEY_RECOMMEND_TYPE, worldTypeCacheDao.queryType());
+							
+							// 定义推荐频道列表分页查询，根据传递过来的channelCount作为每页数量，由于是全部查询，肯定设定由第一页开始查询
+							RowSelection channelRowSelection = new RowSelection(1,channelCount);
+							List<OpChannel> channelTopList = channelCacheDao.queryChannel(channelRowSelection);
+							jsonMap.put(OptResult.JSON_KEY_CHANNELS, channelTopList);
 							
 						} else { // 加载指定分类精选
 							list = squarePushDao.querySuperbByTypeIdV4(typeId, rowSelection);
