@@ -1745,4 +1745,17 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 		
 	}
 
+	@Override
+	public void queryAroundWorld(String address, Double longitude,
+			Double latitude, int maxId, int start, int limit,
+			Map<String, Object> jsonMap, int commentLimit, int likedLimit)
+			throws Exception {
+		// TODO Auto-generated method stub
+		/**
+		 * this implement is only for test. It will be deleted when the abstract interface was offered by ztj.
+		 */
+		buildUserWorld(485, null, maxId, start, limit, jsonMap, true, commentLimit, likedLimit);
+		
+	}
+
 }
