@@ -65,6 +65,12 @@ public class ZTWorldOperationsAction extends BaseAction {
 	
 	private Integer channelId; // 频道id
 	
+	private Double longitude; //纬度
+	private Double latitude;//经度
+	private String address;//地址
+	
+	
+
 	@Autowired
 	private ZTWorldService worldService;
 	
@@ -79,6 +85,20 @@ public class ZTWorldOperationsAction extends BaseAction {
 	
 	@Autowired
 	private ChannelService channelService;
+	
+	/**
+	 * 查询附近的织图
+	 * @return
+	 * @author zxx 2015-11-30 15:55:58
+	 */
+	public String queryAroundWorld(){
+		try{
+			worldService.queryAroundWorld(address, longitude, latitude, maxId, start, limit, jsonMap, commentLimit, likedLimit);
+		}catch(Exception e){
+			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+		}
+		return StrutsKey.JSON;
+	}
 	
 	/**
 	 * 查询广场列表
@@ -788,5 +808,27 @@ public class ZTWorldOperationsAction extends BaseAction {
 		this.nextCursor = nextCursor;
 	}
 	
-	
+	public Double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(Double longitude) {
+		this.longitude = longitude;
+	}
+
+	public Double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(Double latitude) {
+		this.latitude = latitude;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
 }
