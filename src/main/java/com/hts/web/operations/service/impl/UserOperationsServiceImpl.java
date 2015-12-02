@@ -543,9 +543,8 @@ public class UserOperationsServiceImpl extends BaseServiceImpl implements
 	}
 
 	@Override
-	public void buildVerifyRecommendUser(int maxId, int start, int limit,
-			final Integer userId, final Integer verifyId, final int worldLimit, 
-			final boolean hasVerify, final Integer userThemeCount, final Map<String, Object> jsonMap)
+	public void buildVerifyRecommendUser(final int maxId, int start, int limit,
+			final Integer userId, final Integer verifyId, final int worldLimit, final Integer userThemeCount, final Map<String, Object> jsonMap)
 			throws Exception {
 		if(maxId < 0) {
 			// 避免重复加载第一页数据的情况
@@ -560,26 +559,30 @@ public class UserOperationsServiceImpl extends BaseServiceImpl implements
 				List<OpUser> userList = null;
 				List<OpUser> weightList = null;
 				OpUser me = null;
-				if(verifyId == 0) {
-					
+				
+				 /*
+				  * 是否返回认证信息与用户专题列表
+				  * 有两种个情况：
+				  * 1、verifyId为0，且maxId为0，此时为选中全部认证类型，且重新刷新页面，要返回认证信息与用户专题列表
+				  * 2、verifyId不为0，且maxId为0，此时为从发现中点击认证的“更多”传递过来，也要返回认证信息与用户专题列表
+				  * 3、maxId不为0，则为向下加载更多数据，不返回认证信息与用户专题列表，因为客户端已经存储
+				  */
+				boolean hasVerify = (verifyId != 0 && maxId == 0) ? true : false;
+				if(hasVerify) {
 					List<OpUserVerifyDto> verifyList = opUserVerifyDtoCacheDao.queryVerify();
 					jsonMap.put(OptResult.JSON_KEY_VERIFY, verifyList);
 					
+					// 定义用户专题列表分页查询，根据传递过来的userThemeCount作为每页数量，由于是全部查询，肯定设定由第一页开始查询
+					jsonMap.put(OptResult.JSON_KEY_USER_THEMES, bulletinCacheDao.queryUserTheme(new RowSelection(1, userThemeCount)));
+				}
+				
+				if(verifyId == 0) {
 					userList = userRecommendDao.queryRecommendUserOrderByAct(userId, rowSelection);
 					weightList = userRecommendDao.queryWeightRec(userId, weightLimit);
 					List<OpUser> starList = userRecommendDao.queryVerifyRecommendUserOrderByAct(userId, 
 							Tag.VERIFY_SUPER_STAR_ID, new RowSelection(1, starRecLimit));
 					weightList.addAll(0, starList);
-					
-					// 定义用户专题列表分页查询，根据传递过来的userThemeCount作为每页数量，由于是全部查询，肯定设定由第一页开始查询
-					jsonMap.put(OptResult.JSON_KEY_USER_THEMES, bulletinCacheDao.queryUserTheme(new RowSelection(1, userThemeCount)));
 				} else {
-					
-					if(hasVerify) {
-						List<OpUserVerifyDto> verifyList = opUserVerifyDtoCacheDao.queryVerify();
-						jsonMap.put(OptResult.JSON_KEY_VERIFY, verifyList);
-					}
-					
 					userList = userRecommendDao.queryVerifyRecommendUserOrderByAct(userId, verifyId, rowSelection);
 					/*
 					 * 置顶自己
