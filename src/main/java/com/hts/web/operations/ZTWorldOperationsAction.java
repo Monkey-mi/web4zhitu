@@ -99,7 +99,8 @@ public class ZTWorldOperationsAction extends BaseAction {
 	 */
 	public String queryNearWorld(){
 		try{
-			worldService.queryNearWorld(address, longitude, latitude, maxId, start, limit, jsonMap, commentLimit, likedLimit);
+			
+			JSONUtil.optSuccess(jsonMap);
 		}catch(Exception e){
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
 		}
@@ -113,7 +114,8 @@ public class ZTWorldOperationsAction extends BaseAction {
 	 */
 	public String queryNearLabel(){
 		try{
-			worldLabelService.queryNearLabel(address, longitude, latitude, maxId, start, limit, jsonMap);
+			
+			JSONUtil.optSuccess(jsonMap);
 		}catch(Exception e){
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
 		}
@@ -124,6 +126,7 @@ public class ZTWorldOperationsAction extends BaseAction {
 	public String queryNearBanner(){
 		try{
 			
+			JSONUtil.optSuccess(jsonMap);
 		}catch(Exception e ){
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
 		}

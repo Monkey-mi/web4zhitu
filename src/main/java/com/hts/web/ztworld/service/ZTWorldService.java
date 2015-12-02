@@ -427,21 +427,5 @@ public interface ZTWorldService extends BaseService {
 	public void queryLastNHtworldInfoByUserId(Integer userId, Integer limit, 
 			Map<String, Object> jsonMap) throws Exception;
 	
-	/**
-	 * 查询附近的织图
-	 * @param address 位置，若该参数为空，则longitude和latitude不能为空。用以确定所在的经纬度
-	 * @param longitude	纬度，若该参数为空，则address不能为空
-	 * @param latitude 经度，若该参数为空，则address不能为空
-	 * @param maxId
-	 * @param start
-	 * @param limit
-	 * @param jsonMap
-	 * @param commentLimit
-	 * @param likedLimit
-	 * @throws Exception
-	 * @author zxx 2015-12-1 10:01:55
-	 */
-	public void queryNearWorld(String address, Double longitude, Double latitude,int maxId, int start, int limit, Map<String, Object> jsonMap, 
-			final int commentLimit, final int likedLimit)throws Exception;
 	
 }

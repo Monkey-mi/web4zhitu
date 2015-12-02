@@ -350,11 +350,4 @@ public class ZTWorldLabelServiceImpl extends BaseServiceImpl implements
 				}, OptResult.JSON_KEY_USER_INFO, null);
 	}
 
-	@Override
-	public void queryNearLabel(String address, Double longitude,
-			Double latitude, int maxId, int start, int limit,
-			Map<String, Object> jsonMap) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
 }

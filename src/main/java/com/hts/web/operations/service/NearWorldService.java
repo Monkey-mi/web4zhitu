@@ -1,6 +1,7 @@
 package com.hts.web.operations.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.hts.web.common.pojo.HTWorld;
 import com.hts.web.common.pojo.HTWorldInteractDto;
@@ -13,6 +14,62 @@ import com.hts.web.common.service.BaseService;
  *
  */
 public interface NearWorldService extends BaseService {
+	
+	/**
+	 * 查询附近织图
+	 * @param address 地址一般指城市。若为空，则经纬度不能为空
+	 * @param longitude 经度，和纬度成对出现。若为空，则address不能为空
+	 * @param latitude 纬度，和经度成对出现。若为空，则address不能为空
+	 * @param start
+	 * @param limit
+	 * @param jsonMap
+	 * @param commentLimit
+	 * @param likedLimit
+	 * @throws Exception
+	 * 
+	 * @author zxx 2015-12-2 15:08:13
+	 */
+	public void buildNearWorld(String address,Double longitude, Double latitude,
+			int start, int limit,Map<String,Object>jsonMap,Integer commentLimit,Integer likedLimit)throws Exception;
+	
+	/**
+	 * 查询附近标签
+	 * @param address 地址一般指城市。若为空，则经纬度不能为空
+	 * @param longitude 经度，和纬度成对出现。若为空，则address不能为空
+	 * @param latitude 纬度，和经度成对出现。若为空，则address不能为空
+	 * @param start
+	 * @param limit
+	 * @param jsonMap
+	 * @throws Exception
+	 * 
+	 * @author zxx 2015-12-2 15:10:08
+	 */
+	public void buildNearLabel(String address,Double longitude, Double latitude,
+			int start, int limit,Map<String,Object>jsonMap)throws Exception;
+	
+	/**
+	 * 查询附近的banner
+	 * @param address  地址一般指城市。
+	 * @param start
+	 * @param limit
+	 * @param jsonMap
+	 * @throws Exception
+	 * 
+	 * @author zxx 2015-12-2 15:11:02
+	 */
+	public void buildNearBanner(String address,int start, int limit,Map<String,Object>jsonMap)throws Exception;
+	
+	/**
+	 * 查询附近标签对应的织图
+	 * @param labelId 附近标签id
+	 * @param start
+	 * @param limit
+	 * @param jsonMap
+	 * @throws Exception
+	 * @author zxx 2015-12-2 15:11:29
+	 */
+	public void buildNearLabelWorld(Integer labelId,int start, int limit,Map<String,Object>jsonMap)throws Exception;
+	
 
 	/**
 	 * 根据经纬度查询附近的织图
