@@ -12,15 +12,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hts.web.addr.service.CityService;
+import com.hts.web.base.constant.OptResult;
 import com.hts.web.base.database.RowCallback;
 import com.hts.web.common.pojo.HTWorld;
 import com.hts.web.common.pojo.HTWorldInteractDto;
+import com.hts.web.common.pojo.OpNearLabelDto;
 import com.hts.web.common.pojo.UserInfoDto;
 import com.hts.web.common.service.impl.BaseServiceImpl;
 import com.hts.web.operations.dao.mongo.NearWorldMongoDao;
 import com.hts.web.operations.dao.mongo.NearWorldStarMongoDao;
 import com.hts.web.operations.service.NearWorldService;
 import com.hts.web.userinfo.dao.UserInfoDao;
+import com.hts.web.userinfo.service.UserInfoService;
+import com.hts.web.ztworld.service.ZTWorldService;
 
 @Service("HTSNearWorldService")
 public class NearWorldServiceImpl extends BaseServiceImpl implements NearWorldService {
@@ -40,6 +44,12 @@ public class NearWorldServiceImpl extends BaseServiceImpl implements NearWorldSe
 	
 	@Autowired
 	private CityService cityService;
+	
+	@Autowired
+	private ZTWorldService worldService;
+	
+	@Autowired
+	private UserInfoService userInfoService;
 	
 	@Override
 	public List<HTWorldInteractDto> queryNearWorld(double longitude, double latitude, 
@@ -119,8 +129,11 @@ public class NearWorldServiceImpl extends BaseServiceImpl implements NearWorldSe
 	@Override
 	public void saveNearWorld(HTWorld world) {
 		if(world.getLongitude() == null || world.getLongitude() == 0 
-				|| world.getLatitude() == null || world.getLatitude() == 0)
+				|| world.getLongitude() > 180 || world.getLongitude() < -180
+				|| world.getLatitude() == null || world.getLatitude() == 0 
+				|| world.getLatitude() > 90 || world.getLatitude() < -90)
 			return;
+		
 		HTWorldInteractDto near = new HTWorldInteractDto();
 		near.setLoc(new Double[]{world.getLongitude(), world.getLatitude()});
 		BeanUtils.copyProperties(world, near);
@@ -134,6 +147,69 @@ public class NearWorldServiceImpl extends BaseServiceImpl implements NearWorldSe
 	public void deleteNearWorld(Integer id) {
 		worldMongoDao.deleteWorld(id);
 		worldStarMongoDao.deleteWorld(id);
+	}
+
+
+	@Override
+	public void buildNearWorld(String address, Double longitude,
+			Double latitude, int start, int limit, Map<String, Object> jsonMap,
+			Integer commentLimit, Integer likedLimit) throws Exception {
+		
+		List<HTWorldInteractDto> list = null;
+		
+		if(longitude == null || latitude == null ){
+			if(address != null && !"".equals(address.trim())){
+				list = queryNearWorld(address,start,limit);
+			}else{
+				throw new IllegalArgumentException("either the address or the longitude and the latitude can not be null ");
+			}
+		}else{
+			list = queryNearWorld(longitude,latitude,start,limit);
+		}
+		
+		worldService.extractLikeComment(commentLimit, likedLimit, list);
+		userInfoService.extractVerify(list);
+		jsonMap.put(OptResult.JSON_KEY_HTWORLD, list);
+	}
+
+
+	@Override
+	public void buildNearLabel(String address, Double longitude,
+			Double latitude, int start, int limit, Map<String, Object> jsonMap)
+			throws Exception {
+		
+		List<OpNearLabelDto> list = null;
+		
+		if(longitude == null || latitude == null ){
+			if(address != null && !"".equals(address.trim())){
+				double[] loc = cityService.getLocByCityName(address);
+				if(loc == null){
+					throw new NullPointerException(address + " not exists");
+				}else{
+					
+				}
+			}else{
+				throw new IllegalArgumentException("either the address or the longitude and the latitude can not be null ");
+			}
+		}else{
+			
+		}
+	}
+
+
+	@Override
+	public void buildNearBanner(String address, int start, int limit,
+			Map<String, Object> jsonMap) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void buildNearLabelWorld(Integer labelId, int start, int limit,
+			Map<String, Object> jsonMap) throws Exception {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

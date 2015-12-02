@@ -466,7 +466,11 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 		
 		// 保存进附近织图列表
 		if(trust > 0) {
-			nearWorldService.saveNearWorld(world);
+			try {
+				nearWorldService.saveNearWorld(world);
+			} catch(Exception e) {
+				saveWorldLogger.warn("save near world fail");
+			}
 		}
 		
 	}
@@ -1755,17 +1759,5 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 		
 	}
 
-	@Override
-	public void queryNearWorld(String address, Double longitude,
-			Double latitude, int maxId, int start, int limit,
-			Map<String, Object> jsonMap, int commentLimit, int likedLimit)
-			throws Exception {
-		// TODO Auto-generated method stub
-		/**
-		 * this implement is only for test. It will be deleted when the abstract interface was offered by ztj.
-		 */
-		buildUserWorld(485, null, maxId, start, limit, jsonMap, true, commentLimit, likedLimit);
-		
-	}
-
+	
 }
