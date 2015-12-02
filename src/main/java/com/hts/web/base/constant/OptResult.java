@@ -558,6 +558,12 @@ public class OptResult {
 	 */
 	public static final String JSON_KEY_AT_PUSH_STATUS = "atPushStatus";
 	
+	/**
+	 * 用户专题列表返回key
+	 * @author zhangbo	2015年12月2日
+	 */
+	public static final String JSON_KEY_USER_THEMES = "userThemes";
+	
 }
 
 

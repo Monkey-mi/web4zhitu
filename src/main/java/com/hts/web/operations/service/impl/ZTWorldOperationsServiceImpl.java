@@ -26,7 +26,6 @@ import com.hts.web.common.pojo.OpActivityLikeRank;
 import com.hts.web.common.pojo.OpActivityLogo;
 import com.hts.web.common.pojo.OpActivityStar;
 import com.hts.web.common.pojo.OpActivityWinnerDto;
-import com.hts.web.common.pojo.OpChannel;
 import com.hts.web.common.pojo.OpSquareTopic;
 import com.hts.web.common.pojo.OpUserVerifyDto;
 import com.hts.web.common.pojo.OpWorldType;
@@ -668,9 +667,7 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 							jsonMap.put(OptResult.JSON_KEY_RECOMMEND_TYPE, worldTypeCacheDao.queryType());
 							
 							// 定义推荐频道列表分页查询，根据传递过来的channelCount作为每页数量，由于是全部查询，肯定设定由第一页开始查询
-							RowSelection channelRowSelection = new RowSelection(1,channelCount);
-							List<OpChannel> channelTopList = channelCacheDao.queryChannel(channelRowSelection);
-							jsonMap.put(OptResult.JSON_KEY_CHANNELS, channelTopList);
+							jsonMap.put(OptResult.JSON_KEY_CHANNELS, channelCacheDao.queryChannel(new RowSelection(1,channelCount)));
 							
 						} else { // 加载指定分类精选
 							list = squarePushDao.querySuperbByTypeIdV4(typeId, rowSelection);
