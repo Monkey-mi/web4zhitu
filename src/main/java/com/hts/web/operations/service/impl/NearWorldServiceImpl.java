@@ -194,11 +194,12 @@ public class NearWorldServiceImpl extends BaseServiceImpl implements NearWorldSe
 		}else{
 			
 		}
+		jsonMap.put(OptResult.JSON_KEY_MSG,list);
 	}
 
 
 	@Override
-	public void buildNearBanner(String address, int start, int limit,
+	public void buildNearBanner(String address, Double longitude, Double latitude,int start, int limit,
 			Map<String, Object> jsonMap) throws Exception {
 		// TODO Auto-generated method stub
 		

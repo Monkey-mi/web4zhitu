@@ -57,7 +57,7 @@ public interface NearWorldService extends BaseService {
 	 * 
 	 * @author zxx 2015-12-2 15:11:02
 	 */
-	public void buildNearBanner(String address,int start, int limit,Map<String,Object>jsonMap)throws Exception;
+	public void buildNearBanner(String address,Double longitude, Double latitude,int start, int limit,Map<String,Object>jsonMap)throws Exception;
 	
 	/**
 	 * 查询附近标签对应的织图

@@ -9,6 +9,7 @@ import com.hts.web.base.constant.Tag;
 import com.hts.web.common.BaseAction;
 import com.hts.web.common.util.JSONUtil;
 import com.hts.web.operations.service.ChannelService;
+import com.hts.web.operations.service.NearWorldService;
 import com.hts.web.operations.service.UserOperationsService;
 import com.hts.web.operations.service.ZTWorldOperationsService;
 import com.hts.web.ztworld.service.ZTWorldLabelService;
@@ -92,6 +93,9 @@ public class ZTWorldOperationsAction extends BaseAction {
 	@Autowired
 	private ChannelService channelService;
 	
+	@Autowired
+	private NearWorldService nearWorldService;
+	
 	/**
 	 * 查询附近的织图
 	 * @return
@@ -99,7 +103,7 @@ public class ZTWorldOperationsAction extends BaseAction {
 	 */
 	public String queryNearWorld(){
 		try{
-			
+			nearWorldService.buildNearWorld(address, longitude, latitude, start, limit, jsonMap, commentLimit, likedLimit);
 			JSONUtil.optSuccess(jsonMap);
 		}catch(Exception e){
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
@@ -114,7 +118,7 @@ public class ZTWorldOperationsAction extends BaseAction {
 	 */
 	public String queryNearLabel(){
 		try{
-			
+			nearWorldService.buildNearLabel(address, longitude, latitude, start, limit, jsonMap);
 			JSONUtil.optSuccess(jsonMap);
 		}catch(Exception e){
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
@@ -125,7 +129,7 @@ public class ZTWorldOperationsAction extends BaseAction {
 	
 	public String queryNearBanner(){
 		try{
-			
+			nearWorldService.buildNearBanner(address, longitude, latitude,start, limit, jsonMap);
 			JSONUtil.optSuccess(jsonMap);
 		}catch(Exception e ){
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
