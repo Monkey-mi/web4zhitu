@@ -17,10 +17,12 @@ import com.hts.web.base.database.RowCallback;
 import com.hts.web.common.pojo.AddrCity;
 import com.hts.web.common.pojo.HTWorld;
 import com.hts.web.common.pojo.HTWorldInteractDto;
+import com.hts.web.common.pojo.OpMsgBulletin;
 import com.hts.web.common.pojo.OpNearBannerDto;
 import com.hts.web.common.pojo.OpNearLabelDto;
 import com.hts.web.common.pojo.UserInfoDto;
 import com.hts.web.common.service.impl.BaseServiceImpl;
+import com.hts.web.operations.dao.BulletinCacheDao;
 import com.hts.web.operations.dao.mongo.NearWorldMongoDao;
 import com.hts.web.operations.dao.mongo.NearWorldStarMongoDao;
 import com.hts.web.operations.service.NearWorldService;
@@ -53,6 +55,8 @@ public class NearWorldServiceImpl extends BaseServiceImpl implements NearWorldSe
 	@Autowired
 	private UserInfoService userInfoService;
 	
+	@Autowired
+	private BulletinCacheDao bulletinCacheDao;
 	@Override
 	public List<HTWorldInteractDto> queryNearWorld(double longitude, double latitude, 
 			int start, int limit) {
@@ -233,8 +237,16 @@ public class NearWorldServiceImpl extends BaseServiceImpl implements NearWorldSe
 
 
 	@Override
-	public List<OpNearLabelDto> queryNearLabel(double longitude, double latitude, int start, int limit) {
+	public List<OpNearLabelDto> queryNearLabel(double longitude, 
+			double latitude, int start, int limit) {
 		return new ArrayList<OpNearLabelDto>();
+	}
+
+
+	@Override
+	public List<OpMsgBulletin> queryNearBuilletin(double longitude, 
+			double latitude, int start, int limit) {
+		return bulletinCacheDao.queryBulletin();
 	}
 
 }
