@@ -67,6 +67,7 @@ import com.hts.web.operations.dao.ChannelCacheDao;
 import com.hts.web.operations.dao.OpUserVerifyDtoCacheDao;
 import com.hts.web.operations.dao.UserVerifyRecCacheDao;
 import com.hts.web.operations.service.ChannelService;
+import com.hts.web.operations.service.NearWorldService;
 import com.hts.web.userinfo.dao.UserConcernDao;
 import com.hts.web.userinfo.dao.UserInfoDao;
 import com.hts.web.userinfo.service.UserActivityService;
@@ -256,6 +257,9 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 	
 	@Autowired
 	private HTWorldWeekDao worldWeekDao;
+	
+	@Autowired
+	private NearWorldService nearWorldService;
 	
 	private String baseThumbPathAixin = "http://static.imzhitu.com/world/thumbs/1403056393000.png";
 	private String baseThumbPathXing = "http://static.imzhitu.com/world/thumbs/1403057093000.png";
@@ -458,6 +462,11 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 			List<PushStatus> atPushStatus = userMsgService.saveAtMsgs(atIdsStr, atNamesStr, 
 					false, authorId, Tag.ACT_TYPE_WORLD, worldId, worldId, worldDesc);
 			jsonMap.put(OptResult.JSON_KEY_AT_PUSH_STATUS, atPushStatus);
+		}
+		
+		// 保存进附近织图列表
+		if(trust > 0) {
+			nearWorldService.saveNearWorld(world);
 		}
 		
 	}
@@ -1746,7 +1755,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 	}
 
 	@Override
-	public void queryAroundWorld(String address, Double longitude,
+	public void queryNearWorld(String address, Double longitude,
 			Double latitude, int maxId, int start, int limit,
 			Map<String, Object> jsonMap, int commentLimit, int likedLimit)
 			throws Exception {
