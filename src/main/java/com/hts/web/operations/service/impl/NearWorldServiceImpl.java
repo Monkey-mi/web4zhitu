@@ -44,6 +44,11 @@ public class NearWorldServiceImpl extends BaseServiceImpl implements NearWorldSe
 	@Override
 	public List<HTWorldInteractDto> queryNearWorld(double longitude, double latitude, 
 			int start, int limit) {
+		
+		if(longitude == 0 || latitude == 0) {
+			throw new IllegalArgumentException("longitude or latitude can not be null");
+		}
+		
 		List<HTWorldInteractDto> starList = worldStarMongoDao.queryNear(longitude, latitude, 
 				STAR_WORLD_MAX_INSTANCE, start, STAR_WORLD_LIMIT);
 		final List<HTWorldInteractDto> list = worldMongoDao.queryNear(longitude, latitude, start, limit);
@@ -100,6 +105,11 @@ public class NearWorldServiceImpl extends BaseServiceImpl implements NearWorldSe
 	@Override
 	public List<HTWorldInteractDto> queryNearWorld(String city, 
 			int start, int limit) {
+		
+		if(city == null || city.equals("")) {
+			throw new IllegalArgumentException("longitude or latitude can not be null");
+		}
+		
 		double[] loc = cityService.getLocByCityName(city);
 		if(loc == null)
 			throw new NullPointerException(city + " not exists");
