@@ -1,5 +1,7 @@
 package com.hts.web.addr.service;
 
+import com.hts.web.common.pojo.AddrCity;
+
 /**
  * 城市信息业务逻辑访问接口
  * 
@@ -9,11 +11,11 @@ package com.hts.web.addr.service;
 public interface CityService {
 
 	/**
-	 * 根据城市名获取经纬度
+	 * 根据名字获取城市信息
 	 * 
-	 * @param city
+	 * @param name
 	 * @return longitude:0, latitude:1
 	 * @author lynch 2015-12-02
 	 */
-	public double[] getLocByCityName(String city);
+	public AddrCity getLocByCityName(String name);
 }

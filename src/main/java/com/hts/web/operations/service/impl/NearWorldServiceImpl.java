@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.hts.web.addr.service.CityService;
 import com.hts.web.base.constant.OptResult;
 import com.hts.web.base.database.RowCallback;
+import com.hts.web.common.pojo.AddrCity;
 import com.hts.web.common.pojo.HTWorld;
 import com.hts.web.common.pojo.HTWorldInteractDto;
 import com.hts.web.common.pojo.OpNearBannerDto;
@@ -121,10 +122,10 @@ public class NearWorldServiceImpl extends BaseServiceImpl implements NearWorldSe
 			throw new IllegalArgumentException("longitude or latitude can not be null");
 		}
 		
-		double[] loc = cityService.getLocByCityName(city);
+		AddrCity loc = cityService.getLocByCityName(city);
 		if(loc == null)
 			throw new NullPointerException(city + " not exists");
-		return queryNearWorld(loc[0], loc[1], start, limit);
+		return queryNearWorld(loc.getLongitude(), loc.getLatitude(), start, limit);
 	}
 
 	@Override
@@ -183,7 +184,7 @@ public class NearWorldServiceImpl extends BaseServiceImpl implements NearWorldSe
 		
 		if(longitude == null || latitude == null ){
 			if(address != null && !"".equals(address.trim())){
-				double[] loc = cityService.getLocByCityName(address);
+				AddrCity loc = cityService.getLocByCityName(address);
 				if(loc == null){
 					throw new NullPointerException(address + " not exists");
 				}else{
@@ -207,7 +208,7 @@ public class NearWorldServiceImpl extends BaseServiceImpl implements NearWorldSe
 		
 		if(longitude == null || latitude == null ){
 			if(address != null && !"".equals(address.trim())){
-				double[] loc = cityService.getLocByCityName(address);
+				AddrCity loc = cityService.getLocByCityName(address);
 				if(loc == null){
 					throw new NullPointerException(address + " not exists");
 				}else{
