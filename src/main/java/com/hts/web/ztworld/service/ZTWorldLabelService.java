@@ -131,4 +131,21 @@ public interface ZTWorldLabelService extends BaseService {
 	public void buildLabelWorldAuthor(Integer labelId, Integer joinId, 
 			int maxId, int start, int limit, Map<String, Object> jsonMap) throws Exception;
 	
+	/**
+	 * 查询附近的标签
+	 * @param cityId 城市id，若是为空，则经纬度参数不能为空
+	 * @param longitude 纬度。若是为空，则城市不能为空
+	 * @param latitude 经度
+	 * @param maxId 
+	 * @param start
+	 * @param limit
+	 * @param jsonMap
+	 * @throws Exception
+	 * 
+	 * @author zxx 2015-12-1 21:04:49
+	 * 
+	 */
+	public void queryNearLabel(String address,Double longitude,Double latitude,
+			int maxId, int start, int limit, Map<String, Object> jsonMap)throws Exception;
+	
 }

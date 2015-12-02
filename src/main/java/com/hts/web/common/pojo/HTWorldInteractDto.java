@@ -70,6 +70,8 @@ public class HTWorldInteractDto implements HTWorldWithExtra, ObjectWithUserVerif
 	private String extra;
 	private String extra1;
 	private Integer concerned = Tag.FALSE;;
+	
+	private Double[] loc; // 经纬度信息,用于根据地理位置查询
 
 	private List<HTWorldLikedInline> likes = new ArrayList<HTWorldLikedInline>(); // 喜欢的用户
 	private List<HTWorldCommentInline> comments = new ArrayList<HTWorldCommentInline>(); // 评论
@@ -508,5 +510,12 @@ public class HTWorldInteractDto implements HTWorldWithExtra, ObjectWithUserVerif
 		return concerned;
 	}
 
-	
+	public Double[] getLoc() {
+		return loc;
+	}
+
+	public void setLoc(Double[] loc) {
+		this.loc = loc;
+	}
+
 }

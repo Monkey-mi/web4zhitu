@@ -48,7 +48,7 @@ public class ZTWorldServiceTest extends BaseTest {
 				"http://static.imzhitu.com/ios/image/2014/3/26/21/c5a9e4e8b41011e3a9a712bf1fbc47a9_8.jpg",
 				null,
 				"http://static.imzhitu.com/ios/image/2014/3/26/21/c5a9e4e8b41011e3a9a712bf1fbc47a9_8.jpg",
-				0.1d, 0.1d, "locationDesc", "locationAddr", "province", "city", null, "18", 1, 
+				113.567841, 22.167654, "locationDesc", "locationAddr", "province", "city", null, "18", 1, 
 				null, Tag.WORLD_TYPE_DEFAULT, null, 0, null, null, jsonMap);
 		HTWorld world = (HTWorld) jsonMap.get(OptResult.JSON_KEY_HTWORLD);
 		service.deleteWorld(world.getId(), userId);

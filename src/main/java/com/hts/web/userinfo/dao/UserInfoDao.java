@@ -7,8 +7,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.hts.web.base.database.RowCallback;
 import com.hts.web.base.database.RowSelection;
 import com.hts.web.common.dao.BaseDao;
+import com.hts.web.common.pojo.HTWorldInteractDto;
 import com.hts.web.common.pojo.UserAvatar;
 import com.hts.web.common.pojo.UserAvatarLite;
 import com.hts.web.common.pojo.UserInfo;
@@ -673,4 +675,21 @@ public interface UserInfoDao extends BaseDao {
 	 */
 	public boolean isPlatformCode(Integer uid, Integer platformCode);
 	
+	
+	/**
+	 * 查询用户信息
+	 * 
+	 * @param ids
+	 * @param callback
+	 */
+	public void queryUserInfoDtos(Integer[] ids, RowCallback<UserInfoDto> callback);
+	
+	/**
+	 * 查询明星标记
+	 * 
+	 * @param id
+	 * @return
+	 * @author lynch 2015-12-02
+	 */
+	public Integer queryStar(Integer id);
 }

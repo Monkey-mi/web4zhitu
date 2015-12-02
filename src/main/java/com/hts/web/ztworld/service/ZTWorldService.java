@@ -441,7 +441,7 @@ public interface ZTWorldService extends BaseService {
 	 * @throws Exception
 	 * @author zxx 2015-12-1 10:01:55
 	 */
-	public void queryAroundWorld(String address, Double longitude, Double latitude,int maxId, int start, int limit, Map<String, Object> jsonMap, 
+	public void queryNearWorld(String address, Double longitude, Double latitude,int maxId, int start, int limit, Map<String, Object> jsonMap, 
 			final int commentLimit, final int likedLimit)throws Exception;
 	
 }

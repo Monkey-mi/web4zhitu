@@ -712,6 +712,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 		if (world != null && world.getValid() == Tag.TRUE
 				&& world.getAuthorId().equals(userId)
 				&& world.getShield() == Tag.FALSE) {
+			nearWorldService.deleteNearWorld(worldId); // 从附近织图列表删除织图
 			worldWeekDao.validRecord(HTS.HTWORLD_HTWORLD_WEEK, Tag.FALSE, worldId);
 			worldDao.validRecord(HTS.HTWORLD_HTWORLD, Tag.FALSE, worldId);
 			Long count = worldDao.queryWorldCountByAuthorId(userId);

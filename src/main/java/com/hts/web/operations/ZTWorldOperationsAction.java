@@ -861,4 +861,8 @@ public class ZTWorldOperationsAction extends BaseAction {
 		this.address = address;
 	}
 
+	public void setChannelCount(Integer channelCount) {
+		this.channelCount = channelCount;
+	}
+	
 }

@@ -16,9 +16,11 @@ import org.springframework.stereotype.Repository;
 
 import com.hts.web.base.constant.Tag;
 import com.hts.web.base.database.HTS;
+import com.hts.web.base.database.RowCallback;
 import com.hts.web.base.database.RowSelection;
 import com.hts.web.base.database.SQLUtil;
 import com.hts.web.common.dao.impl.BaseDaoImpl;
+import com.hts.web.common.pojo.HTWorldInteractDto;
 import com.hts.web.common.pojo.UserAvatar;
 import com.hts.web.common.pojo.UserAvatarLite;
 import com.hts.web.common.pojo.UserInfo;
@@ -435,6 +437,12 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 	
 	private static final String IS_PLATFORM = "select 1 from " + table
 			+ " where id=? and platform_code=?";
+	
+	private static final String QUERY_USER_INFO_DTOS = "select id," + U0_INFO + " from " 
+			+ table + " u0 where id in ";
+	
+	private static final String QUERY_STAR = "select star from " + table
+			+ " where id=?";
 	
 	@Override
 	public UserInfoDto buildUserInfoDto(Integer userId, ResultSet rs) throws SQLException {
@@ -1394,5 +1402,26 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao{
 			return false;
 		}
 	}
+
+	@Override
+	public void queryUserInfoDtos(Integer[] ids, final RowCallback<UserInfoDto> callback) {
+		String sql = QUERY_USER_INFO_DTOS + SQLUtil.buildInSelection(ids);
+		getJdbcTemplate().query(sql, ids, new RowCallbackHandler() {
+			
+			@Override
+			public void processRow(ResultSet rs) throws SQLException {
+				callback.callback(buildUserInfoDto(rs.getInt("id"), rs));
+			}
+		});
+	}
+
+	@Override
+	public Integer queryStar(Integer id) {
+		try {
+			return getJdbcTemplate().queryForObject(QUERY_STAR, Integer.class, id);
+		} catch(EmptyResultDataAccessException e) {
+			return -1;
+		}
+	};
 
 }

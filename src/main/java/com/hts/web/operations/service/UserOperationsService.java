@@ -167,17 +167,21 @@ public interface UserOperationsService extends BaseService {
 	/**
 	 * 构建认证分榜推荐列表
 	 * 
-	 * @param maxId
-	 * @param start
-	 * @param limit
-	 * @param userId
-	 * @param verifyId
-	 * @param worldLimit
-	 * @param jsonMap
+	 * @param maxId	
+	 * @param start				起始页码，默认为1
+	 * @param limit				每页限定最大记录数,默认为12
+	 * @param userId			用户id（当前登陆用户id）
+	 * @param verifyId			认证id，如果需要返回所有达人列表和verify（认证列表信息),务必将此参数设置为0，0时会加载userThemes（用户专题列表）	
+	 * @param worldLimit		每个用户最新织图限定数量，默认为０，即不获取织图
+	 * @param hasVerify			获取认证类型,verifyId!=0 & maxId=0时,此参数生效,默认为false
+	 * @param userThemeCount	获取用户专题列表限定数量，默认为0，即不返回用户专题列表
+	 * @param jsonMap			返回值json对象
 	 * @throws Exception
+	 * @author zhutianjie
+	 * @modify zhangbo	2015年12月2日
 	 */
 	public void buildVerifyRecommendUser(int maxId, int start, int limit,
-			Integer userId, Integer verifyId, int worldLimit, boolean hasVerify,
+			Integer userId, Integer verifyId, int worldLimit, boolean hasVerify, Integer userThemeCount,
 			Map<String, Object> jsonMap) throws Exception;
 	
 	/**

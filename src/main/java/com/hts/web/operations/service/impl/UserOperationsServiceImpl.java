@@ -10,9 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import weibo4j.Friendships;
-import weibo4j.model.WeiboException;
-
 import com.hts.web.base.HTSErrorCode;
 import com.hts.web.base.HTSException;
 import com.hts.web.base.constant.OptResult;
@@ -34,6 +31,7 @@ import com.hts.web.common.pojo.UserWithWorld;
 import com.hts.web.common.service.KeyGenService;
 import com.hts.web.common.service.impl.BaseServiceImpl;
 import com.hts.web.common.service.impl.KeyGenServiceImpl;
+import com.hts.web.operations.dao.BulletinCacheDao;
 import com.hts.web.operations.dao.OpUserVerifyDtoCacheDao;
 import com.hts.web.operations.dao.SysMsgDao;
 import com.hts.web.operations.dao.UserRecommendDao;
@@ -51,6 +49,9 @@ import com.qq.connect.javabeans.weibo.FansIdolsBean;
 import com.qq.connect.javabeans.weibo.SingleFanIdolBean;
 import com.renren.api.RennClient;
 import com.renren.api.RennException;
+
+import weibo4j.Friendships;
+import weibo4j.model.WeiboException;
 
 /**
  * <p>
@@ -136,6 +137,9 @@ public class UserOperationsServiceImpl extends BaseServiceImpl implements
 	
 	@Autowired
 	private UserConcernService userConcernService;
+	
+	@Autowired
+	private BulletinCacheDao bulletinCacheDao;
 	
 	@Value("${op.squareRecommendUserLimit}")
 	private Integer squareRecommendUserLimit = 6;
@@ -541,7 +545,7 @@ public class UserOperationsServiceImpl extends BaseServiceImpl implements
 	@Override
 	public void buildVerifyRecommendUser(int maxId, int start, int limit,
 			final Integer userId, final Integer verifyId, final int worldLimit, 
-			final boolean hasVerify, final Map<String, Object> jsonMap)
+			final boolean hasVerify, final Integer userThemeCount, final Map<String, Object> jsonMap)
 			throws Exception {
 		if(maxId < 0) {
 			// 避免重复加载第一页数据的情况
@@ -566,6 +570,9 @@ public class UserOperationsServiceImpl extends BaseServiceImpl implements
 					List<OpUser> starList = userRecommendDao.queryVerifyRecommendUserOrderByAct(userId, 
 							Tag.VERIFY_SUPER_STAR_ID, new RowSelection(1, starRecLimit));
 					weightList.addAll(0, starList);
+					
+					// 定义用户专题列表分页查询，根据传递过来的userThemeCount作为每页数量，由于是全部查询，肯定设定由第一页开始查询
+					jsonMap.put(OptResult.JSON_KEY_USER_THEMES, bulletinCacheDao.queryUserTheme(new RowSelection(1, userThemeCount)));
 				} else {
 					
 					if(hasVerify) {
