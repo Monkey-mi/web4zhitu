@@ -9,7 +9,7 @@ import com.hts.web.common.pojo.AddrCity;
 public class CityServiceImpl implements CityService {
 
 	@Override
-	public AddrCity getLocByCityName(String name) {
+	public AddrCity getCityByName(String name) {
 		AddrCity city = new AddrCity();
 		city.setId(1);
 		city.setName("深圳");

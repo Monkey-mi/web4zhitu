@@ -14,8 +14,8 @@ public interface CityService {
 	 * 根据名字获取城市信息
 	 * 
 	 * @param name
-	 * @return longitude:0, latitude:1
+	 * @return 城市信息
 	 * @author lynch 2015-12-02
 	 */
-	public AddrCity getLocByCityName(String name);
+	public AddrCity getCityByName(String name);
 }

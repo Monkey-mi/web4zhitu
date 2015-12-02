@@ -122,7 +122,7 @@ public class NearWorldServiceImpl extends BaseServiceImpl implements NearWorldSe
 			throw new IllegalArgumentException("longitude or latitude can not be null");
 		}
 		
-		AddrCity loc = cityService.getLocByCityName(city);
+		AddrCity loc = cityService.getCityByName(city);
 		if(loc == null)
 			throw new NullPointerException(city + " not exists");
 		return queryNearWorld(loc.getLongitude(), loc.getLatitude(), start, limit);
@@ -184,7 +184,7 @@ public class NearWorldServiceImpl extends BaseServiceImpl implements NearWorldSe
 		
 		if(longitude == null || latitude == null ){
 			if(address != null && !"".equals(address.trim())){
-				AddrCity loc = cityService.getLocByCityName(address);
+				AddrCity loc = cityService.getCityByName(address);
 				if(loc == null){
 					throw new NullPointerException(address + " not exists");
 				}else{
@@ -208,7 +208,7 @@ public class NearWorldServiceImpl extends BaseServiceImpl implements NearWorldSe
 		
 		if(longitude == null || latitude == null ){
 			if(address != null && !"".equals(address.trim())){
-				AddrCity loc = cityService.getLocByCityName(address);
+				AddrCity loc = cityService.getCityByName(address);
 				if(loc == null){
 					throw new NullPointerException(address + " not exists");
 				}else{
