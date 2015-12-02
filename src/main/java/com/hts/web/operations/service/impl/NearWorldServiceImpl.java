@@ -201,8 +201,24 @@ public class NearWorldServiceImpl extends BaseServiceImpl implements NearWorldSe
 	@Override
 	public void buildNearBanner(String address, Double longitude, Double latitude,int start, int limit,
 			Map<String, Object> jsonMap) throws Exception {
-		// TODO Auto-generated method stub
 		
+		List<OpNearLabelDto> list = null;
+		
+		if(longitude == null || latitude == null ){
+			if(address != null && !"".equals(address.trim())){
+				double[] loc = cityService.getLocByCityName(address);
+				if(loc == null){
+					throw new NullPointerException(address + " not exists");
+				}else{
+					
+				}
+			}else{
+				throw new IllegalArgumentException("either the address or the longitude and the latitude can not be null ");
+			}
+		}else{
+			
+		}
+		jsonMap.put(OptResult.JSON_KEY_MSG,list);
 	}
 
 
