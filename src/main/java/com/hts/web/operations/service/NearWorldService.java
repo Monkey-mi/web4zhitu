@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.hts.web.common.pojo.HTWorld;
 import com.hts.web.common.pojo.HTWorldInteractDto;
+import com.hts.web.common.pojo.OpMsgBulletin;
 import com.hts.web.common.pojo.OpNearLabelDto;
 import com.hts.web.common.service.BaseService;
 
@@ -123,8 +124,23 @@ public interface NearWorldService extends BaseService {
 	 * @param start
 	 * @param limit
 	 * @return
+	 * @author lynch 2015-12-02
 	 */
 	public List<OpNearLabelDto> queryNearLabel(double longitude, 
+			double latitude, int start, int limit);
+	
+	
+	/**
+	 * 查询附近的公告
+	 * 
+	 * @param longitude
+	 * @param latitude
+	 * @param start
+	 * @param limit
+	 * @return
+	 * @author lynch 2015-12-02
+	 */
+	public List<OpMsgBulletin> queryNearBuilletin(double longitude, 
 			double latitude, int start, int limit);
 	
 }
