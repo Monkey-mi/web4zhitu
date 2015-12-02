@@ -181,7 +181,7 @@ public interface UserOperationsService extends BaseService {
 	 * @modify zhangbo	2015年12月2日
 	 */
 	public void buildVerifyRecommendUser(int maxId, int start, int limit,
-			Integer userId, Integer verifyId, int worldLimit, boolean hasVerify, Integer userThemeCount,
+			Integer userId, Integer verifyId, int worldLimit, Integer userThemeCount,
 			Map<String, Object> jsonMap) throws Exception;
 	
 	/**

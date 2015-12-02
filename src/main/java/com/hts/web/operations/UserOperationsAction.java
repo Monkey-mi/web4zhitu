@@ -35,7 +35,6 @@ public class UserOperationsAction extends BaseAction {
 	private Integer verifyId = 1;
 	private Boolean trimSelf = false;
 	private String concernIds;
-	private Boolean hasVerify = false;
 	
 	/**
 	 * 用户专题列表查询数量，默认为0
@@ -247,7 +246,7 @@ public class UserOperationsAction extends BaseAction {
 	public String queryVerifyRecommendUser() {
 		try {
 			userOperationsService.buildVerifyRecommendUser(maxId, start, limit, 
-					getCurrentLoginUserId(), verifyId, worldLimit, hasVerify, userThemeCount, jsonMap);
+					getCurrentLoginUserId(), verifyId, worldLimit, userThemeCount, jsonMap);
 			JSONUtil.optSuccess(jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
@@ -339,14 +338,6 @@ public class UserOperationsAction extends BaseAction {
 
 	public void setConcernIds(String concernIds) {
 		this.concernIds = concernIds;
-	}
-
-	public Boolean getHasVerify() {
-		return hasVerify;
-	}
-
-	public void setHasVerify(Boolean hasVerify) {
-		this.hasVerify = hasVerify;
 	}
 
 	public void setUserThemeCount(Integer userThemeCount) {

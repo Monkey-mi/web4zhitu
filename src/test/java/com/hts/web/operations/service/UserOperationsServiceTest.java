@@ -81,8 +81,8 @@ public class UserOperationsServiceTest extends BaseTest {
 	@Test
 	public void testBuildVerifyRecommendUser() throws Exception {
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
-		service.buildVerifyRecommendUser(0, 1, 10, 485, 4, 0, false, 0, jsonMap);
-		service.buildVerifyRecommendUser(1441, 2, 10, 485, 4, 4, false, 0, jsonMap);
+		service.buildVerifyRecommendUser(0, 1, 10, 485, 4, 0, 0, jsonMap);
+		service.buildVerifyRecommendUser(1441, 2, 10, 485, 4, 4, 0, jsonMap);
 		List<OpUser> list = (List<OpUser>) jsonMap.get(OptResult.JSON_KEY_USER_INFO);
 //		logObj(jsonMap);
 		for(OpUser u : list) {
