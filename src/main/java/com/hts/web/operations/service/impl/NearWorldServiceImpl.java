@@ -231,4 +231,10 @@ public class NearWorldServiceImpl extends BaseServiceImpl implements NearWorldSe
 		
 	}
 
+
+	@Override
+	public List<OpNearLabelDto> queryNearLabel(double longitude, double latitude, int start, int limit) {
+		return new ArrayList<OpNearLabelDto>();
+	}
+
 }

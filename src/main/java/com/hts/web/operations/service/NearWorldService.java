@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.hts.web.common.pojo.HTWorld;
 import com.hts.web.common.pojo.HTWorldInteractDto;
+import com.hts.web.common.pojo.OpNearLabelDto;
 import com.hts.web.common.service.BaseService;
 
 /**
@@ -112,5 +113,18 @@ public interface NearWorldService extends BaseService {
 	 * @author lynch 2015-12-01
 	 */
 	public void deleteNearWorld(Integer id);
+	
+	
+	/**
+	 * 根据经纬度查询附近的标签
+	 * 
+	 * @param longitude
+	 * @param latitude
+	 * @param start
+	 * @param limit
+	 * @return
+	 */
+	public List<OpNearLabelDto> queryNearLabel(double longitude, 
+			double latitude, int start, int limit);
 	
 }
