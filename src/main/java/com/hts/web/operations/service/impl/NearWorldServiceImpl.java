@@ -18,7 +18,6 @@ import com.hts.web.common.pojo.AddrCity;
 import com.hts.web.common.pojo.HTWorld;
 import com.hts.web.common.pojo.HTWorldInteractDto;
 import com.hts.web.common.pojo.OpMsgBulletin;
-import com.hts.web.common.pojo.OpNearBannerDto;
 import com.hts.web.common.pojo.OpNearLabelDto;
 import com.hts.web.common.pojo.UserInfoDto;
 import com.hts.web.common.service.impl.BaseServiceImpl;
@@ -208,23 +207,30 @@ public class NearWorldServiceImpl extends BaseServiceImpl implements NearWorldSe
 	public void buildNearBanner(String address, Double longitude, Double latitude,int start, int limit,
 			Map<String, Object> jsonMap) throws Exception {
 		
-		List<OpNearBannerDto> list = null;
-		
+		List<OpMsgBulletin> list = null;
+		AddrCity location = new AddrCity();
 		if(longitude == null || latitude == null ){
 			if(address != null && !"".equals(address.trim())){
 				AddrCity loc = cityService.getCityByName(address);
 				if(loc == null){
 					throw new NullPointerException(address + " not exists");
 				}else{
-					
+					list = queryNearBuilletin(loc.getLongitude(),loc.getLatitude(),start,limit);
 				}
+				location.setName(address);
+				location.setLongitude(loc.getLongitude());
+				location.setLatitude(loc.getLatitude());
 			}else{
 				throw new IllegalArgumentException("either the address or the longitude and the latitude can not be null ");
 			}
 		}else{
-			
+			list = queryNearBuilletin(longitude,latitude,start,limit);
+			location.setLongitude(longitude);
+			location.setLatitude(latitude);
 		}
+		
 		jsonMap.put(OptResult.JSON_KEY_MSG,list);
+		jsonMap.put(OptResult.JSON_KEY_LOCATION, location);
 	}
 
 

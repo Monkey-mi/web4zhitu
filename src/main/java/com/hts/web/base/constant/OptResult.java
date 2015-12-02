@@ -564,6 +564,17 @@ public class OptResult {
 	 */
 	public static final String JSON_KEY_USER_THEMES = "userThemes";
 	
+	/**
+	 * 地理位置key
+	 * @author zxx 2015-12-2 19:56:29
+	 */
+	public static final String JSON_KEY_LOCATION = "location";
+	
+	/**
+	 * banner key
+	 * @author zxx 2015-12-2 19:56:46
+	 */
+	public static final String JSON_KEY_BANNER = "banner";
 }
 
 
