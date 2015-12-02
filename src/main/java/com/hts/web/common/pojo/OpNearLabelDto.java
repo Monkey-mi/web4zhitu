@@ -12,6 +12,7 @@ public class OpNearLabelDto implements Serializable{
 	private String desc;
 	private String bannerUrl;
 	private Integer serial;
+	private String address;
 	public Integer getId() {
 		return id;
 	}
@@ -62,6 +63,12 @@ public class OpNearLabelDto implements Serializable{
 	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
 	}
 	
 }

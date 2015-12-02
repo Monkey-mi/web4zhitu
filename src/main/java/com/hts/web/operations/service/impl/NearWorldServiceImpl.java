@@ -16,6 +16,7 @@ import com.hts.web.base.constant.OptResult;
 import com.hts.web.base.database.RowCallback;
 import com.hts.web.common.pojo.HTWorld;
 import com.hts.web.common.pojo.HTWorldInteractDto;
+import com.hts.web.common.pojo.OpNearBannerDto;
 import com.hts.web.common.pojo.OpNearLabelDto;
 import com.hts.web.common.pojo.UserInfoDto;
 import com.hts.web.common.service.impl.BaseServiceImpl;
@@ -202,7 +203,7 @@ public class NearWorldServiceImpl extends BaseServiceImpl implements NearWorldSe
 	public void buildNearBanner(String address, Double longitude, Double latitude,int start, int limit,
 			Map<String, Object> jsonMap) throws Exception {
 		
-		List<OpNearLabelDto> list = null;
+		List<OpNearBannerDto> list = null;
 		
 		if(longitude == null || latitude == null ){
 			if(address != null && !"".equals(address.trim())){
