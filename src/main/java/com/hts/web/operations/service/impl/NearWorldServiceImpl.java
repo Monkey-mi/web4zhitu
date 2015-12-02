@@ -119,8 +119,11 @@ public class NearWorldServiceImpl extends BaseServiceImpl implements NearWorldSe
 	@Override
 	public void saveNearWorld(HTWorld world) {
 		if(world.getLongitude() == null || world.getLongitude() == 0 
-				|| world.getLatitude() == null || world.getLatitude() == 0)
+				|| world.getLongitude() > 180 || world.getLongitude() < -180
+				|| world.getLatitude() == null || world.getLatitude() == 0 
+				|| world.getLatitude() > 90 || world.getLatitude() < -90)
 			return;
+		
 		HTWorldInteractDto near = new HTWorldInteractDto();
 		near.setLoc(new Double[]{world.getLongitude(), world.getLatitude()});
 		BeanUtils.copyProperties(world, near);

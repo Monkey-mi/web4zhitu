@@ -466,7 +466,11 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 		
 		// 保存进附近织图列表
 		if(trust > 0) {
-			nearWorldService.saveNearWorld(world);
+			try {
+				nearWorldService.saveNearWorld(world);
+			} catch(Exception e) {
+				saveWorldLogger.warn("save near world fail");
+			}
 		}
 		
 	}
