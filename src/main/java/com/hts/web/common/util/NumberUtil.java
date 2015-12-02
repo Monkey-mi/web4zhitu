@@ -75,14 +75,6 @@ public class NumberUtil {
 	public static int getRandomNum(int min, int max) {
 		return (int)(min + Math.random() * (max - min + 1));
 	}
-
-	public static void main(String[] args) {
-		for(int i = 0; i < 10; i++) {
-			int k = i;
-			int r = getRandomNum(k, 10);
-			System.out.println(r);
-		}
-	}
 	
 	/**
 	 * 获取随机索引

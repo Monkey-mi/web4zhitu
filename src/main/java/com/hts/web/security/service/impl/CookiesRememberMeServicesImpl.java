@@ -70,9 +70,9 @@ public class CookiesRememberMeServicesImpl extends AbstractRememberMeServices
 	/**
 	 * @deprecated Use constructor injection
 	 */
-	@Deprecated
-	public CookiesRememberMeServicesImpl() {
-	}
+//	@Deprecated
+//	public CookiesRememberMeServicesImpl() {
+//	}
 
 	public CookiesRememberMeServicesImpl(String key,
 			UserDetailsService userDetailsService) {
