@@ -34,7 +34,7 @@ public interface NearWorldService extends BaseService {
 	 * @param start 起始页码
 	 * @param limit 每页限定记录数量
 	 * @return 瀑布流织图列表(包含用户信息)
-	 * @author lynch
+	 * @author lynch 2015-12-01
 	 */
 	public List<HTWorldInteractDto> queryNearWorld(String city, 
 			int start, int limit);
@@ -44,6 +44,7 @@ public interface NearWorldService extends BaseService {
 	 * 保存附近的织图
 	 * 
 	 * @param world 织图信息
+	 * @author lynch 2015-12-01
 	 */
 	public void saveNearWorld(HTWorld world);
 	
@@ -51,6 +52,7 @@ public interface NearWorldService extends BaseService {
 	 * 根据id删除附近的织图
 	 * 
 	 * @param id
+	 * @author lynch 2015-12-01
 	 */
 	public void deleteNearWorld(Integer id);
 	
