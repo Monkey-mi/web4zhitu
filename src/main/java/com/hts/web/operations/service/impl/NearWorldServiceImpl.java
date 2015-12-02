@@ -188,13 +188,13 @@ public class NearWorldServiceImpl extends BaseServiceImpl implements NearWorldSe
 				if(loc == null){
 					throw new NullPointerException(address + " not exists");
 				}else{
-					
+					list = queryNearLabel(loc.getLongitude(),loc.getLatitude(),start,limit);
 				}
 			}else{
 				throw new IllegalArgumentException("either the address or the longitude and the latitude can not be null ");
 			}
 		}else{
-			
+			list = queryNearLabel(longitude,latitude,start,limit);
 		}
 		jsonMap.put(OptResult.JSON_KEY_MSG,list);
 	}
