@@ -67,7 +67,7 @@ import com.hts.web.operations.dao.ChannelCacheDao;
 import com.hts.web.operations.dao.OpUserVerifyDtoCacheDao;
 import com.hts.web.operations.dao.UserVerifyRecCacheDao;
 import com.hts.web.operations.service.ChannelService;
-import com.hts.web.operations.service.NearWorldService;
+import com.hts.web.operations.service.NearService;
 import com.hts.web.userinfo.dao.UserConcernDao;
 import com.hts.web.userinfo.dao.UserInfoDao;
 import com.hts.web.userinfo.service.UserActivityService;
@@ -259,7 +259,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 	private HTWorldWeekDao worldWeekDao;
 	
 	@Autowired
-	private NearWorldService nearWorldService;
+	private NearService nearService;
 	
 	private String baseThumbPathAixin = "http://static.imzhitu.com/world/thumbs/1403056393000.png";
 	private String baseThumbPathXing = "http://static.imzhitu.com/world/thumbs/1403057093000.png";
@@ -467,7 +467,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 		// 保存进附近织图列表
 		if(trust > 0) {
 			try {
-				nearWorldService.saveNearWorld(world);
+				nearService.saveNearWorld(world);
 			} catch(Exception e) {
 				saveWorldLogger.warn("save near world fail");
 			}
@@ -716,7 +716,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 		if (world != null && world.getValid() == Tag.TRUE
 				&& world.getAuthorId().equals(userId)
 				&& world.getShield() == Tag.FALSE) {
-			nearWorldService.deleteNearWorld(worldId); // 从附近织图列表删除织图
+			nearService.deleteNearWorld(worldId); // 从附近织图列表删除织图
 			worldWeekDao.validRecord(HTS.HTWORLD_HTWORLD_WEEK, Tag.FALSE, worldId);
 			worldDao.validRecord(HTS.HTWORLD_HTWORLD, Tag.FALSE, worldId);
 			Long count = worldDao.queryWorldCountByAuthorId(userId);

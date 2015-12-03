@@ -24,13 +24,13 @@ import com.hts.web.common.service.impl.BaseServiceImpl;
 import com.hts.web.operations.dao.BulletinCacheDao;
 import com.hts.web.operations.dao.mongo.NearWorldMongoDao;
 import com.hts.web.operations.dao.mongo.NearWorldStarMongoDao;
-import com.hts.web.operations.service.NearWorldService;
+import com.hts.web.operations.service.NearService;
 import com.hts.web.userinfo.dao.UserInfoDao;
 import com.hts.web.userinfo.service.UserInfoService;
 import com.hts.web.ztworld.service.ZTWorldService;
 
-@Service("HTSNearWorldService")
-public class NearWorldServiceImpl extends BaseServiceImpl implements NearWorldService {
+@Service("HTSNearService")
+public class NearServiceImpl extends BaseServiceImpl implements NearService {
 	
 	private static final double STAR_WORLD_MAX_INSTANCE = 0.01;
 	
@@ -245,7 +245,20 @@ public class NearWorldServiceImpl extends BaseServiceImpl implements NearWorldSe
 	@Override
 	public List<OpNearLabelDto> queryNearLabel(double longitude, 
 			double latitude, int start, int limit) {
-		return new ArrayList<OpNearLabelDto>();
+		OpNearLabelDto d1 = new OpNearLabelDto();
+		d1.setId(1);
+		d1.setDesc("这是本地测试标签。测试标签1");
+		d1.setLabelName("测试标签");
+		d1.setBannerUrl("http://http://ww4.sinaimg.cn/large/a0a4bc09gw1er8n9yh6poj20fk078ab8.jpg");
+		OpNearLabelDto d2 = new OpNearLabelDto();
+		d2.setId(2);
+		d2.setDesc("这是本地测试标签。测试标签2");
+		d2.setLabelName("随你测试标签");
+		d2.setBannerUrl("http://http://ww4.sinaimg.cn/large/a0a4bc09gw1er8n9yh6poj20fk078ab8.jpg");
+		ArrayList<OpNearLabelDto> arrayList = new ArrayList<OpNearLabelDto>();
+		arrayList.add(d1);
+		arrayList.add(d2);
+		return arrayList;
 	}
 
 

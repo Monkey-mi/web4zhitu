@@ -15,7 +15,7 @@ import com.hts.web.common.service.BaseService;
  * @author lynch 2015-12-01
  *
  */
-public interface NearWorldService extends BaseService {
+public interface NearService extends BaseService {
 	
 	/**
 	 * 查询附近织图
