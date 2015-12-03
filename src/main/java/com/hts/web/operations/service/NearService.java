@@ -157,4 +157,11 @@ public interface NearService extends BaseService {
 	public List<OpMsgBulletin> queryNearBuilletin(double longitude, 
 			double latitude, int start, int limit);
 	
+	/**
+	 * 查询附近的推荐城市
+	 * @throws Exception
+	 * @author zxx 2015-12-3 17:16:18
+	 */
+	public void buildRecommendCity(Map<String,Object>jsonMap)throws Exception;
+	
 }

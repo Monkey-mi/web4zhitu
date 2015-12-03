@@ -181,8 +181,8 @@ public class ChannelServiceTest extends BaseTest {
 			@Override
 			public void buildNumberList(Map<String, Object> jsonMap)
 					throws Exception {
-				service.buildThemeChannel(10000, 0, 1, 10, jsonMap);
-				service.buildThemeChannel(10000, 1000, 1, 10, jsonMap);
+				service.buildThemeChannel(10000, 0, 10, jsonMap);
+				service.buildThemeChannel(10000, 1000, 10, jsonMap);
 			}
 		});
 	}

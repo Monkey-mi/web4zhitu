@@ -19,13 +19,13 @@ public interface ChannelThemeCacheDao extends BaseCacheDao {
 	/**
 	 * 更新频道缓存
 	 */
-	public void updateTheme();
+	void updateTheme();
 
 	/**
 	 * 查询缓存频道
 	 * 
 	 * @return
 	 */
-	public List<OpChannelTheme> queryTheme();
+	List<OpChannelTheme> queryTheme();
 	
 }

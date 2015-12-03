@@ -18,10 +18,12 @@ import com.hts.web.common.pojo.AddrCity;
 import com.hts.web.common.pojo.HTWorld;
 import com.hts.web.common.pojo.HTWorldInteractDto;
 import com.hts.web.common.pojo.OpMsgBulletin;
+import com.hts.web.common.pojo.OpNearCityGroupDto;
 import com.hts.web.common.pojo.OpNearLabelDto;
 import com.hts.web.common.pojo.UserInfoDto;
 import com.hts.web.common.service.impl.BaseServiceImpl;
 import com.hts.web.operations.dao.BulletinCacheDao;
+import com.hts.web.operations.dao.NearRecommendCityDao;
 import com.hts.web.operations.dao.mongo.NearWorldMongoDao;
 import com.hts.web.operations.dao.mongo.NearWorldStarMongoDao;
 import com.hts.web.operations.service.NearService;
@@ -56,6 +58,9 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 	
 	@Autowired
 	private BulletinCacheDao bulletinCacheDao;
+	
+	@Autowired
+	private NearRecommendCityDao nearRecommendCityDao;
 	
 	@Override
 	public List<HTWorldInteractDto> queryNearWorld(double radius, double longitude,
@@ -266,9 +271,44 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 		d2.setDesc("这是本地测试标签。测试标签2");
 		d2.setLabelName("随你测试标签");
 		d2.setBannerUrl("http://ww4.sinaimg.cn/large/a0a4bc09gw1er8n9yh6poj20fk078ab8.jpg");
+		
+		OpNearLabelDto d3 = new OpNearLabelDto();
+		d3.setId(2);
+		d3.setDesc("这是本地测试标签。测试标签2");
+		d3.setLabelName("随你测试标签");
+		d3.setBannerUrl("http://ww4.sinaimg.cn/large/a0a4bc09gw1er8n9yh6poj20fk078ab8.jpg");
+		
+		OpNearLabelDto d4 = new OpNearLabelDto();
+		d4.setId(2);
+		d4.setDesc("这是本地测试标签。测试标签2");
+		d4.setLabelName("随你测试标签");
+		d4.setBannerUrl("http://ww4.sinaimg.cn/large/a0a4bc09gw1er8n9yh6poj20fk078ab8.jpg");
+		
+		OpNearLabelDto d5 = new OpNearLabelDto();
+		d5.setId(2);
+		d5.setDesc("这是本地测试标签。测试标签2");
+		d5.setLabelName("随你测试标签");
+		d5.setBannerUrl("http://ww4.sinaimg.cn/large/a0a4bc09gw1er8n9yh6poj20fk078ab8.jpg");
+		
+		OpNearLabelDto d6 = new OpNearLabelDto();
+		d6.setId(2);
+		d6.setDesc("这是本地测试标签。测试标签2");
+		d6.setLabelName("随你测试标签");
+		d6.setBannerUrl("http://ww4.sinaimg.cn/large/a0a4bc09gw1er8n9yh6poj20fk078ab8.jpg");
+		
+		OpNearLabelDto d7 = new OpNearLabelDto();
+		d7.setId(2);
+		d7.setDesc("这是本地测试标签。测试标签2");
+		d7.setLabelName("随你测试标签");
+		d7.setBannerUrl("http://ww4.sinaimg.cn/large/a0a4bc09gw1er8n9yh6poj20fk078ab8.jpg");
 		ArrayList<OpNearLabelDto> arrayList = new ArrayList<OpNearLabelDto>();
 		arrayList.add(d1);
 		arrayList.add(d2);
+		arrayList.add(d3);
+		arrayList.add(d4);
+		arrayList.add(d5);
+		arrayList.add(d6);
+		arrayList.add(d7);
 		return arrayList;
 	}
 
@@ -277,6 +317,24 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 	public List<OpMsgBulletin> queryNearBuilletin(double longitude, 
 			double latitude, int start, int limit) {
 		return bulletinCacheDao.queryBulletin();
+	}
+
+
+	@Override
+	public void buildRecommendCity(Map<String,Object>jsonMap) throws Exception {
+		List<OpNearCityGroupDto> groupList = nearRecommendCityDao.queryNearCityGroup();
+		if(groupList != null){
+			for(OpNearCityGroupDto dto:groupList){
+				List<AddrCity> cityList = nearRecommendCityDao.queryNearRecommendCityByGroupId(dto.getId());
+				if(cityList != null){
+					dto.setCities(cityList);
+				}else{
+					dto.setCities(new ArrayList<AddrCity>());
+				}
+				
+			}
+		}
+		jsonMap.put(OptResult.JSON_KEY_MSG, groupList);
 	}
 
 }
