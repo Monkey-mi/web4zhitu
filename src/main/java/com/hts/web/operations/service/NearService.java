@@ -89,6 +89,7 @@ public interface NearService extends BaseService {
 	
 	/**
 	 * 根据经纬度和搜索半径查询附近的织图
+	 * 
 	 * @param radius 搜索半径
 	 * @param longitude 经度
 	 * @param latitude 纬度
@@ -96,8 +97,9 @@ public interface NearService extends BaseService {
 	 * @param limit 每页限定记录数量
 	 * @return 瀑布流织图列表(包含用户信息)
 	 * @return
+	 * @author lynch 2015-12-03
 	 */
-	public List<HTWorldInteractDto> queryNearWorld(double radius, double longitude, double latitude, 
+	public List<HTWorldInteractDto> queryNearWorld(float radius, double longitude, double latitude, 
 			int maxId, int limit);
 	
 	/**
@@ -156,5 +158,12 @@ public interface NearService extends BaseService {
 	 */
 	public List<OpMsgBulletin> queryNearBuilletin(double longitude, 
 			double latitude, int start, int limit);
+	
+	/**
+	 * 查询附近的推荐城市
+	 * @throws Exception
+	 * @author zxx 2015-12-3 17:16:18
+	 */
+	public void buildRecommendCity(Map<String,Object>jsonMap)throws Exception;
 	
 }
