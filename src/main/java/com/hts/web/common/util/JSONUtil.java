@@ -335,7 +335,7 @@ public class JSONUtil {
 	 */
 	public static HTWorldTextStyle getJSObjectFromText(String text) {
 		HTWorldTextStyle style = null;
-		if(text != null) {
+		if(text != null && !text.equals("")) {
 			style = new HTWorldTextStyle();
 			JSONObject jsobj = JSONObject.fromObject(text);
 			style.setColor(jsobj.optString("color"));
