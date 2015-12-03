@@ -321,7 +321,7 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 
 
 	@Override
-	public void buildRecommendCity() throws Exception {
+	public void buildRecommendCity(Map<String,Object>jsonMap) throws Exception {
 		List<OpNearCityGroupDto> groupList = nearRecommendCityDao.queryNearCityGroup();
 		if(groupList != null){
 			for(OpNearCityGroupDto dto:groupList){
@@ -334,6 +334,7 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 				
 			}
 		}
+		jsonMap.put(OptResult.JSON_KEY_MSG, groupList);
 	}
 
 }

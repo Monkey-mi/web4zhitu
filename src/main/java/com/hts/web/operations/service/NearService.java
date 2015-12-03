@@ -162,6 +162,6 @@ public interface NearService extends BaseService {
 	 * @throws Exception
 	 * @author zxx 2015-12-3 17:16:18
 	 */
-	public void buildRecommendCity()throws Exception;
+	public void buildRecommendCity(Map<String,Object>jsonMap)throws Exception;
 	
 }

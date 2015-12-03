@@ -46,4 +46,10 @@ public class NearServiceTest extends BaseTest {
 		service.buildNearBanner("湛江", null, null, 1, 10, jsonMap);
 		logger.info(jsonMap);
 	}
+	
+	@Test
+	public void queryRecommendCityTest()throws Exception{
+		Map<String,Object>jsonMap = new HashMap<String,Object>();
+		service.buildRecommendCity(jsonMap);
+	}
 }

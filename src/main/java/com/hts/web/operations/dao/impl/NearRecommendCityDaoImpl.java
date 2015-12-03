@@ -14,8 +14,8 @@ import com.hts.web.operations.dao.NearRecommendCityDao;
 @Repository("NearRecommendCityDao")
 public class NearRecommendCityDaoImpl extends BaseDaoImpl implements NearRecommendCityDao{
 
-	private static final String QUERY_RECOMMEND_CITY_GROUP = "select * from hts.operations_near_recommend_city where city_group_id=? order by serial";
-	private static final String QUERY_CITY_GROUP = "select * from hts.operations_near_city_group order by serial";
+	private static final String QUERY_RECOMMEND_CITY_GROUP = "select ac.* from hts.operations_near_recommend_city rc left join hts.addr_city ac on rc.city_id=ac.id where rc.city_group_id=? order by serial desc";
+	private static final String QUERY_CITY_GROUP = "select * from hts.operations_near_city_group order by serial desc";
 	@Override
 	public List<AddrCity> queryNearRecommendCityByGroupId(Integer cityGroupId) {
 		return getJdbcTemplate().query(QUERY_RECOMMEND_CITY_GROUP, new Object[]{cityGroupId}, new RowMapper<AddrCity>(){
