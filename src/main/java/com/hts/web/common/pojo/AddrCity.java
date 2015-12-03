@@ -17,8 +17,11 @@ public class AddrCity implements Serializable {
 
 	private Integer id;
 	private String name;
+	private String shortName;
 	private Double longitude;
 	private Double latitude;
+	private Float radius; // 搜索半径
+	private Double[] loc;
 
 	public Integer getId() {
 		return id;
@@ -52,4 +55,28 @@ public class AddrCity implements Serializable {
 		this.latitude = latitude;
 	}
 
+	public Float getRadius() {
+		return radius;
+	}
+
+	public void setRadius(Float radius) {
+		this.radius = radius;
+	}
+
+	public String getShortName() {
+		return shortName;
+	}
+
+	public void setShortName(String shortName) {
+		this.shortName = shortName;
+	}
+
+	public Double[] getLoc() {
+		return loc;
+	}
+
+	public void setLoc(Double[] loc) {
+		this.loc = loc;
+	}
+	
 }

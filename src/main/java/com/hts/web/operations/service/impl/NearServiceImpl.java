@@ -66,12 +66,6 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 	@Autowired
 	private NearRecommendCityCacheDao nearRecommendCityCacheDao;
 	
-	@Autowired
-	private NearRecommendCityDao nearRecommendCityDao;
-	
-	@Autowired
-	private NearRecommendCityCacheDao nearRecommendCityCacheDao;
-	
 	@Override
 	public List<HTWorldInteractDto> queryNearWorld(float radius, double longitude,
 			double latitude, int maxId, int limit) {

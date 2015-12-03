@@ -414,4 +414,14 @@ public class StringUtil {
 		return s;
 	}
 	
+	/**
+	 * 获取城市简称
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public static String getCityShotName(String name) {
+		return name.replaceAll("市|县|自治[区|州|县]", "");
+	}
+	
 }

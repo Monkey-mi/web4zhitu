@@ -16,4 +16,9 @@ public class MongoHTS {
 	 * 附近标签
 	 */
 	public static final String NEAR_LABEL = "near_label";
+	
+	/**
+	 * 城市信息
+	 */
+	public static final String ADDR_CITY = "addr_city";
 }
