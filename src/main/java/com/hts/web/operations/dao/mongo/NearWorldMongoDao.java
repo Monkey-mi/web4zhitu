@@ -31,10 +31,23 @@ public interface NearWorldMongoDao {
 	 * 
 	 * @param longitude
 	 * @param latitude
-	 * @param start
+	 * @param radius
 	 * @param limit
 	 * @return
 	 */
-	public List<HTWorldInteractDto> queryNear(double longitude, double latitude, 
-			int start, int limit);
+	public List<HTWorldInteractDto> queryNear(double longitude, double latitude,
+			double radius, int limit);
+	
+	/**
+	 * 根据最大id查询附近织图
+	 * 
+	 * @param maxId
+	 * @param longitude
+	 * @param latitude
+	 * @param radius
+	 * @param limit
+	 * @return
+	 */
+	public List<HTWorldInteractDto> queryNear(int maxId, double longitude, double latitude,
+			double radius, int limit);
 }

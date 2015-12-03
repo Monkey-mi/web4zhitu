@@ -112,7 +112,8 @@ public class ZTWorldOperationsAction extends BaseAction {
 	 */
 	public String queryNearWorld(){
 		try{
-			nearService.buildNearWorld(address, longitude, latitude, start, limit, jsonMap, commentLimit, likedLimit);
+			nearService.buildNearWorld(address, longitude, latitude, maxId, 
+					limit, jsonMap, commentLimit, likedLimit);
 			JSONUtil.optSuccess(jsonMap);
 		}catch(Exception e){
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
@@ -127,7 +128,7 @@ public class ZTWorldOperationsAction extends BaseAction {
 	 */
 	public String queryNearLabel(){
 		try{
-			nearService.buildNearLabel(address, longitude, latitude, start, limit, jsonMap);
+			nearService.buildNearLabel(address, longitude, latitude, maxId, limit, jsonMap);
 			JSONUtil.optSuccess(jsonMap);
 		}catch(Exception e){
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);

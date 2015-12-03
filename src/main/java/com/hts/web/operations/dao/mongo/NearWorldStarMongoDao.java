@@ -30,13 +30,26 @@ public interface NearWorldStarMongoDao extends BaseMongoDao {
 	/**
 	 * 查询附近的织图
 	 * 
+	 * @param maxId
 	 * @param longitude
 	 * @param latitude
-	 * @param start
+	 * @param radius
+	 * @param limit
+	 * @return
+	 */
+	public List<HTWorldInteractDto> queryNear(int maxId, double longitude, 
+			double latitude, double radius, int limit);
+	
+	/**
+	 * 查询附近的织图
+	 * 
+	 * @param longitude
+	 * @param latitude
+	 * @param radius
 	 * @param limit
 	 * @return
 	 */
 	public List<HTWorldInteractDto> queryNear(double longitude, 
-			double latitude, double maxDistance, int start, int limit);
+			double latitude, double radius, int limit);
 	
 }
