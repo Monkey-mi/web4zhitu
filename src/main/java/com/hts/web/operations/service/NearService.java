@@ -22,7 +22,7 @@ public interface NearService extends BaseService {
 	 * @param address 地址一般指城市。若为空，则经纬度不能为空
 	 * @param longitude 经度，和纬度成对出现。若为空，则address不能为空
 	 * @param latitude 纬度，和经度成对出现。若为空，则address不能为空
-	 * @param start
+	 * @param maxId
 	 * @param limit
 	 * @param jsonMap
 	 * @param commentLimit
@@ -32,7 +32,7 @@ public interface NearService extends BaseService {
 	 * @author zxx 2015-12-2 15:08:13
 	 */
 	public void buildNearWorld(String address,Double longitude, Double latitude,
-			int start, int limit,Map<String,Object>jsonMap,Integer commentLimit,Integer likedLimit)throws Exception;
+			int maxId, int limit,Map<String,Object>jsonMap,Integer commentLimit,Integer likedLimit)throws Exception;
 	
 	/**
 	 * 查询附近标签
@@ -47,7 +47,7 @@ public interface NearService extends BaseService {
 	 * @author zxx 2015-12-2 15:10:08
 	 */
 	public void buildNearLabel(String address,Double longitude, Double latitude,
-			int start, int limit,Map<String,Object>jsonMap)throws Exception;
+			int maxId, int limit,Map<String,Object>jsonMap)throws Exception;
 	
 	/**
 	 * 查询附近的banner
@@ -59,7 +59,8 @@ public interface NearService extends BaseService {
 	 * 
 	 * @author zxx 2015-12-2 15:11:02
 	 */
-	public void buildNearBanner(String address,Double longitude, Double latitude,int start, int limit,Map<String,Object>jsonMap)throws Exception;
+	public void buildNearBanner(String address,Double longitude, Double latitude,
+			int start, int limit,Map<String,Object>jsonMap)throws Exception;
 	
 	/**
 	 * 查询附近标签对应的织图
@@ -78,25 +79,38 @@ public interface NearService extends BaseService {
 	 * 
 	 * @param longitude 经度
 	 * @param latitude 纬度
-	 * @param start 起始页码
+	 * @param maxId 起始id,0表示第一页
 	 * @param limit 每页限定记录数量
 	 * @return 瀑布流织图列表(包含用户信息)
 	 * @author lynch 2015-12-01
 	 */
 	public List<HTWorldInteractDto> queryNearWorld(double longitude, double latitude, 
-			int start, int limit);
+			int maxId, int limit);
+	
+	/**
+	 * 根据经纬度和搜索半径查询附近的织图
+	 * @param radius 搜索半径
+	 * @param longitude 经度
+	 * @param latitude 纬度
+	 * @param maxId 起始id,0表示第一页
+	 * @param limit 每页限定记录数量
+	 * @return 瀑布流织图列表(包含用户信息)
+	 * @return
+	 */
+	public List<HTWorldInteractDto> queryNearWorld(double radius, double longitude, double latitude, 
+			int maxId, int limit);
 	
 	/**
 	 * 根据城市名查询附近的织图
 	 * 
 	 * @param city 城市名称,会删除省,市,县等后缀再进行查询
-	 * @param start 起始页码
+	 * @param maxId 起始id,0表示第一页
 	 * @param limit 每页限定记录数量
 	 * @return 瀑布流织图列表(包含用户信息)
 	 * @author lynch 2015-12-01
 	 */
 	public List<HTWorldInteractDto> queryNearWorld(String city, 
-			int start, int limit);
+			int maxId, int limit);
 	
 
 	/**
@@ -142,5 +156,12 @@ public interface NearService extends BaseService {
 	 */
 	public List<OpMsgBulletin> queryNearBuilletin(double longitude, 
 			double latitude, int start, int limit);
+	
+	/**
+	 * 查询附近的推荐城市
+	 * @throws Exception
+	 * @author zxx 2015-12-3 17:16:18
+	 */
+	public void buildRecommendCity()throws Exception;
 	
 }
