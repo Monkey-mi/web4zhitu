@@ -249,12 +249,12 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 		d1.setId(1);
 		d1.setDesc("这是本地测试标签。测试标签1");
 		d1.setLabelName("测试标签");
-		d1.setBannerUrl("http://http://ww4.sinaimg.cn/large/a0a4bc09gw1er8n9yh6poj20fk078ab8.jpg");
+		d1.setBannerUrl("http://ww4.sinaimg.cn/large/a0a4bc09gw1er8n9yh6poj20fk078ab8.jpg");
 		OpNearLabelDto d2 = new OpNearLabelDto();
 		d2.setId(2);
 		d2.setDesc("这是本地测试标签。测试标签2");
 		d2.setLabelName("随你测试标签");
-		d2.setBannerUrl("http://http://ww4.sinaimg.cn/large/a0a4bc09gw1er8n9yh6poj20fk078ab8.jpg");
+		d2.setBannerUrl("http://ww4.sinaimg.cn/large/a0a4bc09gw1er8n9yh6poj20fk078ab8.jpg");
 		ArrayList<OpNearLabelDto> arrayList = new ArrayList<OpNearLabelDto>();
 		arrayList.add(d1);
 		arrayList.add(d2);
