@@ -78,6 +78,32 @@ img {
     border-bottom: 0px solid #85848a;
 }
 
+.moduleHr{
+	border:1px solid #ADADAD;
+	margin:80px auto 80px auto;
+	width:500px;
+}
+
+.title1{
+	font-size:35px;
+	font-weight:600;
+ 	width:750px;
+	color:373e46;
+	position:absolute;
+	margin:-106px 0 0 0;
+}
+
+.title2{
+	font-size:26px;
+	font-weight:600;
+	color:#7C7A7F;
+	width:750px;
+	/* height:160px; */
+	position:absolute;
+	margin:-50px 0px 0 0;
+	display:none;
+}
+
 .whriteBlock{
  	background-color:#ffffff;
  	width:714px; 
@@ -442,8 +468,15 @@ var pastTopicPicFoot = '"></a></div></div>';
 			 		 //小模块介绍
 			 		var intro2 = '<div  class="intro2">'+ result.starModuleInfos[i].intro2 +'</div></div>';
 			 		
+			 		//小标题
+				 	var title1Module = '<div class="title1" ><span style="background-color:#EAEBEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + result.starModuleInfos[i].title + '&nbsp;&nbsp;&nbsp;&nbsp&nbsp;&nbsp;</span></div>';
+				 	var titleModule = '<div class="user-wrap"><hr class="moduleHr">'+ title1Module + '<div class="title2">'+ result.starModuleInfos[i].subtitle +'</div>';
+				 	if(result.starModuleInfos[i].title == ''){
+				 		titleModule = '';
+				 	}
+			 		
 			 		//头像 用户名 关注按钮
-			 		var faceAnduserNameAndconcernButton = '<div class="whriteBlock" ><div class="faceAnduserNameAndConcern" ><div class="face box-shadow"><a href="imzhitu://user?uid='+ result.starModuleInfos[i].userId +'">' + 
+			 		var faceAnduserNameAndconcernButton = titleModule + '<div class="whriteBlock" ><div class="faceAnduserNameAndConcern" ><div class="face box-shadow"><a href="imzhitu://user?uid='+ result.starModuleInfos[i].userId +'">' + 
 			 																								'<img src="'+ result.starModuleInfos[i].facePic +'"/></a></div><div class="userName" >'+ result.starModuleInfos[i].userName +'</div>' + 
 			 																								'<a id="concern-'+ result.starModuleInfos[i].userId +'" class="concern-btn concern" name="imzhitu-callapp" href="imzhitu://concern?uid='+ result.starModuleInfos[i].userId +'">+关注</a><a class="concern-btn concerned">已关注</a></div>';
 			 		
@@ -581,16 +614,20 @@ function initLayout(result) {
 		headIntroFontsize = 23,
 		headIntroLineHeight = 52,
 		
+		//模块分割线
+		moduleHrMarginTop = 45,
+		moduleHrMarginBottom = 41,
+		moduleHrWidth = 642,
+		
 		//小标题
-		title1fontSize = 38,
-		title1fontWeight = 400,
-		title1paddingTop = 50,
+		title1fontSize = 35,
+		title1width = 750,
+		title1marginTop = -70,  
 		
 		//小副标题
-		title2fontSize = 18,
-		title2fontWeight = 400,
-		title2paddingTop = 10,
-		title2paddingBottom = 50,
+		title2fontSize = 26,
+		title2width = 750,
+		title2marginTop = -50,
 
 		//白色模块底
 		whriteWidth = 716,
@@ -743,6 +780,21 @@ function initLayout(result) {
 		headIntroPaddingBottom = headIntroPaddingBottom* scale / 100;
 		headIntroFontsize = headIntroFontsize * scale / 100;
 		headIntroLineHeight = headIntroLineHeight* scale / 100;
+		
+		//模块分割线
+		moduleHrMarginTop = moduleHrMarginTop * scale / 100;
+		moduleHrMarginBottom = moduleHrMarginBottom * scale / 100;
+		moduleHrWidth = moduleHrWidth * scale / 100;
+		
+		//小标题
+		title1fontSize = title1fontSize * scale / 100;
+		title1width = title1width * scale / 100;
+		title1marginTop = title1marginTop  * scale / 100;
+		
+		//小副标题
+		title2fontSize = title2fontSize * scale / 100;
+		title2width = title2width * scale / 100;
+		title2marginTop = title2marginTop  * scale / 100;
 
 		//白色模块底
 		whriteWidth = whriteWidth * scale / 100;
@@ -868,6 +920,24 @@ function initLayout(result) {
 				"margin-top":whriteMarginTop + "px",
 	 			"margin-bottom":whriteMarginBottom + "px",
 	 			"border-width":whriteBorderBottom + "px"}); 
+			
+			//模块分割线
+	  		$(".moduleHr").css({
+	 	 			"margin-top":moduleHrMarginTop + "px",
+	 	 			"margin-bottom":moduleHrMarginBottom + "px",
+	 	 			"width":moduleHrWidth + "px"});  
+			
+  	 		$(".title1").css({
+ 	 			"width":title1width + "px",
+ 	 			"font-size":title1fontSize + "px",
+ 	 			"margin-top":title1marginTop + "px"
+ 	 			});  
+ 	 		
+  	 		$(".title2").css({
+ 	 			"width":title2width + "px",
+ 	 			"font-size":title2fontSize + "px",
+ 	 			"margin-top":title2marginTop + "px"
+ 	 			});  
 		
  			//白色模块底
  	 		$(".whriteBlock").css({
