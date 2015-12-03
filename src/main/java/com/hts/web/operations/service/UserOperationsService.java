@@ -173,7 +173,6 @@ public interface UserOperationsService extends BaseService {
 	 * @param userId			用户id（当前登陆用户id）
 	 * @param verifyId			认证id，如果需要返回所有达人列表和verify（认证列表信息),务必将此参数设置为0，0时会加载userThemes（用户专题列表）	
 	 * @param worldLimit		每个用户最新织图限定数量，默认为０，即不获取织图
-	 * @param hasVerify			获取认证类型,verifyId!=0 & maxId=0时,此参数生效,默认为false
 	 * @param userThemeCount	获取用户专题列表限定数量，默认为0，即不返回用户专题列表
 	 * @param jsonMap			返回值json对象
 	 * @throws Exception
