@@ -218,6 +218,11 @@ public class CacheKeies {
 	public static final String OP_CHANNEL_AUTO_REJECT_ID = MODULE_OP + "channel:autoRejectId";
 	
 	/**
+	 * 附近推荐城市
+	 */
+	public static final String OP_NEAR_RECOMMEND_CITY = MODULE_OP + "near:recommendCities";
+	
+	/**
 	 * 用户模块
 	 */
 	private static final String MODULE_USER = "ztworld:";

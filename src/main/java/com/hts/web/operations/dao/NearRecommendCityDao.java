@@ -2,6 +2,7 @@ package com.hts.web.operations.dao;
 
 import java.util.List;
 
+import com.hts.web.common.dao.BaseDao;
 import com.hts.web.common.pojo.AddrCity;
 import com.hts.web.common.pojo.OpNearCityGroupDto;
 
@@ -10,7 +11,7 @@ import com.hts.web.common.pojo.OpNearCityGroupDto;
  * @author zxx 2015-12-3 16:46:26
  *
  */
-public interface NearRecommendCityDao {
+public interface NearRecommendCityDao extends BaseDao{
 	/**
 	 * 根据城市组id，查询城市组
 	 * @param cityGroupId

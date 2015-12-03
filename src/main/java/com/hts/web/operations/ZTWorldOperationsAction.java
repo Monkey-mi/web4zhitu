@@ -98,6 +98,7 @@ public class ZTWorldOperationsAction extends BaseAction {
 	
 	public String queryRecommendCity(){
 		try{
+			nearService.buildRecommendCity(jsonMap);
 			JSONUtil.optSuccess(jsonMap);
 		}catch(Exception e){
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);

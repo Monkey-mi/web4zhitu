@@ -23,6 +23,7 @@ import com.hts.web.common.pojo.OpNearLabelDto;
 import com.hts.web.common.pojo.UserInfoDto;
 import com.hts.web.common.service.impl.BaseServiceImpl;
 import com.hts.web.operations.dao.BulletinCacheDao;
+import com.hts.web.operations.dao.NearRecommendCityCacheDao;
 import com.hts.web.operations.dao.NearRecommendCityDao;
 import com.hts.web.operations.dao.mongo.NearWorldMongoDao;
 import com.hts.web.operations.dao.mongo.NearWorldStarMongoDao;
@@ -61,6 +62,9 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 	
 	@Autowired
 	private NearRecommendCityDao nearRecommendCityDao;
+	
+	@Autowired
+	private NearRecommendCityCacheDao nearRecommendCityCacheDao;
 	
 	@Override
 	public List<HTWorldInteractDto> queryNearWorld(double radius, double longitude,
@@ -309,6 +313,12 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 		arrayList.add(d5);
 		arrayList.add(d6);
 		arrayList.add(d7);
+		for(int i=0;i<start-1 && i<7;i++){
+			arrayList.remove(0);
+		}
+		for(int j=arrayList.size();j>limit+1;j--){
+			arrayList.remove(j-1);
+		}
 		return arrayList;
 	}
 
@@ -322,7 +332,10 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 
 	@Override
 	public void buildRecommendCity(Map<String,Object>jsonMap) throws Exception {
-		List<OpNearCityGroupDto> groupList = nearRecommendCityDao.queryNearCityGroup();
+		List<OpNearCityGroupDto> groupList = nearRecommendCityCacheDao.queryNearRecommendCityCache();
+		if(groupList == null ){
+			groupList = nearRecommendCityDao.queryNearCityGroup();
+		}
 		if(groupList != null){
 			for(OpNearCityGroupDto dto:groupList){
 				List<AddrCity> cityList = nearRecommendCityDao.queryNearRecommendCityByGroupId(dto.getId());
