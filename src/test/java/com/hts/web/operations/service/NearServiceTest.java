@@ -26,8 +26,11 @@ public class NearServiceTest extends BaseTest {
 	
 	@Test
 	public void queryNearWorldTest() throws Exception {
-		List<HTWorldInteractDto> list = service.queryNearWorld(113.567841, 22.167654, 1, 10);
-		logger.info(list);
+//		List<HTWorldInteractDto> list = service.queryNearWorld(113.937538, 22.539017, 0, 10);
+//		for(HTWorldInteractDto dto : list) {
+//			logger.debug(dto.getLongitude() + ", " + dto.getLatitude() + "," + dto.getId() + "," + dto.getProvince() + "," + dto.getCity());
+//		}
+//		service.buildNearWorld("深圳", 113.937538, 22.539017, , 10, jsonMap, 3, 0);
 	}
 	
 	@Test

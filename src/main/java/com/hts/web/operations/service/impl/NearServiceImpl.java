@@ -32,7 +32,7 @@ import com.hts.web.ztworld.service.ZTWorldService;
 @Service("HTSNearService")
 public class NearServiceImpl extends BaseServiceImpl implements NearService {
 	
-	private static final double STAR_WORLD_MAX_INSTANCE = 0.01;
+	private static final double NEAR_WORLD_DEFAULT_RADIUS = 5.0;
 	
 	private static final int STAR_WORLD_LIMIT = 6;
 	
@@ -56,20 +56,26 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 	
 	@Autowired
 	private BulletinCacheDao bulletinCacheDao;
+	
 	@Override
-	public List<HTWorldInteractDto> queryNearWorld(double longitude, double latitude, 
-			int start, int limit) {
+	public List<HTWorldInteractDto> queryNearWorld(double radius, double longitude,
+			double latitude, int maxId, int limit) {
 		
-		if(longitude == 0 || latitude == 0) {
-			throw new IllegalArgumentException("longitude or latitude can not be null");
+		if(longitude == 0 && latitude == 0)
+			throw new IllegalArgumentException("longitude && latitude can not be null");
+		
+		List<HTWorldInteractDto> starList = null;
+		
+		if(maxId == 0) {
+			starList = worldStarMongoDao.queryNear(longitude, latitude, 
+					NEAR_WORLD_DEFAULT_RADIUS, STAR_WORLD_LIMIT);
 		}
 		
-		List<HTWorldInteractDto> starList = worldStarMongoDao.queryNear(longitude, latitude, 
-				STAR_WORLD_MAX_INSTANCE, start, STAR_WORLD_LIMIT);
-		final List<HTWorldInteractDto> list = worldMongoDao.queryNear(longitude, latitude, start, limit);
+		final List<HTWorldInteractDto> list = worldMongoDao.queryNear(maxId, longitude, latitude, 
+				NEAR_WORLD_DEFAULT_RADIUS, limit);
 
 		// 合并达人和普通织图列表
-		if(starList.size() > 0) {
+		if(starList != null && starList.size() > 0) {
 			Set<Integer> starWids = new HashSet<Integer>();
 			for(int i = 0; i < starList.size(); i++) {
 				starWids.add(starList.get(i).getId());
@@ -116,10 +122,16 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 		return list;
 	}
 	
-
+	@Override
+	public List<HTWorldInteractDto> queryNearWorld(double longitude,
+			double latitude, int maxId, int limit) {
+		return queryNearWorld(NEAR_WORLD_DEFAULT_RADIUS, longitude, 
+				latitude, maxId, limit);
+	}
+	
 	@Override
 	public List<HTWorldInteractDto> queryNearWorld(String city, 
-			int start, int limit) {
+			int maxId, int limit) {
 		
 		if(city == null || city.equals("")) {
 			throw new IllegalArgumentException("longitude or latitude can not be null");
@@ -128,15 +140,14 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 		AddrCity loc = cityService.getCityByName(city);
 		if(loc == null)
 			throw new NullPointerException(city + " not exists");
-		return queryNearWorld(loc.getLongitude(), loc.getLatitude(), start, limit);
+		return queryNearWorld(loc.getLongitude(), loc.getLatitude(), 
+				NEAR_WORLD_DEFAULT_RADIUS, maxId, limit);
 	}
 
 	@Override
 	public void saveNearWorld(HTWorld world) {
-		if(world.getLongitude() == null || world.getLongitude() == 0 
-				|| world.getLongitude() > 180 || world.getLongitude() < -180
-				|| world.getLatitude() == null || world.getLatitude() == 0 
-				|| world.getLatitude() > 90 || world.getLatitude() < -90)
+		if(world.getLongitude() == null || world.getLongitude() > 180 || world.getLongitude() < -180
+				|| world.getLatitude() == null || world.getLatitude() > 90 || world.getLatitude() < -90)
 			return;
 		
 		HTWorldInteractDto near = new HTWorldInteractDto();
@@ -157,19 +168,19 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 
 	@Override
 	public void buildNearWorld(String address, Double longitude,
-			Double latitude, int start, int limit, Map<String, Object> jsonMap,
+			Double latitude, int maxId, int limit, Map<String, Object> jsonMap,
 			Integer commentLimit, Integer likedLimit) throws Exception {
 		
 		List<HTWorldInteractDto> list = null;
 		
 		if(longitude == null || latitude == null ){
 			if(address != null && !"".equals(address.trim())){
-				list = queryNearWorld(address,start,limit);
+				list = queryNearWorld(address,maxId,limit);
 			}else{
 				throw new IllegalArgumentException("either the address or the longitude and the latitude can not be null ");
 			}
 		}else{
-			list = queryNearWorld(longitude,latitude,start,limit);
+			list = queryNearWorld(longitude,latitude,maxId,limit);
 		}
 		
 		worldService.extractLikeComment(commentLimit, likedLimit, list);
