@@ -231,7 +231,7 @@ public class ChannelAction extends BaseAction {
 	 */
 	public String queryThemeChannel() {
 		try {
-			channelService.buildThemeChannel(themeId, maxId, start, limit, jsonMap);
+			channelService.buildThemeChannel(themeId, maxId, limit, jsonMap);
 			JSONUtil.optSuccess(jsonMap);
 		} catch(Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);

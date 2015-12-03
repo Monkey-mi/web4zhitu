@@ -68,9 +68,6 @@ import com.hts.web.userinfo.service.UserInfoService;
 import com.hts.web.userinfo.service.UserInteractService;
 import com.hts.web.ztworld.dao.HTWorldLabelDao;
 import com.hts.web.ztworld.service.ZTWorldService;
-import com.qq.connect.utils.json.JSONObject;
-
-import net.sf.json.JSONArray;
 
 @Service("HTSChannelService")
 public class ChannelServiceImpl extends BaseServiceImpl implements
@@ -710,28 +707,29 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 	}
 
 	@Override
-	public void buildThemeChannel(final Integer themeId, Integer maxId, Integer start, 
-			Integer limit, Map<String, Object> jsonMap) throws Exception {
-		buildSerializables("getRecommendId", maxId, start, limit, jsonMap, 
-				new SerializableListAdapter<OpChannel>() {
-
-					@Override
-					public List<OpChannel> getSerializables(RowSelection rowSelection) {
-						return channelDao.queryThemeChannel(themeId, rowSelection);
-						
-					}
-
-					@Override
-					public List<OpChannel> getSerializableByMaxId(int maxId, 
-							RowSelection rowSelection) {
-						return channelDao.queryThemeChannel(maxId, themeId, rowSelection);
-					}
-
-					@Override
-					public long getTotalByMaxId(int maxId) {
-						return 0;
-					}
-		}, OptResult.JSON_KEY_CHANNELS, null);
+	public void buildThemeChannel(Integer themeId, Integer maxId,	Integer limit, final Map<String, Object> jsonMap) throws Exception {
+		// 获取频道主题返回值 
+		List<OpChannelTheme> themeList = themeCacheDao.queryTheme();
+		jsonMap.put(OptResult.JSON_KEY_THEMES, themeList);
+		
+		// 定义频道列表返回值
+		List<OpChannel> channelList = new ArrayList<OpChannel>();
+		
+		// 定义分页对象，查询为第一页数据，数量由前台limit传递值为准
+		RowSelection rowSelection = new RowSelection(1, limit);
+		
+		// 根据maxId的有无，来调用不同查询接口
+		if ( maxId <=0 ) {
+			// 若themeId为0，则证明是由外部更多频道点击进入，则取频道主题的默认第一个主题id
+			if ( themeId == 0 ) {
+				themeId = themeList.get(0).getId();
+			}
+			channelList = channelDao.queryThemeChannel(themeId, rowSelection);
+		} else {
+			channelList = channelDao.queryThemeChannel(maxId, themeId, rowSelection);
+		}
+		
+		jsonMap.put(OptResult.JSON_KEY_CHANNELS, channelList);
 	}
 
 	@Override

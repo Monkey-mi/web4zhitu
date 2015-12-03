@@ -255,11 +255,17 @@ public interface ChannelService extends BaseService{
 	/**
 	 * 构建专题频道
 	 * 
-	 * @param themeId
-	 * @param jsonMap
+	 * @param themeId	主题id
+	 * @param maxId		主题频道最大id（为频道id）
+	 * @param limit		查询限定数量，即返回主题频道数量
+	 * @param jsonMap	返回值json
+	 * 
+	 * @throws Exception
+	 * 
+	 * @author zhutianjie
+	 * @modify zhangbo	2015年12月3日
 	 */
-	public void buildThemeChannel(Integer themeId, Integer maxId, Integer start,
-			Integer limit, Map<String, Object> jsonMap) throws Exception;
+	public void buildThemeChannel(Integer themeId, Integer maxId, Integer limit, Map<String, Object> jsonMap) throws Exception;
 	
 	
 	/**
