@@ -34,13 +34,6 @@ public class OpNearLabelDto implements Serializable {
 		this.labelName = labelName;
 	}
 
-	public String getDesc() {
-		return description;
-	}
-
-	public void setDesc(String desc) {
-		this.description = desc;
-	}
 
 	public String getBannerUrl() {
 		return bannerUrl;
@@ -64,6 +57,14 @@ public class OpNearLabelDto implements Serializable {
 
 	public void setSerial(Integer serial) {
 		this.serial = serial;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	
 }

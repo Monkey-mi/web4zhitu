@@ -15,12 +15,6 @@ public class OpNearCityGroupDto implements Serializable{
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public String getDesc() {
-		return description;
-	}
-	public void setDesc(String desc) {
-		this.description = desc;
-	}
 	public Integer getSerial() {
 		return serial;
 	}
@@ -32,5 +26,11 @@ public class OpNearCityGroupDto implements Serializable{
 	}
 	public void setCities(List<AddrCity> cities) {
 		this.cities = cities;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
 	}
 }
