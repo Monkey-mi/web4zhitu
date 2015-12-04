@@ -2,6 +2,7 @@ package com.hts.web.operations.dao.mongo;
 
 import java.util.List;
 
+import com.hts.web.common.pojo.HTWorldInteractDto;
 import com.hts.web.common.pojo.OpNearLabelDto;
 
 /**
@@ -13,15 +14,30 @@ import com.hts.web.common.pojo.OpNearLabelDto;
 public interface NearLabelMongoDao {
 
 	/**
-	 * 查询附近标签
+	 * 查询附近的织图
 	 * 
 	 * @param longitude
 	 * @param latitude
-	 * @param start
+	 * @param radius
 	 * @param limit
 	 * @return
+	 * @author lynch 2015-12-03
 	 */
-	public List<OpNearLabelDto> queryNearLabel(double longitude, double latitude,
-			int start, int limit);
+	public List<OpNearLabelDto> queryNear(double longitude, double latitude,
+			double radius, int limit);
+	
+	/**
+	 * 根据最大id查询附近织图
+	 * 
+	 * @param maxId
+	 * @param longitude
+	 * @param latitude
+	 * @param radius
+	 * @param limit
+	 * @return
+	 * @author lynch 2015-12-03
+	 */
+	public List<OpNearLabelDto> queryNear(int maxId, double longitude, double latitude,
+			double radius, int limit);
 	
 }

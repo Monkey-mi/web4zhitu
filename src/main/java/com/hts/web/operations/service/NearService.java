@@ -74,18 +74,18 @@ public interface NearService extends BaseService {
 	public void buildNearLabelWorld(Integer labelId,int start, int limit,Map<String,Object>jsonMap)throws Exception;
 	
 
-	/**
-	 * 根据经纬度查询附近的织图
-	 * 
-	 * @param longitude 经度
-	 * @param latitude 纬度
-	 * @param maxId 起始id,0表示第一页
-	 * @param limit 每页限定记录数量
-	 * @return 瀑布流织图列表(包含用户信息)
-	 * @author lynch 2015-12-01
-	 */
-	public List<HTWorldInteractDto> queryNearWorld(double longitude, double latitude, 
-			int maxId, int limit);
+//	/**
+//	 * 根据经纬度查询附近的织图
+//	 * 
+//	 * @param longitude 经度
+//	 * @param latitude 纬度
+//	 * @param maxId 起始id,0表示第一页
+//	 * @param limit 每页限定记录数量
+//	 * @return 瀑布流织图列表(包含用户信息)
+//	 * @author lynch 2015-12-01
+//	 */
+//	public List<HTWorldInteractDto> queryNearWorld(double longitude, double latitude, 
+//			int maxId, int limit);
 	
 	/**
 	 * 根据经纬度和搜索半径查询附近的织图
@@ -102,17 +102,17 @@ public interface NearService extends BaseService {
 	public List<HTWorldInteractDto> queryNearWorld(float radius, double longitude, double latitude, 
 			int maxId, int limit);
 	
-	/**
-	 * 根据城市名查询附近的织图
-	 * 
-	 * @param city 城市名称,会删除省,市,县等后缀再进行查询
-	 * @param maxId 起始id,0表示第一页
-	 * @param limit 每页限定记录数量
-	 * @return 瀑布流织图列表(包含用户信息)
-	 * @author lynch 2015-12-01
-	 */
-	public List<HTWorldInteractDto> queryNearWorld(String city, 
-			int maxId, int limit);
+//	/**
+//	 * 根据城市名查询附近的织图
+//	 * 
+//	 * @param city 城市名称,会删除省,市,县等后缀再进行查询
+//	 * @param maxId 起始id,0表示第一页
+//	 * @param limit 每页限定记录数量
+//	 * @return 瀑布流织图列表(包含用户信息)
+//	 * @author lynch 2015-12-01
+//	 */
+//	public List<HTWorldInteractDto> queryNearWorld(String city, 
+//			int maxId, int limit);
 	
 
 	/**
@@ -135,15 +135,16 @@ public interface NearService extends BaseService {
 	/**
 	 * 根据经纬度查询附近的标签
 	 * 
+	 * @param radius
 	 * @param longitude
 	 * @param latitude
-	 * @param start
+	 * @param maxId
 	 * @param limit
 	 * @return
 	 * @author lynch 2015-12-02
 	 */
-	public List<OpNearLabelDto> queryNearLabel(double longitude, 
-			double latitude, int start, int limit);
+	public List<OpNearLabelDto> queryNearLabel(float radius, double longitude, 
+			double latitude, int maxId, int limit);
 	
 	
 	/**
