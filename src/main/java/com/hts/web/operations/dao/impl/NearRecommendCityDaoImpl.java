@@ -43,7 +43,7 @@ public class NearRecommendCityDaoImpl extends BaseDaoImpl implements NearRecomme
 			public OpNearCityGroupDto mapRow(ResultSet rs , int rowNum)throws SQLException{
 				OpNearCityGroupDto dto = new OpNearCityGroupDto();
 				dto.setId(rs.getInt("id"));
-				dto.setDesc(rs.getString("desc"));
+				dto.setDesc(rs.getString("description"));
 				dto.setSerial(rs.getInt("serial"));
 				return dto;
 			}

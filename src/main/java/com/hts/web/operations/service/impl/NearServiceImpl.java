@@ -168,7 +168,7 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 		List<HTWorldInteractDto> list = null;
 		AddrCity city;
 		
-		if(longitude == null  && latitude == null) {
+		if(longitude == null || latitude == null) {
 			if(address != null && !"".equals(address.trim())){
 				city = cityService.getCityByName(address);
 				if(city == null)
@@ -200,7 +200,7 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 		
 		AddrCity city;
 		
-		if(longitude == null  && latitude == null) {
+		if(longitude == null  || latitude == null) {
 			if(address != null && !"".equals(address.trim())){
 				city = cityService.getCityByName(address);
 				if(city == null)
@@ -276,7 +276,7 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 	@Override
 	public void buildRecommendCity(Map<String,Object>jsonMap) throws Exception {
 		List<OpNearCityGroupDto> groupList = nearRecommendCityCacheDao.queryNearRecommendCityCache();
-		if(groupList == null ){
+		if(groupList == null || groupList.isEmpty()){
 			groupList = nearRecommendCityDao.queryNearCityGroup();
 		}
 		if(groupList != null){
