@@ -13,7 +13,7 @@ public class OpNearLabelDto implements Serializable {
 	private static final long serialVersionUID = 1115964417245334817L;
 	private Integer id;
 	private String labelName;
-	private String desc;
+	private String description;
 	private String bannerUrl;
 	private Integer serial; // 用于排序
 	private Double[] loc; // 用于基于经纬度查询附近标签信息
@@ -35,11 +35,11 @@ public class OpNearLabelDto implements Serializable {
 	}
 
 	public String getDesc() {
-		return desc;
+		return description;
 	}
 
 	public void setDesc(String desc) {
-		this.desc = desc;
+		this.description = desc;
 	}
 
 	public String getBannerUrl() {

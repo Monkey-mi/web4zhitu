@@ -6,7 +6,7 @@ import java.util.List;
 public class OpNearCityGroupDto implements Serializable{
 	private static final long serialVersionUID = 1148635085281647528L;
 	private Integer id;
-	private String desc;
+	private String description;
 	private Integer serial;
 	private List<AddrCity> cities;
 	public Integer getId() {
@@ -16,10 +16,10 @@ public class OpNearCityGroupDto implements Serializable{
 		this.id = id;
 	}
 	public String getDesc() {
-		return desc;
+		return description;
 	}
 	public void setDesc(String desc) {
-		this.desc = desc;
+		this.description = desc;
 	}
 	public Integer getSerial() {
 		return serial;
