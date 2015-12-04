@@ -48,7 +48,7 @@ public class OpNearLabelWorldDto extends HTWorldBase implements Serializable,
 				worldType, typeId, dateAdded, dateModified, clickCount,
 				likeCount, commentCount, keepCount, coverPath, titlePath,
 				bgPath, titleThumbPath, longitude, latitude, locationDesc,
-				locationAddr, phoneCode, province, city, size, childCount, ver, tp,
+				locationAddr, phoneCode, province, city, ver, tp,size, childCount, 
 				valid, shield, textStyle, worldURL);
 	}
 
