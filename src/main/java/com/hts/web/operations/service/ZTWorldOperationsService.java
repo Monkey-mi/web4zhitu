@@ -177,7 +177,7 @@ public interface ZTWorldOperationsService extends BaseService {
 	 * @throws Exception
 	 */
 	public void buildSuperbTypeSquareListV2(Integer typeId, int maxId, int start, int limit,
-			int commentLimit, int likedLimit, int completeLimit, boolean trimConcernId,int channelCount,
+			int commentLimit, int likedLimit, int completeLimit, boolean trimConcernId,
 			Integer joinId, Map<String, Object> jsonMap) throws Exception;
 	
 	/**
