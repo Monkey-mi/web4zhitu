@@ -28,23 +28,21 @@ public class NearLabelWorldDaoImpl extends BaseDaoImpl implements NearLabelWorld
 	@Override
 	public List<OpNearLabelWorldDto> queryNearLabelWorldD(Integer labelId,
 			Integer maxSerial, int limit) {
-		return getJdbcTemplate().query(QUERY_NEAR_LABEL_WORLD_BY_MAX_SERIAL, new Object[]{labelId,maxSerial,limit }, new RowMapper<OpNearLabelWorldDto>(){
-			@Override
-			public OpNearLabelWorldDto mapRow(ResultSet rs, int rowNum)throws SQLException{
-				return buildOpNearLabelWorldDto(rs);
-			}
-		});
-	}
-	
-	@Override
-	public List<OpNearLabelWorldDto> queryNearLabelWorldD(Integer labelId,
-			int limit) {
-		return getJdbcTemplate().query(QUERY_NEAR_LABEL_WORLD, new Object[]{labelId,limit }, new RowMapper<OpNearLabelWorldDto>(){
-			@Override
-			public OpNearLabelWorldDto mapRow(ResultSet rs, int rowNum)throws SQLException{
-				return buildOpNearLabelWorldDto(rs);
-			}
-		});
+		if(maxSerial == null || maxSerial == 0){
+			return getJdbcTemplate().query(QUERY_NEAR_LABEL_WORLD, new Object[]{labelId,limit }, new RowMapper<OpNearLabelWorldDto>(){
+				@Override
+				public OpNearLabelWorldDto mapRow(ResultSet rs, int rowNum)throws SQLException{
+					return buildOpNearLabelWorldDto(rs);
+				}
+			});
+		}else{
+			return getJdbcTemplate().query(QUERY_NEAR_LABEL_WORLD_BY_MAX_SERIAL, new Object[]{labelId,maxSerial,limit }, new RowMapper<OpNearLabelWorldDto>(){
+				@Override
+				public OpNearLabelWorldDto mapRow(ResultSet rs, int rowNum)throws SQLException{
+					return buildOpNearLabelWorldDto(rs);
+				}
+			});
+		}
 	}
 	
 	private OpNearLabelWorldDto buildOpNearLabelWorldDto(ResultSet rs) throws SQLException{

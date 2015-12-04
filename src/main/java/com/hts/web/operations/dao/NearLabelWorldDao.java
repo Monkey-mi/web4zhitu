@@ -20,11 +20,4 @@ public interface NearLabelWorldDao extends BaseDao{
 	 */
 	public List<OpNearLabelWorldDto> queryNearLabelWorldD(Integer labelId,Integer maxSerial,int limit);
 	
-	/**
-	 * 查询
-	 * @param labelId
-	 * @param limit
-	 * @return
-	 */
-	public List<OpNearLabelWorldDto> queryNearLabelWorldD(Integer labelId,int limit);
 }

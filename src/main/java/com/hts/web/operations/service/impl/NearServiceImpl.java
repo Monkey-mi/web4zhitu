@@ -259,14 +259,37 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 	@Override
 	public void buildNearLabelWorld(Integer labelId, Integer commentLimit,Integer likedLimit,int maxId, int limit,
 			Map<String, Object> jsonMap) throws Exception {
-		List<OpNearLabelWorldDto> list = null;
-		if( maxId == 0){
-			list = nearLabelWroldDao.queryNearLabelWorldD(labelId, limit);
-		}else{
-			list = nearLabelWroldDao.queryNearLabelWorldD(labelId, maxId, limit);
+		final List<OpNearLabelWorldDto> list = nearLabelWroldDao.queryNearLabelWorldD(labelId, maxId, limit);
+		
+		if (!list.isEmpty()) {
+			final Map<Integer,List<Integer>> indexMap = new HashMap<Integer, List<Integer>>();
+			for (int i = 0; i < list.size(); i++) {
+				Integer auid = list.get(i).getAuthorId();
+				if(indexMap.containsKey(auid)) {
+					indexMap.get(auid).add(i);
+				} else {
+					List<Integer> l = new ArrayList<Integer>();
+					l.add(i);
+					indexMap.put(auid, l);
+				}
+			}
+			Integer[] uids = new Integer[indexMap.size()];
+			indexMap.keySet().toArray(uids);
+			
+			userInfoDao.queryUserInfoDtos(uids, new RowCallback<UserInfoDto>() {
+				
+				@Override
+				public void callback(UserInfoDto t) {
+					Integer uid = t.getId();
+					for(Integer i : indexMap.get(uid)) {
+						list.get(i).setUserInfo(t);
+					}
+				}
+			});
 		}
+		
 		worldService.extractLikeComment(commentLimit, likedLimit, list);
-//		userInfoService.extractVerify(list);
+		userInfoService.extractVerify(list);
 		jsonMap.put(OptResult.JSON_KEY_HTWORLD, list);
 	}
 
