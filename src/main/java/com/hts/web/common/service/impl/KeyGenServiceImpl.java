@@ -231,6 +231,12 @@ public class KeyGenServiceImpl extends BaseServiceImpl implements KeyGenService{
 	 */
 	public static final Integer MSG_AT_ID = 43;
 	
+	
+	/**
+	 * 专属主题排序
+	 */
+	public static final Integer CHANNEL_THEME_SERIAL = 44;
+	
 	@Autowired
 	private KeyGenDao keyGenDao;
 	
