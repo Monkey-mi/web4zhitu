@@ -128,7 +128,7 @@ public class ZTWorldOperationsAction extends BaseAction {
 	
 	public String queryNearBanner(){
 		try{
-			nearService.buildNearBanner(address, longitude, latitude,start, limit, jsonMap);
+			nearService.buildNearBanner(address, longitude, latitude,maxId, limit, jsonMap);
 			JSONUtil.optSuccess(jsonMap);
 		}catch(Exception e ){
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);

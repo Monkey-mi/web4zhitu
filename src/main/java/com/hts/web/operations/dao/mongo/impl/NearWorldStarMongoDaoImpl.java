@@ -41,7 +41,7 @@ public class NearWorldStarMongoDaoImpl extends BaseMongoDaoImpl implements NearW
 		Circle circle = new Circle(longitude, latitude, radius / 111);
 		Criteria criteria = Criteria.where("loc").within(circle);
 		if(maxId > 0) {
-			criteria = criteria.and("_id").lt(maxId);
+			criteria = criteria.and("_id").lte(maxId);
 		}
 		return getMongoTemplate()
 				.find(new Query(criteria)
