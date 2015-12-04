@@ -13,7 +13,6 @@ import com.hts.web.operations.service.NearService;
 import com.hts.web.operations.service.UserOperationsService;
 import com.hts.web.operations.service.ZTWorldOperationsService;
 import com.hts.web.ztworld.service.ZTWorldLabelService;
-import com.hts.web.ztworld.service.ZTWorldService;
 
 /**
  * <p>
@@ -69,17 +68,6 @@ public class ZTWorldOperationsAction extends BaseAction {
 	private Double longitude; //纬度
 	private Double latitude;//经度
 	private String address;//地址
-	
-	/**
-	 * 频道数量，默认为0，若传值，则返回频道数量与传递值相同，频道数量不足时，按实际数量返回
-	 * @author zhangbo	2015年12月1日
-	 */
-	private Integer channelCount = 0;
-	
-	
-
-	@Autowired
-	private ZTWorldService worldService;
 	
 	@Autowired
 	private ZTWorldOperationsService worldOperationsService;
@@ -279,7 +267,7 @@ public class ZTWorldOperationsAction extends BaseAction {
 		try {
 			worldOperationsService.buildSuperbTypeSquareListV2(typeId, maxId, start, limit,
 					commentLimit, likedLimit, completeLimit,
-					trimConcernId, channelCount, getCurrentLoginUserId(), jsonMap);
+					trimConcernId, getCurrentLoginUserId(), jsonMap);
 			JSONUtil.optSuccess(jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
@@ -877,10 +865,6 @@ public class ZTWorldOperationsAction extends BaseAction {
 
 	public void setAddress(String address) {
 		this.address = address;
-	}
-
-	public void setChannelCount(Integer channelCount) {
-		this.channelCount = channelCount;
 	}
 	
 }

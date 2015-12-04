@@ -178,6 +178,12 @@ public class CacheKeies {
 	public static final String OP_CHANNEL = MODULE_OP + "channel";
 	
 	/**
+	 * 推荐频道
+	 * @author zhangbo	2015年12月3日
+	 */
+	public static final String OP_CHANNEL_RECOMMEND = MODULE_OP + "channel:recommend";
+	
+	/**
 	 * 旧版频道
 	 */
 	public static final String OP_CHANNEL_OLD = MODULE_OP + "channel:old";

@@ -639,7 +639,7 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 	@Override
 	public void buildSuperbTypeSquareListV2(final Integer typeId, int maxId, int start, final int limit,
 			final int commentLimit, final int likedLimit, final int completeLimit, 
-			final boolean trimConcernId, final int channelCount, final Integer joinId, final Map<String, Object> jsonMap) throws Exception {
+			final boolean trimConcernId, final Integer joinId, final Map<String, Object> jsonMap) throws Exception {
 		buildSerializables("getRecommendId", maxId, start, limit, jsonMap, 
 				new SerializableListAdapter<OpWorldTypeDto>() {
 
@@ -667,7 +667,7 @@ public class ZTWorldOperationsServiceImpl extends BaseServiceImpl implements
 							jsonMap.put(OptResult.JSON_KEY_RECOMMEND_TYPE, worldTypeCacheDao.queryType());
 							
 							// 定义推荐频道列表分页查询，根据传递过来的channelCount作为每页数量，由于是全部查询，肯定设定由第一页开始查询
-							jsonMap.put(OptResult.JSON_KEY_CHANNELS, channelCacheDao.queryChannel(new RowSelection(1,channelCount)));
+							jsonMap.put(OptResult.JSON_KEY_CHANNELS, channelCacheDao.getRecommendChannel());
 							
 						} else { // 加载指定分类精选
 							list = squarePushDao.querySuperbByTypeIdV4(typeId, rowSelection);

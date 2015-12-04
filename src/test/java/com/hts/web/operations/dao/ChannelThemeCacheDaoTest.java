@@ -10,8 +10,4 @@ public class ChannelThemeCacheDaoTest extends BaseTest {
 	@Autowired
 	private ChannelThemeCacheDao dao;
 
-	@Test
-	public void testUpdateTheme() {
-		dao.updateTheme();
-	}
 }

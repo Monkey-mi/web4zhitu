@@ -62,4 +62,9 @@ public class ChannelCacheDaoImpl extends BaseCacheDaoImpl<OpChannel> implements
 		return null;
 	}
 
+	@Override
+	public List<OpChannel> getRecommendChannel() {
+		return getRedisTemplate().opsForList().range(CacheKeies.OP_CHANNEL_RECOMMEND, 0, -1);
+	}
+
 }
