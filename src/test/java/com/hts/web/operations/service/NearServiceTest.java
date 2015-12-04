@@ -1,7 +1,6 @@
 package com.hts.web.operations.service;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -9,7 +8,6 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.hts.web.base.BaseTest;
-import com.hts.web.common.pojo.HTWorldInteractDto;
 
 /**
  * 附近织图业务接口单元测试
@@ -39,7 +37,7 @@ public class NearServiceTest extends BaseTest {
 	@Test
 	public void queryNearLabel()throws Exception{
 		Map<String,Object>jsonMap = new HashMap<String,Object>();
-		service.buildNearLabel("湛江", null, null, 1, 10, jsonMap);
+		service.buildNearLabel("深圳", null, null, 0, 10, jsonMap);
 		logger.info(jsonMap);
 	}
 	
@@ -54,5 +52,11 @@ public class NearServiceTest extends BaseTest {
 	public void queryRecommendCityTest()throws Exception{
 		Map<String,Object>jsonMap = new HashMap<String,Object>();
 		service.buildRecommendCity(jsonMap);
+	}
+	
+	@Test
+	public void buildNearLabelWorldTest()throws Exception{
+		Map<String,Object>jsonMap = new HashMap<String,Object>();
+		service.buildNearLabelWorld(1, 0, 0, 10, 5, jsonMap);
 	}
 }
