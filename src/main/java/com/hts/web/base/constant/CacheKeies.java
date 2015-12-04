@@ -178,6 +178,12 @@ public class CacheKeies {
 	public static final String OP_CHANNEL = MODULE_OP + "channel";
 	
 	/**
+	 * 推荐频道
+	 * @author zhangbo	2015年12月3日
+	 */
+	public static final String OP_CHANNEL_RECOMMEND = MODULE_OP + "channel:recommend";
+	
+	/**
 	 * 旧版频道
 	 */
 	public static final String OP_CHANNEL_OLD = MODULE_OP + "channel:old";
@@ -216,6 +222,11 @@ public class CacheKeies {
 	 * 频道发图自动通过频道id set
 	 */
 	public static final String OP_CHANNEL_AUTO_REJECT_ID = MODULE_OP + "channel:autoRejectId";
+	
+	/**
+	 * 附近推荐城市
+	 */
+	public static final String OP_NEAR_RECOMMEND_CITY = MODULE_OP + "near:recommendCities";
 	
 	/**
 	 * 用户模块
@@ -289,5 +300,15 @@ public class CacheKeies {
 	 * 用户注册数据统计
 	 */
 	public static final String STAT_USER_REGISTER = MODULE_STAT + "userRegister";
+	
+	/**
+	 * 位置模块
+	 */
+	private static final String MODULE_ADDR = "addr:";
+	
+	/**
+	 * 城市
+	 */
+	public static final String ADDR_CITY = MODULE_ADDR + "city";
 	
 }
