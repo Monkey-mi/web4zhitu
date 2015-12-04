@@ -470,6 +470,13 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 		}
 		
 		List<OpChannelTheme> themes = themeCacheDao.queryTheme();
+		// 返回的频道主题，有两个字与四个字的，为了让旧版本显示整齐，两个字的会补全“频道”二字
+		for (OpChannelTheme opChannelTheme : themes) {
+			if ( opChannelTheme.getThemeName().length() == 2) {
+				String themeName = opChannelTheme.getThemeName() + "频道";
+				opChannelTheme.setThemeName(themeName);
+			}
+		}
 		
 		jsonMap.put(OptResult.JSON_KEY_CHANNELS, list);
 		jsonMap.put(OptResult.JSON_KEY_THEMES, themes);

@@ -68,6 +68,7 @@ public class ZTWorldOperationsAction extends BaseAction {
 	private Double longitude; //纬度
 	private Double latitude;//经度
 	private String address;//地址
+	private Integer labelId;//附近标签id
 	
 	@Autowired
 	private ZTWorldOperationsService worldOperationsService;
@@ -103,6 +104,17 @@ public class ZTWorldOperationsAction extends BaseAction {
 		try{
 			nearService.buildNearWorld(address, longitude, latitude, maxId, 
 					limit, jsonMap, commentLimit, likedLimit);
+			JSONUtil.optSuccess(jsonMap);
+		}catch(Exception e){
+			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+		}
+		return StrutsKey.JSON;
+	}
+	
+	public String queryNearLabelWorld(){
+		try{
+			nearService.buildNearLabelWorld(labelId , commentLimit, likedLimit, maxId, 
+					limit, jsonMap);
 			JSONUtil.optSuccess(jsonMap);
 		}catch(Exception e){
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
