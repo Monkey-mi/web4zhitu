@@ -71,7 +71,7 @@ public interface NearService extends BaseService {
 	 * @throws Exception
 	 * @author zxx 2015-12-2 15:11:29
 	 */
-	public void buildNearLabelWorld(Integer labelId,int start, int limit,Map<String,Object>jsonMap)throws Exception;
+	public void buildNearLabelWorld(Integer labelId,Integer commentLimit,Integer likedLimit,int maxId, int limit,Map<String,Object>jsonMap)throws Exception;
 	
 
 //	/**

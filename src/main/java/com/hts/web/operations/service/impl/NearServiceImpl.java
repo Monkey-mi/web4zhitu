@@ -20,10 +20,12 @@ import com.hts.web.common.pojo.HTWorldInteractDto;
 import com.hts.web.common.pojo.OpMsgBulletin;
 import com.hts.web.common.pojo.OpNearCityGroupDto;
 import com.hts.web.common.pojo.OpNearLabelDto;
+import com.hts.web.common.pojo.OpNearLabelWorldDto;
 import com.hts.web.common.pojo.UserInfoDto;
 import com.hts.web.common.service.impl.BaseServiceImpl;
 import com.hts.web.common.util.StringUtil;
 import com.hts.web.operations.dao.BulletinCacheDao;
+import com.hts.web.operations.dao.NearLabelWorldDao;
 import com.hts.web.operations.dao.NearRecommendCityCacheDao;
 import com.hts.web.operations.dao.NearRecommendCityDao;
 import com.hts.web.operations.dao.mongo.NearLabelMongoDao;
@@ -72,6 +74,9 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 	
 	@Autowired
 	private NearLabelMongoDao nearLabelMongoDao;
+	
+	@Autowired
+	private NearLabelWorldDao nearLabelWroldDao;
 	
 	@Override
 	public List<HTWorldInteractDto> queryNearWorld(float radius, double longitude,
@@ -252,10 +257,17 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 
 
 	@Override
-	public void buildNearLabelWorld(Integer labelId, int start, int limit,
+	public void buildNearLabelWorld(Integer labelId, Integer commentLimit,Integer likedLimit,int maxId, int limit,
 			Map<String, Object> jsonMap) throws Exception {
-		// TODO Auto-generated method stub
-		
+		List<OpNearLabelWorldDto> list = null;
+		if( maxId == 0){
+			list = nearLabelWroldDao.queryNearLabelWorldD(labelId, limit);
+		}else{
+			list = nearLabelWroldDao.queryNearLabelWorldD(labelId, maxId, limit);
+		}
+		worldService.extractLikeComment(commentLimit, likedLimit, list);
+//		userInfoService.extractVerify(list);
+		jsonMap.put(OptResult.JSON_KEY_HTWORLD, list);
 	}
 
 
