@@ -38,7 +38,7 @@ img {
 
 
 .user-wrap {
-/* 	width:750px; */
+ 	width:750px; 
  	display: inline-block; 
 /*   	background-color:#eaebef;  */
  	text-align:center;
@@ -46,6 +46,10 @@ img {
 
 .user-wrap img {
 	float: center;
+}
+
+.bannerPic{
+	width:716px;
 }
 
 .titleAndheadIntro{
@@ -289,6 +293,13 @@ img.box-shadow{
 	margin:auto;
 }
 
+.onPastPic{
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.2);
+    height: 238px;
+    width: 715px;
+}
+
 .pastTopic{
 	width:650px;
 	font-size:20px;
@@ -414,8 +425,18 @@ var isInApp = '?inapp=1';
 
 //往期主题ID
 /* var pastTopicId = "?topicId="; */
-
 //图片头
+var pastTopicPicHead = '"><div class="onPastPic"></div><div class="pastPic" ><img alt="" class="pastPicTop" src="';
+
+//图片尾
+var pastTopicPicFoot = '"></a></div></div>';
+
+//往期整体链接模块
+var pastTopicHead = '<div class="onePastPic"><a href="';
+
+
+
+/* //图片头
 var pastTopicPicHead = '"><img alt="" class="pastPicTop" src="';
 
 //图片尾
@@ -423,7 +444,7 @@ var pastTopicPicFoot = '"></a></div>';
 
 //往期整体链接模块
 var pastTopicHead = '<div class="onePastPic"><div class="pastPic" ><a href="';
-var pastTopicPicFoot = '"></a></div></div>';
+var pastTopicPicFoot = '"></a></div></div>'; */
 
  $(document).ready(function() {
 	  	var url = window.location.href;
@@ -444,7 +465,7 @@ var pastTopicPicFoot = '"></a></div></div>';
 				 var oMeta = document.getElementsByTagName('meta')[3];
 				 oMeta.content = result.title;
 		
- 			 	var headPic = '<div class="user-wrap"><img  src="'+result.bannerPic+'" /></div>'; 
+ 			 	var headPic = '<div class="bannerPic"><img  src="'+result.bannerPic+'" /></div>'; 
 			 	var titleAndheadIntro = '<div class="headBlock">'+ headPic + '<div  class="titleAndheadIntro" > <div  class="title">'+ result.title +'</div><hr class="hrStyle"> <div class="headIntro" >'+result.headIntro+'</div></div></div>';
 			 	var shareBannerPic = '<div id="wx_pic" style="display:none;"><img src="' + result.shareBanner + '" /></div>';
 				 $('title').html (result.title);
@@ -582,6 +603,10 @@ function initLayout(result) {
 		var winWidth = $(window).width();
 		winWidth = winWidth > maxW ? maxW : winWidth;
 		var scale = 1,
+		
+		userWrapWidth = 750,
+		
+		bannerPicWidth = 716;
 		
 		//headIntro前介绍宽度限制
 		head1width = 670,
@@ -750,7 +775,25 @@ function initLayout(result) {
 		footButtonHeight = 100,
 		footButtonWidth = 560,
 		
+		//往期专题上减弱图层
+		onPastPicWidth = 716,
+		onPastPicHeiht =249,
+		
 		//往期专题模块
+		pastTopicWidth = 715,
+		pastTopicFontSize = 13,
+		
+		//往期字体
+		pastFontFontSize = 28,
+		pastFontPaddingBottom = 25,
+		pastFontPaddingTop = 20,
+		
+		//往期banner图
+		pastPicPaddingBottom = 10,
+		pastPicHeight = 238,
+		
+		
+/* 		//往期专题模块
 		pastTopicWidth = 715,
 		pastTopicFontSize = 13,
 		
@@ -760,10 +803,14 @@ function initLayout(result) {
 		pastFontPaddingTop = 15,
 		
 		//往期banner图
-		pastPicPaddingBottom = 10,
+		pastPicPaddingBottom = 10, */
 		
 	scale = winWidth / maxW * 100;
 	
+		userWrapWidth = userWrapWidth * scale / 100;
+		
+		bannerPicWidth = bannerPicWidth * scale / 100;
+		
 		//标题和前介绍模块
 		titleAndHeadIntroWidth = titleAndHeadIntroWidth* scale / 100;
 		titleAndHeadIntroMarginLeft = titleAndHeadIntroMarginLeft* scale / 100;
@@ -880,6 +927,10 @@ function initLayout(result) {
 		footButtonHeight = footButtonHeight * scale/ 100;
 		footButtonWidth = footButtonWidth * scale/ 100;
 		
+		//往期专题上减弱图层
+		onPastPicWidth = onPastPicWidth * scale/ 100;
+		onPastPicHeiht = onPastPicHeiht  * scale/ 100;
+		
 		//往期专题模块
 		pastTopicWidth = pastTopicWidth * scale/ 100;
 		pastTopicFontSize = pastTopicFontSize * scale/ 100;
@@ -891,9 +942,30 @@ function initLayout(result) {
 		
 		//往期banner图
 		pastPicPaddingBottom = pastPicPaddingBottom * scale/ 100;
+		pastPicHeight = pastPicHeight * scale/ 100;
+		
+	/* 	
+		//往期专题模块
+		pastTopicWidth = pastTopicWidth * scale/ 100;
+		pastTopicFontSize = pastTopicFontSize * scale/ 100;
+		
+		//往期字体
+		pastFontFontSize = pastFontFontSize * scale/ 100;
+		pastFontPaddingBottom = pastFontPaddingBottom * scale/ 100;
+		pastFontPaddingTop = pastFontPaddingTop * scale/ 100;
+		
+		//往期banner图
+		pastPicPaddingBottom = pastPicPaddingBottom * scale/ 100; */
 		
 		$(".concern").show();
 	
+		$(".user-wrap").css({
+			"width":userWrapWidth + "px"}); 
+		
+		$(".bannerPic").css({
+			"width":bannerPicWidth + "px"
+		});
+		
 		//标题和前介绍模块
 		$(".titleAndheadIntro").css({
 			"width":titleAndHeadIntroWidth + "px",
@@ -1072,6 +1144,11 @@ function initLayout(result) {
  	 			"width":footButtonWidth + "px",
  	 			"height":footButtonHeight + "px"});
  	 		
+ 	 		//往期专题模块上的减弱图层
+ 	 		$(".onPastPic").css({
+ 	 			"width":onPastPicWidth + "px",
+ 	 			"height":onPastPicHeiht + "px"});
+ 	 		
  	 		//往期专题模块
  	 		$(".pastTopic").css({
  	 			"width":pastTopicWidth + "px",
@@ -1085,7 +1162,23 @@ function initLayout(result) {
  	 		
  	 		//往期banner图
  	 		$(".pastPic").css({
+ 				"height":pastPicHeight + "px",
  	 			"padding-bottom":pastPicPaddingBottom + "px"});
+ 	 		
+ 	 		/* //往期专题模块
+ 	 		$(".pastTopic").css({
+ 	 			"width":pastTopicWidth + "px",
+ 	 			"font-size":pastTopicFontSize + "px"});
+ 	 		
+ 	 		//往期字体
+ 	 		$(".pastFont").css({
+ 	 			"padding-bottom":pastFontPaddingBottom + "px",
+ 	 			"padding-top":pastFontPaddingTop + "px",
+ 	 			"font-size":pastFontFontSize + "px"});
+ 	 		
+ 	 		//往期banner图
+ 	 		$(".pastPic").css({
+ 	 			"padding-bottom":pastPicPaddingBottom + "px"}); */
  	 		
 		if(inapp==1) {
 			$("#main").css({"margin-bottom":"0px"});
