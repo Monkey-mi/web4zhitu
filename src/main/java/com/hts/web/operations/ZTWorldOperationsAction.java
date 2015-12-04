@@ -70,6 +70,7 @@ public class ZTWorldOperationsAction extends BaseAction {
 	private String address;//地址
 	private Integer labelId;//附近标签id
 	
+
 	@Autowired
 	private ZTWorldOperationsService worldOperationsService;
 	
@@ -877,6 +878,14 @@ public class ZTWorldOperationsAction extends BaseAction {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+	
+	public Integer getLabelId() {
+		return labelId;
+	}
+
+	public void setLabelId(Integer labelId) {
+		this.labelId = labelId;
 	}
 	
 }

@@ -259,7 +259,7 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 	@Override
 	public void buildNearLabelWorld(Integer labelId, Integer commentLimit,Integer likedLimit,int maxId, int limit,
 			Map<String, Object> jsonMap) throws Exception {
-		final List<OpNearLabelWorldDto> list = nearLabelWroldDao.queryNearLabelWorldD(labelId, maxId, limit);
+		final List<OpNearLabelWorldDto> list = nearLabelWroldDao.queryNearLabelWorld(labelId, maxId, limit);
 		
 		if (!list.isEmpty()) {
 			final Map<Integer,List<Integer>> indexMap = new HashMap<Integer, List<Integer>>();

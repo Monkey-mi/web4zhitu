@@ -26,7 +26,7 @@ public class NearLabelWorldDaoImpl extends BaseDaoImpl implements NearLabelWorld
 			+ " where near_label_id=? order by serial desc limit 0,? ) as t "
 			+ " left join hts.htworld_htworld hh on t.world_id=hh.id ";
 	@Override
-	public List<OpNearLabelWorldDto> queryNearLabelWorldD(Integer labelId,
+	public List<OpNearLabelWorldDto> queryNearLabelWorld(Integer labelId,
 			Integer maxSerial, int limit) {
 		if(maxSerial == null || maxSerial == 0){
 			return getJdbcTemplate().query(QUERY_NEAR_LABEL_WORLD, new Object[]{labelId,limit }, new RowMapper<OpNearLabelWorldDto>(){
