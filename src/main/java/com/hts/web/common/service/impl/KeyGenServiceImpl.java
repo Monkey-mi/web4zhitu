@@ -237,6 +237,22 @@ public class KeyGenServiceImpl extends BaseServiceImpl implements KeyGenService{
 	 */
 	public static final Integer CHANNEL_THEME_SERIAL = 44;
 	
+	/**
+	 * 附近标签id
+	 */
+	public static final Integer OP_NEAR_LABEL_ID = 45;
+	
+	/**
+	 * 附近标签序号
+	 */
+	public static final Integer OP_NEAR_LABEL_SERIAL = 46;
+	
+	
+	/**
+	 * 织图标签排序
+	 */
+	public static final Integer LABEL_WORLD_SERIAL = 47;
+	
 	@Autowired
 	private KeyGenDao keyGenDao;
 	
