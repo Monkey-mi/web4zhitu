@@ -23,6 +23,7 @@ import com.hts.web.base.HTSException;
 import com.hts.web.base.constant.LoggerKeies;
 import com.hts.web.base.constant.OptResult;
 import com.hts.web.base.constant.Tag;
+import com.hts.web.base.constant.Version;
 import com.hts.web.base.database.HTS;
 import com.hts.web.base.database.RowCallback;
 import com.hts.web.base.database.RowSelection;
@@ -161,8 +162,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 	/**
 	 * 推荐类型
 	 */
-	private static final int[] REC_TYPES = new int[]{
-			Tag.BULLETIN_ACT,
+	private static final int[] REC_TYPES = new int[]{ Tag.BULLETIN_ACT,
 			Tag.BULLETIN_USER,
 			Tag.BULLETIN_CHANNEL,
 			Tag.BULLETIN_PAGE};
@@ -850,7 +850,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 	public void buildConcernWorld(final Integer recType, final Integer recPage,
 			final Integer userId, int maxId, int start, int limit, 
 			final Map<String, Object> jsonMap, boolean trimTotal,
-			final int commentLimit, final int likedLimit) throws Exception {
+			final int commentLimit, final int likedLimit, final Float appVer) throws Exception {
 		buildSerializables(maxId, 1, limit, jsonMap,
 				new SerializableListAdapter<HTWorldInteractDto>() {
 
@@ -861,7 +861,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 						extractLikeComment(userId, commentLimit, likedLimit, worldList);
 						userInfoService.extractVerify(worldList);
 						userInteractService.extractRemark(userId, worldList);
-						recFromConcern(userId, recPage, recType, jsonMap);
+						recFromConcern(userId, recPage, recType, appVer, jsonMap);
 						
 						return worldList;
 					}
@@ -874,7 +874,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 						extractLikeComment(userId, commentLimit, likedLimit, worldList);
 						userInfoService.extractVerify(worldList);
 						userInteractService.extractRemark(userId, worldList);
-						recFromConcern(userId, recPage, recType, jsonMap);
+						recFromConcern(userId, recPage, recType, appVer, jsonMap);
 						return worldList;
 					}
 
@@ -895,17 +895,41 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 	 * @return
 	 */
 	private void recFromConcern(Integer userId,
-			Integer recPage, Integer recType, Map<String, Object> jsonMap) {
-		if(recPage > REC_TYPES.length) {
-			return;
-		}
+			Integer recPage, Integer recType, Float appVer, Map<String, Object> jsonMap) {
 		
-		List<? extends Serializable> recList = null;
-		String recMsg = null;
-		int idx = recPage - 1;
-//		int recIdx = recPage % 2 != 0 ? 3 : 6;
+		// 定义推荐展示位置，默认为3，即展示在第4张织图下面
 		int recIdx = 3;
-		int type = REC_TYPES[idx];
+		// 定义返回的推荐类型
+		int type = 0;
+		// 定义返回推荐信息
+		String recMsg = null;
+		// 定义返回推荐信息集合
+		List<? extends Serializable> recList = null;
+		
+		// 当版本高于3.1.5时，返回值为0，TODO 下面逻辑为了快速开发而编写，要整体整改掉，else中为旧版本逻辑，整改时要注意保留
+		if ( appVer >= Version.V_3_1_5) {
+			// 要翻5页以上才不显示推荐，而REC_TYPES里面只有4个，因为我关注的频道特殊，必须特殊处理，所以在recPage=2到5时，把剩余的推荐加完
+			if(recPage == 1) {
+				// 推荐位置都在第一张织图下面，并且只为我关注的频道
+				recIdx = 0;
+				type = Tag.BULLETIN_CHANNEL_SUBSCRIBE;
+			} else {
+				if(recPage > 5) {
+					return;
+				}
+				type = REC_TYPES[recPage-2];
+			}
+			
+		} else {
+			if(recPage > REC_TYPES.length) {
+				return;
+			}
+			
+			
+			int idx = recPage - 1;
+			
+			type = REC_TYPES[idx];
+		}
 		
 		switch(type) {
 			case Tag.BULLETIN_PAGE:
