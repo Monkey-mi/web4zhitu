@@ -149,20 +149,22 @@ public interface ZTWorldService extends BaseService {
 	/**
 	 * 构建关注的好友分享的织图列表
 	 * 
-	 * @param recType 上次推荐的类型
-	 * @param userId
-	 * @param maxId
-	 * @param start
-	 * @param limit
-	 * @param jsonMap
-	 * @param trimTotal
-	 * @param commentLimit
-	 * @param likedLimit
+	 * @param recType		上次推荐的内容,默认为0
+	 * @param recPage		推荐页码,第一次请求为1,第二次请求为2
+	 * @param userId		当前登陆用户id
+	 * @param maxId			织图最大id
+	 * @param start			
+	 * @param limit			每次请求每页查询条数
+	 * @param jsonMap		返回值json
+	 * @param trimExtra		是否过滤评论，赞列表信息，默认为true
+	 * @param commentLimit	评论限定条数，设为0时不返回数据，当trimExtras为false时必须设置
+	 * @param likedLimit	喜欢限定条数，设为0时不返回数据，当trimExtras为false时必须设置
+	 * @param appVer		版本号
 	 * @throws Exception
 	 */
 	public void buildConcernWorld(Integer recType, Integer recPage, Integer userId, int maxId,
-			int start, int limit, Map<String, Object> jsonMap, boolean trimTotal, 
-			int commentLimit, int likedLimit) throws Exception;
+			int start, int limit, Map<String, Object> jsonMap, boolean trimExtra, 
+			int commentLimit, int likedLimit, Float appVer) throws Exception;
 
 	/**
 	 * 构建收藏的织图列表
