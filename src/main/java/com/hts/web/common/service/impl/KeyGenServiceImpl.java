@@ -247,15 +247,12 @@ public class KeyGenServiceImpl extends BaseServiceImpl implements KeyGenService{
 	 */
 	public static final Integer OP_NEAR_LABEL_SERIAL = 46;
 	
-<<<<<<< HEAD
 	
 	/**
 	 * 织图标签排序
 	 */
 	public static final Integer LABEL_WORLD_SERIAL = 47;
 	
-=======
->>>>>>> branch 'dev' of https://github.com/imzhitu/web4zhitu.git
 	@Autowired
 	private KeyGenDao keyGenDao;
 	
