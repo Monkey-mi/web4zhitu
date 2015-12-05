@@ -419,7 +419,7 @@ public class ZTWorldAction extends BaseAction {
 		try {
 			worldService.buildConcernWorld(recType, recPage, getCurrentLoginUserId(), 
 					maxId, start, limit, jsonMap, trimTotal, commentLimit,
-					likedLimit);
+					likedLimit, appVer);
 			JSONUtil.optSuccess(jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
