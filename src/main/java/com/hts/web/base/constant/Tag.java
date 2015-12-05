@@ -381,6 +381,11 @@ public class Tag {
 	public static final int BULLETIN_ACT = 4;
 	
 	/**
+	 * 公告类型: 我关注的频道
+	 */
+	public static final int BULLETIN_CHANNEL_SUBSCRIBE = 5;
+	
+	/**
 	 * APP版本:2.0，版本号过溢出则使用次版本
 	 */
 	public static final float VERSION_2_0 = 2.0f;

@@ -64,6 +64,7 @@ import com.hts.web.common.util.StringUtil;
 import com.hts.web.operations.dao.BulletinCacheDao;
 import com.hts.web.operations.dao.ChannelAutoRejectIdCacheDao;
 import com.hts.web.operations.dao.ChannelCacheDao;
+import com.hts.web.operations.dao.ChannelDao;
 import com.hts.web.operations.dao.OpUserVerifyDtoCacheDao;
 import com.hts.web.operations.dao.UserVerifyRecCacheDao;
 import com.hts.web.operations.service.ChannelService;
@@ -260,6 +261,9 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 	
 	@Autowired
 	private NearService nearService;
+	
+	@Autowired
+	private ChannelDao channelDao;
 	
 	private String baseThumbPathAixin = "http://static.imzhitu.com/world/thumbs/1403056393000.png";
 	private String baseThumbPathXing = "http://static.imzhitu.com/world/thumbs/1403057093000.png";
@@ -883,25 +887,6 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 	}
 	
 	/**
-	 * 从信息流推荐用户
-	 * 
-	 * @param userId
-	 * @param jsonMap
-	 * @return
-	 */
-//	private List<UserDynamicRec> recommendUser(Integer userId, Map<String, Object> jsonMap)	 {
-//		List<UserDynamicRec> recList = null;
-//		int start = NumberUtil.getRandomNum(0, sysRecStart);
-//		recList = userRecDao.queryOpRecList(userId, start, sysRecLimit);
-//		if(recList != null && recList.size() > 0) {
-//			userInfoService.extractVerify(recList);
-//			jsonMap.put(OptResult.JSON_KEY_USER_REC_MSG, USER_REC_MSG_SYS_REC);
-//			jsonMap.put(OptResult.JSON_KEY_USER_REC, recList);
-//		}
-//		return recList;
-//	}
-	
-	/**
 	 * 从信息流推荐内容
 	 * 
 	 * @param userId
@@ -923,28 +908,33 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 		int type = REC_TYPES[idx];
 		
 		switch(type) {
-		case Tag.BULLETIN_PAGE:
-			recMsg = "推荐专题";
-			recList = recPage(userId);
-			break;
-			
-		case Tag.BULLETIN_CHANNEL:
-			recMsg = "推荐频道";
-			recList = recChannel(userId);
-			break;
-			
-		case Tag.BULLETIN_USER:
-			recMsg = "可能感兴趣的人";
-			recList = recUser(userId);
-			break;
-			
-		case Tag.BULLETIN_ACT:
-			recMsg = "推荐活动";
-			recList = recAct(userId);
-			break;
-			
-		default:
-			break;
+			case Tag.BULLETIN_PAGE:
+				recMsg = "推荐专题";
+				recList = recPage(userId);
+				break;
+				
+			case Tag.BULLETIN_CHANNEL:
+				recMsg = "推荐频道";
+				recList = recChannel(userId);
+				break;
+				
+			case Tag.BULLETIN_USER:
+				recMsg = "可能感兴趣的人";
+				recList = recUser(userId);
+				break;
+				
+			case Tag.BULLETIN_ACT:
+				recMsg = "推荐活动";
+				recList = recAct(userId);
+				break;
+				
+			case Tag.BULLETIN_CHANNEL_SUBSCRIBE:
+				recMsg = "我关注的频道";
+				recList = recSubscribeChannel(userId);
+				break;
+				
+			default:
+				break;
 		}
 		
 		if(recList != null) {
@@ -1021,6 +1011,29 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 	 */
 	private List<OpChannel> recChannel(Integer userId) {
 		return channelCacheDao.queryRandomChannel(REC_MIN_SIZE);
+	}
+	
+	/**
+	 * 用户关注的频道
+	 * 
+	 * @param userId	用户id
+	 * @return
+	 * @author zhangbo	2015年12月4日
+	 */
+	private List<OpChannel> recSubscribeChannel(Integer userId) {
+		List<OpChannel> clist = new ArrayList<OpChannel>();
+		// 根据登陆用户id查找用户关注的频道
+		clist = channelDao.querySubscribedChannel(userId, new RowSelection(1,100));
+		
+		int size = clist.size();
+		if(size  > REC_MIN_SIZE) {
+			int start = NumberUtil.getRandomIndex(size - REC_MIN_SIZE);
+			return clist.subList(start, start + REC_MIN_SIZE - 1);
+		} else if(size == REC_MIN_SIZE) {
+			return clist.subList(0, 1);
+		}
+		
+		return clist;
 	}
 
 	@Override

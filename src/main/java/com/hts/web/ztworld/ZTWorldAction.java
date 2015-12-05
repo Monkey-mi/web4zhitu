@@ -98,6 +98,12 @@ public class ZTWorldAction extends BaseAction {
 	private String atIds;
 	private String atNames;
 	
+	/**
+	 * app版本号，默认为0，TODO 目前保留占位
+	 * @author zhangbo	2015年12月4日
+	 */
+	private Float appVer = new Float(0f);
+	
 	@Autowired
 	private ZTWorldService worldService;
 	
@@ -648,405 +654,204 @@ public class ZTWorldAction extends BaseAction {
 		return StrutsKey.JSON;
 	}
 	
-	public ZTWorldService getWorldService() {
-		return worldService;
-	}
-
-	public void setWorldService(ZTWorldService worldService) {
-		this.worldService = worldService;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public String getAuthorName() {
-		return authorName;
 	}
 
 	public void setAuthorName(String authorName) {
 		this.authorName = authorName;
 	}
 
-	public String getAuthorAvatar() {
-		return authorAvatar;
-	}
-
 	public void setAuthorAvatar(String authorAvatar) {
 		this.authorAvatar = authorAvatar;
-	}
-
-	public Integer getPhoneCode() {
-		return phoneCode;
 	}
 
 	public void setPhoneCode(Integer phoneCode) {
 		this.phoneCode = phoneCode;
 	}
 
-	public Integer getTitleId() {
-		return titleId;
-	}
-
 	public void setTitleId(Integer titleId) {
 		this.titleId = titleId;
-	}
-
-	public String getWorldName() {
-		return worldName;
 	}
 
 	public void setWorldName(String worldName) {
 		this.worldName = worldName;
 	}
 
-	public String getWorldDesc() {
-		return worldDesc;
-	}
-
 	public void setWorldDesc(String worldDesc) {
 		this.worldDesc = worldDesc;
-	}
-
-	public String getWorldLabel() {
-		return worldLabel;
 	}
 
 	public void setWorldLabel(String worldLabel) {
 		this.worldLabel = worldLabel;
 	}
 
-	public String getCoverPath() {
-		return coverPath;
-	}
-
 	public void setCoverPath(String coverPath) {
 		this.coverPath = coverPath;
-	}
-
-	public String getTitlePath() {
-		return titlePath;
 	}
 
 	public void setTitlePath(String titlePath) {
 		this.titlePath = titlePath;
 	}
 
-	public String getTitleThumbPath() {
-		return titleThumbPath;
-	}
-
 	public void setTitleThumbPath(String titleThumbPath) {
 		this.titleThumbPath = titleThumbPath;
-	}
-
-	public Double getLongitude() {
-		return longitude;
 	}
 
 	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
 	}
 
-	public Double getLatitude() {
-		return latitude;
-	}
-
 	public void setLatitude(Double latitude) {
 		this.latitude = latitude;
-	}
-
-	public String getLocationDesc() {
-		return locationDesc;
 	}
 
 	public void setLocationDesc(String locationDesc) {
 		this.locationDesc = locationDesc;
 	}
 
-	public String getLocationAddr() {
-		return locationAddr;
-	}
-
 	public void setLocationAddr(String locationAddr) {
 		this.locationAddr = locationAddr;
-	}
-
-	public String getProvince() {
-		return province;
 	}
 
 	public void setProvince(String province) {
 		this.province = province;
 	}
 
-	public String getCity() {
-		return city;
-	}
-
 	public void setCity(String city) {
 		this.city = city;
 	}
 	
-	public Integer getSize() {
-		return size;
-	}
-
 	public void setSize(Integer size) {
 		this.size = size;
-	}
-
-	public String getChilds() {
-		return childs;
 	}
 
 	public void setChilds(String childs) {
 		this.childs = childs;
 	}
 
-	public Integer getWorldId() {
-		return worldId;
-	}
-
 	public void setWorldId(Integer worldId) {
 		this.worldId = worldId;
-	}
-
-	public Integer getPlatformCode() {
-		return platformCode;
 	}
 
 	public void setPlatformCode(Integer platformCode) {
 		this.platformCode = platformCode;
 	}
 
-	public String getShareTag() {
-		return shareTag;
-	}
-
 	public void setShareTag(String shareTag) {
 		this.shareTag = shareTag;
-	}
-
-	public Integer getChildId() {
-		return childId;
 	}
 
 	public void setChildId(Integer childId) {
 		this.childId = childId;
 	}
 
-	public Integer getIsCheckChildCount() {
-		return isCheckChildCount;
-	}
-
 	public void setIsCheckChildCount(Integer isCheckChildCount) {
 		this.isCheckChildCount = isCheckChildCount;
-	}
-
-	public Integer getSinceId() {
-		return sinceId;
 	}
 
 	public void setSinceId(Integer sinceId) {
 		this.sinceId = sinceId;
 	}
 
-	public Integer getMaxId() {
-		return maxId;
-	}
-
 	public void setMaxId(Integer maxId) {
 		this.maxId = maxId;
-	}
-
-	public Boolean getTrimUser() {
-		return trimUser;
 	}
 
 	public void setTrimUser(Boolean trimUser) {
 		this.trimUser = trimUser;
 	}
 
-	public String getActivityIds() {
-		return activityIds;
-	}
-
 	public void setActivityIds(String activityIds) {
 		this.activityIds = activityIds;
-	}
-
-	public Boolean getIsAddClick() {
-		return isAddClick;
 	}
 
 	public void setIsAddClick(Boolean isAddClick) {
 		this.isAddClick = isAddClick;
 	}
 
-	public Boolean getIsNotAddClick() {
-		return isNotAddClick;
-	}
-
 	public void setIsNotAddClick(Boolean isNotAddClick) {
 		this.isNotAddClick = isNotAddClick;
-	}
-
-	public String getWorldType() {
-		return worldType;
 	}
 
 	public void setWorldType(String worldType) {
 		this.worldType = worldType;
 	}
 
-	public String getLabelIds() {
-		return labelIds;
-	}
-
 	public void setLabelIds(String labelIds) {
 		this.labelIds = labelIds;
-	}
-
-	public Integer getTypeId() {
-		return typeId;
 	}
 
 	public void setTypeId(Integer typeId) {
 		this.typeId = typeId;
 	}
 
-	public Integer getVer() {
-		return ver;
-	}
-
 	public void setVer(Integer ver) {
 		this.ver = ver;
-	}
-
-	public String getQuery() {
-		return query;
 	}
 
 	public void setQuery(String query) {
 		this.query = query;
 	}
 
-	public Integer getAuthorId() {
-		return authorId;
-	}
-
 	public void setAuthorId(Integer authorId) {
 		this.authorId = authorId;
-	}
-
-	public Float getLogoVer() {
-		return logoVer;
 	}
 
 	public void setLogoVer(Float logoVer) {
 		this.logoVer = logoVer;
 	}
 
-	public Long getStartTime() {
-		return startTime;
-	}
-
 	public void setStartTime(Long startTime) {
 		this.startTime = startTime;
-	}
-
-	public Long getEndTime() {
-		return endTime;
 	}
 
 	public void setEndTime(Long endTime) {
 		this.endTime = endTime;
 	}
 
-	public Integer getIntervalType() {
-		return intervalType;
-	}
-
 	public void setIntervalType(Integer intervalType) {
 		this.intervalType = intervalType;
-	}
-
-	public Integer getNextCursor() {
-		return nextCursor;
 	}
 
 	public void setNextCursor(Integer nextCursor) {
 		this.nextCursor = nextCursor;
 	}
 
-	public String getBgPath() {
-		return bgPath;
-	}
-
 	public void setBgPath(String bgPath) {
 		this.bgPath = bgPath;
-	}
-
-	public String getChannelIds() {
-		return channelIds;
 	}
 
 	public void setChannelIds(String channelIds) {
 		this.channelIds = channelIds;
 	}
 
-	public String getColor() {
-		return color;
-	}
-
 	public void setColor(String color) {
 		this.color = color;
-	}
-
-	public Integer getMask() {
-		return mask;
 	}
 
 	public void setMask(Integer mask) {
 		this.mask = mask;
 	}
 
-	public Integer getRecType() {
-		return recType;
-	}
-
 	public void setRecType(Integer recType) {
 		this.recType = recType;
-	}
-
-	public Integer getRecPage() {
-		return recPage;
 	}
 
 	public void setRecPage(Integer recPage) {
 		this.recPage = recPage;
 	}
 
-	public String getAtIds() {
-		return atIds;
-	}
-
 	public void setAtIds(String atIds) {
 		this.atIds = atIds;
-	}
-
-	public String getAtNames() {
-		return atNames;
 	}
 
 	public void setAtNames(String atNames) {
 		this.atNames = atNames;
 	}
-	
+
+	public void setAppVer(Float appVer) {
+		this.appVer = appVer;
+	}
 	
 }
