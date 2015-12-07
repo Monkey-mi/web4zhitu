@@ -23,7 +23,6 @@ import com.hts.web.common.pojo.OpNearLabelDto;
 import com.hts.web.common.pojo.OpNearLabelWorldDto;
 import com.hts.web.common.pojo.UserInfoDto;
 import com.hts.web.common.service.impl.BaseServiceImpl;
-import com.hts.web.common.util.StringUtil;
 import com.hts.web.operations.dao.BulletinCacheDao;
 import com.hts.web.operations.dao.NearLabelWorldDao;
 import com.hts.web.operations.dao.NearRecommendCityCacheDao;
@@ -217,14 +216,14 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 					city = cityService.getCityByName(DEFAULT_CITY);
 				
 				list = queryNearLabel(NEAR_LABEL_RADIUS, city.getLongitude(), 
-						city.getLatitude(), maxId, limit);
+						city.getLatitude(), maxId, limit + 1);
 			}else{
 				throw new IllegalArgumentException("either the address or the longitude and the latitude can not be null ");
 			}
 		} else {
 			city = cityService.getNearCityByLoc(longitude, latitude);
 			list = queryNearLabel(NEAR_LABEL_RADIUS, city.getLongitude(), 
-					city.getLatitude(), maxId, limit);
+					city.getLatitude(), maxId, limit + 1);
 		}
 		jsonMap.put(OptResult.JSON_KEY_MSG,list);
 	}

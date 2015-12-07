@@ -36,28 +36,28 @@ public class NearServiceTest extends BaseTest {
 	
 	@Test
 	public void queryNearLabel()throws Exception{
-		Map<String,Object>jsonMap = new HashMap<String,Object>();
+		Map<String,Object> jsonMap = new HashMap<String,Object>();
 		service.buildNearLabel("深圳", null, null, 0, 10, jsonMap);
 		logger.info(jsonMap);
 	}
 	
 	@Test
 	public void queryNearBanner()throws Exception{
-		Map<String,Object>jsonMap = new HashMap<String,Object>();
+		Map<String,Object> jsonMap = new HashMap<String,Object>();
 		service.buildNearBanner("湛江", null, null, 1, 10, jsonMap);
 		logger.info(jsonMap);
 	}
 	
 	@Test
 	public void queryRecommendCityTest()throws Exception{
-		Map<String,Object>jsonMap = new HashMap<String,Object>();
+		Map<String,Object> jsonMap = new HashMap<String,Object>();
 		service.buildRecommendCity(jsonMap);
 	}
 	
 	@Test
 	public void buildNearLabelWorldTest()throws Exception{
-		Map<String,Object>jsonMap = new HashMap<String,Object>();
-		service.buildNearLabelWorld(1, 0, 0, 0, 5, jsonMap, 485);
-		logger.info(jsonMap);
+		Map<String,Object> jsonMap = new HashMap<String,Object>();
+		service.buildNearLabelWorld(42, 0, 0, 0, 10, jsonMap, 1723);
+		logObj(jsonMap);
 	}
 }

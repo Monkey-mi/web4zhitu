@@ -16,15 +16,27 @@ import com.hts.web.operations.dao.NearLabelWorldDao;
 @Repository("NearLabelWorldDao")
 public class NearLabelWorldDaoImpl extends BaseDaoImpl implements NearLabelWorldDao{
 
-	private static final String QUERY_NEAR_LABEL_WORLD_BY_MAX_SERIAL = "select hh.*,t.serial from ("
-			+ " select * from hts.operations_near_label_world"
-			+ " where near_label_id=? and serial <=? order by serial desc limit 0,? ) as t "
-			+ " left join hts.htworld_htworld hh on t.world_id=hh.id ";
+//	private static final String QUERY_NEAR_LABEL_WORLD_BY_MAX_SERIAL = "select hh.*,t.serial from ("
+//			+ " select * from hts.operations_near_label_world"
+//			+ " where near_label_id=? and serial <=? order by serial desc limit 0,? ) as t "
+//			+ " left join hts.htworld_htworld hh on t.world_id=hh.id ";
+//	
+//	private static final String QUERY_NEAR_LABEL_WORLD = "select hh.*,t.serial from ("
+//			+ " select * from hts.operations_near_label_world"
+//			+ " where near_label_id=? order by serial desc limit 0,? ) as t "
+//			+ " left join hts.htworld_htworld hh on t.world_id=hh.id ";
 	
-	private static final String QUERY_NEAR_LABEL_WORLD = "select hh.*,t.serial from ("
-			+ " select * from hts.operations_near_label_world"
-			+ " where near_label_id=? order by serial desc limit 0,? ) as t "
-			+ " left join hts.htworld_htworld hh on t.world_id=hh.id ";
+	private static final String QUERY_NEAR_LABEL_WORLD = "select h.*, l.serial "
+			+ " from hts.operations_near_label_world l, hts.htworld_htworld h"
+			+ " where l.world_id=h.id and l.near_label_id=?"
+			+ " order by l.serial desc limit ?";
+	
+	private static final String QUERY_NEAR_LABEL_WORLD_BY_MAX_SERIAL = "select h.*, l.serial "
+			+ " from hts.operations_near_label_world l, hts.htworld_htworld h"
+			+ " where l.world_id=h.id and l.near_label_id=? and l.serial<=?"
+			+ " order by l.serial desc limit ?";
+			
+	
 	@Override
 	public List<OpNearLabelWorldDto> queryNearLabelWorld(Integer labelId,
 			Integer maxSerial, int limit) {
