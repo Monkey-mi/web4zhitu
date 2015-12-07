@@ -148,6 +148,24 @@ public class CacheKeies {
 	public static final String OP_MSG_COMMON_SYSMSG_MAXID = MODULE_OP + "msg:commonSysMsg:maxId";
 	
 	/**
+	 * 运营：限时秒杀公告列表
+	 * @author zhangbo	2015年12月7日
+	 */
+	public static final String OP_MSG_SECKILL = MODULE_OP + "msg:seckill";
+	
+	/**
+	 * 运营：有奖活动公告列表
+	 * @author zhangbo	2015年12月7日
+	 */
+	public static final String OP_MSG_AWARD_ACTIVITY = MODULE_OP + "msg:awardActivity";
+	
+	/**
+	 * 运营：推荐商品公告列表
+	 * @author zhangbo	2015年12月7日
+	 */
+	public static final String OP_MSG_RECOMMEND_ITEM = MODULE_OP + "msg:recommendItem";
+	
+	/**
 	 * 运营：精品分类
 	 */
 	public static final String OP_SUPERB_TYPE = MODULE_OP + "type:superb";
