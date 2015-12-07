@@ -27,12 +27,15 @@ public interface NearService extends BaseService {
 	 * @param jsonMap
 	 * @param commentLimit
 	 * @param likedLimit
+	 * @param userId
 	 * @throws Exception
 	 * 
 	 * @author zxx 2015-12-2 15:08:13
+	 * @author lynch 2015-12-07
 	 */
 	public void buildNearWorld(String address,Double longitude, Double latitude,
-			int maxId, int limit,Map<String,Object>jsonMap,Integer commentLimit,Integer likedLimit)throws Exception;
+			int maxId, int limit,Map<String,Object>jsonMap,Integer commentLimit,
+			Integer likedLimit, Integer userId)throws Exception;
 	
 	/**
 	 * 查询附近标签
@@ -68,24 +71,14 @@ public interface NearService extends BaseService {
 	 * @param start
 	 * @param limit
 	 * @param jsonMap
+	 * @param userId
 	 * @throws Exception
+	 * 
 	 * @author zxx 2015-12-2 15:11:29
+	 * @author lynch 2015-12-07
 	 */
-	public void buildNearLabelWorld(Integer labelId,Integer commentLimit,Integer likedLimit,int maxId, int limit,Map<String,Object>jsonMap)throws Exception;
-	
-
-//	/**
-//	 * 根据经纬度查询附近的织图
-//	 * 
-//	 * @param longitude 经度
-//	 * @param latitude 纬度
-//	 * @param maxId 起始id,0表示第一页
-//	 * @param limit 每页限定记录数量
-//	 * @return 瀑布流织图列表(包含用户信息)
-//	 * @author lynch 2015-12-01
-//	 */
-//	public List<HTWorldInteractDto> queryNearWorld(double longitude, double latitude, 
-//			int maxId, int limit);
+	public void buildNearLabelWorld(Integer labelId,Integer commentLimit,Integer likedLimit,
+			int maxId, int limit,Map<String,Object> jsonMap, Integer userId)throws Exception;
 	
 	/**
 	 * 根据经纬度和搜索半径查询附近的织图
@@ -101,19 +94,6 @@ public interface NearService extends BaseService {
 	 */
 	public List<HTWorldInteractDto> queryNearWorld(float radius, double longitude, double latitude, 
 			int maxId, int limit);
-	
-//	/**
-//	 * 根据城市名查询附近的织图
-//	 * 
-//	 * @param city 城市名称,会删除省,市,县等后缀再进行查询
-//	 * @param maxId 起始id,0表示第一页
-//	 * @param limit 每页限定记录数量
-//	 * @return 瀑布流织图列表(包含用户信息)
-//	 * @author lynch 2015-12-01
-//	 */
-//	public List<HTWorldInteractDto> queryNearWorld(String city, 
-//			int maxId, int limit);
-	
 
 	/**
 	 * 保存附近的织图

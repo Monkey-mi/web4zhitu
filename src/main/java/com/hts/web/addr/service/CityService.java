@@ -29,4 +29,5 @@ public interface CityService {
 	 */
 	public AddrCity getNearCityByLoc(double longitude, double latitude);
 	
+	
 }

@@ -33,6 +33,7 @@ import com.hts.web.operations.dao.mongo.NearWorldMongoDao;
 import com.hts.web.operations.dao.mongo.NearWorldStarMongoDao;
 import com.hts.web.operations.service.NearService;
 import com.hts.web.userinfo.dao.UserInfoDao;
+import com.hts.web.userinfo.service.UserConcernService;
 import com.hts.web.userinfo.service.UserInfoService;
 import com.hts.web.ztworld.service.ZTWorldService;
 
@@ -77,6 +78,9 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 	
 	@Autowired
 	private NearLabelWorldDao nearLabelWroldDao;
+	
+	@Autowired
+	private UserConcernService userConcernService;
 	
 	@Override
 	public List<HTWorldInteractDto> queryNearWorld(float radius, double longitude,
@@ -168,7 +172,7 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 	@Override
 	public void buildNearWorld(String address, Double longitude,
 			Double latitude, int maxId, int limit, Map<String, Object> jsonMap,
-			Integer commentLimit, Integer likedLimit) throws Exception {
+			Integer commentLimit, Integer likedLimit, Integer userId) throws Exception {
 		
 		List<HTWorldInteractDto> list = null;
 		AddrCity city;
@@ -192,6 +196,7 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 		
 		worldService.extractLikeComment(commentLimit, likedLimit, list);
 		userInfoService.extractVerify(list);
+		userConcernService.extractConcernStatus(userId, list);
 		jsonMap.put(OptResult.JSON_KEY_HTWORLD, list);
 	}
 
@@ -258,7 +263,7 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 
 	@Override
 	public void buildNearLabelWorld(Integer labelId, Integer commentLimit,Integer likedLimit,int maxId, int limit,
-			Map<String, Object> jsonMap) throws Exception {
+			Map<String, Object> jsonMap, Integer userId) throws Exception {
 		final List<OpNearLabelWorldDto> list = nearLabelWroldDao.queryNearLabelWorld(labelId, maxId, limit);
 		
 		if (!list.isEmpty()) {
@@ -290,6 +295,7 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 		
 		worldService.extractLikeComment(commentLimit, likedLimit, list);
 		userInfoService.extractVerify(list);
+		userConcernService.extractConcernStatus(userId, list);
 		jsonMap.put(OptResult.JSON_KEY_HTWORLD, list);
 	}
 
