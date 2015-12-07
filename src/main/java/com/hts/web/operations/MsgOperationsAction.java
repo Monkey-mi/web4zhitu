@@ -95,6 +95,22 @@ public class MsgOperationsAction extends BaseAction {
 		return StrutsKey.JSON;
 	}
 	
+	/**
+	 * 查询商品公告列表
+	 * 
+	 * @return
+	 * @author zhangbo	2015年12月7日
+	 */
+	public String queryItem() {
+		try {
+			msgOperationsService.buildItem(start, limit, jsonMap);
+			JSONUtil.optSuccess(jsonMap);
+		} catch (Exception e) {
+			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+		}
+		return StrutsKey.JSON;
+	}
+	
 	public Integer getPhoneCode() {
 		return phoneCode;
 	}

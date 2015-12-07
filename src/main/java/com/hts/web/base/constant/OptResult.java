@@ -575,6 +575,18 @@ public class OptResult {
 	 * @author zxx 2015-12-2 19:56:46
 	 */
 	public static final String JSON_KEY_BANNER = "banner";
+	
+	/**
+	 * 返回结果KEY：分类
+	 * @author zhangbo	2015年12月7日
+	 */
+	public static final String JSON_KEY_CATEGORY = "category";
+	
+	/**
+	 * 返回结果KEY：items（可用作条目，也可用作商品）
+	 * @author zhangbo	2015年12月7日
+	 */
+	public static final String JSON_KEY_ITEMS = "items";
 }
 
 

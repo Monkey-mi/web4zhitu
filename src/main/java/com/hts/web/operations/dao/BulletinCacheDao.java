@@ -57,5 +57,4 @@ public interface BulletinCacheDao extends BaseCacheDao {
 	 */
 	public void updateThemeBulletin(List<OpMsgBulletin> cacheList);
 	
-	
 }

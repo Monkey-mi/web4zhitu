@@ -1052,7 +1052,8 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 		int size = clist.size();
 		if(size  > REC_MIN_SIZE) {
 			int start = NumberUtil.getRandomIndex(size - REC_MIN_SIZE);
-			return clist.subList(start, start + REC_MIN_SIZE - 1);
+			// 从起始位置截取限制数量的返回值列表
+			return clist.subList(start, start + REC_MIN_SIZE);
 		} else if(size == REC_MIN_SIZE) {
 			return clist.subList(0, 1);
 		}
