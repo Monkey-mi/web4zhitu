@@ -6,7 +6,7 @@ body {
 	text-align: center;
 	font-size:0;
 	font-family:"微软雅黑",Arial, Helvetica, sans-serif;
-	background:#E6E6E3;
+	background:#D7DCE0;
 }
 
 img {
@@ -96,7 +96,7 @@ font-size:16px;
 
 .starListUserAvatorIn{
 	height:40px;
-	width:416px;
+	 width:780px; 
 	margin-top:8px
 }
 
