@@ -86,30 +86,6 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 		// 定义分类的返回列表
 		List<Map<String, Serializable>> categoryList = new ArrayList<Map<String, Serializable>>();
 		
-		// 若start为1，证明为第一次查询，要返回全部的分类，若不为1，证明已经查询过了，只有好物推荐需要追加数据，则只返回好物推荐
-		if ( start == 1) {
-			Map<String, Serializable> seckill = new HashMap<String, Serializable>();
-			seckill.put("id", 1);
-			seckill.put("name", "限时秒杀");
-			
-			Map<String, Serializable> awardActivity = new HashMap<String, Serializable>();
-			awardActivity.put("id", 2);
-			awardActivity.put("name", "有奖活动");
-			
-			Map<String, Serializable> recommendItem = new HashMap<String, Serializable>();
-			recommendItem.put("id", 3);
-			recommendItem.put("name", "好物推荐");
-			
-			categoryList.add(seckill);
-			categoryList.add(awardActivity);
-			categoryList.add(recommendItem);
-		} else {
-			Map<String, Serializable> recommendItem = new HashMap<String, Serializable>();
-			recommendItem.put("id", 3);
-			recommendItem.put("name", "好物推荐");
-			
-			categoryList.add(recommendItem);
-		}
 		// 定义商品公告返回列表
 		List<OpMsgBulletin> itemList = new ArrayList<OpMsgBulletin>();
 		
@@ -121,6 +97,37 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 		
 		// 添加推荐商品列表到返回值列表，推荐商品根据前台传递的分页与每页数量返回结果
 		itemList.addAll(getRecommendItemList(start, limit));
+		
+		// 若商品公告返回值不为空，则拼装分类
+		if ( !itemList.isEmpty()) {
+			// 若start为1，证明为第一次查询，要返回全部的分类，若不为1，证明已经查询过了，只有好物推荐需要追加数据，则只返回好物推荐
+			if ( start == 1) {
+				Map<String, Serializable> seckill = new HashMap<String, Serializable>();
+				seckill.put("id", 1);
+				seckill.put("name", "限时秒杀");
+				seckill.put("iconURL", "http://imzhitu.qiniudn.com/op/item/seckill.png");
+				
+				Map<String, Serializable> awardActivity = new HashMap<String, Serializable>();
+				awardActivity.put("id", 2);
+				awardActivity.put("name", "有奖活动");
+				seckill.put("iconURL", "http://imzhitu.qiniudn.com/op/item/act.png");
+				
+				Map<String, Serializable> recommendItem = new HashMap<String, Serializable>();
+				recommendItem.put("id", 3);
+				recommendItem.put("name", "好物推荐");
+				seckill.put("iconURL", "http://imzhitu.qiniudn.com/op/item/love.png");
+				
+				categoryList.add(seckill);
+				categoryList.add(awardActivity);
+				categoryList.add(recommendItem);
+			} else {
+				Map<String, Serializable> recommendItem = new HashMap<String, Serializable>();
+				recommendItem.put("id", 3);
+				recommendItem.put("name", "好物推荐");
+				
+				categoryList.add(recommendItem);
+			}
+		}
 		
 		// 拼装返回值 
 		jsonMap.put(OptResult.JSON_KEY_CATEGORY, categoryList);
@@ -148,10 +155,12 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 		list.add(s);
 		
 //		List<SeckillBulletin> list = itemBulletinCache.querySeckill(new RowSelection(1,0));
-		
-		// 由于目前是写死的，限时秒杀的分类都是1
-		for (SeckillBulletin bulletin : list) {
-			bulletin.setCategory(1);
+		// 因为redis不会返回null，只会返回空列表
+		if ( list.size() != 0 ) {
+			// 由于目前是写死的，限时秒杀的分类都是1
+			for (SeckillBulletin bulletin : list) {
+				bulletin.setCategory(1);
+			}
 		}
 		return list;
 	}
@@ -189,9 +198,12 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 		// 有奖活动不分页，返回运营配置的所有数据，传递参数start为1，limit为0，即查询全部数据
 //		List<AwardActivityBulletin> list = itemBulletinCache.queryAwardActivity(new RowSelection(1,0));
 		
-		// 由于目前是写死的，有奖活动的分类都是2
-		for (AwardActivityBulletin bulletin : list) {
-			bulletin.setCategory(2);
+		// 因为redis不会返回null，只会返回空列表
+		if ( list.size() != 0 ) {
+			// 由于目前是写死的，有奖活动的分类都是2
+			for (AwardActivityBulletin bulletin : list) {
+				bulletin.setCategory(2);
+			}
 		}
 		return list;
 	}
@@ -256,10 +268,14 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 		
 //		List<RecommendItemBulletin> list = itemBulletinCache.queryRecommendItem(new RowSelection(start,limit));
 		
-		// 由于目前是写死的，推荐商品的分类都是3
-		for (RecommendItemBulletin bulletin : list) {
-			bulletin.setCategory(3);
+		// 因为redis不会返回null，只会返回空列表
+		if ( list.size() != 0 ) {
+			// 由于目前是写死的，推荐商品的分类都是3
+			for (RecommendItemBulletin bulletin : list) {
+				bulletin.setCategory(3);
+			}
 		}
 		return list;
 	}
+	
 }

@@ -258,7 +258,6 @@ public class KeyGenServiceImpl extends BaseServiceImpl implements KeyGenService{
 	 */
 	public static final Integer OP_NEAR_WORLD_SERIAL = 48;
 	
-	
 	/**
 	 * 附近城市组serial
 	 */
