@@ -23,6 +23,8 @@ public class OpNearWorldDto extends HTWorldBase
 	private UserInfoDto userInfo;
 	private Integer concerned = Tag.FALSE;
 	
+	private Integer cityId = 0;
+	
 	private Double[] loc;
 	
 	private List<HTWorldLikedInline> likes = new ArrayList<HTWorldLikedInline>(); // 喜欢的用户
@@ -109,7 +111,13 @@ public class OpNearWorldDto extends HTWorldBase
 	public void setLoc(Double[] loc) {
 		this.loc = loc;
 	}
-	
-	
+
+	public Integer getCityId() {
+		return cityId;
+	}
+
+	public void setCityId(Integer cityId) {
+		this.cityId = cityId;
+	}
 	
 }
