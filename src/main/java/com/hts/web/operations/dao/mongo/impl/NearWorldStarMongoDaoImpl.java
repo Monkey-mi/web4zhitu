@@ -50,4 +50,17 @@ public class NearWorldStarMongoDaoImpl extends BaseMongoDaoImpl implements NearW
 				OpNearWorldDto.class, collection);
 	}
 
+	@Override
+	public List<OpNearWorldDto> queryNear(int maxId,int cityId, int limit) {
+		Criteria criteria = Criteria.where("cityId").is(cityId);
+		if(maxId > 0) {
+			criteria = criteria.and("recommendId").lte(maxId);
+		}
+		return getMongoTemplate()
+				.find(new Query(criteria)
+				.with(new Sort(Direction.DESC, "recommendId"))
+				.limit(limit),
+				OpNearWorldDto.class, collection);
+	}
+
 }
