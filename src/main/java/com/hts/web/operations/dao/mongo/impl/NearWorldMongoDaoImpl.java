@@ -6,17 +6,13 @@ import java.util.List;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.geo.Circle;
-import org.springframework.data.geo.Distance;
-import org.springframework.data.geo.Metric;
-import org.springframework.data.geo.Metrics;
-import org.springframework.data.geo.Point;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 import com.hts.web.base.database.MongoHTS;
 import com.hts.web.common.dao.impl.BaseMongoDaoImpl;
-import com.hts.web.common.pojo.HTWorldInteractDto;
+import com.hts.web.common.pojo.OpNearWorldDto;
 import com.hts.web.operations.dao.mongo.NearWorldMongoDao;
 
 @Repository("HTSWorldMongoDao")
@@ -25,7 +21,7 @@ public class NearWorldMongoDaoImpl extends BaseMongoDaoImpl implements NearWorld
 	private static String collection = MongoHTS.NEAR_WORLD;
 	
 	@Override
-	public void saveWorld(HTWorldInteractDto world) {
+	public void saveWorld(OpNearWorldDto world) {
 		getMongoTemplate().insert(world, collection);
 	}
 
@@ -35,24 +31,24 @@ public class NearWorldMongoDaoImpl extends BaseMongoDaoImpl implements NearWorld
 	}
 
 	@Override
-	public List<HTWorldInteractDto> queryNear(double longitude, double latitude, 
+	public List<OpNearWorldDto> queryNear(double longitude, double latitude, 
 			double radius, int limit) {
 		return queryNear(0, longitude, latitude, radius, limit);
 	}
 
 	@Override
-	public List<HTWorldInteractDto> queryNear(int maxId, double longitude,
+	public List<OpNearWorldDto> queryNear(int maxId, double longitude,
 			double latitude, double radius, int limit) {
 		Circle circle = new Circle(longitude, latitude, radius / 111);
 		Criteria criteria = Criteria.where("loc").within(circle);
 		if(maxId > 0) {
-			criteria = criteria.and("_id").lte(maxId);
+			criteria = criteria.and("recommendId").lte(maxId);
 		}
 		return getMongoTemplate()
 				.find(new Query(criteria)
-				.with(new Sort(Direction.DESC, "_id"))
+				.with(new Sort(Direction.DESC, "recommendId"))
 				.limit(limit),
-				HTWorldInteractDto.class, collection);
+				OpNearWorldDto.class, collection);
 	}
 
 }

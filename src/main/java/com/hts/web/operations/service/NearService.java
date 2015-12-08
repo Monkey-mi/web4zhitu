@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.hts.web.common.pojo.HTWorld;
-import com.hts.web.common.pojo.HTWorldInteractDto;
 import com.hts.web.common.pojo.OpMsgBulletin;
 import com.hts.web.common.pojo.OpNearLabelDto;
+import com.hts.web.common.pojo.OpNearWorldDto;
 import com.hts.web.common.service.BaseService;
 
 /**
@@ -92,7 +92,7 @@ public interface NearService extends BaseService {
 	 * @return
 	 * @author lynch 2015-12-03
 	 */
-	public List<HTWorldInteractDto> queryNearWorld(float radius, double longitude, double latitude, 
+	public List<OpNearWorldDto> queryNearWorld(float radius, double longitude, double latitude, 
 			int maxId, int limit);
 
 	/**

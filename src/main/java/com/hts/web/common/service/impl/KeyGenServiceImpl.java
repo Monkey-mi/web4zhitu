@@ -253,6 +253,11 @@ public class KeyGenServiceImpl extends BaseServiceImpl implements KeyGenService{
 	 */
 	public static final Integer LABEL_WORLD_SERIAL = 47;
 	
+	/**
+	 * 附近织图序号
+	 */
+	public static final Integer OP_NEAR_WORLD_SERIAL = 48;
+	
 	@Autowired
 	private KeyGenDao keyGenDao;
 	
