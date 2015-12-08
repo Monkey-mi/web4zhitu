@@ -91,14 +91,17 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 			Map<String, Serializable> seckill = new HashMap<String, Serializable>();
 			seckill.put("id", 1);
 			seckill.put("name", "限时秒杀");
+			seckill.put("iconURL", "http://imzhitu.qiniudn.com/op/item/seckill.png");
 			
 			Map<String, Serializable> awardActivity = new HashMap<String, Serializable>();
 			awardActivity.put("id", 2);
 			awardActivity.put("name", "有奖活动");
+			seckill.put("iconURL", "http://imzhitu.qiniudn.com/op/item/act.png");
 			
 			Map<String, Serializable> recommendItem = new HashMap<String, Serializable>();
 			recommendItem.put("id", 3);
 			recommendItem.put("name", "好物推荐");
+			seckill.put("iconURL", "http://imzhitu.qiniudn.com/op/item/love.png");
 			
 			categoryList.add(seckill);
 			categoryList.add(awardActivity);
