@@ -358,4 +358,9 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 		return worldMongoDao.queryNear(maxId, cityId, limit);
 	}
 
+	@Override
+	public long queryNearWorldTotalCount(Integer cityId) throws Exception {
+		return worldMongoDao.queryNearTotalCount(cityId);
+	}
+
 }

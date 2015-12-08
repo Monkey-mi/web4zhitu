@@ -64,4 +64,10 @@ public class NearWorldMongoDaoImpl extends BaseMongoDaoImpl implements NearWorld
 				OpNearWorldDto.class, collection);
 	}
 
+	@Override
+	public long queryNearTotalCount(int cityId) {
+		Criteria criteria = Criteria.where("cityId").is(cityId);
+		return getMongoTemplate().count(new Query(criteria), OpNearWorldDto.class,collection);
+	}
+
 }

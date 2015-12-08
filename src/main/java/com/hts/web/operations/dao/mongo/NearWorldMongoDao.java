@@ -59,4 +59,12 @@ public interface NearWorldMongoDao {
 	 * @author zxx 2015-12-8 19:33:48
 	 */
 	public List<OpNearWorldDto> queryNear(int maxId,int cityId,int limit);
+	
+	/**
+	 * 查询附近织图总数
+	 * @param cityId
+	 * @return
+	 * @author zxx 2015-12-8 19:33:48
+	 */
+	public long queryNearTotalCount(int cityId);
 }
