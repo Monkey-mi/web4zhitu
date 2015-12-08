@@ -27,7 +27,7 @@ public interface NearWorldMongoDao {
 	public void deleteWorld(Integer id);
 	
 	/**
-	 * 查询附近的织图
+	 * 查询半径内的织图
 	 * 
 	 * @param longitude
 	 * @param latitude
@@ -39,7 +39,7 @@ public interface NearWorldMongoDao {
 			double radius, int limit);
 	
 	/**
-	 * 根据最大id查询附近织图
+	 * 根据最大id查询半径内织图
 	 * 
 	 * @param maxId
 	 * @param longitude
@@ -50,4 +50,14 @@ public interface NearWorldMongoDao {
 	 */
 	public List<OpNearWorldDto> queryNear(int maxId, double longitude, double latitude,
 			double radius, int limit);
+	
+	/**
+	 * 根据城市id查询织图
+	 * 
+	 * @param cityId
+	 * @param limit
+	 * @return
+	 */
+	public List<OpNearWorldDto> queryWorldByCityId(int maxId, Integer cityId,
+			int limit);
 }

@@ -16,6 +16,7 @@ import com.hts.web.base.constant.OptResult;
 import com.hts.web.base.database.RowCallback;
 import com.hts.web.common.pojo.AddrCity;
 import com.hts.web.common.pojo.HTWorld;
+import com.hts.web.common.pojo.HTWorldCount;
 import com.hts.web.common.pojo.OpMsgBulletin;
 import com.hts.web.common.pojo.OpNearCityGroupDto;
 import com.hts.web.common.pojo.OpNearLabelDto;
@@ -36,6 +37,7 @@ import com.hts.web.operations.service.NearService;
 import com.hts.web.userinfo.dao.UserInfoDao;
 import com.hts.web.userinfo.service.UserConcernService;
 import com.hts.web.userinfo.service.UserInfoService;
+import com.hts.web.ztworld.dao.HTWorldDao;
 import com.hts.web.ztworld.service.ZTWorldService;
 
 @Service("HTSNearService")
@@ -86,8 +88,11 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 	@Autowired
 	private KeyGenService keyGenService;
 	
+	@Autowired
+	private HTWorldDao worldDao;
+	
 	@Override
-	public List<OpNearWorldDto> queryNearWorld(float radius, double longitude,
+	public List<OpNearWorldDto> queryNearWorld(AddrCity city, double longitude,
 			double latitude, int maxId, int limit) {
 		
 		if(longitude == 0 && latitude == 0)
@@ -97,12 +102,16 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 		
 		if(maxId == 0) {
 			starList = worldStarMongoDao.queryNear(longitude, latitude, 
-					radius, STAR_WORLD_LIMIT);
+					city.getRadius(), STAR_WORLD_LIMIT);
 		}
 		
 		final List<OpNearWorldDto> list = worldMongoDao.queryNear(maxId, longitude, latitude, 
-				radius, limit);
-
+				city.getRadius(), limit);
+		
+		// 半径搜索为空,返回这个城市的织图
+		if(list.isEmpty())
+			list.addAll(worldMongoDao.queryWorldByCityId(maxId, city.getId(), limit));
+		
 		// 合并达人和普通织图列表
 		if(starList != null && starList.size() > 0) {
 			Set<Integer> starWids = new HashSet<Integer>();
@@ -122,8 +131,11 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 		
 		// 查询用户信息
 		if (!list.isEmpty()) {
+			Integer[] ids = new Integer[list.size()];
+			final Map<Integer, Integer> idIndexMap = new HashMap<Integer, Integer>();
 			final Map<Integer,List<Integer>> indexMap = new HashMap<Integer, List<Integer>>();
 			for (int i = 0; i < list.size(); i++) {
+				idIndexMap.put(list.get(i).getId(), i);
 				Integer auid = list.get(i).getAuthorId();
 				if(indexMap.containsKey(auid)) {
 					indexMap.get(auid).add(i);
@@ -144,6 +156,17 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 					for(Integer i : indexMap.get(uid)) {
 						list.get(i).setUserInfo(t);
 					}
+				}
+			});
+			
+			worldDao.queryCount(ids, new RowCallback<HTWorldCount>() {
+
+				@Override
+				public void callback(HTWorldCount t) {
+					Integer idx = idIndexMap.get(t.getId());
+					list.get(idx).setClickCount(t.getClickCount());
+					list.get(idx).setLikeCount(t.getLikeCount());
+					list.get(idx).setCommentCount(t.getCommentCount());
 				}
 			});
 		}
@@ -197,14 +220,14 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 				if(city == null)
 					city = cityService.getCityByName(DEFAULT_CITY);
 				
-				list = queryNearWorld(city.getRadius(), city.getLongitude(), 
+				list = queryNearWorld(city, city.getLongitude(), 
 						city.getLatitude(), maxId, limit);
 			}else{
 				throw new IllegalArgumentException("either the address or the longitude and the latitude can not be null ");
 			}
 		} else {
 			city = cityService.getNearCityByLoc(longitude, latitude);
-			list = queryNearWorld(city.getRadius(), longitude, 
+			list = queryNearWorld(city, longitude, 
 					latitude, maxId, limit);
 		}
 		

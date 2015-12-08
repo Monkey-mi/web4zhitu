@@ -3,6 +3,7 @@ package com.hts.web.operations.service;
 import java.util.List;
 import java.util.Map;
 
+import com.hts.web.common.pojo.AddrCity;
 import com.hts.web.common.pojo.HTWorld;
 import com.hts.web.common.pojo.OpMsgBulletin;
 import com.hts.web.common.pojo.OpNearLabelDto;
@@ -81,9 +82,9 @@ public interface NearService extends BaseService {
 			int maxId, int limit,Map<String,Object> jsonMap, Integer userId)throws Exception;
 	
 	/**
-	 * 根据经纬度和搜索半径查询附近的织图
+	 * 根据经纬度和搜索城市附近的织图
 	 * 
-	 * @param radius 搜索半径
+	 * @param city 搜索的城市
 	 * @param longitude 经度
 	 * @param latitude 纬度
 	 * @param maxId 起始id,0表示第一页
@@ -92,7 +93,7 @@ public interface NearService extends BaseService {
 	 * @return
 	 * @author lynch 2015-12-03
 	 */
-	public List<OpNearWorldDto> queryNearWorld(float radius, double longitude, double latitude, 
+	public List<OpNearWorldDto> queryNearWorld(AddrCity city, double longitude, double latitude, 
 			int maxId, int limit);
 
 	/**
