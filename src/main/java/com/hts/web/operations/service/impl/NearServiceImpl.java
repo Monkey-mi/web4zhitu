@@ -110,7 +110,7 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 		
 		// 半径搜索为空,返回这个城市的织图
 		if(list.isEmpty())
-			list.addAll(worldMongoDao.queryWorldByCityId(maxId, city.getId(), limit));
+			list.addAll(worldMongoDao.queryNear(maxId, city.getId(), limit));
 		
 		// 合并达人和普通织图列表
 		if(starList != null && starList.size() > 0) {
@@ -373,6 +373,17 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 		}else{
 			throw new NullPointerException("city group is null!");
 		}
+	}
+
+	@Override
+	public List<OpNearWorldDto> queryNearWorldByCityId(Integer cityId,int maxId,int limit)
+			throws Exception {
+		return worldMongoDao.queryNear(maxId, cityId, limit);
+	}
+
+	@Override
+	public long queryNearWorldTotalCount(Integer cityId) throws Exception {
+		return worldMongoDao.queryNearTotalCount(cityId);
 	}
 
 }

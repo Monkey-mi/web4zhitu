@@ -52,12 +52,19 @@ public interface NearWorldMongoDao {
 			double radius, int limit);
 	
 	/**
-	 * 根据城市id查询织图
-	 * 
+	 * 查询附近织图
 	 * @param cityId
 	 * @param limit
 	 * @return
+	 * @author zxx 2015-12-8 19:33:48
 	 */
-	public List<OpNearWorldDto> queryWorldByCityId(int maxId, Integer cityId,
-			int limit);
+	public List<OpNearWorldDto> queryNear(int maxId,int cityId,int limit);
+	
+	/**
+	 * 查询附近织图总数
+	 * @param cityId
+	 * @return
+	 * @author zxx 2015-12-8 19:33:48
+	 */
+	public long queryNearTotalCount(int cityId);
 }

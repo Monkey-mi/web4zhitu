@@ -155,4 +155,22 @@ public interface NearService extends BaseService {
 	 */
 	public void updateRecommendCityCache()throws Exception;
 	
+	/**
+	 * 根据城市id查询附近织图，For admin
+	 * @param cityId
+	 * @return
+	 * @throws Exception
+	 * @author zxx 2015-12-8 19:47:56
+	 */
+	public List<OpNearWorldDto> queryNearWorldByCityId(Integer cityId,int maxId,int limit)throws Exception;
+	
+	/**
+	 * 根据城市id查询附近织图总数。 For admin
+	 * @param cityId
+	 * @return
+	 * @throws Exception
+	 * @author zxx 2015-12-8 20:21:27
+	 */
+	public long queryNearWorldTotalCount(Integer cityId)throws Exception;
+	
 }

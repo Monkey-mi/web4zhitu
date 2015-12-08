@@ -51,9 +51,9 @@ public class NearWorldMongoDaoImpl extends BaseMongoDaoImpl implements NearWorld
 				.limit(limit),
 				OpNearWorldDto.class, collection);
 	}
-
+	
 	@Override
-	public List<OpNearWorldDto> queryWorldByCityId(int maxId, Integer cityId, int limit) {
+	public List<OpNearWorldDto> queryNear(int maxId,int cityId, int limit) {
 		Criteria criteria = Criteria.where("cityId").is(cityId);
 		if(maxId > 0) {
 			criteria = criteria.and("recommendId").lte(maxId);
@@ -65,5 +65,10 @@ public class NearWorldMongoDaoImpl extends BaseMongoDaoImpl implements NearWorld
 				OpNearWorldDto.class, collection);
 	}
 
+	@Override
+	public long queryNearTotalCount(int cityId) {
+		Criteria criteria = Criteria.where("cityId").is(cityId);
+		return getMongoTemplate().count(new Query(criteria), OpNearWorldDto.class,collection);
+	}
 
 }

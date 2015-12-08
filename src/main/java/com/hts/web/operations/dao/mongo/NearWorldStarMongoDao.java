@@ -52,4 +52,13 @@ public interface NearWorldStarMongoDao extends BaseMongoDao {
 	public List<OpNearWorldDto> queryNear(double longitude, 
 			double latitude, double radius, int limit);
 	
+	/**
+	 * 查询附近织图
+	 * @param cityId
+	 * @param limit
+	 * @return
+	 * @author zxx 2015-12-8 19:33:48
+	 */
+	public List<OpNearWorldDto> queryNear(int maxId,int cityId,int limit);
+	
 }
