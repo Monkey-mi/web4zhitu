@@ -148,7 +148,7 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 		s.setBulletinPath("http://static.imzhitu.com/op/notice/1435978781000.jpg");
 		s.setBulletinThumb("http://static.imzhitu.com/op/notice/1435978781000.jpg");
 		s.setBulletinType(5);
-		s.setDeadline(new Date().getTime());
+		s.setDeadline(new Date().getTime() + 20*60*60*1000);
 		s.setId(10000);
 		s.setLink("http://www.baidu.com");
 		
