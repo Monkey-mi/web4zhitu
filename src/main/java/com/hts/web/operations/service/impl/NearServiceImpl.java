@@ -16,13 +16,15 @@ import com.hts.web.base.constant.OptResult;
 import com.hts.web.base.database.RowCallback;
 import com.hts.web.common.pojo.AddrCity;
 import com.hts.web.common.pojo.HTWorld;
-import com.hts.web.common.pojo.HTWorldInteractDto;
 import com.hts.web.common.pojo.OpMsgBulletin;
 import com.hts.web.common.pojo.OpNearCityGroupDto;
 import com.hts.web.common.pojo.OpNearLabelDto;
 import com.hts.web.common.pojo.OpNearLabelWorldDto;
+import com.hts.web.common.pojo.OpNearWorldDto;
 import com.hts.web.common.pojo.UserInfoDto;
+import com.hts.web.common.service.KeyGenService;
 import com.hts.web.common.service.impl.BaseServiceImpl;
+import com.hts.web.common.service.impl.KeyGenServiceImpl;
 import com.hts.web.operations.dao.BulletinCacheDao;
 import com.hts.web.operations.dao.NearLabelWorldDao;
 import com.hts.web.operations.dao.NearRecommendCityCacheDao;
@@ -81,21 +83,24 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 	@Autowired
 	private UserConcernService userConcernService;
 	
+	@Autowired
+	private KeyGenService keyGenService;
+	
 	@Override
-	public List<HTWorldInteractDto> queryNearWorld(float radius, double longitude,
+	public List<OpNearWorldDto> queryNearWorld(float radius, double longitude,
 			double latitude, int maxId, int limit) {
 		
 		if(longitude == 0 && latitude == 0)
 			throw new IllegalArgumentException("longitude && latitude can not be null");
 		
-		List<HTWorldInteractDto> starList = null;
+		List<OpNearWorldDto> starList = null;
 		
 		if(maxId == 0) {
 			starList = worldStarMongoDao.queryNear(longitude, latitude, 
 					radius, STAR_WORLD_LIMIT);
 		}
 		
-		final List<HTWorldInteractDto> list = worldMongoDao.queryNear(maxId, longitude, latitude, 
+		final List<OpNearWorldDto> list = worldMongoDao.queryNear(maxId, longitude, latitude, 
 				radius, limit);
 
 		// 合并达人和普通织图列表
@@ -152,8 +157,10 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 				|| world.getLatitude() == null || world.getLatitude() > 90 || world.getLatitude() < -90)
 			return;
 		
-		HTWorldInteractDto near = new HTWorldInteractDto();
+		OpNearWorldDto near = new OpNearWorldDto();
 		near.setLoc(new Double[]{world.getLongitude(), world.getLatitude()});
+		Integer serial = keyGenService.generateId(KeyGenServiceImpl.OP_NEAR_WORLD_SERIAL);
+		near.setRecommendId(serial);
 		BeanUtils.copyProperties(world, near);
 		worldMongoDao.saveWorld(near);
 		if(userInfoDao.queryStar(world.getAuthorId()) > 0) {
@@ -173,7 +180,7 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 			Double latitude, int maxId, int limit, Map<String, Object> jsonMap,
 			Integer commentLimit, Integer likedLimit, Integer userId) throws Exception {
 		
-		List<HTWorldInteractDto> list = null;
+		List<OpNearWorldDto> list = null;
 		AddrCity city;
 		
 		if(longitude == null || latitude == null) {
@@ -316,9 +323,12 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 	@Override
 	public void buildRecommendCity(Map<String,Object>jsonMap) throws Exception {
 		List<OpNearCityGroupDto> groupList = nearRecommendCityCacheDao.queryNearRecommendCityCache();
-		if(groupList == null || groupList.isEmpty()){
-			groupList = nearRecommendCityDao.queryNearCityGroup();
-		}
+		jsonMap.put(OptResult.JSON_KEY_MSG, groupList);
+	}
+
+	@Override
+	public void updateRecommendCityCache() throws Exception {
+		List<OpNearCityGroupDto> groupList = nearRecommendCityDao.queryNearCityGroup();
 		if(groupList != null){
 			for(OpNearCityGroupDto dto:groupList){
 				List<AddrCity> cityList = nearRecommendCityDao.queryNearRecommendCityByGroupId(dto.getId());
@@ -327,10 +337,11 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 				}else{
 					dto.setCities(new ArrayList<AddrCity>());
 				}
-				
 			}
+			nearRecommendCityCacheDao.updateNearRecommendCityCache(groupList);
+		}else{
+			throw new NullPointerException("city group is null!");
 		}
-		jsonMap.put(OptResult.JSON_KEY_MSG, groupList);
 	}
 
 }

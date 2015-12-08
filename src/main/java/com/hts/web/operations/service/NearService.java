@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.hts.web.common.pojo.HTWorld;
-import com.hts.web.common.pojo.HTWorldInteractDto;
 import com.hts.web.common.pojo.OpMsgBulletin;
 import com.hts.web.common.pojo.OpNearLabelDto;
+import com.hts.web.common.pojo.OpNearWorldDto;
 import com.hts.web.common.service.BaseService;
 
 /**
@@ -92,7 +92,7 @@ public interface NearService extends BaseService {
 	 * @return
 	 * @author lynch 2015-12-03
 	 */
-	public List<HTWorldInteractDto> queryNearWorld(float radius, double longitude, double latitude, 
+	public List<OpNearWorldDto> queryNearWorld(float radius, double longitude, double latitude, 
 			int maxId, int limit);
 
 	/**
@@ -146,5 +146,12 @@ public interface NearService extends BaseService {
 	 * @author zxx 2015-12-3 17:16:18
 	 */
 	public void buildRecommendCity(Map<String,Object>jsonMap)throws Exception;
+	
+	/**
+	 * 更新附近推荐城市缓存
+	 * @throws Exception
+	 * @author zxx 2015-12-8 12:28:56
+	 */
+	public void updateRecommendCityCache()throws Exception;
 	
 }
