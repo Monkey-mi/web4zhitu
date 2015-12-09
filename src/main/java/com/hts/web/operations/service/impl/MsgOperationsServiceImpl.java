@@ -124,6 +124,7 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 				Map<String, Serializable> recommendItem = new HashMap<String, Serializable>();
 				recommendItem.put("id", 3);
 				recommendItem.put("name", "好物推荐");
+				recommendItem.put("iconURL", "http://imzhitu.qiniudn.com/op/item/love.png");
 				
 				categoryList.add(recommendItem);
 			}
@@ -144,13 +145,13 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 		// 临时构造数据
 		List<SeckillBulletin> list = new ArrayList<SeckillBulletin>();
 		SeckillBulletin s = new SeckillBulletin();
-		s.setBulletinName("这个是临时构造测试数据：限时秒杀");
-		s.setBulletinPath("http://static.imzhitu.com/op/notice/1435978781000.jpg");
-		s.setBulletinThumb("http://static.imzhitu.com/op/notice/1435978781000.jpg");
+		s.setBulletinName("放血啦！放血啦！织图清仓大狂欢，限时大放送。");
+		s.setBulletinPath("http://imzhitu.qiniudn.com/op/business/ClearanceKillSecond.png");
+		s.setBulletinThumb("http://imzhitu.qiniudn.com/op/business/ClearanceKillSecond.png");
 		s.setBulletinType(5);
 		s.setDeadline(new Date().getTime() + 20*60*60*1000);
 		s.setId(10000);
-		s.setLink("http://www.baidu.com");
+		s.setLink("http://imzhitu.com/");
 		
 		list.add(s);
 		
@@ -176,20 +177,20 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 		// 临时构造数据
 		List<AwardActivityBulletin> list = new ArrayList<AwardActivityBulletin>();
 		AwardActivityBulletin a = new AwardActivityBulletin();
-		a.setBulletinName("这个是临时构造测试数据：有奖活动1");
-		a.setBulletinPath("http://static.imzhitu.com/op/notice/1435978781000.jpg");
-		a.setBulletinThumb("http://static.imzhitu.com/op/notice/1435978781000.jpg");
+		a.setBulletinName("许愿云给你送温暖");
+		a.setBulletinPath("http://static.imzhitu.com/op/notice/1449110577000.jpg");
+		a.setBulletinThumb("http://static.imzhitu.com/op/notice/1449110579000.jpg");
 		a.setBulletinType(6);
-		a.setId(10001);
-		a.setLink("清凉一夏");
+		a.setId(106);
+		a.setLink("许愿云给你送温暖");
 		
 		AwardActivityBulletin a1 = new AwardActivityBulletin();
-		a1.setBulletinName("这个是临时构造测试数据：有奖活动2");
-		a1.setBulletinPath("http://static.imzhitu.com/op/notice/1435978781000.jpg");
-		a1.setBulletinThumb("http://static.imzhitu.com/op/notice/1435978781000.jpg");
+		a1.setBulletinName("走自己的路");
+		a1.setBulletinPath("http://static.imzhitu.com/op/notice/1449286107000.jpg");
+		a1.setBulletinThumb("http://static.imzhitu.com/op/notice/1449286110000.jpg");
 		a1.setBulletinType(6);
-		a1.setId(10002);
-		a1.setLink("清凉一夏");
+		a1.setId(108);
+		a1.setLink("走自己的路");
 				
 		list.add(a);
 		list.add(a1);
@@ -221,50 +222,32 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 		// 临时构造数据
 		List<RecommendItemBulletin> list = new ArrayList<RecommendItemBulletin>();
 		RecommendItemBulletin r = new RecommendItemBulletin();
-		r.setBulletinName("这个是临时构造测试数据：推荐商品1");
-		r.setBulletinPath("http://static.imzhitu.com/op/notice/1435978781000.jpg");
-		r.setBulletinThumb("http://static.imzhitu.com/op/notice/1435978781000.jpg");
+		r.setBulletinName("NO COFFEE NO TEA NO LIFE");
+		r.setBulletinPath("http://imzhitu.qiniudn.com/op/business/coffeeortea.png");
+		r.setBulletinThumb("http://imzhitu.qiniudn.com/op/business/coffeeortea.png");
 		r.setBulletinType(7);
 		r.setId(10003);
-		r.setLink("http://www.baidu.com");
+		r.setLink("http://imzhitu.com/");
 		
 		RecommendItemBulletin r1 = new RecommendItemBulletin();
-		r1.setBulletinName("这个是临时构造测试数据：推荐商品2");
-		r1.setBulletinPath("http://static.imzhitu.com/op/notice/1435978781000.jpg");
-		r1.setBulletinThumb("http://static.imzhitu.com/op/notice/1435978781000.jpg");
+		r1.setBulletinName("来自葫芦屯の草莓");
+		r1.setBulletinPath("http://imzhitu.qiniudn.com/op/business/Strawberry.png");
+		r1.setBulletinThumb("http://imzhitu.qiniudn.com/op/business/Strawberry.png");
 		r1.setBulletinType(7);
 		r1.setId(10004);
-		r1.setLink("http://www.baidu.com");
+		r1.setLink("http://imzhitu.com/");
 		
 		RecommendItemBulletin r2 = new RecommendItemBulletin();
-		r2.setBulletinName("这个是临时构造测试数据：推荐商品3");
-		r2.setBulletinPath("http://static.imzhitu.com/op/notice/1435978781000.jpg");
-		r2.setBulletinThumb("http://static.imzhitu.com/op/notice/1435978781000.jpg");
+		r2.setBulletinName("织图插画大甩卖啦");
+		r2.setBulletinPath("http://imzhitu.qiniudn.com/op/business/inbetweening.png");
+		r2.setBulletinThumb("http://imzhitu.qiniudn.com/op/business/inbetweening.png");
 		r2.setBulletinType(7);
 		r2.setId(10005);
-		r2.setLink("http://www.baidu.com");
-		
-		RecommendItemBulletin r3 = new RecommendItemBulletin();
-		r3.setBulletinName("这个是临时构造测试数据：推荐商品4");
-		r3.setBulletinPath("http://static.imzhitu.com/op/notice/1435978781000.jpg");
-		r3.setBulletinThumb("http://static.imzhitu.com/op/notice/1435978781000.jpg");
-		r3.setBulletinType(7);
-		r3.setId(10006);
-		r3.setLink("http://www.baidu.com");
-		
-		RecommendItemBulletin r4 = new RecommendItemBulletin();
-		r4.setBulletinName("这个是临时构造测试数据：推荐商品5");
-		r4.setBulletinPath("http://static.imzhitu.com/op/notice/1435978781000.jpg");
-		r4.setBulletinThumb("http://static.imzhitu.com/op/notice/1435978781000.jpg");
-		r4.setBulletinType(7);
-		r4.setId(10007);
-		r4.setLink("http://www.baidu.com");
+		r2.setLink("http://imzhitu.com/");
 		
 		list.add(r);
 		list.add(r1);
 		list.add(r2);
-		list.add(r3);
-		list.add(r4);
 		
 //		List<RecommendItemBulletin> list = itemBulletinCache.queryRecommendItem(new RowSelection(start,limit));
 		
