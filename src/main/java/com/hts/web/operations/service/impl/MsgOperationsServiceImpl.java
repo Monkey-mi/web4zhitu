@@ -177,7 +177,7 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 		// 临时构造数据
 		List<AwardActivityBulletin> list = new ArrayList<AwardActivityBulletin>();
 		AwardActivityBulletin a = new AwardActivityBulletin();
-		a.setBulletinName("许愿云给你送温暖");
+		a.setBulletinName("织图君遇见了一朵云，它说要把温暖寄给你。");
 		a.setBulletinPath("http://static.imzhitu.com/op/notice/1449110577000.jpg");
 		a.setBulletinThumb("http://static.imzhitu.com/op/notice/1449110579000.jpg");
 		a.setBulletinType(6);
@@ -185,7 +185,7 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 		a.setLink("许愿云给你送温暖");
 		
 		AwardActivityBulletin a1 = new AwardActivityBulletin();
-		a1.setBulletinName("走自己的路");
+		a1.setBulletinName("走自己的路，让别人说去吧！别人说去吧！人说去吧！说去吧！去吧！吧吧吧！");
 		a1.setBulletinPath("http://static.imzhitu.com/op/notice/1449286107000.jpg");
 		a1.setBulletinThumb("http://static.imzhitu.com/op/notice/1449286110000.jpg");
 		a1.setBulletinType(6);
@@ -222,7 +222,7 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 		// 临时构造数据
 		List<RecommendItemBulletin> list = new ArrayList<RecommendItemBulletin>();
 		RecommendItemBulletin r = new RecommendItemBulletin();
-		r.setBulletinName("NO COFFEE NO TEA NO LIFE");
+		r.setBulletinName("咖啡和茶的杯，我们有一堆你们要不~~看看？");
 		r.setBulletinPath("http://imzhitu.qiniudn.com/op/business/coffeeortea.png");
 		r.setBulletinThumb("http://imzhitu.qiniudn.com/op/business/coffeeortea.png");
 		r.setBulletinType(7);
@@ -230,7 +230,7 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 		r.setLink("http://imzhitu.com/");
 		
 		RecommendItemBulletin r1 = new RecommendItemBulletin();
-		r1.setBulletinName("来自葫芦屯の草莓");
+		r1.setBulletinName("拳头大的草莓吃过没？来自大织图的安利，欢迎剁手！");
 		r1.setBulletinPath("http://imzhitu.qiniudn.com/op/business/Strawberry.png");
 		r1.setBulletinThumb("http://imzhitu.qiniudn.com/op/business/Strawberry.png");
 		r1.setBulletinType(7);
@@ -238,7 +238,7 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 		r1.setLink("http://imzhitu.com/");
 		
 		RecommendItemBulletin r2 = new RecommendItemBulletin();
-		r2.setBulletinName("织图插画大甩卖啦");
+		r2.setBulletinName("来来来，走过路过不要错过，插画吐血大放送。");
 		r2.setBulletinPath("http://imzhitu.qiniudn.com/op/business/inbetweening.png");
 		r2.setBulletinThumb("http://imzhitu.qiniudn.com/op/business/inbetweening.png");
 		r2.setBulletinType(7);
