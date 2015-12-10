@@ -38,6 +38,11 @@ public class BulletinCacheDaoImpl extends BaseCacheDaoImpl<OpMsgBulletin>impleme
 	public List<OpMsgBulletin> queryUserTheme(RowSelection rowSelection) {
 		return getRedisTemplate().opsForList().range(CacheKeies.OP_MSG_USER_THEME, rowSelection.getFirstRow(), rowSelection.getMaxRow() - 1);
 	}
+	
+	@Override
+	public List<OpMsgBulletin> queryChannelTheme(RowSelection rowSelection) {
+		return getRedisTemplate().opsForList().range(CacheKeies.OP_MSG_CHANNEL_THEME, rowSelection.getFirstRow(), rowSelection.getMaxRow() - 1);
+	}
 
 	@Override
 	public void updateUserThemeBulletin(List<OpMsgBulletin> cacheList) {
@@ -58,6 +63,17 @@ public class BulletinCacheDaoImpl extends BaseCacheDaoImpl<OpMsgBulletin>impleme
 		if (cacheList.size() > 0) {
 			OpMsgBulletin[] list = new OpMsgBulletin[cacheList.size()];
 			getRedisTemplate().opsForList().rightPushAll(CacheKeies.OP_MSG_THEME, cacheList.toArray(list));
+		}
+	}
+
+	@Override
+	public void updateChannelThemeBulletin(List<OpMsgBulletin> cacheList) {
+		if (getRedisTemplate().hasKey(CacheKeies.OP_MSG_CHANNEL_THEME)) {
+			getRedisTemplate().delete(CacheKeies.OP_MSG_CHANNEL_THEME);
+		}
+		if (cacheList.size() > 0) {
+			OpMsgBulletin[] list = new OpMsgBulletin[cacheList.size()];
+			getRedisTemplate().opsForList().rightPushAll(CacheKeies.OP_MSG_CHANNEL_THEME, cacheList.toArray(list));
 		}
 	}
 

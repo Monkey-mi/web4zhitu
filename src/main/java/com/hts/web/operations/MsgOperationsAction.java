@@ -96,6 +96,22 @@ public class MsgOperationsAction extends BaseAction {
 	}
 	
 	/**
+	 * 查询频道专题
+	 * 
+	 * @return
+	 * @author zxx 2015-12-10 20:11:31
+	 */
+	public String queryChannelTheme() {
+		try {
+			msgOperationsService.buildChannelTheme(start, limit, jsonMap);
+			JSONUtil.optSuccess(jsonMap);
+		} catch (Exception e) {
+			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+		}
+		return StrutsKey.JSON;
+	}
+	
+	/**
 	 * 查询商品公告列表
 	 * 
 	 * @return

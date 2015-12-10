@@ -76,6 +76,13 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 		jsonMap.put(OptResult.JSON_KEY_MSG, 
 				bulletinCacheDao.queryUserTheme(new RowSelection(start, limit)));
 	}
+	
+	@Override
+	public void buildChannelTheme(int start, int limit,
+			Map<String, Object> jsonMap) throws Exception {
+		jsonMap.put(OptResult.JSON_KEY_MSG, 
+				bulletinCacheDao.queryChannelTheme(new RowSelection(start, limit)));
+	}
 
 	@Override
 	public void buildItemSet(Integer start, Integer limit, Map<String, Object> jsonMap) {
@@ -259,5 +266,5 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 		}
 		return list;
 	}
-	
+
 }

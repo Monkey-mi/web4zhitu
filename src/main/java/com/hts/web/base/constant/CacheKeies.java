@@ -138,6 +138,11 @@ public class CacheKeies {
 	public static final String OP_MSG_USER_THEME = MODULE_OP + "msg:userTheme";
 	
 	/**
+	 * 运营：频道专题公告列表
+	 */
+	public static final String OP_MSG_CHANNEL_THEME = MODULE_OP + "msg:channelTheme";
+	
+	/**
 	 * 公用系统消息列表
 	 */
 	public static final String OP_MSG_COMMON_SYSMSG = MODULE_OP + "msg:commonSysMsg";

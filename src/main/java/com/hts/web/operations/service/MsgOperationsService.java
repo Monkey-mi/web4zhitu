@@ -48,6 +48,18 @@ public interface MsgOperationsService extends BaseService {
 	 */
 	public void buildUserTheme(int start, int limit,
 			Map<String, Object> jsonMap) throws Exception;
+	
+	/**
+	 * 查询频道专题
+	 * 
+	 * @param start
+	 * @param limit
+	 * @param jsonMap
+	 * @throws Exception
+	 * @author zxx 2015-12-10 20:08:53
+	 */
+	public void buildChannelTheme(int start, int limit,
+			Map<String, Object> jsonMap) throws Exception;
 
 	/**
 	 * 查询商品公告列表
