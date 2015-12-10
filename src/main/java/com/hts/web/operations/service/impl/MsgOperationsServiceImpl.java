@@ -18,7 +18,6 @@ import com.hts.web.common.pojo.OpNotice;
 import com.hts.web.common.pojo.OpSysMsgDto;
 import com.hts.web.common.service.impl.BaseServiceImpl;
 import com.hts.web.operations.dao.BulletinCacheDao;
-import com.hts.web.operations.dao.ItemBulletinCache;
 import com.hts.web.operations.dao.NoticeCacheDao;
 import com.hts.web.operations.dao.StartPageCacheDao;
 import com.hts.web.operations.dao.SysMsgDao;
@@ -41,9 +40,6 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 
 	@Autowired
 	private BulletinCacheDao bulletinCacheDao;
-	
-	@Autowired
-	private ItemBulletinCache itemBulletinCache;
 	
 	@Override
 	public void buildNotice(Integer userId, Integer phoneCode, Map<String, Object> jsonMap) throws Exception {
@@ -82,20 +78,23 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 	}
 
 	@Override
-	public void buildItem(Integer start, Integer limit, Map<String, Object> jsonMap) {
+	public void buildItemSet(Integer start, Integer limit, Map<String, Object> jsonMap) {
 		// 定义分类的返回列表
 		List<Map<String, Serializable>> categoryList = new ArrayList<Map<String, Serializable>>();
 		
 		// 定义商品公告返回列表
 		List<OpMsgBulletin> itemList = new ArrayList<OpMsgBulletin>();
 		
-		// 添加限时秒杀商品列表到返回值列表
-		itemList.addAll(getSeckillList());
+		// 若start为1，证明为第一次查询，要返回全部的商品集合列表，若不为1，证明已经查询过了，只有好物推荐需要追加数据，则只返回好物推荐
+		if ( start == 1) {
+			// 添加限时秒杀商品集合列表到返回值列表
+			itemList.addAll(getSeckillList());
+			
+			// 添加有奖活动列表到返回值列表
+			itemList.addAll(getAwardActivityList());
+		}
 		
-		// 添加有奖活动列表到返回值列表
-		itemList.addAll(getAwardActivityList());
-		
-		// 添加推荐商品列表到返回值列表，推荐商品根据前台传递的分页与每页数量返回结果
+		// 添加推荐商品集合列表到返回值列表，推荐商品集合根据前台传递的分页与每页数量返回结果
 		itemList.addAll(getRecommendItemList(start, limit));
 		
 		// 若商品公告返回值不为空，则拼装分类

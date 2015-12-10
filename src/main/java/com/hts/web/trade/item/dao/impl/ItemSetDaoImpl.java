@@ -8,7 +8,6 @@ import org.springframework.jdbc.core.RowMapper;
 
 import com.hts.web.base.database.HTS;
 import com.hts.web.common.dao.impl.BaseDaoImpl;
-import com.hts.web.common.pojo.HTWorldInteractDto;
 import com.hts.web.trade.item.dao.ItemSetDao;
 import com.hts.web.trade.item.dto.ItemDTO;
 

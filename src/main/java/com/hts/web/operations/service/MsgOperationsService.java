@@ -57,7 +57,7 @@ public interface MsgOperationsService extends BaseService {
 	 * @param jsonMap	返回值
 	 * @author zhangbo	2015年12月7日
 	 */
-	void buildItem(Integer start, Integer limit, Map<String, Object> jsonMap);
+	void buildItemSet(Integer start, Integer limit, Map<String, Object> jsonMap);
 	
 	
 }

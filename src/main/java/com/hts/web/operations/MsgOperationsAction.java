@@ -101,9 +101,9 @@ public class MsgOperationsAction extends BaseAction {
 	 * @return
 	 * @author zhangbo	2015年12月7日
 	 */
-	public String queryItem() {
+	public String queryItemSet() {
 		try {
-			msgOperationsService.buildItem(start, limit, jsonMap);
+			msgOperationsService.buildItemSet(start, limit, jsonMap);
 			JSONUtil.optSuccess(jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
