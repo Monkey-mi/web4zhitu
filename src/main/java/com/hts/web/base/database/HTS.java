@@ -413,4 +413,28 @@ public class HTS {
 	 */
 	public static final String USER_MSG_LIKED = DB + "user_msg_liked";
 	
+	/**
+	 * 商品表
+	 * @author zhangbo	2015年12月10日
+	 */
+	public static final String ITEM = DB + "item";
+	
+	/**
+	 * 商品集合表
+	 * @author zhangbo	2015年12月10日
+	 */
+	public static final String ITEM_SET = DB + "item_set";
+	
+	/**
+	 * 商品与商品集合关联关系表
+	 * @author zhangbo	2015年12月10日
+	 */
+	public static final String ITEM_SET_R = DB + "item_set_r";
+	
+	/**
+	 * 商品点赞表
+	 * @author zhangbo	2015年12月10日
+	 */
+	public static final String ITEM_LIKE = DB + "item_like";
+	
 }

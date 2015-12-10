@@ -587,6 +587,12 @@ public class OptResult {
 	 * @author zhangbo	2015年12月7日
 	 */
 	public static final String JSON_KEY_ITEMS = "items";
+	
+	/**
+	 * 返回结果KEY：itemSet，商品集合
+	 * @author zhangbo	2015年12月10日
+	 */
+	public static final String JSON_KEY_ITEMSET = "itemSet";
 }
 
 
