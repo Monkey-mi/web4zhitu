@@ -185,12 +185,15 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 		Integer serial = keyGenService.generateId(KeyGenServiceImpl.OP_NEAR_WORLD_SERIAL);
 		near.setRecommendId(serial);
 		
-		if(world.getCity() != null) {
-			AddrCity cityDto = cityService.getCityByName(world.getCity());
-			if(cityDto != null) {
-				near.setCityId(cityDto.getId());
-			}
+		AddrCity cityDto = cityService.getCityByName(world.getCity());
+		if(cityDto == null)
+			cityDto = cityService.getNearCityByLoc(world.getLongitude(), world.getLongitude());
+		
+		if(cityDto != null) {
+			near.setCityId(cityDto.getId());
 		}
+		
+		near.setWorldURL("http://imzhitu.com/DT" + world.getShortLink());
 		
 		BeanUtils.copyProperties(world, near);
 		worldMongoDao.saveWorld(near);
