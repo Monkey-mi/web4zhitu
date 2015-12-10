@@ -82,9 +82,8 @@ var downbanner = {
 };
 
 (function(){
-	downbanner.appendBanner();
-	//if(downbanner.checkCookieEnable && !downbanner.isHideBanner() 
-	//		&& !downbanner.isInApp()) {
-	//	downbanner.appendBanner();
-	//}
+	if(downbanner.checkCookieEnable && !downbanner.isHideBanner() 
+			&& !downbanner.isInApp()) {
+		downbanner.appendBanner();
+	}
 })();
