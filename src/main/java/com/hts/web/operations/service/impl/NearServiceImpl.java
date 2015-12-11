@@ -1,11 +1,10 @@
 package com.hts.web.operations.service.impl;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,12 +97,12 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 		if(longitude == 0 && latitude == 0)
 			throw new IllegalArgumentException("longitude && latitude can not be null");
 		
-		List<OpNearWorldDto> starList = null;
-		
-		if(maxId == 0) {
-			starList = worldStarMongoDao.queryNear(longitude, latitude, 
-					city.getRadius(), STAR_WORLD_LIMIT);
-		}
+//		List<OpNearWorldDto> starList = null;
+//		
+//		if(maxId == 0) {
+//			starList = worldStarMongoDao.queryNear(longitude, latitude, 
+//					city.getRadius(), STAR_WORLD_LIMIT);
+//		}
 		
 		final List<OpNearWorldDto> list = worldMongoDao.queryNear(maxId, longitude, latitude, 
 				city.getRadius(), limit);
@@ -113,21 +112,21 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 			list.addAll(worldMongoDao.queryNear(maxId, city.getId(), limit));
 		
 		// 合并达人和普通织图列表
-		if(starList != null && starList.size() > 0) {
-			Set<Integer> starWids = new HashSet<Integer>();
-			for(int i = 0; i < starList.size(); i++) {
-				starWids.add(starList.get(i).getId());
-			}
-			
-			for(int i = 0; i < starList.size(); i++) {
-				if(starWids.contains(list.get(i).getId())) {
-					list.remove(i);
-					--i;
-					continue;
-				}
-			}
-			list.addAll(0, starList);
-		}
+//		if(starList != null && starList.size() > 0) {
+//			Set<Integer> starWids = new HashSet<Integer>();
+//			for(int i = 0; i < starList.size(); i++) {
+//				starWids.add(starList.get(i).getId());
+//			}
+//			
+//			for(int i = 0; i < list.size(); i++) {
+//				if(starWids.contains(list.get(i).getId())) {
+//					list.remove(i);
+//					--i;
+//					continue;
+//				}
+//			}
+//			list.addAll(0, starList);
+//		}
 		
 		// 查询用户信息
 		if (!list.isEmpty()) {
@@ -187,12 +186,18 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 		
 		AddrCity cityDto = cityService.getCityByName(world.getCity());
 		if(cityDto == null)
-			cityDto = cityService.getNearCityByLoc(world.getLongitude(), world.getLongitude());
+			cityDto = cityService.getNearCityByLoc(world.getLongitude(), world.getLatitude());
 		
 		if(cityDto != null) {
 			near.setCityId(cityDto.getId());
 		}
 		
+		if(world.getWorldDesc() != null) {
+			try {
+				near.setWorldDescByte(world.getWorldDesc().getBytes("UTF-8"));
+			} catch (UnsupportedEncodingException e) {
+			}
+		}
 		near.setWorldURL("http://imzhitu.com/DT" + world.getShortLink());
 		
 		BeanUtils.copyProperties(world, near);

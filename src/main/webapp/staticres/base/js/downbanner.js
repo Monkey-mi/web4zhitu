@@ -51,10 +51,10 @@ var downbanner = {
 	isInApp : function() {
 		var reg = new RegExp("(^|&)inapp=([^&]*)(&|$)","i");
 		var r   = window.location.search.substr(1).match(reg);
-		var s   = r[2];
-		if(s != undefined && s == 1) {
+		
+		if(r != null && r[2] == 1)
 			return true;
-		}
+		
 		return false;
 	},
 	

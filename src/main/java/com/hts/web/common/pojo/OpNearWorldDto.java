@@ -1,6 +1,7 @@
 package com.hts.web.common.pojo;
 
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +23,7 @@ public class OpNearWorldDto extends HTWorldBase
 	private Integer recommendId; // 兼容以前的接口, 实际赋值为标签排序字段
 	private UserInfoDto userInfo;
 	private Integer concerned = Tag.FALSE;
+	private byte[] worldDescByte;
 	
 	private Integer cityId = 0;
 	
@@ -118,6 +120,18 @@ public class OpNearWorldDto extends HTWorldBase
 
 	public void setCityId(Integer cityId) {
 		this.cityId = cityId;
+	}
+
+	public byte[] getWorldDescByte() {
+		return worldDescByte;
+	}
+
+	public void setWorldDescByte(byte[] worldDescByte) {
+		this.worldDescByte = worldDescByte;
+		try {
+			this.worldDesc = new String(worldDescByte, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+		}
 	}
 	
 }
