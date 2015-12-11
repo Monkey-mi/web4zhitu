@@ -2,6 +2,8 @@ package com.hts.web.trade.item.dao;
 
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import com.hts.web.base.constant.CacheKeies;
 import com.hts.web.base.database.RowSelection;
 import com.hts.web.common.dao.impl.BaseCacheDaoImpl;
@@ -13,6 +15,7 @@ import com.hts.web.trade.item.dto.ItemDTO;
  * @author zhangbo	2015年12月11日
  *
  */
+@Repository
 public class ItemCache extends BaseCacheDaoImpl<ItemDTO>{
 	
 	/**
