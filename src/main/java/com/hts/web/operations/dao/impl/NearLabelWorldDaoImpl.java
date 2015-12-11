@@ -92,6 +92,7 @@ public class NearLabelWorldDaoImpl extends BaseDaoImpl implements NearLabelWorld
 				rs.getInt("shield"),
 				JSONUtil.getJSObjectFromText(rs.getString("text_style")),
 				urlPrefix+rs.getString("short_link"));
+		dto.setRecommendId(rs.getInt("serial"));
 		return dto;
 	}
 
