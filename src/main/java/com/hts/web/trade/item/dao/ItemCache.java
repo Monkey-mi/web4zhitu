@@ -15,7 +15,7 @@ import com.hts.web.trade.item.dto.ItemDTO;
  * @author zhangbo	2015年12月11日
  *
  */
-@Repository
+@Repository("com.hts.web.trade.item.dao.ItemCache")
 public class ItemCache extends BaseCacheDaoImpl<ItemDTO>{
 	
 	/**
