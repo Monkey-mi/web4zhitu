@@ -138,6 +138,11 @@ public class CacheKeies {
 	public static final String OP_MSG_USER_THEME = MODULE_OP + "msg:userTheme";
 	
 	/**
+	 * 运营：频道专题公告列表
+	 */
+	public static final String OP_MSG_CHANNEL_THEME = MODULE_OP + "msg:channelTheme";
+	
+	/**
 	 * 公用系统消息列表
 	 */
 	public static final String OP_MSG_COMMON_SYSMSG = MODULE_OP + "msg:commonSysMsg";
@@ -328,5 +333,16 @@ public class CacheKeies {
 	 * 城市
 	 */
 	public static final String ADDR_CITY = MODULE_ADDR + "city";
+	
+	/**
+	 * 商品模块
+	 */
+	private static final String MODULE_ITEM = "item:";
+	
+	/**
+	 * 根据商品集合id，查找其下的商品列表
+	 * @author zhangbo	2015年12月10日
+	 */
+	public static final String ITEM_LIST_BY_SETID = MODULE_ITEM + "itemSet:";
 	
 }

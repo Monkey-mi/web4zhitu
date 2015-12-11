@@ -18,6 +18,7 @@ import com.hts.web.common.pojo.OpNotice;
 import com.hts.web.common.pojo.OpSysMsgDto;
 import com.hts.web.common.service.impl.BaseServiceImpl;
 import com.hts.web.operations.dao.BulletinCacheDao;
+import com.hts.web.operations.dao.ItemBulletinCache;
 import com.hts.web.operations.dao.NoticeCacheDao;
 import com.hts.web.operations.dao.StartPageCacheDao;
 import com.hts.web.operations.dao.SysMsgDao;
@@ -40,6 +41,9 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 
 	@Autowired
 	private BulletinCacheDao bulletinCacheDao;
+	
+	@Autowired
+	private ItemBulletinCache itemBulletinCache;
 	
 	@Override
 	public void buildNotice(Integer userId, Integer phoneCode, Map<String, Object> jsonMap) throws Exception {
@@ -75,6 +79,13 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 	public void buildUserTheme(int start, int limit, Map<String, Object> jsonMap) throws Exception {
 		jsonMap.put(OptResult.JSON_KEY_MSG, 
 				bulletinCacheDao.queryUserTheme(new RowSelection(start, limit)));
+	}
+	
+	@Override
+	public void buildChannelTheme(int start, int limit,
+			Map<String, Object> jsonMap) throws Exception {
+		jsonMap.put(OptResult.JSON_KEY_MSG, 
+				bulletinCacheDao.queryChannelTheme(new RowSelection(start, limit)));
 	}
 
 	@Override
@@ -141,20 +152,9 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 	 * @author zhangbo	2015年12月7日
 	 */
 	private List<SeckillBulletin> getSeckillList() {
-		// 临时构造数据
-		List<SeckillBulletin> list = new ArrayList<SeckillBulletin>();
-		SeckillBulletin s = new SeckillBulletin();
-		s.setBulletinName("放血啦！放血啦！织图清仓大狂欢，限时大放送。");
-		s.setBulletinPath("http://imzhitu.qiniudn.com/op/business/ClearanceKillSecond.png");
-		s.setBulletinThumb("http://imzhitu.qiniudn.com/op/business/ClearanceKillSecond.png");
-		s.setBulletinType(5);
-		s.setDeadline(new Date().getTime() + 20*60*60*1000);
-		s.setId(10000);
-		s.setLink("http://imzhitu.com/");
 		
-		list.add(s);
-		
-//		List<SeckillBulletin> list = itemBulletinCache.querySeckill(new RowSelection(1,0));
+		// 限时秒杀不分页，返回运营配置的所有数据，传递参数start为1，limit为0，即查询全部数据
+		List<SeckillBulletin> list = itemBulletinCache.querySeckill(new RowSelection(1,0));
 		// 因为redis不会返回null，只会返回空列表
 		if ( list.size() != 0 ) {
 			// 由于目前是写死的，限时秒杀的分类都是1
@@ -173,30 +173,8 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 	 */
 	private List<AwardActivityBulletin> getAwardActivityList() {
 		
-		// 临时构造数据
-		List<AwardActivityBulletin> list = new ArrayList<AwardActivityBulletin>();
-		AwardActivityBulletin a = new AwardActivityBulletin();
-		a.setBulletinName("织图君遇见了一朵云，它说要把温暖寄给你。");
-		a.setBulletinPath("http://static.imzhitu.com/op/notice/1449110577000.jpg");
-		a.setBulletinThumb("http://static.imzhitu.com/op/notice/1449110579000.jpg");
-		a.setBulletinType(6);
-		a.setId(106);
-		a.setLink("许愿云给你送温暖");
-		
-		AwardActivityBulletin a1 = new AwardActivityBulletin();
-		a1.setBulletinName("走自己的路，让别人说去吧！别人说去吧！人说去吧！说去吧！去吧！吧吧吧！");
-		a1.setBulletinPath("http://static.imzhitu.com/op/notice/1449286107000.jpg");
-		a1.setBulletinThumb("http://static.imzhitu.com/op/notice/1449286110000.jpg");
-		a1.setBulletinType(6);
-		a1.setId(108);
-		a1.setLink("走自己的路");
-				
-		list.add(a);
-		list.add(a1);
-		
-		
 		// 有奖活动不分页，返回运营配置的所有数据，传递参数start为1，limit为0，即查询全部数据
-//		List<AwardActivityBulletin> list = itemBulletinCache.queryAwardActivity(new RowSelection(1,0));
+		List<AwardActivityBulletin> list = itemBulletinCache.queryAwardActivity(new RowSelection(1,0));
 		
 		// 因为redis不会返回null，只会返回空列表
 		if ( list.size() != 0 ) {
@@ -218,37 +196,7 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 	 */
 	private List<RecommendItemBulletin> getRecommendItemList(Integer start, Integer limit) {
 		
-		// 临时构造数据
-		List<RecommendItemBulletin> list = new ArrayList<RecommendItemBulletin>();
-		RecommendItemBulletin r = new RecommendItemBulletin();
-		r.setBulletinName("咖啡和茶的杯，我们有一堆你们要不~~看看？");
-		r.setBulletinPath("http://imzhitu.qiniudn.com/op/business/coffeeortea.png");
-		r.setBulletinThumb("http://imzhitu.qiniudn.com/op/business/coffeeortea.png");
-		r.setBulletinType(7);
-		r.setId(10003);
-		r.setLink("http://imzhitu.com/");
-		
-		RecommendItemBulletin r1 = new RecommendItemBulletin();
-		r1.setBulletinName("拳头大的草莓吃过没？来自大织图的安利，欢迎剁手！");
-		r1.setBulletinPath("http://imzhitu.qiniudn.com/op/business/Strawberry.png");
-		r1.setBulletinThumb("http://imzhitu.qiniudn.com/op/business/Strawberry.png");
-		r1.setBulletinType(7);
-		r1.setId(10004);
-		r1.setLink("http://imzhitu.com/");
-		
-		RecommendItemBulletin r2 = new RecommendItemBulletin();
-		r2.setBulletinName("来来来，走过路过不要错过，插画吐血大放送。");
-		r2.setBulletinPath("http://imzhitu.qiniudn.com/op/business/inbetweening.png");
-		r2.setBulletinThumb("http://imzhitu.qiniudn.com/op/business/inbetweening.png");
-		r2.setBulletinType(7);
-		r2.setId(10005);
-		r2.setLink("http://imzhitu.com/");
-		
-		list.add(r);
-		list.add(r1);
-		list.add(r2);
-		
-//		List<RecommendItemBulletin> list = itemBulletinCache.queryRecommendItem(new RowSelection(start,limit));
+		List<RecommendItemBulletin> list = itemBulletinCache.queryRecommendItem(new RowSelection(start,limit));
 		
 		// 因为redis不会返回null，只会返回空列表
 		if ( list.size() != 0 ) {
@@ -259,5 +207,5 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 		}
 		return list;
 	}
-	
+
 }
