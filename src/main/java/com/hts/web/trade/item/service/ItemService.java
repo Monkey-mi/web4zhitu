@@ -27,7 +27,7 @@ public interface ItemService {
 	 * @param uid		用户id
 	 * @author zhangbo	2015年12月10日
 	 */
-	void likeItem(Integer itemId, Integer uid)  throws Exception;
+	void likeItem(Integer itemId, Integer uid) throws Exception;
 
 	/**
 	 * 查询商品集合最大id，取商品集合与有奖活动最大id之和返回
@@ -35,6 +35,6 @@ public interface ItemService {
 	 * @return maxId	商品集合与有奖活动最大id之和
 	 * @author zhangbo	2015年12月11日
 	 */
-	Integer getItemSetMaxId();
+	Integer getItemSetMaxId() throws Exception;
 
 }

@@ -89,7 +89,7 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
-	public Integer getItemSetMaxId() {
+	public Integer getItemSetMaxId() throws Exception {
 		// 定义商品集合最大id
 		Integer itemSetMaxId = 0;
 		
