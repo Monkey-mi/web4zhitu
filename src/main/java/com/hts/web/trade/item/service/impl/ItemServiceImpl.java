@@ -24,7 +24,7 @@ import com.hts.web.trade.item.service.ItemService;
  * @author zhangbo	2015年12月10日
  *
  */
-@Service
+@Service("com.hts.web.trade.item.service.impl.ItemServiceImpl")
 public class ItemServiceImpl implements ItemService {
 	
 	@Autowired
