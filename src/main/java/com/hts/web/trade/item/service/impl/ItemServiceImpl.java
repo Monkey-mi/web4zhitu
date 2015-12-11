@@ -11,8 +11,8 @@ import com.hts.web.common.pojo.OpMsgBulletin;
 import com.hts.web.operations.dao.ItemBulletinCache;
 import com.hts.web.operations.pojo.RecommendItemBulletin;
 import com.hts.web.operations.pojo.SeckillBulletin;
+import com.hts.web.trade.item.dao.ItemCache;
 import com.hts.web.trade.item.dao.ItemLikeDao;
-import com.hts.web.trade.item.dao.ItemSetDao;
 import com.hts.web.trade.item.dto.ItemDTO;
 import com.hts.web.trade.item.service.ItemService;
 
@@ -25,17 +25,18 @@ import com.hts.web.trade.item.service.ItemService;
 public class ItemServiceImpl implements ItemService {
 	
 	@Autowired
-	private ItemSetDao itemSetDao;
-	
-	@Autowired
 	private ItemLikeDao itemLikeDao;
 	
 	@Autowired
 	private ItemBulletinCache ibCache;
+	
+	@Autowired
+	private ItemCache itemCache;
 
 	@Override
 	public void queryItemInfo(Integer itemSetId, Integer uid, Map<String, Object> jsonMap) throws Exception {
-		List<ItemDTO> itemList = itemSetDao.queryItemListBySetId(itemSetId);
+		// 根据商品集合id，查询其下商品列表
+		List<ItemDTO> itemList = itemCache.queryItemListBySetId(itemSetId, new RowSelection(1,0));
 		
 		for (ItemDTO dto : itemList) {
 			// 设置是否已经赞过

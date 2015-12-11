@@ -2,7 +2,6 @@ package com.hts.web.operations.service.impl;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -79,13 +78,6 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 	public void buildUserTheme(int start, int limit, Map<String, Object> jsonMap) throws Exception {
 		jsonMap.put(OptResult.JSON_KEY_MSG, 
 				bulletinCacheDao.queryUserTheme(new RowSelection(start, limit)));
-	}
-	
-	@Override
-	public void buildChannelTheme(int start, int limit,
-			Map<String, Object> jsonMap) throws Exception {
-		jsonMap.put(OptResult.JSON_KEY_MSG, 
-				bulletinCacheDao.queryChannelTheme(new RowSelection(start, limit)));
 	}
 	
 	@Override

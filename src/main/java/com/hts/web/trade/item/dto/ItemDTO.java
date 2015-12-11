@@ -2,11 +2,16 @@ package com.hts.web.trade.item.dto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * 商品数据传输对象
  * 
  * @author zhangbo	2015年12月10日
+ *
+ */
+/**
+ * @author zhangbo	2015年12月11日
  *
  */
 public class ItemDTO implements Serializable {
@@ -112,6 +117,12 @@ public class ItemDTO implements Serializable {
 	 * @author zhangbo	2015年12月10日
 	 */
 	private boolean isLiked;
+	
+	/**
+	 * 限时抢购截止日期
+	 * @author zhangbo	2015年12月11日
+	 */
+	private Date deadline;
 
 	/**
 	 * @return the id
@@ -335,6 +346,20 @@ public class ItemDTO implements Serializable {
 	 */
 	public void setLiked(boolean isLiked) {
 		this.isLiked = isLiked;
+	}
+
+	/**
+	 * @return the deadline
+	 */
+	public Date getDeadline() {
+		return deadline;
+	}
+
+	/**
+	 * @param deadline the deadline to set
+	 */
+	public void setDeadline(Date deadline) {
+		this.deadline = deadline;
 	}
 	
 }
