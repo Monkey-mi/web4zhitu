@@ -159,6 +159,8 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 			// 由于目前是写死的，限时秒杀的分类都是1
 			for (SeckillBulletin bulletin : list) {
 				bulletin.setCategory(1);
+				// 重新包装链接内容，要携带商品集合id
+				bulletin.setLink(bulletin.getLink() + "?itemSetId=" +bulletin.getId());
 			}
 		}
 		return list;
@@ -202,6 +204,8 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 			// 由于目前是写死的，推荐商品的分类都是3
 			for (RecommendItemBulletin bulletin : list) {
 				bulletin.setCategory(3);
+				// 重新包装链接内容，要携带商品集合id
+				bulletin.setLink(bulletin.getLink() + "?itemSetId=" +bulletin.getId());
 			}
 		}
 		return list;
