@@ -120,4 +120,5 @@
 	<include file="struts-hts-security.xml" />
 	<include file="struts-hts-qiniu.xml" />
 	<include file="struts-hts-wechat.xml" />
+	<include file="struts-hts-trade.xml" />
 </struts>
