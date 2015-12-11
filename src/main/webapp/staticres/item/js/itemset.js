@@ -4,55 +4,55 @@ var data =
 [
 {
     "id": "1",
-    "name": "测试",
-    "summary": '葫芦屯草莓一号之"我是番茄你想怎样".',
+    "name": "无人机",
+    "summary": '无人机一号之"我是无人机你想怎样".',
     "description": "纯棉面料和细纱布表面很有光泽度，舒适透气，质地和做工都很好，细节做的很用心，看似简单的裙子却是花了很大的心思，裙摆形成褶皱非常好看，很秀气，松紧腰，适合更多人群裙摆圆滑的弧度，优雅大方，款式更加出众上身乍一眼并不惊艳，可是很耐看，收到的时候你一定会惊喜。北京设计师原创设计，活在当下做自己！嘿尔闹出品",
     "worldId": "0",
-    "imgPath": "http://static.imzhitu.com/android/image/2015/12/09/16/fyUzkcDiaOCUwUaTlfZhUClHugGvbHGt0cSSbHw.jpg",
-    "imgThumb": "http://static.imzhitu.com/android/image/2015/12/09/16/fyUzkcDiaOCUwUaTlfZhUClHugGvbHGt0cSSbHw.jpg",
-    "price": "12.0",
+    "imgPath": "http://imzhitu.qiniudn.com/trade/item/medium_1.jpg",
+    "imgThumb": "http://imzhitu.qiniudn.com/trade/item/medium_1.jpg",
+    "price": "1012.0",
     "sale": "100",
     "sales": "100",
     "stock": "100",
-    "itemId": "17349903224",
+    "itemId": "42358748787",
     "itemType": "2",
-    "link": "http://s.click.taobao.com/OpqjBfx",
+    "link": "http://s.click.taobao.com/0JXOxex",
     "like": "1000000",
     "isLiked": "true"
 },
 {
     "id": "1",
-    "name": "测试",
-    "summary": '葫芦屯草莓一号之"我是番茄你想怎样".',
+    "name": "无人机1",
+    "summary": '无人机一号之"我也是无人机你想怎样".',
     "description": "纯棉面料和细纱布表面很有光泽度，舒适透气，质地和做工都很好，细节做的很用心，看似简单的裙子却是花了很大的心思，裙摆形成褶皱非常好看，很秀气，松紧腰，适合更多人群裙摆圆滑的弧度，优雅大方，款式更加出众上身乍一眼并不惊艳，可是很耐看，收到的时候你一定会惊喜。北京设计师原创设计，活在当下做自己！嘿尔闹出品",
-    "worldId": "28654",
-    "imgPath": "http://static.imzhitu.com/android/image/2015/12/09/16/fyUzkcDiaOCUwUaTlfZhUClHugGvbHGt0cSSbHw.jpg",
-    "imgThumb": "http://static.imzhitu.com/android/image/2015/12/09/16/fyUzkcDiaOCUwUaTlfZhUClHugGvbHGt0cSSbHw.jpg",
-    "price": "12.0",
+    "worldId": "1774418",
+    "imgPath": "http://imzhitu.qiniudn.com/ios/image/2015/05/02/16/216f24cadbee2570f4d6236737caae60_20989@2x.jpg",
+    "imgThumb": "http://imzhitu.qiniudn.com/ios/image/2015/05/02/16/216f24cadbee2570f4d6236737caae60_20989@2x.jpg",
+    "price": "3412.0",
     "sale": "100",
     "sales": "100",
     "stock": "100",
-    "itemId": "17349903224",
+    "itemId": "42358748787",
     "itemType": "2",
-    "link": "http://s.click.taobao.com/OpqjBfx",
+    "link": "http://s.click.taobao.com/0JXOxex",
     "like": "100",
     "isLiked": "false"
 },
 {
     "id": "1",
-    "name": "测试",
-    "summary": '葫芦屯草莓一号之"我是番茄你想怎样".',
+    "name": "无人机2",
+    "summary": '无人机三号之"我还是无人机你想怎样".',
     "description": "纯棉面料和细纱布表面很有光泽度，舒适透气，质地和做工都很好，细节做的很用心，看似简单的裙子却是花了很大的心思，裙摆形成褶皱非常好看，很秀气，松紧腰，适合更多人群裙摆圆滑的弧度，优雅大方，款式更加出众上身乍一眼并不惊艳，可是很耐看，收到的时候你一定会惊喜。北京设计师原创设计，活在当下做自己！嘿尔闹出品",
-    "worldId": "28654",
-    "imgPath": "http://static.imzhitu.com/android/image/2015/12/09/16/fyUzkcDiaOCUwUaTlfZhUClHugGvbHGt0cSSbHw.jpg",
-    "imgThumb": "http://static.imzhitu.com/android/image/2015/12/09/16/fyUzkcDiaOCUwUaTlfZhUClHugGvbHGt0cSSbHw.jpg",
-    "price": "12.0",
+    "worldId": "3570272",
+    "imgPath": "http://static.imzhitu.com/ios/image/2015/11/06/12/95e17bc38a758336176f96eb9851c599_30002@2x.jpg",
+    "imgThumb": "http://static.imzhitu.com/ios/image/2015/11/06/12/95e17bc38a758336176f96eb9851c599_30002@2x.jpg",
+    "price": "2012.0",
     "sale": "100",
     "sales": "100",
     "stock": "100",
-    "itemId": "17349903224",
+    "itemId": "42358748787",
     "itemType": "2",
-    "link": "http://s.click.taobao.com/OpqjBfx",
+    "link": "http://s.click.taobao.com/0JXOxex",
     "like": "100"
 },
 ];
@@ -63,8 +63,9 @@ $(document).ready(function() {
 	uid = ui.getUID();
 	sid = ui.getSetId();
 	ui.initLayout();
-	ui.appendItem(data);
-	//ajax.fetchSet(ui.getSetId(), ui.getUID());
+	//ui.appendItem(data);
+	//ui.hidePageLoading();
+	ajax.fetchSet(ui.getSetId(), ui.getUID());
 	
 	$(".like-btn").live("click", function() {
 		var $this = $(this);
@@ -111,7 +112,9 @@ var ui = {
 	initSetInfo : function(setInfo) {
 		$("#set-banner").attr("src", setInfo["bulletinPath"]);
 		$("#set-desc").text(setInfo["bulletinName"]);
-		
+	},
+	
+	hidePageLoading : function() {
 		$("#loading").hide();
 		$("#main").show();
 	},
@@ -257,6 +260,7 @@ var ajax = {
 			"uid":uid
 		},function(result){
 			if(result['result'] == 0){
+				ui.hidePageLoading();
 				ui.initSetInfo(result["itemSet"]);
 				ui.appendItem(result["items"]);
 			}
