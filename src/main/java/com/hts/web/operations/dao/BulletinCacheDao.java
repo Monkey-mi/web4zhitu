@@ -46,10 +46,25 @@ public interface BulletinCacheDao extends BaseCacheDao {
 	public List<OpMsgBulletin> queryUserTheme(RowSelection rowSelection);
 	
 	/**
+	 * 查询用户专题列表
+	 * 
+	 * @return
+	 * @author zxx 2015-12-10 20:06:46
+	 */
+	public List<OpMsgBulletin> queryChannelTheme(RowSelection rowSelection);
+	
+	/**
 	 * 更新用户主题公告
 	 * @param cacheList
 	 */
 	public void updateUserThemeBulletin(List<OpMsgBulletin> cacheList);
+	
+	/**
+	 * 更新频道主题公告
+	 * @param cacheList
+	 * @author zxx 2015-12-10 20:20:13
+	 */
+	public void updateChannelThemeBulletin(List<OpMsgBulletin> cacheList);
 	
 	/**
 	 * 更新专题公告

@@ -16,7 +16,7 @@ public class CityServiceTest extends BaseTest {
 
 	@Test
 	public void queryNearCityTest() {
-		AddrCity city = service.getNearCityByLoc(113.937540, 22.539060);
+		AddrCity city = service.getNearCityByLoc(113.899061, 22.555372);
 		logger.debug(city.getShortName());
 	}
 	

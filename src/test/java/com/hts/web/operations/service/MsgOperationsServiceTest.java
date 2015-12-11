@@ -27,4 +27,11 @@ public class MsgOperationsServiceTest extends BaseTest {
 		service.buildStartPage(jsonMap);
 		logObj(jsonMap);
 	}
+	
+	@Test
+	public void buildChannelThemeTest()throws Exception {
+		Map<String, Object> jsonMap = new HashMap<String, Object>();
+		service.buildChannelTheme(1,3,jsonMap);
+		logObj(jsonMap);
+	}
 }

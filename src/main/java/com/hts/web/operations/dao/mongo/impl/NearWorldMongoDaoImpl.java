@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.geo.Circle;
-import org.springframework.data.geo.Point;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
@@ -41,7 +40,7 @@ public class NearWorldMongoDaoImpl extends BaseMongoDaoImpl implements NearWorld
 	public List<OpNearWorldDto> queryNear(int maxId, double longitude,
 			double latitude, double radius, int limit) {
 		Circle circle = new Circle(longitude, latitude, radius / 111);
-		Criteria criteria = Criteria.where("loc").within(circle);
+		Criteria criteria = Criteria.where("loc").within(circle).and("id").gt(2971557);
 		if(maxId > 0) {
 			criteria = criteria.and("recommendId").lte(maxId);
 		}
@@ -54,7 +53,7 @@ public class NearWorldMongoDaoImpl extends BaseMongoDaoImpl implements NearWorld
 	
 	@Override
 	public List<OpNearWorldDto> queryNear(int maxId,int cityId, int limit) {
-		Criteria criteria = Criteria.where("cityId").is(cityId);
+		Criteria criteria = Criteria.where("cityId").is(cityId).and("id").gt(2971557);
 		if(maxId > 0) {
 			criteria = criteria.and("recommendId").lte(maxId);
 		}
