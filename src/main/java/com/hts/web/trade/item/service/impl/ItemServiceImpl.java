@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.hts.web.base.constant.OptResult;
 import com.hts.web.base.database.RowSelection;
@@ -23,6 +24,7 @@ import com.hts.web.trade.item.service.ItemService;
  * @author zhangbo	2015年12月10日
  *
  */
+@Service
 public class ItemServiceImpl implements ItemService {
 	
 	@Autowired

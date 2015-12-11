@@ -1,5 +1,7 @@
 package com.hts.web.trade.item.dao.impl;
 
+import org.springframework.stereotype.Service;
+
 import com.hts.web.base.database.HTS;
 import com.hts.web.common.dao.impl.BaseDaoImpl;
 import com.hts.web.trade.item.dao.ItemLikeDao;
@@ -10,6 +12,7 @@ import com.hts.web.trade.item.dao.ItemLikeDao;
  * @author zhangbo	2015年12月10日
  *
  */
+@Service
 public class ItemLikeDaoImpl extends BaseDaoImpl implements ItemLikeDao {
 	
 	/**
