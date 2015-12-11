@@ -29,4 +29,12 @@ public interface ItemService {
 	 */
 	void likeItem(Integer itemId, Integer uid)  throws Exception;
 
+	/**
+	 * 查询商品集合最大id，取商品集合与有奖活动最大id之和返回
+	 * 
+	 * @return maxId	商品集合与有奖活动最大id之和
+	 * @author zhangbo	2015年12月11日
+	 */
+	Integer getItemSetMaxId();
+
 }

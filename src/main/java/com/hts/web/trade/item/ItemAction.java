@@ -71,6 +71,23 @@ public class ItemAction extends BaseAction {
 		}
 		return StrutsKey.JSON;
 	}
+	
+	/**
+	 * 查询商品集合最大id
+	 * 
+	 * @return
+	 * @author zhangbo	2015年12月11日
+	 */
+	public String queryItemSetMaxId() {
+		try {
+			Integer maxId = itemService.getItemSetMaxId();
+			jsonMap.put(OptResult.JSON_KEY_MAX_ID, maxId);
+			JSONUtil.optSuccess(jsonMap);
+		} catch (Exception e) {
+			JSONUtil.optFailed(e.getMessage(), jsonMap);
+		}
+		return StrutsKey.JSON;
+	}
 
 	public void setItemSetId(Integer itemSetId) {
 		this.itemSetId = itemSetId;

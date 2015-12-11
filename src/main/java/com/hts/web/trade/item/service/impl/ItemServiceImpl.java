@@ -9,6 +9,7 @@ import com.hts.web.base.constant.OptResult;
 import com.hts.web.base.database.RowSelection;
 import com.hts.web.common.pojo.OpMsgBulletin;
 import com.hts.web.operations.dao.ItemBulletinCache;
+import com.hts.web.operations.pojo.AwardActivityBulletin;
 import com.hts.web.operations.pojo.RecommendItemBulletin;
 import com.hts.web.operations.pojo.SeckillBulletin;
 import com.hts.web.trade.item.dao.ItemCache;
@@ -85,6 +86,44 @@ public class ItemServiceImpl implements ItemService {
 	@Override
 	public void likeItem(Integer itemId, Integer uid) throws Exception {
 		itemLikeDao.saveLikeItem(itemId, uid);
+	}
+
+	@Override
+	public Integer getItemSetMaxId() {
+		// 定义商品集合最大id
+		Integer itemSetMaxId = 0;
+		
+		// 定义有奖活动最大id
+		Integer activityMaxId = 0;
+		
+		// 定义分页查询，设置起始页为1，每页数量为0，即为查询全部数据
+		RowSelection rowSelection = new RowSelection(1, 0);
+		
+		// 冒泡查询限时秒杀商品集合最大id
+		List<SeckillBulletin> seckillList = ibCache.querySeckill(rowSelection);
+		for (SeckillBulletin seckill : seckillList) {
+			if ( seckill.getId() > itemSetMaxId ) {
+				itemSetMaxId = seckill.getId();
+			}
+		}
+		
+		// 冒泡查询推荐商品集合最大id
+		List<RecommendItemBulletin> recommendItemList = ibCache.queryRecommendItem(rowSelection);
+		for (RecommendItemBulletin recommendItem : recommendItemList) {
+			if ( recommendItem.getId() > itemSetMaxId ) {
+				itemSetMaxId = recommendItem.getId();
+			}
+		}
+		
+		// 冒泡查询有奖活动最大id
+		List<AwardActivityBulletin> awardActivityList = ibCache.queryAwardActivity(rowSelection);
+		for (AwardActivityBulletin awardActivity : awardActivityList) {
+			if ( awardActivity.getId() > activityMaxId ) {
+				activityMaxId = awardActivity.getId();
+			}
+		}
+		
+		return itemSetMaxId + activityMaxId;
 	}
 	
 }
