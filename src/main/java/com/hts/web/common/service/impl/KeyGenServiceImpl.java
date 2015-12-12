@@ -268,6 +268,11 @@ public class KeyGenServiceImpl extends BaseServiceImpl implements KeyGenService{
 	 */
 	public static final Integer OP_NEAR_RECOMMEND_CITY_SERIAL = 50;
 	
+	/**
+	 * 商品serial
+	 */
+	public static final Integer ITEM_SERIAL = 51;
+	
 	@Autowired
 	private KeyGenDao keyGenDao;
 	
