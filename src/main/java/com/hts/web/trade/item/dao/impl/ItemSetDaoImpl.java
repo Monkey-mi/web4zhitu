@@ -23,7 +23,7 @@ public class ItemSetDaoImpl extends BaseDaoImpl implements ItemSetDao {
 	
 	private static final String table = HTS.ITEM_SET;
 	
-	private static final String QUERY_ITEM_SET = "select * from " + table + " where serial<=? limit ?";
+	private static final String QUERY_ITEM_SET = "select * from " + table + " where serial<=? order by serial desc limit ?";
 
 	@Override
 	public List<ItemSetDTO> queryItemSetList(Integer maxId, Integer limit) throws Exception {
