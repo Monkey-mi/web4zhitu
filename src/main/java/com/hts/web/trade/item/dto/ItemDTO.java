@@ -278,17 +278,11 @@ public class ItemDTO implements Serializable {
 		this.stock = stock;
 	}
 
-	/**
-	 * @return the itemId
-	 */
-	public Integer getItemId() {
+	public Long getItemId() {
 		return itemId;
 	}
 
-	/**
-	 * @param itemId the itemId to set
-	 */
-	public void setItemId(Integer itemId) {
+	public void setItemId(Long itemId) {
 		this.itemId = itemId;
 	}
 
