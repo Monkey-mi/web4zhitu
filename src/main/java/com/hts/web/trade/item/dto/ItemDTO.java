@@ -92,7 +92,7 @@ public class ItemDTO implements Serializable {
 	 * 淘宝商品真实id
 	 * @author zhangbo	2015年12月9日
 	 */
-	private Integer itemId;
+	private Long itemId;
 	
 	/**
 	 * 淘宝物品:1,天猫:2
@@ -278,17 +278,11 @@ public class ItemDTO implements Serializable {
 		this.stock = stock;
 	}
 
-	/**
-	 * @return the itemId
-	 */
-	public Integer getItemId() {
+	public Long getItemId() {
 		return itemId;
 	}
 
-	/**
-	 * @param itemId the itemId to set
-	 */
-	public void setItemId(Integer itemId) {
+	public void setItemId(Long itemId) {
 		this.itemId = itemId;
 	}
 
