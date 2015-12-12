@@ -1,4 +1,6 @@
 var winWidth, processMarginTop, config, inapp, uid, sid;
+var isFinished = false;
+var leftTimeInterval;
 
 var data = 
 [
@@ -63,13 +65,21 @@ $(document).ready(function() {
 	uid = ui.getUID();
 	sid = ui.getSetId();
 	ui.initLayout();
-	//ui.appendItem(data);
-	//ui.hidePageLoading();
+	ui.hidePageLoading();
+	ui.initLeftTime("2015-12-11 21:00:00");
+	ui.appendItem(data);
+	
 	ajax.fetchSet(ui.getSetId(), ui.getUID());
 	
 	$(".like-btn").live("click", function() {
 		var $this = $(this);
 		ajax.like(uid, $this.data("item-id"), $this);
+	});
+	
+	$(".buy-btn").live("click", function() {
+		if(isFinished)
+			return false;
+		
 	});
 	
 });
@@ -107,11 +117,13 @@ var ui = {
 		config = {w:width,h:height,r:radiu,s:scale};
 		
 		processMarginTop = winWidth - 4;
+		
 	},
 	
 	initSetInfo : function(setInfo) {
 		$("#set-banner").attr("src", setInfo["bulletinPath"]);
 		$("#set-desc").text(setInfo["bulletinName"]);
+		ui.initLeftTime(setInfo["deadline"]);
 	},
 	
 	hidePageLoading : function() {
@@ -143,7 +155,10 @@ var ui = {
 	
 	getItemUI :function(items, index) {
 		var item = items[index];
-		var $content, $dividingLine, $likeIcon;
+		var $content,
+			$dividingLine, 
+			$likeIcon, 
+			$buyText;  // 购买按钮文本
 		
 		if(item['worldId'] != 0)
 			$content = ui.getWorldUI(item['imgPath']);
@@ -162,6 +177,12 @@ var ui = {
 			$likeIcon = '/staticres/item/images/unlike.png';
 		}
 		
+		if(isFinished) {
+			$buyText = "已结束";
+		} else {
+			$buyText = "购买"
+		}
+		
 		var $item = 
 			$('<div class="item">'
 			+ '	<div class="item-title"><span class="line-num">'+(parseInt(index)+1)+'</span>'+item["summary"]+'</div>'
@@ -173,8 +194,8 @@ var ui = {
 			+ '	</div>'
 			+ '	<div class="item-price-wrap">'
 			+ '		<span class="price-label">价格:</span><span class="price">'+item['price']+'</span><span class="price-unit">元</span>'
-			+ '		<a class="buy-btn" href="'+ui.getClickLink(item["itemId"], item["itemType"], item["link"])+'">购买</a>'
-			+ '		<a class="like-btn" data-item-id="'+item["id"]+'" data-islike="'+item["isLiked"]+'" href="javascript:void(0);"><img class="like-icon" src="'+$likeIcon+'" /><span>'+ui.countformat(item["like"])+'</span></a>'
+			+ '		<a class="buy-btn" href="'+ui.getClickLink(item["itemId"], item["itemType"], item["link"])+'">'+$buyText+'</a>'
+			+ '		<a class="like-btn" data-item-id="'+item["id"]+'" data-islike="'+item["isLiked"]+'" href="javascript:void(0);"><img class="like-icon" src="'+$likeIcon+'" /><span class="like_count">'+ui.countformat(item["like"])+'</span></a>'
 			+ '	</div>'
 			+ $dividingLine
 			+ '</div>'
@@ -251,6 +272,65 @@ var ui = {
 		return res;
 	},
 	
+	initLeftTime : function(endTimeStr) {
+		if(endTimeStr == undefined && endTimeStr == "")
+			return;
+		
+		endTime = new Date((endTimeStr).replace(new RegExp("-","gm"),"/"))
+		
+		if(parseInt((endTime.getTime()-new Date().getTime())/1000) <= 0) {
+			$("#left-time").text("已结束");
+			isFinished = true;
+		}
+		
+		$("#set-banner").one("load", function() {
+			var bannerHeight = $("#set-banner-wrap").height();
+			$("#left-time").css({"top": bannerHeight - 35}).show();
+			
+			if(!isFinished) {
+				ui.refreshLeftTime(endTime);
+				
+				leftTimeInterval = setInterval(function(){
+					ui.refreshLeftTime(endTime);
+				}, 1000);
+			}
+			
+		}).each(function() {
+			  if(this.complete) $(this).load();
+		});;
+	},
+	
+	refreshLeftTime : function(endtime){
+        var nowtime = new Date();
+        var leftsecond=parseInt((endtime.getTime()-nowtime.getTime())/1000);
+        
+        if(leftsecond > 0) {
+        	
+        	var text = "";
+            d=parseInt(leftsecond/3600/24);
+            h=parseInt((leftsecond/3600)%24);
+            m=parseInt((leftsecond/60)%60);
+            s=parseInt(leftsecond%60);
+
+            if(d > 0) {
+            	text = text + d + "天";
+            }
+            
+            if(h > 0) {
+            	text = text + h + "小时";
+            }
+            
+            text = text + m + "分钟" + s + "秒";
+            
+            $("#left-time").text(text);
+            
+        } else {
+        	$("#left-time").text("已结束");
+        	clearInterval(leftTimeInterval);
+        	isFinished = true;
+        }
+	},
+	
 };
 
 var ajax = {
@@ -276,7 +356,10 @@ var ajax = {
 			"uid":uid
 		},function(result){
 			if(result['result'] == 0){
-				$like.children(".likc-icon:eq(0)").attr("src", 
+				var $likeCount = $like.children(".like-count:eq(0)");
+				var count = $likeCount.text();
+				likeCount.text(parseInt(count) + 1);
+				$like.children(".like-icon:eq(0)").attr("src", 
 						"/staticres/item/images/liked.png");
 			}
 		},"json");
