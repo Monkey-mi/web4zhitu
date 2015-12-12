@@ -116,7 +116,7 @@ public class ItemDTO implements Serializable {
 	 * 是否被赞过
 	 * @author zhangbo	2015年12月10日
 	 */
-	private boolean isLiked;
+	private boolean isLiked = false;
 	
 	/**
 	 * 限时抢购截止日期

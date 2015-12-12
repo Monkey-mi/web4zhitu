@@ -1,5 +1,6 @@
 package com.hts.web.trade.item.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hts.web.base.constant.OptResult;
+import com.hts.web.base.database.RowCallback;
 import com.hts.web.base.database.RowSelection;
 import com.hts.web.common.pojo.OpMsgBulletin;
 import com.hts.web.operations.dao.ItemBulletinCache;
@@ -15,6 +17,7 @@ import com.hts.web.operations.pojo.RecommendItemBulletin;
 import com.hts.web.operations.pojo.SeckillBulletin;
 import com.hts.web.trade.item.dao.ItemCache;
 import com.hts.web.trade.item.dao.ItemLikeDao;
+import com.hts.web.trade.item.dao.ItemSetDao;
 import com.hts.web.trade.item.dto.ItemDTO;
 import com.hts.web.trade.item.service.ItemService;
 
@@ -39,11 +42,26 @@ public class ItemServiceImpl implements ItemService {
 	@Override
 	public void queryItemInfo(Integer itemSetId, Integer uid, Map<String, Object> jsonMap) throws Exception {
 		// 根据商品集合id，查询其下商品列表
-		List<ItemDTO> itemList = itemCache.queryItemListBySetId(itemSetId, new RowSelection(1,0));
+		final List<ItemDTO> itemList = itemCache.queryItemListBySetId(itemSetId, new RowSelection(1,0));
 		
-		for (ItemDTO dto : itemList) {
-			// 设置是否已经赞过
-			dto.setLiked(itemLikeDao.isExist(dto.getId(), uid));
+		// 查询是否点过赞
+		if(uid > 0 && itemList != null && itemList.isEmpty()) {
+			final Map<Integer, Integer> idxMap = new HashMap<Integer, Integer>();
+			Integer[] itemIds = new Integer[itemList.size()];
+			
+			for(int i = 0; i < itemList.size(); i++) {
+				idxMap.put(itemList.get(i).getId(), i);
+				itemIds[i] = itemList.get(i).getId();
+			}
+			
+			itemLikeDao.queryLike(itemIds, uid, new RowCallback<Integer>() {
+				
+				@Override
+				public void callback(Integer t) {
+					Integer idx = idxMap.get(t);
+					itemList.get(idx).setLiked(true);
+				}
+			});
 		}
 		
 		// 得到商品集合
@@ -82,6 +100,7 @@ public class ItemServiceImpl implements ItemService {
 				rtn = recommendItem;
 			}
 		}
+		
 		return rtn;
 	}
 
