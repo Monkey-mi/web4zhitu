@@ -25,6 +25,8 @@ import com.hts.web.operations.pojo.AwardActivityBulletin;
 import com.hts.web.operations.pojo.RecommendItemBulletin;
 import com.hts.web.operations.pojo.SeckillBulletin;
 import com.hts.web.operations.service.MsgOperationsService;
+import com.hts.web.trade.item.dao.ItemSetDao;
+import com.hts.web.trade.item.dto.ItemSetDTO;
 
 @Service("HTSMsgOperationsService")
 public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOperationsService{
@@ -43,6 +45,9 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 	
 	@Autowired
 	private ItemBulletinCache itemBulletinCache;
+	
+	@Autowired
+	private ItemSetDao itemSetDao;
 	
 	@Override
 	public void buildNotice(Integer userId, Integer phoneCode, Map<String, Object> jsonMap) throws Exception {
@@ -88,15 +93,15 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 	}
 
 	@Override
-	public void buildItemSet(Integer start, Integer limit, Map<String, Object> jsonMap) {
+	public void buildItemSet(Integer maxId, Integer limit, Map<String, Object> jsonMap) throws Exception {
 		// 定义分类的返回列表
 		List<Map<String, Serializable>> categoryList = new ArrayList<Map<String, Serializable>>();
 		
 		// 定义商品公告返回列表
 		List<OpMsgBulletin> itemList = new ArrayList<OpMsgBulletin>();
 		
-		// 若start为1，证明为第一次查询，要返回全部的商品集合列表，若不为1，证明已经查询过了，只有好物推荐需要追加数据，则只返回好物推荐
-		if ( start == 1) {
+		// 若maxId为0，证明为第一次查询，要返回全部的商品集合列表，若不为0，证明已经查询过了，只有好物推荐需要追加数据，则只返回好物推荐
+		if ( maxId == 0) {
 			// 添加限时秒杀商品集合列表到返回值列表
 			itemList.addAll(getSeckillList());
 			
@@ -105,12 +110,12 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 		}
 		
 		// 添加推荐商品集合列表到返回值列表，推荐商品集合根据前台传递的分页与每页数量返回结果
-		itemList.addAll(getRecommendItemList(start, limit));
+		itemList.addAll(getRecommendItemList(maxId, limit));
 		
 		// 若商品公告返回值不为空，则拼装分类
 		if ( !itemList.isEmpty()) {
-			// 若start为1，证明为第一次查询，要返回全部的分类，若不为1，证明已经查询过了，只有好物推荐需要追加数据，则只返回好物推荐
-			if ( start == 1) {
+			// 若maxId为0，证明为第一次查询，要返回全部的分类，若不为1，证明已经查询过了，只有好物推荐需要追加数据，则只返回好物推荐
+			if ( maxId == 0) {
 				Map<String, Serializable> seckill = new HashMap<String, Serializable>();
 				seckill.put("id", 1);
 				seckill.put("name", "限时秒杀");
@@ -159,8 +164,8 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 			// 由于目前是写死的，限时秒杀的分类都是1
 			for (SeckillBulletin bulletin : list) {
 				bulletin.setCategory(1);
-				// 重新包装链接内容，要携带商品集合id
-				bulletin.setLink(bulletin.getLink() + "?itemSetId=" +bulletin.getId());
+				// 由于查询需要，秒杀商品集合不需要返回maxId，则设置最大的整数
+				bulletin.setSerial(Integer.MAX_VALUE);
 			}
 		}
 		return list;
@@ -182,6 +187,8 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 			// 由于目前是写死的，有奖活动的分类都是2
 			for (AwardActivityBulletin bulletin : list) {
 				bulletin.setCategory(2);
+				// 由于查询需要，有奖活动不需要返回maxId，则设置最大的整数
+				bulletin.setSerial(Integer.MAX_VALUE);
 			}
 		}
 		return list;
@@ -190,22 +197,43 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 	/**
 	 * 获取推荐商品列表
 	 * 
-	 * @param start
-	 * @param limit
+	 * @param maxId	最大id
+	 * @param limit	每页查询数量
+	 * 
 	 * @return
+	 * @throws Exception 
+	 * 
 	 * @author zhangbo	2015年12月7日
 	 */
-	private List<RecommendItemBulletin> getRecommendItemList(Integer start, Integer limit) {
-		
-		List<RecommendItemBulletin> list = itemBulletinCache.queryRecommendItem(new RowSelection(start,limit));
+	private List<RecommendItemBulletin> getRecommendItemList(Integer maxId, Integer limit) throws Exception {
+		List<RecommendItemBulletin> list = new ArrayList<RecommendItemBulletin>();
+		// 若maxId为0，证明为第一次查询则取redis缓存中的数据
+		if ( maxId == 0 ) {
+			list = itemBulletinCache.queryRecommendItem(new RowSelection(1,0));
+		}
+		// maxId不为0时，根据maxId查询数据库，取商品集合公告对象
+		else {
+			List<ItemSetDTO> itemSetList = itemSetDao.queryItemSetList(maxId, limit);
+			if ( itemSetList != null && itemSetList.size() != 0 ) {
+				for (ItemSetDTO itemSetDTO : itemSetList) {
+					RecommendItemBulletin bulletin = new RecommendItemBulletin();
+					bulletin.setId(itemSetDTO.getId());
+					bulletin.setBulletinName(itemSetDTO.getDescription());
+					bulletin.setBulletinPath(itemSetDTO.getPath());
+					bulletin.setBulletinThumb(itemSetDTO.getThumb());
+					bulletin.setBulletinType(itemSetDTO.getType());
+					bulletin.setLink(itemSetDTO.getLink());
+					bulletin.setSerial(itemSetDTO.getSerial());
+					list.add(bulletin);
+				}
+			}
+		}
 		
 		// 因为redis不会返回null，只会返回空列表
 		if ( list.size() != 0 ) {
 			// 由于目前是写死的，推荐商品的分类都是3
 			for (RecommendItemBulletin bulletin : list) {
 				bulletin.setCategory(3);
-				// 重新包装链接内容，要携带商品集合id
-				bulletin.setLink(bulletin.getLink() + "?itemSetId=" +bulletin.getId());
 			}
 		}
 		return list;

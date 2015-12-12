@@ -64,12 +64,12 @@ public interface MsgOperationsService extends BaseService {
 	/**
 	 * 查询商品公告列表
 	 * 
-	 * @param start		查询起始页，默认为1
+	 * @param maxId		最大id
 	 * @param limit		每页查询数量
 	 * @param jsonMap	返回值
 	 * @author zhangbo	2015年12月7日
 	 */
-	void buildItemSet(Integer start, Integer limit, Map<String, Object> jsonMap);
+	void buildItemSet(Integer maxId, Integer limit, Map<String, Object> jsonMap) throws Exception;
 	
 	
 }

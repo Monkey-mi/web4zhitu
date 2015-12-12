@@ -119,7 +119,7 @@ public class MsgOperationsAction extends BaseAction {
 	 */
 	public String queryItemSet() {
 		try {
-			msgOperationsService.buildItemSet(start, limit, jsonMap);
+			msgOperationsService.buildItemSet(maxId, limit, jsonMap);
 			JSONUtil.optSuccess(jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);

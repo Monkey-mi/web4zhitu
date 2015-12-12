@@ -21,6 +21,12 @@ public class RecommendItemBulletin extends OpMsgBulletin {
 	 * @author zhangbo	2015年12月7日
 	 */
 	private Integer category;
+	
+	/**
+	 * 序号
+	 * @author zhangbo	2015年12月12日
+	 */
+	private Integer serial;
 
 	/**
 	 * @return the category
@@ -34,6 +40,20 @@ public class RecommendItemBulletin extends OpMsgBulletin {
 	 */
 	public void setCategory(Integer category) {
 		this.category = category;
+	}
+
+	/**
+	 * @return the serial
+	 */
+	public Integer getSerial() {
+		return serial;
+	}
+
+	/**
+	 * @param serial the serial to set
+	 */
+	public void setSerial(Integer serial) {
+		this.serial = serial;
 	}
 
 }
