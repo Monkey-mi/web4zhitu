@@ -716,7 +716,7 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 	@Override
 	public void buildThemeChannel(Integer themeId, Integer maxId,	Integer limit, final Map<String, Object> jsonMap) throws Exception {
 		// 获取频道主题返回值 
-		List<OpChannelTheme> themeList = themeCacheDao.queryTheme();
+		List<OpChannelTheme> themeList = themeCacheDao.queryThemeWithoutTop();
 		jsonMap.put(OptResult.JSON_KEY_THEMES, themeList);
 		
 		// 定义频道列表返回值

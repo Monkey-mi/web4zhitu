@@ -22,6 +22,11 @@ public class ChannelCacheDaoImpl extends BaseCacheDaoImpl<OpChannel> implements
 	}
 	
 	@Override
+	public List<OpChannel> queryChannel(int limit) {
+		return getRedisTemplate().opsForList().range(CacheKeies.OP_CHANNEL, 0, limit-1);
+	}
+	
+	@Override
 	public List<OpChannel> queryChannel(RowSelection rowSelection) {
 		return getRedisTemplate().opsForList().range(CacheKeies.OP_CHANNEL, 
 				rowSelection.getFirstRow(), rowSelection.getMaxRow()-1);
@@ -60,11 +65,6 @@ public class ChannelCacheDaoImpl extends BaseCacheDaoImpl<OpChannel> implements
 			return op.range(0, -1);
 		}
 		return null;
-	}
-
-	@Override
-	public List<OpChannel> getRecommendChannel() {
-		return getRedisTemplate().opsForList().range(CacheKeies.OP_CHANNEL_RECOMMEND, 0, -1);
 	}
 
 }

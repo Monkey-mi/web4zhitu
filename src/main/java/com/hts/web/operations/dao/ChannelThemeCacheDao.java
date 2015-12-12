@@ -17,10 +17,22 @@ import com.hts.web.common.pojo.OpChannelTheme;
 public interface ChannelThemeCacheDao extends BaseCacheDao {
 
 	/**
+	 * 更新频道缓存
+	 */
+	public void updateTheme();
+
+	/**
 	 * 查询缓存频道
 	 * 
 	 * @return
 	 */
-	List<OpChannelTheme> queryTheme();
+	public List<OpChannelTheme> queryTheme();
+	
+	/**
+	 * 查询缓存频道列表(没有推荐类型)
+	 * 
+	 * @return
+	 */
+	public List<OpChannelTheme> queryThemeWithoutTop();
 	
 }
