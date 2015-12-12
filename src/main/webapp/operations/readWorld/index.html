@@ -422,6 +422,7 @@ img.box-shadow{
 <script type="text/javascript" src="/staticres/htworld/common/js/jquery.htszoomtourV3.js"></script>
 <script type="text/javascript" src="/staticres/base/js/downbanner.js"></script>
 <script type="text/javascript">
+var title2marginTop = -15;
 var inapp = 0;
 var userIds = '';
 var twoButton = '<div id="twoButton" class="twoButton" ></div>';
@@ -495,12 +496,16 @@ var pastTopicHead = '<div class="onePastPic"><a href="';
 			 		var intro2 = '<div  class="intro2">'+ result.starModuleInfos[i].intro2 +'</div></div>';
 			 		
 			 		//小标题
-				 	var title1Module = '<div class="title1" ><span style="background-color:#EAEBEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + result.starModuleInfos[i].title + '&nbsp;&nbsp;&nbsp;&nbsp&nbsp;&nbsp;</span></div>';
-				 	var titleModule = '<div class="user-wrap"><hr class="moduleHr">'+ title1Module + '<div class="title2">'+ result.starModuleInfos[i].subtitle +'</div>';
-				 	if(result.starModuleInfos[i].title == ''){
-				 		titleModule = '';
+				 	var title1Module = '<hr class="moduleHr"><div class="title1" ><span style="background-color:#EAEBEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + result.starModuleInfos[i].title + '&nbsp;&nbsp;&nbsp;&nbsp&nbsp;&nbsp;</span></div>';
+				 	var title2Module = '<div class="title2">'+ result.starModuleInfos[i].subtitle +'</div>';
+				 	if(result.starModuleInfos[i].title == '' ){
+				 		title1Module = '';
+				 		title2marginTop = 5;
 				 	}
-			 		
+				 	if(result.starModuleInfos[i].subtitle == ''){
+				 		title2Module = '';
+				 	}
+				 	var titleModule = '<div class="user-wrap">'+ title1Module + title2Module;
 			 		//头像 用户名 关注按钮
 			 		var faceAnduserNameAndconcernButton = titleModule +  '<div class="whriteBlock" ><div class="faceAnduserNameAndConcern" ><div class="face box-shadow"><a href="imzhitu://user?uid='+ result.starModuleInfos[i].userId +'">' + 
 			 																								'<img src="'+ result.starModuleInfos[i].facePic +'"/></a></div><div class="userName" >'+ result.starModuleInfos[i].userName +'</div>' + 
@@ -647,27 +652,29 @@ function initLayout(result) {
 		
 		//模块分割线
 		moduleHrMarginTop = 45,
-		moduleHrMarginBottom = 41,
+		moduleHrMarginBottom = 20,
 		moduleHrWidth = 642,
 		
 		//小标题
 		title1fontSize = 35,
 		title1width = 750,
-		title1marginTop = -70,  
+		title1marginTop = -45,  
 		
 		//小副标题
 		title2fontSize = 26,
 		title2width = 750,
-		title2marginTop = -50,
+		/* title2marginTop = -15, */
 
 		//白色模块底
 		whriteWidth = 716,
 		whritePaddingTop = 18,
 		whriteMarginRight = 18,
 		whriteMarginLeft = 18,
-		whriteMarginTop = 36,
+		whriteMarginTop = 65,
 		whriteMarginBottom = 20,
 		whriteBorderBottom = 0,
+		
+		headBlockMarginTop = 36,
 		
 		//头像 用户名 关注按钮块
 		faceAnduserNameAndConcernPaddingBottom = 18,
@@ -821,6 +828,7 @@ function initLayout(result) {
 		whriteMarginRight = whriteMarginRight * scale / 100;
 		whriteMarginLeft = whriteMarginLeft * scale / 100;
 		whriteMarginTop = whriteMarginTop * scale / 100;
+		headBlockMarginTop = headBlockMarginTop * scale / 100;
 		whriteMarginBottom = whriteMarginBottom * scale / 100;
 		whriteBorderBottom = whriteBorderBottom * scale / 100;
 		
@@ -926,7 +934,7 @@ function initLayout(result) {
 			//头模块底
 	 		$(".headBlock").css({
 				"width":whriteWidth + "px",
-				"margin-top":whriteMarginTop + "px",
+				"margin-top":headBlockMarginTop + "px",
 	 			"margin-bottom":whriteMarginBottom + "px",
 	 			"border-width":whriteBorderBottom + "px"}); 
 			
@@ -946,7 +954,7 @@ function initLayout(result) {
  	 			"width":title2width + "px",
  	 			"font-size":title2fontSize + "px",
  	 			"margin-top":title2marginTop + "px"
- 	 			});  
+ 	 			}).show();  
 		
  			//白色模块底
  	 		$(".whriteBlock").css({
