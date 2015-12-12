@@ -345,4 +345,11 @@ public class CacheKeies {
 	 */
 	public static final String ITEM_LIST_BY_SETID = MODULE_ITEM + "itemSet:";
 	
+	/**
+	 * 秒杀商品集合临时存储，做为比对使用，刷新到正式缓存中时，数据以此存储的itemSetId为准
+	 * 
+	 * @author zhangbo	2015年12月12日
+	 */
+	public static final String ITEM_SECKILLITEMSET_TEMP = MODULE_ITEM + "seckillItemSetTemp";
+	
 }
