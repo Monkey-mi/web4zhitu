@@ -161,8 +161,6 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 			// 由于目前是写死的，限时秒杀的分类都是1
 			for (ItemSetBulletin bulletin : list) {
 				bulletin.setCategory(1);
-				// 由于查询需要，秒杀商品集合不需要返回maxId，则设置最大的整数
-				bulletin.setSerial(Integer.MAX_VALUE);
 			}
 		}
 		return list;
@@ -184,8 +182,6 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 			// 由于目前是写死的，有奖活动的分类都是2
 			for (ItemSetBulletin bulletin : list) {
 				bulletin.setCategory(2);
-				// 由于查询需要，有奖活动不需要返回maxId，则设置最大的整数
-				bulletin.setSerial(Integer.MAX_VALUE);
 			}
 		}
 		return list;
