@@ -273,6 +273,20 @@ public class KeyGenServiceImpl extends BaseServiceImpl implements KeyGenService{
 	 */
 	public static final Integer ITEM_SERIAL = 51;
 	
+	
+	/**
+	 * 集合内的商品序号
+	 */
+	public static final Integer ITEM_SET_SERIAL = 52;
+	
+	
+	/**
+	 * 商品集合id流水
+	 * @author zhangbo	2015年12月12日
+	 */
+	public static final Integer ITEM_SET_ID	= 53;
+	
+	
 	@Autowired
 	private KeyGenDao keyGenDao;
 	
