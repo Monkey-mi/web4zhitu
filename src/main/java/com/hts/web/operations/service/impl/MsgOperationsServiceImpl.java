@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import com.hts.web.base.constant.OptResult;
 import com.hts.web.base.constant.Tag;
 import com.hts.web.base.database.RowSelection;
-import com.hts.web.common.pojo.OpMsgBulletin;
 import com.hts.web.common.pojo.OpNotice;
 import com.hts.web.common.pojo.OpSysMsgDto;
 import com.hts.web.common.service.impl.BaseServiceImpl;
@@ -21,9 +20,7 @@ import com.hts.web.operations.dao.ItemBulletinCache;
 import com.hts.web.operations.dao.NoticeCacheDao;
 import com.hts.web.operations.dao.StartPageCacheDao;
 import com.hts.web.operations.dao.SysMsgDao;
-import com.hts.web.operations.pojo.AwardActivityBulletin;
-import com.hts.web.operations.pojo.RecommendItemBulletin;
-import com.hts.web.operations.pojo.SeckillBulletin;
+import com.hts.web.operations.pojo.ItemSetBulletin;
 import com.hts.web.operations.service.MsgOperationsService;
 import com.hts.web.trade.item.dao.ItemSetDao;
 import com.hts.web.trade.item.dto.ItemSetDTO;
@@ -98,7 +95,7 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 		List<Map<String, Serializable>> categoryList = new ArrayList<Map<String, Serializable>>();
 		
 		// 定义商品公告返回列表
-		List<OpMsgBulletin> itemList = new ArrayList<OpMsgBulletin>();
+		List<ItemSetBulletin> itemList = new ArrayList<ItemSetBulletin>();
 		
 		// 若maxId为0，证明为第一次查询，要返回全部的商品集合列表，若不为0，证明已经查询过了，只有好物推荐需要追加数据，则只返回好物推荐
 		if ( maxId == 0) {
@@ -155,14 +152,14 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 	 * @return List<SeckillBulletin>	限时秒杀商品列表
 	 * @author zhangbo	2015年12月7日
 	 */
-	private List<SeckillBulletin> getSeckillList() {
+	private List<ItemSetBulletin> getSeckillList() {
 		
 		// 限时秒杀不分页，返回运营配置的所有数据，传递参数start为1，limit为0，即查询全部数据
-		List<SeckillBulletin> list = itemBulletinCache.querySeckill(new RowSelection(1,0));
+		List<ItemSetBulletin> list = itemBulletinCache.querySeckill(new RowSelection(1,0));
 		// 因为redis不会返回null，只会返回空列表
 		if ( list.size() != 0 ) {
 			// 由于目前是写死的，限时秒杀的分类都是1
-			for (SeckillBulletin bulletin : list) {
+			for (ItemSetBulletin bulletin : list) {
 				bulletin.setCategory(1);
 				// 由于查询需要，秒杀商品集合不需要返回maxId，则设置最大的整数
 				bulletin.setSerial(Integer.MAX_VALUE);
@@ -177,15 +174,15 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 	 * @return List<AwardActivityBulletin>	有奖活动列表
 	 * @author zhangbo	2015年12月7日
 	 */
-	private List<AwardActivityBulletin> getAwardActivityList() {
+	private List<ItemSetBulletin> getAwardActivityList() {
 		
 		// 有奖活动不分页，返回运营配置的所有数据，传递参数start为1，limit为0，即查询全部数据
-		List<AwardActivityBulletin> list = itemBulletinCache.queryAwardActivity(new RowSelection(1,0));
+		List<ItemSetBulletin> list = itemBulletinCache.queryAwardActivity(new RowSelection(1,0));
 		
 		// 因为redis不会返回null，只会返回空列表
 		if ( list.size() != 0 ) {
 			// 由于目前是写死的，有奖活动的分类都是2
-			for (AwardActivityBulletin bulletin : list) {
+			for (ItemSetBulletin bulletin : list) {
 				bulletin.setCategory(2);
 				// 由于查询需要，有奖活动不需要返回maxId，则设置最大的整数
 				bulletin.setSerial(Integer.MAX_VALUE);
@@ -205,8 +202,8 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 	 * 
 	 * @author zhangbo	2015年12月7日
 	 */
-	private List<RecommendItemBulletin> getRecommendItemList(Integer maxId, Integer limit) throws Exception {
-		List<RecommendItemBulletin> list = new ArrayList<RecommendItemBulletin>();
+	private List<ItemSetBulletin> getRecommendItemList(Integer maxId, Integer limit) throws Exception {
+		List<ItemSetBulletin> list = new ArrayList<ItemSetBulletin>();
 		// 若maxId为0，证明为第一次查询则取redis缓存中的数据
 		if ( maxId == 0 ) {
 			list = itemBulletinCache.queryRecommendItem(new RowSelection(1,0));
@@ -216,7 +213,7 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 			List<ItemSetDTO> itemSetList = itemSetDao.queryItemSetList(maxId, limit);
 			if ( itemSetList != null && itemSetList.size() != 0 ) {
 				for (ItemSetDTO itemSetDTO : itemSetList) {
-					RecommendItemBulletin bulletin = new RecommendItemBulletin();
+					ItemSetBulletin bulletin = new ItemSetBulletin();
 					bulletin.setId(itemSetDTO.getId());
 					bulletin.setBulletinName(itemSetDTO.getDescription());
 					bulletin.setBulletinPath(itemSetDTO.getPath());
@@ -232,7 +229,7 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 		// 因为redis不会返回null，只会返回空列表
 		if ( list.size() != 0 ) {
 			// 由于目前是写死的，推荐商品的分类都是3
-			for (RecommendItemBulletin bulletin : list) {
+			for (ItemSetBulletin bulletin : list) {
 				bulletin.setCategory(3);
 			}
 		}

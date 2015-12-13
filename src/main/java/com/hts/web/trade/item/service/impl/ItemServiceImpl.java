@@ -10,11 +10,8 @@ import org.springframework.stereotype.Service;
 import com.hts.web.base.constant.OptResult;
 import com.hts.web.base.database.RowCallback;
 import com.hts.web.base.database.RowSelection;
-import com.hts.web.common.pojo.OpMsgBulletin;
 import com.hts.web.operations.dao.ItemBulletinCache;
-import com.hts.web.operations.pojo.AwardActivityBulletin;
-import com.hts.web.operations.pojo.RecommendItemBulletin;
-import com.hts.web.operations.pojo.SeckillBulletin;
+import com.hts.web.operations.pojo.ItemSetBulletin;
 import com.hts.web.trade.item.dao.ItemCache;
 import com.hts.web.trade.item.dao.ItemLikeDao;
 import com.hts.web.trade.item.dao.ItemSetDao;
@@ -69,7 +66,7 @@ public class ItemServiceImpl implements ItemService {
 		}
 		
 		// 得到商品集合
-		OpMsgBulletin itemSet = getItemSet(itemSetId);
+		ItemSetBulletin itemSet = getItemSet(itemSetId);
 		
 		// 构造返回值
 		jsonMap.put(OptResult.JSON_KEY_ITEMSET, itemSet);
@@ -84,15 +81,15 @@ public class ItemServiceImpl implements ItemService {
 	 * @author zhangbo	2015年12月10日
 	 * @throws Exception 
 	 */
-	private OpMsgBulletin getItemSet(Integer itemSetId) throws Exception {
-		OpMsgBulletin rtn = null;
+	private ItemSetBulletin getItemSet(Integer itemSetId) throws Exception {
+		ItemSetBulletin rtn = null;
 		
 		// 定义分页查询，设置起始页为1，每页数量为0，即为查询全部数据
 		RowSelection rowSelection = new RowSelection(1, 0);
 		
 		// 先查询限时秒杀
-		List<SeckillBulletin> seckillList = ibCache.querySeckill(rowSelection);
-		for (SeckillBulletin seckill : seckillList) {
+		List<ItemSetBulletin> seckillList = ibCache.querySeckill(rowSelection);
+		for (ItemSetBulletin seckill : seckillList) {
 			if ( itemSetId.equals(seckill.getId()) ) {
 				rtn = seckill;
 			}
@@ -109,7 +106,7 @@ public class ItemServiceImpl implements ItemService {
 		if ( rtn == null ) {
 			ItemSetDTO itemSet = itemSetDao.getItemSet(itemSetId);
 			
-			rtn = new OpMsgBulletin();
+			rtn = new ItemSetBulletin();
 			rtn.setId(itemSet.getId());
 			rtn.setBulletinName(itemSet.getDescription());
 			rtn.setBulletinPath(itemSet.getPath());
@@ -138,24 +135,24 @@ public class ItemServiceImpl implements ItemService {
 		RowSelection rowSelection = new RowSelection(1, 0);
 		
 		// 冒泡查询限时秒杀商品集合最大id
-		List<SeckillBulletin> seckillList = ibCache.querySeckill(rowSelection);
-		for (SeckillBulletin seckill : seckillList) {
+		List<ItemSetBulletin> seckillList = ibCache.querySeckill(rowSelection);
+		for (ItemSetBulletin seckill : seckillList) {
 			if ( seckill.getId() > itemSetMaxId ) {
 				itemSetMaxId = seckill.getId();
 			}
 		}
 		
 		// 冒泡查询推荐商品集合最大id
-		List<RecommendItemBulletin> recommendItemList = ibCache.queryRecommendItem(rowSelection);
-		for (RecommendItemBulletin recommendItem : recommendItemList) {
+		List<ItemSetBulletin> recommendItemList = ibCache.queryRecommendItem(rowSelection);
+		for (ItemSetBulletin recommendItem : recommendItemList) {
 			if ( recommendItem.getId() > itemSetMaxId ) {
 				itemSetMaxId = recommendItem.getId();
 			}
 		}
 		
 		// 冒泡查询有奖活动最大id
-		List<AwardActivityBulletin> awardActivityList = ibCache.queryAwardActivity(rowSelection);
-		for (AwardActivityBulletin awardActivity : awardActivityList) {
+		List<ItemSetBulletin> awardActivityList = ibCache.queryAwardActivity(rowSelection);
+		for (ItemSetBulletin awardActivity : awardActivityList) {
 			if ( awardActivity.getId() > activityMaxId ) {
 				activityMaxId = awardActivity.getId();
 			}
