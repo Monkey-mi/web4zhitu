@@ -25,7 +25,7 @@ public class ItemServiceTest extends BaseTest {
 	@Test
 	public void queryItemInfoTest() throws Exception {
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
-		service.queryItemInfo(446, -1, jsonMap);
+		service.queryItemInfo(13, -1, jsonMap);
 		logObj(jsonMap);
 	}
 	

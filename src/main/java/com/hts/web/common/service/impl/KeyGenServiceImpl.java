@@ -269,22 +269,26 @@ public class KeyGenServiceImpl extends BaseServiceImpl implements KeyGenService{
 	public static final Integer OP_NEAR_RECOMMEND_CITY_SERIAL = 50;
 	
 	/**
-	 * 商品serial
+	 * 商品id
 	 */
-	public static final Integer ITEM_SERIAL = 51;
+	public static final Integer ITEM_ID = 51;
 	
 	
 	/**
-	 * 集合内的商品序号
+	 * 集合序号
 	 */
 	public static final Integer ITEM_SET_SERIAL = 52;
 	
+	/**
+	 * 集合内商品序号
+	 */
+	public static final Integer ITEM_SET_RELATE_SERIAL = 53;
 	
 	/**
 	 * 商品集合id流水
 	 * @author zhangbo	2015年12月12日
 	 */
-	public static final Integer ITEM_SET_ID	= 53;
+	public static final Integer ITEM_SET_ID	= 54;
 	
 	
 	@Autowired

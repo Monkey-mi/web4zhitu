@@ -98,14 +98,14 @@ var ui = {
 	getUID : function() {
 		var reg = new RegExp("(^|&)inapp=([^&]*)(&|$)","i");
 		var r   = window.location.search.substr(1).match(reg);
-		if(r != null && r[2] == 1)
+		if(r != null)
 			return r[2];
 		return -1;
 	},
 	getSetId : function() {
 		var reg = new RegExp("(^|&)itemSetId=([^&]*)(&|$)","i");
 		var r   = window.location.search.substr(1).match(reg);
-		if(r != null && r[2] == 1)
+		if(r != null)
 			return r[2];
 		return -1;
 	},
@@ -261,6 +261,10 @@ var ui = {
 	},
 	
 	countformat : function(count) {
+		if(count == "") {
+			return 0;
+		}
+		
 		var res;
 		if(count < 10000) {
 			res = count;
@@ -272,13 +276,12 @@ var ui = {
 		return res;
 	},
 	
-	initLeftTime : function(endTimeStr) {
-		if(endTimeStr == undefined && endTimeStr == "")
+	initLeftTime : function(endTime) {
+		if(endTime == undefined || endTime == "")
 			return;
 		
-		endTime = new Date((endTimeStr).replace(new RegExp("-","gm"),"/"))
 		
-		if(parseInt((endTime.getTime()-new Date().getTime())/1000) <= 0) {
+		if(parseInt((endTime-new Date().getTime())/1000) <= 0) {
 			$("#left-time").text("已结束");
 			isFinished = true;
 		}
@@ -302,7 +305,7 @@ var ui = {
 	
 	refreshLeftTime : function(endtime){
         var nowtime = new Date();
-        var leftsecond=parseInt((endtime.getTime()-nowtime.getTime())/1000);
+        var leftsecond=parseInt((endtime-nowtime.getTime())/1000);
         
         if(leftsecond > 0) {
         	
@@ -335,7 +338,7 @@ var ui = {
 
 var ajax = {
 	fetchSet : function(setId, uid) {
-		$.post("./trade/item_queryItemInfo",{
+		$.post("/trade/item_queryItemInfo",{
 			'itemSetId':setId,
 			"uid":uid
 		},function(result){
@@ -351,7 +354,7 @@ var ajax = {
 		if(uid < 0)
 			return;
 		
-		$.post("./trade/item_likeItem",{
+		$.post("/trade/item_likeItem",{
 			'itemId':itemId,
 			"uid":uid
 		},function(result){
