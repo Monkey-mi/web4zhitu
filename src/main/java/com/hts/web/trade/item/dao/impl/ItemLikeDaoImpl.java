@@ -42,16 +42,6 @@ public class ItemLikeDaoImpl extends BaseDaoImpl implements ItemLikeDao {
 		getMasterJdbcTemplate().update(SAVE_ITEM_LIKE , new Object[]{uid, itemId});
 	}
 
-//	@Override
-//	public boolean isExist(Integer itemId, Integer uid) {
-//		int count = getJdbcTemplate().queryForInt(QUERY_ITEM_LIKE, new Object[]{uid, itemId});
-//		if ( count > 0 ) {
-//			return true;
-//		} else {
-//			return false;
-//		}
-//	}
-
 	@Override
 	public void queryLike(Integer[] itemIds, Integer uid,
 			final RowCallback<Integer> callback) {

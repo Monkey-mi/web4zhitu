@@ -20,18 +20,6 @@ public interface ItemLikeDao {
 	 */
 	void saveLikeItem(Integer itemId, Integer uid);
 	
-//	/**
-//	 * 是否已经为商品点过赞
-//	 * 
-//	 * @param itemId	商品id
-//	 * @param uid		用户id
-//	 * 
-//	 * @return true：已经点过赞，false：未点过赞
-//	 * @author zhangbo	2015年12月10日
-//	 */
-//	boolean isExist(Integer itemId, Integer uid);
-	
-	
 	/**
 	 * 查询喜欢标记
 	 * 
