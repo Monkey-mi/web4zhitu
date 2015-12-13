@@ -125,40 +125,37 @@ public class ItemServiceImpl implements ItemService {
 
 	@Override
 	public Integer getItemSetMaxId() throws Exception {
-		// 定义商品集合最大id
-		Integer itemSetMaxId = 0;
+		// 定义限时秒杀最大id
+		Integer seckillMaxId = 0;
 		
 		// 定义有奖活动最大id
 		Integer activityMaxId = 0;
 		
+		// 定义推荐活动最大id
+		Integer recommendItemMaxId = 0;
+		
 		// 定义分页查询，设置起始页为1，每页数量为0，即为查询全部数据
 		RowSelection rowSelection = new RowSelection(1, 0);
 		
-		// 冒泡查询限时秒杀商品集合最大id
+		// 限时秒杀商品集合最大id，限时秒杀都是按照serial倒序排列，所以直接取第一个对象的serial
 		List<ItemSetBulletin> seckillList = ibCache.querySeckill(rowSelection);
-		for (ItemSetBulletin seckill : seckillList) {
-			if ( seckill.getId() > itemSetMaxId ) {
-				itemSetMaxId = seckill.getId();
-			}
+		if ( seckillList != null && seckillList.size() != 0 ) {
+			seckillMaxId = seckillList.get(0).getSerial();
 		}
 		
-		// 冒泡查询推荐商品集合最大id
-		List<ItemSetBulletin> recommendItemList = ibCache.queryRecommendItem(rowSelection);
-		for (ItemSetBulletin recommendItem : recommendItemList) {
-			if ( recommendItem.getId() > itemSetMaxId ) {
-				itemSetMaxId = recommendItem.getId();
-			}
-		}
-		
-		// 冒泡查询有奖活动最大id
+		// 有奖活动最大id，有奖活动都是按照serial倒序排列，所以直接取第一个对象的serial
 		List<ItemSetBulletin> awardActivityList = ibCache.queryAwardActivity(rowSelection);
-		for (ItemSetBulletin awardActivity : awardActivityList) {
-			if ( awardActivity.getId() > activityMaxId ) {
-				activityMaxId = awardActivity.getId();
-			}
+		if ( awardActivityList != null && awardActivityList.size() != 0 ) {
+			activityMaxId = awardActivityList.get(0).getSerial();
 		}
 		
-		return itemSetMaxId + activityMaxId;
+		// 推荐商品集合最大id，推荐商品都是按照serial倒序排列，所以直接取第一个对象的serial
+		List<ItemSetBulletin> recommendItemList = ibCache.queryRecommendItem(rowSelection);
+		if ( recommendItemList != null && recommendItemList.size() != 0 ) {
+			recommendItemMaxId = recommendItemList.get(0).getSerial();
+		}
+		
+		return seckillMaxId + activityMaxId + recommendItemMaxId;
 	}
 	
 }
