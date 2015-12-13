@@ -19,6 +19,7 @@ import com.hts.web.trade.item.dao.ItemCache;
 import com.hts.web.trade.item.dao.ItemLikeDao;
 import com.hts.web.trade.item.dao.ItemSetDao;
 import com.hts.web.trade.item.dto.ItemDTO;
+import com.hts.web.trade.item.dto.ItemSetDTO;
 import com.hts.web.trade.item.service.ItemService;
 
 /**
@@ -38,6 +39,9 @@ public class ItemServiceImpl implements ItemService {
 	
 	@Autowired
 	private ItemCache itemCache;
+	
+	@Autowired
+	private ItemSetDao itemSetDao;
 
 	@Override
 	public void queryItemInfo(Integer itemSetId, Integer uid, Map<String, Object> jsonMap) throws Exception {
@@ -78,8 +82,9 @@ public class ItemServiceImpl implements ItemService {
 	 * @param itemSetId
 	 * @return
 	 * @author zhangbo	2015年12月10日
+	 * @throws Exception 
 	 */
-	private OpMsgBulletin getItemSet(Integer itemSetId) {
+	private OpMsgBulletin getItemSet(Integer itemSetId) throws Exception {
 		OpMsgBulletin rtn = null;
 		
 		// 定义分页查询，设置起始页为1，每页数量为0，即为查询全部数据
@@ -88,17 +93,29 @@ public class ItemServiceImpl implements ItemService {
 		// 先查询限时秒杀
 		List<SeckillBulletin> seckillList = ibCache.querySeckill(rowSelection);
 		for (SeckillBulletin seckill : seckillList) {
-			if ( itemSetId == seckill.getId() ) {
+			if ( itemSetId.equals(seckill.getId()) ) {
 				rtn = seckill;
 			}
 		}
-		
-		// 再查询推荐商品
-		List<RecommendItemBulletin> recommendItemList = ibCache.queryRecommendItem(rowSelection);
-		for (RecommendItemBulletin recommendItem : recommendItemList) {
-			if ( itemSetId == recommendItem.getId() ) {
-				rtn = recommendItem;
-			}
+//		
+//		// 再查询推荐商品
+//		List<RecommendItemBulletin> recommendItemList = ibCache.queryRecommendItem(rowSelection);
+//		for (RecommendItemBulletin recommendItem : recommendItemList) {
+//			if ( itemSetId == recommendItem.getId() ) {
+//				rtn = recommendItem;
+//			}
+//		}
+		// 若不在秒杀中，则rtn为null，则根据id去数据库中查询对应的商品集合
+		if ( rtn == null ) {
+			ItemSetDTO itemSet = itemSetDao.getItemSet(itemSetId);
+			
+			rtn = new OpMsgBulletin();
+			rtn.setId(itemSet.getId());
+			rtn.setBulletinName(itemSet.getDescription());
+			rtn.setBulletinPath(itemSet.getPath());
+			rtn.setBulletinThumb(itemSet.getThumb());
+			rtn.setBulletinType(itemSet.getType());
+			rtn.setLink(itemSet.getLink());
 		}
 		
 		return rtn;

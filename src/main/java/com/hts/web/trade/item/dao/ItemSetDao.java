@@ -22,4 +22,14 @@ public interface ItemSetDao {
 	 * @author zhangbo	2015年12月12日
 	 */
 	List<ItemSetDTO> queryItemSetList(Integer maxId, Integer limit) throws Exception;
+	
+	/**
+	 * 根据id得到商品集合对象
+	 * 
+	 * @param id	商品集合id
+	 * @return
+	 * @throws Exception
+	 * @author zhangbo	2015年12月13日
+	 */
+	ItemSetDTO getItemSet(Integer id) throws Exception;
 }
