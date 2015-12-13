@@ -65,9 +65,9 @@ $(document).ready(function() {
 	uid = ui.getUID();
 	sid = ui.getSetId();
 	ui.initLayout();
-	ui.hidePageLoading();
-	ui.initLeftTime("2015-12-11 21:00:00");
-	ui.appendItem(data);
+	//ui.hidePageLoading();
+	//ui.initLeftTime("2015-12-11 21:00:00");
+	//ui.appendItem(data);
 	
 	ajax.fetchSet(ui.getSetId(), ui.getUID());
 	

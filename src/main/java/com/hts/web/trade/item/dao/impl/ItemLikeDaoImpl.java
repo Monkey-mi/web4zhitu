@@ -55,6 +55,7 @@ public class ItemLikeDaoImpl extends BaseDaoImpl implements ItemLikeDao {
 	@Override
 	public void queryLike(Integer[] itemIds, Integer uid,
 			final RowCallback<Integer> callback) {
+		System.out.println(itemIds.length);
 		String sql = QUERY_LIKE + SQLUtil.buildInSelection(itemIds);
 		Object[] args = SQLUtil.getArgsByInCondition(itemIds, new Object[]{uid}, true);
 		getJdbcTemplate().query(sql, args, new RowCallbackHandler() {

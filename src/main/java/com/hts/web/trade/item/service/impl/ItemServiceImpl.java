@@ -45,7 +45,7 @@ public class ItemServiceImpl implements ItemService {
 		final List<ItemDTO> itemList = itemCache.queryItemListBySetId(itemSetId, new RowSelection(1,0));
 		
 		// 查询是否点过赞
-		if(uid > 0 && itemList != null && itemList.isEmpty()) {
+		if(uid > 0 && itemList != null && !itemList.isEmpty()) {
 			final Map<Integer, Integer> idxMap = new HashMap<Integer, Integer>();
 			Integer[] itemIds = new Integer[itemList.size()];
 			
