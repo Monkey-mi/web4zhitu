@@ -2,72 +2,12 @@ var winWidth, processMarginTop, config, inapp, uid, sid;
 var isFinished = false;
 var leftTimeInterval;
 
-var data = 
-[
-{
-    "id": "1",
-    "name": "无人机",
-    "summary": '无人机一号之"我是无人机你想怎样".',
-    "description": "纯棉面料和细纱布表面很有光泽度，舒适透气，质地和做工都很好，细节做的很用心，看似简单的裙子却是花了很大的心思，裙摆形成褶皱非常好看，很秀气，松紧腰，适合更多人群裙摆圆滑的弧度，优雅大方，款式更加出众上身乍一眼并不惊艳，可是很耐看，收到的时候你一定会惊喜。北京设计师原创设计，活在当下做自己！嘿尔闹出品",
-    "worldId": "0",
-    "imgPath": "http://imzhitu.qiniudn.com/trade/item/medium_1.jpg",
-    "imgThumb": "http://imzhitu.qiniudn.com/trade/item/medium_1.jpg",
-    "price": "1012.0",
-    "sale": "100",
-    "sales": "100",
-    "stock": "100",
-    "itemId": "42358748787",
-    "itemType": "2",
-    "link": "http://s.click.taobao.com/0JXOxex",
-    "like": "1000000",
-    "isLiked": "true"
-},
-{
-    "id": "1",
-    "name": "无人机1",
-    "summary": '无人机一号之"我也是无人机你想怎样".',
-    "description": "纯棉面料和细纱布表面很有光泽度，舒适透气，质地和做工都很好，细节做的很用心，看似简单的裙子却是花了很大的心思，裙摆形成褶皱非常好看，很秀气，松紧腰，适合更多人群裙摆圆滑的弧度，优雅大方，款式更加出众上身乍一眼并不惊艳，可是很耐看，收到的时候你一定会惊喜。北京设计师原创设计，活在当下做自己！嘿尔闹出品",
-    "worldId": "1774418",
-    "imgPath": "http://imzhitu.qiniudn.com/ios/image/2015/05/02/16/216f24cadbee2570f4d6236737caae60_20989@2x.jpg",
-    "imgThumb": "http://imzhitu.qiniudn.com/ios/image/2015/05/02/16/216f24cadbee2570f4d6236737caae60_20989@2x.jpg",
-    "price": "3412.0",
-    "sale": "100",
-    "sales": "100",
-    "stock": "100",
-    "itemId": "42358748787",
-    "itemType": "2",
-    "link": "http://s.click.taobao.com/0JXOxex",
-    "like": "100",
-    "isLiked": "false"
-},
-{
-    "id": "1",
-    "name": "无人机2",
-    "summary": '无人机三号之"我还是无人机你想怎样".',
-    "description": "纯棉面料和细纱布表面很有光泽度，舒适透气，质地和做工都很好，细节做的很用心，看似简单的裙子却是花了很大的心思，裙摆形成褶皱非常好看，很秀气，松紧腰，适合更多人群裙摆圆滑的弧度，优雅大方，款式更加出众上身乍一眼并不惊艳，可是很耐看，收到的时候你一定会惊喜。北京设计师原创设计，活在当下做自己！嘿尔闹出品",
-    "worldId": "3570272",
-    "imgPath": "http://static.imzhitu.com/ios/image/2015/11/06/12/95e17bc38a758336176f96eb9851c599_30002@2x.jpg",
-    "imgThumb": "http://static.imzhitu.com/ios/image/2015/11/06/12/95e17bc38a758336176f96eb9851c599_30002@2x.jpg",
-    "price": "2012.0",
-    "sale": "100",
-    "sales": "100",
-    "stock": "100",
-    "itemId": "42358748787",
-    "itemType": "2",
-    "link": "http://s.click.taobao.com/0JXOxex",
-    "like": "100"
-},
-];
-
 $(document).ready(function() {
 	winWidth = ui.getWinWidth();
 	inapp = ui.getInapp();
 	uid = ui.getUID();
 	sid = ui.getSetId();
 	ui.initLayout();
-	//ui.hidePageLoading();
-	//ui.initLeftTime("2015-12-11 21:00:00");
-	//ui.appendItem(data);
 	
 	ajax.fetchSet(ui.getSetId(), ui.getUID());
 	
@@ -96,7 +36,7 @@ var ui = {
 		return false;
 	},
 	getUID : function() {
-		var reg = new RegExp("(^|&)inapp=([^&]*)(&|$)","i");
+		var reg = new RegExp("(^|&)uid=([^&]*)(&|$)","i");
 		var r   = window.location.search.substr(1).match(reg);
 		if(r != null)
 			return r[2];
@@ -133,6 +73,7 @@ var ui = {
 	
 	initShareInfo : function(setInfo) {
 		$("#share-img").attr("src", setInfo['bulletinPath']);
+        document.title = setInfo["bulletinName"];
 	},
 	
 	appendItem : function(items) {
@@ -195,7 +136,7 @@ var ui = {
 			+ '	<div class="item-price-wrap">'
 			+ '		<span class="price-label">价格:</span><span class="price">'+item['price']+'</span><span class="price-unit">元</span>'
 			+ '		<a class="buy-btn" href="'+ui.getClickLink(item["itemId"], item["itemType"], item["link"])+'">'+$buyText+'</a>'
-			+ '		<a class="like-btn" data-item-id="'+item["id"]+'" data-islike="'+item["isLiked"]+'" href="javascript:void(0);"><img class="like-icon" src="'+$likeIcon+'" /><span class="like_count">'+ui.countformat(item["like"])+'</span></a>'
+			+ '		<a class="like-btn" data-item-id="'+item["id"]+'" data-islike="'+item["isLiked"]+'" href="javascript:void(0);"><img class="like-icon" src="'+$likeIcon+'" /><span class="like-count">'+ui.countformat(item["like"])+'</span></a>'
 			+ '	</div>'
 			+ $dividingLine
 			+ '</div>'
@@ -229,7 +170,7 @@ var ui = {
 		if(!inapp)
 			return link;
 		else 
-			return 'imzhitu://buyItem?itemId='+itemId+'&itemType=' + itemType + '&link=' + encodeURI(link);
+			return 'imzhitu://buyItem?itemId='+itemId+'&itemType=' + itemType + '&link=' + encodeURIComponent(link);
 	},
 	
 	initChildWorld : function(worldId, $world, desc) {
@@ -345,6 +286,7 @@ var ajax = {
 			if(result['result'] == 0){
 				ui.hidePageLoading();
 				ui.initSetInfo(result["itemSet"]);
+				ui.initShareInfo(result["itemSet"]);
 				ui.appendItem(result["items"]);
 			}
 		},"json");
@@ -358,13 +300,11 @@ var ajax = {
 			'itemId':itemId,
 			"uid":uid
 		},function(result){
-			if(result['result'] == 0){
-				var $likeCount = $like.children(".like-count:eq(0)");
-				var count = $likeCount.text();
-				likeCount.text(parseInt(count) + 1);
-				$like.children(".like-icon:eq(0)").attr("src", 
-						"/staticres/item/images/liked.png");
-			}
+			var $likeCount = $like.children(".like-count:eq(0)");
+			var count = $likeCount.text();
+			$likeCount.text(parseInt(count) + 1);
+			$like.children(".like-icon:eq(0)").attr("src", 
+					"/staticres/item/images/liked.png");
 		},"json");
 		
 	}

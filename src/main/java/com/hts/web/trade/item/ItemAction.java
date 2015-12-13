@@ -104,6 +104,15 @@ public class ItemAction extends BaseAction {
 	public Integer getUid() {
 		return uid;
 	}
+
+	public Integer getItemId() {
+		return itemId;
+	}
+
+	public void setItemId(Integer itemId) {
+		this.itemId = itemId;
+	}
+	
 	
 	
 }
