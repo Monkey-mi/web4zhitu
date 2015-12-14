@@ -211,7 +211,8 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 				for (ItemSetDTO itemSetDTO : itemSetList) {
 					ItemSetBulletin bulletin = new ItemSetBulletin();
 					bulletin.setId(itemSetDTO.getId());
-					bulletin.setBulletinName(itemSetDTO.getDescription());
+					bulletin.setBulletinName(itemSetDTO.getTitle());
+					bulletin.setBulletinDesc(itemSetDTO.getDescription());
 					bulletin.setBulletinPath(itemSetDTO.getPath());
 					bulletin.setBulletinThumb(itemSetDTO.getThumb());
 					bulletin.setBulletinType(itemSetDTO.getType());
