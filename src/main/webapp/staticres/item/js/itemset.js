@@ -62,7 +62,7 @@ var ui = {
 	
 	initSetInfo : function(setInfo) {
 		$("#set-banner").attr("src", setInfo["bulletinPath"]);
-		$("#set-desc").text(setInfo["bulletinName"]);
+		$("#set-desc").text(setInfo["bulletinDesc"]);
 		ui.initLeftTime(setInfo["deadline"]);
 	},
 	
@@ -72,7 +72,8 @@ var ui = {
 	},
 	
 	initShareInfo : function(setInfo) {
-		$("#share-img").attr("src", setInfo['bulletinPath']);
+		var thumb = setInfo['bulletinThumb'] == "" ? setInfo['bulletinPath'] : setInfo['bulletinThumb'];
+		$("#share-img").attr("src", thumb);
 		$("meta[name=description]").attr('content', setInfo['bulletinDesc']);
         document.title = setInfo["bulletinName"];
 	},
