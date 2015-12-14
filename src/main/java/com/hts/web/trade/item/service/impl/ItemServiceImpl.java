@@ -13,6 +13,7 @@ import com.hts.web.base.database.RowSelection;
 import com.hts.web.operations.dao.ItemBulletinCache;
 import com.hts.web.operations.pojo.ItemSetBulletin;
 import com.hts.web.trade.item.dao.ItemCache;
+import com.hts.web.trade.item.dao.ItemDao;
 import com.hts.web.trade.item.dao.ItemLikeDao;
 import com.hts.web.trade.item.dao.ItemSetDao;
 import com.hts.web.trade.item.dto.ItemDTO;
@@ -39,7 +40,10 @@ public class ItemServiceImpl implements ItemService {
 	
 	@Autowired
 	private ItemSetDao itemSetDao;
-
+	
+	@Autowired
+	private ItemDao itemDao;
+	
 	@Override
 	public void queryItemInfo(Integer itemSetId, Integer uid, Map<String, Object> jsonMap) throws Exception {
 		// 根据商品集合id，查询其下商品列表
@@ -115,6 +119,7 @@ public class ItemServiceImpl implements ItemService {
 	@Override
 	public void likeItem(Integer itemId, Integer uid) throws Exception {
 		itemLikeDao.saveLikeItem(itemId, uid);
+		itemDao.likeNumPlusOne(itemId);
 	}
 
 	@Override
