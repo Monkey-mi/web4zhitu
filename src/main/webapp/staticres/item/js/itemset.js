@@ -73,6 +73,7 @@ var ui = {
 	
 	initShareInfo : function(setInfo) {
 		$("#share-img").attr("src", setInfo['bulletinPath']);
+		$("meta[name=description]").attr('content', setInfo['bulletinDesc']);
         document.title = setInfo["bulletinName"];
 	},
 	
