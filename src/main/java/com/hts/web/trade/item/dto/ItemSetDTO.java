@@ -3,6 +3,8 @@ package com.hts.web.trade.item.dto;
 import java.io.Serializable;
 
 /**
+ * 商品集合数据传输对象，主要用于展示数据到客户端
+ * 
  * @author zhangbo	2015年12月12日
  *
  */
@@ -19,6 +21,12 @@ public class ItemSetDTO implements Serializable {
 	 * @author zhangbo	2015年12月8日
 	 */
 	private Integer id;
+	
+	/**
+	 * 商品集合标题
+	 * @author zhangbo	2015年12月14日
+	 */
+	private String title;
 	
 	/**
 	 * 商品集合描述
@@ -55,7 +63,7 @@ public class ItemSetDTO implements Serializable {
 	 * @author zhangbo	2015年12月9日
 	 */
 	private Integer serial;
-	
+
 	/**
 	 * @return the id
 	 */
@@ -68,6 +76,34 @@ public class ItemSetDTO implements Serializable {
 	 */
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	/**
+	 * @return the title
+	 */
+	public String getTitle() {
+		return title;
+	}
+
+	/**
+	 * @param title the title to set
+	 */
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	/**
+	 * @return the description
+	 */
+	public String getDescription() {
+		return description;
+	}
+
+	/**
+	 * @param description the description to set
+	 */
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	/**
@@ -96,20 +132,6 @@ public class ItemSetDTO implements Serializable {
 	 */
 	public void setThumb(String thumb) {
 		this.thumb = thumb;
-	}
-
-	/**
-	 * @return the description
-	 */
-	public String getDescription() {
-		return description;
-	}
-
-	/**
-	 * @param description the description to set
-	 */
-	public void setDescription(String description) {
-		this.description = description;
 	}
 
 	/**
@@ -153,5 +175,5 @@ public class ItemSetDTO implements Serializable {
 	public void setSerial(Integer serial) {
 		this.serial = serial;
 	}
-
+	
 }

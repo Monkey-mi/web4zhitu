@@ -70,6 +70,7 @@ public class ItemSetDaoImpl extends BaseDaoImpl implements ItemSetDao {
 			public ItemSetDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
 				ItemSetDTO dto = new ItemSetDTO();
 				dto.setId(rs.getInt("id"));
+				dto.setTitle(rs.getString("title"));
 				dto.setDescription(rs.getString("description"));
 				dto.setPath(rs.getString("path"));
 				dto.setThumb(rs.getString("thumb"));

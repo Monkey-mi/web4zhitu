@@ -94,21 +94,15 @@ public class ItemServiceImpl implements ItemService {
 				rtn = seckill;
 			}
 		}
-//		
-//		// 再查询推荐商品
-//		List<RecommendItemBulletin> recommendItemList = ibCache.queryRecommendItem(rowSelection);
-//		for (RecommendItemBulletin recommendItem : recommendItemList) {
-//			if ( itemSetId == recommendItem.getId() ) {
-//				rtn = recommendItem;
-//			}
-//		}
+		
 		// 若不在秒杀中，则rtn为null，则根据id去数据库中查询对应的商品集合
 		if ( rtn == null ) {
 			ItemSetDTO itemSet = itemSetDao.getItemSet(itemSetId);
 			
 			rtn = new ItemSetBulletin();
 			rtn.setId(itemSet.getId());
-			rtn.setBulletinName(itemSet.getDescription());
+			rtn.setBulletinName(itemSet.getTitle());
+			rtn.setBulletinDesc(itemSet.getDescription());
 			rtn.setBulletinPath(itemSet.getPath());
 			rtn.setBulletinThumb(itemSet.getThumb());
 			rtn.setBulletinType(itemSet.getType());

@@ -15,11 +15,49 @@ public class ItemSetBulletin implements Serializable {
 	 * @author zhangbo	2015年12月13日
 	 */
 	private static final long serialVersionUID = -3489492366628853997L;
+	
+	/**
+	 * 商品集合公告id，来源于数据库ItemSet对象的id
+	 * @author zhangbo	2015年12月14日
+	 */
 	private Integer id;
+	
+	/**
+	 * 商品集合公告图片路径
+	 * @author zhangbo	2015年12月14日
+	 */
 	private String bulletinPath;
+	
+	/**
+	 * 商品集合公告缩略图路径
+	 * @author zhangbo	2015年12月14日
+	 */
 	private String bulletinThumb;
+	
+	
+	/**
+	 * 商品集合公告名称，作为标题使用
+	 * @author zhangbo	2015年12月14日
+	 */
 	private String bulletinName;
+	
+	/**
+	 * 商品集合公告描述
+	 * @author zhangbo	2015年12月14日
+	 */
+	private String bulletinDesc;
+	
+	
+	/**
+	 * 商品集合公告类型，与公告对象使用的几种类型一致，但是商品公告类型现在恒定为1，即网页链接类型
+	 * @author zhangbo	2015年12月14日
+	 */
 	private Integer bulletinType;
+	
+	/**
+	 * 商品集合公告链接内容，为网页地址
+	 * @author zhangbo	2015年12月14日
+	 */
 	private String link;
 	
 	/**
@@ -94,6 +132,20 @@ public class ItemSetBulletin implements Serializable {
 	 */
 	public void setBulletinName(String bulletinName) {
 		this.bulletinName = bulletinName;
+	}
+
+	/**
+	 * @return the bulletinDesc
+	 */
+	public String getBulletinDesc() {
+		return bulletinDesc;
+	}
+
+	/**
+	 * @param bulletinDesc the bulletinDesc to set
+	 */
+	public void setBulletinDesc(String bulletinDesc) {
+		this.bulletinDesc = bulletinDesc;
 	}
 
 	/**
