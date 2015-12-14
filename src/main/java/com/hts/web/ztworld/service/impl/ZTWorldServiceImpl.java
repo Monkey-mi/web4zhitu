@@ -1055,7 +1055,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 			// 从起始位置截取限制数量的返回值列表
 			return clist.subList(start, start + REC_MIN_SIZE);
 		} else if(size == REC_MIN_SIZE) {
-			return clist.subList(0, 1);
+			return clist.subList(0, 2);
 		}
 		
 		return clist;
