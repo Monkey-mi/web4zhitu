@@ -156,6 +156,9 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 		
 		// 限时秒杀不分页，返回运营配置的所有数据，传递参数start为1，limit为0，即查询全部数据
 		List<ItemSetBulletin> list = itemBulletinCache.querySeckill(new RowSelection(1,0));
+		if ( list == null ) {
+			list = new ArrayList<ItemSetBulletin>();
+		}
 		// 因为redis不会返回null，只会返回空列表
 		if ( list.size() != 0 ) {
 			// 由于目前是写死的，限时秒杀的分类都是1
@@ -176,6 +179,9 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 		
 		// 有奖活动不分页，返回运营配置的所有数据，传递参数start为1，limit为0，即查询全部数据
 		List<ItemSetBulletin> list = itemBulletinCache.queryAwardActivity(new RowSelection(1,0));
+		if ( list == null ) {
+			list = new ArrayList<ItemSetBulletin>();
+		}
 		
 		// 因为redis不会返回null，只会返回空列表
 		if ( list.size() != 0 ) {
@@ -203,6 +209,9 @@ public class MsgOperationsServiceImpl extends BaseServiceImpl implements MsgOper
 		// 若maxId为0，证明为第一次查询则取redis缓存中的数据
 		if ( maxId == 0 ) {
 			list = itemBulletinCache.queryRecommendItem(new RowSelection(1,0));
+			if ( list == null ) {
+				list = new ArrayList<ItemSetBulletin>();
+			}
 		}
 		// maxId不为0时，根据maxId查询数据库，取商品集合公告对象
 		else {
