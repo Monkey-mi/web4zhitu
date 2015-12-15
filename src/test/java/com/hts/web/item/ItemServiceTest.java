@@ -29,4 +29,12 @@ public class ItemServiceTest extends BaseTest {
 		logObj(jsonMap);
 	}
 	
+	@Test
+	public void likeItemTest() throws Exception {
+		Map<String, Object> jsonMap = new HashMap<String, Object>();
+		// 下面代码先注释掉，因为数据库限制了唯一性，不能一直使用同一用户点赞
+//		service.likeItem(136, 11);
+		logObj(jsonMap);
+	}
+	
 }

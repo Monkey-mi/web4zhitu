@@ -38,10 +38,10 @@ public class ItemCache extends BaseCacheDaoImpl<ItemDTO>{
 	 * @author zhangbo	2015年12月15日
 	 */
 	public void refreshItemLikeNumPlusOne(Integer itemId) {
-		if(getRedisTemplate().hasKey(CacheKeies.ITEM_LIST_BY_SETID + itemId)) {
+		if(getRedisTemplate().hasKey(CacheKeies.ITEM_POSITION_IN_SET + itemId)) {
 			
 			// 获取商品位置key，对应下的Map，Map结构为key：商品集合id，value：此商品集合其下的商品list的index脚标。注：由于下列代码泛型不允许强制转换，故在后续的循环中强制转换
-			Map<Object, Object> entries = getRedisTemplate().opsForHash().entries(CacheKeies.ITEM_LIST_BY_SETID + itemId);
+			Map<Object, Object> entries = getRedisTemplate().opsForHash().entries(CacheKeies.ITEM_POSITION_IN_SET + itemId);
 			
 			// 为每个商品集合其下的商品list中，商品点赞数都加1
 			for (Object itemSetId : entries.keySet()) {
