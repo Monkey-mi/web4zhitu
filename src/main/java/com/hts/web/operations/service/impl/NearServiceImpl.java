@@ -30,6 +30,7 @@ import com.hts.web.operations.dao.NearLabelWorldDao;
 import com.hts.web.operations.dao.NearRecommendCityCacheDao;
 import com.hts.web.operations.dao.NearRecommendCityDao;
 import com.hts.web.operations.dao.mongo.NearLabelMongoDao;
+import com.hts.web.operations.dao.mongo.NearWorldLastMongoDao;
 import com.hts.web.operations.dao.mongo.NearWorldMongoDao;
 import com.hts.web.operations.dao.mongo.NearWorldStarMongoDao;
 import com.hts.web.operations.service.NearService;
@@ -53,6 +54,9 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 	
 	@Autowired
 	private NearWorldStarMongoDao worldStarMongoDao;
+	
+	@Autowired
+	private NearWorldLastMongoDao worldLastMongoDao;
 	
 	@Autowired
 	private UserInfoDao userInfoDao;
@@ -201,10 +205,11 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 		near.setWorldURL("http://imzhitu.com/DT" + world.getShortLink());
 		
 		BeanUtils.copyProperties(world, near);
-		worldMongoDao.saveWorld(near);
-		if(userInfoDao.queryStar(world.getAuthorId()) > 0) {
-			worldStarMongoDao.saveWorld(near);
-		}
+		worldLastMongoDao.saveWorld(near);
+//		worldMongoDao.saveWorld(near);
+//		if(userInfoDao.queryStar(world.getAuthorId()) > 0) {
+//			worldStarMongoDao.saveWorld(near);
+//		}
 	}
 
 	@Override
