@@ -343,7 +343,8 @@ public class CacheKeies {
 	private static final String MODULE_ITEM = "item:";
 	
 	/**
-	 * 根据商品集合id，查找其下的商品列表
+	 * 根据商品集合id，查找其下的商品列表，查询key值时，要在这个字符串后补全itemSetId
+	 * 查询结果为List
 	 * @author zhangbo	2015年12月10日
 	 */
 	public static final String ITEM_LIST_BY_SETID = MODULE_ITEM + "itemSet:";
@@ -354,5 +355,12 @@ public class CacheKeies {
 	 * @author zhangbo	2015年12月12日
 	 */
 	public static final String ITEM_SECKILLITEMSET_TEMP = MODULE_ITEM + "seckillItemSetTemp";
+	
+	/**
+	 * 根据商品id，查找其在商品集合对应列表当中的位置，查询key值时，要在这个字符串后补全itemId
+	 * 查询结果为Map，key为ItemSetId，value为index，即在List当中的位置
+	 * @author zhangbo	2015年12月15日
+	 */
+	public static final String ITEM_POSITION_IN_SET = MODULE_ITEM + "item:";
 	
 }

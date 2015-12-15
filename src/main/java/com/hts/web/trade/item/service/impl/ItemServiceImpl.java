@@ -118,8 +118,16 @@ public class ItemServiceImpl implements ItemService {
 
 	@Override
 	public void likeItem(Integer itemId, Integer uid) throws Exception {
+		// 保存此用户为商品点赞
 		itemLikeDao.saveLikeItem(itemId, uid);
+		
+		// 为商品点赞数+1
 		itemDao.likeNumPlusOne(itemId);
+		
+		// 根据商品id查询出所在的商品集合id
+		
+		// 刷新商品点赞数
+		itemCache.refreshItemLikeNumPlusOne(itemId);
 	}
 
 	@Override
