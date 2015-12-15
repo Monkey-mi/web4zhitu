@@ -7,6 +7,8 @@ public class MongoHTS {
 	 */
 	public static final String NEAR_WORLD = "near_world";
 	
+	public static final String NEAR_WORLD_LAST = "near_world_last";
+	
 	/**
 	 * 明星用户织图集合
 	 */
