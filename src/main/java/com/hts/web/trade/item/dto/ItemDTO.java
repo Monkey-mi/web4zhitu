@@ -116,7 +116,7 @@ public class ItemDTO implements Serializable {
 	 * 是否被赞过
 	 * @author zhangbo	2015年12月10日
 	 */
-	private boolean isLiked = false;
+	private Boolean isLiked = false;
 	
 	/**
 	 * 限时抢购截止日期
@@ -328,17 +328,12 @@ public class ItemDTO implements Serializable {
 		this.like = like;
 	}
 
-	/**
-	 * @return the isLiked
-	 */
-	public boolean isLiked() {
+
+	public Boolean getIsLiked() {
 		return isLiked;
 	}
 
-	/**
-	 * @param isLiked the isLiked to set
-	 */
-	public void setLiked(boolean isLiked) {
+	public void setIsLiked(Boolean isLiked) {
 		this.isLiked = isLiked;
 	}
 

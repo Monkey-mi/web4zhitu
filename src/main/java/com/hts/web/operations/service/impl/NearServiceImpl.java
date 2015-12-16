@@ -29,10 +29,12 @@ import com.hts.web.operations.dao.BulletinCacheDao;
 import com.hts.web.operations.dao.NearLabelWorldDao;
 import com.hts.web.operations.dao.NearRecommendCityCacheDao;
 import com.hts.web.operations.dao.NearRecommendCityDao;
+import com.hts.web.operations.dao.mongo.NearBulletinMongoDao;
 import com.hts.web.operations.dao.mongo.NearLabelMongoDao;
 import com.hts.web.operations.dao.mongo.NearWorldLastMongoDao;
 import com.hts.web.operations.dao.mongo.NearWorldMongoDao;
 import com.hts.web.operations.dao.mongo.NearWorldStarMongoDao;
+import com.hts.web.operations.pojo.NearBulletin;
 import com.hts.web.operations.service.NearService;
 import com.hts.web.userinfo.dao.UserInfoDao;
 import com.hts.web.userinfo.service.UserConcernService;
@@ -72,6 +74,9 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 	
 	@Autowired
 	private BulletinCacheDao bulletinCacheDao;
+	
+	@Autowired
+	private NearBulletinMongoDao nearBulletinDao;
 	
 	@Autowired
 	private NearRecommendCityDao nearRecommendCityDao;
@@ -245,7 +250,7 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 					latitude, maxId, limit);
 		}
 		
-		worldService.extractLikeComment(commentLimit, likedLimit, list);
+		worldService.extractLikeComment(userId, commentLimit, likedLimit, list);
 		userInfoService.extractVerify(list);
 		userConcernService.extractConcernStatus(userId, list);
 		jsonMap.put(OptResult.JSON_KEY_HTWORLD, list);
@@ -285,7 +290,7 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 	public void buildNearBanner(String address, Double longitude, Double latitude,int start, int limit,
 			Map<String, Object> jsonMap) throws Exception {
 		
-		List<OpMsgBulletin> list = null;
+		List<NearBulletin> list = null;
 		AddrCity location = new AddrCity();
 		if(longitude == null || latitude == null ){
 			if(address != null && !"".equals(address.trim())){
@@ -302,12 +307,17 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 				throw new IllegalArgumentException("either the address or the longitude and the latitude can not be null ");
 			}
 		}else{
-			list = queryNearBuilletin(longitude,latitude,start,limit);
+			AddrCity city = cityService.getNearCityByLoc(longitude, latitude);
+			list = queryNearBuilletin(city.getLongitude(),city.getLatitude(),start,limit);
 			location.setLongitude(longitude);
 			location.setLatitude(latitude);
 		}
 		
-		jsonMap.put(OptResult.JSON_KEY_MSG,list);
+		if(list != null && !list.isEmpty())
+			jsonMap.put(OptResult.JSON_KEY_MSG, list);
+		else
+			jsonMap.put(OptResult.JSON_KEY_MSG, bulletinCacheDao.queryBulletin());
+		
 		jsonMap.put(OptResult.JSON_KEY_LOCATION, location);
 	}
 
@@ -344,7 +354,7 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 			});
 		}
 		
-		worldService.extractLikeComment(commentLimit, likedLimit, list);
+		worldService.extractLikeComment(userId, commentLimit, likedLimit, list);
 		userInfoService.extractVerify(list);
 		userConcernService.extractConcernStatus(userId, list);
 		jsonMap.put(OptResult.JSON_KEY_HTWORLD, list);
@@ -359,9 +369,22 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 
 
 	@Override
-	public List<OpMsgBulletin> queryNearBuilletin(double longitude, 
+	public List<NearBulletin> queryNearBuilletin(double longitude, 
 			double latitude, int start, int limit) {
-		return bulletinCacheDao.queryBulletin();
+		List<NearBulletin> list = nearBulletinDao.queryNear(longitude, latitude, NEAR_LABEL_RADIUS, limit);
+		if(list == null || list.isEmpty()) {
+			AddrCity defaultCity = cityService.getCityByName("通用");
+			list = nearBulletinDao.queryNear(defaultCity.getLongitude(), defaultCity.getLatitude(), NEAR_LABEL_RADIUS, limit);
+		} else if(list.size() < 2) {
+			AddrCity defaultCity = cityService.getCityByName("通用");
+			if(defaultCity != null) {
+				List<NearBulletin> defaultList = nearBulletinDao.queryNear(defaultCity.getLongitude(), defaultCity.getLatitude(), 
+						NEAR_LABEL_RADIUS, limit - list.size());
+				if(defaultList != null && !defaultList.isEmpty())
+					list.addAll(defaultList);
+			}
+		}
+		return list;
 	}
 
 

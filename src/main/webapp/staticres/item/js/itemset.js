@@ -74,7 +74,10 @@ var ui = {
 	initShareInfo : function(setInfo) {
 		var thumb = setInfo['bulletinThumb'] == "" ? setInfo['bulletinPath'] : setInfo['bulletinThumb'];
 		$("#share-img").attr("src", thumb);
-		$("meta[name=description]").attr('content', setInfo['bulletinDesc']);
+		if(inapp == 1)
+			$("meta[name=description]").attr('content', setInfo['bulletinName']);
+		else
+			$("meta[name=description]").attr('content', setInfo['bulletinDesc']);
         document.title = setInfo["bulletinName"];
 	},
 	
@@ -156,8 +159,8 @@ var ui = {
 			+ '  <div class="zt-loading" style="margin-top:'+processMarginTop+'px">'
 			+ '    <div class="zt-progress"></div>'
 			+ '  </div>'
-			+ '  <div class="zt-desc-hide" title="隐藏描述" ></div>'
-			+ '  <div class="zt-desc-show" title="显示描述"></div>'
+			+ '  <img class="zt-desc-hide" title="隐藏描述" src="/staticres/htworld/phonev3/images/zt-desc-icon-up.png"/>'
+			+ '  <img class="zt-desc-show" title="显示描述" src="/staticres/htworld/phonev3/images/zt-desc-icon-down.png"/>'
 			+ '  <div class="zt-desc">'
 			+ '  <div class="zt-desc-text"></div>'
 			+ '  <div class="zt-desc-bg"></div>'
