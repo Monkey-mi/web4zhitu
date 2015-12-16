@@ -138,6 +138,7 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 			final Map<Integer, Integer> idIndexMap = new HashMap<Integer, Integer>();
 			final Map<Integer,List<Integer>> indexMap = new HashMap<Integer, List<Integer>>();
 			for (int i = 0; i < list.size(); i++) {
+				ids[i] = list.get(i).getId();
 				idIndexMap.put(list.get(i).getId(), i);
 				Integer auid = list.get(i).getAuthorId();
 				if(indexMap.containsKey(auid)) {
