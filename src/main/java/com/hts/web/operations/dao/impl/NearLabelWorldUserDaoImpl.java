@@ -5,11 +5,14 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import com.hts.web.common.dao.impl.BaseDaoImpl;
 import com.hts.web.common.pojo.OpNearLabelWorldDto;
 import com.hts.web.common.util.JSONUtil;
 import com.hts.web.operations.dao.NearLabelWorldUserDao;
 
+@Repository("NearLabelWorldUserDao")
 public class NearLabelWorldUserDaoImpl extends BaseDaoImpl implements NearLabelWorldUserDao{
 	
 	private static final String QUERY_NEAR_LABEL_WORLD_USER_BY_MAX_SERIAL = "select h.*, l.serial "
