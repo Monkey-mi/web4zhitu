@@ -258,6 +258,8 @@ public class KeyGenServiceImpl extends BaseServiceImpl implements KeyGenService{
 	 */
 	public static final Integer OP_NEAR_WORLD_SERIAL = 48;
 	
+	
+	
 	/**
 	 * 附近城市组serial
 	 */
@@ -290,6 +292,15 @@ public class KeyGenServiceImpl extends BaseServiceImpl implements KeyGenService{
 	 */
 	public static final Integer ITEM_SET_ID	= 54;
 	
+	/**
+	 * 附近标签织图id
+	 */
+	public static final Integer OP_NEAR_LABEL_WORLD_ID = 55;
+	
+	/**
+	 * 附近标签织图serial
+	 */
+	public static final Integer OP_NEAR_LABEL_WORLD_SERIAL = 56;
 	
 	@Autowired
 	private KeyGenDao keyGenDao;

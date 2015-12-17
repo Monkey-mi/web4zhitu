@@ -27,6 +27,7 @@ import com.hts.web.common.service.impl.BaseServiceImpl;
 import com.hts.web.common.service.impl.KeyGenServiceImpl;
 import com.hts.web.operations.dao.BulletinCacheDao;
 import com.hts.web.operations.dao.NearLabelWorldDao;
+import com.hts.web.operations.dao.NearLabelWorldUserDao;
 import com.hts.web.operations.dao.NearRecommendCityCacheDao;
 import com.hts.web.operations.dao.NearRecommendCityDao;
 import com.hts.web.operations.dao.mongo.NearLabelMongoDao;
@@ -93,6 +94,9 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 	
 	@Autowired
 	private HTWorldDao worldDao;
+	
+	@Autowired
+	private NearLabelWorldUserDao nearLabelWorldUserDao;
 	
 	@Override
 	public List<OpNearWorldDto> queryNearWorld(AddrCity city, double longitude,
@@ -398,6 +402,14 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 	@Override
 	public long queryNearWorldTotalCount(Integer cityId) throws Exception {
 		return worldMongoDao.queryNearTotalCount(cityId);
+	}
+
+	@Override
+	public void insertNearLabelWorldUser(Integer worldId,
+			Integer worldAuthorId, Integer nearLabelId) throws Exception {
+		Integer id = keyGenService.generateId(KeyGenServiceImpl.OP_NEAR_LABEL_WORLD_ID);
+		Integer serial = keyGenService.generateId(KeyGenServiceImpl.OP_NEAR_LABEL_WORLD_SERIAL);
+		nearLabelWorldUserDao.insertNearLabelWorldUser(id, worldId, worldAuthorId, nearLabelId, serial);
 	}
 
 }

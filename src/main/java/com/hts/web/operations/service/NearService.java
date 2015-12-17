@@ -173,4 +173,14 @@ public interface NearService extends BaseService {
 	 */
 	public long queryNearWorldTotalCount(Integer cityId)throws Exception;
 	
+	/**
+	 * 添加织图到用户所发的附近标签织图里面去
+	 * @param worldId
+	 * @param worldAuthorId
+	 * @param nearLabelId
+	 * @throws Exception
+	 * @author zxx 2015-12-17 10:01:19
+	 */
+	public void insertNearLabelWorldUser(Integer worldId,Integer worldAuthorId,Integer nearLabelId)throws Exception;
+	
 }
