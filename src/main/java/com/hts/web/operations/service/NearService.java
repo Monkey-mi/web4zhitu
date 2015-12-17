@@ -5,10 +5,10 @@ import java.util.Map;
 
 import com.hts.web.common.pojo.AddrCity;
 import com.hts.web.common.pojo.HTWorld;
-import com.hts.web.common.pojo.OpMsgBulletin;
 import com.hts.web.common.pojo.OpNearLabelDto;
 import com.hts.web.common.pojo.OpNearWorldDto;
 import com.hts.web.common.service.BaseService;
+import com.hts.web.operations.pojo.NearBulletin;
 
 /**
  * 附近的织图数据访问接口
@@ -138,7 +138,7 @@ public interface NearService extends BaseService {
 	 * @return
 	 * @author lynch 2015-12-02
 	 */
-	public List<OpMsgBulletin> queryNearBuilletin(double longitude, 
+	public List<NearBulletin> queryNearBuilletin(double longitude, 
 			double latitude, int start, int limit);
 	
 	/**
