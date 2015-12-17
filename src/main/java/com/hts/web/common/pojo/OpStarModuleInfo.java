@@ -15,13 +15,14 @@ public class OpStarModuleInfo implements Serializable {
 	private static final long serialVersionUID = 1322151356585831661L;
 	
 	
-
-	public OpStarModuleInfo(Integer id, String title, String subtitle, Integer userId, String facePic, String userName,
-			String pic, String pic02,String pic03,String pic04,String intro2, Integer topicId) {
+	public OpStarModuleInfo(Integer id, String title, String subtitle, Integer worldId, Integer userId, String facePic,
+			String userName, String pic, String pic02, String pic03, String pic04, String intro2, Integer topicId,
+			String titlePath) {
 		super();
 		this.id = id;
 		this.title = title;
 		this.subtitle = subtitle;
+		this.worldId = worldId;
 		this.userId = userId;
 		this.facePic = facePic;
 		this.userName = userName;
@@ -31,6 +32,7 @@ public class OpStarModuleInfo implements Serializable {
 		this.pic04 = pic04;
 		this.intro2 = intro2;
 		this.topicId = topicId;
+		this.titlePath = titlePath;
 	}
 	
 	public OpStarModuleInfo() {
@@ -50,6 +52,7 @@ public class OpStarModuleInfo implements Serializable {
 	private String pic04;
 	private String  intro2;//用户模块介绍
 	private Integer topicId;//主题ID
+	private String titlePath;
 	
 	
 	public Integer getId() {
@@ -144,11 +147,12 @@ public class OpStarModuleInfo implements Serializable {
 		this.topicId = topicId;
 	}
 
-	@Override
-	public String toString() {
-		return "OpStarModuleInfo [id=" + id + ", title=" + title + ", subtitle=" + subtitle + ", userId=" + userId
-				+ ", facePic=" + facePic + ", userName=" + userName + ", pic=" + pic + ", pic02=" + pic02 + ", pic03="
-				+ pic03 + ", pic04=" + pic04 + ", intro2=" + intro2 + ", topicId=" + topicId + "]";
+	public String getTitlePath() {
+		return titlePath;
+	}
+
+	public void setTitlePath(String titlePath) {
+		this.titlePath = titlePath;
 	}
 	
 	

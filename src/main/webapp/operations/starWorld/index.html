@@ -400,11 +400,11 @@ img {
 		<img id="download-close" title="隐藏" onclick="javascript:hideDownloadBtn();" alt="" src="/staticres/base/images/down-close.jpg">
 	</div>   -->
 
-<link rel="stylesheet" type="text/css" href="/staticres/htworld/phonev2/css/htszoomtour2013122801.css" />
- <script type="text/javascript" src="/staticres/base/js/callapp2.js"></script>  
 <script type="text/javascript" src="/staticres/base/js/jquery/jquery-1.8.2.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/staticres/htworld/phonev3/css/htszoomtour15111401.css" />
+<script type="text/javascript" src="/staticres/htworld/common/js/jquery.htszoomtourV4.js"></script> 
+ <script type="text/javascript" src="/staticres/base/js/callapp2.js"></script>  
 <script type="text/javascript" src="/staticres/base/js/baseTools.js"></script>
-<script type="text/javascript" src="/staticres/htworld/common/js/jquery.htszoomtourV3.js"></script>
 <script type="text/javascript" src="/staticres/base/js/downbanner.js"></script>
 <script type="text/javascript">
 var inapp = 0;
@@ -456,12 +456,33 @@ var pastTopicHead = '<div class="onePastPic"><a href="';
 			 	for(var i = 0;i < result.starModuleInfos.length;i++){
 			 		userIds += result.starModuleInfos[i].userId + ",";
 			 		 
-			 		 //展示织图模块
+/* 			 		 //展示织图模块
 			 		var worldModule = '<div class="superb box-shadow"><div class="zt-container" data-wid="' + result.starModuleInfos[i].worldId + '"><div class="zt-title"><img alt=""></div><div class="zt-desc-hide" title="隐藏描述"></div>' + 
 			 											   '<div class="zt-desc-show" title="显示描述"></div><div class="zt-desc"><div class="zt-desc-text"></div><div class="zt-desc-bg"></div></div>' + 
 			 											   '<div class="zt-loading"><div class="zt-loading-bg"></div><div class="zt-loading-icon"></div><div><span>加载中...</span><span id="zt-progress">0</span>' + 
-			 											   '<span>%</span></div></div></div></div>';
+			 											   '<span>%</span></div></div></div></div>'; */
 			 		 
+
+			 		   //展示织图模块
+			 		  var worldModule = 
+			 		  '<div class="superb box-shadow">'
+			 		  + '<div class="zt-container" data-wid="' + result.starModuleInfos[i].worldId + '">' 
+			 		  + 		'<div class="zt-title">'  
+			 		  + 			'<img alt=""  src="'+result.starModuleInfos[i].titlePath+'" />' 
+			 		  +		'</div>' 
+			 		  + '  	<div class="zt-loading" style="margin-top:710px">'
+			 		  + '   		 <div class="zt-progress"></div>'
+			 		  + '  	</div>'
+			 		  + '  	<img class="zt-desc-hide" title="隐藏描述" src="/staticres/htworld/phonev3/images/zt-desc-icon-up.png"/>'
+			 		  + '  	<img class="zt-desc-show" title="显示描述" src="/staticres/htworld/phonev3/images/zt-desc-icon-down.png"/>'
+			 		  + '  	<div class="zt-desc">'
+			 		  + '  		<div class="zt-desc-text"></div>'
+			 		  + '  		<div class="zt-desc-bg"></div>'
+			 		  + '	</div>'
+			 		  +	'</div>' 
+			 		  +	'</div>';
+			 									           
+			 									           
 			 		 //小模块介绍
 			 		var intro2 = '<div  class="intro2">'+ result.starModuleInfos[i].intro2 +'</div></div></div>';
 			 		
@@ -1085,6 +1106,10 @@ function initLayout(result) {
  	 		$(".superb").css({
  	 			"width":superbWidth + "px",
  	 			"height":superbWidth + "px"
+ 	 		}).show();
+ 	 		
+ 	 		$(".zt-loading").css({
+ 	 			"margin-top":superbWidth - 4 + "px",
  	 		}).show();
  		
 		if(inapp==1) {

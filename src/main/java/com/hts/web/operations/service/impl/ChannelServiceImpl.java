@@ -19,6 +19,7 @@ import com.hts.web.base.database.RowCallback;
 import com.hts.web.base.database.RowSelection;
 import com.hts.web.common.SerializableListAdapter;
 import com.hts.web.common.pojo.ChannelSharePageInfoDto;
+import com.hts.web.common.pojo.HTWorldDto;
 import com.hts.web.common.pojo.HTWorldLabel;
 import com.hts.web.common.pojo.OpActivity;
 import com.hts.web.common.pojo.OpChannel;
@@ -141,6 +142,9 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 	
 	@Autowired
 	private ChannelStarRecommendTopicInfoDao channelStarRecommendTopicInfoDao;
+	
+	@Autowired
+	private ZTWorldService ztWorldService;
 	
 	/**
 	 * 官方频道id
@@ -832,6 +836,14 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 		
 		// 获取指定主题下的各个达人的详细信息
 		List<OpStarModuleInfo> list  = channelStarModuleInfoDao.getOpStarWorldModuleInfo(topicId);
+		int i = 0;
+		for(OpStarModuleInfo o : list){
+			HTWorldDto dto = ztWorldService.getHTWorldDtoById(o.getWorldId(), false);
+			list.get(i).setTitlePath(dto.getTitlePath());
+			i++;
+		}
+		
+		//获取往期主题
 		List<OpStarRecommendPastTopicInfo>pastTopics = channelStarRecommendTopicInfoDao.getPastTopicInfo(topicId);
 		
 	    opStarRecommendTopicInfo.setStarModuleInfos(list);
