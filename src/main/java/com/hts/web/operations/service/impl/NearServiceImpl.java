@@ -80,6 +80,9 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 	private NearBulletinMongoDao nearBulletinDao;
 	
 	@Autowired
+	private NearBulletinMongoDao nearBulletinDao;
+	
+	@Autowired
 	private NearRecommendCityDao nearRecommendCityDao;
 	
 	@Autowired

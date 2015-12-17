@@ -64,7 +64,7 @@ public class ItemServiceImpl implements ItemService {
 				@Override
 				public void callback(Integer t) {
 					Integer idx = idxMap.get(t);
-					itemList.get(idx).setLiked(true);
+					itemList.get(idx).setIsLiked(true);
 				}
 			});
 		}

@@ -67,6 +67,10 @@ img.zt-temp{
 	-moz-opacity:0.8;
 	-webkit-opacity: 0.8;
 	opacity: 0.8;
+	
+	-moz-box-shadow:1px 1px 2px rgba(0,0,0,0.7);
+	-webkit-box-shadow:1px 1px 2px rgba(0,0,0,0.7);
+	box-shadow:1px 1px 2px rgba(0,0,0,0.7);
 }
 
 .zt-tag-border-nowebkit {
@@ -168,12 +172,12 @@ img.zt-temp{
 
 .zt-desc-show,.zt-desc-hide{
 	position:absolute;
-	width:28px;
+	width:26px;
 	height:26px;
-	background: url("../images/zt-icons2.png");
 	margin-left: 10px;
 	z-index: 999999;
 	display: none;
+	left: 0px;
 }
 .zt-desc-show {
 	display: none;
@@ -181,7 +185,6 @@ img.zt-temp{
 }
 
 .zt-desc-hide {
-	background-position: 0px 25px;
 	bottom: 110px;
 }
 

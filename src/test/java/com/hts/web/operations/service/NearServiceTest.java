@@ -44,8 +44,9 @@ public class NearServiceTest extends BaseTest {
 	@Test
 	public void queryNearBanner()throws Exception{
 		Map<String,Object> jsonMap = new HashMap<String,Object>();
-		service.buildNearBanner("湛江", null, null, 1, 10, jsonMap);
-		logger.info(jsonMap);
+		service.buildNearBanner("深圳", null, null, 1, 10, jsonMap);
+//		logger.info(jsonMap);
+		logObj(jsonMap);
 	}
 	
 	@Test
