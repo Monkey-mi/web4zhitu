@@ -471,4 +471,10 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 		nearLabelWorldUserDao.insertNearLabelWorldUser(id, worldId, worldAuthorId, nearLabelId, serial);
 	}
 
+	@Override
+	public void deleteNearLabelWorldUserByWorldIdAndLabelId(Integer worldId,Integer nearLabelId)
+			throws Exception {
+		nearLabelWorldUserDao.deleteNearLabelWorldUserByWorldIdAndLabelId(worldId,nearLabelId);
+	}
+
 }

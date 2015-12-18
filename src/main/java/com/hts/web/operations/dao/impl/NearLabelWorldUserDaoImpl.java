@@ -29,6 +29,8 @@ public class NearLabelWorldUserDaoImpl extends BaseDaoImpl implements NearLabelW
 			+ "near_label_id,serial)values(?,?,?,?,?)";
 	
 	private static final String DELETE_NEAR_LABEL_WORLD_USER_BY_ID = "delete from hts.operations_near_label_world_user where id=?";
+	
+	private static final String DELETE_NEAR_LABEL_WORLD_USER_BY_WORLD_ID_AND_LABEL_ID = "delete from hts.operations_near_label_world_user where world_id=? and near_label_id=?";
 
 	@Override
 	public List<OpNearLabelWorldDto> queryNearLabelWorldUser(Integer labelId,
@@ -98,6 +100,11 @@ public class NearLabelWorldUserDaoImpl extends BaseDaoImpl implements NearLabelW
 				urlPrefix+rs.getString("short_link"));
 		dto.setRecommendId(rs.getInt("serial"));
 		return dto;
+	}
+
+	@Override
+	public void deleteNearLabelWorldUserByWorldIdAndLabelId(Integer worldId,Integer nearLabelId) {
+		getMasterJdbcTemplate().update(DELETE_NEAR_LABEL_WORLD_USER_BY_WORLD_ID_AND_LABEL_ID, new Object[]{worldId,nearLabelId});
 	}
 	
 }
