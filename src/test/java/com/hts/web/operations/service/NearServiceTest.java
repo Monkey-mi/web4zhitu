@@ -58,7 +58,7 @@ public class NearServiceTest extends BaseTest {
 	@Test
 	public void buildNearLabelWorldTest()throws Exception{
 		Map<String,Object> jsonMap = new HashMap<String,Object>();
-		service.buildNearLabelWorld(42, 0, 0, 0, 10, jsonMap, 1723);
+		service.buildNearLabelWorld(43, 0, 0, 0, 10, jsonMap, 485);
 		logObj(jsonMap);
 	}
 }
