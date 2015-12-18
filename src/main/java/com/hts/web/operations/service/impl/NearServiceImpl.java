@@ -484,14 +484,7 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 		}
 		
 		if(resultCity == null){
-			for(OpNearCityGroupDto groupDto: recommendCities){
-				for(AddrCity city : groupDto.getCities()){
-					if("通用".equals(city.getShortName())){
-						resultCity = city;
-						break;
-					}
-				}
-			}
+			resultCity = cityService.getCityByName("通用");
 		}
 		return resultCity;
 	}
