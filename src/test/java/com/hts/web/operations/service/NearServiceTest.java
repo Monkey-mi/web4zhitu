@@ -28,7 +28,7 @@ public class NearServiceTest extends BaseTest {
 			
 			@Override
 			public void buildNumberList(Map<String, Object> jsonMap) throws Exception {
-//				service.buildNearWorld("深圳", 113.937538, 22.539017, 0, 10, jsonMap, 2, 0, 1723);
+				service.buildNearWorld("深圳", 113.937538, 22.539017, 0, 10, jsonMap, 2, 0, 1723);
 			}
 		});
 		
@@ -60,5 +60,10 @@ public class NearServiceTest extends BaseTest {
 		Map<String,Object> jsonMap = new HashMap<String,Object>();
 		service.buildNearLabelWorld(43, 0, 0, 0, 10, jsonMap, 485);
 		logObj(jsonMap);
+	}
+	
+	@Test
+	public void updateRecommendCityCacheTest()throws Exception{
+		service.updateRecommendCityCache();
 	}
 }

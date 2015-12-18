@@ -464,7 +464,9 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 						}else{
 							resultCity = city;
 						}
-						break;
+						resultCity.setRadius(city.getRadius());
+						resultCity.setShortName(city.getShortName());
+						return resultCity;
 					}
 				}
 			}
@@ -477,7 +479,9 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 					if(nearcity.getShortName().equals(city.getShortName())){
 						resultCity = srcCity;
 						resultCity.setShortName(city.getShortName());
-						break;
+						resultCity.setRadius(city.getRadius());
+						resultCity.setShortName(city.getShortName());
+						return resultCity;
 					}
 				}
 			}
