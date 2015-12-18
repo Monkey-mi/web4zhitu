@@ -326,8 +326,44 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 	@Override
 	public void buildNearLabelWorld(Integer labelId, Integer commentLimit,Integer likedLimit,int maxId, int limit,
 			Map<String, Object> jsonMap, Integer userId) throws Exception {
-		final List<OpNearLabelWorldDto> list = nearLabelWroldDao.queryNearLabelWorld(labelId, maxId, limit);
+		List<OpNearLabelWorldDto> nearLabelWorldlist = nearLabelWroldDao.queryNearLabelWorld(labelId, maxId, limit);
+		List<OpNearLabelWorldDto> nearLabelWorldUserList = nearLabelWorldUserDao.queryNearLabelWorldUser(labelId, maxId, userId, limit);
+		List<OpNearLabelWorldDto> tmpList = new ArrayList<OpNearLabelWorldDto>();
 		
+		/**
+		 * 合并两个队列
+		 */
+		int t=0,n=0,nu=0;
+		int nearLabelWorldSize = nearLabelWorldlist == null ? 0 : nearLabelWorldlist.size();
+		int nearLabelWorldUserSize = nearLabelWorldUserList == null ? 0 : nearLabelWorldUserList.size();
+		for(t = 0 ; t < limit; t++){
+			OpNearLabelWorldDto tmpDto = null;
+			if( n < nearLabelWorldSize ){
+				if( nu < nearLabelWorldUserSize ){
+					if(nearLabelWorldlist.get(n).getRecommendId() > nearLabelWorldUserList.get(nu).getRecommendId()){
+						tmpDto = nearLabelWorldlist.get(n);
+						n++;
+					}else{
+						tmpDto = nearLabelWorldUserList.get(nu);
+						nu++;
+					}
+				}else{
+					tmpDto = nearLabelWorldlist.get(n);
+					n++;
+				}
+			}else{
+				if( nu < nearLabelWorldUserSize ){
+					tmpDto = nearLabelWorldUserList.get(nu);
+					nu++;
+				}
+			}
+			
+			if(tmpDto != null){
+				tmpList.add(tmpDto);
+			}
+		}
+		
+		final List<OpNearLabelWorldDto> list = tmpList;
 		if (!list.isEmpty()) {
 			final Map<Integer,List<Integer>> indexMap = new HashMap<Integer, List<Integer>>();
 			for (int i = 0; i < list.size(); i++) {
@@ -430,6 +466,12 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 		Integer id = keyGenService.generateId(KeyGenServiceImpl.OP_NEAR_LABEL_WORLD_ID);
 		Integer serial = keyGenService.generateId(KeyGenServiceImpl.OP_NEAR_LABEL_WORLD_SERIAL);
 		nearLabelWorldUserDao.insertNearLabelWorldUser(id, worldId, worldAuthorId, nearLabelId, serial);
+	}
+
+	@Override
+	public void deleteNearLabelWorldUserByWorldIdAndLabelId(Integer worldId,Integer nearLabelId)
+			throws Exception {
+		nearLabelWorldUserDao.deleteNearLabelWorldUserByWorldIdAndLabelId(worldId,nearLabelId);
 	}
 
 }
