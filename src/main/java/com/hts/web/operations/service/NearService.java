@@ -191,4 +191,14 @@ public interface NearService extends BaseService {
 	 */
 	public void deleteNearLabelWorldUserByWorldIdAndLabelId(Integer worldId,Integer nearLabelId)throws Exception;
 	
+	/**
+	 * 根据地理位置获取附近推荐城市
+	 * @param cityName
+	 * @param longitude
+	 * @param latitude
+	 * @return
+	 * @author zxx 2015-12-18 15:41:31
+	 */
+	public AddrCity getNearRecommendCity(String cityName,Double longitude,Double latitude);
+	
 }
