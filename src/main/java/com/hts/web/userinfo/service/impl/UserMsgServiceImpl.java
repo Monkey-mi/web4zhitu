@@ -886,12 +886,20 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 			break;
 		}
 		
-		if(msg != null && atName != null && atName.equals(msg.getAtName()))
-			atId = msg.getAtId();
-		
+		if(msg != null && atName != null) {
+			if(atName.equals(msg.getAtName()))
+				atId = msg.getAtId();
+			else {
+				// 只要第一个字符相等也pass
+				int len = msg.getAtName().length();
+				if(len > 0 && atName.substring(0, 1).equals(
+						msg.getAtName().substring(0, 1)))
+						atId = msg.getAtId();
+			}
+		}
 		return atId;
 	}
-
+	
 	@Override
 	public void buildAtMsg(final Integer atId, Integer maxId, Integer start, Integer limit,
 			Map<String, Object> jsonMap) throws Exception {

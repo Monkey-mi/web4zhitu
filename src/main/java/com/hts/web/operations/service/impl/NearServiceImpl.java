@@ -16,7 +16,6 @@ import com.hts.web.base.database.RowCallback;
 import com.hts.web.common.pojo.AddrCity;
 import com.hts.web.common.pojo.HTWorld;
 import com.hts.web.common.pojo.HTWorldCount;
-import com.hts.web.common.pojo.OpMsgBulletin;
 import com.hts.web.common.pojo.OpNearCityGroupDto;
 import com.hts.web.common.pojo.OpNearLabelDto;
 import com.hts.web.common.pojo.OpNearLabelWorldDto;
@@ -47,8 +46,6 @@ import com.hts.web.ztworld.service.ZTWorldService;
 public class NearServiceImpl extends BaseServiceImpl implements NearService {
 	
 	private static final String DEFAULT_CITY = "北京";
-	
-	private static final int STAR_WORLD_LIMIT = 6;
 	
 	private static final float NEAR_LABEL_RADIUS = 0.1f;
 	
@@ -84,7 +81,7 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 	
 	@Autowired
 	private NearRecommendCityCacheDao nearRecommendCityCacheDao;
-	
+
 	@Autowired
 	private NearLabelMongoDao nearLabelMongoDao;
 	
