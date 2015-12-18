@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.hts.web.common.dao.impl.BaseDaoImpl;
@@ -15,29 +16,51 @@ import com.hts.web.operations.dao.NearLabelWorldUserDao;
 @Repository("NearLabelWorldUserDao")
 public class NearLabelWorldUserDaoImpl extends BaseDaoImpl implements NearLabelWorldUserDao{
 	
+	private static final String QUERY_NEAR_LABEL_WORLD_USER = "select h.*, l.serial "
+			+ " from hts.operations_near_label_world_user l, hts.htworld_htworld h"
+			+ " where l.world_id=h.id and l.near_label_id=? and l.world_author_id = ?"
+			+ " order by l.serial desc limit ?";
+	
 	private static final String QUERY_NEAR_LABEL_WORLD_USER_BY_MAX_SERIAL = "select h.*, l.serial "
 			+ " from hts.operations_near_label_world l, hts.htworld_htworld h"
-			+ " where l.world_id=h.id and l.near_label_id=?"
+			+ " where l.world_id=h.id and l.near_label_id=? and l.world_author_id = ? and l.serial<=?"
 			+ " order by l.serial desc limit ?";
+	private static final String INSERT_NEAR_LABEL_WORLD_USER = "insert into hts.operations_near_label_world_user(id ,world_id,world_author_id,"
+			+ "near_label_id,serial)values(?,?,?,?,?)";
+	
+	private static final String DELETE_NEAR_LABEL_WORLD_USER_BY_ID = "delete from hts.operations_near_label_world_user where id=?";
+	
+	private static final String DELETE_NEAR_LABEL_WORLD_USER_BY_WORLD_ID_AND_LABEL_ID = "delete from hts.operations_near_label_world_user where world_id=? and near_label_id=?";
 
 	@Override
 	public List<OpNearLabelWorldDto> queryNearLabelWorldUser(Integer labelId,
 			Integer maxSerial, Integer userId, int limit) {
-		// TODO Auto-generated method stub
-		return null;
+		if(maxSerial == null || maxSerial == 0){
+			return getJdbcTemplate().query(QUERY_NEAR_LABEL_WORLD_USER, new Object[]{labelId,userId,limit }, new RowMapper<OpNearLabelWorldDto>(){
+				@Override
+				public OpNearLabelWorldDto mapRow(ResultSet rs, int rowNum)throws SQLException{
+					return buildOpNearLabelWorldDto(rs);
+				}
+			});
+		}else{
+			return getJdbcTemplate().query(QUERY_NEAR_LABEL_WORLD_USER_BY_MAX_SERIAL, new Object[]{labelId,userId,maxSerial,limit }, new RowMapper<OpNearLabelWorldDto>(){
+				@Override
+				public OpNearLabelWorldDto mapRow(ResultSet rs, int rowNum)throws SQLException{
+					return buildOpNearLabelWorldDto(rs);
+				}
+			});
+		}
 	}
 
 	@Override
 	public void insertNearLabelWorldUser(Integer id, Integer worldId,
 			Integer worldAuthorId, Integer nearLabelId, Integer serial) {
-		// TODO Auto-generated method stub
-		
+		getMasterJdbcTemplate().update(INSERT_NEAR_LABEL_WORLD_USER, new Object[]{id,worldId,worldAuthorId,nearLabelId,serial});
 	}
 
 	@Override
 	public void deleteNearLabelWorldUserById(Integer id) {
-		// TODO Auto-generated method stub
-		
+		getMasterJdbcTemplate().update(DELETE_NEAR_LABEL_WORLD_USER_BY_ID, id);
 	}
 	
 	private OpNearLabelWorldDto buildOpNearLabelWorldDto(ResultSet rs) throws SQLException{
@@ -77,6 +100,11 @@ public class NearLabelWorldUserDaoImpl extends BaseDaoImpl implements NearLabelW
 				urlPrefix+rs.getString("short_link"));
 		dto.setRecommendId(rs.getInt("serial"));
 		return dto;
+	}
+
+	@Override
+	public void deleteNearLabelWorldUserByWorldIdAndLabelId(Integer worldId,Integer nearLabelId) {
+		getMasterJdbcTemplate().update(DELETE_NEAR_LABEL_WORLD_USER_BY_WORLD_ID_AND_LABEL_ID, new Object[]{worldId,nearLabelId});
 	}
 	
 }
