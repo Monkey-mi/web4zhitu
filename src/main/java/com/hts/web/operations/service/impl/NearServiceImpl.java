@@ -82,7 +82,7 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 	
 	@Autowired
 	private NearRecommendCityCacheDao nearRecommendCityCacheDao;
-	
+
 	@Autowired
 	private NearLabelMongoDao nearLabelMongoDao;
 	

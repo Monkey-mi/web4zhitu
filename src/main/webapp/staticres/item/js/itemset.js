@@ -13,7 +13,9 @@ $(document).ready(function() {
 	
 	$(".like-btn").live("click", function() {
 		var $this = $(this);
-		ajax.like(uid, $this.data("item-id"), $this);
+		if(!$this.data("liked")) {
+			ajax.like(uid, $this.data("item-id"), $this);
+		}
 	});
 	
 	$(".buy-btn").live("click", function() {
@@ -141,7 +143,7 @@ var ui = {
 			+ '	<div class="item-price-wrap">'
 			+ '		<span class="price-label">价格:</span><span class="price">'+item['price']+'</span><span class="price-unit">元</span>'
 			+ '		<a class="buy-btn" href="'+ui.getClickLink(item["itemId"], item["itemType"], item["link"])+'">'+$buyText+'</a>'
-			+ '		<a class="like-btn" data-item-id="'+item["id"]+'" data-islike="'+item["isLiked"]+'" href="javascript:void(0);"><img class="like-icon" src="'+$likeIcon+'" /><span class="like-count">'+ui.countformat(item["like"])+'</span></a>'
+			+ '		<a class="like-btn" data-item-id="'+item["id"]+'" data-liked="'+item["isLiked"]+'" href="javascript:void(0);"><img class="like-icon" src="'+$likeIcon+'" /><span class="like-count">'+ui.countformat(item["like"])+'</span></a>'
 			+ '	</div>'
 			+ $dividingLine
 			+ '</div>'
@@ -310,6 +312,7 @@ var ajax = {
 			$likeCount.text(parseInt(count) + 1);
 			$like.children(".like-icon:eq(0)").attr("src", 
 					"/staticres/item/images/liked.png");
+			$like.data('liked', true);
 		},"json");
 		
 	}
