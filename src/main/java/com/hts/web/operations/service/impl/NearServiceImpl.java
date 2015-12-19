@@ -276,6 +276,10 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 		if(city == null){
 			throw new Exception(" service error ");
 		}
+		if("通用".equals(city.getName())){
+			city.setName("全国");
+			city.setShortName("全国");
+		}
 		List<NearBulletin> list = queryNearBuilletin(city.getLongitude(),city.getLatitude(),start,limit);
 		
 		if(list != null && !list.isEmpty())
@@ -480,7 +484,6 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 						resultCity = srcCity;
 						resultCity.setShortName(city.getShortName());
 						resultCity.setRadius(city.getRadius());
-						resultCity.setShortName(city.getShortName());
 						return resultCity;
 					}
 				}
