@@ -28,12 +28,12 @@ public class NearLabelWorldDaoImpl extends BaseDaoImpl implements NearLabelWorld
 	
 	private static final String QUERY_NEAR_LABEL_WORLD = "select h.*, l.serial "
 			+ " from hts.operations_near_label_world l, hts.htworld_htworld h"
-			+ " where l.world_id=h.id and l.near_label_id=?"
+			+ " where l.world_id=h.id and l.near_label_id=? and h.valid=1"
 			+ " order by l.serial desc limit ?";
 	
 	private static final String QUERY_NEAR_LABEL_WORLD_BY_MAX_SERIAL = "select h.*, l.serial "
 			+ " from hts.operations_near_label_world l, hts.htworld_htworld h"
-			+ " where l.world_id=h.id and l.near_label_id=? and l.serial<=?"
+			+ " where l.world_id=h.id and l.near_label_id=? and l.serial<=? and h.valid=1"
 			+ " order by l.serial desc limit ?";
 			
 	
