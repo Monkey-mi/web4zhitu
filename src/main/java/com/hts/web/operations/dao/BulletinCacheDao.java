@@ -72,4 +72,20 @@ public interface BulletinCacheDao extends BaseCacheDao {
 	 */
 	public void updateThemeBulletin(List<OpMsgBulletin> cacheList);
 	
+	/**
+	 * 更新活动专题公告
+	 * 
+	 * @param cacheList	将要刷新的公告列表
+	 * @author zhangbo	2015年12月19日
+	 */
+	public void updateActivityThemeBulletin(List<OpMsgBulletin> cacheList);
+
+	/**
+	 * 更新内容专题公告
+	 * 
+	 * @param cacheList	将要刷新的公告列表
+	 * @author zhangbo	2015年12月19日
+	 */
+	public void updateContentThemeBulletin(List<OpMsgBulletin> cacheList);
+	
 }
