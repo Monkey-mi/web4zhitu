@@ -58,7 +58,7 @@ public interface ZTWorldService extends BaseService {
 			String bgPath, String titleThumbPath, Double longitude, Double latitude, 
 			String locationDesc, String locationAddr,String province, String city, Integer size, 
 			String activityIds, Integer ver, String channelIds, Integer tp, String color, 
-			Integer mask, String atIdsStr, String atNamesStr,
+			Integer mask, String atIdsStr, String atNamesStr, Integer nearLabelId,
 			Map<String, Object> jsonMap) throws Exception;
 
 	/**

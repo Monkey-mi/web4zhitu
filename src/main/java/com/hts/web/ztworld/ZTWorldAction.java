@@ -45,8 +45,6 @@ public class ZTWorldAction extends BaseAction {
 	
 	private Integer id;
 	private Integer authorId = 0;
-	private String authorName;
-	private String authorAvatar;
 	private String worldName;
 	private String worldDesc;
 	private String worldLabel;
@@ -66,13 +64,9 @@ public class ZTWorldAction extends BaseAction {
 	private Integer phoneCode;
 	private Integer titleId;
 	private Integer worldId;
-	private Integer platformCode;
-	private String shareTag;
 	private Integer childId;
-	private Integer isCheckChildCount;
 	private String activityIds;
 	
-	private Integer sinceId = 0;
 	private Integer maxId = 0;
 	private Boolean trimUser = true;
 
@@ -97,6 +91,8 @@ public class ZTWorldAction extends BaseAction {
 	private Integer recPage = 1; // 关注信息页码
 	private String atIds;
 	private String atNames;
+	
+	private Integer nearLabelId; // 附近织图id
 	
 	/**
 	 * app版本号，默认为0，TODO 目前保留占位
@@ -209,7 +205,7 @@ public class ZTWorldAction extends BaseAction {
 					labelIds, worldType, typeId, coverPath, titlePath, bgPath, titleThumbPath, 
 					longitude, latitude, locationDesc, locationAddr, province, 
 					city, size, activityIds, ver, channelIds, Tag.WORLD_TYPE_DEFAULT, color, mask,
-					atIds, atNames, jsonMap);
+					atIds, atNames, nearLabelId, jsonMap);
 			JSONUtil.optSuccess(jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed2(getCurrentLoginUserId(), e, jsonMap, worldLogger);
@@ -233,7 +229,7 @@ public class ZTWorldAction extends BaseAction {
 					labelIds, worldType, typeId, coverPath, titlePath, bgPath, titleThumbPath, 
 					longitude, latitude, locationDesc, locationAddr, province, 
 					city, size, activityIds, ver, channelIds, Tag.WORLD_TYPE_DEFAULT, color, mask,
-					atIds, atNames, jsonMap);
+					atIds, atNames, nearLabelId, jsonMap);
 			JSONUtil.optSuccess(jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed2(getCurrentLoginUserId(), e, jsonMap, worldLogger);
@@ -253,7 +249,7 @@ public class ZTWorldAction extends BaseAction {
 					labelIds, worldType, typeId, coverPath, titlePath, bgPath, titleThumbPath, 
 					longitude, latitude, locationDesc, locationAddr, province, 
 					city, size, activityIds, ver, channelIds, Tag.WORLD_TYPE_TEXT, color, mask,
-					atIds, atNames, jsonMap);
+					atIds, atNames, nearLabelId, jsonMap);
 			JSONUtil.optSuccess(jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed2(getCurrentLoginUserId(), e, jsonMap, textLogger);
@@ -277,7 +273,7 @@ public class ZTWorldAction extends BaseAction {
 					labelIds, worldType, typeId, coverPath, titlePath, bgPath, titleThumbPath, 
 					longitude, latitude, locationDesc, locationAddr, province, 
 					city, size, activityIds, ver, channelIds, Tag.WORLD_TYPE_TEXT, color, mask,
-					atIds, atNames, jsonMap);
+					atIds, atNames, nearLabelId, jsonMap);
 			JSONUtil.optSuccess(jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed2(getCurrentLoginUserId(), e, jsonMap, textLogger);
@@ -296,7 +292,7 @@ public class ZTWorldAction extends BaseAction {
 					labelIds, worldType, typeId, coverPath, titlePath, bgPath, titleThumbPath, 
 					longitude, latitude, locationDesc, locationAddr, province, 
 					city, size, activityIds, ver, channelIds, Tag.WORLD_TYPE_DEFAULT, color, mask,
-					atIds, atNames, jsonMap);
+					atIds, atNames, nearLabelId, jsonMap);
 			JSONUtil.optSuccess(jsonMap);
 		} catch (Exception e) {
 			JSONUtil.optFailed2(getCurrentLoginUserId(), e, jsonMap, worldLogger);
@@ -658,14 +654,6 @@ public class ZTWorldAction extends BaseAction {
 		this.id = id;
 	}
 
-	public void setAuthorName(String authorName) {
-		this.authorName = authorName;
-	}
-
-	public void setAuthorAvatar(String authorAvatar) {
-		this.authorAvatar = authorAvatar;
-	}
-
 	public void setPhoneCode(Integer phoneCode) {
 		this.phoneCode = phoneCode;
 	}
@@ -734,20 +722,8 @@ public class ZTWorldAction extends BaseAction {
 		this.worldId = worldId;
 	}
 
-	public void setPlatformCode(Integer platformCode) {
-		this.platformCode = platformCode;
-	}
-
-	public void setShareTag(String shareTag) {
-		this.shareTag = shareTag;
-	}
-
 	public void setChildId(Integer childId) {
 		this.childId = childId;
-	}
-
-	public void setIsCheckChildCount(Integer isCheckChildCount) {
-		this.isCheckChildCount = isCheckChildCount;
 	}
 
 	public void setSinceId(Integer sinceId) {
@@ -852,6 +828,14 @@ public class ZTWorldAction extends BaseAction {
 
 	public void setAppVer(Float appVer) {
 		this.appVer = appVer;
+	}
+
+	public Integer getNearLabelId() {
+		return nearLabelId;
+	}
+
+	public void setNearLabelId(Integer nearLabelId) {
+		this.nearLabelId = nearLabelId;
 	}
 	
 }
