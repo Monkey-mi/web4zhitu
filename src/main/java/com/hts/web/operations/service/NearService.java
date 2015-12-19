@@ -192,6 +192,14 @@ public interface NearService extends BaseService {
 	public void deleteNearLabelWorldUserByWorldIdAndLabelId(Integer worldId,Integer nearLabelId)throws Exception;
 	
 	/**
+	 * 根据织图id删除用户所发的附近标签织图
+	 * @param worldId
+	 * @throws Exception
+	 * @author zxx 2015-12-17 10:01:19
+	 */
+	public void deleteNearLabelWorldUserByWorldId(Integer worldId)throws Exception;
+	
+	/**
 	 * 根据地理位置获取附近推荐城市
 	 * @param cityName
 	 * @param longitude

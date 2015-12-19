@@ -46,4 +46,11 @@ public interface NearLabelWorldUserDao extends BaseDao{
 	 * @author zxx 2015-12-16 16:35:04
 	 */
 	public void deleteNearLabelWorldUserByWorldIdAndLabelId(Integer worldId,Integer nearLabelId);
+	
+	/**
+	 * 根据world id来删除用户所发的附近标签织图
+	 * @param worldId
+	 * @author zxx 2015-12-16 16:35:04
+	 */
+	public void deleteNearLabelWorldUserByWorldId(Integer worldId);
 }

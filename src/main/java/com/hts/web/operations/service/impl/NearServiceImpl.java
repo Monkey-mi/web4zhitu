@@ -442,6 +442,12 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 		nearLabelWorldUserDao.deleteNearLabelWorldUserByWorldIdAndLabelId(worldId,nearLabelId);
 	}
 	
+	@Override
+	public void deleteNearLabelWorldUserByWorldId(Integer worldId)
+			throws Exception {
+		nearLabelWorldUserDao.deleteNearLabelWorldUserByWorldId(worldId);
+	}
+	
 	/**
 	 * 根据地理位置获取附近推荐城市
 	 * @param cityName
