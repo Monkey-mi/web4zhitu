@@ -32,6 +32,8 @@ public class NearRecommendCityDaoImpl extends BaseDaoImpl implements NearRecomme
 		city.setName(rs.getString("name"));
 		city.setLatitude(rs.getDouble("latitude"));
 		city.setLongitude(rs.getDouble("longitude"));
+		city.setShortName(rs.getString("short_name"));
+		city.setRadius(rs.getFloat("radius"));
 		return city;
 	}
 

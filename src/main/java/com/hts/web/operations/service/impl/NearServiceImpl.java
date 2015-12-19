@@ -16,7 +16,6 @@ import com.hts.web.base.database.RowCallback;
 import com.hts.web.common.pojo.AddrCity;
 import com.hts.web.common.pojo.HTWorld;
 import com.hts.web.common.pojo.HTWorldCount;
-import com.hts.web.common.pojo.OpMsgBulletin;
 import com.hts.web.common.pojo.OpNearCityGroupDto;
 import com.hts.web.common.pojo.OpNearLabelDto;
 import com.hts.web.common.pojo.OpNearLabelWorldDto;
@@ -25,6 +24,7 @@ import com.hts.web.common.pojo.UserInfoDto;
 import com.hts.web.common.service.KeyGenService;
 import com.hts.web.common.service.impl.BaseServiceImpl;
 import com.hts.web.common.service.impl.KeyGenServiceImpl;
+import com.hts.web.common.util.StringUtil;
 import com.hts.web.operations.dao.BulletinCacheDao;
 import com.hts.web.operations.dao.NearLabelWorldDao;
 import com.hts.web.operations.dao.NearLabelWorldUserDao;
@@ -47,8 +47,6 @@ import com.hts.web.ztworld.service.ZTWorldService;
 public class NearServiceImpl extends BaseServiceImpl implements NearService {
 	
 	private static final String DEFAULT_CITY = "北京";
-	
-	private static final int STAR_WORLD_LIMIT = 6;
 	
 	private static final float NEAR_LABEL_RADIUS = 0.1f;
 	
@@ -84,7 +82,7 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 	
 	@Autowired
 	private NearRecommendCityCacheDao nearRecommendCityCacheDao;
-	
+
 	@Autowired
 	private NearLabelMongoDao nearLabelMongoDao;
 	
@@ -237,22 +235,12 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 		List<OpNearWorldDto> list = null;
 		AddrCity city;
 		
-		if(longitude == null || latitude == null) {
-			if(address != null && !"".equals(address.trim())){
-				city = cityService.getCityByName(address);
-				if(city == null)
-					city = cityService.getCityByName(DEFAULT_CITY);
-				
-				list = queryNearWorld(city, city.getLongitude(), 
-						city.getLatitude(), maxId, limit);
-			}else{
-				throw new IllegalArgumentException("either the address or the longitude and the latitude can not be null ");
-			}
-		} else {
-			city = cityService.getNearCityByLoc(longitude, latitude);
-			list = queryNearWorld(city, longitude, 
-					latitude, maxId, limit);
+		city = getNearRecommendCity(address, longitude, latitude);
+		if(city == null){
+			throw new Exception(" service error ");
 		}
+		list = queryNearWorld(city, city.getLongitude(), 
+				city.getLatitude(), maxId, limit);
 		
 		worldService.extractLikeComment(userId, commentLimit, likedLimit, list);
 		userInfoService.extractVerify(list);
@@ -270,22 +258,12 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 		
 		AddrCity city;
 		
-		if(longitude == null  || latitude == null) {
-			if(address != null && !"".equals(address.trim())){
-				city = cityService.getCityByName(address);
-				if(city == null)
-					city = cityService.getCityByName(DEFAULT_CITY);
-				
-				list = queryNearLabel(NEAR_LABEL_RADIUS, city.getLongitude(), 
-						city.getLatitude(), maxId, limit + 1);
-			}else{
-				throw new IllegalArgumentException("either the address or the longitude and the latitude can not be null ");
-			}
-		} else {
-			city = cityService.getNearCityByLoc(longitude, latitude);
-			list = queryNearLabel(NEAR_LABEL_RADIUS, city.getLongitude(), 
-					city.getLatitude(), maxId, limit + 1);
+		city = getNearRecommendCity(address, longitude, latitude);
+		if(city == null){
+			throw new Exception(" service error ");
 		}
+		list = queryNearLabel(NEAR_LABEL_RADIUS, city.getLongitude(), 
+				city.getLatitude(), maxId, limit + 1);
 		jsonMap.put(OptResult.JSON_KEY_MSG,list);
 	}
 
@@ -294,43 +272,62 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 	public void buildNearBanner(String address, Double longitude, Double latitude,int start, int limit,
 			Map<String, Object> jsonMap) throws Exception {
 		
-		List<NearBulletin> list = null;
-		AddrCity location = new AddrCity();
-		if(longitude == null || latitude == null ){
-			if(address != null && !"".equals(address.trim())){
-				AddrCity loc = cityService.getCityByName(address);
-				if(loc == null){
-					throw new NullPointerException(address + " not exists");
-				}else{
-					list = queryNearBuilletin(loc.getLongitude(),loc.getLatitude(),start,limit);
-				}
-				location.setName(address);
-				location.setLongitude(loc.getLongitude());
-				location.setLatitude(loc.getLatitude());
-			}else{
-				throw new IllegalArgumentException("either the address or the longitude and the latitude can not be null ");
-			}
-		}else{
-			AddrCity city = cityService.getNearCityByLoc(longitude, latitude);
-			list = queryNearBuilletin(city.getLongitude(),city.getLatitude(),start,limit);
-			location.setLongitude(longitude);
-			location.setLatitude(latitude);
+		AddrCity city = getNearRecommendCity(address, longitude, latitude);
+		if(city == null){
+			throw new Exception(" service error ");
 		}
+		List<NearBulletin> list = queryNearBuilletin(city.getLongitude(),city.getLatitude(),start,limit);
 		
 		if(list != null && !list.isEmpty())
 			jsonMap.put(OptResult.JSON_KEY_MSG, list);
 		else
 			jsonMap.put(OptResult.JSON_KEY_MSG, bulletinCacheDao.queryBulletin());
 		
-		jsonMap.put(OptResult.JSON_KEY_LOCATION, location);
+		jsonMap.put(OptResult.JSON_KEY_LOCATION, city);
 	}
 
 
 	@Override
 	public void buildNearLabelWorld(Integer labelId, Integer commentLimit,Integer likedLimit,int maxId, int limit,
 			Map<String, Object> jsonMap, Integer userId) throws Exception {
-		final List<OpNearLabelWorldDto> list = nearLabelWroldDao.queryNearLabelWorld(labelId, maxId, limit);
+		List<OpNearLabelWorldDto> nearLabelWorldlist = nearLabelWroldDao.queryNearLabelWorld(labelId, maxId, limit);
+		List<OpNearLabelWorldDto> nearLabelWorldUserList = nearLabelWorldUserDao.queryNearLabelWorldUser(labelId, maxId, userId, limit);
+		List<OpNearLabelWorldDto> tmpList = new ArrayList<OpNearLabelWorldDto>();
 		
+		/**
+		 * 合并两个队列
+		 */
+		int t=0,n=0,nu=0;
+		int nearLabelWorldSize = nearLabelWorldlist == null ? 0 : nearLabelWorldlist.size();
+		int nearLabelWorldUserSize = nearLabelWorldUserList == null ? 0 : nearLabelWorldUserList.size();
+		for(t = 0 ; t < limit; t++){
+			OpNearLabelWorldDto tmpDto = null;
+			if( n < nearLabelWorldSize ){
+				if( nu < nearLabelWorldUserSize ){
+					if(nearLabelWorldlist.get(n).getRecommendId() > nearLabelWorldUserList.get(nu).getRecommendId()){
+						tmpDto = nearLabelWorldlist.get(n);
+						n++;
+					}else{
+						tmpDto = nearLabelWorldUserList.get(nu);
+						nu++;
+					}
+				}else{
+					tmpDto = nearLabelWorldlist.get(n);
+					n++;
+				}
+			}else{
+				if( nu < nearLabelWorldUserSize ){
+					tmpDto = nearLabelWorldUserList.get(nu);
+					nu++;
+				}
+			}
+			
+			if(tmpDto != null){
+				tmpList.add(tmpDto);
+			}
+		}
+		
+		final List<OpNearLabelWorldDto> list = tmpList;
 		if (!list.isEmpty()) {
 			final Map<Integer,List<Integer>> indexMap = new HashMap<Integer, List<Integer>>();
 			for (int i = 0; i < list.size(); i++) {
@@ -433,6 +430,67 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 		Integer id = keyGenService.generateId(KeyGenServiceImpl.OP_NEAR_LABEL_WORLD_ID);
 		Integer serial = keyGenService.generateId(KeyGenServiceImpl.OP_NEAR_LABEL_WORLD_SERIAL);
 		nearLabelWorldUserDao.insertNearLabelWorldUser(id, worldId, worldAuthorId, nearLabelId, serial);
+	}
+
+	@Override
+	public void deleteNearLabelWorldUserByWorldIdAndLabelId(Integer worldId,Integer nearLabelId)
+			throws Exception {
+		nearLabelWorldUserDao.deleteNearLabelWorldUserByWorldIdAndLabelId(worldId,nearLabelId);
+	}
+	
+	/**
+	 * 根据地理位置获取附近推荐城市
+	 * @param cityName
+	 * @param longitude
+	 * @param latitude
+	 * @return
+	 * @author zxx 2015-12-18 15:41:31
+	 */
+	public AddrCity getNearRecommendCity(String cityName,Double longitude,Double latitude){
+		List<OpNearCityGroupDto> recommendCities = nearRecommendCityCacheDao.queryNearRecommendCityCache();
+		AddrCity srcCity = new AddrCity();
+		srcCity.setName(cityName);
+		srcCity.setLongitude(longitude);
+		srcCity.setLatitude(latitude);
+		
+		AddrCity resultCity = null;
+		if(cityName != null){
+			String shortName = StringUtil.getCityShotName(cityName);
+			for(OpNearCityGroupDto groupDto: recommendCities){
+				for(AddrCity city : groupDto.getCities()){
+					if(shortName.equals(city.getShortName())){
+						if(longitude != null && latitude != null){
+							resultCity = srcCity;
+						}else{
+							resultCity = city;
+						}
+						resultCity.setRadius(city.getRadius());
+						resultCity.setShortName(city.getShortName());
+						return resultCity;
+					}
+				}
+			}
+		}
+		
+		if(resultCity == null && longitude != null && latitude != null){
+			AddrCity nearcity = cityService.getNearCityByLoc(longitude, latitude);
+			for(OpNearCityGroupDto groupDto: recommendCities){
+				for(AddrCity city : groupDto.getCities()){
+					if(nearcity.getShortName().equals(city.getShortName())){
+						resultCity = srcCity;
+						resultCity.setShortName(city.getShortName());
+						resultCity.setRadius(city.getRadius());
+						resultCity.setShortName(city.getShortName());
+						return resultCity;
+					}
+				}
+			}
+		}
+		
+		if(resultCity == null){
+			resultCity = cityService.getCityByName("通用");
+		}
+		return resultCity;
 	}
 
 }

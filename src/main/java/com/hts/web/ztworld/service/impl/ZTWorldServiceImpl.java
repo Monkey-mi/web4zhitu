@@ -321,7 +321,7 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 			String titleThumbPath, Double longitude, Double latitude, String locationDesc,
 			String locationAddr, String province, String city, Integer size,
 			String activityIds, Integer ver, String channelIds, Integer tp, 
-			String color, Integer mask, String atIdsStr, String atNamesStr,
+			String color, Integer mask, String atIdsStr, String atNamesStr, Integer nearLabelId,
 			Map<String, Object> jsonMap) throws Exception {
 
 		// 将七牛域名强制转换成织图域名
@@ -474,6 +474,15 @@ public class ZTWorldServiceImpl extends BaseServiceImpl implements
 				nearService.saveNearWorld(world);
 			} catch(Exception e) {
 				saveWorldLogger.warn("save near world fail");
+			}
+		}
+		
+		// 保存附近标签织图
+		if(nearLabelId != null && !nearLabelId.equals(0)) {
+			try {
+				nearService.insertNearLabelWorldUser(worldId, authorId, nearLabelId);
+			} catch(Exception e) {
+				saveWorldLogger.warn("save near label world fail");
 			}
 		}
 		
