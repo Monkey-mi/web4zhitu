@@ -235,7 +235,7 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 		List<OpNearWorldDto> list = null;
 		AddrCity city;
 		
-		city = getNearRecommendCity(address.trim(), longitude, latitude);
+		city = getNearRecommendCity(address, longitude, latitude);
 		if(city == null){
 			throw new Exception(" service error ");
 		}
@@ -258,7 +258,7 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 		
 		AddrCity city;
 		
-		city = getNearRecommendCity(address.trim(), longitude, latitude);
+		city = getNearRecommendCity(address, longitude, latitude);
 		if(city == null){
 			throw new Exception(" service error ");
 		}
@@ -272,7 +272,7 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 	public void buildNearBanner(String address, Double longitude, Double latitude,int start, int limit,
 			Map<String, Object> jsonMap) throws Exception {
 		
-		AddrCity city = getNearRecommendCity(address.trim(), longitude, latitude);
+		AddrCity city = getNearRecommendCity(address, longitude, latitude);
 		if(city == null){
 			throw new Exception(" service error ");
 		}
