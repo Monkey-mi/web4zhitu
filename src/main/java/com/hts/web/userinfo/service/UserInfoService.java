@@ -3,7 +3,6 @@ package com.hts.web.userinfo.service;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import com.hts.web.base.HTSException;
 import com.hts.web.common.pojo.ObjectWithChecksum;
@@ -485,4 +484,13 @@ public interface UserInfoService extends BaseService {
 	 * @param objs
 	 */
 	public void checksum(List<? extends ObjectWithChecksum> objs);
+
+	/**
+	 * 更新背景图片
+	 * 
+	 * @param background	背景图片路径
+	 * @param uid			用户id
+	 * @author zhangbo	2015年12月21日
+	 */
+	public void updateBackground(String background, Integer uid) throws Exception;
 }

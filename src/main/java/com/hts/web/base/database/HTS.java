@@ -437,4 +437,9 @@ public class HTS {
 	 */
 	public static final String ITEM_LIKE = DB + "item_like";
 	
+	/**
+	 * 用户背景图片表
+	 */
+	public static final String USER_BACKGROUND = DB + "user_background";
+	
 }

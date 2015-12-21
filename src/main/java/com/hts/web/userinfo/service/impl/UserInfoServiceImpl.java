@@ -42,6 +42,7 @@ import com.hts.web.push.service.impl.PushServiceImpl.PushFailedCallback;
 import com.hts.web.stat.dao.StatUserRegisterCacheDao;
 import com.hts.web.userinfo.dao.MsgUnreadDao;
 import com.hts.web.userinfo.dao.SocialAccountDao;
+import com.hts.web.userinfo.dao.UserBackgroundDao;
 import com.hts.web.userinfo.dao.UserConcernDao;
 import com.hts.web.userinfo.dao.UserInfoDao;
 import com.hts.web.userinfo.dao.UserLabelDao;
@@ -129,6 +130,9 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 	
 	@Autowired
 	private MsgUnreadDao msgUnReadDao;
+	
+	@Autowired
+	private UserBackgroundDao userBackgroundDao;
 	
 	public Integer getOfficialId() {
 		return officialId;
@@ -592,6 +596,9 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 		extractVerifyDesc(userInfo);
 		userInteractService.extractRemark(joinId, userInfo);
 		
+		// 返回用户背景图片路径
+		userInfo.setBackground(userBackgroundDao.getUserBackgroundById(userId));
+		
 		return userInfo;
 	}
 	
@@ -958,6 +965,16 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 				|| socialAccountDao.hasPlatformCode(uid, platformCode))
 			return true;
 		return false;
+	}
+
+	@Override
+	public void updateBackground(String background, Integer uid) throws Exception {
+		String userBackgroundById = userBackgroundDao.getUserBackgroundById(uid);
+		if ( userBackgroundById != null && userBackgroundById.length() != 0 ) {
+			userBackgroundDao.updateUserBackground(uid, background);
+		} else {
+			userBackgroundDao.saveUserBackground(uid, background);
+		}
 	}
 	
 }
