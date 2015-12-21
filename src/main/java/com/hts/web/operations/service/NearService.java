@@ -207,6 +207,6 @@ public interface NearService extends BaseService {
 	 * @return
 	 * @author zxx 2015-12-18 15:41:31
 	 */
-	public AddrCity getNearRecommendCity(String cityName,Double longitude,Double latitude);
+	public AddrCity getNearRecommendCity(String cityName,Double longitude,Double latitude,Boolean isReturnCacheLocation);
 	
 }

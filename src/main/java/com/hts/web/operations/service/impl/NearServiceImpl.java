@@ -235,7 +235,7 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 		List<OpNearWorldDto> list = null;
 		AddrCity city;
 		
-		city = getNearRecommendCity(address, longitude, latitude);
+		city = getNearRecommendCity(address, longitude, latitude,false);
 		if(city == null){
 			throw new Exception(" service error ");
 		}
@@ -258,7 +258,7 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 		
 		AddrCity city;
 		
-		city = getNearRecommendCity(address, longitude, latitude);
+		city = getNearRecommendCity(address, longitude, latitude,true);
 		if(city == null){
 			throw new Exception(" service error ");
 		}
@@ -272,7 +272,7 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 	public void buildNearBanner(String address, Double longitude, Double latitude,int start, int limit,
 			Map<String, Object> jsonMap) throws Exception {
 		
-		AddrCity city = getNearRecommendCity(address, longitude, latitude);
+		AddrCity city = getNearRecommendCity(address, longitude, latitude,true);
 		if(city == null){
 			throw new Exception(" service error ");
 		}
@@ -456,7 +456,7 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 	 * @return
 	 * @author zxx 2015-12-18 15:41:31
 	 */
-	public AddrCity getNearRecommendCity(String cityName,Double longitude,Double latitude){
+	public AddrCity getNearRecommendCity(String cityName,Double longitude,Double latitude,Boolean isReturnCacheLocation){
 		List<OpNearCityGroupDto> recommendCities = nearRecommendCityCacheDao.queryNearRecommendCityCache();
 		AddrCity srcCity = new AddrCity();
 		srcCity.setName(cityName);
@@ -469,14 +469,18 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 			for(OpNearCityGroupDto groupDto: recommendCities){
 				for(AddrCity city : groupDto.getCities()){
 					if(shortName.equals(city.getShortName())){
-						if(longitude != null && latitude != null){
-							resultCity = srcCity;
+						if(isReturnCacheLocation){
+							return city;
 						}else{
-							resultCity = city;
+							if(longitude != null && latitude != null){
+								resultCity = srcCity;
+							}else{
+								resultCity = city;
+							}
+							resultCity.setRadius(city.getRadius());
+							resultCity.setShortName(city.getShortName());
+							return resultCity;
 						}
-						resultCity.setRadius(city.getRadius());
-						resultCity.setShortName(city.getShortName());
-						return resultCity;
 					}
 				}
 			}
@@ -487,10 +491,14 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 			for(OpNearCityGroupDto groupDto: recommendCities){
 				for(AddrCity city : groupDto.getCities()){
 					if(nearcity.getShortName().equals(city.getShortName())){
-						resultCity = srcCity;
-						resultCity.setShortName(city.getShortName());
-						resultCity.setRadius(city.getRadius());
-						return resultCity;
+						if(isReturnCacheLocation){
+							return city;
+						}else{
+							resultCity = srcCity;
+							resultCity.setShortName(city.getShortName());
+							resultCity.setRadius(city.getRadius());
+							return resultCity;
+						}
 					}
 				}
 			}

@@ -66,4 +66,9 @@ public class NearServiceTest extends BaseTest {
 	public void updateRecommendCityCacheTest()throws Exception{
 		service.updateRecommendCityCache();
 	}
+	
+//	@Test
+	public void insertNearLabelWorldUserTest()throws Exception{
+		service.insertNearLabelWorldUser(1123, 485, 1);
+	}
 }
