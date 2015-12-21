@@ -11,7 +11,7 @@ import com.hts.web.common.pojo.ItemShow;
 import com.hts.web.trade.item.dao.ItemShowDao;
 import com.hts.web.trade.item.service.ItemShowService;
 
-@Service
+@Service("com.hts.web.trade.item.service.impl.ItemShowServiceImpl")
 public class ItemShowServiceImpl implements ItemShowService {
 
 	@Autowired
