@@ -67,7 +67,7 @@ public class UserBackgroundDaoImpl extends BaseDaoImpl implements UserBackground
 
 	@Override
 	public void updateUserBackground(Integer userId, String background) throws Exception {
-		getMasterJdbcTemplate().update(UPDATE_BACKGROUND, new Object[]{userId, background});
+		getMasterJdbcTemplate().update(UPDATE_BACKGROUND, new Object[]{background, userId});
 	}
 
 	@Override
