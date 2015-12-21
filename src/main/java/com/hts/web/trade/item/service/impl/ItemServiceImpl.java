@@ -12,7 +12,7 @@ import com.hts.web.base.database.RowCallback;
 import com.hts.web.base.database.RowSelection;
 import com.hts.web.operations.dao.ItemBulletinCache;
 import com.hts.web.operations.pojo.ItemSetBulletin;
-import com.hts.web.trade.item.dao.ItemCache;
+import com.hts.web.trade.item.dao.ItemCacheDao;
 import com.hts.web.trade.item.dao.ItemDao;
 import com.hts.web.trade.item.dao.ItemLikeDao;
 import com.hts.web.trade.item.dao.ItemSetDao;
@@ -36,7 +36,7 @@ public class ItemServiceImpl implements ItemService {
 	private ItemBulletinCache ibCache;
 	
 	@Autowired
-	private ItemCache itemCache;
+	private ItemCacheDao itemCache;
 	
 	@Autowired
 	private ItemSetDao itemSetDao;

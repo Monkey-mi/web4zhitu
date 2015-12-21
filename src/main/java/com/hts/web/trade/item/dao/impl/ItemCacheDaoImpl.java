@@ -1,4 +1,4 @@
-package com.hts.web.trade.item.dao;
+package com.hts.web.trade.item.dao.impl;
 
 import java.util.List;
 import java.util.Map;
@@ -8,35 +8,24 @@ import org.springframework.stereotype.Repository;
 import com.hts.web.base.constant.CacheKeies;
 import com.hts.web.base.database.RowSelection;
 import com.hts.web.common.dao.impl.BaseCacheDaoImpl;
+import com.hts.web.trade.item.dao.ItemCacheDao;
 import com.hts.web.trade.item.dto.ItemDTO;
 
 /**
- * 商品redis缓存操作类
+ * 商品redis缓存操作实现类
  * 
- * @author zhangbo	2015年12月11日
+ * @author zhangbo	2015年12月21日
  *
  */
 @Repository("com.hts.web.trade.item.dao.ItemCache")
-public class ItemCache extends BaseCacheDaoImpl<ItemDTO>{
-	
-	/**
-	 * 根据商品集合id，查询其下的商品列表
-	 * 
-	 * @param itemSetId		商品集合id
-	 * @param rowSelection	分页对象
-	 * @return
-	 * @author zhangbo	2015年12月7日
-	 */
+public class ItemCacheDaoImpl extends BaseCacheDaoImpl<ItemDTO> implements ItemCacheDao {
+
+	@Override
 	public List<ItemDTO> queryItemListBySetId(Integer itemSetId, RowSelection rowSelection) {
 		return getRedisTemplate().opsForList().range(CacheKeies.ITEM_LIST_BY_SETID + itemSetId, rowSelection.getFirstRow(), rowSelection.getMaxRow() - 1);
 	}
 
-	/**
-	 * 刷新商品点赞数，为点赞数+1
-	 * 
-	 * @param itemId	商品id
-	 * @author zhangbo	2015年12月15日
-	 */
+	@Override
 	public void refreshItemLikeNumPlusOne(Integer itemId) {
 		if(getRedisTemplate().hasKey(CacheKeies.ITEM_POSITION_IN_SET + itemId)) {
 			
@@ -63,5 +52,5 @@ public class ItemCache extends BaseCacheDaoImpl<ItemDTO>{
 		}
 		
 	}
-	
+
 }
