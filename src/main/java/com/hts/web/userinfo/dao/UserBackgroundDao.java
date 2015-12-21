@@ -33,4 +33,13 @@ public interface UserBackgroundDao extends BaseDao {
 	 * @author zhangbo	2015年12月21日
 	 */
 	void updateUserBackground(Integer userId, String background) throws Exception;
+	
+	/**
+	 * 根据用户id，删除背景图片
+	 * 
+	 * @param userId	用户id
+	 * @throws Exception
+	 * @author zhangbo	2015年12月21日
+	 */
+	void deleteUserBackground(Integer userId) throws Exception;
 }

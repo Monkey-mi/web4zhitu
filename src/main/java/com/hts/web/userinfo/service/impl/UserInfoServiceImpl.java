@@ -969,11 +969,15 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 
 	@Override
 	public void updateBackground(String background, Integer uid) throws Exception {
-		String userBackgroundById = userBackgroundDao.getUserBackgroundById(uid);
-		if ( userBackgroundById != null && userBackgroundById.length() != 0 ) {
-			userBackgroundDao.updateUserBackground(uid, background);
+		if ( background != null && background.trim() != "" ) {
+			String userBackgroundById = userBackgroundDao.getUserBackgroundById(uid);
+			if ( userBackgroundById != null && userBackgroundById.length() != 0 ) {
+				userBackgroundDao.updateUserBackground(uid, background);
+			} else {
+				userBackgroundDao.saveUserBackground(uid, background);
+			}
 		} else {
-			userBackgroundDao.saveUserBackground(uid, background);
+			userBackgroundDao.deleteUserBackground(uid);
 		}
 	}
 	

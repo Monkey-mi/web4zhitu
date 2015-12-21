@@ -37,6 +37,11 @@ public class UserBackgroundDaoImpl extends BaseDaoImpl implements UserBackground
 	 * 更新背景图片
 	 */
 	private static final String UPDATE_BACKGROUND = "update " + table + " set background=? where user_id=?";
+	
+	/**
+	 * 更新背景图片
+	 */
+	private static final String DELETE_BACKGROUND =  DELETE_SINGLE_TABLE + table + " where user_id=?";
 
 	@Override
 	public String getUserBackgroundById(Integer userId) throws Exception {
@@ -63,6 +68,11 @@ public class UserBackgroundDaoImpl extends BaseDaoImpl implements UserBackground
 	@Override
 	public void updateUserBackground(Integer userId, String background) throws Exception {
 		getMasterJdbcTemplate().update(UPDATE_BACKGROUND, new Object[]{userId, background});
+	}
+
+	@Override
+	public void deleteUserBackground(Integer userId) throws Exception {
+		getMasterJdbcTemplate().update(DELETE_BACKGROUND, new Object[]{userId});
 	}
 
 }

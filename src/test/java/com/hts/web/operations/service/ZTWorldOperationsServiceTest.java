@@ -51,10 +51,10 @@ public class ZTWorldOperationsServiceTest extends BaseTest {
 	
 	@Test
 	public void testGetSquarePushs() throws Exception {
-		String[] labels = new String[]{"学生", "自拍", "朋友", "科技"};
-		List<OpWorldTypeDto> list = service.getSquarePushs(0, 0, 1, 10, labels);
-		JSONArray array = JSONArray.fromObject(list);
-		Log.debug(array);
+//		String[] labels = new String[]{"学生", "自拍", "朋友", "科技"};
+//		List<OpWorldTypeDto> list = service.getSquarePushs(0, 0, 1, 10, labels);
+//		JSONArray array = JSONArray.fromObject(list);
+//		Log.debug(array);
 	}
 	
 	@Test
