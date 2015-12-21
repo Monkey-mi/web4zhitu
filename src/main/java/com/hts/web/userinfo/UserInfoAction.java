@@ -96,6 +96,12 @@ public class UserInfoAction extends BaseAction {
 	private Integer objType;
 	private Integer objId;
 	
+	/**
+	 * 用户背景图片路径
+	 * @author zhangbo	2015年12月21日
+	 */
+	private String background;
+	
 	@Autowired
 	private UserInfoService userInfoService;
 	
@@ -639,6 +645,22 @@ public class UserInfoAction extends BaseAction {
 		return StrutsKey.JSON;
 	}
 	
+	/**
+	 * 更新用户背景图片
+	 * 
+	 * @return
+	 * @author zhangbo	2015年12月21日
+	 */
+	public String updateUserBackground() {
+		try {
+			userInfoService.updateBackground(background, getCurrentLoginUserId());
+			JSONUtil.optSuccess(OptResult.UPDATE_SUCCESS, jsonMap);
+		} catch(Exception e) {
+			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+		}
+		return StrutsKey.JSON;
+	}
+	
 	
 	public Integer getId() {
 		return id;
@@ -1005,6 +1027,14 @@ public class UserInfoAction extends BaseAction {
 
 	public void setObjId(Integer objId) {
 		this.objId = objId;
+	}
+
+	public String getBackground() {
+		return background;
+	}
+
+	public void setBackground(String background) {
+		this.background = background;
 	}
 
 }

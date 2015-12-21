@@ -82,6 +82,12 @@ public class UserInfo implements Serializable, ObjectWithUserVerifyDesc,
 	private Integer isMututal; // 是否互相关注
 
 	private String remark;
+	
+	/**
+	 * 用户背景图片路径
+	 * @author zhangbo	2015年12月21日
+	 */
+	private String background;
 
 	@Deprecated
 	private List<Integer> socialAccounts; // 绑定的社交账号列表
@@ -661,6 +667,14 @@ public class UserInfo implements Serializable, ObjectWithUserVerifyDesc,
 
 	public void setPlatformReason(String platformReason) {
 		this.platformReason = platformReason;
+	}
+
+	public String getBackground() {
+		return background;
+	}
+
+	public void setBackground(String background) {
+		this.background = background;
 	}
 
 }
