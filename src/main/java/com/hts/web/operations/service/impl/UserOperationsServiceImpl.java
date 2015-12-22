@@ -393,20 +393,29 @@ public class UserOperationsServiceImpl extends BaseServiceImpl implements
 	public void extractHTWorldThumbUser(int worldLimit, final List<? extends UserWithWorld> userList) {
 		int listSize = userList.size();
 		if(listSize > 0 && worldLimit > 0) {
-			final Map<Integer, Integer> indexMap = new HashMap<Integer, Integer>();
-			Integer[] userIds = new Integer[listSize];
+			final Map<Integer, List<Integer>> indexMap = new HashMap<Integer, List<Integer>>();
 			for(int i = 0; i < listSize; i++) {
 				Integer userId = userList.get(i).getId();
-				userIds[i] = userId;
-				indexMap.put(userId, i);
+				if(indexMap.containsKey(userId)) {
+					indexMap.get(userId).add(i);
+				} else {
+					List<Integer> l = new ArrayList<Integer>();
+					l.add(i);
+					indexMap.put(userId, l);
+				}
 			}
+			
+			Integer[] userIds = new Integer[indexMap.size()];
+			indexMap.keySet().toArray(userIds);
+			
 			worldDao.queryHTWorldThumbUserByLimit(userIds, worldLimit, new RowCallback<HTWorldThumbUser>() {
 
 				@Override
 				public void callback(HTWorldThumbUser thumb) {
 					Integer uid = thumb.getUserId();
-					Integer index = indexMap.get(uid);
-					userList.get(index).getHtworld().add(thumb);
+					for(Integer i : indexMap.get(uid)) {
+						userList.get(i).getHtworld().add(thumb);
+					}
 				}
 			});
 		}

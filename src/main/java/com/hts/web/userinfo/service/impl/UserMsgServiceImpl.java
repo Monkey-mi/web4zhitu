@@ -51,6 +51,8 @@ import com.hts.web.operations.dao.SysMsgCommonDao;
 import com.hts.web.operations.dao.SysMsgCommonDeletedDao;
 import com.hts.web.operations.dao.SysMsgDao;
 import com.hts.web.push.service.PushService;
+import com.hts.web.stat.StatKey;
+import com.hts.web.stat.service.StatService;
 import com.hts.web.userinfo.dao.MsgAtCommentDao;
 import com.hts.web.userinfo.dao.MsgAtDao;
 import com.hts.web.userinfo.dao.MsgAtWorldDao;
@@ -158,6 +160,9 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 	
 	@Autowired
 	private MsgLikedDao msgLikedDao;
+	
+	@Autowired
+	private StatService statService;
 	
 	@Value("${msg.squareRuleMsg}")
 	private String welcomeMsg ;
@@ -818,10 +823,12 @@ public class UserMsgServiceImpl extends BaseServiceImpl implements
 		
 		switch (objType) {
 		case Tag.AT_TYPE_WORLD:
+			statService.incPV(StatKey.USER_MSG_AT_WORLD);
 			atWorldDao.saveAtMsgs(msgIdxs);
 			break;
 			
 		case Tag.AT_TYPE_COMMENT:
+			statService.incPV(StatKey.USER_MSG_AT_COMMENT);
 			atCommentDao.saveAtMsgs(msgIdxs);
 			break;
 			

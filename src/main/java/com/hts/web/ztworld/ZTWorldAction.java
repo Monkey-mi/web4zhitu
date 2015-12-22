@@ -18,6 +18,8 @@ import com.hts.web.common.util.JSONUtil;
 import com.hts.web.common.util.StringUtil;
 import com.hts.web.common.util.UserInfoUtil;
 import com.hts.web.operations.service.UserOperationsService;
+import com.hts.web.stat.StatKey;
+import com.hts.web.stat.service.StatService;
 import com.hts.web.ztworld.service.ZTWorldService;
 import com.hts.web.ztworld.service.impl.ZTWorldServiceImpl;
 
@@ -105,6 +107,9 @@ public class ZTWorldAction extends BaseAction {
 	
 	@Autowired
 	private UserOperationsService userOptService;
+	
+	@Autowired
+	private StatService statService;
 
 
 	/**
@@ -200,6 +205,7 @@ public class ZTWorldAction extends BaseAction {
 	 */
 	public String shareWorld() {
 		try {
+			statService.incPV(StatKey.WORLD_SHARE);
 			worldService.saveWorld(childs, titleId, phoneCode,
 					id, getCurrentLoginUserId(), worldName,worldDesc, worldLabel, 
 					labelIds, worldType, typeId, coverPath, titlePath, bgPath, titleThumbPath, 
@@ -413,6 +419,7 @@ public class ZTWorldAction extends BaseAction {
 	 */
 	public String queryConcernWorld() {
 		try {
+			statService.inc2PagePV(StatKey.WORLD_CONCERN, maxId, StatKey.WORLD_CONCERN_NEXT);
 			worldService.buildConcernWorld(recType, recPage, getCurrentLoginUserId(), 
 					maxId, start, limit, jsonMap, trimTotal, commentLimit,
 					likedLimit, appVer);

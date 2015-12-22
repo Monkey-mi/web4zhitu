@@ -18,6 +18,8 @@ import com.hts.web.common.pojo.UserSocialAccount;
 import com.hts.web.common.util.JSONUtil;
 import com.hts.web.common.util.UserInfoUtil;
 import com.hts.web.security.service.LoginService;
+import com.hts.web.stat.StatKey;
+import com.hts.web.stat.service.StatService;
 import com.hts.web.userinfo.service.UserActivityService;
 import com.hts.web.userinfo.service.UserInfoService;
 
@@ -111,6 +113,9 @@ public class UserInfoAction extends BaseAction {
 	@Autowired
 	private UserActivityService userActivityService;
 	
+	@Autowired
+	private StatService statService;
+	
 	
 	/**
 	 * 个人主页
@@ -118,6 +123,7 @@ public class UserInfoAction extends BaseAction {
 	 */
 	public String getIndividualHomePage(){
 		try{
+			statService.incPV(StatKey.USER_HOME_PAGE);
 			String strId = request.getParameter("s");
 			int iId = Integer.parseInt(strId);
 			int userId = UserInfoUtil.decode(iId);

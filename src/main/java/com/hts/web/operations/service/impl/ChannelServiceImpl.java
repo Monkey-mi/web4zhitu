@@ -64,6 +64,8 @@ import com.hts.web.operations.dao.ChannelTopOneCacheDao;
 import com.hts.web.operations.dao.ChannelTopOneTitleCacheDao;
 import com.hts.web.operations.dao.ChannelWorldDao;
 import com.hts.web.operations.service.ChannelService;
+import com.hts.web.stat.StatKey;
+import com.hts.web.stat.service.StatService;
 import com.hts.web.userinfo.service.UserConcernService;
 import com.hts.web.userinfo.service.UserInfoService;
 import com.hts.web.userinfo.service.UserInteractService;
@@ -145,6 +147,9 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 	
 	@Autowired
 	private ZTWorldService ztWorldService;
+	
+	@Autowired
+	private StatService statService;
 	
 	/**
 	 * 官方频道id
@@ -507,6 +512,7 @@ public class ChannelServiceImpl extends BaseServiceImpl implements
 	@Override
 	public void saveChannelWorld(Integer channelId, Integer worldId,
 			Integer authorId, Integer addChildCount, Integer valid) throws Exception {
+		statService.incSubPV(StatKey.CHANNEL_SHARE_WORLD, channelId);
 		Integer id = keyGenService.generateId(KeyGenServiceImpl.OP_CHANNEL_WORLD_ID);
 		OpChannelWorld world = new OpChannelWorld(id, channelId,
 				worldId, authorId, new Date(), valid, Tag.TRUE, Tag.FALSE, id);

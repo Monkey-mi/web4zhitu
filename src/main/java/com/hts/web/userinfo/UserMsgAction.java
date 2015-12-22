@@ -11,6 +11,8 @@ import com.hts.web.base.constant.OptResult;
 import com.hts.web.common.BaseAction;
 import com.hts.web.common.pojo.UserMsgStatus;
 import com.hts.web.common.util.JSONUtil;
+import com.hts.web.stat.StatKey;
+import com.hts.web.stat.service.StatService;
 import com.hts.web.userinfo.service.UserMsgService;
 
 /**
@@ -46,6 +48,9 @@ public class UserMsgAction extends BaseAction {
 	
 	@Autowired
 	private UserMsgService userMsgService;
+	
+	@Autowired
+	private StatService statService;
 	
 	/**
 	 * 获取评论/回复消息
@@ -89,6 +94,7 @@ public class UserMsgAction extends BaseAction {
 	 */
 	public String queryReceivePrivateMsg() {
 		try {
+			statService.incPV(StatKey.OP_MSG_SYS);
 			userMsgService.buildSysMsg(getCurrentLoginUserId(), maxId, 
 					start, limit, trimTotal, trimUserRecMsg, clearUnCheck, jsonMap);
 			JSONUtil.optSuccess(jsonMap);

@@ -1,7 +1,5 @@
 package com.hts.web.stat.dao;
 
-import java.util.Date;
-
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

@@ -12,6 +12,8 @@ import com.hts.web.operations.service.ChannelService;
 import com.hts.web.operations.service.NearService;
 import com.hts.web.operations.service.UserOperationsService;
 import com.hts.web.operations.service.ZTWorldOperationsService;
+import com.hts.web.stat.StatKey;
+import com.hts.web.stat.service.StatService;
 import com.hts.web.ztworld.service.ZTWorldLabelService;
 
 /**
@@ -86,8 +88,12 @@ public class ZTWorldOperationsAction extends BaseAction {
 	@Autowired
 	private NearService nearService;
 	
+	@Autowired
+	private StatService statService;
+	
 	public String queryRecommendCity(){
 		try{
+			statService.incPV(StatKey.NEAR_CITY_REC);
 			nearService.buildRecommendCity(jsonMap);
 			JSONUtil.optSuccess(jsonMap);
 		}catch(Exception e){
@@ -103,6 +109,7 @@ public class ZTWorldOperationsAction extends BaseAction {
 	 */
 	public String queryNearWorld(){
 		try{
+			statService.inc2PagePV(StatKey.NRAR_WORLD, maxId, StatKey.NEAR_WORLD_NEXT);
 			nearService.buildNearWorld(address, longitude, latitude, maxId, 
 					limit, jsonMap, commentLimit, likedLimit, getCurrentLoginUserId());
 			JSONUtil.optSuccess(jsonMap);
@@ -114,6 +121,8 @@ public class ZTWorldOperationsAction extends BaseAction {
 	
 	public String queryNearLabelWorld(){
 		try{
+			statService.incSub2PagePV(StatKey.NEAR_LABEL_WORLD, labelId, maxId, 
+					StatKey.NEAR_LABEL_WORLD_NEXT);
 			nearService.buildNearLabelWorld(labelId , commentLimit, likedLimit, maxId, 
 					limit, jsonMap, getCurrentLoginUserId());
 			JSONUtil.optSuccess(jsonMap);
@@ -278,6 +287,8 @@ public class ZTWorldOperationsAction extends BaseAction {
 	 */
 	public String querySuperbTypeSquareListV2() {
 		try {
+			statService.incSub2PagePV(StatKey.OP_WORLD_SUPERB, typeId, 
+					maxId, StatKey.OP_WORLD_SUPERB_NEXT);
 			worldOperationsService.buildSuperbTypeSquareListV2(typeId, maxId, start, limit,
 					commentLimit, likedLimit, completeLimit,
 					trimConcernId, getCurrentLoginUserId(), jsonMap);

@@ -7,6 +7,8 @@ import com.hts.web.base.constant.OptResult;
 import com.hts.web.common.BaseAction;
 import com.hts.web.common.util.JSONUtil;
 import com.hts.web.operations.service.ChannelService;
+import com.hts.web.stat.StatKey;
+import com.hts.web.stat.service.StatService;
 
 /**
  * <p>
@@ -37,6 +39,9 @@ public class ChannelAction extends BaseAction {
 	private Integer channelStarLimit = 10;
 	private Integer topicId;
 	
+	@Autowired
+	private StatService statService;
+	
 	/**
 	 * 查询已经订阅的频道
 	 * 
@@ -44,6 +49,8 @@ public class ChannelAction extends BaseAction {
 	 */
 	public String querySubscribe() {
 		try {
+			statService.inc2PagePV(StatKey.CHANNEL_MY_SUBSCRIBE, channelStarLimit, 
+					StatKey.CHANNEL_MY_SUBSCRIBE_NEXT);
 			channelService.buildSubscribedChannel(nameOnly, userId, maxId,
 					start, limit, jsonMap);
 			JSONUtil.optSuccess(jsonMap);
@@ -75,6 +82,7 @@ public class ChannelAction extends BaseAction {
 	 */
 	public String subscribe() {
 		try {
+			statService.incPV(StatKey.CHANNEL_SUBSCRIBE);
 			channelService.saveMember(channelId, getCurrentLoginUserId());
 			JSONUtil.optSuccess(OptResult.ADD_SUCCESS, jsonMap);
 		} catch (Exception e) {
@@ -137,6 +145,7 @@ public class ChannelAction extends BaseAction {
 	 */
 	public String queryChannelWorld() {
 		try {
+			statService.incSub2PagePV(StatKey.CHANNEL_WORLD, channelId, maxId, StatKey.CHANNEL_WORLD_NEXT);
 			channelService.buildChannelWorld(channelId, getCurrentLoginUserId(), 
 					maxId, start, limit,  commentLimit, likedLimit,
 					jsonMap);
@@ -154,6 +163,8 @@ public class ChannelAction extends BaseAction {
 	 */
 	public String querySuperbChannelWorld() {
 		try {
+			statService.incSub2PagePV(StatKey.CHANNEL_WORLD_SUPERB, channelId, maxId, 
+					StatKey.CHANNEL_WORLD_SUPERB_NEXT);
 			channelService.buildSuperbChannelWorld(channelId, getCurrentLoginUserId(), 
 					maxId, start, limit, commentLimit, likedLimit, jsonMap);
 			JSONUtil.optSuccess(jsonMap);

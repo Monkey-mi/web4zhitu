@@ -14,6 +14,8 @@ import com.hts.web.common.pojo.HTWorldGeo;
 import com.hts.web.common.pojo.PushStatus;
 import com.hts.web.common.util.JSONUtil;
 import com.hts.web.operations.service.UserOperationsService;
+import com.hts.web.stat.StatKey;
+import com.hts.web.stat.service.StatService;
 import com.hts.web.ztworld.service.ZTWorldInteractService;
 import com.hts.web.ztworld.service.ZTWorldService;
 
@@ -65,6 +67,9 @@ public class ZTWorldInteractAction extends BaseAction {
 	@Autowired
 	private UserOperationsService userOptService;
 	
+	@Autowired
+	private StatService statService;
+	
 	/*
 	 * 评论子模块
 	 */
@@ -91,6 +96,7 @@ public class ZTWorldInteractAction extends BaseAction {
 	 */
 	public String addComment() {
 		try {
+			statService.incPV(StatKey.WORLD_COMMENT);
 			worldInteractService.saveComment(im, worldId, worldAuthorId, 
 					getCurrentLoginUserId(), content, atIds, atNames, jsonMap);
 			JSONUtil.optSuccess(jsonMap);
@@ -133,6 +139,7 @@ public class ZTWorldInteractAction extends BaseAction {
 	 */
 	public String replyComment() {
 		try {
+			statService.incPV(StatKey.WORLD_REPLY);
 			worldInteractService.saveReply(im, worldId, worldAuthorId,
 					getCurrentLoginUserId(), content, reId, reAuthorId, 
 					atIds, atNames, jsonMap);
@@ -186,6 +193,7 @@ public class ZTWorldInteractAction extends BaseAction {
 	 */
 	public String liked() {
 		try {
+			statService.incPV(StatKey.WORLD_LIKE);
 			PushStatus status = worldInteractService.saveLiked(im, getCurrentLoginUserId(), worldId, worldAuthorId);
 			if(!im) 
 				JSONUtil.optSuccess(OptResult.ADD_SUCCESS, jsonMap);

@@ -9,6 +9,8 @@ import com.hts.web.common.BaseAction;
 import com.hts.web.common.util.JSONUtil;
 import com.hts.web.operations.service.OpStarRecommendService;
 import com.hts.web.operations.service.UserOperationsService;
+import com.hts.web.stat.StatKey;
+import com.hts.web.stat.service.StatService;
 import com.hts.web.userinfo.service.UserConcernService;
 import com.hts.web.ztworld.service.impl.ZTWorldServiceImpl;
 
@@ -50,6 +52,9 @@ public class UserOperationsAction extends BaseAction {
 	
 	@Autowired
 	private UserConcernService userConcernService;
+	
+	@Autowired
+	private StatService statService;
 	
 	/**
 	 * 查询推荐用户
@@ -245,6 +250,7 @@ public class UserOperationsAction extends BaseAction {
 	 */
 	public String queryVerifyRecommendUser() {
 		try {
+			statService.incSub2PagePV(StatKey.OP_USER_REC, verifyId, maxId, StatKey.OP_USER_REC_NEXT);
 			userOperationsService.buildVerifyRecommendUser(maxId, start, limit, 
 					getCurrentLoginUserId(), verifyId, worldLimit, userThemeCount, jsonMap);
 			JSONUtil.optSuccess(jsonMap);
