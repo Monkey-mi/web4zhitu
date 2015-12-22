@@ -128,7 +128,7 @@ var ui = {
 		if(isFinished) {
 			$buyText = "已结束";
 		} else {
-			$buyText = "购买"
+			$buyText = "了解详情"
 		}
 		
 		var $item = 
