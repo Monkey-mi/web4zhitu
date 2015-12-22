@@ -3,7 +3,7 @@ package com.hts.web.trade.item.dao;
 import java.util.List;
 
 import com.hts.web.common.dao.BaseDao;
-import com.hts.web.common.pojo.ItemShow;
+import com.hts.web.trade.item.dto.ItemShow;
 
 public interface ItemShowDao extends BaseDao {
 	/**

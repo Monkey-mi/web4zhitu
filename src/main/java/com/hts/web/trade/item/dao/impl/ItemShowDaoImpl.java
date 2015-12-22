@@ -8,7 +8,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 
 import com.hts.web.common.dao.impl.BaseDaoImpl;
-import com.hts.web.common.pojo.ItemShow;
+import com.hts.web.trade.item.dto.ItemShow;
 import com.hts.web.trade.item.dao.ItemShowDao;
 
 @Service

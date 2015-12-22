@@ -68,6 +68,10 @@ img.full-screen {
 	text-align: left;
 }
 
+#item-wrap {
+	margin-bottom:20px;	
+}
+
 .item {
 	margin-top:10px;
 	margin-bottom:10px;

@@ -7,6 +7,8 @@ import com.hts.web.base.constant.Tag;
 import com.hts.web.common.BaseAction;
 import com.hts.web.common.util.JSONUtil;
 import com.hts.web.operations.service.MsgOperationsService;
+import com.hts.web.stat.StatKey;
+import com.hts.web.stat.service.StatService;
 
 public class MsgOperationsAction extends BaseAction {
 
@@ -20,6 +22,9 @@ public class MsgOperationsAction extends BaseAction {
 	@Autowired
 	private MsgOperationsService msgOperationsService;
 
+	@Autowired
+	private StatService statService;
+	
 	/**
 	 * 查询公告
 	 * 
@@ -72,6 +77,8 @@ public class MsgOperationsAction extends BaseAction {
 	 */
 	public String queryTheme() {
 		try {
+			statService.inc2PagePVWithStart(StatKey.OP_ACT_THEME_INDEX, start, 
+					StatKey.OP_ACT_THEME_INDEX_NEXT);
 			msgOperationsService.buildTheme(start, limit, jsonMap);
 			JSONUtil.optSuccess(jsonMap);
 		} catch (Exception e) {
@@ -103,6 +110,8 @@ public class MsgOperationsAction extends BaseAction {
 	 */
 	public String queryChannelTheme() {
 		try {
+			statService.inc2PagePVWithStart(StatKey.OP_CONTENT_THEME_INDEX, start, 
+					StatKey.OP_CONTENT_THEME_INDEX_NEXT);
 			msgOperationsService.buildChannelTheme(start, limit, jsonMap);
 			JSONUtil.optSuccess(jsonMap);
 		} catch (Exception e) {
@@ -119,6 +128,7 @@ public class MsgOperationsAction extends BaseAction {
 	 */
 	public String queryItemSet() {
 		try {
+			statService.inc2PagePV(StatKey.ITEM_SET, maxId, StatKey.ITEM_SET_NEXT);
 			msgOperationsService.buildItemSet(maxId, limit, jsonMap);
 			JSONUtil.optSuccess(jsonMap);
 		} catch (Exception e) {

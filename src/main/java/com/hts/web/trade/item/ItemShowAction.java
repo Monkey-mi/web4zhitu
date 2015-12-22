@@ -27,5 +27,15 @@ public class ItemShowAction extends BaseAction {
 			JSONUtil.optFailed(e.getMessage(), jsonMap);
 		}
 		return StrutsKey.JSON;
+	}
+
+	public Integer getItemSetId() {
+		return itemSetId;
+	}
+
+	public void setItemSetId(Integer itemSetId) {
+		this.itemSetId = itemSetId;
 	} 
+	
+	
 }

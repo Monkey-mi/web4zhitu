@@ -10,6 +10,7 @@ $(document).ready(function() {
 	ui.initLayout();
 	
 	ajax.fetchSet(ui.getSetId(), ui.getUID());
+	ajax.fetchItemShow(ui.getSetId());
 	
 	$(".like-btn").live("click", function() {
 		var $this = $(this);
@@ -101,6 +102,29 @@ var ui = {
 		}
 	},
 	
+	/**
+	 * 渲染买家秀模块
+	 * mishengliang
+	 */
+	appendItemShow : function(itemShows){
+		if(itemShows == '' || itemShows.length == 0){
+			return -1;
+		}
+
+		var $itemShowWrap,$itemShow,itemShow;
+		$itemShowWrap = $("#item-show-wrap");
+
+		for(var i in itemShows){
+			itemShow = itemShows[i];
+			$itemShow = ui.getItemShowUI(itemShows,i);
+			if(itemShow.worldId != 0){
+				ui.initChildWorld(itemShow.worldId,$itemShow,"");
+				$itemShowWrap.append($itemShow);
+			}
+		}
+		
+	},
+	
 	getItemUI :function(items, index) {
 		var item = items[index];
 		var $content,
@@ -149,6 +173,37 @@ var ui = {
 			+ '</div>'
 			);
 		return $item;
+	},
+	
+	/**
+	 * 展示买家秀每个模块
+	 * mishengliang
+	 */
+	getItemShowUI :function(itemShows, index) {
+		var itemShow = itemShows[index];
+		var $content,
+			$dividingLine, 
+		
+		//织图初始化
+		$content = ui.getWorldUI(itemShow['imgPath']);
+
+		//分割线
+		if(index != itemShows.length - 1)
+			$dividingLine = '<div class="dividing-line"></div>';
+		else 
+			$dividingLine = '';
+		
+		//买家秀单元模块
+		var $itemShow = 
+			$('<div class="itemShow">'
+			+ '	<div class="item-show-content">'
+			+ $content
+			+ '	</div>'
+			+ $dividingLine
+			+ '</div>'
+			);
+		
+		return $itemShow;
 	},
 	
 	getWorldUI : function(path) {
@@ -315,5 +370,36 @@ var ajax = {
 			$like.data('liked', true);
 		},"json");
 		
+	},
+	
+	/**
+	 * mishengliang
+	 * 获取集合下的商品秀信息
+	 */
+	fetchItemShow : function(setId){
+		$.post("/trade/itemShow_queryItemShow",{
+			'itemSetId':setId
+				},function(data){
+					if(data.result == 0){
+						ui.appendItemShow(data["rows"]);
+					}else{
+						alert(data.result);
+					}
+				},"json");
 	}
 };
+
+	/**
+	 * 控制展示内容
+	 */
+	var apper = {
+			itemApper : function(){
+				$('#item-show-wrap').hide();
+				$('#item-wrap').show();
+			},
+	
+			showApper : function(){
+				$('#item-wrap').hide();
+				$('#item-show-wrap').show();
+			}
+	};

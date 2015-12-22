@@ -11,6 +11,8 @@ import com.hts.web.base.constant.OptResult;
 import com.hts.web.common.BaseAction;
 import com.hts.web.common.pojo.PushStatus;
 import com.hts.web.common.util.JSONUtil;
+import com.hts.web.stat.StatKey;
+import com.hts.web.stat.service.StatService;
 import com.hts.web.userinfo.service.UserInteractService;
 
 /**
@@ -43,6 +45,9 @@ public class UserInteractAction extends BaseAction {
 	
 	@Autowired
 	private UserInteractService userInteractService;
+	
+	@Autowired
+	private StatService statService;
 	
 	/**
 	 * 分页查询用户关注
@@ -112,6 +117,7 @@ public class UserInteractAction extends BaseAction {
 	 */
 	public String concern() {
 		try {
+			statService.incPV(StatKey.USER_CONCERN);
 			PushStatus status = userInteractService.saveConcern(im, getCurrentLoginUserId(), concernId);
 			if(!im)
 				JSONUtil.optResult(OptResult.OPT_SUCCESS, status.getIsMututal(), 
