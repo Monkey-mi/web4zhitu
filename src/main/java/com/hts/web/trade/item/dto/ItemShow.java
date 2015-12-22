@@ -1,4 +1,4 @@
-package com.hts.web.common.pojo;
+package com.hts.web.trade.item.dto;
 
 import java.io.Serializable;
 
