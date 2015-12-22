@@ -152,7 +152,7 @@ var ui = {
 		if(isFinished) {
 			$buyText = "已结束";
 		} else {
-			$buyText = "购买"
+			$buyText = "了解详情"
 		}
 		
 		var $item = 
@@ -183,9 +183,22 @@ var ui = {
 		var itemShow = itemShows[index];
 		var $content,
 			$dividingLine, 
+			$userInfo,
 		
 		//织图初始化
-		$content = ui.getWorldUI(itemShow['imgPath']);
+		$content = ui.getWorldUI(itemShow['title_thumb_path']);
+		
+		//用户信息展示
+		$userInfo = 
+				'<div class="userInfo">'
+			+ '	<span>'
+			+'			<img class="userAvatar" alt="" src="' + itemShow['userAvatar'] + '">'
+			+'		</span>'
+			+'		<div class="userName" >'
+			+ 			itemShow['userName'] 
+			+'		</div>'
+			+' 	<div class="world-addr" >'+ itemShow['addr'] +'</div>'
+			+'</div>';
 
 		//分割线
 		if(index != itemShows.length - 1)
@@ -196,9 +209,11 @@ var ui = {
 		//买家秀单元模块
 		var $itemShow = 
 			$('<div class="itemShow">'
+			+$userInfo		
 			+ '	<div class="item-show-content">'
 			+ $content
 			+ '	</div>'
+			+ ' 	<div class="item-desc">' + itemShow['worldDes'] + '</div>'
 			+ $dividingLine
 			+ '</div>'
 			);

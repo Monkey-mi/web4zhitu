@@ -68,6 +68,10 @@ img.full-screen {
 	text-align: left;
 }
 
+#item-wrap {
+	margin-bottom:20px;	
+}
+
 .item {
 	margin-top:10px;
 	margin-bottom:10px;
@@ -177,4 +181,51 @@ img.full-screen {
 	width:100%;
 	position: absolute;
 	left: 0px;
+}
+
+.select-item-show{
+	height:35px;
+	border-top:1px solid rgba(234,234,234,0.8);
+	margin-top:10px;
+}
+
+.item-select{
+	height:35px;
+	line-height:35px;
+	width:50%;
+	border-right:1px solid rgba(234,234,234,0.8);
+	position:absolute;
+	text-align:center;
+}
+
+.show-select{
+	height:35px;
+	line-height:35px;
+	width:50%;
+	margin-left:49%;
+	text-align:center;
+}
+
+.userInfo{
+	height:40px;
+	margin:10px 10px 10px 10px;
+}
+
+.userAvatar{
+	width:40px;
+	height:40px;
+	border-radius:20px
+}
+
+.userName{
+	line-height:30px;
+	position:absolute;
+	margin-top: -35px;
+	margin-left: 50px;
+}
+
+.world-addr{
+	text-align:right;
+	margin-top:-28px;
+	color:#999EA2;
 }
