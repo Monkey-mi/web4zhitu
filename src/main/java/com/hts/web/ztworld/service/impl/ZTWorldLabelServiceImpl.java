@@ -31,6 +31,8 @@ import com.hts.web.operations.dao.ActivityDao;
 import com.hts.web.operations.dao.ActivitySponsorDao;
 import com.hts.web.operations.dao.ActivityWinnerDao;
 import com.hts.web.operations.service.ZTWorldOperationsService;
+import com.hts.web.stat.StatKey;
+import com.hts.web.stat.service.StatService;
 import com.hts.web.userinfo.service.UserConcernService;
 import com.hts.web.userinfo.service.UserInfoService;
 import com.hts.web.userinfo.service.UserInteractService;
@@ -100,6 +102,9 @@ public class ZTWorldLabelServiceImpl extends BaseServiceImpl implements
 	@Autowired
 	private UserConcernService userConcernService;
 	
+	@Autowired
+	private StatService statService;
+	
 	private Integer hotLabelLimit = 10;
 	
 	public Integer getHotLabelLimit() {
@@ -165,6 +170,7 @@ public class ZTWorldLabelServiceImpl extends BaseServiceImpl implements
 //					break;
 //				}
 //			}
+			statService.incSub2PagePV(StatKey.ACT_WORLD, label.getId(), maxId, StatKey.ACT_WORLD_NEXT);
 			buildLabelWorld(isOrderBySerial, label.getId(), joinId, maxId, start, limit, jsonMap, 
 					trimTotal, commentLimit, likedLimit);
 			if(maxId == 0)
