@@ -182,6 +182,7 @@ var ui = {
 	getItemShowUI :function(itemShows, index) {
 		var itemShow = itemShows[index];
 		var $content,
+			$itemShowAdd,
 			$dividingLine, 
 			$userInfo,
 		
@@ -197,8 +198,13 @@ var ui = {
 			+'		<div class="userName" >'
 			+ 			itemShow['userName'] 
 			+'		</div>'
-			+' 	<div class="world-addr" >'+ itemShow['addr'] +'</div>'
 			+'</div>';
+		
+		//地址
+		if(itemShow['addr'] != '' && itemShow['addr'] != null)
+			$itemShowAdd = '<div class="world-addr-out"><div class="world-addr" >'+ itemShow['addr'] +'</div></div>';
+		else
+			$itemShowAdd = '';
 
 		//分割线
 		if(index != itemShows.length - 1)
@@ -209,10 +215,11 @@ var ui = {
 		//买家秀单元模块
 		var $itemShow = 
 			$('<div class="itemShow">'
-			+$userInfo		
+			+$userInfo
 			+ '	<div class="item-show-content">'
 			+ $content
 			+ '	</div>'
+			+$itemShowAdd
 			+ ' 	<div class="item-desc">' + itemShow['worldDes'] + '</div>'
 			+ $dividingLine
 			+ '</div>'
@@ -409,11 +416,15 @@ var ajax = {
 	 */
 	var apper = {
 			itemApper : function(){
+				$('.item-select').css('color','#000000');
+				$('.show-select').css('color','#999EA2');
 				$('#item-show-wrap').hide();
 				$('#item-wrap').show();
 			},
 	
 			showApper : function(){
+				$('.show-select').css('color','#000000');
+				$('.item-select').css('color','#999EA2');
 				$('#item-wrap').hide();
 				$('#item-show-wrap').show();
 			}

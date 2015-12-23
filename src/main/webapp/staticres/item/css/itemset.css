@@ -204,6 +204,7 @@ img.full-screen {
 	width:50%;
 	margin-left:49%;
 	text-align:center;
+	color:#999EA2;
 }
 
 .userInfo{
@@ -225,7 +226,9 @@ img.full-screen {
 }
 
 .world-addr{
-	text-align:right;
-	margin-top:-28px;
+	text-align:left;
+	margin-top:10px;
+	margin-left:10px;
+	margin-right:10px;
 	color:#999EA2;
 }
