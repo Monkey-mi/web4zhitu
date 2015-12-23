@@ -292,6 +292,22 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 			city.setShortName("全国");
 		}
 		List<NearBulletin> list = queryNearBuilletin(city.getLongitude(),city.getLatitude(),start,limit);
+		//若是不够两张则用通用的来补充
+		if(list == null || list.size() < 2){
+			AddrCity commonCity = getNearRecommendCity(null, null, null,true);
+			List<NearBulletin> commonCityBannerlist = queryNearBuilletin(commonCity.getLongitude(),commonCity.getLatitude(),1,limit);
+			if(commonCityBannerlist != null){
+				if(list == null){
+					list = commonCityBannerlist;
+				}else{
+					for(int i= list.size(); i < limit;i++){
+						if(i<commonCityBannerlist.size()){
+							list.add(commonCityBannerlist.get(i));
+						}
+					}
+				}
+			}
+		}
 		
 		if(list != null && !list.isEmpty())
 			jsonMap.put(OptResult.JSON_KEY_MSG, list);
