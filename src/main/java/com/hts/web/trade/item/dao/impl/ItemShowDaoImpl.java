@@ -14,7 +14,7 @@ import com.hts.web.trade.item.dao.ItemShowDao;
 @Service
 public class ItemShowDaoImpl extends BaseDaoImpl implements ItemShowDao {
 	
-	private static final String QUERY_ITEM_SHOW = "select * from hts.item_show where item_set_id = ?";
+	private static final String QUERY_ITEM_SHOW = "select * from hts.item_show where item_set_id = ? order by serial desc";
 
 	@Override
 	public List<ItemShow> queryItemShow(Integer itemSetId) throws Exception {

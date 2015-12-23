@@ -41,17 +41,19 @@ public class ItemShowServiceImpl implements ItemShowService {
 				ItemShowDTO itemShowDTO = new ItemShowDTO(); 
 				//查找world和user的附加信息
 				HTWorldDto htWorldDto= zTWorldService.getHTWorldDtoById(itemShow.getWorldId(),true);
-				UserInfo userInfo = userInfoService.getUserInfoById(htWorldDto.getAuthorId());
+				if(htWorldDto != null){
+					UserInfo userInfo = userInfoService.getUserInfoById(htWorldDto.getAuthorId());
+					itemShowDTO.setUserAvatar(userInfo.getUserAvatar());
+					itemShowDTO.setUserName(userInfo.getUserName());
+					itemShowDTO.setAddr(htWorldDto.getLocationAddr());
+					itemShowDTO.setTitle_thumb_path(htWorldDto.getTitleThumbPath());
+					itemShowDTO.setWorldDes(htWorldDto.getWorldDesc());
+				}
 				
 				itemShowDTO.setId(itemShow.getId());
 				itemShowDTO.setItemSetId(itemShow.getItemSetId());
 				itemShowDTO.setWorldId(itemShow.getWorldId());
 				itemShowDTO.setSerial(itemShow.getSerial());
-				itemShowDTO.setAddr(htWorldDto.getLocationAddr());
-				itemShowDTO.setTitle_thumb_path(htWorldDto.getTitleThumbPath());
-				itemShowDTO.setUserAvatar(userInfo.getUserAvatar());
-				itemShowDTO.setUserName(userInfo.getUserName());
-				itemShowDTO.setWorldDes(htWorldDto.getWorldDesc());
 				
 				listDto.add(itemShowDTO);
 			}
@@ -71,7 +73,6 @@ public class ItemShowServiceImpl implements ItemShowService {
 		
 		//增加买家秀的附加信息
 		List<ItemShowDTO> listDto = transFormate(list);
-		Log.info(listDto.toString());
 		
 		jsonMap.put(OptResult.ROWS, listDto);
 	}
