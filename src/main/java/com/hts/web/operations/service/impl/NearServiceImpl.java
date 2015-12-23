@@ -242,6 +242,17 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 		list = queryNearWorld(city, city.getLongitude(), 
 				city.getLatitude(), maxId, limit);
 		
+		if(list == null || list.isEmpty()){
+			city = getNearRecommendCity(address, longitude, latitude,true);
+			list = queryNearWorld(city, city.getLongitude(), 
+					city.getLatitude(), maxId, limit);
+		}
+		if(list == null || list.isEmpty()){
+			city = getNearRecommendCity(null, null, null,true);
+			list = queryNearWorld(city, city.getLongitude(), 
+					city.getLatitude(), maxId, limit);
+		}
+		
 		worldService.extractLikeComment(userId, commentLimit, likedLimit, list);
 		userInfoService.extractVerify(list);
 		userConcernService.extractConcernStatus(userId, list);
