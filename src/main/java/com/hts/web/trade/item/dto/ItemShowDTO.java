@@ -1,6 +1,9 @@
 package com.hts.web.trade.item.dto;
 
 import java.io.Serializable;
+import java.util.Date;
+
+import org.apache.struts2.json.annotations.JSON;
 
 public class ItemShowDTO implements Serializable {
 
@@ -44,6 +47,31 @@ public class ItemShowDTO implements Serializable {
 	 * 用户头像
 	 */
 	private String userAvatar;
+	/**
+	 * 编辑日期
+	 */
+	private Date dateModified;
+	/**
+	 * 图片数量
+	 */
+	private Integer  childCount;
+	/**
+	 * 点击数
+	 */
+	private Integer clickCount;
+	/**
+	 * 点赞数
+	 */
+	private Integer likeCount;
+	/**
+	 * 短链
+	 */
+	private String shortLink;
+	/**
+	 * 明星标识
+	 */
+	private String verifyIcon;
+	
 	
 	public Integer getId() {
 		return id;
@@ -99,12 +127,50 @@ public class ItemShowDTO implements Serializable {
 	public void setUserAvatar(String userAvatar) {
 		this.userAvatar = userAvatar;
 	}
-	
+	@JSON(format = "yyyy-MM-dd HH:mm:ss")
+	public Date getDateModified() {
+		return dateModified;
+	}
+	public void setDateModified(Date dateModified) {
+		this.dateModified = dateModified;
+	}
+	public Integer getChildCount() {
+		return childCount;
+	}
+	public void setChildCount(Integer childCount) {
+		this.childCount = childCount;
+	}
+	public Integer getClickCount() {
+		return clickCount;
+	}
+	public void setClickCount(Integer clickCount) {
+		this.clickCount = clickCount;
+	}
+	public Integer getLikeCount() {
+		return likeCount;
+	}
+	public void setLikeCount(Integer likeCount) {
+		this.likeCount = likeCount;
+	}
+	public String getShortLink() {
+		return shortLink;
+	}
+	public void setShortLink(String shortLink) {
+		this.shortLink = shortLink;
+	}
+	public String getVerifyIcon() {
+		return verifyIcon;
+	}
+	public void setVerifyIcon(String verifyIcon) {
+		this.verifyIcon = verifyIcon;
+	}
 	@Override
 	public String toString() {
 		return "ItemShowDTO [id=" + id + ", worldId=" + worldId + ", itemSetId=" + itemSetId + ", serial=" + serial
 				+ ", title_thumb_path=" + title_thumb_path + ", worldDes=" + worldDes + ", addr=" + addr + ", userName="
-				+ userName + ", userAvatar=" + userAvatar + "]";
+				+ userName + ", userAvatar=" + userAvatar + ", dateModified=" + dateModified + ", childCount="
+				+ childCount + ", clickCount=" + clickCount + ", likeCount=" + likeCount + ", shortLink=" + shortLink
+				+ "]";
 	}
 	
 }

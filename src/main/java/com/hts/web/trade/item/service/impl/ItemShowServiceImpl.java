@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.hts.web.base.constant.OptResult;
 import com.hts.web.common.pojo.HTWorldDto;
 import com.hts.web.common.pojo.UserInfo;
-import com.hts.web.common.util.Log;
+import com.hts.web.common.pojo.UserVerify;
 import com.hts.web.trade.item.dao.ItemShowDao;
 import com.hts.web.trade.item.dto.ItemShow;
 import com.hts.web.trade.item.dto.ItemShowDTO;
@@ -43,13 +43,25 @@ public class ItemShowServiceImpl implements ItemShowService {
 				HTWorldDto htWorldDto= zTWorldService.getHTWorldDtoById(itemShow.getWorldId(),true);
 				if(htWorldDto != null){
 					UserInfo userInfo = userInfoService.getUserInfoById(htWorldDto.getAuthorId());
+					//获取用户明星标识
+					final Map<Integer, UserVerify> verifyMap = userInfoService.getVerify();
+					UserVerify uv = verifyMap.get(userInfo.getStar());
+					//用户信息
 					itemShowDTO.setUserAvatar(userInfo.getUserAvatar());
 					itemShowDTO.setUserName(userInfo.getUserName());
+					if(uv != null)
+					itemShowDTO.setVerifyIcon(uv.getVerifyIcon());
+					//织图信息
 					itemShowDTO.setAddr(htWorldDto.getLocationAddr());
 					itemShowDTO.setTitle_thumb_path(htWorldDto.getTitleThumbPath());
 					itemShowDTO.setWorldDes(htWorldDto.getWorldDesc());
+					itemShowDTO.setDateModified(htWorldDto.getDateModified());
+					itemShowDTO.setChildCount(htWorldDto.getChildCount());
+					itemShowDTO.setClickCount(htWorldDto.getClickCount());
+					itemShowDTO.setLikeCount(htWorldDto.getLikeCount());
+					itemShowDTO.setShortLink(htWorldDto.getShortLink());
 				}
-				
+				//集合关联信息
 				itemShowDTO.setId(itemShow.getId());
 				itemShowDTO.setItemSetId(itemShow.getItemSetId());
 				itemShowDTO.setWorldId(itemShow.getWorldId());

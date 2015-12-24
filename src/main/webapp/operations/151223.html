@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="description" content="全面开启逗比模式，跟着孙俪邓超一起嗨！">
+<title>《恶棍天使》电影免费看！</title>
+<style type="text/css">
+body {
+	margin: 0 auto 0 auto;
+	padding: 0;
+	text-align: center;
+	font-size: 0;
+	font-family: "微软雅黑", Arial, Helvetica, sans-serif;
+	background: #ffffff;
+}
+
+img {
+	width: 100%;
+	border: 0;
+	padding: 0;
+	margin: 0;
+}
+
+a {
+	text-decoration: none;
+	color: #313139;
+}
+
+#main {
+	display: inline-block;
+	width: 100%;
+	max-width: 750px;
+	margin-bottom: 60px;
+}
+
+.user-wrap {
+	display: inline-block;
+}
+
+.user-wrap img {
+	float: left;
+}
+
+.share-wrap img {
+	float: left;
+}
+
+.concern-btn {
+	display: inline-block;
+	width: 200px;
+	height: 80px;
+	position: absolute;
+	left: 50%;
+	margin: 150px 0 0 30px;
+	-moz-border-radius: 100px;
+	-webkit-border-radius: 100px;
+	border-radius: 100px;
+	font-size: 30px;
+	line-height: 80px;
+	cursor: pointer;
+	background: #4bfddd;
+	display: none;
+}
+
+.concerned {
+	border-color: #02fb3d;
+}
+
+
+#buy-btn-wrap{
+	width:362px;
+	height:86px;
+	margin-top:385px;
+	margin-left:200px;
+	position: absolute;
+}
+
+#share-btn-wrap {
+	display: inline-block;
+	width: 400px;
+	height: 140px;
+	position: absolute;
+	left: 50%;
+	margin: 200px 0 0 -200px;
+	font-size: 52px;
+	line-height: 140px;
+	display: none;
+}
+
+ #share-btn-wrap1 {
+	display: inline-block;
+	width: 400px;
+	height: 140px;
+	position: absolute;
+	left: 50%;
+	margin: 150px 0 0 -200px;
+	font-size: 52px;
+	line-height: 140px;
+	display: none;
+} 
+
+#share-btn-wrap a {
+	display: inline-block;
+	color: #000000;
+	font-weight: 900;
+	width: 360px;
+	height: 100px;
+	line-height: 100px;
+}
+
+#share-btn-wrap1 a {
+	display: inline-block;
+	color: #000000;
+	font-weight: 900;
+	width: 360px;
+	height: 100px;
+	line-height: 100px;
+}
+
+</style>
+</head>
+		<body>
+		<div id='wx_pic' style="display:none;">
+			<img src='http://static.imzhitu.com/op/sticker/151223/banner.jpg' />
+		</div>
+		<div id="main">
+		<div id="header">
+		<img alt="" src="http://static.imzhitu.com/op/sticker/151223/01.jpg" /> 
+		</div>
+		<div class="user-wrap">
+		<img alt="" src="http://static.imzhitu.com/op/sticker/151223/02.jpg" /> 
+		</div>
+		<div class="user-wrap">
+		<img alt="" src="http://static.imzhitu.com/op/sticker/151223/03.jpg" />
+		</div>
+		<div class="user-wrap">
+		<img alt="" src="http://static.imzhitu.com/op/sticker/151223/04.jpg" /> 
+		</div>
+		<div class="user-wrap">
+		<img alt="" src="http://static.imzhitu.com/op/sticker/151223/05.jpg" />
+		</div>
+		<div class="user-wrap">
+		<img alt="" src="http://static.imzhitu.com/op/sticker/151223/06.jpg" />
+		</div>
+		
+		<div class="share-wrap">
+		<img alt="" src="http://static.imzhitu.com/op/sticker/151223/07.jpg" /> 
+		<div id="share-btn-wrap">
+		<a id="share-btn"  href="imzhitu://useSticker" style="display:block"><img  src="http://static.imzhitu.com/op/sticker/151223/sticker.png"></a>
+		</div>
+		<div id="share-btn-wrap1">
+		<a id="share-btn1"  href="imzhitu://sharePage" style="display:block"><img  src="http://static.imzhitu.com/op/sticker/151223/share.png"></a>
+		</div>
+		</div>
+		</div>
+
+<script type="text/javascript" src="../staticres/base/js/callapp2.js"></script> 
+<script type="text/javascript" src="../staticres/base/js/jquery/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript" src="/staticres/base/js/wechat.js"></script>
+<script type="text/javascript" src="/staticres/base/js/downbanner.js"></script>
+<script type="text/javascript">
+var inapp = 0;
+ $(document).ready(function() {
+	inapp = callAppInit();
+	
+	initLayout();
+	
+	if(inapp == 1) {
+		var reg = new RegExp("(^|&)uid=([^&]*)(&|$)", "i"),
+			r = window.location.search.substr(1).match(reg);
+			
+		if(r == null || r == undefined) {
+			bindAllBtnClick2Callapp();
+		} else {
+			uid = unescape(r[2]);
+			fetchConcernStatus(uid);
+		}
+	} else {
+		$("#download-wrap").show();
+		bindAllBtnClick2Callapp();
+	}
+	document.getElementById("share-btn").addEventListener('click',openclient,false);
+	document.getElementById("share-btn1").addEventListener('click',openclient,false);
+});
+
+function initLayout() {
+	var maxW = 750;
+	var winWidth = $(window).width();
+	
+	winWidth = winWidth > maxW ? maxW : winWidth;
+
+	var scale = 1,
+		headerH = 1056,
+		
+		btnW = 280,
+		btnH = 100,		
+		btnMarginTop = 230,
+		btnMarginLeft = 8,
+		btnFontSize = 40,
+		btnRadius = 100,
+
+		pbtnW = 366,
+		pbtnH = 102,		
+		pbtnMarginTop = 80,
+		pbtnMarginLeft = -175,
+ 		pbtnFontSize = 38,
+		pbtnRadius = 100; 
+	
+		pbtnMarginTop1 = 230,
+		pbtnMarginLeft1 = -175,
+	
+		spbtnW = 366,
+		spbtnH = 102,
+		spborderW = 10,
+		spbtnLineH = 110,
+		
+		spbtnW1 = 528,
+		spbtnH1 = 122,
+		
+	 	buyWidth = 364,
+	 	buyHeight = 98,
+	 	buyMarginTop = 385,
+	 	buyMarginLeft = 200,
+		
+	scale = winWidth / maxW;
+	
+	btnW = btnW * scale;
+	btnH = btnH * scale;
+	btnMarginTop = btnMarginTop * scale;
+	btnMarginLeft = btnMarginLeft * scale;
+	btnFontSize = btnFontSize * scale;
+	btnRadius = btnRadius * scale;
+	
+	pbtnW = pbtnW * scale;
+	pbtnH = pbtnH * scale;
+	pbtnMarginTop = pbtnMarginTop * scale;
+	pbtnMarginLeft = pbtnMarginLeft * scale;
+ 	pbtnFontSize = pbtnFontSize * scale;
+	pbtnRadius = pbtnRadius * scale;
+	
+	pbtnMarginTop1 = pbtnMarginTop1 * scale;
+	pbtnMarginLeft1 = pbtnMarginLeft1 * scale;
+	
+ 	spbtnW = spbtnW * scale;
+	spbtnH = spbtnH * scale;
+	
+ 	spbtnW1 = spbtnW1 * scale;
+	spbtnH1 = spbtnH1 * scale;
+ 	
+ 	buyWidth = buyWidth  * scale;
+ 	buyHeight = buyHeight * scale;
+ 	buyMarginTop = buyMarginTop * scale;
+ 	buyMarginLeft = buyMarginLeft * scale;
+ 	
+	spborderW = spborderW * scale; 
+	
+	$("#header").height(scale * headerH + 'px');
+	
+	$(".concern-btn").css({
+		"width":btnW + "px",
+		"height":btnH + "px",
+		"margin-top":btnMarginTop + "px",
+		"margin-left":btnMarginLeft + "px",
+		"font-size":btnFontSize + "px",
+		"line-height":btnH + "px",
+ 		"-moz-border-radius":btnRadius + "px",
+		"-webkit-border-radius":btnRadius + "px",
+		"border-radius":btnRadius + "px"}); 
+		
+	$(".concern").show();
+	
+ 	$("#share-btn").css({
+		"width":spbtnW + "px",
+		"height":spbtnH + "px",
+		"line-height":spbtnH + "px",
+		"border-width":spborderW + "px"}); 
+ 	
+  	$("#share-btn1").css({
+		"width":spbtnW + "px",
+		"height":spbtnH + "px",
+		"line-height":spbtnH + "px",
+		"border-width":spborderW + "px"});
+		
+ 	$("#share-btn-wrap").css({
+		"width":pbtnW + "px",
+		"height":pbtnH + "px",
+		"margin-top":pbtnMarginTop + "px",
+		"margin-left":pbtnMarginLeft + "px",
+}).show(); 
+ 	
+ 	$("#share-btn-wrap1").css({
+		"width":pbtnW + "px",
+		"height":pbtnH + "px",
+		"margin-top":pbtnMarginTop1 + "px",
+		"margin-left":pbtnMarginLeft1 + "px",
+}).show(); 
+	
+		if(inapp==1) {
+			$("#main").css({"margin-bottom":"0px"});
+		}
+}
+
+function bindConcern(uid, status) {
+	var $btn = $("#concern-" + uid);
+	switch(status) {
+	case 0:
+		$btn.hide().siblings(".concerned:eq(0)").show();
+		break;
+	case 1:
+		$btn.hide().siblings(".concerned:eq(0)").text("相互关注").show();
+		break;
+	default:
+		$btn.click(function() {
+			$this = $(this);
+			$this.hide().siblings(".concerned:eq(0)").show();
+		});
+		break;
+	}
+}
+
+function fetchConcernStatus(uid) {
+	$.post("./user_queryConcernStatus",{
+		"userId":uid,
+		"concernIds":"887683,299441,816259,401062,666702,657599,2138849",
+	},function(data){
+		if(data['result'] == 0) {
+			var status = data['concerns'];
+			for(var i = 0; i < status.length; i++) {
+				bindConcern(status[i]['userId'], status[i]['isMututal']);
+			}
+		} else {
+			bindAllBtnClick2Callapp();
+		}
+	}, "json");
+}
+
+function bindAllBtnClick2Callapp() {
+	var $callapp = document.getElementsByName("imzhitu-callapp");
+   	if($callapp.length) {
+   		for(var i = 0; i < $callapp.length; i++) {
+   			$callapp[i].addEventListener('click',openclient,false);
+   		}
+   	}
+} 
+
+function hideDownloadBtn() {
+	$("#download-wrap").hide();
+	$("#main").css({"margin-bottom":"0px"});
+}
+</script>
+<div style="display:none;">
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1255868073'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1255868073' type='text/javascript'%3E%3C/script%3E"));</script>
+</div>
+</body>
+</html>
