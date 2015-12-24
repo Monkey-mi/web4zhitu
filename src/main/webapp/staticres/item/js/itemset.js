@@ -437,7 +437,6 @@ var ui = {
         }
 	},
 	dateformat : function(dateStr, now) {
-		alert(dateStr);
 		var res, date;
 		date = new Date((dateStr).replace(new RegExp("-","gm"),"/"))
 		var secondPassed = (now.getTime() - date.getTime()) / 1000;
