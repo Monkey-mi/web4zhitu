@@ -44,6 +44,7 @@ public class HTWorldDto implements Serializable, ObjectWithUserVerify, ObjectWit
 	private String bgPath;
 	private String titleThumbPath; // 首页缩略图路径
 	private List<HTWorldChannelName> channelNames; // 频道名称列表
+	private String channelIds;
 	private Double longitude;// 经度
 	private Double latitude;// 纬度
 	private String locationDesc;// 位置描述
@@ -417,6 +418,14 @@ public class HTWorldDto implements Serializable, ObjectWithUserVerify, ObjectWit
 
 	public void setChannelNames(List<HTWorldChannelName> channelNames) {
 		this.channelNames = channelNames;
+	}
+
+	public String getChannelIds() {
+		return channelIds;
+	}
+
+	public void setChannelIds(String channelIds) {
+		this.channelIds = channelIds;
 	}
 	
 	

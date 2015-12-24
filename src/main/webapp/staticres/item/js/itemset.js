@@ -297,8 +297,8 @@ var ui = {
 			+ '<a class="opt-btn" href="/index4ph.html"><img src="/staticres/htworld/phonev3/images/icon-comment.png"/>评论</a>'
 			+ '<a class="opt-btn share-btn" href="/DT'+itemShow["shortLink"]+'"><img src="/staticres/htworld/phonev3/images/icon-share.png"/>分享</a>'
 			+ '</div>'
-/*			+ ui.getWorldComments(itemShow['comments'], itemShow['commentCount'])
-			+ ui.getWorldLabels(itemShow['worldLabel'], itemShow['channelNames'])*/
+			+ ui.getWorldComments(itemShow['comments'], itemShow['commentCount'])
+			+ ui.getWorldLabels(itemShow['worldLabel'], itemShow['channelNames'])
 			+ '<div class="dividing-line"></div>'
 			+ '</div>'
 			);
