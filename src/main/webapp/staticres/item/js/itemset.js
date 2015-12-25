@@ -1,6 +1,8 @@
 var winWidth, processMarginTop, config, inapp, uid, sid;
 var isFinished = false;
 var leftTimeInterval;
+var now;
+now = new Date();
 
 $(document).ready(function() {
 	winWidth = ui.getWinWidth();
@@ -182,8 +184,11 @@ var ui = {
 	getItemShowUI :function(itemShows, index) {
 		var itemShow = itemShows[index];
 		var $content,
+			$itemShowAdd,
 			$dividingLine, 
 			$userInfo,
+			$verify,
+			
 		
 		//织图初始化
 		$content = ui.getWorldUI(itemShow['title_thumb_path']);
@@ -197,8 +202,28 @@ var ui = {
 			+'		<div class="userName" >'
 			+ 			itemShow['userName'] 
 			+'		</div>'
-			+' 	<div class="world-addr" >'+ itemShow['addr'] +'</div>'
 			+'</div>';
+		
+/*		//地址
+		if(itemShow['addr'] != '' && itemShow['addr'] != null)
+			$itemShowAdd = 
+					'<div class="world-addr-out">' 
+				+ '	<div class="world-addr" >'
+				+ '		<div class="addrIcon">'
+				+'				<img alt="" src="/staticres/item/images/localaddr.png">'
+				+'			</div>'
+				+'			<div class="addrText">'+ itemShow['addr'] +'</div>'
+				+'		</div>'
+				+'</div>';
+		else
+			$itemShowAdd = '';*/
+		
+		//地址
+		$location = itemShow['addr'] == "" ? "" : 
+			'    <div class="location-wrap">'
+			+ '	     <img alt="" src="/staticres/htworld/phonev3/images/icon-loc.png">'
+			+ '      <span class="location">'+itemShow['addr']+'</span>'
+			+ '    </div>'
 
 		//分割线
 		if(index != itemShows.length - 1)
@@ -206,15 +231,75 @@ var ui = {
 		else 
 			$dividingLine = '';
 		
-		//买家秀单元模块
+		//用户认证标示
+		$verify = itemShow['verifyIcon'] == "" ? "" : 
+			'<img class="user-verify verify" src="'+itemShow['verifyIcon']+'" />'
+		
+/*		//买家秀单元模块
 		var $itemShow = 
 			$('<div class="itemShow">'
-			+$userInfo		
+			+$userInfo
 			+ '	<div class="item-show-content">'
 			+ $content
 			+ '	</div>'
+			+$itemShowAdd
 			+ ' 	<div class="item-desc">' + itemShow['worldDes'] + '</div>'
 			+ $dividingLine
+			+ '</div>'
+			);*/
+			
+			//描述
+			$desc = itemShow['worldDes'] == "" ? "" :
+				'<div class="world-desc">'
+				+ itemShow["worldDes"]
+				+ '</div>'
+		
+		var $itemShow = 
+			$('<div class="world">'
+			+ '  <div class="user">'
+			+ '    <div class="user-avatar-wrap avatar-wrap">'
+			+ '      <img class="user-avatar avatar" alt="" src="'+itemShow['userAvatar']+'" />'
+			+ '      <div class="border"></div>'
+			+        $verify
+			+ '  </div>'
+			+ '  <div class="user-name-wrap">'
+			+ '    <div class="user-name">'+itemShow['userName'] +'</div>'
+			+      $location
+			+ '  </div>'
+			+ '  <div class="count-wrap">'
+			+ '    <div class="child-count-wrap">'
+			+ '	     <span class="child-count">'+itemShow["childCount"]+'</span>张<span> | </span><span id="date-modified">'+ui.dateformat(itemShow['dateModified'], now)+'</span>'
+			+ '    </div>'
+			+ '    <div class="click-count-wrap">'
+			+ '      <span class="click-count">'+ui.countformat(itemShow['clickCount'])+'</span><span>浏览</span>'
+			+ '    </div>'
+			+ '</div>'
+		    + '</div>'
+		    + '<div class="world-info" style="width:'+winWidth+';height:'+winWidth+'px">'
+			+ '<div class="zt-container" style="width:'+winWidth+';height:'+winWidth+'px">'
+			+ '  <div class="zt-title">'
+			+ '    <img alt="" src="'+itemShow['title_thumb_path']+'">'
+			+ '  </div>'
+			+ '  <div class="zt-loading" style="margin-top:'+processMarginTop+'px">'
+			+ '    <div class="zt-progress"></div>'
+			+ '  </div>'
+			+ '  <img class="zt-desc-hide" title="隐藏描述" src="/staticres/htworld/phonev3/images/zt-desc-icon-up.png"/>'
+			+ '  <img class="zt-desc-show" title="显示描述" src="/staticres/htworld/phonev3/images/zt-desc-icon-down.png"/>'
+			+ '  <div class="zt-desc">'
+			+ '  <div class="zt-desc-text"></div>'
+			+ '  <div class="zt-desc-bg"></div>'
+			+ '</div>'
+			+ '</div>'
+			+ '</div>'
+			+ $desc
+			+ '<div class="btn-wrap">'
+			+ '<a class="opt-btn" href="/index4ph.html"><img src="/staticres/htworld/phonev3/images/icon-like.png"/><span class="like-count">'+ui.countformat(itemShow["likeCount"])+'</span></a>'
+			+ '<a class="opt-btn" href="/index4ph.html"><img src="/staticres/htworld/phonev3/images/icon-comment.png"/>评论</a>'
+			+ '<a class="opt-btn share-btn" href="/DT'+itemShow["shortLink"]+'"><img src="/staticres/htworld/phonev3/images/icon-share.png"/>分享</a>'
+			+ '</div>'
+			+ ui.getWorldComments(itemShow['comments'], itemShow['commentCount'])
+			+ ui.getWorldLabels(itemShow['worldLabel'], itemShow['channelNames'])
+			+ '<div class="dividing-line"></div>'
 			+ '</div>'
 			);
 		
@@ -351,7 +436,76 @@ var ui = {
         	isFinished = true;
         }
 	},
+	dateformat : function(dateStr, now) {
+		var res, date;
+		date = new Date((dateStr).replace(new RegExp("-","gm"),"/"))
+		var secondPassed = (now.getTime() - date.getTime()) / 1000;
+		if(secondPassed < 60) {
+			res = "刚刚";
+		} else if(secondPassed < 3600) {
+			res = parseInt(secondPassed/60) + "分钟前";
+		} else if(secondPassed < 60*60*24) {
+			res = parseInt(secondPassed/(60*60)) + "小时前";
+		} else if(secondPassed < 60*60*24*30) {
+			res = parseInt(secondPassed/(60*60*24)) + "天前";
+		} else {
+			res = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
+		}
+		return res;
+	},
+	getWorldComments : function(comments, total) {
+		if(comments == "" || comments.length == 0) {
+			return "";
+		}
+		
+		var wrap = "",
+			$comment = "";
 	
+		for(var i in comments) {
+			$comment += '<div class="world-comment"><span class="comment-name">'+comments[i]['userInfo']['userName']
+				+': </span>'+comments[i]["content"]+'</div>';
+		}
+		
+		if($comment != "")  {
+			wrap =
+				 '<div class="comment-wrap">'
+				+ $comment
+				+ '<div class="comment-total-tip">所有评论('+total+'条)</div>'
+				+ '</div>';
+		}
+		return wrap;
+		
+	},
+	getWorldLabels : function(labelsStr, channels) {
+		
+		if(labelsStr == '' && channels == '')
+			return "";
+		
+		var wrap = "",
+			labels = "",
+			labelArray = labelsStr.split(',');
+		
+		for(var i in channels) {
+			labels += '<div class="label channel">'+channels[i]['name']+'</div>';
+		}
+		
+		for(var i in labelArray) {
+			if(labelArray[i] == '')
+				break;
+			labels += '<div class="label">'+labelArray[i]+'</div>';
+		}
+		
+		if(labels != "")  {
+			wrap =
+				 '<div class="label-wrap">'
+				+ '<div class="label-name">标签:</div>'
+				+ '<div class="labels">'
+				+ labels
+				+ '</div>'
+				+ '</div>';
+		}
+		return wrap;
+	},
 };
 
 var ajax = {
@@ -409,11 +563,15 @@ var ajax = {
 	 */
 	var apper = {
 			itemApper : function(){
+				$('.item-select').css('color','#000000');
+				$('.show-select').css('color','#999EA2');
 				$('#item-show-wrap').hide();
 				$('#item-wrap').show();
 			},
 	
 			showApper : function(){
+				$('.show-select').css('color','#000000');
+				$('.item-select').css('color','#999EA2');
 				$('#item-wrap').hide();
 				$('#item-show-wrap').show();
 			}

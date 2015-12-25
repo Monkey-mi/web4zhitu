@@ -1,13 +1,30 @@
 package com.hts.web.trade.item.dto;
 
-import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
-public class ItemShowDTO implements Serializable {
+import org.apache.struts2.json.annotations.JSON;
+
+import com.hts.web.common.pojo.HTWorldChannelName;
+import com.hts.web.common.pojo.HTWorldCommentInline;
+import com.hts.web.common.pojo.HTWorldLikedInline;
+import com.hts.web.common.pojo.HTWorldWithExtra;
+
+public class ItemShowDTO   implements HTWorldWithExtra{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -7485783919462735550L;
+	/**
+	 * 评论
+	 */
+	private List<HTWorldCommentInline> comments = new ArrayList<HTWorldCommentInline>();
+	/**
+	 * 频道名称列表
+	 */
+	private List<HTWorldChannelName> channelNames; 
 	/**
 	 * ID
 	 */
@@ -44,7 +61,53 @@ public class ItemShowDTO implements Serializable {
 	 * 用户头像
 	 */
 	private String userAvatar;
+	/**
+	 * 编辑日期
+	 */
+	private Date dateModified;
+	/**
+	 * 图片数量
+	 */
+	private Integer  childCount;
+	/**
+	 * 点击数
+	 */
+	private Integer clickCount;
+	/**
+	 * 点赞数
+	 */
+	private Integer likeCount;
+	/**
+	 * 短链
+	 */
+	private String shortLink;
+	/**
+	 * 明星标识
+	 */
+	private String verifyIcon;
+	/**
+	 * 世界标签
+	 */
+	private String worldLabel; 
+	/**
+	 * 被评论次数
+	 */
+	private Integer commentCount;
 	
+	
+	
+	public List<HTWorldCommentInline> getComments() {
+		return comments;
+	}
+	public void setComments(List<HTWorldCommentInline> comments) {
+		this.comments = comments;
+	}
+	public List<HTWorldChannelName> getChannelNames() {
+		return channelNames;
+	}
+	public void setChannelNames(List<HTWorldChannelName> channelNames) {
+		this.channelNames = channelNames;
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -99,12 +162,69 @@ public class ItemShowDTO implements Serializable {
 	public void setUserAvatar(String userAvatar) {
 		this.userAvatar = userAvatar;
 	}
-	
+	@JSON(format = "yyyy-MM-dd HH:mm:ss")
+	public Date getDateModified() {
+		return dateModified;
+	}
+	public void setDateModified(Date dateModified) {
+		this.dateModified = dateModified;
+	}
+	public Integer getChildCount() {
+		return childCount;
+	}
+	public void setChildCount(Integer childCount) {
+		this.childCount = childCount;
+	}
+	public Integer getClickCount() {
+		return clickCount;
+	}
+	public void setClickCount(Integer clickCount) {
+		this.clickCount = clickCount;
+	}
+	public Integer getLikeCount() {
+		return likeCount;
+	}
+	public void setLikeCount(Integer likeCount) {
+		this.likeCount = likeCount;
+	}
+	public String getShortLink() {
+		return shortLink;
+	}
+	public void setShortLink(String shortLink) {
+		this.shortLink = shortLink;
+	}
+	public String getVerifyIcon() {
+		return verifyIcon;
+	}
+	public void setVerifyIcon(String verifyIcon) {
+		this.verifyIcon = verifyIcon;
+	}
+	public String getWorldLabel() {
+		return worldLabel;
+	}
+	public void setWorldLabel(String worldLabel) {
+		this.worldLabel = worldLabel;
+	}
+	public Integer getCommentCount() {
+		return commentCount;
+	}
+	public void setCommentCount(Integer commentCount) {
+		this.commentCount = commentCount;
+	}
 	@Override
-	public String toString() {
-		return "ItemShowDTO [id=" + id + ", worldId=" + worldId + ", itemSetId=" + itemSetId + ", serial=" + serial
-				+ ", title_thumb_path=" + title_thumb_path + ", worldDes=" + worldDes + ", addr=" + addr + ", userName="
-				+ userName + ", userAvatar=" + userAvatar + "]";
+	public List<HTWorldLikedInline> getLikes() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public void setLiked(Object liked) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void setKeep(Object keep) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
