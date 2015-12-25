@@ -2,6 +2,8 @@ package com.hts.web.operations.dao.mongo.impl;
 
 import java.util.List;
 
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
@@ -29,7 +31,7 @@ public class NearDistrictMongoDaoImpl extends BaseMongoDaoImpl implements NearDi
 	@Override
 	public List<AddrDistrictDto> queryDistrict(Integer cityId) {
 		Criteria criteria = Criteria.where("cityId").is(cityId);
-		return getMongoTemplate().find(new Query(criteria), AddrDistrictDto.class,collection);
+		return getMongoTemplate().find(new Query(criteria).with(new Sort(Direction.DESC, "_id")), AddrDistrictDto.class,collection);
 	}
 
 	@Override

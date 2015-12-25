@@ -71,6 +71,7 @@ public class ZTWorldOperationsAction extends BaseAction {
 	private Double latitude;//经度
 	private String address;//地址
 	private Integer labelId;//附近标签id
+	private Integer distictId;//下一个区域的id
 	
 
 	@Autowired
@@ -110,7 +111,7 @@ public class ZTWorldOperationsAction extends BaseAction {
 	public String queryNearWorld(){
 		try{
 			statService.inc2PagePV(StatKey.NRAR_WORLD, maxId, StatKey.NEAR_WORLD_NEXT);
-			nearService.buildNearWorld(address, longitude, latitude, maxId, 
+			nearService.buildNearWorld(distictId,address, longitude, latitude, maxId, 
 					limit, jsonMap, commentLimit, likedLimit, getCurrentLoginUserId());
 			JSONUtil.optSuccess(jsonMap);
 		}catch(Exception e){
@@ -897,6 +898,14 @@ public class ZTWorldOperationsAction extends BaseAction {
 
 	public void setLabelId(Integer labelId) {
 		this.labelId = labelId;
+	}
+
+	public Integer getDistictId() {
+		return distictId;
+	}
+
+	public void setDistictId(Integer distictId) {
+		this.distictId = distictId;
 	}
 	
 	

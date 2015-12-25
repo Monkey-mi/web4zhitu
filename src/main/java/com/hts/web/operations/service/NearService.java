@@ -34,7 +34,7 @@ public interface NearService extends BaseService {
 	 * @author zxx 2015-12-2 15:08:13
 	 * @author lynch 2015-12-07
 	 */
-	public void buildNearWorld(String address,Double longitude, Double latitude,
+	public void buildNearWorld(Integer districtId,String address,Double longitude, Double latitude,
 			int maxId, int limit,Map<String,Object>jsonMap,Integer commentLimit,
 			Integer likedLimit, Integer userId)throws Exception;
 	
