@@ -14,6 +14,7 @@ import com.hts.web.addr.service.CityService;
 import com.hts.web.base.constant.OptResult;
 import com.hts.web.base.database.RowCallback;
 import com.hts.web.common.pojo.AddrCity;
+import com.hts.web.common.pojo.AddrDistrictDto;
 import com.hts.web.common.pojo.HTWorld;
 import com.hts.web.common.pojo.HTWorldCount;
 import com.hts.web.common.pojo.OpNearCityGroupDto;
@@ -31,6 +32,7 @@ import com.hts.web.operations.dao.NearLabelWorldUserDao;
 import com.hts.web.operations.dao.NearRecommendCityCacheDao;
 import com.hts.web.operations.dao.NearRecommendCityDao;
 import com.hts.web.operations.dao.mongo.NearBulletinMongoDao;
+import com.hts.web.operations.dao.mongo.NearDistrictMongoDao;
 import com.hts.web.operations.dao.mongo.NearLabelMongoDao;
 import com.hts.web.operations.dao.mongo.NearWorldLastMongoDao;
 import com.hts.web.operations.dao.mongo.NearWorldMongoDao;
@@ -42,6 +44,8 @@ import com.hts.web.userinfo.service.UserConcernService;
 import com.hts.web.userinfo.service.UserInfoService;
 import com.hts.web.ztworld.dao.HTWorldDao;
 import com.hts.web.ztworld.service.ZTWorldService;
+
+import freemarker.debug.Debugger;
 
 @Service("HTSNearService")
 public class NearServiceImpl extends BaseServiceImpl implements NearService {
@@ -100,6 +104,9 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 	
 	@Autowired
 	private NearLabelWorldUserDao nearLabelWorldUserDao;
+	
+	@Autowired
+	private NearDistrictMongoDao nearDistrictMongoDao;
 	
 	@Override
 	public List<OpNearWorldDto> queryNearWorld(AddrCity city, double longitude,
@@ -228,12 +235,14 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 
 
 	@Override
-	public void buildNearWorld(String address, Double longitude,
+	public void buildNearWorld(Integer distictId,String address, Double longitude,
 			Double latitude, int maxId, int limit, Map<String, Object> jsonMap,
 			Integer commentLimit, Integer likedLimit, Integer userId) throws Exception {
 		
 		List<OpNearWorldDto> list = null;
 		AddrCity city;
+		
+		
 		
 		city = getNearRecommendCity(address, longitude, latitude,false);
 		if(city == null){
@@ -243,11 +252,6 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 				city.getLatitude(), maxId, limit);
 		
 		if(list == null || list.isEmpty()){
-			city = getNearRecommendCity(address, longitude, latitude,true);
-			list = queryNearWorld(city, city.getLongitude(), 
-					city.getLatitude(), maxId, limit);
-		}
-		if(list == null || list.isEmpty()){
 			city = getNearRecommendCity(null, null, null,true);
 			list = queryNearWorld(city, city.getLongitude(), 
 					city.getLatitude(), maxId, limit);
@@ -256,7 +260,44 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 		worldService.extractLikeComment(userId, commentLimit, likedLimit, list);
 		userInfoService.extractVerify(list);
 		userConcernService.extractConcernStatus(userId, list);
+		
+		//下一个区的信息
+		AddrDistrictDto nextDistrict = null;
+		if(maxId == 0){
+			try{
+				List<AddrDistrictDto> districtList = nearDistrictMongoDao.queryDistrict(city.getId());
+				if(districtList != null && !districtList.isEmpty()){
+					if(distictId != null && distictId != 0){
+						int i=0;
+						for(; i < districtList.size(); i++){
+							if(districtList.get(i).getId().equals(distictId)){
+								break;
+							}
+						}
+						i = (i + 1) % districtList.size();
+						nextDistrict = districtList.get(i);
+					}else{
+						if(districtList.size() > 2){
+							double d1 = Math.abs(districtList.get(0).getLatitude() - city.getLatitude()) + Math.abs(districtList.get(0).getLongitude() - city.getLongitude());
+							double d2 = Math.abs(districtList.get(1).getLatitude() - city.getLatitude()) + Math.abs(districtList.get(1).getLongitude() - city.getLongitude());
+							nextDistrict = d1 > d2 ? districtList.get(0) : districtList.get(1);
+						}else{
+							nextDistrict = districtList.get(0);
+						}
+					}
+				} 
+			}catch(Exception e){
+				
+			}
+		}
+		
+		if(nextDistrict == null){
+			nextDistrict = new AddrDistrictDto();
+			nextDistrict.setId(0);
+		}
+		
 		jsonMap.put(OptResult.JSON_KEY_HTWORLD, list);
+		jsonMap.put(OptResult.JSON_KEY_NEXT, nextDistrict);
 	}
 
 
