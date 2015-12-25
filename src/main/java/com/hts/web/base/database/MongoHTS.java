@@ -29,4 +29,9 @@ public class MongoHTS {
 	 */
 	public static final String ADDR_CITY = "addr_city";
 	
+	/**
+	 * 城市信息
+	 */
+	public static final String ADDR_CITY_DISTRICT = "addr_city_district";
+	
 }
