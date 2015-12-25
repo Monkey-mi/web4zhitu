@@ -267,7 +267,7 @@ public class CacheKeies {
 	/**
 	 * 用户模块
 	 */
-	private static final String MODULE_USER = "ztworld:";
+	private static final String MODULE_USER = "user:";
 	
 	/**
 	 * 用户权限
