@@ -528,7 +528,7 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 						if(isReturnCacheLocation){
 							return city;
 						}else{
-							if(longitude != null && latitude != null){
+							if(longitude != null && latitude != null && (longitude != 0 || latitude != 0 )){
 								resultCity = srcCity;
 							}else{
 								resultCity = city;
