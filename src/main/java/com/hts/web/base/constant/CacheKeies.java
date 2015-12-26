@@ -275,6 +275,12 @@ public class CacheKeies {
 	public static final String USER_VERIFY = MODULE_USER + "verify";
 	
 	/**
+	 * 用户
+	 * @author zhangbo	2015年12月25日
+	 */
+	public static final String USER_DEFAULT_BACKGROUNG = MODULE_USER + "user:default:background";
+	
+	/**
 	 * 开放搜索模块
 	 */
 	private static final String MODULE_OS = "os:";

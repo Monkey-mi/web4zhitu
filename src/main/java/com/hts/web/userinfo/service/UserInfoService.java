@@ -492,5 +492,14 @@ public interface UserInfoService extends BaseService {
 	 * @param uid			用户id
 	 * @author zhangbo	2015年12月21日
 	 */
-	public void updateBackground(String background, Integer uid) throws Exception;
+	void updateBackground(String background, Integer uid) throws Exception;
+
+	/**
+	 * 查询为用户提供的默认背景图片
+	 * 
+	 * @param jsonMap	返回值map
+	 * @author zhangbo	2015年12月25日
+	 */
+	void queryDefaultUserBackground(Map<String, Object> jsonMap) throws Exception;
+
 }

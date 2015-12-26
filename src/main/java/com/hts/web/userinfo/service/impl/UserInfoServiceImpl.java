@@ -42,6 +42,7 @@ import com.hts.web.push.service.impl.PushServiceImpl.PushFailedCallback;
 import com.hts.web.stat.dao.StatUserRegisterCacheDao;
 import com.hts.web.userinfo.dao.MsgUnreadDao;
 import com.hts.web.userinfo.dao.SocialAccountDao;
+import com.hts.web.userinfo.dao.UserBackgroundCacheDao;
 import com.hts.web.userinfo.dao.UserBackgroundDao;
 import com.hts.web.userinfo.dao.UserConcernDao;
 import com.hts.web.userinfo.dao.UserInfoDao;
@@ -133,6 +134,9 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 	
 	@Autowired
 	private UserBackgroundDao userBackgroundDao;
+	
+	@Autowired
+	private UserBackgroundCacheDao userBackgroundCacheDao;
 	
 	public Integer getOfficialId() {
 		return officialId;
@@ -980,6 +984,12 @@ public class UserInfoServiceImpl extends BaseServiceImpl implements UserInfoServ
 		} else {
 			userBackgroundDao.deleteUserBackground(uid);
 		}
+	}
+
+	@Override
+	public void queryDefaultUserBackground(Map<String, Object> jsonMap) throws Exception {
+		List<String> pathList = userBackgroundCacheDao.queryDefaultBackgroundPath();
+		jsonMap.put("path", pathList);
 	}
 	
 }

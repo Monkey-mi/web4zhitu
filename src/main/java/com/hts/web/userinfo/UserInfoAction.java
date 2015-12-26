@@ -667,6 +667,22 @@ public class UserInfoAction extends BaseAction {
 		return StrutsKey.JSON;
 	}
 	
+	/**
+	 * 查询为用户提供的默认背景图片
+	 * 
+	 * @return
+	 * @author zhangbo	2015年12月25日
+	 */
+	public String queryDefaultUserBackground() {
+		try {
+			userInfoService.queryDefaultUserBackground(jsonMap);
+			JSONUtil.optSuccess(OptResult.UPDATE_SUCCESS, jsonMap);
+		} catch(Exception e) {
+			JSONUtil.optFailed(getCurrentLoginUserId(), e.getMessage(), e, jsonMap);
+		}
+		return StrutsKey.JSON;
+	}
+	
 	
 	public Integer getId() {
 		return id;
