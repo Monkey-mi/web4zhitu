@@ -248,8 +248,12 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 		if(city == null){
 			throw new Exception(" service error ");
 		}
-		list = queryNearWorld(city, city.getLongitude(), 
+		try{
+			list = queryNearWorld(city, city.getLongitude(), 
 				city.getLatitude(), maxId, limit);
+		}catch(Exception e){
+			
+		}
 		
 		if(list == null || list.isEmpty()){
 			city = getNearRecommendCity(null, null, null,true);
