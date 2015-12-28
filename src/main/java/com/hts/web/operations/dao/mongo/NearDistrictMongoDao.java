@@ -41,4 +41,12 @@ public interface NearDistrictMongoDao  extends BaseMongoDao{
 	 */
 	public AddrDistrictDto queryDistrictById(Integer id);
 	
+	/**
+	 * 判断是否存在，若存在则返回true，否则返回false
+	 * @param id
+	 * @return
+	 * @author zxx 2015-12-25 14:59:55
+	 */
+	public boolean isDistrictExist(Integer id);
+	
 }

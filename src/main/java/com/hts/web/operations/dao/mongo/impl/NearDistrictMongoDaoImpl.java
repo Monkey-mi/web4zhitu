@@ -38,4 +38,10 @@ public class NearDistrictMongoDaoImpl extends BaseMongoDaoImpl implements NearDi
 	public AddrDistrictDto queryDistrictById(Integer id) {
 		return getMongoTemplate().findOne(new Query(Criteria.where("_id").is(id)), AddrDistrictDto.class,collection);
 	}
+	
+	@Override
+	public boolean isDistrictExist(Integer id){
+		long count = getMongoTemplate().count(new Query(Criteria.where("_id").is(id)), AddrDistrictDto.class, collection);
+		return count > 0;
+	}
 }
