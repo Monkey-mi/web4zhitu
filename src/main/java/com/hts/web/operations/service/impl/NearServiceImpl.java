@@ -45,8 +45,6 @@ import com.hts.web.userinfo.service.UserInfoService;
 import com.hts.web.ztworld.dao.HTWorldDao;
 import com.hts.web.ztworld.service.ZTWorldService;
 
-import freemarker.debug.Debugger;
-
 @Service("HTSNearService")
 public class NearServiceImpl extends BaseServiceImpl implements NearService {
 	
@@ -514,33 +512,25 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 	 */
 	public AddrCity getNearRecommendCity(String cityName,Double longitude,Double latitude,Boolean isReturnCacheLocation){
 		List<OpNearCityGroupDto> recommendCities = nearRecommendCityCacheDao.queryNearRecommendCityCache();
-		AddrCity srcCity = new AddrCity();
-		srcCity.setName(cityName);
-		srcCity.setLongitude(longitude);
-		srcCity.setLatitude(latitude);
-		
 		AddrCity resultCity = null;
 		if(cityName != null){
-			String shortName = StringUtil.getCityShotName(cityName);
-			for(OpNearCityGroupDto groupDto: recommendCities){
-				for(AddrCity city : groupDto.getCities()){
-					if(shortName.equals(city.getShortName())){
-						if(isReturnCacheLocation){
-							return city;
-						}else{
-							if(longitude != null && latitude != null && (longitude != 0 || latitude != 0 )){
-								resultCity = srcCity;
+				String shortName = StringUtil.getCityShotName(cityName);
+				for(OpNearCityGroupDto groupDto: recommendCities){
+					for(AddrCity city : groupDto.getCities()){
+						if(shortName.equals(city.getShortName())){
+							if(isReturnCacheLocation){
+								return city;
 							}else{
 								resultCity = city;
+								if(longitude != null && latitude != null && (longitude != 0 || latitude != 0 )){
+									resultCity.setLongitude(longitude);
+									resultCity.setLatitude(latitude);
+								}
+								return resultCity;
 							}
-							resultCity.setId(city.getId());
-							resultCity.setRadius(city.getRadius());
-							resultCity.setShortName(city.getShortName());
-							return resultCity;
 						}
 					}
 				}
-			}
 		}
 		
 		if(resultCity == null && longitude != null && latitude != null){
@@ -551,9 +541,9 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 						if(isReturnCacheLocation){
 							return city;
 						}else{
-							resultCity = srcCity;
-							resultCity.setShortName(city.getShortName());
-							resultCity.setRadius(city.getRadius());
+							resultCity = city;
+							resultCity.setLongitude(longitude);
+							resultCity.setLatitude(latitude);
 							return resultCity;
 						}
 					}
