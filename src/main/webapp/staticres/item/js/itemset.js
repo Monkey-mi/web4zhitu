@@ -113,9 +113,14 @@ var ui = {
 			return -1;
 		}
 
-		var $itemShowWrap,$itemShow,itemShow;
+		var $itemShowWrap,$itemShow,$divdeBut,itemShow,divdeBut;
 		$itemShowWrap = $("#item-show-wrap");
-
+		$divdeBut = $(".select-item-show");
+		
+		divdeBut = ui.getDivdeBtuUI();
+		$divdeBut.append(divdeBut);
+		$divdeBut.show();
+		
 		for(var i in itemShows){
 			itemShow = itemShows[i];
 			$itemShow = ui.getItemShowUI(itemShows,i);
@@ -304,6 +309,21 @@ var ui = {
 			);
 		
 		return $itemShow;
+	},
+	
+	/**
+	 * 获取商品和买家秀区分Button
+	 */
+	getDivdeBtuUI:function(){
+		var $divideBut =
+				'<div class="item-select"  onclick="javascript:apper.itemApper()">'
+			+'		<span>好物</span>'
+			+'</div>'
+			+'<div class="show-select"  onclick="javascript:apper.showApper()">'
+			+'		<span>买家秀</span>'
+			+'</div>';
+			
+		return $divideBut;
 	},
 	
 	getWorldUI : function(path) {
@@ -552,7 +572,7 @@ var ajax = {
 					if(data.result == 0){
 						ui.appendItemShow(data["rows"]);
 					}else{
-						alert(data.result);
+						//获取数据错误
 					}
 				},"json");
 	}

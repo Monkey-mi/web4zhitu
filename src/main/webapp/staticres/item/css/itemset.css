@@ -188,6 +188,7 @@ img.full-screen {
 	height:35px;
 	border-top:1px solid rgba(234,234,234,0.8);
 	margin-top:10px;
+	display:none;
 }
 
 .item-select{
