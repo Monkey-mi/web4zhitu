@@ -191,7 +191,7 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 	}
 	
 	@Override
-	public void saveNearWorld(HTWorld world) {
+	public void saveNearWorldLast(HTWorld world) {
 		if(world.getLongitude() == null || world.getLongitude() > 180 || world.getLongitude() < -180
 				|| world.getLatitude() == null || world.getLatitude() > 90 || world.getLatitude() < -90)
 			return;
@@ -223,6 +223,37 @@ public class NearServiceImpl extends BaseServiceImpl implements NearService {
 //		if(userInfoDao.queryStar(world.getAuthorId()) > 0) {
 //			worldStarMongoDao.saveWorld(near);
 //		}
+	}
+	
+	@Override
+	public void saveNearWorld(HTWorld world) {
+		if(world.getLongitude() == null || world.getLongitude() > 180 || world.getLongitude() < -180
+				|| world.getLatitude() == null || world.getLatitude() > 90 || world.getLatitude() < -90)
+			return;
+		
+		OpNearWorldDto near = new OpNearWorldDto();
+		near.setLoc(new Double[]{world.getLongitude(), world.getLatitude()});
+		Integer serial = keyGenService.generateId(KeyGenServiceImpl.OP_NEAR_WORLD_SERIAL);
+		near.setRecommendId(serial);
+		
+		AddrCity cityDto = cityService.getCityByName(world.getCity());
+		if(cityDto == null)
+			cityDto = cityService.getNearCityByLoc(world.getLongitude(), world.getLatitude());
+		
+		if(cityDto != null) {
+			near.setCityId(cityDto.getId());
+		}
+		
+		if(world.getWorldDesc() != null) {
+			try {
+				near.setWorldDescByte(world.getWorldDesc().getBytes("UTF-8"));
+			} catch (UnsupportedEncodingException e) {
+			}
+		}
+		near.setWorldURL("http://imzhitu.com/DT" + world.getShortLink());
+		
+		BeanUtils.copyProperties(world, near);
+		worldMongoDao.saveWorld(near);
 	}
 
 	@Override

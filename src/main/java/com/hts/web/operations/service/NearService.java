@@ -97,10 +97,19 @@ public interface NearService extends BaseService {
 			int maxId, int limit);
 
 	/**
-	 * 保存附近的织图
+	 * 保存用户所发的最新附近织图
 	 * 
 	 * @param world 织图信息
 	 * @author lynch 2015-12-01
+	 * @modified by zxx 2015-12-30 10:19:46
+	 */
+	public void saveNearWorldLast(HTWorld world);
+	
+	/**
+	 * 保存附近的织图
+	 * 
+	 * @param world 织图信息
+	 * @author zxx 2015-12-30 10:20:00
 	 */
 	public void saveNearWorld(HTWorld world);
 	
