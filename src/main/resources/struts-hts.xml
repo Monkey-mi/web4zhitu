@@ -84,7 +84,7 @@
 		<!-- 进入汇图世界(新) -->
 		<action name="DT*" class="com.hts.web.ztworld.ZTWorldAction"
 			method="checkExists">
-			<result name="phone" type="dispatcher">/htworld/webv2/index.jsp</result>
+			<result name="phone" type="dispatcher">/htworld/phonev3/index.html</result>
 			<result name="web" type="dispatcher">/htworld/webv2/index.jsp</result>
 			<result name="error" type="redirect">/404</result>
 		</action>
